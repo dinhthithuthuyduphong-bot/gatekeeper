@@ -4,7 +4,7 @@
 
 Dự án nghiên cứu **kiểm soát rủi ro khi tái sử dụng skill đã học của coding agent**. Một skill có thể hợp lệ về quyền, pass mọi replay test ở repo gốc, mà vẫn là quy trình sai cho repo đích. Gatekeeper chỉ cho skill chạy (admit) khi có bằng chứng thống kê, thu từ paired trial *trên chính repo đích*, rằng skill thực sự giúp ích.
 
-> **Trạng thái (01/11/2026):** mới có lõi thống kê (e-process, sổ α), test phản ví dụ Theorem 7 và mô phỏng khả thi. **Chưa chạy thí nghiệm nào với LLM.** Mọi số trong paper là số *dự kiến*.
+> **Trạng thái (01/11/2026):** đã có toàn bộ phần không cần LLM: lõi thống kê, Algorithm 1 với composite/retirement/certificate, lý thuyết đã sửa kèm test số, công cụ phân tích. **Chưa chạy thí nghiệm nào với LLM.** Mọi số trong paper là số *dự kiến*.
 >
 > **Venue:** hạn Research Track FSE 2027 (02/10/2026) đã qua. Mục tiêu mới đang chờ chốt (xem `TODO.md`, mục 0.1).
 
@@ -19,23 +19,37 @@ Dự án nghiên cứu **kiểm soát rủi ro khi tái sử dụng skill đã h
 ## Cấu trúc repo
 
 ```
-docs/                       Tài liệu gốc (PDF)
-  01-FSE-2027-13-paper.pdf
-  02-FSE-2027-13-reading-list.pdf
-  03-FSE-2027-13-summary.pdf
-src/gatekeeper/             Code lõi, không cần LLM (Phase 5a)
+docs/                       Tài liệu gốc (PDF) + tài liệu dự án
+  theory/corrections.md     Lý thuyết đã sửa: Theorem 4′, 7′, Prop. 9, định nghĩa, metric
+  baselines.md              Baseline: giữ / loại / cách chạy
+src/gatekeeper/             Code lõi, không cần LLM
   eprocess.py               Betting e-process cho H0: STR(S, s) > -θ, tính trong log-space
   alpha_ledger.py           Sổ phân bổ α: ô (skill, scope), composite, re-admission
-  simulate.py               Mô phỏng Monte-Carlo: tỉ lệ admit, số trial, sai loại I
-  composition_example.py    Phản ví dụ chạy được cho Theorem 7 (retry đồng bộ + async không await)
+  skill.py                  Schema skill ⟨π, D, I, P, K⟩ (JSON)
+  scope.py                  Fingerprint repo (D), predicate (I), scope screen
+  footprint.py              Footprint K bằng phân tích read/write AST, kiểm tra giao nhau
+  admission.py              Algorithm 1, composite, phân bổ trial, retirement, certificate
+  loss.py                   Loss chuẩn hoá (F + wR)/(1 + w)
+  baselines.py              B1, B2, B8, B9
+  runlog.py                 Log trial chạy tiếp được khi lỗi + theo dõi chi phí
+  analysis.py               σ_T², σ_S², số trial, power, cluster bootstrap, BH, harm–coverage
+  simulate.py               Mô phỏng Monte-Carlo
+  composition_example.py    Phản ví dụ chạy được cho Theorem 7
+  paper_checks.py           Tính lại mọi con số trong paper
 tests/                      pytest (chạy trong GitHub Actions)
 scripts/
-  run_simulations.py        Sinh results/simulation.json
-  confseq_crosscheck.py     Đối chiếu với thư viện confseq
-  build_report.py           Sinh report/index.html
-results/                    Kết quả máy sinh ra (JSON); CI phân tích các file này
+  run_simulations.py        → results/simulation.json
+  confseq_crosscheck.py     Đối chiếu với confseq
+  build_report.py           → report/index.html
+  fetch_benchmarks.py       Metadata SWE-bench, Verified, SWE-Gym, SWE-bench-Live, SWE-smith (chạy trong CI)
+  check_citations.py        Tra arXiv + DBLP cho mọi trích dẫn (chạy trong CI)
+  check_anonymity.py        Quét rò rỉ danh tính trước khi nộp
+data/                       Snapshot từ workflow Data snapshots (benchmarks/, citations.json)
+results/                    Kết quả máy sinh ra (JSON)
 report/index.html           Báo cáo HTML (không sửa tay)
-.github/workflows/ci.yml    Lint + test + mô phỏng + đối chiếu confseq + build report
+.github/workflows/
+  ci.yml                    Lint + test + mô phỏng + confseq + report
+  data.yml                  Tải metadata benchmark + trích dẫn → nhánh data-snapshots
 ```
 
 ## Chạy trên máy

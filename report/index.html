@@ -40,7 +40,7 @@ footer{margin-top:48px;color:var(--muted);font-size:.85rem}
 </head>
 <body>
 <main>
-<p class="muted">FSE-2027-13 · Gatekeeper · Build local · 2026-11-01 17:11 UTC</p>
+<p class="muted">FSE-2027-13 · Gatekeeper · Build local · 2026-11-01 17:27 UTC</p>
 <h1>Scope before Reuse: từ lý thuyết đến thực nghiệm</h1>
 <p>Báo cáo sống của dự án Gatekeeper: kiểm soát rủi ro khi tái sử dụng skill đã học của coding agent.
 Trang này tự sinh lại mỗi lần push, từ <code>TODO.md</code>, <code>results/</code> và kết quả test.</p>
@@ -54,14 +54,15 @@ Phần "Thực nghiệm" dưới đây chỉ gồm mô phỏng thống kê và t
 <li><a href="#kiem-tra">Kiểm tra số liệu paper</a></li>
 <li><a href="#thuc-nghiem">Thực nghiệm hiện có</a></li>
 <li><a href="#benchmark">Benchmark chuẩn</a></li>
+<li><a href="#code">Thành phần đã cài</a></li>
 <li><a href="#chua-co">Thực nghiệm chưa chạy</a></li>
 <li><a href="#tai-lieu">Tài liệu</a></li>
 </ol></nav>
 
 <h2 id="tien-do">1. Tiến độ theo TODO.md</h2>
-<p>Tổng: <b>0/180</b> việc đã xong. Việc chỉ được tick khi có bằng chứng (commit, log CI, file).</p>
+<p>Tổng: <b>52/181</b> việc đã xong. Việc chỉ được tick khi có bằng chứng (commit, log CI, file).</p>
 <div class="tbl"><table><thead><tr><th>Phase</th><th>Xong</th><th>Tiến độ</th></tr></thead>
-<tbody><tr><td>Phase H – Hạ tầng repo, CI, report (mới)</td><td class='n'>0/9</td><td><div class='bar'><span style='width:0%'></span></div></td></tr><tr><td>Phase 0 – Học nền</td><td class='n'>0/23</td><td><div class='bar'><span style='width:0%'></span></div></td></tr><tr><td>Phase 1 – Sửa lý thuyết &amp; paper</td><td class='n'>0/26</td><td><div class='bar'><span style='width:0%'></span></div></td></tr><tr><td>Phase 5a – Lõi Gatekeeper (chuyển lên sớm, không cần LLM)</td><td class='n'>0/8</td><td><div class='bar'><span style='width:0%'></span></div></td></tr><tr><td>Phase 2 – Môi trường &amp; tái hiện baseline</td><td class='n'>0/24</td><td><div class='bar'><span style='width:0%'></span></div></td></tr><tr><td>Phase 3 – Pilot &amp; go/no-go</td><td class='n'>0/16</td><td><div class='bar'><span style='width:0%'></span></div></td></tr><tr><td>Phase 4 – SkillShift-SE: giao thức đánh giá trên benchmark chuẩn</td><td class='n'>0/28</td><td><div class='bar'><span style='width:0%'></span></div></td></tr><tr><td>Phase 5b – Gatekeeper đầy đủ</td><td class='n'>0/13</td><td><div class='bar'><span style='width:0%'></span></div></td></tr><tr><td>Phase 6 – Chạy thí nghiệm</td><td class='n'>0/15</td><td><div class='bar'><span style='width:0%'></span></div></td></tr><tr><td>Phase 7 – Phân tích &amp; viết</td><td class='n'>0/11</td><td><div class='bar'><span style='width:0%'></span></div></td></tr><tr><td>Phase 8 – Artifact &amp; nộp</td><td class='n'>0/7</td><td><div class='bar'><span style='width:0%'></span></div></td></tr></tbody></table></div>
+<tbody><tr><td>Phase H – Hạ tầng repo, CI, report (mới)</td><td class='n'>7/10</td><td><div class='bar'><span style='width:70%'></span></div></td></tr><tr><td>Phase 0 – Học nền</td><td class='n'>2/23</td><td><div class='bar'><span style='width:9%'></span></div></td></tr><tr><td>Phase 1 – Sửa lý thuyết &amp; paper</td><td class='n'>18/26</td><td><div class='bar'><span style='width:69%'></span></div></td></tr><tr><td>Phase 5a – Lõi Gatekeeper (chuyển lên sớm, không cần LLM)</td><td class='n'>8/8</td><td><div class='bar'><span style='width:100%'></span></div></td></tr><tr><td>Phase 2 – Môi trường &amp; tái hiện baseline</td><td class='n'>6/24</td><td><div class='bar'><span style='width:25%'></span></div></td></tr><tr><td>Phase 3 – Pilot &amp; go/no-go</td><td class='n'>0/16</td><td><div class='bar'><span style='width:0%'></span></div></td></tr><tr><td>Phase 4 – SkillShift-SE: giao thức đánh giá trên benchmark chuẩn</td><td class='n'>0/28</td><td><div class='bar'><span style='width:0%'></span></div></td></tr><tr><td>Phase 5b – Gatekeeper đầy đủ</td><td class='n'>10/13</td><td><div class='bar'><span style='width:77%'></span></div></td></tr><tr><td>Phase 6 – Chạy thí nghiệm</td><td class='n'>1/15</td><td><div class='bar'><span style='width:7%'></span></div></td></tr><tr><td>Phase 7 – Phân tích &amp; viết</td><td class='n'>0/11</td><td><div class='bar'><span style='width:0%'></span></div></td></tr><tr><td>Phase 8 – Artifact &amp; nộp</td><td class='n'>0/7</td><td><div class='bar'><span style='width:0%'></span></div></td></tr></tbody></table></div>
 
 <h2 id="van-de">2. Vấn đề</h2>
 <p>Một skill (quy trình sửa code agent đã học) có thể <b>hợp lệ về quyền</b>, <b>pass replay test</b> ở repo
@@ -95,22 +96,17 @@ nhận về coroutine, không raise, lệnh ghi không bao giờ chạy (<code>t
 <p>Với σ<sub>T</sub>²/σ<sub>S</sub>² = 2,1 (số dự kiến của paper): paper ghi tiết kiệm 3,1×, công thức đúng cho <b>5,2×</b>.</p>
 
 <h2 id="kiem-tra">4. Kiểm tra số liệu paper</h2>
-<div class="tbl"><table><thead><tr><th>Chỗ</th><th>Paper</th><th>Tính lại</th><th>Kết luận</th></tr></thead><tbody>
-<tr><td>13 phép cộng, trừ, tỉ lệ (Table 1–3)</td><td>—</td><td>khớp</td><td class="ok">Đúng</td></tr>
-<tr><td>B2 harmful acceptance</td><td class="n">22,7%</td><td>100% (B2 admit tất cả) hoặc 35,0%</td><td class="bad">Mâu thuẫn</td></tr>
-<tr><td>CI margin [3,1; 9,8] "vượt 5 điểm"</td><td>vượt</td><td>cận dưới 3,1 &lt; 5</td><td class="bad">Sai diễn đạt</td></tr>
-<tr><td>"At matched clean reuse"</td><td class="n">84,3 vs 86,0</td><td>không bằng nhau</td><td class="warn">Cần đường harm–coverage</td></tr>
-<tr><td>d̄ partner</td><td class="n">0,34</td><td>≈ 10,6 nếu tính toàn library</td><td class="warn">Cần giải thích</td></tr>
-<tr><td>Prop. 9 tiết kiệm</td><td class="n">3,1×</td><td>5,2×</td><td class="bad">Sai công thức</td></tr>
-</tbody></table></div>
+<p>Sinh tự động từ <code>src/gatekeeper/paper_checks.py</code> (test: <code>tests/test_paper_checks.py</code>).
+Số của paper là số <i>dự kiến</i>; đây chỉ kiểm tra tính nhất quán nội bộ.</p>
+<div class='tbl'><table><thead><tr><th>Chỗ</th><th>Paper</th><th>Tính lại</th><th>Kết luận</th></tr></thead><tbody><tr><td>Tổng cặp A+B+C</td><td>180</td><td>180</td><td class='ok'>Đúng</td></tr><tr><td>Tỉ lệ harm A/B/C (%)</td><td>20.6 / 36.5 / 57.9</td><td>20.6 / 36.5 / 57.9</td><td class='ok'>Đúng</td></tr><tr><td>Chênh lệch regime C/A</td><td>2.8×</td><td>2.81×</td><td class='ok'>Đúng</td></tr><tr><td>Margin vs B6</td><td>6.4</td><td>6.4</td><td class='ok'>Đúng</td></tr><tr><td>Margin vs B2</td><td>17.6</td><td>17.6</td><td class='ok'>Đúng</td></tr><tr><td>Phần đã đạt bởi B6</td><td>~64%</td><td>63.6%</td><td class='ok'>Đúng</td></tr><tr><td>Cost B8/Gatekeeper</td><td>1.9×</td><td>1.92×</td><td class='ok'>Đúng</td></tr><tr><td>Composition 41/46</td><td>89.1%</td><td>89.1%</td><td class='ok'>Đúng</td></tr><tr><td>Ablation +8.8 / +7.5 / ×1.45 / ×1.34 / +7.8 / +0.8</td><td>như paper</td><td>+8.8 / +7.5 / ×1.46 / ×1.34 / +7.8 / +0.8</td><td class='ok'>Đúng</td></tr><tr><td>Repair GK−B9, GK−B1</td><td>2.5 / 8.2</td><td>2.5 / 8.2</td><td class='ok'>Đúng</td></tr><tr><td>Phân loại lỗi 58+27+15</td><td>100%</td><td>100%</td><td class='ok'>Đúng</td></tr><tr><td>B2 harmful acceptance</td><td>22.7%</td><td>100% (theo định nghĩa) hoặc 35.0% (trên mọi cặp)</td><td class='bad'>Mâu thuẫn<br><span class='muted'>B2 admit mọi skill (clean reuse 100%), nên không thể là 22,7%</span></td></tr><tr><td>CI margin vs B6 vượt 5 điểm</td><td>[3.1, 9.8] vượt</td><td>cận dưới 3.1 &lt; 5.0</td><td class='bad'>Sai<br><span class='muted'>Chỉ ước lượng điểm vượt 5, CI thì không</span></td></tr><tr><td>So sánh &#x27;at matched clean reuse&#x27;</td><td>84.3 vs 86.0</td><td>không bằng nhau</td><td class='bad'>Sai<br><span class='muted'>Cần đường harm–coverage và so tại cùng coverage</span></td></tr><tr><td>d̄ (partner giao footprint)</td><td>0.34</td><td>10.6 nếu tính toàn library</td><td class='warn'>Cần giải thích<br><span class='muted'>Chỉ đúng nếu tính trong từng scope L_s; phải ghi rõ</span></td></tr><tr><td>Prop. 9 mức tiết kiệm của pairing</td><td>3.1× (net 1.55×)</td><td>5.2×</td><td class='bad'>Sai<br><span class='muted'>Đúng là 1 + 2σ_T²/σ_S²; unpaired cũng tốn 2 lần chạy/mẫu</span></td></tr></tbody></table></div>
 
 <h2 id="thuc-nghiem">5. Thực nghiệm hiện có</h2>
 <h3>5.1 Test code lõi</h3>
-<p><span class='ok'>21/21 test pass</span>, 0 lỗi, 0 bỏ qua.</p><h3>Test phản ví dụ Theorem 7</h3><div class='tbl'><table><thead><tr><th>Test</th><th>Kết quả</th></tr></thead><tbody><tr><td><code>test_each_skill_alone_fixes_the_transient_failure[S1]</code></td><td class='ok'>pass</td></tr><tr><td><code>test_each_skill_alone_fixes_the_transient_failure[S2]</code></td><td class='ok'>pass</td></tr><tr><td><code>test_each_skill_alone_fixes_the_transient_failure[S1prime]</code></td><td class='ok'>pass</td></tr><tr><td><code>test_composition_fails_silently</code></td><td class='ok'>pass</td></tr><tr><td><code>test_str_values_match_corrected_statement</code></td><td class='ok'>pass</td></tr><tr><td><code>test_no_function_g_of_individual_risks</code></td><td class='ok'>pass</td></tr></tbody></table></div>
+<p><span class='ok'>58/58 test pass</span>, 0 lỗi, 0 bỏ qua.</p><h3>Test phản ví dụ Theorem 7</h3><div class='tbl'><table><thead><tr><th>Test</th><th>Kết quả</th></tr></thead><tbody><tr><td><code>test_each_skill_alone_fixes_the_transient_failure[S1]</code></td><td class='ok'>pass</td></tr><tr><td><code>test_each_skill_alone_fixes_the_transient_failure[S2]</code></td><td class='ok'>pass</td></tr><tr><td><code>test_each_skill_alone_fixes_the_transient_failure[S1prime]</code></td><td class='ok'>pass</td></tr><tr><td><code>test_composition_fails_silently</code></td><td class='ok'>pass</td></tr><tr><td><code>test_str_values_match_corrected_statement</code></td><td class='ok'>pass</td></tr><tr><td><code>test_no_function_g_of_individual_risks</code></td><td class='ok'>pass</td></tr></tbody></table></div>
 <h3>5.2 Mô phỏng khả thi của e-process</h3>
 <p>Z ∈ {−1, 0, 1}, θ = 0,05. Câu hỏi: cần bao nhiêu cặp trial để admit một skill, khi α được chia cho
 khoảng 1.600 ô (94 skill × 17 scope)?</p>
-<div class='tbl'><table><thead><tr><th>STR thật</th><th>α mỗi ô</th><th>Review bản 1: % admit / trung vị trial</th><th>Code này: % admit / trung vị trial</th></tr></thead><tbody><tr><td class='n'>-0,25</td><td class='n'>0,05</td><td class='n'>100,0% / 52</td><td class='n'>100,0% / 71</td></tr><tr><td class='n'>-0,25</td><td class='n'>3,1e-5</td><td class='n'>100,0% / 167</td><td class='n'>100,0% / 219</td></tr><tr><td class='n'>-0,15</td><td class='n'>3,1e-5</td><td class='n'>100,0% / 491</td><td class='n'>99,7% / 752</td></tr><tr><td class='n'>-0,1</td><td class='n'>3,1e-5</td><td class='n'>64,0% / 1.405</td><td class='n'>25,7% / 1.553</td></tr><tr><td class='n'>-0,08</td><td class='n'>3,1e-5</td><td class='n'>24,0% / 1.361</td><td class='n'>1,5% / 1.613</td></tr><tr><td class='n'>-0,05</td><td class='n'>3,1e-5</td><td class='n'>— / —</td><td class='n'>0,0% / —</td></tr></tbody></table></div><p class='muted'>1000 lần lặp mỗi dòng, budget 2000, chế độ <code>full</code>, Python 3.11.18, numpy 2.4.6, sinh lúc 2026-11-01T17:07:05+00:00.</p>
+<div class='tbl'><table><thead><tr><th>STR thật</th><th>α mỗi ô</th><th>Review bản 1: % admit / trung vị trial</th><th>Code này: % admit / trung vị trial</th></tr></thead><tbody><tr><td class='n'>-0,25</td><td class='n'>0,05</td><td class='n'>100,0% / 52</td><td class='n'>100,0% / 71</td></tr><tr><td class='n'>-0,25</td><td class='n'>3,1e-5</td><td class='n'>100,0% / 167</td><td class='n'>100,0% / 219</td></tr><tr><td class='n'>-0,15</td><td class='n'>3,1e-5</td><td class='n'>100,0% / 491</td><td class='n'>99,7% / 752</td></tr><tr><td class='n'>-0,1</td><td class='n'>3,1e-5</td><td class='n'>64,0% / 1.405</td><td class='n'>25,7% / 1.553</td></tr><tr><td class='n'>-0,08</td><td class='n'>3,1e-5</td><td class='n'>24,0% / 1.361</td><td class='n'>1,5% / 1.613</td></tr><tr><td class='n'>-0,05</td><td class='n'>3,1e-5</td><td class='n'>— / —</td><td class='n'>0,0% / —</td></tr></tbody></table></div><p class='muted'>1000 lần lặp mỗi dòng, budget 2000, chế độ <code>full</code>, Python 3.11.18, numpy 2.4.6, sinh lúc 2026-11-01T17:27:19+00:00.</p>
 
 <figure class="chart">
 <svg viewBox="0 0 560 260" role="img" aria-label="Tỉ lệ admit theo STR thật">
@@ -126,7 +122,7 @@ budget 2.000 cặp trial. Skill phải tốt hơn khoảng 3θ mới gần như 
 trong 2.000 cặp trial. Mỗi ô cần hàng trăm task khác nhau, nhiều hơn số task mỗi repo của SWE-bench.
 Đây là rủi ro lớn nhất, phải đo ở pilot (Phase 3).</p>
 <h3>5.3 Đối chiếu với confseq</h3>
-<p class='muted'>Chưa có kết quả đối chiếu <code>confseq</code> (job CI riêng, cần Boost).</p>
+<div class='tbl'><table><thead><tr><th>Tình huống</th><th>STR</th><th>Gatekeeper admit</th><th>confseq admit</th><th>Đồng ý</th></tr></thead><tbody><tr><td>boundary_null</td><td class='n'>-0,05</td><td class='n'>5,0%</td><td class='n'>2,0%</td><td class='n'>97,0%</td></tr><tr><td>strong_skill</td><td class='n'>-0,25</td><td class='n'>100,0%</td><td class='n'>100,0%</td><td class='n'>100,0%</td></tr></tbody></table></div>
 
 <h2 id="benchmark">6. Benchmark chuẩn được dùng</h2>
 <p>Task và test chỉ lấy từ benchmark có thật, được công nhận rộng. Test chính thức giữ nguyên; test
@@ -139,9 +135,28 @@ fault-injection tự thêm chỉ cho phân tích phụ.</p>
 <tr><td>SWE-smith (tập đã công bố)</td><td>NeurIPS 2025 D&amp;B</td><td>Chỉ bổ sung khi thiếu task</td></tr>
 <tr><td>BugsInPy (493 bug)</td><td>ESEC/FSE 2020</td><td>Kiểm tra độ bền</td></tr>
 </tbody></table></div>
-<p class="muted">Venue phải kiểm lại trên DBLP trước khi trích dẫn.</p>
+<p class="muted">Venue phải kiểm lại trên DBLP trước khi trích dẫn (mục 6.2).</p>
+<h3>6.1 Số task thật trong các benchmark</h3>
+<p class='muted'>Chưa có <code>data/benchmarks/summary.json</code> (workflow <code>Data snapshots</code> sinh ra).</p>
+<h3>6.2 Kiểm tra trích dẫn (arXiv, DBLP)</h3>
+<p class='muted'>Chưa có <code>data/citations.json</code>.</p>
 
-<h2 id="chua-co">7. Thực nghiệm chưa chạy</h2>
+<h2 id="code">7. Thành phần đã cài</h2>
+<div class="tbl"><table><thead><tr><th>Module</th><th>Vai trò</th><th>Phase</th></tr></thead><tbody>
+<tr><td><code>eprocess</code></td><td>Betting e-process, log-space, λ predictable</td><td>5a</td></tr>
+<tr><td><code>alpha_ledger</code></td><td>Sổ α: ô, composite, re-admission (dãy 6/π²k²)</td><td>5a</td></tr>
+<tr><td><code>skill</code>, <code>scope</code></td><td>Schema ⟨π, D, I, P, K⟩, fingerprint repo, predicate I, scope screen</td><td>5a/5b</td></tr>
+<tr><td><code>footprint</code></td><td>Phân tích read/write AST, kiểm tra giao footprint</td><td>5a/5b</td></tr>
+<tr><td><code>admission</code></td><td>Algorithm 1, hàng đợi composite, phân bổ theo độ bất định, retirement, certificate</td><td>5a/5b</td></tr>
+<tr><td><code>loss</code></td><td>Loss chuẩn hoá (F + wR)/(1 + w) từ kết quả test SWE-bench</td><td>5b</td></tr>
+<tr><td><code>baselines</code></td><td>B1, B2, B8, B9</td><td>2</td></tr>
+<tr><td><code>runlog</code></td><td>Log trial chạy tiếp được khi lỗi, bắt buộc trường tái lập, theo dõi chi phí</td><td>2/6</td></tr>
+<tr><td><code>analysis</code></td><td>σ<sub>T</sub>², σ<sub>S</sub>², số trial cần, power, cluster bootstrap, BH, đường harm–coverage, sweep w</td><td>3/7</td></tr>
+<tr><td><code>paper_checks</code></td><td>Tính lại mọi con số của paper</td><td>1</td></tr>
+</tbody></table></div>
+<p>Chứng minh đã sửa: <a href="../docs/theory/corrections.md"><code>docs/theory/corrections.md</code></a>.</p>
+
+<h2 id="chua-co">8. Thực nghiệm chưa chạy</h2>
 <div class="tbl"><table><thead><tr><th>Câu hỏi</th><th>Cần</th><th>Trạng thái</th></tr></thead><tbody>
 <tr><td>Pilot: σ<sub>S</sub>², hiệu ứng thật, số task mỗi scope</td><td>Phase 2–3, LLM + Docker</td><td class="warn">Chưa chạy</td></tr>
 <tr><td>RQ1: Gatekeeper vs XRepoSkill, always-retest</td><td>Phase 6</td><td class="warn">Chưa chạy</td></tr>
@@ -150,11 +165,12 @@ fault-injection tự thêm chỉ cho phân tích phụ.</p>
 <tr><td>RQ4: retirement, ablation, break-even</td><td>Phase 6</td><td class="warn">Chưa chạy</td></tr>
 </tbody></table></div>
 
-<h2 id="tai-lieu">8. Tài liệu</h2>
+<h2 id="tai-lieu">9. Tài liệu</h2>
 <ul>
 <li><a href="../docs/01-FSE-2027-13-paper.pdf">Paper (bản nháp, số dự kiến)</a></li>
 <li><a href="../docs/02-FSE-2027-13-reading-list.pdf">Reading list</a></li>
 <li><a href="../docs/03-FSE-2027-13-summary.pdf">Summary</a></li>
+<li><a href="../docs/theory/corrections.md">Lý thuyết đã sửa (Phase 1)</a></li>
 <li><a href="../TODO.md">TODO.md: kim chỉ nam và nhật ký tiến độ</a></li>
 </ul>
 <footer>Sinh bởi <code>scripts/build_report.py</code>. Không sửa tay file này.</footer>

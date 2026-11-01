@@ -1,0 +1,56 @@
+name: Data snapshots
+
+# Fetches benchmark metadata (HuggingFace) and citation metadata (arXiv, DBLP), which are not
+# reachable from every development machine, and publishes them on the `data-snapshots` branch.
+# Copy them into main with:  git fetch origin data-snapshots && git checkout origin/data-snapshots -- data/
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main", "claude/**"]
+    paths:
+      - "scripts/fetch_benchmarks.py"
+      - "scripts/check_citations.py"
+      - ".github/workflows/data.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-snapshots
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: pip install "datasets>=2.19"
+      - name: Citations (arXiv, DBLP)
+        run: python scripts/check_citations.py
+        continue-on-error: true
+      - name: Benchmark metadata (HuggingFace)
+        run: python scripts/fetch_benchmarks.py
+      - name: Summarise
+        run: |
+          python - <<'EOF'
+          import json
+          s = json.load(open("data/benchmarks/summary.json"))
+          for k, v in s.items():
+              if isinstance(v, dict) and "status" in v:
+                  print(k, v["status"], v.get("hf_id"), v.get("split"), v.get("n_tasks"), v.get("n_repos"))
+          EOF
+          du -sh data
+      - name: Publish to data-snapshots branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B data-snapshots
+          git add -f data/
+          git commit -m "Data snapshot from ${GITHUB_SHA::7} (run ${GITHUB_RUN_ID})"
+          git push -f origin data-snapshots

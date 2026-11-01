@@ -130,6 +130,127 @@ budget 2.000 cặp trial. Skill phải tốt hơn khoảng 3θ mới gần như 
 </figure>"""
 
 
+VERDICT = {
+    "ok": ("ok", "Đúng"),
+    "wrong": ("bad", "Sai"),
+    "inconsistent": ("bad", "Mâu thuẫn"),
+    "clarify": ("warn", "Cần giải thích"),
+}
+
+
+def paper_checks_html() -> str:
+    try:
+        from gatekeeper.paper_checks import run_checks
+    except ImportError:
+        return "<p class='muted'>Cài package (<code>pip install -e .</code>) để sinh bảng này.</p>"
+    rows = []
+    for c in run_checks():
+        cls, label = VERDICT[c.verdict]
+        note = f"<br><span class='muted'>{esc(c.note)}</span>" if c.note else ""
+        rows.append(
+            f"<tr><td>{esc(c.item)}</td><td>{esc(c.claimed)}</td><td>{esc(c.recomputed)}</td>"
+            f"<td class='{cls}'>{label}{note}</td></tr>"
+        )
+    return (
+        "<div class='tbl'><table><thead><tr><th>Chỗ</th><th>Paper</th><th>Tính lại</th>"
+        f"<th>Kết luận</th></tr></thead><tbody>{''.join(rows)}</tbody></table></div>"
+    )
+
+
+def benchmarks_html(summary: dict | None, sim: dict | None) -> str:
+    if not summary:
+        return (
+            "<p class='muted'>Chưa có <code>data/benchmarks/summary.json</code> "
+            "(workflow <code>Data snapshots</code> sinh ra).</p>"
+        )
+    need = None
+    if sim:
+        meds = [r["median_trials_admitted"] for r in sim["grid"] if r["alpha"] < 0.01]
+        meds = [m for m in meds if m]
+        need = min(meds) if meds else None
+    rows = []
+    for name, v in summary.items():
+        if not isinstance(v, dict) or "status" not in v:
+            continue
+        if v["status"] != "ok":
+            rows.append(
+                f"<tr><td>{esc(name)}</td><td colspan='5' class='bad'>không tải được</td></tr>"
+            )
+            continue
+        top = list(v.get("top_repo_versions", {}).values())
+        enough = sum(1 for n in top if need and n >= need)
+        rng = v.get("created_at_range") or ["", ""]
+        rows.append(
+            f"<tr><td>{esc(name)}</td><td class='n'>{num(v['n_tasks'])}</td>"
+            f"<td class='n'>{num(v['n_repos'])}</td><td class='n'>{num(v['n_repo_versions'])}</td>"
+            f"<td class='n'>{num(max(top) if top else None)}</td>"
+            f"<td>{esc(rng[0])} → {esc(rng[1])}</td></tr>"
+        )
+        if need is not None:
+            rows[-1] = rows[-1].replace("</tr>", f"<td class='n'>{enough}</td></tr>")
+    head = (
+        "<th>Benchmark</th><th>Task</th><th>Repo</th><th>(repo, version)</th>"
+        "<th>Task nhiều nhất / scope</th><th>Ngày tạo</th>"
+    )
+    if need is not None:
+        head += f"<th>Scope ≥ {num(need)} task</th>"
+    overlap = summary.get("repo_overlap", {})
+    ov = "".join(f"<li><code>{esc(k)}</code>: {len(v)} repo chung</li>" for k, v in overlap.items())
+    note = (
+        f"<p>Cột cuối: số scope (repo, version) có đủ task khác nhau cho trung vị số trial nhỏ nhất "
+        f"trong mô phỏng ({num(need)} cặp, STR = −0,25). Đây là kiểm tra R2: nếu gần 0 thì phải "
+        "rút có hoàn lại từ pool hoặc gộp scope.</p>"
+        if need
+        else ""
+    )
+    return (
+        f"<div class='tbl'><table><thead><tr>{head}</tr></thead><tbody>{''.join(rows)}"
+        f"</tbody></table></div>{note}<p>Repo trùng giữa các benchmark (cần cho split theo repo):</p>"
+        f"<ul>{ov}</ul><p class='muted'>Sinh lúc {esc(summary.get('generated_utc', ''))}.</p>"
+    )
+
+
+def citations_html(c: dict | None) -> str:
+    if not c:
+        return "<p class='muted'>Chưa có <code>data/citations.json</code>.</p>"
+    rows = []
+    for r in c.get("arxiv", []):
+        ok = r.get("exists_on_arxiv")
+        authors = ", ".join(r.get("authors", [])[:3]) + (
+            " …" if len(r.get("authors", [])) > 3 else ""
+        )
+        flag = (
+            " <span class='warn'>(paper đang ghi tác giả giả)</span>"
+            if r.get("draft_uses_placeholder_authors")
+            else ""
+        )
+        rows.append(
+            f"<tr><td>{esc(r['key'])}{flag}</td><td><code>{esc(r['arxiv_id'])}</code></td>"
+            f"<td class='{'ok' if ok else 'bad'}'>{'có' if ok else 'không thấy'}</td>"
+            f"<td>{esc(r.get('title', ''))}<br><span class='muted'>{esc(authors)}"
+            f" · {esc(r.get('published', ''))}</span></td></tr>"
+        )
+    drows = []
+    for k, hits in c.get("dblp", {}).items():
+        best = next(
+            (h for h in hits if h.get("venue") and h.get("type") != "Informal Publications"), None
+        )
+        any_hit = hits[0] if hits else {}
+        h = best or any_hit
+        drows.append(
+            f"<tr><td>{esc(k)}</td><td>{esc(h.get('venue', '—'))}</td><td>{esc(h.get('year', ''))}</td>"
+            f"<td>{esc(h.get('type', h.get('error', '')))}</td></tr>"
+        )
+    return (
+        "<div class='tbl'><table><thead><tr><th>Trích dẫn</th><th>arXiv</th><th>Tồn tại</th>"
+        f"<th>Tiêu đề thật, tác giả, ngày</th></tr></thead><tbody>{''.join(rows)}</tbody></table></div>"
+        "<p>Venue theo DBLP (ưu tiên bản đã peer review):</p>"
+        "<div class='tbl'><table><thead><tr><th>Công trình</th><th>Venue</th><th>Năm</th><th>Loại</th>"
+        f"</tr></thead><tbody>{''.join(drows)}</tbody></table></div>"
+        f"<p class='muted'>Sinh lúc {esc(c.get('generated_utc', ''))}.</p>"
+    )
+
+
 CSS = """
 :root{--bg:#fbfaf7;--fg:#1d1f23;--muted:#5d636e;--card:#ffffff;--line:#e3e1db;--accent:#2f5d9c;
 --good:#2e7d4f;--bad:#b3261e;--warn:#9a6700;--code:#f2f0ea}
@@ -256,11 +377,16 @@ def build() -> str:
             f"<td class='n'>{pct(v['ours_admit_rate'])}</td><td class='n'>{pct(v['confseq_admit_rate'])}</td>"
             f"<td class='n'>{pct(v['agreement'])}</td></tr>"
             for k, v in cross.items()
+            if isinstance(v, dict)
         )
         cross_html = (
             "<div class='tbl'><table><thead><tr><th>Tình huống</th><th>STR</th><th>Gatekeeper admit</th>"
             f"<th>confseq admit</th><th>Đồng ý</th></tr></thead><tbody>{rows}</tbody></table></div>"
         )
+
+    paper_html = paper_checks_html()
+    bench_html = benchmarks_html(load_json("data/benchmarks/summary.json"), sim)
+    cite_html = citations_html(load_json("data/citations.json"))
 
     build_line = f"Build {esc(sha)} · {esc(now)}"
     if run_url:
@@ -290,6 +416,7 @@ Phần "Thực nghiệm" dưới đây chỉ gồm mô phỏng thống kê và t
 <li><a href="#kiem-tra">Kiểm tra số liệu paper</a></li>
 <li><a href="#thuc-nghiem">Thực nghiệm hiện có</a></li>
 <li><a href="#benchmark">Benchmark chuẩn</a></li>
+<li><a href="#code">Thành phần đã cài</a></li>
 <li><a href="#chua-co">Thực nghiệm chưa chạy</a></li>
 <li><a href="#tai-lieu">Tài liệu</a></li>
 </ol></nav>
@@ -331,14 +458,9 @@ nhận về coroutine, không raise, lệnh ghi không bao giờ chạy (<code>t
 {p9_html}
 
 <h2 id="kiem-tra">4. Kiểm tra số liệu paper</h2>
-<div class="tbl"><table><thead><tr><th>Chỗ</th><th>Paper</th><th>Tính lại</th><th>Kết luận</th></tr></thead><tbody>
-<tr><td>13 phép cộng, trừ, tỉ lệ (Table 1–3)</td><td>—</td><td>khớp</td><td class="ok">Đúng</td></tr>
-<tr><td>B2 harmful acceptance</td><td class="n">22,7%</td><td>100% (B2 admit tất cả) hoặc 35,0%</td><td class="bad">Mâu thuẫn</td></tr>
-<tr><td>CI margin [3,1; 9,8] "vượt 5 điểm"</td><td>vượt</td><td>cận dưới 3,1 &lt; 5</td><td class="bad">Sai diễn đạt</td></tr>
-<tr><td>"At matched clean reuse"</td><td class="n">84,3 vs 86,0</td><td>không bằng nhau</td><td class="warn">Cần đường harm–coverage</td></tr>
-<tr><td>d̄ partner</td><td class="n">0,34</td><td>≈ 10,6 nếu tính toàn library</td><td class="warn">Cần giải thích</td></tr>
-<tr><td>Prop. 9 tiết kiệm</td><td class="n">3,1×</td><td>5,2×</td><td class="bad">Sai công thức</td></tr>
-</tbody></table></div>
+<p>Sinh tự động từ <code>src/gatekeeper/paper_checks.py</code> (test: <code>tests/test_paper_checks.py</code>).
+Số của paper là số <i>dự kiến</i>; đây chỉ kiểm tra tính nhất quán nội bộ.</p>
+{paper_html}
 
 <h2 id="thuc-nghiem">5. Thực nghiệm hiện có</h2>
 <h3>5.1 Test code lõi</h3>
@@ -366,9 +488,28 @@ fault-injection tự thêm chỉ cho phân tích phụ.</p>
 <tr><td>SWE-smith (tập đã công bố)</td><td>NeurIPS 2025 D&amp;B</td><td>Chỉ bổ sung khi thiếu task</td></tr>
 <tr><td>BugsInPy (493 bug)</td><td>ESEC/FSE 2020</td><td>Kiểm tra độ bền</td></tr>
 </tbody></table></div>
-<p class="muted">Venue phải kiểm lại trên DBLP trước khi trích dẫn.</p>
+<p class="muted">Venue phải kiểm lại trên DBLP trước khi trích dẫn (mục 6.2).</p>
+<h3>6.1 Số task thật trong các benchmark</h3>
+{bench_html}
+<h3>6.2 Kiểm tra trích dẫn (arXiv, DBLP)</h3>
+{cite_html}
 
-<h2 id="chua-co">7. Thực nghiệm chưa chạy</h2>
+<h2 id="code">7. Thành phần đã cài</h2>
+<div class="tbl"><table><thead><tr><th>Module</th><th>Vai trò</th><th>Phase</th></tr></thead><tbody>
+<tr><td><code>eprocess</code></td><td>Betting e-process, log-space, λ predictable</td><td>5a</td></tr>
+<tr><td><code>alpha_ledger</code></td><td>Sổ α: ô, composite, re-admission (dãy 6/π²k²)</td><td>5a</td></tr>
+<tr><td><code>skill</code>, <code>scope</code></td><td>Schema ⟨π, D, I, P, K⟩, fingerprint repo, predicate I, scope screen</td><td>5a/5b</td></tr>
+<tr><td><code>footprint</code></td><td>Phân tích read/write AST, kiểm tra giao footprint</td><td>5a/5b</td></tr>
+<tr><td><code>admission</code></td><td>Algorithm 1, hàng đợi composite, phân bổ theo độ bất định, retirement, certificate</td><td>5a/5b</td></tr>
+<tr><td><code>loss</code></td><td>Loss chuẩn hoá (F + wR)/(1 + w) từ kết quả test SWE-bench</td><td>5b</td></tr>
+<tr><td><code>baselines</code></td><td>B1, B2, B8, B9</td><td>2</td></tr>
+<tr><td><code>runlog</code></td><td>Log trial chạy tiếp được khi lỗi, bắt buộc trường tái lập, theo dõi chi phí</td><td>2/6</td></tr>
+<tr><td><code>analysis</code></td><td>σ<sub>T</sub>², σ<sub>S</sub>², số trial cần, power, cluster bootstrap, BH, đường harm–coverage, sweep w</td><td>3/7</td></tr>
+<tr><td><code>paper_checks</code></td><td>Tính lại mọi con số của paper</td><td>1</td></tr>
+</tbody></table></div>
+<p>Chứng minh đã sửa: <a href="../docs/theory/corrections.md"><code>docs/theory/corrections.md</code></a>.</p>
+
+<h2 id="chua-co">8. Thực nghiệm chưa chạy</h2>
 <div class="tbl"><table><thead><tr><th>Câu hỏi</th><th>Cần</th><th>Trạng thái</th></tr></thead><tbody>
 <tr><td>Pilot: σ<sub>S</sub>², hiệu ứng thật, số task mỗi scope</td><td>Phase 2–3, LLM + Docker</td><td class="warn">Chưa chạy</td></tr>
 <tr><td>RQ1: Gatekeeper vs XRepoSkill, always-retest</td><td>Phase 6</td><td class="warn">Chưa chạy</td></tr>
@@ -377,11 +518,12 @@ fault-injection tự thêm chỉ cho phân tích phụ.</p>
 <tr><td>RQ4: retirement, ablation, break-even</td><td>Phase 6</td><td class="warn">Chưa chạy</td></tr>
 </tbody></table></div>
 
-<h2 id="tai-lieu">8. Tài liệu</h2>
+<h2 id="tai-lieu">9. Tài liệu</h2>
 <ul>
 <li><a href="../docs/01-FSE-2027-13-paper.pdf">Paper (bản nháp, số dự kiến)</a></li>
 <li><a href="../docs/02-FSE-2027-13-reading-list.pdf">Reading list</a></li>
 <li><a href="../docs/03-FSE-2027-13-summary.pdf">Summary</a></li>
+<li><a href="../docs/theory/corrections.md">Lý thuyết đã sửa (Phase 1)</a></li>
 <li><a href="../TODO.md">TODO.md: kim chỉ nam và nhật ký tiến độ</a></li>
 </ul>
 <footer>Sinh bởi <code>scripts/build_report.py</code>. Không sửa tay file này.</footer>

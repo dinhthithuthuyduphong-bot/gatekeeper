@@ -254,14 +254,15 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 
 ### Phase H – Hạ tầng repo, CI, report (mới)
 
-- [ ] 🤖 README: giới thiệu đề tài, cấu trúc repo, cách chạy, link tài liệu → README.md trên main
-- [ ] 🤖 Đưa 3 PDF (paper, reading list, summary) vào `docs/` → commit trên main
-- [ ] 🤖 Đưa TODO.md này lên main → là nguồn sự thật duy nhất về tiến độ
-- [ ] 🤖 Khung Python package `gatekeeper/` + `pyproject.toml` (Python 3.11) + `tests/`
-- [ ] 🤖 GitHub Actions: lint (ruff) + pytest + mô phỏng nhanh + build report → workflow xanh
-- [ ] 🤖 Report HTML `report/index.html` (lý thuyết → thực nghiệm), tự sinh lại từ kết quả trong CI → mở được từ main
-- [ ] 🤖 Job CI đối chiếu với `confseq` (cài `libboost-dev`) → chạy được hoặc ghi rõ lý do lỗi
+- [x] 🤖 README: giới thiệu đề tài, cấu trúc repo, cách chạy, link tài liệu → README.md trên main · ✅ commit 22159ef
+- [x] 🤖 Đưa 3 PDF (paper, reading list, summary) vào `docs/` → commit trên main · ✅ `docs/`, commit 22159ef
+- [x] 🤖 Đưa TODO.md này lên main → là nguồn sự thật duy nhất về tiến độ · ✅ commit 22159ef
+- [x] 🤖 Khung Python package `gatekeeper/` + `pyproject.toml` (Python 3.11) + `tests/` · ✅ `src/gatekeeper/`, commit 22159ef
+- [x] 🤖 GitHub Actions: lint (ruff) + pytest + mô phỏng nhanh + build report → workflow xanh · ✅ CI run 41330369429 xanh
+- [x] 🤖 Report HTML `report/index.html` (lý thuyết → thực nghiệm), tự sinh lại từ kết quả trong CI → mở được từ main · ✅ `report/index.html`, CI artifact `gatekeeper-report`
+- [x] 🤖 Job CI đối chiếu với `confseq` (cài `libboost-dev`) → chạy được hoặc ghi rõ lý do lỗi · ✅ CI run 41330369429: cần `numpy<2` + Python 3.10 + Boost
 - [ ] 👤 Xin người hướng dẫn PLAN.md, REVIEWS.md, Portfolio Overview và 3 smoke test → đưa vào `docs/`
+- [ ] 👤 Xin file LaTeX nguồn của paper → để đưa các sửa đổi ở `docs/theory/corrections.md` vào bài
 - [ ] 👤 Tra hạn nộp chính thức, chốt venue mục tiêu (mục 0.1) → ghi vào README
 
 ### Phase 0 – Học nền
@@ -295,43 +296,43 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 - [ ] 👤 Cài Docker, Python 3.11, uv
 - [ ] 👤💰 Chạy SWE-bench harness với patch gốc trên 5 task Verified → 5/5 pass (máy riêng; CI chỉ chạy 1 task)
 - [ ] 👤💰 Chạy mini-swe-agent giải 5 task bằng 1 model API → có log và kết quả
-- [ ] 🤖 Viết e-process (~30 dòng) + test → khớp với `confseq` trên dữ liệu giả (sai khác < 1e-6 về log E)
-- [ ] 🤖 Mô phỏng 1.000 lần với STR = −θ → tỉ lệ admit sai ≤ α, chạy trong CI
+- [x] 🤖 Viết e-process (~30 dòng) + test → đối chiếu với `confseq` trên dữ liệu giả: cả hai giữ sai loại I ≤ α và cùng admit skill mạnh (hai bộ betting khác nhau nên log E không trùng từng số) · ✅ đồng ý 97% với confseq tại biên H0, cả hai admit sai ≤ α, cùng admit 100% skill mạnh (`results/confseq_crosscheck.json`)
+- [x] 🤖 Mô phỏng 1.000 lần với STR = −θ → tỉ lệ admit sai ≤ α, chạy trong CI · ✅ 5.000 lần, admit sai 3,0% ≤ 5% (`results/simulation.json`)
 - [ ] 👤 1 trang "Gatekeeper khác XRepoSkill và GSE ở đâu" → gửi người hướng dẫn góp ý
 
 ### Phase 1 – Sửa lý thuyết & paper
 
 **Theorem 7**
 
-- [ ] 👤 Phát biểu lại: cận chặt 1−θ; định nghĩa thứ tự ghép
-- [ ] 👤 Chứng minh với ℓ(x,∅) = θ, ℓ(π1) = ℓ(π2) = 0, ℓ(π1∘π2) = 1, thêm cặp thứ hai ℓ(π1∘π2) = 0 để bác bỏ mọi g
-- [ ] 👤 Thay cơ chế bằng "retry wrapper gọi hàm async không await"
-- [ ] 🤖 Test Python: S1 riêng pass, S2 riêng pass, S1∘S2 fail im lặng → chạy trong CI
+- [x] 👤 Phát biểu lại: cận chặt 1−θ; định nghĩa thứ tự ghép · ✅ `docs/theory/corrections.md` §5 (chờ người thống kê đọc)
+- [x] 👤 Chứng minh với ℓ(x,∅) = θ, ℓ(π1) = ℓ(π2) = 0, ℓ(π1∘π2) = 1, thêm cặp thứ hai ℓ(π1∘π2) = 0 để bác bỏ mọi g · ✅ `docs/theory/corrections.md` §5 (chờ người thống kê đọc)
+- [x] 👤 Thay cơ chế bằng "retry wrapper gọi hàm async không await" · ✅ `docs/theory/corrections.md` §5 (chờ người thống kê đọc)
+- [x] 🤖 Test Python: S1 riêng pass, S2 riêng pass, S1∘S2 fail im lặng → chạy trong CI · ✅ `tests/test_composition_theorem7.py`
 
 **Theorem 4**
 
-- [ ] 👤 Union bound trên mọi ô (S,s), mọi composite, và re-admission
-- [ ] 👤 Đổi ξ_s → 2ξ_s
-- [ ] 👤 Alpha-spending α·6/(π²k²) cho composite và re-admission
-- [ ] 👤 Viết tường minh e-process, khoảng λ_i, H0
-- [ ] 👤 Ghi điều kiện 2ξ_s ≤ θ
-- [ ] 👤 Cách ước lượng ξ_s, hoặc báo cáo bound theo nhiều giá trị ξ_s
-- [ ] 👤 Chọn: số task ≥ số trial, hay P_s = pool (R2)
-- [ ] 👤 Chốt FWER hay FDR (R8)
+- [x] 👤 Union bound trên mọi ô (S,s), mọi composite, và re-admission · ✅ `docs/theory/corrections.md` §2–3; kiểm chứng số `tests/test_theory.py`
+- [x] 👤 Đổi ξ_s → 2ξ_s · ✅ `docs/theory/corrections.md` §2–3; kiểm chứng số `tests/test_theory.py`
+- [x] 👤 Alpha-spending α·6/(π²k²) cho composite và re-admission · ✅ `docs/theory/corrections.md` §2–3; kiểm chứng số `tests/test_theory.py`
+- [x] 👤 Viết tường minh e-process, khoảng λ_i, H0 · ✅ `docs/theory/corrections.md` §2–3; kiểm chứng số `tests/test_theory.py`
+- [x] 👤 Ghi điều kiện 2ξ_s ≤ θ · ✅ `docs/theory/corrections.md` §2–3; kiểm chứng số `tests/test_theory.py`
+- [x] 👤 Cách ước lượng ξ_s, hoặc báo cáo bound theo nhiều giá trị ξ_s · ✅ `docs/theory/corrections.md` §2–3; kiểm chứng số `tests/test_theory.py`
+- [ ] 👤 Chọn: số task ≥ số trial, hay P_s = pool (R2) · 🔧 đề xuất (b) rút có hoàn lại từ pool, `corrections.md` §1.2; chờ chốt
+- [ ] 👤 Chốt FWER hay FDR (R8) · 🔧 đề xuất giữ FWER, e-BH làm phân tích phụ, `corrections.md` §3; chờ chốt
 
 **Định nghĩa & metric**
 
-- [ ] 👤 Chuẩn hóa loss về [0,1]
-- [ ] 👤 P_s = phân phối task mà I(x) đúng
-- [ ] 👤 Nhãn 3 lớp harmful / neutral / beneficial theo STR trên scoring suite (R3)
-- [ ] 👤 Harmful acceptance = số cặp harmful được admit / số cặp harmful
-- [ ] 👤 Clean-reuse coverage = beneficial được admit / beneficial; so "at matched coverage" bằng đường harm–coverage
-- [ ] 👤 d̄ tính trong từng scope hay toàn library
+- [x] 👤 Chuẩn hóa loss về [0,1] · ✅ `docs/theory/corrections.md` §1, §5; code `loss.py`, `analysis.harm_coverage_curve`
+- [x] 👤 P_s = phân phối task mà I(x) đúng · ✅ `docs/theory/corrections.md` §1, §5; code `loss.py`, `analysis.harm_coverage_curve`
+- [x] 👤 Nhãn 3 lớp harmful / neutral / beneficial theo STR trên scoring suite (R3) · ✅ `docs/theory/corrections.md` §1, §5; code `loss.py`, `analysis.harm_coverage_curve`
+- [x] 👤 Harmful acceptance = số cặp harmful được admit / số cặp harmful · ✅ `docs/theory/corrections.md` §1, §5; code `loss.py`, `analysis.harm_coverage_curve`
+- [x] 👤 Clean-reuse coverage = beneficial được admit / beneficial; so "at matched coverage" bằng đường harm–coverage · ✅ `docs/theory/corrections.md` §1, §5; code `loss.py`, `analysis.harm_coverage_curve`
+- [x] 👤 d̄ tính trong từng scope hay toàn library · ✅ `docs/theory/corrections.md` §1, §5; code `loss.py`, `analysis.harm_coverage_curve`
 
 **Prop. 9**
 
-- [ ] 👤 Mô hình phương sai; tỉ lệ 1 + 2σ_T²/σ_S²
-- [ ] 👤 Bỏ câu "net win 1,55×" và "3,1×"
+- [x] 👤 Mô hình phương sai; tỉ lệ 1 + 2σ_T²/σ_S² · ✅ `corrections.md` §6; `tests/test_theory.py::test_prop9_variance_ratio`
+- [x] 👤 Bỏ câu "net win 1,55×" và "3,1×" · ✅ `corrections.md` §6 (chờ sửa vào LaTeX)
 
 **Chỉnh paper và summary**
 
@@ -344,14 +345,14 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 
 ### Phase 5a – Lõi Gatekeeper (chuyển lên sớm, không cần LLM)
 
-- [ ] 🤖 `eprocess.py`: betting e-process trong log-space, λ predictable, có test
-- [ ] 🤖 `alpha_ledger.py`: sổ phân bổ α (ô, composite, re-admission) → test tổng ≤ α
-- [ ] 🤖 `skill.py`: schema skill ⟨π, D, I, P, K⟩ (JSON/YAML) + validate
-- [ ] 🤖 `scope.py`: scope screen (so D, chạy I) → OutOfScope
-- [ ] 🤖 `footprint.py`: giao footprint → hàng đợi composite
-- [ ] 🤖 `admission.py`: Algorithm 1 với budget, dừng sớm; trial runner là interface (giả lập trong test)
-- [ ] 🤖 Mô phỏng: skill có STR biết trước → bảng % admit và số trial, tự cập nhật trong report
-- [ ] 🤖 Coverage ≥ 80%
+- [x] 🤖 `eprocess.py`: betting e-process trong log-space, λ predictable, có test · ✅ xem Nhật ký 01/11
+- [x] 🤖 `alpha_ledger.py`: sổ phân bổ α (ô, composite, re-admission) → test tổng ≤ α · ✅ xem Nhật ký 01/11
+- [x] 🤖 `skill.py`: schema skill ⟨π, D, I, P, K⟩ (JSON/YAML) + validate · ✅ xem Nhật ký 01/11
+- [x] 🤖 `scope.py`: scope screen (so D, chạy I) → OutOfScope · ✅ xem Nhật ký 01/11
+- [x] 🤖 `footprint.py`: giao footprint → hàng đợi composite · ✅ xem Nhật ký 01/11
+- [x] 🤖 `admission.py`: Algorithm 1 với budget, dừng sớm; trial runner là interface (giả lập trong test) · ✅ xem Nhật ký 01/11
+- [x] 🤖 Mô phỏng: skill có STR biết trước → bảng % admit và số trial, tự cập nhật trong report · ✅ xem Nhật ký 01/11
+- [x] 🤖 Coverage ≥ 80% · ✅ xem Nhật ký 01/11
 
 ### Phase 2 – Môi trường & tái hiện baseline
 
@@ -365,10 +366,10 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 **Hạ tầng chạy trial**
 
 - [ ] 👤 Tách máy: GPU chạy LLM, CPU chạy container test
-- [ ] 🤖 Pin Docker image bằng digest
-- [ ] 🤖 Script 1 trial: snapshot → áp/không áp skill → agent → test → JSON (cài interface của 5a)
+- [ ] 🤖 Pin Docker image bằng digest · 🔧 `TrialRecord` từ chối image không có `sha256:`; còn chọn image
+- [ ] 🤖 Script 1 trial: snapshot → áp/không áp skill → agent → test → JSON (cài interface của 5a) · 🔧 interface `TrialRunner.run_pair` sẵn; cần harness + Docker thật
 - [ ] 🤖 Kiểm tra hai nhánh cùng task, seed, snapshot
-- [ ] 🤖 Log model ID, số token, thời gian, chi phí mỗi run
+- [x] 🤖 Log model ID, số token, thời gian, chi phí mỗi run · ✅ `runlog.TrialRecord` bắt buộc model ID + ngày, digest, commit, seed
 - [ ] 👤💰 Chạy cùng 1 task 5 lần → mức dao động của agent
 - [ ] 👤 Ước chi phí 1 cặp trial (token + GPU + CPU)
 
@@ -385,11 +386,11 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 
 **Điều kiện đối chứng**
 
-- [ ] 🤖 B1 No skills
-- [ ] 🤖 B2 Unrestricted reuse
-- [ ] 🤖 B8 Always-retest
-- [ ] 🤖 B9 Budget-matched retries (cùng ngân sách token + CPU)
-- [ ] 🤖 README cho mỗi baseline: commit, lệnh chạy, khác biệt so với bản gốc
+- [x] 🤖 B1 No skills · ✅ logic trong `baselines.py`, test `tests/test_analysis.py`
+- [x] 🤖 B2 Unrestricted reuse · ✅ logic trong `baselines.py`, test `tests/test_analysis.py`
+- [x] 🤖 B8 Always-retest · ✅ logic trong `baselines.py`, test `tests/test_analysis.py`
+- [x] 🤖 B9 Budget-matched retries (cùng ngân sách token + CPU) · ✅ logic trong `baselines.py`, test `tests/test_analysis.py`
+- [x] 🤖 README cho mỗi baseline: commit, lệnh chạy, khác biệt so với bản gốc · ✅ `docs/baselines.md` (commit của bên thứ ba điền khi clone)
 
 ### Phase 3 – Pilot & go/no-go
 
@@ -404,10 +405,10 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 **Đo đạc**
 
 - [ ] 👤💰 ≥ 30 cặp trial cho mỗi cặp skill/context
-- [ ] 🤖 Ước lượng σ_S², σ_T² và hiệu ứng thật trung bình
-- [ ] 🤖 Số trial cần mỗi ô với α đã phân bổ (Prop. 9 đã sửa + mô phỏng)
+- [ ] 🤖 Ước lượng σ_S², σ_T² và hiệu ứng thật trung bình · 🔧 công cụ sẵn: `analysis.variance_components`, chờ dữ liệu pilot
+- [ ] 🤖 Số trial cần mỗi ô với α đã phân bổ (Prop. 9 đã sửa + mô phỏng) · 🔧 công cụ sẵn: `analysis.trials_needed`
 - [ ] 🤖 Đếm số task khác nhau có được mỗi scope → đủ cho số trial không (R2)
-- [ ] 🤖 Power analysis: cần bao nhiêu cặp harmful để phát hiện margin 5 điểm với power 80% (R4)
+- [ ] 🤖 Power analysis: cần bao nhiêu cặp harmful để phát hiện margin 5 điểm với power 80% (R4) · 🔧 công cụ sẵn: `analysis.endpoint_power`
 - [ ] 👤 Ước lượng lại tổng chi phí
 - [ ] 👤💰 Chạy XRepoSkill và Gatekeeper trên cùng cặp pilot; margin + CI (chỉ tham khảo)
 
@@ -471,27 +472,27 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 
 ### Phase 5b – Gatekeeper đầy đủ
 
-- [ ] 🤖 D: hash lockfile, interpreter, version framework, behavioural class
-- [ ] 🤖 I: predicate thực thi được trên repo target
-- [ ] 🤖 P: postcondition kèm context đã quan sát
-- [ ] 🤖 K: phân tích read/write trên AST + symbol nhắc trong P
+- [x] 🤖 D: hash lockfile, interpreter, version framework, behavioural class · ✅ `scope.py`/`footprint.py`/`admission.py`/`loss.py`, test `tests/test_admission.py`, `tests/test_modules.py`
+- [x] 🤖 I: predicate thực thi được trên repo target · ✅ `scope.py`/`footprint.py`/`admission.py`/`loss.py`, test `tests/test_admission.py`, `tests/test_modules.py`
+- [x] 🤖 P: postcondition kèm context đã quan sát · ✅ `scope.py`/`footprint.py`/`admission.py`/`loss.py`, test `tests/test_admission.py`, `tests/test_modules.py`
+- [x] 🤖 K: phân tích read/write trên AST + symbol nhắc trong P · ✅ `scope.py`/`footprint.py`/`admission.py`/`loss.py`, test `tests/test_admission.py`, `tests/test_modules.py`
 - [ ] 🤖 Nối paired trial runner thật (Phase 2) vào Algorithm 1
-- [ ] 🤖 Hàm loss chuẩn hóa về [0,1]
-- [ ] 🤖 Phân bổ budget theo độ bất định
-- [ ] 🤖 Routing model (gradient boosting) chỉ sắp thứ tự ô
-- [ ] 🤖 Retirement khi fingerprint đổi + alpha-spending khi re-admit
-- [ ] 🤖 Capability verdict tách riêng khỏi quyết định chức năng
-- [ ] 🤖 Xuất certificate: scope, α, ξ_s, số trial, kết quả
-- [ ] 🤖 Test tích hợp trên 3 skill có đáp án biết trước
+- [x] 🤖 Hàm loss chuẩn hóa về [0,1] · ✅ `scope.py`/`footprint.py`/`admission.py`/`loss.py`, test `tests/test_admission.py`, `tests/test_modules.py`
+- [x] 🤖 Phân bổ budget theo độ bất định · ✅ `scope.py`/`footprint.py`/`admission.py`/`loss.py`, test `tests/test_admission.py`, `tests/test_modules.py`
+- [ ] 🤖 Routing model (gradient boosting) chỉ sắp thứ tự ô · 🔧 hiện là heuristic `_priority`; GBT cần dữ liệu pilot để train
+- [x] 🤖 Retirement khi fingerprint đổi + alpha-spending khi re-admit · ✅ `scope.py`/`footprint.py`/`admission.py`/`loss.py`, test `tests/test_admission.py`, `tests/test_modules.py`
+- [x] 🤖 Capability verdict tách riêng khỏi quyết định chức năng · ✅ `scope.py`/`footprint.py`/`admission.py`/`loss.py`, test `tests/test_admission.py`, `tests/test_modules.py`
+- [x] 🤖 Xuất certificate: scope, α, ξ_s, số trial, kết quả · ✅ `scope.py`/`footprint.py`/`admission.py`/`loss.py`, test `tests/test_admission.py`, `tests/test_modules.py`
+- [x] 🤖 Test tích hợp trên 3 skill có đáp án biết trước · ✅ `scope.py`/`footprint.py`/`admission.py`/`loss.py`, test `tests/test_admission.py`, `tests/test_modules.py`
 - [ ] 👤💰 Đo chi phí 1 quyết định admission so với 1 lần full validation
 
 ### Phase 6 – Chạy thí nghiệm
 
 **Chuẩn bị**
 
-- [ ] 🤖 Script chạy hàng loạt, chạy tiếp được khi lỗi giữa chừng
+- [x] 🤖 Script chạy hàng loạt, chạy tiếp được khi lỗi giữa chừng · ✅ `runlog.run_batch` + sửa dòng ghi dở khi crash
 - [ ] 👤💰 Chạy thử toàn pipeline trên 5 cặp → không lỗi
-- [ ] 🤖 Bảng theo dõi chi phí vs ngân sách, cập nhật sau mỗi đợt, hiện trong report
+- [ ] 🤖 Bảng theo dõi chi phí vs ngân sách, cập nhật sau mỗi đợt, hiện trong report · 🔧 công cụ sẵn: `runlog.CostSummary`; chưa có dữ liệu
 
 **RQ1 – So sánh quyết định**
 
@@ -522,15 +523,15 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 
 ### Phase 7 – Phân tích & viết
 
-- [ ] 🤖 Cluster bootstrap theo repo cho mọi CI
-- [ ] 🤖 BH cho so sánh phụ
-- [ ] 🤖 Sweep trọng số regression penalty (0,2–2,0)
-- [ ] 🤖 Script tự sinh mọi bảng và hình từ kết quả thô (chạy trong CI)
+- [ ] 🤖 Cluster bootstrap theo repo cho mọi CI · 🔧 công cụ sẵn: `analysis.cluster_bootstrap_ci`
+- [ ] 🤖 BH cho so sánh phụ · 🔧 công cụ sẵn: `analysis.benjamini_hochberg`
+- [ ] 🤖 Sweep trọng số regression penalty (0,2–2,0) · 🔧 công cụ sẵn: `analysis.penalty_sweep`
+- [ ] 🤖 Script tự sinh mọi bảng và hình từ kết quả thô (chạy trong CI) · 🔧 `scripts/build_report.py` sinh report; bảng RQ chờ dữ liệu
 - [ ] 👤 Thay toàn bộ số projected bằng số đo; bỏ banner "Draft status"
 - [ ] 👤 Phân tích định tính các ca admit sai
 - [ ] 👤 Related work và baseline theo mục 5
 - [ ] 👤 Threats to Validity
-- [ ] 👤 Kiểm tra từng trích dẫn trên arXiv/DBLP; thay "GSE Authors"… bằng tên thật
+- [ ] 👤 Kiểm tra từng trích dẫn trên arXiv/DBLP; thay "GSE Authors"… bằng tên thật · 🔧 workflow `Data snapshots` tra arXiv + DBLP → `data/citations.json`
 - [ ] 👤 2 người đọc nháp → sửa hết góp ý
 - [ ] 👤 Giới hạn trang và template ACM của venue đã chốt
 
@@ -538,7 +539,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 
 - [ ] 🤖 Đóng gói artifact: code, pipeline benchmark, baseline, script phân tích, kết quả từng task
 - [ ] 🤖 Ghi digest, commit, model ID + ngày, seed, cấu hình phần cứng
-- [ ] 🤖 Ẩn danh: xóa tên, email, metadata
+- [ ] 🤖 Ẩn danh: xóa tên, email, metadata · 🔧 công cụ sẵn: `scripts/check_anonymity.py`
 - [ ] 👤 Chạy lại toàn bộ từ artifact trên máy sạch → đúng bảng
 - [ ] 👤 Kiểm tra badge Available, Functional, Reusable
 - [ ] 👤 Kiểm tra deadline và hướng dẫn nộp trên trang chính thức
@@ -552,6 +553,12 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | --- | --- | --- |
 | 01/11/2026 | Review lại todo list (bản 2) | TODO.md |
 | 01/11/2026 | Đổi tên người viết → @thuthuy; benchmark chỉ lấy từ chuẩn được công nhận (R13); @thuthuy duyệt | TODO.md |
+| 01/11/2026 | Phase H: README, 3 PDF, package, CI, report lên main | commit 22159ef, b59d447 |
+| 01/11/2026 | CI đỏ ở job confseq (`np.float_` bị xoá trong NumPy 2) → ghim `numpy<2`; nâng action lên Node 24 | commit 4fd886c, CI run 41330369429 xanh |
+| 01/11/2026 | Phase 1: lý thuyết đã sửa (Theorem 4′, 7′, Prop. 9, định nghĩa, metric) + test số (hệ số 2ξ chặt, FWER với sổ α, tỉ lệ 1+2σ_T²/σ_S²) + tự kiểm tra số liệu paper | `docs/theory/corrections.md`, `tests/test_theory.py`, `src/gatekeeper/paper_checks.py` |
+| 01/11/2026 | Phase 5a/5b (phần không cần LLM): skill, scope, footprint AST, Algorithm 1, composite, phân bổ, retirement, certificate, loss | `src/gatekeeper/*.py`, 58 test, coverage 96% |
+| 01/11/2026 | Công cụ Phase 2/3/6/7/8: baseline B1/B2/B8/B9, log chạy tiếp được (sửa bug dòng ghi dở), chi phí, σ, power, bootstrap, BH, harm–coverage, sweep w, kiểm tra ẩn danh | `baselines.py`, `runlog.py`, `analysis.py`, `scripts/check_anonymity.py` |
+| 01/11/2026 | Workflow `Data snapshots`: metadata benchmark (HuggingFace) + trích dẫn (arXiv, DBLP), vì máy dev bị chặn các host này | `.github/workflows/data.yml` |
 
 ---
 
