@@ -95,16 +95,30 @@ def endpoint_power(
     n_boot: int = 400,
     level: float = 0.95,
     seed: int = 0,
+    coupling: str = "independent",
 ) -> float:
     """Power that the lower CI bound of (harmful acceptance baseline - Gatekeeper) exceeds
-    `margin`, both systems judged on the same n_harmful pairs (paired bootstrap over pairs)."""
+    `margin`, both systems judged on the same n_harmful pairs (paired bootstrap over pairs).
+
+    coupling="independent": the two systems admit harmful pairs independently (pessimistic).
+    coupling="nested": every harmful pair Gatekeeper admits is also admitted by the baseline
+    (optimistic: smallest variance of the paired difference).
+    margin=0 gives the superiority test.
+    """
+    if coupling not in ("independent", "nested"):
+        raise ValueError("coupling must be 'independent' or 'nested'")
+    if coupling == "nested" and p_gatekeeper > p_baseline:
+        raise ValueError("nested coupling needs p_gatekeeper <= p_baseline")
     rng = np.random.default_rng(seed)
     wins = 0
     q = (1 - level) / 2
     for _ in range(reps):
-        b = rng.random(n_harmful) < p_baseline
-        g = rng.random(n_harmful) < p_gatekeeper
-        d = b.astype(float) - g.astype(float)
+        if coupling == "independent":
+            b = rng.random(n_harmful) < p_baseline
+            g = rng.random(n_harmful) < p_gatekeeper
+            d = b.astype(float) - g.astype(float)
+        else:
+            d = (rng.random(n_harmful) < (p_baseline - p_gatekeeper)).astype(float)
         idx = rng.integers(0, n_harmful, size=(n_boot, n_harmful))
         boot = d[idx].mean(axis=1)
         if np.quantile(boot, q) > margin:

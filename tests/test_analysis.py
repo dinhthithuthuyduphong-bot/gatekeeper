@@ -50,6 +50,19 @@ def test_endpoint_power_grows_with_pairs():
     assert large > 0.9
 
 
+def test_paper_endpoint_is_underpowered():
+    # The draft's own projection (11.5% -> 5.1%, 63 harmful pairs) against a 5-point margin.
+    kw = dict(reps=400, n_boot=200, seed=2)
+    margin5 = endpoint_power(63, 0.115, 0.051, margin=0.05, coupling="nested", **kw)
+    superiority = endpoint_power(200, 0.115, 0.051, margin=0.0, coupling="nested", **kw)
+    assert margin5 < 0.1  # even in the most favourable coupling
+    assert superiority > 0.9
+    with pytest.raises(ValueError):
+        endpoint_power(10, 0.1, 0.2, coupling="nested")
+    with pytest.raises(ValueError):
+        endpoint_power(10, 0.2, 0.1, coupling="copula")
+
+
 def test_cluster_bootstrap_is_wider_than_naive_when_clustered():
     rng = np.random.default_rng(3)
     vals, cl = [], []

@@ -8,7 +8,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 ## 0. Kết quả review bản 1 (đọc trước)
 
-Bản 1 nhìn chung **đúng và kỹ**: mình tính lại mọi số trong bảng kiểm tra, các lỗi toán, mô phỏng và link GitHub. Phần lớn đúng. Nhưng có **1 vấn đề chặn**, 7 chỗ sai/thiếu cần sửa, và todo list thiếu phần hạ tầng code.
+Bản 1 nhìn chung **đúng và kỹ**: mình tính lại mọi số trong bảng kiểm tra, các lỗi toán, mô phỏng và link GitHub. Phần lớn đúng. Nhưng có **1 vấn đề chặn**, các chỗ sai/thiếu R1–R14 cần sửa, và todo list thiếu phần hạ tầng code.
 
 ### 0.1 Vấn đề chặn: deadline FSE 2027 đã qua
 
@@ -49,6 +49,7 @@ Bản 1 nhìn chung **đúng và kỹ**: mình tính lại mọi số trong bả
 | R11 | Theorem 7, chi tiết nhỏ | Cận chặt là STR(S1∘S2) = 1−θ (với ℓ(∅) = θ). Kết luận "không có hàm g" cần **hai** cấu trúc có cùng STR riêng lẻ mà STR ghép khác nhau. Phép ghép S1∘S2 cũng chưa định nghĩa thứ tự. | Thêm: định nghĩa thứ tự áp dụng; cặp thứ hai có ℓ(π1∘π2) = 0 (composite = −θ) để chứng minh không có g. |
 | R12 | Bảng công thức, dòng #4 | Dấu `\|` trong công thức làm vỡ bảng markdown. | Đã sửa định dạng. |
 | R13 | Benchmark tự dựng (yêu cầu của @thuthuy) | Bản 1 dựng SkillShift-SE gần như từ đầu: tự chọn 25 repo, tự sinh task, tự thêm test. Reviewer sẽ nghi ngờ benchmark "vừa khít" với phương pháp. | **Task và test lấy từ benchmark có thật, được công nhận rộng** (bảng 6.1), giữ nguyên test chính thức. SkillShift-SE chỉ còn là **giao thức đánh giá** đặt lên trên (split, skill, scope, nhãn), không phải dataset mới. Endpoint chính chấm bằng test chính thức; test fault-injection tự thêm chỉ dùng cho phân tích phụ, báo cáo riêng. |
+| R14 | Endpoint chính "cận dưới CI của margin > 5 điểm" (phát hiện 01/11 bằng mô phỏng power) | Với chính số dự kiến của paper (11,5% → 5,1%, margin thật 6,4) và 63 cặp harmful, power chỉ **~3–5%**; kể cả giả định thuận lợi nhất (nested) cũng cần > 2.000 cặp harmful mới đạt 74%. Endpoint như đang viết gần như **không thể đạt**, kể cả khi Gatekeeper đúng là tốt hơn 6,4 điểm. | Đổi giả thuyết chính thành **ưu thế** (cận dưới CI > 0) và báo cáo ước lượng điểm so với ngưỡng 5 điểm có ý nghĩa thực tế; tăng số cặp harmful lên **200–500**: power ưu thế 56–100% ở 200 cặp và 97–100% ở 500 cặp, tuỳ tương quan giữa hai hệ thống (đo ở pilot); với 63 cặp chỉ 26–56%. Công cụ: `analysis.endpoint_power(coupling=...)`. |
 
 ### 0.4 Phát hiện từ dữ liệu thật (01/11/2026)
 
@@ -453,7 +454,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 - [ ] 🤖 Ước lượng σ_S², σ_T² và hiệu ứng thật trung bình · 🔧 công cụ sẵn: `analysis.variance_components`, chờ dữ liệu pilot
 - [ ] 🤖 Số trial cần mỗi ô với α đã phân bổ (Prop. 9 đã sửa + mô phỏng) · 🔧 công cụ sẵn: `analysis.trials_needed`; bảng thiết kế `results/design_table.json` (mục 0.4)
 - [x] 🤖 Đếm số task khác nhau có được mỗi scope → đủ cho số trial không (R2) · ✅ **không đủ** cho phương án (a), xem mục 0.4
-- [ ] 🤖 Power analysis: cần bao nhiêu cặp harmful để phát hiện margin 5 điểm với power 80% (R4) · 🔧 công cụ sẵn: `analysis.endpoint_power`
+- [ ] 🤖 Power analysis: cần bao nhiêu cặp harmful để phát hiện margin 5 điểm với power 80% (R4) · 🔧 công cụ sẵn: `analysis.endpoint_power`; kết quả với số dự kiến của paper: `results/endpoint_power.json` → R14
 - [ ] 👤 Ước lượng lại tổng chi phí
 - [ ] 👤💰 Chạy XRepoSkill và Gatekeeper trên cùng cặp pilot; margin + CI (chỉ tham khảo)
 
@@ -512,7 +513,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 
 **Đóng băng**
 
-- [ ] 👤 Pre-register: endpoint, θ, α, phân bổ α, budget, baseline, harness, FWER/FDR
+- [ ] 👤 Pre-register: endpoint, θ, α, phân bổ α, budget, baseline, harness, FWER/FDR · 🔧 bản nháp: `docs/preregistration.md` (đánh dấu ✅/❓/⏳)
 - [ ] 🤖 Đóng băng benchmark v1 (hash trong repo), không sửa sau khi bắt đầu Phase 6
 
 ### Phase 5b – Gatekeeper đầy đủ
@@ -607,6 +608,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 01/11/2026 | Workflow `Data snapshots`: metadata benchmark (HuggingFace) + trích dẫn (arXiv, DBLP), vì máy dev bị chặn các host này | `.github/workflows/data.yml` |
 | 01/11/2026 | Data snapshot đầu tiên: 5 benchmark, split theo repo; **R2 xác nhận**: 0 scope có ≥ 219 task; 7 tiêu đề trích dẫn sai | run 41331567384, `data/`, mục 0.4 |
 | 01/11/2026 | Bảng thiết kế: số ô chỉ ảnh hưởng theo log, θ là đòn bẩy chính (θ 0,05 → 0,02 giảm ~2× trial) | `results/design_table.json`, mục 0.4 |
+| 01/11/2026 | **R14**: endpoint chính (margin > 5 điểm) có power ~5% với số của chính paper → đề xuất kiểm định ưu thế + 200–500 cặp harmful; bản nháp pre-registration | `analysis.endpoint_power`, `tests/test_analysis.py::test_paper_endpoint_is_underpowered`, `docs/preregistration.md` |
 
 ---
 

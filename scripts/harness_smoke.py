@@ -48,13 +48,13 @@ def run_harness(preds: str, ids: list[str], run_id: str, workers: int) -> None:
         str(workers),
         "--run_id",
         run_id,
-        "--cache_level",
-        "env",
         "--timeout",
         "1800",
     ]
     print("+", " ".join(cmd), flush=True)
-    subprocess.run(cmd, check=False)
+    rc = subprocess.run(cmd, check=False).returncode
+    if rc != 0:
+        raise SystemExit(f"swebench harness exited with code {rc} for run {run_id}")
 
 
 def read_report(run_id: str, model: str, iid: str) -> dict | None:

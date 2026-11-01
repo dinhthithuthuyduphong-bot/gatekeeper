@@ -235,6 +235,35 @@ def design_html(d: dict | None) -> str:
     )
 
 
+def power_html(d: dict | None) -> str:
+    if not d:
+        return "<p class='muted'>Chưa có <code>results/endpoint_power.json</code>.</p>"
+    body = "".join(
+        f"<tr><td class='n'>{num(r['n_harmful'])}</td>"
+        + "".join(
+            f"<td class='n'>{pct(r[k])}</td>"
+            for k in (
+                "margin5_independent",
+                "margin5_nested",
+                "superiority_independent",
+                "superiority_nested",
+            )
+        )
+        + "</tr>"
+        for r in d["rows"]
+    )
+    return (
+        f"<p>Giả sử đúng như số dự kiến của paper: baseline {pct(d['p_baseline'])} → Gatekeeper "
+        f"{pct(d['p_gatekeeper'])} (margin thật 6,4 điểm).</p>"
+        "<div class='tbl'><table><thead><tr><th>Cặp harmful</th><th>Cận dưới &gt; 5 điểm<br>(độc lập)</th>"
+        "<th>Cận dưới &gt; 5 điểm<br>(nested)</th><th>Ưu thế &gt; 0<br>(độc lập)</th>"
+        f"<th>Ưu thế &gt; 0<br>(nested)</th></tr></thead><tbody>{body}</tbody></table></div>"
+        "<p><b>R14.</b> Endpoint như paper đăng ký (cận dưới &gt; 5 điểm, 63 cặp harmful) gần như không "
+        "thể đạt kể cả khi Gatekeeper đúng là tốt hơn 6,4 điểm. Đề xuất: giả thuyết ưu thế và 200–500 cặp "
+        "harmful (<code>docs/preregistration.md</code>).</p>"
+    )
+
+
 def split_html(sp: dict | None) -> str:
     if not sp:
         return "<p class='muted'>Chưa có <code>data/splits/split_v0.json</code>.</p>"
@@ -450,6 +479,7 @@ def build() -> str:
     cite_html = citations_html(load_json("data/citations.json"))
     sp_html = split_html(load_json("data/splits/split_v0.json"))
     design = design_html(load_json("results/design_table.json"))
+    power = power_html(load_json("results/endpoint_power.json"))
 
     build_line = f"Build {esc(sha)} · {esc(now)}"
     if run_url:
@@ -539,7 +569,9 @@ trong 2.000 cặp trial. Mỗi ô cần hàng trăm task khác nhau, nhiều hơ
 Đây là rủi ro lớn nhất, phải đo ở pilot (Phase 3).</p>
 <h3>5.3 Bảng thiết kế: số trial theo số ô và θ</h3>
 {design}
-<h3>5.4 Đối chiếu với confseq</h3>
+<h3>5.4 Power của endpoint chính</h3>
+{power}
+<h3>5.5 Đối chiếu với confseq</h3>
 {cross_html}
 
 <h2 id="benchmark">6. Benchmark chuẩn được dùng</h2>
