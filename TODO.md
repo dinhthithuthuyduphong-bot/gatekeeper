@@ -1,6 +1,4 @@
-# Gatekeeper (FSE-2027-13) – Review & Todo list (bản 2)
-
-Bản 1: 01/11/2026 · @Cam Tu · Bản 2 (review lại): 01/11/2026
+# Gatekeeper (FSE-2027-13) – Review & Todo list
 
 > **Đây là kim chỉ nam của dự án.** Mỗi lần xong một việc: tick `[x]`, ghi ngày + link commit/log vào cột "Bằng chứng" của mục [Nhật ký tiến độ](#nhật-ký-tiến-độ), cập nhật `report/index.html`. Việc nào chưa có bằng chứng (file, log CI, số đo) thì chưa được tick.
 
