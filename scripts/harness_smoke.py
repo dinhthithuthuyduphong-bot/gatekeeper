@@ -16,15 +16,14 @@ from __future__ import annotations
 
 import argparse
 import json
-import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-from gatekeeper.loss import functional_loss
+from gatekeeper.harness import DATASET, NOOP_PATCH, loss_of, read_report, run_harness
 
-# swebench>=5 needs the SWE-bench org copy (it carries image, eval_script, log_parser)
-DATASET = "SWE-bench/SWE-bench_Verified"
+__all__ = ["DATASET", "NOOP_PATCH", "loss_of", "read_report", "run_harness"]
+
 DEFAULT_IDS = [
     "psf__requests-1142",
     "psf__requests-2931",
@@ -32,73 +31,6 @@ DEFAULT_IDS = [
     "pydata__xarray-3677",
     "pylint-dev__pylint-6386",
 ]
-
-
-# Adds one unrelated new file: a valid diff on every repository, so the tests really run.
-NOOP_PATCH = (
-    "diff --git a/.gatekeeper_noop b/.gatekeeper_noop\n"
-    "new file mode 100644\n"
-    "index 0000000..ba0e162\n"
-    "--- /dev/null\n"
-    "+++ b/.gatekeeper_noop\n"
-    "@@ -0,0 +1 @@\n"
-    "+noop\n"
-)
-
-
-def run_harness(preds: str, ids: list[str], run_id: str, workers: int) -> None:
-    cmd = [
-        sys.executable,
-        "-m",
-        "swebench.harness.run_evaluation",
-        "--dataset_name",
-        DATASET,
-        "--split",
-        "test",
-        "--predictions_path",
-        preds,
-        "--instance_ids",
-        *ids,
-        "--max_workers",
-        str(workers),
-        "--run_id",
-        run_id,
-        "--timeout",
-        "1800",
-    ]
-    print("+", " ".join(cmd), flush=True)
-    rc = subprocess.run(cmd, check=False).returncode
-    if rc != 0:
-        raise SystemExit(f"swebench harness exited with code {rc} for run {run_id}")
-
-
-def read_report(run_id: str, model: str, iid: str) -> dict | None:
-    p = Path("logs/run_evaluation") / run_id / model / iid / "report.json"
-    if not p.exists():  # layout differs across harness versions: search the run directory
-        hits = sorted((Path("logs/run_evaluation") / run_id).glob(f"**/{iid}/report.json"))
-        if not hits:
-            return None
-        p = hits[0]
-    return json.loads(p.read_text())[iid]
-
-
-def loss_of(rep: dict | None, w: float = 0.5) -> tuple[float, dict]:
-    """No report (patch skipped or not applied) = nothing fixed, nothing broken (assumed)."""
-    if rep is None:
-        return functional_loss(1.0, 0.0, w), {"resolved": False, "note": "no report"}
-    ts = rep.get("tests_status", {})
-    f2p, p2p = ts.get("FAIL_TO_PASS", {}), ts.get("PASS_TO_PASS", {})
-    n_f = len(f2p.get("success", [])) + len(f2p.get("failure", []))
-    n_p = len(p2p.get("success", [])) + len(p2p.get("failure", []))
-    F = len(f2p.get("failure", [])) / n_f if n_f else 1.0
-    R = len(p2p.get("failure", [])) / n_p if n_p else 0.0
-    return functional_loss(F, R, w), {
-        "resolved": bool(rep.get("resolved")),
-        "F": F,
-        "R": R,
-        "n_fail_to_pass": n_f,
-        "n_pass_to_pass": n_p,
-    }
 
 
 def main() -> int:

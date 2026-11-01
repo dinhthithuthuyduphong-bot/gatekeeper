@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "guidance-reproduce-first",
+  "procedure": {
+    "kind": "guidance",
+    "guidance": "Before editing any source file: (1) write a minimal script that reproduces the reported behaviour and run it; (2) locate the code path with grep; (3) make the smallest change that fixes the reproduction; (4) re-run the reproduction and the closest existing tests; (5) remove the reproduction script before submitting.",
+    "_comment": "Example prompt-level skill for the R15 pilot (a generic procedure). Real skills come from Phase 4 induction on SWE-Gym."
+  },
+  "fingerprints": {},
+  "input_predicates": [],
+  "postconditions": [],
+  "footprint": {"regions": [], "reads": [], "writes": [], "properties": ["workflow"]},
+  "capability_verdict": "approved",
+  "source": "hand-written example"
+}

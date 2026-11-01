@@ -330,6 +330,33 @@ def harness_html(d: dict | None) -> str:
     )
 
 
+def pilot_html() -> str:
+    files = sorted((ROOT / "results" / "pilot").glob("*.json"))
+    if not files:
+        return "<p class='muted'>Chưa có kết quả pilot (<code>results/pilot/</code>).</p>"
+    rows = []
+    for f in files:
+        d = json.loads(f.read_text(encoding="utf-8"))
+        for sk, v in d.get("skills", {}).items():
+            vc = v.get("variance_components") or {}
+            rows.append(
+                f"<tr><td><code>{esc(d['name'])}</code></td><td>{esc(d['model'])}</td><td>{esc(sk)}</td>"
+                f"<td class='n'>{len(v['pairs'])}</td>"
+                f"<td class='n'>{'—' if v['mean_Z'] is None else format(v['mean_Z'], '+.3f')}</td>"
+                f"<td class='n'>{'—' if not vc else format(vc['sigma_S2'], '.3f')}</td>"
+                f"<td class='{'ok' if v['eprocess']['admitted'] else 'warn'}'>"
+                f"{'Admit' if v['eprocess']['admitted'] else 'Quarantine'}</td>"
+                f"<td class='n'>{d.get('spent_usd', 0):.2f}</td></tr>"
+            )
+    return (
+        "<div class='tbl'><table><thead><tr><th>Lần chạy</th><th>Model</th><th>Skill</th><th>Cặp</th>"
+        "<th>Z trung bình</th><th>σ<sub>S</sub>²</th><th>E-process</th><th>Chi phí (USD)</th></tr></thead>"
+        f"<tbody>{''.join(rows)}</tbody></table></div>"
+        "<p class='muted'><code>dryrun</code> dùng model giả và skill oracle (áp gold patch) để kiểm tra "
+        "pipeline; không phải kết quả thực nghiệm.</p>"
+    )
+
+
 def split_html(sp: dict | None) -> str:
     if not sp:
         return "<p class='muted'>Chưa có <code>data/splits/split_v0.json</code>.</p>"
@@ -548,6 +575,7 @@ def build() -> str:
     power = power_html(load_json("results/endpoint_power.json"))
     sskb = sskb_html(load_json("results/sskb_analysis.json"))
     harness = harness_html(load_json("results/harness_smoke.json"))
+    pilot = pilot_html()
 
     build_line = f"Build {esc(sha)} · {esc(now)}"
     if run_url:
@@ -563,7 +591,7 @@ def build() -> str:
 </head>
 <body>
 <main>
-<p class="muted">FSE-2027-13 · Gatekeeper · {build_line}</p>
+<p class="muted">FSE-2027-13 · Gatekeeper · mục tiêu <b>ASE 2027</b> · LLM: Gemini qua Vertex AI · {build_line}</p>
 <h1>Scope before Reuse: từ lý thuyết đến thực nghiệm</h1>
 <p>Báo cáo sống của dự án Gatekeeper: kiểm soát rủi ro khi tái sử dụng skill đã học của coding agent.
 Trang này tự sinh lại mỗi lần push, từ <code>TODO.md</code>, <code>results/</code> và kết quả test.</p>
@@ -641,9 +669,11 @@ trong 2.000 cặp trial. Mỗi ô cần hàng trăm task khác nhau, nhiều hơ
 {power}
 <h3>5.5 Paired trial end-to-end qua harness SWE-bench</h3>
 {harness}
-<h3>5.6 Pilot ngoài trên dữ liệu paired thật (SWE-Skills-Bench)</h3>
+<h3>5.6 Pilot với agent (mini-swe-agent + Gemini qua Vertex AI)</h3>
+{pilot}
+<h3>5.7 Pilot ngoài trên dữ liệu paired thật (SWE-Skills-Bench)</h3>
 {sskb}
-<h3>5.7 Đối chiếu với confseq</h3>
+<h3>5.8 Đối chiếu với confseq</h3>
 {cross_html}
 
 <h2 id="benchmark">6. Benchmark chuẩn được dùng</h2>

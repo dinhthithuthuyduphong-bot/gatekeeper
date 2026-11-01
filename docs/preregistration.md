@@ -1,4 +1,4 @@
-# Pre-registration (bản nháp) — Gatekeeper / SkillShift-SE
+# Pre-registration (bản nháp) — Gatekeeper / SkillShift-SE — mục tiêu ASE 2027
 
 > **Trạng thái: NHÁP, chưa đóng băng.** Đóng băng (commit + hash) trước khi bắt đầu Phase 6, sau khi pilot (Phase 3) xong. Sau khi đóng băng, mọi thay đổi phải ghi vào mục "Sai lệch so với pre-registration" của paper.
 >
@@ -55,9 +55,9 @@
 | MemGovern, gskill (GEPA) | baseline có code | ✅ |
 | B1, B2, B8, B9 | đối chứng | ✅ `baselines.py` |
 | ASI | tuỳ chọn | ❓ |
-| Harness chung | mini-swe-agent (commit ghi khi clone) | ✅ đề xuất · ❓ chốt |
-| Model | 1 API model + 1 open-weight (digest) | ❓ chọn model |
-| Lặp lại | 3 lần chạy × 2 backend | ✅ |
+| Harness chung | mini-swe-agent 2.4.6 + swebench 5.0.2 | ✅ chốt |
+| Model | **Gemini qua Vertex AI**: bậc Pro + bậc Flash làm 2 backend; `temperature 0`, `seed 0` | ✅ chốt (01/11) · ❓ xác nhận mã model trong Model Garden |
+| Lặp lại | 3 lần chạy × 2 backend (Gemini Pro, Gemini Flash) | ✅ |
 
 ## 6. Phân tích
 

@@ -10,11 +10,24 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 Bản 1 nhìn chung **đúng và kỹ**: mình tính lại mọi số trong bảng kiểm tra, các lỗi toán, mô phỏng và link GitHub. Phần lớn đúng. Nhưng có **1 vấn đề chặn**, các chỗ sai/thiếu R1–R14 cần sửa, và todo list thiếu phần hạ tầng code.
 
-### 0.1 Vấn đề chặn: deadline FSE 2027 đã qua
+### 0.1 Venue: **ASE 2027** (@thuthuy chốt ngày 01/11/2026)
 
-- Hạn nộp Research Track FSE 2027 là **02/10/2026** (theo PaperPilot và BERI; trang chính thức conf.researchr.org không truy cập được từ máy này, bạn tự mở để xác nhận). Hôm nay là 01/11/2026, nên **không nộp FSE 2027 được nữa**.
-- Ước lượng thời gian cho người mới làm hết Phase 0–8: **9–12 tháng** (xem cột thời gian ở mục 6). Mục tiêu thực tế: **FSE 2028** (hạn có thể vào khoảng 09–10/2027) hoặc ASE 2027 / ICSE 2028 nếu tiến độ nhanh. Ngày cụ thể phải tra trên trang chính thức.
-- Giữ mã "FSE-2027-13" làm ID dự án, nhưng đổi venue mục tiêu trong README và paper.
+- Hạn FSE 2027 (02/10/2026) đã qua → đổi sang **IEEE/ACM ASE 2027**. Giữ mã "FSE-2027-13" làm ID dự án.
+- **Hạn nộp ASE 2027 chưa công bố / chưa tra được.** Các năm trước ASE Research Track có hạn vào **cuối tháng 5**. Lịch dưới đây giả định **~29/05/2027**; phải xác nhận trên trang chính thức ngay khi có (👤).
+- Còn khoảng **7 tháng**, ngắn hơn ước lượng 9–12 tháng cho người mới, nên mọi phase bị nén và có **3 cổng dừng** (G1–G3). Lỡ một cổng thì chuyển mục tiêu sang **ICSE 2028 / FSE 2028**, không cố nộp bản thiếu.
+- Template ASE: IEEE/ACM conference format (kiểm tra số trang và yêu cầu double-blind trong CfP ASE 2027).
+
+**Lịch ngược từ hạn nộp (giả định 29/05/2027):**
+
+| Mốc | Hạn | Nội dung | Cổng |
+| --- | --- | --- | --- |
+| M0 | 15/11/2026 | Vertex AI thiết lập xong (`docs/vertex_setup.md`); Pilot dry run xanh; đọc 5 paper đầu | |
+| M1 | 15/12/2026 | **R15 mini-pilot**: 3–5 skill × 30 cặp trên Verified với Gemini Flash; đo hiệu ứng thật và chi phí/cặp | **G1**: có skill với \|STR\| ≥ 0,1? Không → thu hẹp / đổi hướng |
+| M2 | 15/01/2027 | Pilot Phase 3 đầy đủ, power analysis, chốt θ / α / FWER, pre-register | **G2**: go/no-go theo R4 |
+| M3 | 28/02/2027 | Benchmark v1 đóng băng (Phase 4), Gatekeeper đầy đủ (5b), baseline XRepoSkill chạy được | |
+| M4 | 15/04/2027 | Phase 6 xong: RQ1–RQ4, 3 lần × 2 backend (Gemini Pro + Flash) | **G3**: endpoint chính đạt? Không → báo cáo trung thực hoặc lùi venue |
+| M5 | 15/05/2027 | Bản nháp đầy đủ, 2 người đọc, artifact | |
+| M6 | ~29/05/2027 | Nộp ASE 2027 | |
 
 ### 0.2 Những gì bản 1 đúng (đã kiểm chứng lại)
 
@@ -297,19 +310,19 @@ Những gì **không** phải benchmark mà là "treatment" của thí nghiệm,
 
 Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng cho người mới, làm bán thời gian ~20 giờ/tuần.
 
-| Phase | Nội dung | Thời gian | Phụ thuộc |
-| --- | --- | --- | --- |
-| H | Hạ tầng repo, CI, report | 1 tuần | — |
-| 0 | Học nền | 4–6 tuần | — |
-| 1 | Sửa lý thuyết & paper | 3–4 tuần | 0 |
-| 5a | Lõi Gatekeeper (không cần LLM) | 3–4 tuần | 1 (song song được) |
-| 2 | Môi trường & tái hiện baseline | 4–6 tuần 💰 | 0 |
-| 3 | Pilot & go/no-go | 3–4 tuần 💰 | 2, 5a |
-| 4 | Benchmark SkillShift-SE | 6–8 tuần 💰 | 3 |
-| 5b | Gatekeeper đầy đủ | 4 tuần | 3 (song song 4) |
-| 6 | Chạy thí nghiệm | 8–12 tuần 💰 | 4, 5b |
-| 7 | Phân tích & viết | 4–6 tuần | 6 |
-| 8 | Artifact & nộp | 2 tuần | 7 |
+| Phase | Nội dung | Thời gian (ước lượng gốc) | Lịch ASE 2027 | Phụ thuộc |
+| --- | --- | --- | --- | --- |
+| H | Hạ tầng repo, CI, report | 1 tuần | ✅ xong 01/11 | — |
+| 0 | Học nền | 4–6 tuần | → 30/11 | — |
+| 1 | Sửa lý thuyết & paper | 3–4 tuần | lý thuyết ✅; đưa vào LaTeX → 15/12 | 0 |
+| 5a | Lõi Gatekeeper (không cần LLM) | 3–4 tuần | ✅ xong 01/11 | 1 |
+| 2 | Môi trường & tái hiện baseline | 4–6 tuần 💰 | → 15/12 (song song M1) | 0 |
+| 3 | Pilot & go/no-go | 3–4 tuần 💰 | → 15/01 (G2) | 2, 5a |
+| 4 | Benchmark SkillShift-SE | 6–8 tuần 💰 | → 28/02 | 3 |
+| 5b | Gatekeeper đầy đủ | 4 tuần | phần lớn ✅; nối runner thật → 31/01 | 3 |
+| 6 | Chạy thí nghiệm | 8–12 tuần 💰 | → 15/04 (G3) | 4, 5b |
+| 7 | Phân tích & viết | 4–6 tuần | → 15/05 | 6 |
+| 8 | Artifact & nộp | 2 tuần | → ~29/05 | 7 |
 
 ### Phase H – Hạ tầng repo, CI, report (mới)
 
@@ -322,7 +335,8 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 - [x] 🤖 Job CI đối chiếu với `confseq` (cài `libboost-dev`) → chạy được hoặc ghi rõ lý do lỗi · ✅ CI run 41330369429: cần `numpy<2` + Python 3.10 + Boost
 - [ ] 👤 Xin người hướng dẫn PLAN.md, REVIEWS.md, Portfolio Overview và 3 smoke test → đưa vào `docs/`
 - [ ] 👤 Xin file LaTeX nguồn của paper → để đưa các sửa đổi ở `docs/theory/corrections.md` vào bài
-- [ ] 👤 Tra hạn nộp chính thức, chốt venue mục tiêu (mục 0.1) → ghi vào README
+- [x] 👤 Chốt venue mục tiêu → ghi vào README · ✅ **ASE 2027** (@thuthuy, 01/11/2026), lịch ngược ở mục 0.1
+- [ ] 👤 Xác nhận hạn nộp chính thức ASE 2027 khi CfP công bố → sửa lịch mục 0.1 nếu khác 29/05/2027
 
 ### Phase 0 – Học nền
 
@@ -418,16 +432,19 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 
 **Hạ tầng LLM**
 
-- [ ] 👤💰 Chọn model API → ghi model ID chính xác
-- [ ] 👤 Chọn model open-weight → ghi digest weight
-- [ ] 👤💰 Dựng vLLM trên GPU thuê/cluster trường → gọi thử thành công từ harness
-- [ ] 👤 Cố định tham số sampling và ghi vào config
+- [x] 👤💰 Chọn model API → ghi model ID chính xác · ✅ **Gemini qua Vertex AI** (@thuthuy, 01/11); cấu hình `configs/models/vertex_gemini.json` (Pro + Flash làm 2 backend)
+- [ ] 👤 Xác nhận mã model + giá Gemini trong Vertex Model Garden → sửa `configs/models/vertex_gemini.json`, đặt `_verified: true`
+- [ ] 👤 Thiết lập GCP project, billing alert, Workload Identity, secrets GitHub theo `docs/vertex_setup.md`
+- [ ] ~~👤 Chọn model open-weight → ghi digest weight~~ · bỏ: backend thứ hai là Gemini Flash (cùng Vertex AI) thay cho model open-weight; nêu trong Threats to Validity (một nhà cung cấp)
+- [ ] ~~👤💰 Dựng vLLM trên GPU~~ · bỏ (không dùng open-weight)
+- [ ] 👤💰 Gọi thử Gemini qua Vertex từ harness: chạy workflow `Pilot (paid, Vertex AI)` với n = 2, budget 3 USD → thành công + có chi phí thật
+- [x] 👤 Cố định tham số sampling và ghi vào config · ✅ `temperature: 0`, `seed: 0` trong `configs/models/vertex_gemini.json`; giới hạn bước/chi phí mỗi instance trong `scripts/run_pilot.py`
 
 **Hạ tầng chạy trial**
 
-- [ ] 👤 Tách máy: GPU chạy LLM, CPU chạy container test
+- [x] 👤 Tách máy: GPU chạy LLM, CPU chạy container test · ✅ không cần GPU: LLM chạy trên Vertex AI, container test chạy trên runner GitHub Actions / máy CPU
 - [ ] 🤖 Pin Docker image bằng digest · 🔧 `TrialRecord` từ chối image không có `sha256:`; còn chọn image
-- [ ] 🤖 Script 1 trial: snapshot → áp/không áp skill → agent → test → JSON (cài interface của 5a) · 🔧 interface `TrialRunner.run_pair` sẵn; cần harness + Docker thật; paired trial gold/no-op chạy thật qua harness: `scripts/harness_smoke.py`
+- [x] 🤖 Script 1 trial: snapshot → áp/không áp skill → agent → test → JSON (cài interface của 5a) · 🔧 interface `TrialRunner.run_pair` sẵn; cần harness + Docker thật; paired trial gold/no-op chạy thật qua harness: `scripts/harness_smoke.py`; pipeline agent đầy đủ: `scripts/run_pilot.py` (dataset theo nhánh → mini-swe-agent → harness → Z → log), dry run trong CI
 - [ ] 🤖 Kiểm tra hai nhánh cùng task, seed, snapshot
 - [x] 🤖 Log model ID, số token, thời gian, chi phí mỗi run · ✅ `runlog.TrialRecord` bắt buộc model ID + ngày, digest, commit, seed
 - [ ] 👤💰 Chạy cùng 1 task 5 lần → mức dao động của agent
@@ -435,7 +452,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 
 **Baseline có code**
 
-- [ ] 👤 Chốt harness chung (R6) → ghi commit
+- [x] 👤 Chốt harness chung (R6) → ghi commit · ✅ **mini-swe-agent 2.4.6** + swebench 5.0.2 (ghim trong workflow); pipeline dry run: `.github/workflows/pilot-dryrun.yml`
 - [ ] 👤 Clone XRepoSkill, ghi commit, chạy unit test → pass
 - [ ] 👤💰 Chạy XRepoSkill trên đúng tập task của paper (hoặc tập con có so từng task) → số paper nằm trong CI 95% (R5)
 - [ ] 🤖 Nếu cần, adapter chuyển format skill (không sửa thuật toán)
@@ -629,6 +646,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 01/11/2026 | Harness smoke xanh: gold 5/5 resolved, R = 0; nhánh không skill đổi từ patch rỗng (bị harness bỏ qua) sang patch no-op để đo thật | run 41335635404, `results/harness_smoke.json` |
 | 01/11/2026 | Bản nháp định vị so với XRepoSkill, GSE, HSE, SWE-Skills-Bench (từ abstract) | `docs/notes/positioning.md` |
 | 01/11/2026 | Harness với patch no-op: nhánh không skill **đo thật** F = 1, R = 0 trên 5/5 task; paired trial end-to-end qua harness chính thức được kiểm chứng | run 41336208056, `results/harness_smoke.json` |
+| 01/11/2026 | @thuthuy chốt **ASE 2027** + **Gemini qua Vertex AI** → lịch ngược với 3 cổng G1–G3; pipeline pilot mini-swe-agent + Vertex (`run_pilot.py`, `pilot.py`, `harness.py`), workflow dry run (miễn phí) và workflow trả phí (chạy tay, trần ngân sách), `docs/vertex_setup.md` | commit sau |
 
 ---
 

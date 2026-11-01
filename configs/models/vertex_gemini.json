@@ -1,0 +1,19 @@
+{
+  "_comment": "Gemini via Vertex AI through LiteLLM. Model IDs and prices MUST be confirmed in the Vertex AI console (Model Garden) before a paid run; values below are placeholders from public pricing guides (Oct 2026), not verified against Google's documentation.",
+  "_verified": false,
+  "_env": ["VERTEXAI_PROJECT", "VERTEXAI_LOCATION", "GOOGLE_APPLICATION_CREDENTIALS"],
+  "models": {
+    "gemini-pro": {
+      "litellm_name": "vertex_ai/gemini-3.1-pro",
+      "usd_per_mtok_in": 2.0,
+      "usd_per_mtok_out": 12.0,
+      "kwargs": {"temperature": 0.0, "seed": 0, "drop_params": true}
+    },
+    "gemini-flash": {
+      "litellm_name": "vertex_ai/gemini-3.8-flash",
+      "usd_per_mtok_in": 1.5,
+      "usd_per_mtok_out": 7.5,
+      "kwargs": {"temperature": 0.0, "seed": 0, "drop_params": true}
+    }
+  }
+}

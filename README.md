@@ -6,7 +6,7 @@ Dự án nghiên cứu **kiểm soát rủi ro khi tái sử dụng skill đã h
 
 > **Trạng thái (01/11/2026):** đã có toàn bộ phần không cần LLM: lõi thống kê, Algorithm 1 với composite/retirement/certificate, lý thuyết đã sửa kèm test số, công cụ phân tích. **Chưa chạy thí nghiệm nào với LLM.** Mọi số trong paper là số *dự kiến*.
 >
-> **Venue:** hạn Research Track FSE 2027 (02/10/2026) đã qua. Mục tiêu mới đang chờ chốt (xem `TODO.md`, mục 0.1).
+> **Venue:** **ASE 2027** (hạn dự kiến cuối 05/2027, chờ CfP). **LLM:** Gemini qua Vertex AI, harness mini-swe-agent. Thiết lập: [`docs/vertex_setup.md`](docs/vertex_setup.md).
 
 ## Bắt đầu từ đâu
 

@@ -10,6 +10,7 @@ on:
     paths:
       - "scripts/harness_smoke.py"
       - "src/gatekeeper/loss.py"
+      - "src/gatekeeper/harness.py"
       - ".github/workflows/harness.yml"
 
 permissions:

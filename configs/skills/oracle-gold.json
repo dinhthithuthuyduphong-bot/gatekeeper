@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "oracle-gold",
+  "procedure": {
+    "kind": "edit_program",
+    "startup": "cd /testbed && git apply --whitespace=nowarn - <<'GATEKEEPER_PATCH_EOF'\n{{ patch }}\nGATEKEEPER_PATCH_EOF",
+    "_comment": "Dry-run only: applies the instance's gold patch, i.e. a perfect skill. Never use in an evaluation."
+  },
+  "fingerprints": {},
+  "input_predicates": [],
+  "postconditions": [],
+  "footprint": {"regions": [], "reads": [], "writes": [], "properties": []},
+  "capability_verdict": "approved",
+  "source": "dry-run oracle"
+}

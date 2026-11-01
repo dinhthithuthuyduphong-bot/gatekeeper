@@ -1,0 +1,104 @@
+name: Pilot (paid, Vertex AI)
+
+# COSTS MONEY. Manual only. Runs the R15 pilot with Gemini on Vertex AI.
+# Required repository secrets (Settings -> Secrets and variables -> Actions):
+#   GCP_WORKLOAD_IDENTITY_PROVIDER + GCP_SERVICE_ACCOUNT  (preferred, keyless)
+#   or GCP_SA_KEY (service-account JSON key)
+#   VERTEXAI_PROJECT, VERTEXAI_LOCATION
+# See docs/vertex_setup.md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "Run name (results/pilot/<name>.json)"
+        required: true
+        default: "r15-a"
+      model:
+        description: "Key in configs/models/vertex_gemini.json"
+        required: true
+        default: "gemini-flash"
+        type: choice
+        options: ["gemini-flash", "gemini-pro"]
+      skills:
+        description: "Comma-separated skill JSON files"
+        required: true
+        default: "configs/skills/guidance-reproduce-first.json"
+      n:
+        description: "Number of SWE-bench Verified instances"
+        required: true
+        default: "10"
+      cost_limit:
+        description: "USD cap per instance per arm (agent stops beyond it)"
+        required: true
+        default: "0.5"
+      budget_usd:
+        description: "Hard budget for the whole run (USD)"
+        required: true
+        default: "15"
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: pilot-paid
+  cancel-in-progress: false
+
+jobs:
+  pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      VERTEXAI_PROJECT: ${{ secrets.VERTEXAI_PROJECT }}
+      VERTEXAI_LOCATION: ${{ secrets.VERTEXAI_LOCATION }}
+      HAS_WIF: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER != '' }}
+      HAS_KEY: ${{ secrets.GCP_SA_KEY != '' }}
+    steps:
+      - name: Free disk space for Docker images
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          docker system prune -af || true
+      - uses: actions/checkout@v5
+      - name: Authenticate to Google Cloud (workload identity)
+        if: env.HAS_WIF == 'true'
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+      - name: Authenticate to Google Cloud (service-account key)
+        if: env.HAS_WIF != 'true' && env.HAS_KEY == 'true'
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - name: Fail early without Vertex AI credentials
+        if: env.HAS_WIF != 'true' && env.HAS_KEY != 'true'
+        run: echo "No GCP credentials configured; see docs/vertex_setup.md" && exit 1
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: pip install -e . "swebench==5.0.2" "mini-swe-agent==2.4.6"
+      - name: Run pilot
+        run: |
+          python scripts/run_pilot.py --name "${{ inputs.name }}" --model "${{ inputs.model }}" \
+            --skills "${{ inputs.skills }}" --n "${{ inputs.n }}" \
+            --cost-limit "${{ inputs.cost_limit }}" --budget-usd "${{ inputs.budget_usd }}" --workers 2
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: pilot-${{ inputs.name }}
+          path: |
+            results/pilot/
+            runs/${{ inputs.name }}/
+          if-no-files-found: warn
+      - name: Publish to pilot-snapshots branch
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin pilot-snapshots || true
+          git checkout -B pilot-snapshots
+          git add -f "results/pilot/${{ inputs.name }}.json" "runs/${{ inputs.name }}/trials.jsonl"
+          git commit -m "Pilot ${{ inputs.name }} (${{ inputs.model }}) run ${GITHUB_RUN_ID}"
+          git push -f origin pilot-snapshots
