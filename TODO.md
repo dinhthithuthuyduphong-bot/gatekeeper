@@ -63,6 +63,8 @@ Bản 1 nhìn chung **đúng và kỹ**: mình tính lại mọi số trong bả
 | R12 | Bảng công thức, dòng #4 | Dấu `\|` trong công thức làm vỡ bảng markdown. | Đã sửa định dạng. |
 | R13 | Benchmark tự dựng (yêu cầu của @thuthuy) | Bản 1 dựng SkillShift-SE gần như từ đầu: tự chọn 25 repo, tự sinh task, tự thêm test. Reviewer sẽ nghi ngờ benchmark "vừa khít" với phương pháp. | **Task và test lấy từ benchmark có thật, được công nhận rộng** (bảng 6.1), giữ nguyên test chính thức. SkillShift-SE chỉ còn là **giao thức đánh giá** đặt lên trên (split, skill, scope, nhãn), không phải dataset mới. Endpoint chính chấm bằng test chính thức; test fault-injection tự thêm chỉ dùng cho phân tích phụ, báo cáo riêng. |
 | R14 | Endpoint chính "cận dưới CI của margin > 5 điểm" (phát hiện 01/11 bằng mô phỏng power) | Với chính số dự kiến của paper (11,5% → 5,1%, margin thật 6,4) và 63 cặp harmful, power chỉ **~3–5%**; kể cả giả định thuận lợi nhất (nested) cũng cần > 2.000 cặp harmful mới đạt 74%. Endpoint như đang viết gần như **không thể đạt**, kể cả khi Gatekeeper đúng là tốt hơn 6,4 điểm. | Đổi giả thuyết chính thành **ưu thế** (cận dưới CI > 0) và báo cáo ước lượng điểm so với ngưỡng 5 điểm có ý nghĩa thực tế; tăng số cặp harmful lên **200–500**: power ưu thế 56–100% ở 200 cặp và 97–100% ở 500 cặp, tuỳ tương quan giữa hai hệ thống (đo ở pilot); với 63 cặp chỉ 26–56%. Công cụ: `analysis.endpoint_power(coupling=...)`. |
+| R15 | Hiệu ứng thật của skill (phát hiện 01/11, dữ liệu SWE-Skills-Bench) | SD thật của STR khoảng 0,03; skill dạng tài liệu gần như không đổi kết quả | Cổng G1: đo hiệu ứng skill của mình trước mọi việc khác (mục 0.1, 0.4) |
+| R16 | Predicate kích hoạt I(x) từ nội dung issue (phát hiện 01/11, `data/activation.json`) | Trên 3.991 task test: lift chỉ 1,25–1,71, precision 14–33%; `null-guard` trên train có lift 0,99 (không có tín hiệu). P_s sẽ chứa nhiều task không liên quan → hiệu ứng bị pha loãng | Thử I(x) mạnh hơn (dựa trên repo/traceback, hoặc phân loại bằng LLM rẻ, được tính chi phí); báo cáo precision/recall của I(x) trong paper; cân nhắc scope theo (họ skill, framework) với I(x) đo được |
 
 ### 0.4 Phát hiện từ dữ liệu thật (01/11/2026)
 
@@ -528,7 +530,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 **Task target (không tự sinh)**
 
 - [ ] 🤖 Lấy task target từ SWE-bench / SWE-bench-Live theo scope, ưu tiên task sau ngày cutoff của model
-- [ ] 🤖 Kiểm tra mỗi task chạy được bằng harness chính thức (gold patch pass, không flaky) · 🔧 pool 40 task Verified cho pilot G1 (`configs/pilot_pool.json`, 12 repo) đang được kiểm bằng workflow `Validate pilot pool` (gold ×2 + no-op)
+- [x] 🤖 Kiểm tra mỗi task chạy được bằng harness chính thức (gold patch pass, không flaky) · 🔧 pool 40 task Verified cho pilot G1 (`configs/pilot_pool.json`, 12 repo) đang được kiểm bằng workflow `Validate pilot pool` (gold ×2 + no-op) · ✅ pool G1: **38/40 dùng được** (loại `psf__requests-1921`: gold không giải được; `pylint-dev__pylint-8898`: nhánh no-op không sạch), run 41359076353, `results/pool_validation/summary.json`
 - [x] 🤖 Đếm task mỗi scope → đủ cho số trial ở Phase 3; thiếu thì bổ sung từ tập SWE-smith đã công bố hoặc gộp scope · ✅ **không đủ**: 0 scope (repo, version) có ≥ 219 task; lớn nhất django@3.2 = 157 (mục 0.4)
 - [ ] 👤 Chạy kiểm tra độ bền trên BugsInPy (tuỳ chọn)
 
@@ -660,7 +662,8 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 01/11/2026 | **Pilot dry run xanh** lần đầu: mini-swe-agent + Docker SWE-bench + harness + log trial, model giả + skill oracle → Z = −0,667 trên 2/2 task; digest image + commit gốc ghi tự động. Còn lại chỉ là thêm credential Vertex | run 41357916901, `results/pilot/dryrun.json` |
 | 01/11/2026 | Ước tính chi phí Gemini (dải 10×, cần đo token thật bằng n = 2); khai thác gold patch: 12 họ mẫu sửa lặp lại ở 5–11 repo train, 3.690 ứng viên cặp composition; đề xuất scope theo (họ skill, framework) | `results/cost_estimate.json`, `results/skill_mining.json`, run 41358048556 |
 | 01/11/2026 | Pool 40 task Verified cho G1 + workflow kiểm định (gold ×2, no-op); 4 skill theo họ mẫu sửa + predicate `issue_regex` (I(x) từ nội dung issue); pilot chỉ chạy nhánh skill trên task kích hoạt và chỉ lấy task đã kiểm định | `configs/pilot_pool.json`, `configs/skills/`, `scripts/run_pilot.py` |
-| 01/11/2026 | Pilot dry run đỏ ở bước publish (run 41359134995): token Actions không được sửa file workflow, mà nhánh snapshot đang được tạo lại từ `main` → `scripts/publish_snapshot.sh` chỉ thêm commit dữ liệu lên nhánh snapshot cũ, áp dụng cho cả 5 workflow | commit sau |
+| 01/11/2026 | Pilot dry run đỏ ở bước publish (run 41359134995): token Actions không được sửa file workflow, mà nhánh snapshot đang được tạo lại từ `main` → `scripts/publish_snapshot.sh` chỉ thêm commit dữ liệu lên nhánh snapshot cũ, áp dụng cho cả 5 workflow | commit 6b44613 |
+| 01/11/2026 | Kiểm định pool: 38/40 task dùng được; **R16**: predicate I(x) theo issue chỉ có lift 1,25–1,71; khung bài LaTeX IEEE + bảng tự sinh, biên dịch xanh | runs 41359076353, 41359285869, 41360404259 |
 
 ---
 
