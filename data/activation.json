@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-11-01T23:02:55+00:00",
+  "generated_utc": "2026-11-01T23:24:17+00:00",
   "n_train": 2438,
   "n_test": 3991,
   "skills": {
@@ -86,6 +86,72 @@
         "lift": 1.408562014854526,
         "activated_tasks": 705
       }
+    }
+  },
+  "selected_on_train": {
+    "null_guard": {
+      "pattern": "\\bis None\\b|\\bNone\\b.*(passed|given|returned)|returns? None",
+      "train": {
+        "activation_rate": 0.034044298605414275,
+        "precision": 0.37349397590361444,
+        "recall": 0.058161350844277676,
+        "lift": 1.7084020886548066
+      },
+      "test": {
+        "activation_rate": 0.031821598596842894,
+        "precision": 0.30708661417322836,
+        "recall": 0.05298913043478261,
+        "lift": 1.6651938548442315
+      },
+      "n_candidates": 4
+    },
+    "type_guard": {
+      "pattern": "TypeError|isinstance|not supported between|unsupported operand",
+      "train": {
+        "activation_rate": 0.1062346185397867,
+        "precision": 0.3783783783783784,
+        "recall": 0.17102966841186737,
+        "lift": 1.6099240601858404
+      },
+      "test": {
+        "activation_rate": 0.08018040591330494,
+        "precision": 0.3375,
+        "recall": 0.14173228346456693,
+        "lift": 1.7676673228346458
+      },
+      "n_candidates": 3
+    },
+    "exception_handling": {
+      "pattern": "\\braises?\\b.*\\b(should|instead|unexpected)\\b|\\bcatch\\b|\\bexcept\\b",
+      "train": {
+        "activation_rate": 0.04799015586546349,
+        "precision": 0.1452991452991453,
+        "recall": 0.08762886597938144,
+        "lift": 1.8259758569036921
+      },
+      "test": {
+        "activation_rate": 0.05186670007516913,
+        "precision": 0.21256038647342995,
+        "recall": 0.09586056644880174,
+        "lift": 1.848210244913854
+      },
+      "n_candidates": 3
+    },
+    "raise_error": {
+      "pattern": "\\binvalid\\b|\\bValueError\\b",
+      "train": {
+        "activation_rate": 0.09680065627563576,
+        "precision": 0.2330508474576271,
+        "recall": 0.13317191283292978,
+        "lift": 1.3757335740961134
+      },
+      "test": {
+        "activation_rate": 0.10473565522425457,
+        "precision": 0.23205741626794257,
+        "recall": 0.15275590551181104,
+        "lift": 1.4584899973627696
+      },
+      "n_candidates": 3
     }
   }
 }
