@@ -22,6 +22,7 @@ Dự án nghiên cứu **kiểm soát rủi ro khi tái sử dụng skill đã h
 docs/                       Tài liệu gốc (PDF) + tài liệu dự án
   theory/corrections.md     Lý thuyết đã sửa: Theorem 4′, 7′, Prop. 9, định nghĩa, metric
   baselines.md              Baseline: giữ / loại / cách chạy
+  preregistration.md        Bản nháp pre-registration (✅ đề xuất / ❓ cần quyết / ⏳ chờ pilot)
 src/gatekeeper/             Code lõi, không cần LLM
   eprocess.py               Betting e-process cho H0: STR(S, s) > -θ, tính trong log-space
   alpha_ledger.py           Sổ phân bổ α: ô (skill, scope), composite, re-admission
@@ -35,6 +36,7 @@ src/gatekeeper/             Code lõi, không cần LLM
   analysis.py               σ_T², σ_S², số trial, power, cluster bootstrap, BH, harm–coverage
   simulate.py               Mô phỏng Monte-Carlo
   composition_example.py    Phản ví dụ chạy được cho Theorem 7
+  splits.py                 Split theo repo, đếm task mỗi scope
   paper_checks.py           Tính lại mọi con số trong paper
 tests/                      pytest (chạy trong GitHub Actions)
 scripts/
@@ -44,12 +46,19 @@ scripts/
   fetch_benchmarks.py       Metadata SWE-bench, Verified, SWE-Gym, SWE-bench-Live, SWE-smith (chạy trong CI)
   check_citations.py        Tra arXiv + DBLP cho mọi trích dẫn (chạy trong CI)
   check_anonymity.py        Quét rò rỉ danh tính trước khi nộp
-data/                       Snapshot từ workflow Data snapshots (benchmarks/, citations.json)
+  make_split.py             Split train/test theo repo → data/splits/
+  design_table.py           Số trial theo số ô và θ → results/design_table.json
+  power_table.py            Power của endpoint chính → results/endpoint_power.json
+  analyze_sskb.py           Pilot ngoài trên SWE-Skills-Bench → results/sskb_analysis.json
+  harness_smoke.py          Paired trial gold/empty qua harness SWE-bench chính thức (chạy trong CI)
+data/                       Snapshot từ workflow Data snapshots (benchmarks/, splits/, citations.json)
+  external/swe-skills-bench/ Dữ liệu paired thật (MIT) dùng làm pilot ngoài, xem SOURCE.md
 results/                    Kết quả máy sinh ra (JSON)
 report/index.html           Báo cáo HTML (không sửa tay)
 .github/workflows/
   ci.yml                    Lint + test + mô phỏng + confseq + report
   data.yml                  Tải metadata benchmark + trích dẫn → nhánh data-snapshots
+  harness.yml               SWE-bench harness trên 5 task Verified → nhánh harness-snapshots
 ```
 
 ## Chạy trên máy

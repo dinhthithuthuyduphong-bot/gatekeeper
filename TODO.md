@@ -29,7 +29,7 @@ Bản 1 nhìn chung **đúng và kỹ**: mình tính lại mọi số trong bả
 | Theorem 4 thiếu hệ số 2 | Z ∈ [−1,1] độ rộng 2 → \|E_Q Z − E_P Z\| ≤ 2ξ_s | Đúng |
 | Prop. 9: tỉ lệ 1 + 2σ_T²/σ_S², bỏ "net 1,55×" | Tính lại phương sai | Đúng. Với σ_T²/σ_S² = 2,1 của paper thì tỉ lệ đúng là **5,2×**, không phải 3,1× |
 | E-process ∏(1 + λ(−θ − Z)), λ ≤ 1/(1+θ) | Kiểm tra supermartingale + không âm | Đúng |
-| Link GitHub còn sống | `git ls-remote` ngày 01/11/2026 | MemGovern, XRepoSkill, gepa, agent-skill-induction, SWE-smith, mini-swe-agent, CooperBench, confseq, ltt: **còn**. SWE-Skills-Bench: **không truy cập được** (đúng như bản 1 ghi) |
+| Link GitHub còn sống | `git ls-remote` ngày 01/11/2026 | MemGovern, XRepoSkill, gepa, agent-skill-induction, SWE-smith, mini-swe-agent, CooperBench, confseq, ltt: **còn**. `GeniusHTX/SWE-Skills-Bench` không truy cập được (đúng như bản 1 ghi), **nhưng code + dữ liệu đã có ở `ControllableModel/SWE-Skills-Bench`** (phát hiện qua abstract arXiv v2, mục 0.4) |
 | Mô phỏng khả thi | Chạy lại với bộ betting khác (bảng 4) | Cùng bậc độ lớn; bộ của mình cần nhiều trial hơn 30–50% và kém power hơn ở hiệu ứng nhỏ |
 
 ### 0.3 Những chỗ sai hoặc thiếu trong bản 1 (đã sửa trong bản này)
@@ -95,6 +95,19 @@ Lấy bằng workflow `Data snapshots` (HuggingFace, arXiv), không tốn tiền
 - Số ô (tức mức gộp scope) chỉ ảnh hưởng theo log(1/α): từ 1.600 ô xuống 10 ô chỉ giảm khoảng 1,5 lần.
 - **Đòn bẩy lớn nhất là θ** (khoảng cách |STR| − θ): hạ θ từ 0,05 xuống 0,02 giảm khoảng 2 lần với hiệu ứng nhỏ. Nhưng θ nhỏ nghĩa là chấp nhận skill chỉ giúp 2 điểm, nên phải bàn với người hướng dẫn và pre-register.
 - Mỗi cặp trial = 2 lần chạy agent + test. Skill có hiệu ứng −0,10 cần khoảng 2.000–5.000 lần chạy cho mỗi ô; đây là con số để ước chi phí pilot.
+
+**Pilot ngoài trên dữ liệu paired thật** (SWE-Skills-Bench, MIT, 3.920 cặp; `scripts/analyze_sskb.py` → `results/sskb_analysis.json`). Chỉ dùng để ước lượng tham số, không phải benchmark:
+
+| Đại lượng | Giá trị | Hệ quả |
+| --- | --- | --- |
+| σ_T² / σ_S² | 0,067 / 0,040 | **Pairing tiết kiệm 4,3×** (Prop. 9 đã sửa). Thiết kế paired được ủng hộ bằng dữ liệu thật |
+| Cặp có Z = 0 | 69% | Phần lớn skill không đổi kết quả |
+| SD thật của STR giữa các ô (đã trừ nhiễu) | 0,032 | Chỉ 20% phương sai quan sát là thật; khoảng 6% skill có STR thật ≤ −0,05 |
+| Trial tối thiểu để admit skill **hoàn hảo** | 9–23 (θ, α) | 10 requirement mỗi skill như SWE-Skills-Bench là không đủ; e-process admit 0/392 ô với 5 trial |
+| Plug-in "trung bình 5 trial ≤ −θ", chấm trên 5 trial còn lại | harmful acc. 18,5–29,8% | Admission không có thống kê hợp lệ admit nhầm nhiều skill có hại |
+| Tương quan hiệu ứng giữa cấu hình / độ tin cậy trong cấu hình | 0,07 / 0,16 | Quá nhiễu để kết luận về phụ thuộc ngữ cảnh |
+
+**R15 (rủi ro go/no-go lớn nhất).** Với skill dạng tài liệu, hiệu ứng thật quá nhỏ để admission hợp lệ có ý nghĩa thực tế. Đề tài chỉ khả thi nếu skill dạng *edit program* của Gatekeeper có hiệu ứng lớn hơn rõ rệt (|STR| ≳ 0,15). **Đây là điều pilot phải đo đầu tiên**, trước mọi việc khác ở Phase 3.
 
 ---
 
@@ -202,7 +215,7 @@ Dưới H0, E_n là supermartingale không âm, E_0 = 1; bất đẳng thức Vi
 Ghi chú: trung vị chỉ tính trên các lần được admit nên ở dòng hiệu ứng nhỏ con số bị lệch (vì vậy −0,08 của bản 1 thấp hơn −0,10). Bộ betting tốt hơn có thể giảm 20–40%, nhưng bậc độ lớn không đổi. Hệ quả:
 
 - **Thiếu task (nghiêm trọng hơn bản 1 nói).** Mỗi scope cần hàng trăm task *khác nhau* có test (R2). SWE-bench mỗi repo chỉ có vài chục đến vài trăm task (django ~850, nhiều repo < 50). Chỉ được lấy thêm từ các benchmark chuẩn ở bảng 6.1 (R13); nếu vẫn thiếu thì gộp scope thô hơn hoặc chấp nhận bound theo pool.
-- **Hiệu ứng thật nhỏ.** SWE-Skills-Bench: ~80% trong 49 skill không đổi pass rate, trung bình +1,2%. Skill có STR ≈ −θ gần như **không bao giờ** được admit. "Clean reuse 84,3%" rất khó đạt.
+- **Hiệu ứng thật nhỏ.** SWE-Skills-Bench (arXiv v2; số của bản 1 lấy từ v1 đã lỗi thời): 98 skill, **92/98 không có tác dụng đáng kể**, pass ratio trung bình chỉ 76,6% → 76,9%, skill có hại làm giảm tới −17 điểm. Phân tích lại dữ liệu thật của họ (mục 0.4): SD thật của STR chỉ khoảng 0,03. Skill có STR ≈ −θ gần như **không bao giờ** được admit. "Clean reuse 84,3%" rất khó đạt.
 - **Chi phí.** Ước tính gốc ~900 triệu token, 10–15 nghìn USD, ~15.000 CPU-giờ. Nếu mỗi ô cần 200–800 cặp, con số có thể tăng nhiều lần.
 
 **Cách giảm rủi ro:** (1) pilot đo σ_S² và hiệu ứng thật trước; (2) chỉ test ô có reuse thật; (3) θ lớn hơn hoặc FDR (đổi định lý, R8); (4) model open-weight để giảm tiền API; (5) đặt **trần chi phí cho pilot** (vd ≤ 1.500 USD) trước khi chạy.
@@ -233,7 +246,7 @@ Nguyên tắc: chỉ giữ baseline có code công khai, không tự cài lại 
 
 **Công cụ có code:** [SWE-bench harness](https://github.com/SWE-bench/SWE-bench), [SWE-smith](https://github.com/SWE-bench/SWE-smith), [mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent), [CooperBench](https://github.com/cooperbench/CooperBench) (preprint 2026, chưa được công nhận rộng → chỉ dùng tham khảo, không làm nguồn dữ liệu chính), [confseq](https://github.com/gostevehoward/confseq) (cần Boost), [LTT](https://github.com/aangelopoulos/ltt), [conformal-risk](https://github.com/aangelopoulos/conformal-risk).
 
-**Lưu ý:** SWE-Skills-Bench (`GeniusHTX/SWE-Skills-Bench`) vẫn không truy cập được → chỉ trích dẫn. Hầu hết paper skill 2026 là preprint: ghi rõ phiên bản arXiv và commit code.
+**Lưu ý:** SWE-Skills-Bench đã công bố code + dữ liệu tại [ControllableModel/SWE-Skills-Bench](https://github.com/ControllableModel/SWE-Skills-Bench) (MIT); dùng dữ liệu paired của họ làm **pilot ngoài** (mục 0.4), không làm benchmark. Hầu hết paper skill 2026 là preprint: ghi rõ phiên bản arXiv và commit code.
 
 **Go/no-go viết lại:** "≥ 5 điểm harmful acceptance so với XRepoSkill (+ fingerprint screen của chính Gatekeeper), so trên đường harm–coverage", pre-register lại.
 
@@ -316,8 +329,9 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 **Đọc paper (đúng thứ tự)**
 
 - [ ] 👤 XRepoSkill → 1 trang ghi chú: tìm rule, verify (Mantel–Haenszel), chọn rule cho issue
-- [ ] 👤 GSE → replay verification hoạt động thế nào, vì sao không làm baseline được
-- [ ] 👤 SWE-Skills-Bench → cách đo paired có/không skill và tỉ lệ skill gây hại
+- [ ] 👤 GSE → replay verification hoạt động thế nào, vì sao không làm baseline được · 🔧 theo abstract: GSE đánh giá trên **sinh test lộ bug và lọc false-positive bug report**, không phải sửa code; dùng Skill Relation Graph + replay verification
+- [ ] 👤 SWE-Skills-Bench → cách đo paired có/không skill và tỉ lệ skill gây hại · 🔧 tóm tắt + phân tích dữ liệu thật ở mục 0.4
+- [ ] 👤 HSE (Hierarchical Skill Evolution, arXiv 2610.35616) → **công trình sát nhất**: học skill từ SWE-Gym, đánh giá trên SWE-bench Verified (trùng split của mình); ghi rõ Gatekeeper khác gì (HSE không có admission theo target)
 - [ ] 👤 MemGovern → 5 dòng tóm tắt
 - [ ] 👤 gskill (GEPA) → 5 dòng tóm tắt
 - [ ] 👤 ASI → 5 dòng + nhận xét port sang coding khó không
@@ -442,6 +456,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 
 **Chuẩn bị**
 
+- [ ] 👤💰 **Đầu tiên (R15):** đo hiệu ứng của 3–5 skill dạng edit program trên 1 repo, khoảng 30 cặp mỗi skill → nếu |STR| < 0,1 cho mọi skill thì dừng, thu hẹp hoặc đổi hướng trước khi chi thêm
 - [ ] 👤 Đặt trần chi phí pilot (vd ≤ 1.500 USD)
 - [ ] 👤 Chọn 2 repo (1 cùng framework, 1 khác framework)
 - [ ] 👤 Chọn 10 skill, tạo 20–30 cặp skill/context
@@ -451,7 +466,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 **Đo đạc**
 
 - [ ] 👤💰 ≥ 30 cặp trial cho mỗi cặp skill/context
-- [ ] 🤖 Ước lượng σ_S², σ_T² và hiệu ứng thật trung bình · 🔧 công cụ sẵn: `analysis.variance_components`, chờ dữ liệu pilot
+- [ ] 🤖 Ước lượng σ_S², σ_T² và hiệu ứng thật trung bình · 🔧 công cụ sẵn: `analysis.variance_components`, chờ dữ liệu pilot; ước lượng ngoài từ SWE-Skills-Bench: σ_T² = 0,067, σ_S² = 0,040, pairing 4,3×
 - [ ] 🤖 Số trial cần mỗi ô với α đã phân bổ (Prop. 9 đã sửa + mô phỏng) · 🔧 công cụ sẵn: `analysis.trials_needed`; bảng thiết kế `results/design_table.json` (mục 0.4)
 - [x] 🤖 Đếm số task khác nhau có được mỗi scope → đủ cho số trial không (R2) · ✅ **không đủ** cho phương án (a), xem mục 0.4
 - [ ] 🤖 Power analysis: cần bao nhiêu cặp harmful để phát hiện margin 5 điểm với power 80% (R4) · 🔧 công cụ sẵn: `analysis.endpoint_power`; kết quả với số dự kiến của paper: `results/endpoint_power.json` → R14
@@ -609,6 +624,8 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 01/11/2026 | Data snapshot đầu tiên: 5 benchmark, split theo repo; **R2 xác nhận**: 0 scope có ≥ 219 task; 7 tiêu đề trích dẫn sai | run 41331567384, `data/`, mục 0.4 |
 | 01/11/2026 | Bảng thiết kế: số ô chỉ ảnh hưởng theo log, θ là đòn bẩy chính (θ 0,05 → 0,02 giảm ~2× trial) | `results/design_table.json`, mục 0.4 |
 | 01/11/2026 | **R14**: endpoint chính (margin > 5 điểm) có power ~5% với số của chính paper → đề xuất kiểm định ưu thế + 200–500 cặp harmful; bản nháp pre-registration | `analysis.endpoint_power`, `tests/test_analysis.py::test_paper_endpoint_is_underpowered`, `docs/preregistration.md` |
+| 01/11/2026 | Harness smoke đỏ 2 lần (`--cache_level` không còn; swebench 5 cần dataset `SWE-bench/SWE-bench_Verified`) → sửa, ghim `swebench==5.0.2` | runs 41334781481, 41335112903 |
+| 01/11/2026 | Abstract arXiv: SWE-Skills-Bench đã có code/dữ liệu (ControllableModel), số v2 khác v1; GSE không làm sửa code; HSE trùng split → **pilot ngoài trên 3.920 cặp thật: pairing 4,3×, SD thật của STR ≈ 0,03, R15** | `data/external/swe-skills-bench/`, `results/sskb_analysis.json`, mục 0.4 |
 
 ---
 

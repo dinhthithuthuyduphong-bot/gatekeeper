@@ -264,6 +264,45 @@ def power_html(d: dict | None) -> str:
     )
 
 
+def sskb_html(d: dict | None) -> str:
+    if not d:
+        return "<p class='muted'>Chưa có <code>results/sskb_analysis.json</code>.</p>"
+    vc = d["variance_components"]["all"]
+    es = d["effect_sizes"]
+    cd = d["context_dependence"]
+    nm = d["min_trials_perfect_skill"]
+    adm = d["split_half_admission"]
+    adm_rows = "".join(
+        f"<tr><td>{esc(k)}</td><td class='n'>{v['labels']['harmful']}/{v['labels']['beneficial']}</td>"
+        f"<td class='n'>{pct(v['plugin']['harmful_acceptance'])} / {pct(v['plugin']['clean_reuse_coverage'])}</td>"
+        f"<td class='n'>{v['eprocess']['admitted']}</td></tr>"
+        for k, v in adm.items()
+        if "98 skills" in k
+    )
+    nm_rows = ", ".join(f"{esc(k)}: <b>{v}</b>" for k, v in nm.items())
+    return f"""
+<p>Dữ liệu paired thật, công khai (MIT): {num(d["n_rows"])} cặp có/không skill, {d["n_skills"]} skill ×
+{len(d["configs"])} cấu hình agent × model (<code>data/external/swe-skills-bench/</code>). Chỉ dùng để ước lượng
+tham số cho pilot, <b>không</b> phải benchmark đánh giá.</p>
+<div class="tbl"><table><thead><tr><th>Đại lượng</th><th>Giá trị</th><th>Ý nghĩa</th></tr></thead><tbody>
+<tr><td>σ<sub>T</sub>² (độ khó task, chung 2 nhánh)</td><td class="n">{vc["sigma_T2"]:.3f}</td><td rowspan="3">Pairing tiết kiệm
+<b>{vc["unpaired_over_paired"]:.1f}×</b> số trial (Prop. 9 đã sửa). Paper dự kiến 3,1× (công thức sai).</td></tr>
+<tr><td>σ<sub>S</sub>² (nhiễu của hiệu số)</td><td class="n">{vc["sigma_S2"]:.3f}</td></tr>
+<tr><td>1 + 2σ<sub>T</sub>²/σ<sub>S</sub>²</td><td class="n">{vc["unpaired_over_paired"]:.2f}</td></tr>
+<tr><td>Cặp có Z = 0 đúng tuyệt đối</td><td class="n">{pct(d["paired_differences"]["frac_exactly_zero"])}</td><td>Phần lớn skill không đổi kết quả</td></tr>
+<tr><td>SD thật của STR giữa các ô (đã trừ nhiễu)</td><td class="n">{es["estimated_true_sd"]:.3f}</td><td>Chỉ {pct(es["share_true_variance"])} phương sai quan sát là tín hiệu thật</td></tr>
+<tr><td>Tương quan hiệu ứng giữa cấu hình / độ tin cậy trong cấu hình</td><td class="n">{cd["mean_cross_config_r"]:.2f} / {cd["mean_within_config_reliability"]:.2f}</td><td>Quá nhiễu để kết luận về phụ thuộc ngữ cảnh</td></tr>
+</tbody></table></div>
+<p>Số trial tối thiểu để admit ngay cả skill hoàn hảo (Z = −1 mọi lần): {nm_rows}.</p>
+<div class="tbl"><table><thead><tr><th>Admission trên 5 requirement, chấm trên 5 còn lại</th><th>Ô harmful / beneficial</th>
+<th>Plug-in "trung bình ≤ −θ": harmful acc. / coverage</th><th>E-process (hợp lệ): số ô admit</th></tr></thead>
+<tbody>{adm_rows}</tbody></table></div>
+<p><b>Hệ quả cho go/no-go.</b> Với skill dạng tài liệu (<code>SKILL.md</code>), hiệu ứng thật quá nhỏ: admission hợp lệ
+cần hàng nghìn trial mỗi ô (bảng thiết kế 5.3), còn admission plug-in thì admit nhầm nhiều skill có hại.
+Đề tài chỉ khả thi nếu skill dạng <i>edit program</i> của Gatekeeper có hiệu ứng lớn hơn rõ rệt. Đây là điều
+đầu tiên pilot phải đo.</p>"""
+
+
 def split_html(sp: dict | None) -> str:
     if not sp:
         return "<p class='muted'>Chưa có <code>data/splits/split_v0.json</code>.</p>"
@@ -480,6 +519,7 @@ def build() -> str:
     sp_html = split_html(load_json("data/splits/split_v0.json"))
     design = design_html(load_json("results/design_table.json"))
     power = power_html(load_json("results/endpoint_power.json"))
+    sskb = sskb_html(load_json("results/sskb_analysis.json"))
 
     build_line = f"Build {esc(sha)} · {esc(now)}"
     if run_url:
@@ -571,7 +611,9 @@ trong 2.000 cặp trial. Mỗi ô cần hàng trăm task khác nhau, nhiều hơ
 {design}
 <h3>5.4 Power của endpoint chính</h3>
 {power}
-<h3>5.5 Đối chiếu với confseq</h3>
+<h3>5.5 Pilot ngoài trên dữ liệu paired thật (SWE-Skills-Bench)</h3>
+{sskb}
+<h3>5.6 Đối chiếu với confseq</h3>
 {cross_html}
 
 <h2 id="benchmark">6. Benchmark chuẩn được dùng</h2>

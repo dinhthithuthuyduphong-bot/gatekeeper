@@ -1,0 +1,215 @@
+{
+  "source": "data/external/swe-skills-bench/ALL_combined_cells.csv",
+  "n_rows": 3920,
+  "configs": [
+    "claude__Kimi-K2.6",
+    "claude__haiku-4-5",
+    "codex__Kimi-K2.6",
+    "codex__gpt-5.4-mini"
+  ],
+  "n_skills": 98,
+  "variance_components": {
+    "all": {
+      "n": 3920,
+      "n_tasks": 3920,
+      "mean_Z": -0.0034331632653061225,
+      "sigma_S2": 0.040477176445209366,
+      "sigma_T2": 0.06693572463202539,
+      "unpaired_over_paired": 4.307331711866355
+    },
+    "per_config": {
+      "claude__Kimi-K2.6": {
+        "n": 980,
+        "n_tasks": 980,
+        "mean_Z": -0.006422448979591836,
+        "sigma_S2": 0.036914121661003524,
+        "sigma_T2": 0.06129464734214419,
+        "unpaired_over_paired": 4.32093218443805
+      },
+      "claude__haiku-4-5": {
+        "n": 980,
+        "n_tasks": 980,
+        "mean_Z": -0.0025989795918367332,
+        "sigma_S2": 0.04215291664860019,
+        "sigma_T2": 0.07136655962143808,
+        "unpaired_over_paired": 4.386079317660123
+      },
+      "codex__Kimi-K2.6": {
+        "n": 980,
+        "n_tasks": 980,
+        "mean_Z": 0.0028683673469387726,
+        "sigma_S2": 0.0523306108471785,
+        "sigma_T2": 0.05741433845239839,
+        "unpaired_over_paired": 3.1942926911388803
+      },
+      "codex__gpt-5.4-mini": {
+        "n": 980,
+        "n_tasks": 980,
+        "mean_Z": -0.007579591836734694,
+        "sigma_S2": 0.030568491105042638,
+        "sigma_T2": 0.07681453025786397,
+        "unpaired_over_paired": 6.025732542303503
+      }
+    }
+  },
+  "paired_differences": {
+    "mean": -0.0034331632653061225,
+    "frac_exactly_zero": 0.6915816326530613,
+    "frac_abs_ge_0.05": 0.24642857142857144
+  },
+  "effect_sizes": {
+    "n_cells": 392,
+    "quantiles": {
+      "min": -0.4134,
+      "p05": -0.1087,
+      "p25": -0.02,
+      "p50": 0.0,
+      "p75": 0.0135,
+      "p95": 0.1036,
+      "max": 0.2279
+    },
+    "observed_sd_of_cell_means": 0.0703352085177231,
+    "noise_sd_of_cell_means": 0.06283349167233158,
+    "estimated_true_sd": 0.03160686446793838,
+    "share_true_variance": 0.20193763685576807,
+    "frac_le_minus": {
+      "0.02": 0.25255102040816324,
+      "0.05": 0.15306122448979592,
+      "0.1": 0.0663265306122449
+    },
+    "frac_gt_plus": {
+      "0.0": 0.4260204081632653,
+      "0.02": 0.19642857142857142,
+      "0.05": 0.14285714285714285,
+      "0.1": 0.058673469387755105
+    }
+  },
+  "context_dependence": {
+    "cross_config_r": {
+      "claude__Kimi-K2.6 vs claude__haiku-4-5": 0.13505868952823613,
+      "claude__Kimi-K2.6 vs codex__Kimi-K2.6": 0.021597726155291957,
+      "claude__Kimi-K2.6 vs codex__gpt-5.4-mini": 0.18799140161973873,
+      "claude__haiku-4-5 vs codex__Kimi-K2.6": 0.21150397362319664,
+      "claude__haiku-4-5 vs codex__gpt-5.4-mini": -0.10544564461366025,
+      "codex__Kimi-K2.6 vs codex__gpt-5.4-mini": -0.01627387317706468
+    },
+    "mean_cross_config_r": 0.07240537885595642,
+    "within_config_reliability": {
+      "claude__Kimi-K2.6": {
+        "split_half_r": 0.027715921855940615,
+        "spearman_brown_r": 0.05393693192159316
+      },
+      "claude__haiku-4-5": {
+        "split_half_r": -0.16999561995424586,
+        "spearman_brown_r": -0.40962583822720267
+      },
+      "codex__Kimi-K2.6": {
+        "split_half_r": 0.26388861672774055,
+        "spearman_brown_r": 0.4175820768304077
+      },
+      "codex__gpt-5.4-mini": {
+        "split_half_r": 0.4038242631595317,
+        "spearman_brown_r": 0.5753202502009196
+      }
+    },
+    "mean_within_config_reliability": 0.15930335518142946,
+    "skills_helpful_in_one_config_harmful_in_another": 20,
+    "skills_helpful_in_one_config_harmful_in_another_frac": 0.20408163265306123
+  },
+  "min_trials_perfect_skill": {
+    "theta=0.02, single cell (0.05)": 9,
+    "theta=0.02, 98 skills x 1 scope": 22,
+    "theta=0.05, single cell (0.05)": 10,
+    "theta=0.05, 98 skills x 1 scope": 23
+  },
+  "split_half_admission": {
+    "theta=0.02, single cell (0.05)": {
+      "labels": {
+        "harmful": 151,
+        "beneficial": 94,
+        "neutral": 147
+      },
+      "plugin": {
+        "admitted": 99,
+        "harmful_acceptance": 0.2980132450331126,
+        "clean_reuse_coverage": 0.3617021276595745
+      },
+      "eprocess": {
+        "admitted": 0,
+        "harmful_acceptance": 0.0,
+        "clean_reuse_coverage": 0.0
+      },
+      "B2": {
+        "admitted": 392,
+        "harmful_acceptance": 1.0,
+        "clean_reuse_coverage": 1.0
+      }
+    },
+    "theta=0.02, 98 skills x 1 scope": {
+      "labels": {
+        "harmful": 151,
+        "beneficial": 94,
+        "neutral": 147
+      },
+      "plugin": {
+        "admitted": 99,
+        "harmful_acceptance": 0.2980132450331126,
+        "clean_reuse_coverage": 0.3617021276595745
+      },
+      "eprocess": {
+        "admitted": 0,
+        "harmful_acceptance": 0.0,
+        "clean_reuse_coverage": 0.0
+      },
+      "B2": {
+        "admitted": 392,
+        "harmful_acceptance": 1.0,
+        "clean_reuse_coverage": 1.0
+      }
+    },
+    "theta=0.05, single cell (0.05)": {
+      "labels": {
+        "harmful": 151,
+        "beneficial": 61,
+        "neutral": 180
+      },
+      "plugin": {
+        "admitted": 68,
+        "harmful_acceptance": 0.18543046357615894,
+        "clean_reuse_coverage": 0.39344262295081966
+      },
+      "eprocess": {
+        "admitted": 0,
+        "harmful_acceptance": 0.0,
+        "clean_reuse_coverage": 0.0
+      },
+      "B2": {
+        "admitted": 392,
+        "harmful_acceptance": 1.0,
+        "clean_reuse_coverage": 1.0
+      }
+    },
+    "theta=0.05, 98 skills x 1 scope": {
+      "labels": {
+        "harmful": 151,
+        "beneficial": 61,
+        "neutral": 180
+      },
+      "plugin": {
+        "admitted": 68,
+        "harmful_acceptance": 0.18543046357615894,
+        "clean_reuse_coverage": 0.39344262295081966
+      },
+      "eprocess": {
+        "admitted": 0,
+        "harmful_acceptance": 0.0,
+        "clean_reuse_coverage": 0.0
+      },
+      "B2": {
+        "admitted": 392,
+        "harmful_acceptance": 1.0,
+        "clean_reuse_coverage": 1.0
+      }
+    }
+  }
+}
