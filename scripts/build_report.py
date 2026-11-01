@@ -260,7 +260,7 @@ def citations_html(c: dict | None) -> str:
         )
         rows.append(
             f"<tr><td>{esc(r['key'])}{flag}<br><span class='muted'>paper ghi: "
-            f"{esc(r.get('draft_title', ''))}</span></td><td><code>{esc(r['arxiv_id'])}</code></td>"
+            f"{esc(r.get('draft_title') or '—')}</span></td><td><code>{esc(r['arxiv_id'])}</code></td>"
             f"<td class='{'ok' if ok else 'bad'}'>{'có' if ok else 'không thấy'}</td>{sim_td}"
             f"<td>{esc(r.get('title', ''))}<br><span class='muted'>{esc(authors)}"
             f" · {esc(r.get('published', ''))}</span></td></tr>"

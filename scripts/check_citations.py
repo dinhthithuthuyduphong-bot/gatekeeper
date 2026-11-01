@@ -12,13 +12,15 @@ import json
 import re
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
 
-# (key used in the paper / TODO, arXiv id, title the draft attributes, placeholder in refs?)
+# (key, arXiv id, full title as written in the draft or TODO (None = not cited by full title),
+#  draft uses placeholder authors?)
 ARXIV = [
     # titles exactly as printed in the draft's reference list (docs/02-...reading-list.pdf)
     (
@@ -64,14 +66,24 @@ ARXIV = [
         "SWE-bench-Live: A continuously updated benchmark for LLM-based software engineering",
         False,
     ),
-    ("XRepoSkill", "2609.36807", "XRepoSkill", False),
-    ("SWE-Skills-Bench", "2603.15401", "SWE-Skills-Bench", False),
-    ("ASI", "2504.06821", "Inducing programmatic skills", False),
-    ("CODESKILL", "2605.25430", "CODESKILL", False),
-    ("Hierarchical Skill Evolution", "2610.35616", "Hierarchical skill evolution", False),
-    ("SWE-bench", "2310.06770", "SWE-bench", False),
-    ("SWE-Gym", "2412.21139", "SWE-Gym", False),
-    ("SWE-smith", "2504.21798", "SWE-smith", False),
+    ("XRepoSkill", "2609.36807", "XRepoSkill: Learning Transferable Skills for SWE Agents", False),
+    ("SWE-Skills-Bench", "2603.15401", None, False),
+    ("ASI", "2504.06821", "Inducing Programmatic Skills for Agentic Tasks", False),
+    ("CODESKILL", "2605.25430", None, False),
+    (
+        "Hierarchical Skill Evolution",
+        "2610.35616",
+        "Hierarchical Skill Evolution for Coding Agent",
+        False,
+    ),
+    (
+        "SWE-bench [11]",
+        "2310.06770",
+        "SWE-bench: Can language models resolve real-world GitHub issues?",
+        False,
+    ),
+    ("SWE-Gym", "2412.21139", None, False),
+    ("SWE-smith", "2504.21798", None, False),
 ]
 DBLP_TITLES = {
     "SWE-bench": "SWE-bench: Can Language Models Resolve Real-world Github Issues?",
@@ -153,7 +165,17 @@ def s2_lookup(title: str) -> list[dict]:
     q = urllib.parse.urlencode(
         {"query": title, "limit": 3, "fields": "title,venue,year,publicationVenue,externalIds"}
     )
-    data = json.loads(_get(f"https://api.semanticscholar.org/graph/v1/paper/search?{q}"))
+    url = f"https://api.semanticscholar.org/graph/v1/paper/search?{q}"
+    for wait in (0, 5, 15, 40):  # unauthenticated S2 is rate-limited: back off on 429
+        time.sleep(wait)
+        try:
+            data = json.loads(_get(url))
+            break
+        except urllib.error.HTTPError as exc:
+            if exc.code != 429:
+                raise
+    else:
+        raise RuntimeError("semantic scholar: rate limited (429) after retries")
     return [
         {
             "title": d.get("title"),
@@ -183,7 +205,9 @@ def main() -> int:
                 "draft_title": draft_title,
                 "draft_uses_placeholder_authors": placeholder,
                 "exists_on_arxiv": rec is not None,
-                "title_similarity": title_similarity(draft_title, rec["title"]) if rec else None,
+                "title_similarity": (
+                    title_similarity(draft_title, rec["title"]) if rec and draft_title else None
+                ),
                 **(rec or {}),
             }
         )
