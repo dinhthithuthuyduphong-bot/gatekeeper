@@ -122,6 +122,7 @@ def arxiv_lookup(ids: list[str]) -> dict[str, dict]:
             "title": title,
             "authors": [a.findtext("a:name", "", NS) for a in e.findall("a:author", NS)],
             "published": (e.findtext("a:published", "", NS) or "")[:10],
+            "abstract": " ".join((e.findtext("a:summary", "", NS) or "").split()),
             "updated": (e.findtext("a:updated", "", NS) or "")[:10],
         }
     return out
@@ -222,6 +223,15 @@ def main() -> int:
             except Exception as exc2:  # noqa: BLE001
                 dblp[k] = [{"error": f"dblp: {exc}; s2: {exc2!r}"}]
         time.sleep(3)  # be polite
+    # keep a previous successful lookup when this run was rate-limited or blocked
+    prev_path = Path("data/citations.json")
+    if prev_path.exists():
+        prev = json.loads(prev_path.read_text(encoding="utf-8")).get("dblp", {})
+        for k, hits in dblp.items():
+            failed = all("error" in h for h in hits)
+            old = prev.get(k, [])
+            if failed and old and not all("error" in h for h in old):
+                dblp[k] = old
     result["dblp"] = dblp
     Path("data").mkdir(exist_ok=True)
     Path("data/citations.json").write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n")

@@ -82,6 +82,19 @@ Lấy bằng workflow `Data snapshots` (HuggingFace, arXiv), không tốn tiền
 
 [15] ReasoningBank và [16] TMA-NM không có mã arXiv trong paper → phải tìm và kiểm tra tay.
 
+**Bảng thiết kế** (`results/design_table.json`, `scripts/design_table.py`): số cặp trial mỗi ô để admit với power 80%.
+
+| θ | Số ô | STR −0,25 | STR −0,15 | STR −0,10 |
+| --- | --- | --- | --- | --- |
+| 0,05 | 10 | 193 | 696 | 2.521 |
+| 0,05 | 1.600 | 327 | 1.138 | > 3.000 |
+| 0,02 | 10 | 141 | 390 | 960 |
+| 0,02 | 1.600 | 241 | 662 | 1.581 |
+
+- Số ô (tức mức gộp scope) chỉ ảnh hưởng theo log(1/α): từ 1.600 ô xuống 10 ô chỉ giảm khoảng 1,5 lần.
+- **Đòn bẩy lớn nhất là θ** (khoảng cách |STR| − θ): hạ θ từ 0,05 xuống 0,02 giảm khoảng 2 lần với hiệu ứng nhỏ. Nhưng θ nhỏ nghĩa là chấp nhận skill chỉ giúp 2 điểm, nên phải bàn với người hướng dẫn và pre-register.
+- Mỗi cặp trial = 2 lần chạy agent + test. Skill có hiệu ứng −0,10 cần khoảng 2.000–5.000 lần chạy cho mỗi ô; đây là con số để ước chi phí pilot.
+
 ---
 
 ## 1. Đề tài nói gì (cho người mới)
@@ -438,7 +451,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 
 - [ ] 👤💰 ≥ 30 cặp trial cho mỗi cặp skill/context
 - [ ] 🤖 Ước lượng σ_S², σ_T² và hiệu ứng thật trung bình · 🔧 công cụ sẵn: `analysis.variance_components`, chờ dữ liệu pilot
-- [ ] 🤖 Số trial cần mỗi ô với α đã phân bổ (Prop. 9 đã sửa + mô phỏng) · 🔧 công cụ sẵn: `analysis.trials_needed`
+- [ ] 🤖 Số trial cần mỗi ô với α đã phân bổ (Prop. 9 đã sửa + mô phỏng) · 🔧 công cụ sẵn: `analysis.trials_needed`; bảng thiết kế `results/design_table.json` (mục 0.4)
 - [x] 🤖 Đếm số task khác nhau có được mỗi scope → đủ cho số trial không (R2) · ✅ **không đủ** cho phương án (a), xem mục 0.4
 - [ ] 🤖 Power analysis: cần bao nhiêu cặp harmful để phát hiện margin 5 điểm với power 80% (R4) · 🔧 công cụ sẵn: `analysis.endpoint_power`
 - [ ] 👤 Ước lượng lại tổng chi phí
@@ -593,6 +606,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 01/11/2026 | Công cụ Phase 2/3/6/7/8: baseline B1/B2/B8/B9, log chạy tiếp được (sửa bug dòng ghi dở), chi phí, σ, power, bootstrap, BH, harm–coverage, sweep w, kiểm tra ẩn danh | `baselines.py`, `runlog.py`, `analysis.py`, `scripts/check_anonymity.py` |
 | 01/11/2026 | Workflow `Data snapshots`: metadata benchmark (HuggingFace) + trích dẫn (arXiv, DBLP), vì máy dev bị chặn các host này | `.github/workflows/data.yml` |
 | 01/11/2026 | Data snapshot đầu tiên: 5 benchmark, split theo repo; **R2 xác nhận**: 0 scope có ≥ 219 task; 7 tiêu đề trích dẫn sai | run 41331567384, `data/`, mục 0.4 |
+| 01/11/2026 | Bảng thiết kế: số ô chỉ ảnh hưởng theo log, θ là đòn bẩy chính (θ 0,05 → 0,02 giảm ~2× trial) | `results/design_table.json`, mục 0.4 |
 
 ---
 

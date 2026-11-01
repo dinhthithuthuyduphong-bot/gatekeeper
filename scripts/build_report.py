@@ -210,6 +210,31 @@ def benchmarks_html(summary: dict | None, sim: dict | None) -> str:
     )
 
 
+def design_html(d: dict | None) -> str:
+    if not d:
+        return "<p class='muted'>Chưa có <code>results/design_table.json</code>.</p>"
+    effs = list(d["rows"][0]["trials"].keys())
+    head = "".join(f"<th>STR {e.replace('.', ',')}</th>" for e in effs)
+    body = "".join(
+        f"<tr><td class='n'>{str(r['theta']).replace('.', ',')}</td><td class='n'>{num(r['cells'])}</td>"
+        f"<td class='n'>{r['alpha_cell']:.1e}</td>"
+        + "".join(
+            f"<td class='n'>{num(r['trials'][e]) if r['trials'][e] else '&gt; ' + num(d['max_budget'])}</td>"
+            for e in effs
+        )
+        + "</tr>"
+        for r in d["rows"]
+    )
+    return (
+        "<div class='tbl'><table><thead><tr><th>θ</th><th>Số ô chia α</th><th>α mỗi ô</th>"
+        f"{head}</tr></thead><tbody>{body}</tbody></table></div>"
+        f"<p>Số cặp trial mỗi ô để admit với power {int(d['power'] * 100)}%. "
+        "<b>Đọc bảng:</b> số ô chỉ ảnh hưởng theo log(1/α), nên gộp scope giúp ít. Khoảng cách "
+        "|STR| − θ mới quyết định chi phí: hạ θ từ 0,05 xuống 0,02 giảm khoảng 2 lần số trial với "
+        "hiệu ứng nhỏ. Mỗi cặp trial là 2 lần chạy agent + test.</p>"
+    )
+
+
 def split_html(sp: dict | None) -> str:
     if not sp:
         return "<p class='muted'>Chưa có <code>data/splits/split_v0.json</code>.</p>"
@@ -424,6 +449,7 @@ def build() -> str:
     bench_html = benchmarks_html(load_json("data/benchmarks/summary.json"), sim)
     cite_html = citations_html(load_json("data/citations.json"))
     sp_html = split_html(load_json("data/splits/split_v0.json"))
+    design = design_html(load_json("results/design_table.json"))
 
     build_line = f"Build {esc(sha)} · {esc(now)}"
     if run_url:
@@ -511,7 +537,9 @@ khoảng 1.600 ô (94 skill × 17 scope)?</p>
 <p><b>Hệ quả.</b> Skill có hiệu ứng cỡ −0,05 đến −0,10 (thường gặp theo SWE-Skills-Bench) hầu như không được admit
 trong 2.000 cặp trial. Mỗi ô cần hàng trăm task khác nhau, nhiều hơn số task mỗi repo của SWE-bench.
 Đây là rủi ro lớn nhất, phải đo ở pilot (Phase 3).</p>
-<h3>5.3 Đối chiếu với confseq</h3>
+<h3>5.3 Bảng thiết kế: số trial theo số ô và θ</h3>
+{design}
+<h3>5.4 Đối chiếu với confseq</h3>
 {cross_html}
 
 <h2 id="benchmark">6. Benchmark chuẩn được dùng</h2>
