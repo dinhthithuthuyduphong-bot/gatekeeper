@@ -528,7 +528,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 **Task target (không tự sinh)**
 
 - [ ] 🤖 Lấy task target từ SWE-bench / SWE-bench-Live theo scope, ưu tiên task sau ngày cutoff của model
-- [ ] 🤖 Kiểm tra mỗi task chạy được bằng harness chính thức (gold patch pass, không flaky)
+- [ ] 🤖 Kiểm tra mỗi task chạy được bằng harness chính thức (gold patch pass, không flaky) · 🔧 pool 40 task Verified cho pilot G1 (`configs/pilot_pool.json`, 12 repo) đang được kiểm bằng workflow `Validate pilot pool` (gold ×2 + no-op)
 - [x] 🤖 Đếm task mỗi scope → đủ cho số trial ở Phase 3; thiếu thì bổ sung từ tập SWE-smith đã công bố hoặc gộp scope · ✅ **không đủ**: 0 scope (repo, version) có ≥ 219 task; lớn nhất django@3.2 = 157 (mục 0.4)
 - [ ] 👤 Chạy kiểm tra độ bền trên BugsInPy (tuỳ chọn)
 
