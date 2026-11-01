@@ -628,6 +628,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 01/11/2026 | Abstract arXiv: SWE-Skills-Bench đã có code/dữ liệu (ControllableModel), số v2 khác v1; GSE không làm sửa code; HSE trùng split → **pilot ngoài trên 3.920 cặp thật: pairing 4,3×, SD thật của STR ≈ 0,03, R15** | `data/external/swe-skills-bench/`, `results/sskb_analysis.json`, mục 0.4 |
 | 01/11/2026 | Harness smoke xanh: gold 5/5 resolved, R = 0; nhánh không skill đổi từ patch rỗng (bị harness bỏ qua) sang patch no-op để đo thật | run 41335635404, `results/harness_smoke.json` |
 | 01/11/2026 | Bản nháp định vị so với XRepoSkill, GSE, HSE, SWE-Skills-Bench (từ abstract) | `docs/notes/positioning.md` |
+| 01/11/2026 | Harness với patch no-op: nhánh không skill **đo thật** F = 1, R = 0 trên 5/5 task; paired trial end-to-end qua harness chính thức được kiểm chứng | run 41336208056, `results/harness_smoke.json` |
 
 ---
 
