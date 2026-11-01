@@ -303,6 +303,33 @@ cần hàng nghìn trial mỗi ô (bảng thiết kế 5.3), còn admission plug
 đầu tiên pilot phải đo.</p>"""
 
 
+def harness_html(d: dict | None) -> str:
+    if not d:
+        return "<p class='muted'>Chưa có <code>results/harness_smoke.json</code>.</p>"
+    other = "noop" if any("noop" in r for r in d["rows"]) else "empty"
+    rows = "".join(
+        f"<tr><td><code>{esc(r['instance_id'])}</code></td>"
+        f"<td class='{'ok' if r['gold']['resolved'] else 'bad'}'>{'có' if r['gold']['resolved'] else 'không'}</td>"
+        f"<td class='n'>{r['loss_with']:.3f}</td><td class='n'>{r['loss_without']:.3f}</td>"
+        f"<td class='n'>{r['Z']:+.3f}</td>"
+        f"<td>{esc(r[other].get('note', 'đo thật'))}</td></tr>"
+        for r in d["rows"]
+    )
+    measured = d.get("no_skill_arm_measured", False)
+    return (
+        f"<p>Harness SWE-bench chính thức, dataset <code>{esc(d['dataset'])}</code>, chạy trong GitHub Actions "
+        f"(không cần LLM). Gold patch giải <b>{d['gold_resolved']}/{d['n']}</b> task.</p>"
+        "<div class='tbl'><table><thead><tr><th>Task</th><th>Gold resolved</th><th>ℓ có skill (gold)</th>"
+        f"<th>ℓ không skill ({other})</th><th>Z</th><th>Nhánh không skill</th></tr></thead><tbody>{rows}</tbody></table></div>"
+        + (
+            ""
+            if measured
+            else "<p class='warn'>Nhánh không skill chưa đo thật: harness bỏ qua patch rỗng, nên F = 1, R = 0 "
+            "đang là giả định. Lần chạy tiếp dùng patch no-op để buộc test chạy.</p>"
+        )
+    )
+
+
 def split_html(sp: dict | None) -> str:
     if not sp:
         return "<p class='muted'>Chưa có <code>data/splits/split_v0.json</code>.</p>"
@@ -520,6 +547,7 @@ def build() -> str:
     design = design_html(load_json("results/design_table.json"))
     power = power_html(load_json("results/endpoint_power.json"))
     sskb = sskb_html(load_json("results/sskb_analysis.json"))
+    harness = harness_html(load_json("results/harness_smoke.json"))
 
     build_line = f"Build {esc(sha)} · {esc(now)}"
     if run_url:
@@ -611,9 +639,11 @@ trong 2.000 cặp trial. Mỗi ô cần hàng trăm task khác nhau, nhiều hơ
 {design}
 <h3>5.4 Power của endpoint chính</h3>
 {power}
-<h3>5.5 Pilot ngoài trên dữ liệu paired thật (SWE-Skills-Bench)</h3>
+<h3>5.5 Paired trial end-to-end qua harness SWE-bench</h3>
+{harness}
+<h3>5.6 Pilot ngoài trên dữ liệu paired thật (SWE-Skills-Bench)</h3>
 {sskb}
-<h3>5.6 Đối chiếu với confseq</h3>
+<h3>5.7 Đối chiếu với confseq</h3>
 {cross_html}
 
 <h2 id="benchmark">6. Benchmark chuẩn được dùng</h2>
@@ -665,6 +695,9 @@ fault-injection tự thêm chỉ cho phân tích phụ.</p>
 <li><a href="../docs/02-FSE-2027-13-reading-list.pdf">Reading list</a></li>
 <li><a href="../docs/03-FSE-2027-13-summary.pdf">Summary</a></li>
 <li><a href="../docs/theory/corrections.md">Lý thuyết đã sửa (Phase 1)</a></li>
+<li><a href="../docs/notes/positioning.md">Định vị so với công trình gần nhất (nháp)</a></li>
+<li><a href="../docs/preregistration.md">Pre-registration (nháp)</a></li>
+<li><a href="../docs/baselines.md">Baselines</a></li>
 <li><a href="../TODO.md">TODO.md: kim chỉ nam và nhật ký tiến độ</a></li>
 </ul>
 <footer>Sinh bởi <code>scripts/build_report.py</code>. Không sửa tay file này.</footer>

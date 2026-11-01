@@ -1,11 +1,12 @@
 """End-to-end paired trial through the official SWE-bench harness, without any LLM (free).
 
-For each task: run the gold patch ("perfect skill") and an empty patch ("no skill") through
+For each task: run the gold patch ("perfect skill") and a no-op patch ("no skill") through
 `swebench.harness.run_evaluation`, turn the per-test outcomes into the normalised loss
 (gatekeeper.loss) and the paired difference Z = loss_with - loss_without.
 
-Expected: gold resolves every task (loss 0); the empty patch fixes no FAIL_TO_PASS test and
-breaks nothing (F = 1, R = 0, loss = 1/(1 + w) = 0.667 for w = 0.5), so Z = -0.667.
+Expected: gold resolves every task (loss 0); the no-op patch fixes no FAIL_TO_PASS test and
+breaks nothing (F = 1, R = 0, loss = 1/(1 + w) = 0.667 for w = 0.5), so Z = -0.667. Unlike an
+empty patch (which the harness skips), the no-op patch is evaluated: F and R are measured.
 This validates TODO.md Phase 0 'SWE-bench harness ... 5/5 pass' and the loss pipeline.
 
 Usage (needs Docker): python scripts/harness_smoke.py [--ids a,b,c] [--workers 2]
@@ -31,6 +32,18 @@ DEFAULT_IDS = [
     "pydata__xarray-3677",
     "pylint-dev__pylint-6386",
 ]
+
+
+# Adds one unrelated new file: a valid diff on every repository, so the tests really run.
+NOOP_PATCH = (
+    "diff --git a/.gatekeeper_noop b/.gatekeeper_noop\n"
+    "new file mode 100644\n"
+    "index 0000000..ba0e162\n"
+    "--- /dev/null\n"
+    "+++ b/.gatekeeper_noop\n"
+    "@@ -0,0 +1 @@\n"
+    "+noop\n"
+)
 
 
 def run_harness(preds: str, ids: list[str], run_id: str, workers: int) -> None:
@@ -70,7 +83,7 @@ def read_report(run_id: str, model: str, iid: str) -> dict | None:
 
 
 def loss_of(rep: dict | None, w: float = 0.5) -> tuple[float, dict]:
-    """No report (e.g. empty patch skipped by the harness) = nothing fixed, nothing broken."""
+    """No report (patch skipped or not applied) = nothing fixed, nothing broken (assumed)."""
     if rep is None:
         return functional_loss(1.0, 0.0, w), {"resolved": False, "note": "no report"}
     ts = rep.get("tests_status", {})
@@ -95,20 +108,21 @@ def main() -> int:
     a = ap.parse_args()
     ids = [i for i in a.ids.split(",") if i]
 
-    empty = Path("preds_empty.jsonl")
-    empty.write_text(
+    noop = Path("preds_noop.jsonl")
+    noop.write_text(
         "".join(
-            json.dumps({"instance_id": i, "model_name_or_path": "empty", "model_patch": ""}) + "\n"
+            json.dumps({"instance_id": i, "model_name_or_path": "noop", "model_patch": NOOP_PATCH})
+            + "\n"
             for i in ids
         )
     )
     run_harness("gold", ids, "smoke-gold", a.workers)
-    run_harness(str(empty), ids, "smoke-empty", a.workers)
+    run_harness(str(noop), ids, "smoke-noop", a.workers)
 
     rows = []
     for i in ids:
         lw, dw = loss_of(read_report("smoke-gold", "gold", i))
-        lo, do = loss_of(read_report("smoke-empty", "empty", i))
+        lo, do = loss_of(read_report("smoke-noop", "noop", i))
         rows.append(
             {
                 "instance_id": i,
@@ -116,14 +130,15 @@ def main() -> int:
                 "loss_without": lo,
                 "Z": lw - lo,
                 "gold": dw,
-                "empty": do,
+                "noop": do,
             }
         )
-        print(f"{i:<28} gold={lw:.3f} empty={lo:.3f} Z={lw - lo:+.3f} resolved={dw['resolved']}")
+        print(f"{i:<28} gold={lw:.3f} noop={lo:.3f} Z={lw - lo:+.3f} resolved={dw['resolved']}")
     out = {
         "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "dataset": DATASET,
         "rows": rows,
+        "no_skill_arm_measured": all(r["noop"].get("note") != "no report" for r in rows),
         "gold_resolved": sum(r["gold"]["resolved"] for r in rows),
         "n": len(rows),
     }

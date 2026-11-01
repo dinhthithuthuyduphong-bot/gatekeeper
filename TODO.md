@@ -354,11 +354,11 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 **Thực hành**
 
 - [ ] 👤 Cài Docker, Python 3.11, uv
-- [ ] 👤💰 Chạy SWE-bench harness với patch gốc trên 5 task Verified → 5/5 pass (máy riêng; CI chỉ chạy 1 task)
+- [x] 👤💰 Chạy SWE-bench harness với patch gốc trên 5 task Verified → 5/5 pass (máy riêng; CI chỉ chạy 1 task) · ✅ **5/5 gold resolved, R = 0**, miễn phí trong GitHub Actions (workflow `Harness smoke`, run 41335635404, swebench 5.0.2, `results/harness_smoke.json`)
 - [ ] 👤💰 Chạy mini-swe-agent giải 5 task bằng 1 model API → có log và kết quả
 - [x] 🤖 Viết e-process (~30 dòng) + test → đối chiếu với `confseq` trên dữ liệu giả: cả hai giữ sai loại I ≤ α và cùng admit skill mạnh (hai bộ betting khác nhau nên log E không trùng từng số) · ✅ đồng ý 97% với confseq tại biên H0, cả hai admit sai ≤ α, cùng admit 100% skill mạnh (`results/confseq_crosscheck.json`)
 - [x] 🤖 Mô phỏng 1.000 lần với STR = −θ → tỉ lệ admit sai ≤ α, chạy trong CI · ✅ 5.000 lần, admit sai 3,0% ≤ 5% (`results/simulation.json`)
-- [ ] 👤 1 trang "Gatekeeper khác XRepoSkill và GSE ở đâu" → gửi người hướng dẫn góp ý
+- [ ] 👤 1 trang "Gatekeeper khác XRepoSkill và GSE ở đâu" → gửi người hướng dẫn góp ý · 🔧 bản nháp từ abstract: `docs/notes/positioning.md` (chờ đọc full paper)
 
 ### Phase 1 – Sửa lý thuyết & paper
 
@@ -427,7 +427,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 
 - [ ] 👤 Tách máy: GPU chạy LLM, CPU chạy container test
 - [ ] 🤖 Pin Docker image bằng digest · 🔧 `TrialRecord` từ chối image không có `sha256:`; còn chọn image
-- [ ] 🤖 Script 1 trial: snapshot → áp/không áp skill → agent → test → JSON (cài interface của 5a) · 🔧 interface `TrialRunner.run_pair` sẵn; cần harness + Docker thật
+- [ ] 🤖 Script 1 trial: snapshot → áp/không áp skill → agent → test → JSON (cài interface của 5a) · 🔧 interface `TrialRunner.run_pair` sẵn; cần harness + Docker thật; paired trial gold/no-op chạy thật qua harness: `scripts/harness_smoke.py`
 - [ ] 🤖 Kiểm tra hai nhánh cùng task, seed, snapshot
 - [x] 🤖 Log model ID, số token, thời gian, chi phí mỗi run · ✅ `runlog.TrialRecord` bắt buộc model ID + ngày, digest, commit, seed
 - [ ] 👤💰 Chạy cùng 1 task 5 lần → mức dao động của agent
@@ -626,6 +626,8 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 01/11/2026 | **R14**: endpoint chính (margin > 5 điểm) có power ~5% với số của chính paper → đề xuất kiểm định ưu thế + 200–500 cặp harmful; bản nháp pre-registration | `analysis.endpoint_power`, `tests/test_analysis.py::test_paper_endpoint_is_underpowered`, `docs/preregistration.md` |
 | 01/11/2026 | Harness smoke đỏ 2 lần (`--cache_level` không còn; swebench 5 cần dataset `SWE-bench/SWE-bench_Verified`) → sửa, ghim `swebench==5.0.2` | runs 41334781481, 41335112903 |
 | 01/11/2026 | Abstract arXiv: SWE-Skills-Bench đã có code/dữ liệu (ControllableModel), số v2 khác v1; GSE không làm sửa code; HSE trùng split → **pilot ngoài trên 3.920 cặp thật: pairing 4,3×, SD thật của STR ≈ 0,03, R15** | `data/external/swe-skills-bench/`, `results/sskb_analysis.json`, mục 0.4 |
+| 01/11/2026 | Harness smoke xanh: gold 5/5 resolved, R = 0; nhánh không skill đổi từ patch rỗng (bị harness bỏ qua) sang patch no-op để đo thật | run 41335635404, `results/harness_smoke.json` |
+| 01/11/2026 | Bản nháp định vị so với XRepoSkill, GSE, HSE, SWE-Skills-Bench (từ abstract) | `docs/notes/positioning.md` |
 
 ---
 
