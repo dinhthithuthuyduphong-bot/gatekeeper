@@ -68,6 +68,72 @@ def confusion(skill: Skill, rows: list[dict]) -> dict:
     }
 
 
+# Candidate activation predicates per family, selected on TRAIN (SWE-Gym), evaluated on TEST.
+VARIANTS = {
+    "null_guard": [
+        r"NoneType",
+        r"'NoneType' object|NoneType.*(attribute|subscriptable|iterable|callable)",
+        r"\bis None\b|\bNone\b.*(passed|given|returned)|returns? None",
+        r"\bNone(Type)?\b",
+    ],
+    "type_guard": [
+        r"\bTypeError\b",
+        r"TypeError|isinstance|not supported between|unsupported operand",
+        r"TypeError|accept(s|ed)? .*(str|int|float|list|tuple|dict|bytes|Path)",
+    ],
+    "exception_handling": [
+        r"Traceback \(most recent call last\)",
+        r"\braises?\b.*\b(should|instead|unexpected)\b|\bcatch\b|\bexcept\b",
+        r"\btry\b.*\bexcept\b|swallow|silently (ignored|fails?)",
+    ],
+    "raise_error": [
+        r"should (raise|error|fail)",
+        r"should (raise|error|fail|warn)|no (error|exception) (is )?raised|silently",
+        r"\binvalid\b|\bValueError\b",
+    ],
+}
+
+
+def select_variant(
+    family: str, train: list[dict], test: list[dict], min_rate: float = 0.03
+) -> dict:
+    import re
+
+    def stats(rx: str, rows: list[dict]) -> dict:
+        c = re.compile(rx, re.IGNORECASE)
+        tp = fp = fn = 0
+        for r in rows:
+            act = bool(c.search(r["problem_statement"] or ""))
+            has = family in edit_patterns(parse_patch(r["patch"] or ""))
+            tp += act and has
+            fp += act and not has
+            fn += (not act) and has
+        n = len(rows)
+        base = (tp + fn) / n if n else 0.0
+        prec = tp / (tp + fp) if tp + fp else 0.0
+        return {
+            "activation_rate": (tp + fp) / n if n else 0.0,
+            "precision": prec,
+            "recall": tp / (tp + fn) if tp + fn else 0.0,
+            "lift": prec / base if base else 0.0,
+        }
+
+    scored = []
+    for rx in VARIANTS.get(family, []):
+        tr = stats(rx, train)
+        if tr["activation_rate"] >= min_rate:
+            scored.append((tr["lift"], rx, tr))
+    if not scored:
+        return {}
+    lift, rx, tr = max(scored)
+    return {
+        "pattern": rx,
+        "train": tr,
+        "test": stats(rx, test),
+        "n_candidates": len(VARIANTS[family]),
+    }
+
+
 def main() -> int:
     skills = [Skill.load(p) for p in sorted(Path("configs/skills").glob("*.json"))]
     skills = [s for s in skills if s.procedure.get("family")]
@@ -87,6 +153,10 @@ def main() -> int:
             "test": confusion(s, test),
         }
         print(s.id, json.dumps(out["skills"][s.id]))
+    out["selected_on_train"] = {}
+    for fam in VARIANTS:
+        out["selected_on_train"][fam] = select_variant(fam, train, test)
+        print("selected", fam, json.dumps(out["selected_on_train"][fam]))
     Path("data").mkdir(exist_ok=True)
     Path("data/activation.json").write_text(json.dumps(out, indent=2) + "\n")
     return 0

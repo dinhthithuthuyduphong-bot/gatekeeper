@@ -439,6 +439,24 @@ def activation_html(d: dict | None) -> str:
         "<th>Tỉ lệ có họ (oracle)</th><th>Precision</th><th>Recall</th><th>Lift</th></tr></thead>"
         f"<tbody>{rows}</tbody></table></div>"
         "<p>Lift &gt; 1 nghĩa là predicate chọn được task nhiều khả năng cần đúng loại sửa đó hơn ngẫu nhiên.</p>"
+        + selected_html(d.get("selected_on_train") or {})
+    )
+
+
+def selected_html(sel: dict) -> str:
+    sel = {k: v for k, v in sel.items() if v}
+    if not sel:
+        return ""
+    rows = "".join(
+        f"<tr><td><code>{esc(k)}</code></td><td><code>{esc(v['pattern'])}</code></td>"
+        f"<td class='n'>{v['train']['lift']:.2f}</td><td class='n'>{v['test']['lift']:.2f}</td>"
+        f"<td class='n'>{v['test']['precision']:.2f}</td><td class='n'>{v['test']['recall']:.2f}</td></tr>"
+        for k, v in sel.items()
+    )
+    return (
+        "<p>Predicate chọn trên <b>train</b> (SWE-Gym) trong danh sách biến thể, đánh giá trên <b>test</b>:</p>"
+        "<div class='tbl'><table><thead><tr><th>Họ</th><th>Mẫu được chọn</th><th>Lift train</th>"
+        f"<th>Lift test</th><th>Precision test</th><th>Recall test</th></tr></thead><tbody>{rows}</tbody></table></div>"
     )
 
 
