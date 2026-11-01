@@ -4,7 +4,8 @@ For each task: run the gold patch ("perfect skill") and an empty patch ("no skil
 `swebench.harness.run_evaluation`, turn the per-test outcomes into the normalised loss
 (gatekeeper.loss) and the paired difference Z = loss_with - loss_without.
 
-Expected: gold resolves every task (loss 0), empty patch resolves none (loss 1), so Z = -1.
+Expected: gold resolves every task (loss 0); the empty patch fixes no FAIL_TO_PASS test and
+breaks nothing (F = 1, R = 0, loss = 1/(1 + w) = 0.667 for w = 0.5), so Z = -0.667.
 This validates TODO.md Phase 0 'SWE-bench harness ... 5/5 pass' and the loss pipeline.
 
 Usage (needs Docker): python scripts/harness_smoke.py [--ids a,b,c] [--workers 2]
@@ -21,7 +22,8 @@ from pathlib import Path
 
 from gatekeeper.loss import functional_loss
 
-DATASET = "princeton-nlp/SWE-bench_Verified"
+# swebench>=5 needs the SWE-bench org copy (it carries image, eval_script, log_parser)
+DATASET = "SWE-bench/SWE-bench_Verified"
 DEFAULT_IDS = [
     "psf__requests-1142",
     "psf__requests-2931",
@@ -59,8 +61,11 @@ def run_harness(preds: str, ids: list[str], run_id: str, workers: int) -> None:
 
 def read_report(run_id: str, model: str, iid: str) -> dict | None:
     p = Path("logs/run_evaluation") / run_id / model / iid / "report.json"
-    if not p.exists():
-        return None
+    if not p.exists():  # layout differs across harness versions: search the run directory
+        hits = sorted((Path("logs/run_evaluation") / run_id).glob(f"**/{iid}/report.json"))
+        if not hits:
+            return None
+        p = hits[0]
     return json.loads(p.read_text())[iid]
 
 

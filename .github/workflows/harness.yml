@@ -34,7 +34,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install
-        run: pip install -e . swebench
+        run: pip install -e . "swebench==5.0.2"
       - name: Record versions
         run: |
           pip show swebench | head -2

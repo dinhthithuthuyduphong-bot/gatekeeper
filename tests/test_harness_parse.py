@@ -33,3 +33,11 @@ def test_read_report(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     assert hs.read_report("r", "gold", "x__y-1") == {"resolved": True}
     assert hs.read_report("r", "gold", "missing") is None
+
+
+def test_read_report_searches_other_layouts(tmp_path, monkeypatch):
+    d = tmp_path / "logs/run_evaluation/r/some/nested/x__y-2"
+    d.mkdir(parents=True)
+    (d / "report.json").write_text('{"x__y-2": {"resolved": false}}')
+    monkeypatch.chdir(tmp_path)
+    assert hs.read_report("r", "gold", "x__y-2") == {"resolved": False}
