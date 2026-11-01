@@ -191,3 +191,24 @@ def f(cache, cfg, items):
     k = analyse_source(src, "m", ["f"])
     assert {"a", "b", "cache", "cfg.retries", "total", "obj.attr"} <= k.writes
     assert {"cfg.split", "cfg.retries", "len", "items", "obj"} <= k.reads
+
+
+def test_issue_regex_predicate():
+    t = target(issue_text="Calling foo(None) raises AttributeError: 'NoneType'")
+    assert evaluate_predicate({"kind": "issue_regex", "pattern": r"NoneType"}, t)
+    assert not evaluate_predicate(
+        {"kind": "issue_regex", "pattern": r"nonetype", "ignore_case": False}, t
+    )
+    assert evaluate_predicate({"kind": "issue_regex", "pattern": r"nonetype"}, t)
+
+
+def test_family_skills_load_and_activate():
+    from pathlib import Path
+
+    for f in ("null-guard", "type-guard", "exception-handling", "validation-error"):
+        s = Skill.load(Path("configs/skills") / f"{f}.json")
+        assert s.procedure["family"] and s.procedure["guidance"]
+        assert s.input_predicates[0]["kind"] == "issue_regex"
+    ng = Skill.load("configs/skills/null-guard.json")
+    assert screen(ng, target(issue_text="x is None but should be 0")).in_scope
+    assert not screen(ng, target(issue_text="wrong colour in the legend")).in_scope

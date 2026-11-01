@@ -23,7 +23,7 @@ on:
       skills:
         description: "Comma-separated skill JSON files"
         required: true
-        default: "configs/skills/guidance-reproduce-first.json"
+        default: "configs/skills/null-guard.json,configs/skills/type-guard.json,configs/skills/exception-handling.json,configs/skills/validation-error.json"
       n:
         description: "Number of SWE-bench Verified instances"
         required: true

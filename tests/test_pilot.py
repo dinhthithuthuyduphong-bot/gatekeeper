@@ -114,3 +114,27 @@ def test_pool_ids(tmp_path):
     assert rp.pool_ids(str(p)) == ["a", "b"]
     assert rp.pool_ids("") is None
     assert rp.pool_ids(str(tmp_path / "missing.json")) is None
+
+
+def test_activated_rows():
+    import importlib.util
+    from pathlib import Path
+
+    pytest.importorskip("yaml")
+    spec = importlib.util.spec_from_file_location(
+        "run_pilot", Path(__file__).parents[1] / "scripts" / "run_pilot.py"
+    )
+    rp = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rp)
+    ng = Skill.load("configs/skills/null-guard.json")
+    rows = [
+        {
+            "instance_id": "a",
+            "repo": "r",
+            "problem_statement": "crash: 'NoneType' has no attribute",
+        },
+        {"instance_id": "b", "repo": "r", "problem_statement": "legend colour is wrong"},
+    ]
+    assert [r["instance_id"] for r in rp.activated(ng, rows)] == ["a"]
+    oracle = Skill.load("configs/skills/oracle-gold.json")  # no predicates: always active
+    assert len(rp.activated(oracle, rows)) == 2

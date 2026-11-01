@@ -18,7 +18,14 @@ __all__ = ["CAPABILITY_VERDICTS", "PREDICATE_KINDS", "Postcondition", "Skill", "
 
 SCHEMA_VERSION = 1
 CAPABILITY_VERDICTS = ("approved", "rejected", "unknown")
-PREDICATE_KINDS = ("file_exists", "symbol_present", "dependency", "declared_class", "python")
+PREDICATE_KINDS = (
+    "file_exists",
+    "symbol_present",
+    "dependency",
+    "declared_class",
+    "python",
+    "issue_regex",
+)
 
 
 @dataclass(frozen=True)

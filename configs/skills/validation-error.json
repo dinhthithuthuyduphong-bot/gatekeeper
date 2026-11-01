@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "validation-error",
+  "procedure": {
+    "kind": "guidance",
+    "family": "raise_error",
+    "guidance": "The issue may be about missing or wrong input validation. Find the public function that receives the bad input; validate it there and raise the most specific built-in exception (usually ValueError or TypeError) with a message naming the parameter and the accepted values; match the project's existing error-message style; do not change behaviour for valid inputs; test the new error.",
+    "_comment": "Family-level prompt skill for the G1/R15 pilot; family from results/skill_mining.json (recurs in SWE-Gym training repos)."
+  },
+  "fingerprints": {},
+  "input_predicates": [
+    {
+      "kind": "issue_regex",
+      "pattern": "\\bshould (raise|error|fail|warn)\\b|\\binvalid\\b|\\bvalidat|\\bsilently\\b|no error|without (an )?error|\\bValueError\\b"
+    }
+  ],
+  "postconditions": [],
+  "footprint": {
+    "regions": [],
+    "reads": [],
+    "writes": [],
+    "properties": [
+      "raise_error"
+    ]
+  },
+  "capability_verdict": "approved",
+  "source": "hand-written from mined family raise_error"
+}

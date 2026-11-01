@@ -12,6 +12,8 @@ on:
       - "scripts/fetch_benchmarks.py"
       - "scripts/check_citations.py"
       - "src/gatekeeper/patches.py"
+      - "scripts/activation_check.py"
+      - "configs/skills/**"
       - ".github/workflows/data.yml"
 
 permissions:
@@ -37,6 +39,9 @@ jobs:
         continue-on-error: true
       - name: Benchmark metadata (HuggingFace)
         run: python scripts/fetch_benchmarks.py
+      - name: Activation predicates vs gold-patch families
+        run: python scripts/activation_check.py
+        continue-on-error: true
       - name: Summarise
         run: |
           python - <<'EOF'

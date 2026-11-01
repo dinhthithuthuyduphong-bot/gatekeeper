@@ -486,7 +486,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 - [ ] 👤💰 **Đầu tiên (R15):** đo hiệu ứng của 3–5 skill dạng edit program trên 1 repo, khoảng 30 cặp mỗi skill → nếu |STR| < 0,1 cho mọi skill thì dừng, thu hẹp hoặc đổi hướng trước khi chi thêm
 - [ ] 👤 Đặt trần chi phí pilot (vd ≤ 1.500 USD)
 - [ ] 👤 Chọn 2 repo (1 cùng framework, 1 khác framework)
-- [ ] 👤 Chọn 10 skill, tạo 20–30 cặp skill/context
+- [ ] 👤 Chọn 10 skill, tạo 20–30 cặp skill/context · 🔧 4 skill theo họ mẫu sửa đã khai thác (null-guard, type-guard, exception-handling, validation-error) với predicate `issue_regex` cho I(x), trong `configs/skills/`; độ chính xác kích hoạt đo bằng `scripts/activation_check.py` (CI)
 - [ ] 👤 Tách pool task admission và pool task chấm (R3)
 - [ ] 👤 Gán nhãn 3 lớp cho cặp pilot theo quy trình kiểm chứng nhãn
 
@@ -659,6 +659,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 01/11/2026 | @thuthuy chốt **ASE 2027** + **Gemini qua Vertex AI** → lịch ngược với 3 cổng G1–G3; pipeline pilot mini-swe-agent + Vertex (`run_pilot.py`, `pilot.py`, `harness.py`), workflow dry run (miễn phí) và workflow trả phí (chạy tay, trần ngân sách), `docs/vertex_setup.md` | commit 55a6af4 |
 | 01/11/2026 | **Pilot dry run xanh** lần đầu: mini-swe-agent + Docker SWE-bench + harness + log trial, model giả + skill oracle → Z = −0,667 trên 2/2 task; digest image + commit gốc ghi tự động. Còn lại chỉ là thêm credential Vertex | run 41357916901, `results/pilot/dryrun.json` |
 | 01/11/2026 | Ước tính chi phí Gemini (dải 10×, cần đo token thật bằng n = 2); khai thác gold patch: 12 họ mẫu sửa lặp lại ở 5–11 repo train, 3.690 ứng viên cặp composition; đề xuất scope theo (họ skill, framework) | `results/cost_estimate.json`, `results/skill_mining.json`, run 41358048556 |
+| 01/11/2026 | Pool 40 task Verified cho G1 + workflow kiểm định (gold ×2, no-op); 4 skill theo họ mẫu sửa + predicate `issue_regex` (I(x) từ nội dung issue); pilot chỉ chạy nhánh skill trên task kích hoạt và chỉ lấy task đã kiểm định | `configs/pilot_pool.json`, `configs/skills/`, `scripts/run_pilot.py` |
 
 ---
 

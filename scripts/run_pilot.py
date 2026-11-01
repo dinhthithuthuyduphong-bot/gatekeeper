@@ -75,6 +75,22 @@ def load_instances(
     return rng.sample(rows, n)
 
 
+def activated(skill: Skill, rows: list[dict]) -> list[dict]:
+    """Rows where the skill's input predicates hold on the issue text (no fingerprints here)."""
+    from gatekeeper.scope import TargetContext, screen
+
+    return [
+        r
+        for r in rows
+        if screen(
+            skill,
+            TargetContext(
+                name=r["repo"], fingerprints={}, issue_text=r.get("problem_statement", "")
+            ),
+        ).in_scope
+    ]
+
+
 def image_digest(instance_id: str) -> str:
     name = "docker.io/swebench/sweb.eval.x86_64." + instance_id.replace("__", "_1776_").lower()
     try:
@@ -154,6 +170,12 @@ def main() -> int:
     ap.add_argument("--instances", default="")
     ap.add_argument("--n", type=int, default=5)
     ap.add_argument(
+        "--no-activation",
+        dest="activation",
+        action="store_false",
+        help="run every skill on every task (ignore issue_regex activation predicates)",
+    )
+    ap.add_argument(
         "--pool",
         default="",
         help="sample only from validated tasks (results/pool_validation/summary.json)",
@@ -176,7 +198,17 @@ def main() -> int:
     ids = [i for i in a.instances.split(",") if i] or None
     rows = load_instances(ids, a.n, a.seed, pool_ids(a.pool))
     arms: list[tuple[str, Skill | None]] = [("none", None)] + [(s.id, s) for s in skills]
-    worst = len(arms) * len(rows) * (a.cost_limit if model else 0.0)
+    # P_s = tasks where the skill's activation predicates I(x) hold (corrections.md §1.2):
+    # a skill arm only runs on its activated tasks; the no-skill arm runs on their union.
+    arm_rows_map = {sid: activated(sk, rows) for sid, sk in arms if sk is not None}
+    union = {r["instance_id"] for rs in arm_rows_map.values() for r in rs}
+    arm_rows_map["none"] = [r for r in rows if r["instance_id"] in union] if a.activation else rows
+    if not a.activation:
+        arm_rows_map = {sid: rows for sid, _ in arms}
+    for sid, rs in arm_rows_map.items():
+        print(f"arm {sid}: {len(rs)} tasks", flush=True)
+    arms = [(sid, sk) for sid, sk in arms if arm_rows_map[sid]]
+    worst = sum(len(arm_rows_map[sid]) for sid, _ in arms) * (a.cost_limit if model else 0.0)
     if model is not None and worst > a.budget_usd:
         raise SystemExit(
             f"worst-case cost {worst:.2f} USD > --budget-usd {a.budget_usd:.2f}; "
@@ -190,15 +222,16 @@ def main() -> int:
     usage: dict[str, dict[str, dict]] = {}
     spent = 0.0
     for arm, skill in arms:
-        agent_dir = run_arm(arm, skill, rows, a, out_dir, model)
+        rows_arm = arm_rows_map[arm]
+        agent_dir = run_arm(arm, skill, rows_arm, a, out_dir, model)
         run_harness(
             str(agent_dir / "preds.json"),
-            [r["instance_id"] for r in rows],
+            [r["instance_id"] for r in rows_arm],
             f"{a.name}-{arm}",
             a.workers,
         )
         losses[arm], usage[arm] = {}, {}
-        for r in rows:
+        for r in rows_arm:
             iid = r["instance_id"]
             losses[arm][iid], _ = loss_of(read_report(f"{a.name}-{arm}", "", iid))
             traj = agent_dir / iid / f"{iid}.traj.json"

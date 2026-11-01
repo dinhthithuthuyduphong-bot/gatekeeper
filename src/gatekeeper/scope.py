@@ -49,6 +49,7 @@ class TargetContext:
     symbols: frozenset[str] = frozenset()
     dependencies: Mapping[str, str] = field(default_factory=dict)
     declared_classes: Mapping[str, str] = field(default_factory=dict)
+    issue_text: str = ""  # the task's issue / problem statement (activation predicates I(x))
 
 
 @dataclass(frozen=True)
@@ -148,6 +149,9 @@ def evaluate_predicate(pred: Mapping[str, Any], target: TargetContext) -> bool:
         return target.declared_classes.get(pred["key"]) == pred["value"]
     if kind == "python":
         return _satisfies(target.fingerprints.get("python", "0"), pred["spec"])
+    if kind == "issue_regex":
+        flags = re.IGNORECASE if pred.get("ignore_case", True) else 0
+        return re.search(pred["pattern"], target.issue_text, flags) is not None
     raise ValueError(f"unknown predicate kind {kind!r}")
 
 

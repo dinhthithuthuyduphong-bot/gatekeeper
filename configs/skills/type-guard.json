@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "type-guard",
+  "procedure": {
+    "kind": "guidance",
+    "family": "type_guard",
+    "guidance": "The issue may involve an input of an unexpected type. Identify the accepted types from the documentation and existing callers; normalise inputs once at the public entry point (convert, or raise TypeError with a clear message) using isinstance checks; avoid sprinkling type checks through internal helpers; preserve existing accepted types; test each accepted and one rejected type.",
+    "_comment": "Family-level prompt skill for the G1/R15 pilot; family from results/skill_mining.json (recurs in SWE-Gym training repos)."
+  },
+  "fingerprints": {},
+  "input_predicates": [
+    {
+      "kind": "issue_regex",
+      "pattern": "\\bTypeError\\b|\\bisinstance\\b|unexpected type|accepts? (only|both)|\\b(str|int|float|list|tuple|dict|bytes|array|ndarray|Path)\\b.* (instead|rather than|as well as)"
+    }
+  ],
+  "postconditions": [],
+  "footprint": {
+    "regions": [],
+    "reads": [],
+    "writes": [],
+    "properties": [
+      "type_guard"
+    ]
+  },
+  "capability_verdict": "approved",
+  "source": "hand-written from mined family type_guard"
+}
