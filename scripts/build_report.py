@@ -210,6 +210,33 @@ def benchmarks_html(summary: dict | None, sim: dict | None) -> str:
     )
 
 
+def split_html(sp: dict | None) -> str:
+    if not sp:
+        return "<p class='muted'>Chưa có <code>data/splits/split_v0.json</code>.</p>"
+    th = sp["scopes_with_at_least"]
+    rh = sp["repos_with_at_least"]
+    cells = "".join(
+        f"<tr><td class='n'>≥ {esc(k)}</td><td class='n'>{v}</td><td class='n'>{rh.get(k, '—')}</td></tr>"
+        for k, v in th.items()
+    )
+    top = list(sp["tasks_per_scope"].items())[:8]
+    top_html = ", ".join(f"<code>{esc(k)}</code> {v}" for k, v in top)
+    return (
+        f"<p>Train: {len(sp['train_repos'])} repo SWE-Gym, {num(sp['n_train_tasks'])} task. "
+        f"Test: {len(sp['test_repos'])} repo, {num(sp['n_test_tasks'])} task (SWE-bench ∪ Verified ∪ "
+        f"SWE-bench-Live, bỏ {len(sp['repos_removed_from_test_for_overlap'])} repo trùng train: "
+        f"{esc(', '.join(sp['repos_removed_from_test_for_overlap']))}). Hash split "
+        f"<code>{esc(sp.get('sha256_16', ''))}</code>.</p>"
+        "<div class='tbl'><table><thead><tr><th>Số task khác nhau</th><th>Scope (repo, version)</th>"
+        f"<th>Repo</th></tr></thead><tbody>{cells}</tbody></table></div>"
+        f"<p>Scope lớn nhất: {top_html}.</p>"
+        "<p><b>Kết luận R2.</b> Không scope (repo, version) nào có đủ task khác nhau cho số trial mô phỏng "
+        "yêu cầu (≥ 219 cho skill rất mạnh). Mỗi trial một task mới là không khả thi trên benchmark chuẩn; "
+        "phải rút có hoàn lại từ pool (bound theo pool, chênh lệch vào ξ<sub>s</sub>) hoặc gộp scope "
+        "theo repo/framework.</p>"
+    )
+
+
 def citations_html(c: dict | None) -> str:
     if not c:
         return "<p class='muted'>Chưa có <code>data/citations.json</code>.</p>"
@@ -224,9 +251,17 @@ def citations_html(c: dict | None) -> str:
             if r.get("draft_uses_placeholder_authors")
             else ""
         )
+        sim = r.get("title_similarity")
+        sim_td = (
+            "<td>—</td>"
+            if sim is None
+            else f"<td class='{'ok' if sim >= 0.8 else 'bad'}'>{sim:.2f}"
+            f"{'' if sim >= 0.8 else '<br>tiêu đề trong paper sai'}</td>"
+        )
         rows.append(
-            f"<tr><td>{esc(r['key'])}{flag}</td><td><code>{esc(r['arxiv_id'])}</code></td>"
-            f"<td class='{'ok' if ok else 'bad'}'>{'có' if ok else 'không thấy'}</td>"
+            f"<tr><td>{esc(r['key'])}{flag}<br><span class='muted'>paper ghi: "
+            f"{esc(r.get('draft_title', ''))}</span></td><td><code>{esc(r['arxiv_id'])}</code></td>"
+            f"<td class='{'ok' if ok else 'bad'}'>{'có' if ok else 'không thấy'}</td>{sim_td}"
             f"<td>{esc(r.get('title', ''))}<br><span class='muted'>{esc(authors)}"
             f" · {esc(r.get('published', ''))}</span></td></tr>"
         )
@@ -243,6 +278,7 @@ def citations_html(c: dict | None) -> str:
         )
     return (
         "<div class='tbl'><table><thead><tr><th>Trích dẫn</th><th>arXiv</th><th>Tồn tại</th>"
+        "<th>Khớp tiêu đề</th>"
         f"<th>Tiêu đề thật, tác giả, ngày</th></tr></thead><tbody>{''.join(rows)}</tbody></table></div>"
         "<p>Venue theo DBLP (ưu tiên bản đã peer review):</p>"
         "<div class='tbl'><table><thead><tr><th>Công trình</th><th>Venue</th><th>Năm</th><th>Loại</th>"
@@ -387,6 +423,7 @@ def build() -> str:
     paper_html = paper_checks_html()
     bench_html = benchmarks_html(load_json("data/benchmarks/summary.json"), sim)
     cite_html = citations_html(load_json("data/citations.json"))
+    sp_html = split_html(load_json("data/splits/split_v0.json"))
 
     build_line = f"Build {esc(sha)} · {esc(now)}"
     if run_url:
@@ -488,10 +525,12 @@ fault-injection tự thêm chỉ cho phân tích phụ.</p>
 <tr><td>SWE-smith (tập đã công bố)</td><td>NeurIPS 2025 D&amp;B</td><td>Chỉ bổ sung khi thiếu task</td></tr>
 <tr><td>BugsInPy (493 bug)</td><td>ESEC/FSE 2020</td><td>Kiểm tra độ bền</td></tr>
 </tbody></table></div>
-<p class="muted">Venue phải kiểm lại trên DBLP trước khi trích dẫn (mục 6.2).</p>
+<p class="muted">Venue phải kiểm lại trên DBLP trước khi trích dẫn (mục 6.3).</p>
 <h3>6.1 Số task thật trong các benchmark</h3>
 {bench_html}
-<h3>6.2 Kiểm tra trích dẫn (arXiv, DBLP)</h3>
+<h3>6.2 Split theo repo và số task mỗi scope</h3>
+{sp_html}
+<h3>6.3 Kiểm tra trích dẫn (arXiv, DBLP)</h3>
 {cite_html}
 
 <h2 id="code">7. Thành phần đã cài</h2>

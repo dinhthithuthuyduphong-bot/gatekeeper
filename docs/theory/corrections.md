@@ -31,7 +31,7 @@ Paper: P_s là mọi task trong scope. Skill chỉ liên quan 10% task thì STR 
 - (a) Mỗi trial dùng một task **khác nhau**: cần |T_s| ≥ số trial. Khi đó bound đúng cho P_s.
 - (b) Rút **có hoàn lại** từ T_s: các Z_i i.i.d. theo phân phối đều trên T_s, nên bound đúng cho P̂_s (pool). Chênh lệch P̂_s và P_s phải được tính vào ξ_s.
 
-Khuyến nghị: (b), vì (a) không khả thi với số trial ở `results/simulation.json`.
+Khuyến nghị: (b), vì (a) không khả thi. Bằng chứng từ dữ liệu thật (`data/splits/split_v0.json`): trong SWE-bench ∪ Verified ∪ SWE-bench-Live, **không scope (repo, version) nào có ≥ 219 task** (scope lớn nhất là django@3.2 với 157), trong khi `results/simulation.json` cần trung vị 219 cặp trial để admit một skill rất mạnh với α Bonferroni.
 
 ### 1.3 Selective transfer risk
 

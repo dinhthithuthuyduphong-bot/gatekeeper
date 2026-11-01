@@ -7,7 +7,9 @@ for the venue. Runs in GitHub Actions; writes data/citations.json.
 
 from __future__ import annotations
 
+import difflib
 import json
+import re
 import sys
 import time
 import urllib.parse
@@ -18,14 +20,50 @@ from pathlib import Path
 
 # (key used in the paper / TODO, arXiv id, title the draft attributes, placeholder in refs?)
 ARXIV = [
-    ("LTT [1]", "2110.01052", "Learn then test", False),
-    ("CooperBench [6]", "2601.13295", "CooperBench", True),
-    ("Formal skill verification [7]", "2605.23951", "Formal verification of agent skills", True),
-    ("GEM/MemState [8]", "2605.26252", "GEM/MemState", True),
-    ("GSE [9]", "2608.06153", "Globally reusable skills for coding agents", True),
-    ("MemCoder [12]", "2603.13258", "MemCoder", True),
-    ("MemGovern [13]", "2601.06789", "MemGovern", True),
-    ("SWE-bench-Live [22]", "2505.23419", "SWE-bench-Live", False),
+    # titles exactly as printed in the draft's reference list (docs/02-...reading-list.pdf)
+    (
+        "LTT [1]",
+        "2110.01052",
+        "Learn then test: Calibrating predictive algorithms to achieve risk control",
+        False,
+    ),
+    (
+        "CooperBench [6]",
+        "2601.13295",
+        "CooperBench: Measuring collaborative conflicts between coding agents",
+        True,
+    ),
+    (
+        "Formal skill verification [7]",
+        "2605.23951",
+        "Formal verification of learned agent skills and capability containment",
+        True,
+    ),
+    (
+        "GEM/MemState [8]",
+        "2605.26252",
+        "GEM/MemState: Dependency-aware correctness for agent memory",
+        True,
+    ),
+    ("GSE [9]", "2608.06153", "GSE: Globally reusable skill evolution for coding agents", True),
+    (
+        "MemCoder [12]",
+        "2603.13258",
+        "MemCoder: Structured intent-to-code experience memory for coding agents",
+        True,
+    ),
+    (
+        "MemGovern [13]",
+        "2601.06789",
+        "MemGovern: Governed development histories as reusable experience cards",
+        True,
+    ),
+    (
+        "SWE-bench-Live [22]",
+        "2505.23419",
+        "SWE-bench-Live: A continuously updated benchmark for LLM-based software engineering",
+        False,
+    ),
     ("XRepoSkill", "2609.36807", "XRepoSkill", False),
     ("SWE-Skills-Bench", "2603.15401", "SWE-Skills-Bench", False),
     ("ASI", "2504.06821", "Inducing programmatic skills", False),
@@ -77,11 +115,28 @@ def arxiv_lookup(ids: list[str]) -> dict[str, dict]:
     return out
 
 
+def title_similarity(a: str, b: str) -> float:
+    norm = lambda t: re.sub(r"[^a-z0-9 ]", " ", t.lower()).split()  # noqa: E731
+    return round(difflib.SequenceMatcher(None, norm(a), norm(b)).ratio(), 3)
+
+
+DBLP_MIRRORS = ("https://dblp.org", "https://dblp.uni-trier.de", "https://dblp.dagstuhl.de")
+
+
 def dblp_lookup(title: str) -> list[dict]:
-    url = "https://dblp.org/search/publ/api?" + urllib.parse.urlencode(
-        {"q": title, "format": "json", "h": 5}
-    )
-    hits = json.loads(_get(url)).get("result", {}).get("hits", {}).get("hit", [])
+    q = urllib.parse.urlencode({"q": title, "format": "json", "h": 5})
+    errors = []
+    for base in DBLP_MIRRORS:
+        try:
+            raw = _get(f"{base}/search/publ/api?{q}")
+            data = json.loads(raw)
+            break
+        except Exception as exc:  # noqa: BLE001
+            errors.append(f"{base}: {type(exc).__name__}: {str(exc)[:120]}")
+            time.sleep(2)
+    else:
+        raise RuntimeError("; ".join(errors))
+    hits = data.get("result", {}).get("hits", {}).get("hit", [])
     return [
         {
             "title": h["info"].get("title"),
@@ -90,6 +145,23 @@ def dblp_lookup(title: str) -> list[dict]:
             "type": h["info"].get("type"),
         }
         for h in hits
+    ]
+
+
+def s2_lookup(title: str) -> list[dict]:
+    """Semantic Scholar fallback for the venue of a title."""
+    q = urllib.parse.urlencode(
+        {"query": title, "limit": 3, "fields": "title,venue,year,publicationVenue,externalIds"}
+    )
+    data = json.loads(_get(f"https://api.semanticscholar.org/graph/v1/paper/search?{q}"))
+    return [
+        {
+            "title": d.get("title"),
+            "venue": d.get("venue") or (d.get("publicationVenue") or {}).get("name"),
+            "year": d.get("year"),
+            "type": "semantic-scholar",
+        }
+        for d in data.get("data", [])
     ]
 
 
@@ -111,6 +183,7 @@ def main() -> int:
                 "draft_title": draft_title,
                 "draft_uses_placeholder_authors": placeholder,
                 "exists_on_arxiv": rec is not None,
+                "title_similarity": title_similarity(draft_title, rec["title"]) if rec else None,
                 **(rec or {}),
             }
         )
@@ -120,8 +193,11 @@ def main() -> int:
         try:
             dblp[k] = dblp_lookup(t)
         except Exception as exc:  # noqa: BLE001
-            dblp[k] = [{"error": repr(exc)}]
-        time.sleep(1.5)  # be polite to DBLP
+            try:
+                dblp[k] = s2_lookup(t) or [{"error": f"dblp failed ({exc}); s2: no hit"}]
+            except Exception as exc2:  # noqa: BLE001
+                dblp[k] = [{"error": f"dblp: {exc}; s2: {exc2!r}"}]
+        time.sleep(3)  # be polite
     result["dblp"] = dblp
     Path("data").mkdir(exist_ok=True)
     Path("data/citations.json").write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n")

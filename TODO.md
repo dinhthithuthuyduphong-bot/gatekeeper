@@ -50,6 +50,38 @@ Bản 1 nhìn chung **đúng và kỹ**: mình tính lại mọi số trong bả
 | R12 | Bảng công thức, dòng #4 | Dấu `\|` trong công thức làm vỡ bảng markdown. | Đã sửa định dạng. |
 | R13 | Benchmark tự dựng (yêu cầu của @thuthuy) | Bản 1 dựng SkillShift-SE gần như từ đầu: tự chọn 25 repo, tự sinh task, tự thêm test. Reviewer sẽ nghi ngờ benchmark "vừa khít" với phương pháp. | **Task và test lấy từ benchmark có thật, được công nhận rộng** (bảng 6.1), giữ nguyên test chính thức. SkillShift-SE chỉ còn là **giao thức đánh giá** đặt lên trên (split, skill, scope, nhãn), không phải dataset mới. Endpoint chính chấm bằng test chính thức; test fault-injection tự thêm chỉ dùng cho phân tích phụ, báo cáo riêng. |
 
+### 0.4 Phát hiện từ dữ liệu thật (01/11/2026)
+
+Lấy bằng workflow `Data snapshots` (HuggingFace, arXiv), không tốn tiền.
+
+**Số task trong benchmark chuẩn** (`data/benchmarks/summary.json`):
+
+| Benchmark | Task | Repo | (repo, version) |
+| --- | --- | --- | --- |
+| SWE-bench | 2.294 | 12 | 126 |
+| SWE-bench Verified | 500 | 12 | 80 |
+| SWE-Gym | 2.438 | 11 | 200 |
+| SWE-bench-Live (full) | 1.888 | 223 | không có trường version |
+| SWE-smith | 59.136 | 222 | — |
+
+- SWE-Gym và SWE-bench **không trùng repo nào** → train (SWE-Gym) / test (SWE-bench) tách theo repo được. SWE-Gym và SWE-bench-Live trùng 4 repo (conan, hydra, dvc, mypy), đã bỏ khỏi test.
+- **R2 được xác nhận bằng số thật:** sau khi gộp SWE-bench ∪ Verified ∪ Live, chỉ 7 scope (repo, version) có ≥ 100 task, **0 scope** có ≥ 219 task. 219 là trung vị số trial để admit ngay cả skill rất mạnh (STR = −0,25) với α Bonferroni. Scope lớn nhất là django@3.2 với 157 task. Tính theo repo thì chỉ 5 repo có ≥ 219 task.
+- **Hệ quả:** phương án (a) "mỗi trial một task mới" không khả thi. Phải dùng (b) rút có hoàn lại từ pool (bound theo pool, đưa chênh lệch vào ξ_s), và/hoặc scope thô hơn (theo repo hoặc framework), và/hoặc α lớn hơn mỗi ô (ít ô hơn, FDR). Cần chốt trước pre-register.
+
+**Trích dẫn** (`data/citations.json`): cả 16 mã arXiv đều tồn tại, nhưng nhiều tiêu đề trong paper **không khớp** bài thật:
+
+| Ref | Paper ghi | Bài thật trên arXiv |
+| --- | --- | --- |
+| [9] 2608.06153 | GSE: Globally reusable skill evolution for coding agents (tác giả "GSE Authors") | *Learning Globally Reusable Skills for Coding Agents*, Chen Yang, Jiashuo Tian, Ziqi Wang… |
+| [13] 2601.06789 | MemGovern: Governed development histories as reusable experience cards | *MemGovern: Enhancing Code Agents through Learning from Governed Human Experiences*, Qihao Wang… |
+| [12] 2603.13258 | MemCoder: Structured intent-to-code experience memory | *Your Code Agent Can Grow Alongside You with Structured Memory*, Yi-Xuan Deng… |
+| [7] 2605.23951 | Formal verification of learned agent skills and capability containment | *Methods for Formal Verification of Agent Skills: Three Layers…*, Alfredo Metere (1 tác giả) |
+| [8] 2605.26252 | GEM/MemState: Dependency-aware correctness for agent memory | *Is Agent Memory a Database? Rethinking Data Foundations…*, Orogat & Mansour (**có thể sai mã arXiv**) |
+| [6] 2601.13295 | CooperBench: Measuring collaborative conflicts between coding agents | *CooperBench: Why Coding Agents Cannot be Your Teammates Yet*, Khatua, Zhu, Tran… |
+| [22] 2505.23419 | SWE-bench-Live: A continuously updated benchmark… | *SWE-bench Goes Live!* |
+
+[15] ReasoningBank và [16] TMA-NM không có mã arXiv trong paper → phải tìm và kiểm tra tay.
+
 ---
 
 ## 1. Đề tài nói gì (cho người mới)
@@ -407,7 +439,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 - [ ] 👤💰 ≥ 30 cặp trial cho mỗi cặp skill/context
 - [ ] 🤖 Ước lượng σ_S², σ_T² và hiệu ứng thật trung bình · 🔧 công cụ sẵn: `analysis.variance_components`, chờ dữ liệu pilot
 - [ ] 🤖 Số trial cần mỗi ô với α đã phân bổ (Prop. 9 đã sửa + mô phỏng) · 🔧 công cụ sẵn: `analysis.trials_needed`
-- [ ] 🤖 Đếm số task khác nhau có được mỗi scope → đủ cho số trial không (R2)
+- [x] 🤖 Đếm số task khác nhau có được mỗi scope → đủ cho số trial không (R2) · ✅ **không đủ** cho phương án (a), xem mục 0.4
 - [ ] 🤖 Power analysis: cần bao nhiêu cặp harmful để phát hiện margin 5 điểm với power 80% (R4) · 🔧 công cụ sẵn: `analysis.endpoint_power`
 - [ ] 👤 Ước lượng lại tổng chi phí
 - [ ] 👤💰 Chạy XRepoSkill và Gatekeeper trên cùng cặp pilot; margin + CI (chỉ tham khảo)
@@ -423,10 +455,10 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 
 **Chọn dữ liệu (chỉ từ bảng 6.1)**
 
-- [ ] 🤖 Tải metadata SWE-bench, SWE-bench Verified, SWE-Gym, SWE-bench-Live → bảng repo × số task × version, commit vào `data/`
+- [x] 🤖 Tải metadata SWE-bench, SWE-bench Verified, SWE-Gym, SWE-bench-Live → bảng repo × số task × version, commit vào `data/` · ✅ workflow Data snapshots run 41331567384 → `data/benchmarks/` (5 benchmark tải được)
 - [ ] 👤 Chọn ≥ 25 repo từ các benchmark này (train: SWE-Gym; test: SWE-bench + SWE-bench-Live) → ghi benchmark, repo, commit
 - [ ] 👤 Chọn 4 dòng version dependency có trong các task đã chọn
-- [ ] 🤖 Chia train/test theo repo → lưu file split (danh sách instance_id)
+- [x] 🤖 Chia train/test theo repo → lưu file split (danh sách instance_id) · ✅ `data/splits/split_v0.json` hash fb74140ef67fe769: train 11 repo SWE-Gym; test 223 repo, bỏ 4 repo trùng
 - [ ] 👤 Khai báo scope family S trước khi chạy
 
 **Tạo skill (treatment)**
@@ -441,7 +473,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 
 - [ ] 🤖 Lấy task target từ SWE-bench / SWE-bench-Live theo scope, ưu tiên task sau ngày cutoff của model
 - [ ] 🤖 Kiểm tra mỗi task chạy được bằng harness chính thức (gold patch pass, không flaky)
-- [ ] 🤖 Đếm task mỗi scope → đủ cho số trial ở Phase 3; thiếu thì bổ sung từ tập SWE-smith đã công bố hoặc gộp scope
+- [x] 🤖 Đếm task mỗi scope → đủ cho số trial ở Phase 3; thiếu thì bổ sung từ tập SWE-smith đã công bố hoặc gộp scope · ✅ **không đủ**: 0 scope (repo, version) có ≥ 219 task; lớn nhất django@3.2 = 157 (mục 0.4)
 - [ ] 👤 Chạy kiểm tra độ bền trên BugsInPy (tuỳ chọn)
 
 **Test hành vi (phân tích phụ)**
@@ -527,11 +559,12 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 - [ ] 🤖 BH cho so sánh phụ · 🔧 công cụ sẵn: `analysis.benjamini_hochberg`
 - [ ] 🤖 Sweep trọng số regression penalty (0,2–2,0) · 🔧 công cụ sẵn: `analysis.penalty_sweep`
 - [ ] 🤖 Script tự sinh mọi bảng và hình từ kết quả thô (chạy trong CI) · 🔧 `scripts/build_report.py` sinh report; bảng RQ chờ dữ liệu
+- [ ] 👤 Sửa refs.bib theo bảng mục 0.4: tiêu đề + tác giả thật cho [6], [7], [8], [9], [12], [13], [22]; kiểm tra lại mã arXiv của [8]; tìm [15], [16]
 - [ ] 👤 Thay toàn bộ số projected bằng số đo; bỏ banner "Draft status"
 - [ ] 👤 Phân tích định tính các ca admit sai
 - [ ] 👤 Related work và baseline theo mục 5
 - [ ] 👤 Threats to Validity
-- [ ] 👤 Kiểm tra từng trích dẫn trên arXiv/DBLP; thay "GSE Authors"… bằng tên thật · 🔧 workflow `Data snapshots` tra arXiv + DBLP → `data/citations.json`
+- [ ] 👤 Kiểm tra từng trích dẫn trên arXiv/DBLP; thay "GSE Authors"… bằng tên thật · 🔧 workflow `Data snapshots` tra arXiv + DBLP → `data/citations.json` · arXiv: 16/16 mã tồn tại, 7 tiêu đề trong paper sai (mục 0.4); DBLP chưa lấy được
 - [ ] 👤 2 người đọc nháp → sửa hết góp ý
 - [ ] 👤 Giới hạn trang và template ACM của venue đã chốt
 
@@ -559,6 +592,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 01/11/2026 | Phase 5a/5b (phần không cần LLM): skill, scope, footprint AST, Algorithm 1, composite, phân bổ, retirement, certificate, loss | `src/gatekeeper/*.py`, 58 test, coverage 96% |
 | 01/11/2026 | Công cụ Phase 2/3/6/7/8: baseline B1/B2/B8/B9, log chạy tiếp được (sửa bug dòng ghi dở), chi phí, σ, power, bootstrap, BH, harm–coverage, sweep w, kiểm tra ẩn danh | `baselines.py`, `runlog.py`, `analysis.py`, `scripts/check_anonymity.py` |
 | 01/11/2026 | Workflow `Data snapshots`: metadata benchmark (HuggingFace) + trích dẫn (arXiv, DBLP), vì máy dev bị chặn các host này | `.github/workflows/data.yml` |
+| 01/11/2026 | Data snapshot đầu tiên: 5 benchmark, split theo repo; **R2 xác nhận**: 0 scope có ≥ 219 task; 7 tiêu đề trích dẫn sai | run 41331567384, `data/`, mục 0.4 |
 
 ---
 
