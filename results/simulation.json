@@ -1,0 +1,105 @@
+{
+  "generated_utc": "2026-11-01T17:07:05+00:00",
+  "mode": "full",
+  "gatekeeper_version": "0.1.0",
+  "python": "3.11.18",
+  "numpy": "2.4.6",
+  "runtime_seconds": 2.12,
+  "theta": 0.05,
+  "grid": [
+    {
+      "str_true": -0.25,
+      "alpha": 0.05,
+      "theta": 0.05,
+      "p_plus": 0.1,
+      "budget": 2000,
+      "reps": 1000,
+      "admit_rate": 1.0,
+      "median_trials_admitted": 71.0,
+      "mean_trials_all": 85.44,
+      "review_v1_admit_rate": 1.0,
+      "review_v1_median_trials": 52
+    },
+    {
+      "str_true": -0.25,
+      "alpha": 3.125e-05,
+      "theta": 0.05,
+      "p_plus": 0.1,
+      "budget": 2000,
+      "reps": 1000,
+      "admit_rate": 1.0,
+      "median_trials_admitted": 219.0,
+      "mean_trials_all": 238.549,
+      "review_v1_admit_rate": 1.0,
+      "review_v1_median_trials": 167
+    },
+    {
+      "str_true": -0.15,
+      "alpha": 3.125e-05,
+      "theta": 0.05,
+      "p_plus": 0.1,
+      "budget": 2000,
+      "reps": 1000,
+      "admit_rate": 0.997,
+      "median_trials_admitted": 752.0,
+      "mean_trials_all": 788.773,
+      "review_v1_admit_rate": 1.0,
+      "review_v1_median_trials": 491
+    },
+    {
+      "str_true": -0.1,
+      "alpha": 3.125e-05,
+      "theta": 0.05,
+      "p_plus": 0.1,
+      "budget": 2000,
+      "reps": 1000,
+      "admit_rate": 0.257,
+      "median_trials_admitted": 1553.0,
+      "mean_trials_all": 1862.07,
+      "review_v1_admit_rate": 0.64,
+      "review_v1_median_trials": 1405
+    },
+    {
+      "str_true": -0.08,
+      "alpha": 3.125e-05,
+      "theta": 0.05,
+      "p_plus": 0.1,
+      "budget": 2000,
+      "reps": 1000,
+      "admit_rate": 0.015,
+      "median_trials_admitted": 1613.0,
+      "mean_trials_all": 1992.562,
+      "review_v1_admit_rate": 0.24,
+      "review_v1_median_trials": 1361
+    },
+    {
+      "str_true": -0.05,
+      "alpha": 3.125e-05,
+      "theta": 0.05,
+      "p_plus": 0.1,
+      "budget": 2000,
+      "reps": 1000,
+      "admit_rate": 0.0,
+      "median_trials_admitted": null,
+      "mean_trials_all": 2000.0,
+      "review_v1_admit_rate": null,
+      "review_v1_median_trials": null
+    }
+  ],
+  "type_one_check": {
+    "str_true": -0.05,
+    "alpha": 0.05,
+    "theta": 0.05,
+    "p_plus": 0.1,
+    "budget": 2000,
+    "reps": 5000,
+    "admit_rate": 0.03,
+    "median_trials_admitted": 115.5,
+    "mean_trials_all": 1949.3316
+  },
+  "prop9": {
+    "sigma_T2_over_sigma_S2": 2.1,
+    "paper_claim": 3.1,
+    "corrected": 5.2
+  }
+}

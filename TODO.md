@@ -1,6 +1,6 @@
 # Gatekeeper (FSE-2027-13) – Review & Todo list (bản 2)
 
-Bản 1: 01/11/2026 · @Cam Tu · Bản 2 (review lại): 01/11/2026
+Bản 1: 01/11/2026 · @thuthuy · Bản 2 (review lại): 01/11/2026 · Trạng thái: **đã duyệt** (01/11/2026)
 
 > **Đây là kim chỉ nam của dự án.** Mỗi lần xong một việc: tick `[x]`, ghi ngày + link commit/log vào cột "Bằng chứng" của mục [Nhật ký tiến độ](#nhật-ký-tiến-độ), cập nhật `report/index.html`. Việc nào chưa có bằng chứng (file, log CI, số đo) thì chưa được tick.
 
@@ -32,7 +32,7 @@ Bản 1 nhìn chung **đúng và kỹ**: mình tính lại mọi số trong bả
 | Prop. 9: tỉ lệ 1 + 2σ_T²/σ_S², bỏ "net 1,55×" | Tính lại phương sai | Đúng. Với σ_T²/σ_S² = 2,1 của paper thì tỉ lệ đúng là **5,2×**, không phải 3,1× |
 | E-process ∏(1 + λ(−θ − Z)), λ ≤ 1/(1+θ) | Kiểm tra supermartingale + không âm | Đúng |
 | Link GitHub còn sống | `git ls-remote` ngày 01/11/2026 | MemGovern, XRepoSkill, gepa, agent-skill-induction, SWE-smith, mini-swe-agent, CooperBench, confseq, ltt: **còn**. SWE-Skills-Bench: **không truy cập được** (đúng như bản 1 ghi) |
-| Mô phỏng khả thi | Chạy lại với bộ betting khác (bảng 4) | Cùng bậc độ lớn; bộ của mình cần nhiều trial hơn 20–40% |
+| Mô phỏng khả thi | Chạy lại với bộ betting khác (bảng 4) | Cùng bậc độ lớn; bộ của mình cần nhiều trial hơn 30–50% và kém power hơn ở hiệu ứng nhỏ |
 
 ### 0.3 Những chỗ sai hoặc thiếu trong bản 1 (đã sửa trong bản này)
 
@@ -50,6 +50,7 @@ Bản 1 nhìn chung **đúng và kỹ**: mình tính lại mọi số trong bả
 | R10 | Số hệ thống trong protocol | Paper ghi "10 systems". Sau khi đổi baseline còn 8–9 (B1, B2, B8, B9, MemGovern, XRepoSkill, gskill, [ASI], Gatekeeper). | Sửa protocol + tính lại chi phí. |
 | R11 | Theorem 7, chi tiết nhỏ | Cận chặt là STR(S1∘S2) = 1−θ (với ℓ(∅) = θ). Kết luận "không có hàm g" cần **hai** cấu trúc có cùng STR riêng lẻ mà STR ghép khác nhau. Phép ghép S1∘S2 cũng chưa định nghĩa thứ tự. | Thêm: định nghĩa thứ tự áp dụng; cặp thứ hai có ℓ(π1∘π2) = 0 (composite = −θ) để chứng minh không có g. |
 | R12 | Bảng công thức, dòng #4 | Dấu `\|` trong công thức làm vỡ bảng markdown. | Đã sửa định dạng. |
+| R13 | Benchmark tự dựng (yêu cầu của @thuthuy) | Bản 1 dựng SkillShift-SE gần như từ đầu: tự chọn 25 repo, tự sinh task, tự thêm test. Reviewer sẽ nghi ngờ benchmark "vừa khít" với phương pháp. | **Task và test lấy từ benchmark có thật, được công nhận rộng** (bảng 6.1), giữ nguyên test chính thức. SkillShift-SE chỉ còn là **giao thức đánh giá** đặt lên trên (split, skill, scope, nhãn), không phải dataset mới. Endpoint chính chấm bằng test chính thức; test fault-injection tự thêm chỉ dùng cho phân tích phụ, báo cáo riêng. |
 
 ---
 
@@ -142,21 +143,21 @@ Dưới H0, E_n là supermartingale không âm, E_0 = 1; bất đẳng thức Vi
 
 ## 4. Tính khả thi
 
-**Khả thi về kỹ thuật, rủi ro cao về số trial, số task và chi phí.** Mô phỏng: Z ∈ {−1, 0, 1}, θ = 0,05, budget tối đa 2.000 cặp trial. Bản 1 dùng 200 lần lặp; bản 2 chạy lại độc lập với bộ betting plug-in kiểu aGRAPA (P(Z=+1) = 0,10), 200 lần lặp.
+**Khả thi về kỹ thuật, rủi ro cao về số trial, số task và chi phí.** Mô phỏng: Z ∈ {−1, 0, 1}, θ = 0,05, budget tối đa 2.000 cặp trial. Bản 1 dùng 200 lần lặp; bản 2 chạy lại độc lập với bộ betting plug-in kiểu aGRAPA (P(Z=+1) = 0,10), 1.000 lần lặp mỗi dòng, 5.000 lần cho kiểm tra sai loại I. Tái lập bằng `python scripts/run_simulations.py` → `results/simulation.json` (CI chạy lại mỗi lần push).
 
 | STR thật | α mỗi ô | Bản 1: % admit / trung vị trial | Bản 2: % admit / trung vị trial |
 | --- | --- | --- | --- |
-| −0,25 | 0,05 | 100% / 52 | 100% / 68 |
-| −0,25 | 3,1e-5 | 100% / 167 | 100% / 235 |
-| −0,15 | 3,1e-5 | 100% / 491 | 100% / 767 |
-| −0,10 | 3,1e-5 | 64% / 1.405 | 25% / 1.491 |
-| −0,08 | 3,1e-5 | 24% / 1.361 | 1,5% / 1.830 |
+| −0,25 | 0,05 | 100% / 52 | 100% / 71 |
+| −0,25 | 3,1e-5 | 100% / 167 | 100% / 219 |
+| −0,15 | 3,1e-5 | 100% / 491 | 99,7% / 752 |
+| −0,10 | 3,1e-5 | 64% / 1.405 | 25,7% / 1.553 |
+| −0,08 | 3,1e-5 | 24% / 1.361 | 1,5% / 1.613 |
 | −0,05 (= −θ) | 3,1e-5 | — | 0% |
-| −0,05 (= −θ), kiểm tra sai loại I | 0,05 | — | 2,9% (≤ 5%: **hợp lệ**) |
+| −0,05 (= −θ), kiểm tra sai loại I | 0,05 | — | 3,0% (≤ 5%: **hợp lệ**) |
 
 Ghi chú: trung vị chỉ tính trên các lần được admit nên ở dòng hiệu ứng nhỏ con số bị lệch (vì vậy −0,08 của bản 1 thấp hơn −0,10). Bộ betting tốt hơn có thể giảm 20–40%, nhưng bậc độ lớn không đổi. Hệ quả:
 
-- **Thiếu task (nghiêm trọng hơn bản 1 nói).** Mỗi scope cần hàng trăm task *khác nhau* có test (R2). SWE-bench mỗi repo chỉ có vài chục đến vài trăm task. Phải sinh thêm bằng SWE-smith / SWE-bench-Live, hoặc chấp nhận bound theo pool.
+- **Thiếu task (nghiêm trọng hơn bản 1 nói).** Mỗi scope cần hàng trăm task *khác nhau* có test (R2). SWE-bench mỗi repo chỉ có vài chục đến vài trăm task (django ~850, nhiều repo < 50). Chỉ được lấy thêm từ các benchmark chuẩn ở bảng 6.1 (R13); nếu vẫn thiếu thì gộp scope thô hơn hoặc chấp nhận bound theo pool.
 - **Hiệu ứng thật nhỏ.** SWE-Skills-Bench: ~80% trong 49 skill không đổi pass rate, trung bình +1,2%. Skill có STR ≈ −θ gần như **không bao giờ** được admit. "Clean reuse 84,3%" rất khó đạt.
 - **Chi phí.** Ước tính gốc ~900 triệu token, 10–15 nghìn USD, ~15.000 CPU-giờ. Nếu mỗi ô cần 200–800 cặp, con số có thể tăng nhiều lần.
 
@@ -186,7 +187,7 @@ Nguyên tắc: chỉ giữ baseline có code công khai, không tự cài lại 
 | B3 Semantic routing | Loại | Không có bản chuẩn | XRepoSkill đã có bước chọn skill |
 | B7 Capability-only (enclawed) | Loại khỏi bảng chính | [metereconsulting/enclawed](https://github.com/metereconsulting/enclawed) | Preprint 1 tác giả, không có thực nghiệm; giữ làm minh họa "authorized ≠ safe" |
 
-**Công cụ có code:** [SWE-bench harness](https://github.com/SWE-bench/SWE-bench), [SWE-smith](https://github.com/SWE-bench/SWE-smith), [mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent), [CooperBench](https://github.com/cooperbench/CooperBench), [confseq](https://github.com/gostevehoward/confseq) (cần Boost), [LTT](https://github.com/aangelopoulos/ltt), [conformal-risk](https://github.com/aangelopoulos/conformal-risk).
+**Công cụ có code:** [SWE-bench harness](https://github.com/SWE-bench/SWE-bench), [SWE-smith](https://github.com/SWE-bench/SWE-smith), [mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent), [CooperBench](https://github.com/cooperbench/CooperBench) (preprint 2026, chưa được công nhận rộng → chỉ dùng tham khảo, không làm nguồn dữ liệu chính), [confseq](https://github.com/gostevehoward/confseq) (cần Boost), [LTT](https://github.com/aangelopoulos/ltt), [conformal-risk](https://github.com/aangelopoulos/conformal-risk).
 
 **Lưu ý:** SWE-Skills-Bench (`GeniusHTX/SWE-Skills-Bench`) vẫn không truy cập được → chỉ trích dẫn. Hầu hết paper skill 2026 là preprint: ghi rõ phiên bản arXiv và commit code.
 
@@ -196,11 +197,29 @@ Nguyên tắc: chỉ giữ baseline có code công khai, không tự cài lại 
 
 ## 6. Tiêu chuẩn build & kiểm chứng nhãn
 
+### 6.1 Benchmark chuẩn được phép dùng (R13)
+
+Tiêu chí "được công nhận rộng": (a) đã qua peer review ở hội nghị/tạp chí lớn **hoặc** là leaderboard chuẩn của cộng đồng; (b) dữ liệu và harness công khai; (c) task chấm bằng test thật, chạy trong Docker. Venue ghi dưới đây phải kiểm lại trên DBLP trước khi trích dẫn.
+
+| Benchmark | Công nhận | Dùng cho | Ghi chú |
+| --- | --- | --- | --- |
+| [SWE-bench](https://github.com/SWE-bench/SWE-bench) (2.294 task, 12 repo Python) | ICLR 2024; chuẩn của ngành | Nguồn task target chính, regime A (cùng repo, khác version) | Mỗi task có `FAIL_TO_PASS` / `PASS_TO_PASS`, harness Docker chính thức |
+| SWE-bench Verified (500 task) | Tập con được người kiểm duyệt (OpenAI, 2024); leaderboard chính | Pilot, tái hiện baseline, endpoint chính | Ít nhiễu nhãn nhất |
+| [SWE-Gym](https://github.com/SWE-Gym/SWE-Gym) (2.438 task, 11 repo khác SWE-bench) | ICML 2025 | **Train split**: thu trajectory, induce skill | Repo không trùng SWE-bench → tách train/test theo repo dễ |
+| [SWE-bench-Live](https://github.com/microsoft/SWE-bench-Live) | Microsoft, cập nhật hàng tháng, cùng format | Regime B (khác repo), task sau ngày cutoff model | Kiểm venue trước khi trích dẫn |
+| [SWE-smith](https://github.com/SWE-bench/SWE-smith) | NeurIPS 2025 (Datasets & Benchmarks) | **Chỉ** dùng tập task đã công bố, khi thiếu task cho một scope | Không tự sinh task mới cho bảng chính |
+| [BugsInPy](https://github.com/soarsmu/BugsInPy) (493 bug, 17 dự án Python) | ESEC/FSE 2020 | Kiểm tra độ bền (robustness) ngoài hệ SWE-bench | Không có issue text, cần adapter đầu vào |
+| SWE-bench Pro | Scale AI 2025, leaderboard công khai | Chỉ để tái hiện XRepoSkill đúng như paper của họ | Không dùng trong bảng chính |
+
+Những gì **không** phải benchmark mà là "treatment" của thí nghiệm, vẫn do mình dựng: skill (kể cả regime C adversarial, 52 skill outdated, cặp composition), scope family, nhãn. Cặp composition dựng từ **các task SWE-bench cùng sửa một file/hàm**, không lấy từ CooperBench.
+
+### 6.2 Các lớp chuẩn
+
 | Lớp | Chuẩn áp dụng | Cụ thể phải làm |
 | --- | --- | --- |
 | Từng task | Format SWE-bench | Repo + commit + Docker image + issue + `FAIL_TO_PASS` / `PASS_TO_PASS`; chấm bằng harness, không dùng LLM làm giám khảo |
-| Sinh thêm task | SWE-smith; SWE-bench-Live | Task sau ngày cutoff của model |
-| Test hành vi | Fault injection + mutation testing | Test tiêm lỗi (partial failure, retry, exactly-once, async); đo mutation score (mutmut) |
+| Nguồn task | Chỉ benchmark ở bảng 6.1 | Ghi rõ benchmark + instance_id cho từng task; không tự sinh task cho bảng chính |
+| Test hành vi | Fault injection + mutation testing | Test tiêm lỗi (partial failure, retry, exactly-once, async); đo mutation score (mutmut). **Chỉ cho phân tích phụ**: endpoint chính dùng test chính thức chưa sửa (R13) |
 | Nhãn | Scoring suite độc lập, 3 lớp (R3) | Ngoài sandbox admission; pool task chấm tách khỏi pool task admission |
 | Chia dữ liệu | Theo repo | Mọi context của một skill chung một split |
 | Thống kê | ACM SIGSOFT Empirical Standards | Pre-register; 3 lần × 2 backend; cluster bootstrap theo repo; BH cho so sánh phụ; báo cáo từng regime |
@@ -401,42 +420,42 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 - [ ] 👤 Họp người hướng dẫn → ghi quyết định và lý do
 - [ ] 👤 Cập nhật kích thước benchmark, θ, α
 
-### Phase 4 – Benchmark SkillShift-SE
+### Phase 4 – SkillShift-SE: giao thức đánh giá trên benchmark chuẩn
 
-**Chọn dữ liệu**
+**Chọn dữ liệu (chỉ từ bảng 6.1)**
 
-- [ ] 👤 Tiêu chí repo: license mở, có test, Python, có khai báo behavioural class
-- [ ] 👤 Chọn 25 repo → ghi commit
-- [ ] 👤 Chọn 4 dòng version dependency
-- [ ] 🤖 Chia train/test theo repo → lưu file split
+- [ ] 🤖 Tải metadata SWE-bench, SWE-bench Verified, SWE-Gym, SWE-bench-Live → bảng repo × số task × version, commit vào `data/`
+- [ ] 👤 Chọn ≥ 25 repo từ các benchmark này (train: SWE-Gym; test: SWE-bench + SWE-bench-Live) → ghi benchmark, repo, commit
+- [ ] 👤 Chọn 4 dòng version dependency có trong các task đã chọn
+- [ ] 🤖 Chia train/test theo repo → lưu file split (danh sách instance_id)
 - [ ] 👤 Khai báo scope family S trước khi chạy
 
-**Tạo skill**
+**Tạo skill (treatment)**
 
-- [ ] 👤💰 Chạy agent trên train split → trajectory thành công
+- [ ] 👤💰 Chạy agent trên task SWE-Gym (train split) → trajectory thành công
 - [ ] 🤖 Induce skill thành edit program (AST rewrite + shell step)
 - [ ] 🤖 Ghi D, I, P, K cho từng skill
 - [ ] 🤖 Kiểm tra không skill nào chứa thông tin repo test
 - [ ] 👤 Tạo 52 skill outdated nhưng vô hại
 
-**Tạo task target**
+**Task target (không tự sinh)**
 
-- [ ] 👤💰 Sinh task bằng SWE-smith cho từng scope
-- [ ] 👤 Thêm task SWE-bench-Live sau ngày cutoff của model
-- [ ] 🤖 Kiểm tra mỗi task có `FAIL_TO_PASS`, `PASS_TO_PASS`, chạy được trong Docker
-- [ ] 🤖 Đếm task mỗi scope → đủ cho số trial ở Phase 3
+- [ ] 🤖 Lấy task target từ SWE-bench / SWE-bench-Live theo scope, ưu tiên task sau ngày cutoff của model
+- [ ] 🤖 Kiểm tra mỗi task chạy được bằng harness chính thức (gold patch pass, không flaky)
+- [ ] 🤖 Đếm task mỗi scope → đủ cho số trial ở Phase 3; thiếu thì bổ sung từ tập SWE-smith đã công bố hoặc gộp scope
+- [ ] 👤 Chạy kiểm tra độ bền trên BugsInPy (tuỳ chọn)
 
-**Test hành vi**
+**Test hành vi (phân tích phụ)**
 
-- [ ] 👤 Test fault-injection cho từng behavioural class
+- [ ] 👤 Test fault-injection cho từng behavioural class, để riêng trong `supplementary_tests/`
 - [ ] 🤖 Mutation score trước/sau khi thêm test
 
 **Regime & cặp composition**
 
-- [ ] 👤 Regime A (cùng repo, khác version)
-- [ ] 👤 Regime B (khác repo, cùng framework)
-- [ ] 👤 Regime C (adversarial, hợp lệ về quyền nhưng cài lỗi chức năng)
-- [ ] 👤 46 cặp composition từ CooperBench theo 4 cơ chế
+- [ ] 👤 Regime A: cùng repo SWE-bench, khác version
+- [ ] 👤 Regime B: khác repo (SWE-Gym → SWE-bench / SWE-bench-Live), cùng framework
+- [ ] 👤 Regime C: skill adversarial (hợp lệ về quyền nhưng cài lỗi chức năng) áp lên task SWE-bench
+- [ ] 👤 46 cặp composition: ghép các task SWE-bench cùng sửa một file/hàm, theo 4 cơ chế (exception type, ordering, resource lifetime, transaction scope)
 
 **Kiểm chứng nhãn**
 
@@ -534,6 +553,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | Ngày | Việc | Bằng chứng (commit / log CI / file) |
 | --- | --- | --- |
 | 01/11/2026 | Review lại todo list (bản 2) | TODO.md |
+| 01/11/2026 | Đổi tên người viết → @thuthuy; benchmark chỉ lấy từ chuẩn được công nhận (R13); @thuthuy duyệt | TODO.md |
 
 ---
 
@@ -551,5 +571,6 @@ Tài liệu gốc: FSE-2027-13 paper, reading list, summary (`docs/`).
 - [ASI, arXiv 2504.06821](https://arxiv.org/html/2504.06821v2)
 - [CODESKILL, arXiv 2605.25430](https://arxiv.org/pdf/2605.25430) (không có code)
 - [Hierarchical Skill Evolution, arXiv 2610.35616](https://arxiv.org/abs/2610.35616) (không có code)
-- [CooperBench, arXiv 2601.13295](https://arxiv.org/html/2601.13295)
+- [CooperBench, arXiv 2601.13295](https://arxiv.org/html/2601.13295) (chỉ tham khảo)
+- Benchmark chuẩn: [SWE-bench, ICLR 2024](https://arxiv.org/abs/2310.06770), [SWE-bench Verified](https://openai.com/index/introducing-swe-bench-verified/), [SWE-Gym](https://arxiv.org/abs/2412.21139), [SWE-bench-Live](https://arxiv.org/abs/2505.23419), [SWE-smith](https://arxiv.org/abs/2504.21798), [BugsInPy](https://github.com/soarsmu/BugsInPy)
 - Hạn FSE 2027: [PaperPilot](https://www.getpaperpilot.com/deadlines/fse-2027.html), [BERI](https://www.beri.net/events/fse-2027), trang chính thức [conf.researchr.org](https://conf.researchr.org/track/fse-2027/fse-2027-papers)
