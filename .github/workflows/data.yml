@@ -11,6 +11,7 @@ on:
     paths:
       - "scripts/fetch_benchmarks.py"
       - "scripts/check_citations.py"
+      - "src/gatekeeper/patches.py"
       - ".github/workflows/data.yml"
 
 permissions:
@@ -30,7 +31,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install
-        run: pip install "datasets>=2.19"
+        run: pip install -e . "datasets>=2.19"
       - name: Citations (arXiv, DBLP)
         run: python scripts/check_citations.py
         continue-on-error: true

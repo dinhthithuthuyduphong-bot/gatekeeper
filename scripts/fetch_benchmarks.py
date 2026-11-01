@@ -18,6 +18,8 @@ from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
+from gatekeeper.patches import edit_patterns, parse_patch
+
 OUT = Path("data/benchmarks")
 
 # name -> list of (hf_dataset_id, split) candidates, first that loads wins
@@ -79,9 +81,24 @@ def slim_rows(ds) -> list[dict]:
                 "n_pass_to_pass": _count_tests(r.get("PASS_TO_PASS"))
                 if "PASS_TO_PASS" in cols
                 else "",
+                **_patch_meta(r.get("patch") if "patch" in cols else None),
             }
         )
     return rows
+
+
+def _patch_meta(patch: str | None) -> dict:
+    """Gold-patch metadata only (files, functions, edit-pattern families); no code is kept."""
+    if not patch:
+        return {"files": "", "functions": "", "n_added": "", "n_removed": "", "patterns": ""}
+    p = parse_patch(patch)
+    return {
+        "files": ";".join(p.files),
+        "functions": ";".join(sorted(p.functions)),
+        "n_added": len(p.added),
+        "n_removed": len(p.removed),
+        "patterns": ";".join(sorted(edit_patterns(p))),
+    }
 
 
 def main() -> int:
