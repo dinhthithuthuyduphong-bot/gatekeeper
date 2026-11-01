@@ -23,8 +23,8 @@ jobs:
       matrix:
         python: ["3.11", "3.12"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python }}
           cache: pip
@@ -49,7 +49,7 @@ jobs:
           assert committed["type_one_check"]["admit_rate"] == fresh["type_one_check"]["admit_rate"]
           print("simulation.json reproduced exactly")
           EOF
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: always() && matrix.python == '3.11'
         with:
           name: results-test
@@ -59,17 +59,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.10"
       - name: Install Boost (needed to build confseq)
         run: sudo apt-get update -q && sudo apt-get install -y -q libboost-dev
       - name: Install
-        run: pip install -e . confseq
+        run: pip install -e . "numpy<2" confseq  # confseq still uses np.float_ (removed in NumPy 2.0)
       - name: Cross-check e-process against confseq
         run: python scripts/confseq_crosscheck.py
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: always()
         with:
           name: results-confseq
@@ -82,11 +82,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           pattern: results-*
           path: results/
@@ -95,7 +95,7 @@ jobs:
         run: |
           pip install -e .
           python scripts/build_report.py
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: gatekeeper-report
           path: |
