@@ -46,10 +46,25 @@ from gatekeeper.skill import Skill
 MODELS_FILE = Path("configs/models/vertex_gemini.json")
 
 
-def load_instances(ids: list[str] | None, n: int, seed: int) -> list[dict]:
+def pool_ids(pool: str) -> list[str] | None:
+    """Usable task ids from results/pool_validation/summary.json (or a pilot_pool.json)."""
+    if not pool or not Path(pool).exists():
+        return None
+    d = json.loads(Path(pool).read_text())
+    return list(d.get("usable") or d.get("instances") or [])
+
+
+def load_instances(
+    ids: list[str] | None, n: int, seed: int, allowed: list[str] | None = None
+) -> list[dict]:
     from datasets import load_dataset
 
     rows = list(load_dataset(DATASET, split="test"))
+    if allowed is not None:
+        keep = set(allowed)
+        rows = [r for r in rows if r["instance_id"] in keep]
+        if len(rows) < n and not ids:
+            raise SystemExit(f"pool has only {len(rows)} usable tasks, --n {n} requested")
     if ids:
         by_id = {r["instance_id"]: r for r in rows}
         missing = [i for i in ids if i not in by_id]
@@ -138,6 +153,11 @@ def main() -> int:
     ap.add_argument("--skills", required=True, help="comma-separated skill JSON files")
     ap.add_argument("--instances", default="")
     ap.add_argument("--n", type=int, default=5)
+    ap.add_argument(
+        "--pool",
+        default="",
+        help="sample only from validated tasks (results/pool_validation/summary.json)",
+    )
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--workers", type=int, default=2)
     ap.add_argument("--step-limit", type=int, default=60)
@@ -154,7 +174,7 @@ def main() -> int:
             if not os.environ.get(v):
                 raise SystemExit(f"{v} is not set (Vertex AI); see docs/vertex_setup.md")
     ids = [i for i in a.instances.split(",") if i] or None
-    rows = load_instances(ids, a.n, a.seed)
+    rows = load_instances(ids, a.n, a.seed, pool_ids(a.pool))
     arms: list[tuple[str, Skill | None]] = [("none", None)] + [(s.id, s) for s in skills]
     worst = len(arms) * len(rows) * (a.cost_limit if model else 0.0)
     if model is not None and worst > a.budget_usd:

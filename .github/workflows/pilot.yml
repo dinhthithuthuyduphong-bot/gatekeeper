@@ -79,10 +79,16 @@ jobs:
           python-version: "3.11"
       - name: Install
         run: pip install -e . "swebench==5.0.2" "mini-swe-agent==2.4.6"
+      - name: Fetch validated task pool
+        run: |
+          git fetch origin pilot-snapshots && \
+            git show origin/pilot-snapshots:results/pool_validation/summary.json > pool.json || \
+            (echo "no validated pool yet: run 'Validate pilot pool' first" && exit 1)
+          python -c "import json; print(json.load(open('pool.json'))['n_usable'], 'usable tasks')"
       - name: Run pilot
         run: |
           python scripts/run_pilot.py --name "${{ inputs.name }}" --model "${{ inputs.model }}" \
-            --skills "${{ inputs.skills }}" --n "${{ inputs.n }}" \
+            --skills "${{ inputs.skills }}" --n "${{ inputs.n }}" --pool pool.json \
             --cost-limit "${{ inputs.cost_limit }}" --budget-usd "${{ inputs.budget_usd }}" --workers 2
       - uses: actions/upload-artifact@v6
         if: always()

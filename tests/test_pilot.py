@@ -97,3 +97,20 @@ def test_traj_usage_and_pairing():
     u2 = traj_usage({**traj, "info": {"model_stats": {"instance_cost": 2.0, "api_calls": 7}}})
     assert u2["cost_usd"] == 2.0 and u2["api_calls"] == 7
     assert pair_losses({"a": 0.6, "b": 0.6}, {"b": 0.0, "c": 0.0}) == [("b", 0.0, 0.6)]
+
+
+def test_pool_ids(tmp_path):
+    import importlib.util
+    from pathlib import Path
+
+    spec = importlib.util.spec_from_file_location(
+        "run_pilot", Path(__file__).parents[1] / "scripts" / "run_pilot.py"
+    )
+    pytest.importorskip("yaml")
+    rp = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rp)
+    p = tmp_path / "summary.json"
+    p.write_text(json.dumps({"usable": ["a", "b"], "n_usable": 2}))
+    assert rp.pool_ids(str(p)) == ["a", "b"]
+    assert rp.pool_ids("") is None
+    assert rp.pool_ids(str(tmp_path / "missing.json")) is None
