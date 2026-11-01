@@ -614,7 +614,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 - [ ] 🤖 Cluster bootstrap theo repo cho mọi CI · 🔧 công cụ sẵn: `analysis.cluster_bootstrap_ci`
 - [ ] 🤖 BH cho so sánh phụ · 🔧 công cụ sẵn: `analysis.benjamini_hochberg`
 - [ ] 🤖 Sweep trọng số regression penalty (0,2–2,0) · 🔧 công cụ sẵn: `analysis.penalty_sweep`
-- [ ] 🤖 Script tự sinh mọi bảng và hình từ kết quả thô (chạy trong CI) · 🔧 `scripts/build_report.py` sinh report; bảng RQ chờ dữ liệu
+- [ ] 🤖 Script tự sinh mọi bảng và hình từ kết quả thô (chạy trong CI) · 🔧 `scripts/build_report.py` sinh report; bảng RQ chờ dữ liệu · khung LaTeX IEEE `paper/main.tex` + `scripts/make_tables.py` → `paper/tables/*.tex`, CI workflow `Paper` biên dịch PDF
 - [ ] 👤 Sửa refs.bib theo bảng mục 0.4: tiêu đề + tác giả thật cho [6], [7], [8], [9], [12], [13], [22]; kiểm tra lại mã arXiv của [8]; tìm [15], [16]
 - [ ] 👤 Thay toàn bộ số projected bằng số đo; bỏ banner "Draft status"
 - [ ] 👤 Phân tích định tính các ca admit sai
@@ -622,7 +622,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 - [ ] 👤 Threats to Validity
 - [ ] 👤 Kiểm tra từng trích dẫn trên arXiv/DBLP; thay "GSE Authors"… bằng tên thật · 🔧 workflow `Data snapshots` tra arXiv + DBLP → `data/citations.json` · arXiv: 16/16 mã tồn tại, 7 tiêu đề trong paper sai (mục 0.4); DBLP chưa lấy được
 - [ ] 👤 2 người đọc nháp → sửa hết góp ý
-- [ ] 👤 Giới hạn trang và template ACM của venue đã chốt
+- [ ] 👤 Giới hạn trang và template ACM của venue đã chốt · 🔧 ASE dùng template IEEE conference: khung `paper/main.tex` (IEEEtran); kiểm số trang khi CfP ASE 2027 ra
 
 ### Phase 8 – Artifact & nộp
 

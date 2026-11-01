@@ -1,0 +1,40 @@
+name: Paper
+
+# Free: regenerates paper/tables from results/ and compiles paper/main.tex (IEEE conference).
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths:
+      - "paper/**"
+      - "scripts/make_tables.py"
+      - "results/**"
+      - ".github/workflows/paper.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Tables from results
+        run: |
+          pip install -e .
+          python scripts/make_tables.py
+          git diff --exit-code paper/tables || (echo "paper/tables out of date: run scripts/make_tables.py" && exit 1)
+      - name: Compile
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          working_directory: paper
+      - uses: actions/upload-artifact@v6
+        with:
+          name: paper-pdf
+          path: paper/main.pdf
