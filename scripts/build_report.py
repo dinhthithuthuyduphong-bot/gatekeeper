@@ -357,6 +357,56 @@ def pilot_html() -> str:
     )
 
 
+def cost_html(d: dict | None) -> str:
+    if not d:
+        return "<p class='muted'>Chưa có <code>results/cost_estimate.json</code>.</p>"
+    agg: dict[tuple[str, str], list[float]] = {}
+    runs: dict[str, int] = {}
+    for r in d["rows"]:
+        agg.setdefault((r["workload"], r["model"]), []).append(r["usd_total"])
+        runs[r["workload"]] = r["agent_runs"]
+    models = sorted({m for _, m in agg})
+    body = "".join(
+        f"<tr><td>{esc(w)}</td><td class='n'>{num(runs[w])}</td>"
+        + "".join(
+            f"<td class='n'>{num(min(agg[(w, m)]))}–{num(max(agg[(w, m)]))}</td>" for m in models
+        )
+        + "</tr>"
+        for w in runs
+    )
+    head = "".join(f"<th>{esc(m)} (USD)</th>" for m in models)
+    flag = "" if d.get("prices_verified") else " <span class='warn'>Giá chưa xác minh.</span>"
+    return (
+        f"<div class='tbl'><table><thead><tr><th>Khối lượng</th><th>Lần chạy agent</th>{head}</tr></thead>"
+        f"<tbody>{body}</tbody></table></div><p>Dải theo giả định 150k–1,5M token input mỗi lần chạy.{flag} "
+        "Bước đầu tiên khi có credential: chạy n = 2 để đo token thật.</p>"
+    )
+
+
+def mining_html(d: dict | None) -> str:
+    if not d:
+        return "<p class='muted'>Chưa có <code>results/skill_mining.json</code>.</p>"
+    rows = "".join(
+        f"<tr><td><code>{esc(f['family'])}</code></td><td class='n'>{f['train_repos']}/{d['n_train_repos']}</td>"
+        f"<td class='n'>{num(f['train_tasks'])}</td><td class='n'>{num(f['test_tasks'])}</td>"
+        f"<td class='n'>{pct(f['test_share'])}</td></tr>"
+        for f in d["families"]
+    )
+    c = d["composition_candidates"]
+    return (
+        "<p>Khai thác metadata gold patch (không giữ code): họ mẫu sửa nào lặp lại ở nhiều repo <b>train</b> "
+        "(SWE-Gym) thì là ứng viên skill chuyển giao được; số task <b>test</b> có cùng mẫu cho biết skill đó "
+        "có thể áp dụng ở bao nhiêu nơi.</p>"
+        "<div class='tbl'><table><thead><tr><th>Họ mẫu sửa</th><th>Repo train</th><th>Task train</th>"
+        f"<th>Task test</th><th>Tỉ lệ test</th></tr></thead><tbody>{rows}</tbody></table></div>"
+        f"<p>Ứng viên cặp composition (cùng repo, gold patch sửa chung một hàm): <b>{num(c['n_pairs'])}</b> cặp, "
+        f"{num(c['n_tasks_involved'])} task. Đủ để chọn 46 cặp theo 4 cơ chế tương tác (cần lọc tay).</p>"
+        "<p class='muted'>Lưu ý: \"có cùng mẫu trong gold patch\" là kích hoạt <i>oracle</i>; trong Gatekeeper, "
+        "I(x) phải dự đoán từ issue và repo. Nếu định nghĩa scope theo (họ skill, framework) thay vì "
+        "(repo, version), mỗi scope có hàng trăm task, giảm vấn đề R2.</p>"
+    )
+
+
 def split_html(sp: dict | None) -> str:
     if not sp:
         return "<p class='muted'>Chưa có <code>data/splits/split_v0.json</code>.</p>"
@@ -576,6 +626,8 @@ def build() -> str:
     sskb = sskb_html(load_json("results/sskb_analysis.json"))
     harness = harness_html(load_json("results/harness_smoke.json"))
     pilot = pilot_html()
+    cost = cost_html(load_json("results/cost_estimate.json"))
+    mining = mining_html(load_json("results/skill_mining.json"))
 
     build_line = f"Build {esc(sha)} · {esc(now)}"
     if run_url:
@@ -671,6 +723,8 @@ trong 2.000 cặp trial. Mỗi ô cần hàng trăm task khác nhau, nhiều hơ
 {harness}
 <h3>5.6 Pilot với agent (mini-swe-agent + Gemini qua Vertex AI)</h3>
 {pilot}
+<h4>Ước tính chi phí (Gemini qua Vertex AI)</h4>
+{cost}
 <h3>5.7 Pilot ngoài trên dữ liệu paired thật (SWE-Skills-Bench)</h3>
 {sskb}
 <h3>5.8 Đối chiếu với confseq</h3>
@@ -692,7 +746,9 @@ fault-injection tự thêm chỉ cho phân tích phụ.</p>
 {bench_html}
 <h3>6.2 Split theo repo và số task mỗi scope</h3>
 {sp_html}
-<h3>6.3 Kiểm tra trích dẫn (arXiv, DBLP)</h3>
+<h3>6.3 Ứng viên skill và cặp composition từ gold patch</h3>
+{mining}
+<h3>6.4 Kiểm tra trích dẫn (arXiv, DBLP)</h3>
 {cite_html}
 
 <h2 id="code">7. Thành phần đã cài</h2>

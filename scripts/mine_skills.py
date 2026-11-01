@@ -20,6 +20,7 @@ from pathlib import Path
 
 from gatekeeper.patches import PATTERNS, composition_candidates
 
+csv.field_size_limit(2**31 - 1)  # some gold patches touch thousands of functions
 BENCH = Path("data/benchmarks")
 MIN_REPOS = 3
 

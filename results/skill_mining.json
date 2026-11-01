@@ -1,0 +1,404 @@
+{
+  "n_train_tasks": 2438,
+  "n_train_repos": 11,
+  "n_test_tasks": 3991,
+  "min_repos_for_transferable": 3,
+  "families": [
+    {
+      "family": "type_guard",
+      "train_repos": 11,
+      "train_tasks": 573,
+      "train_share": 0.2350287120590648,
+      "test_tasks": 762,
+      "test_repos": 113,
+      "test_share": 0.19092959158105738,
+      "transferable_candidate": true
+    },
+    {
+      "family": "null_guard",
+      "train_repos": 11,
+      "train_tasks": 533,
+      "train_share": 0.21862182116488926,
+      "test_tasks": 736,
+      "test_repos": 122,
+      "test_share": 0.18441493360060135,
+      "transferable_candidate": true
+    },
+    {
+      "family": "raise_error",
+      "train_repos": 11,
+      "train_tasks": 413,
+      "train_share": 0.1694011484823626,
+      "test_tasks": 635,
+      "test_repos": 104,
+      "test_share": 0.1591079929842145,
+      "transferable_candidate": true
+    },
+    {
+      "family": "kwarg_default",
+      "train_repos": 11,
+      "train_tasks": 222,
+      "train_share": 0.09105824446267433,
+      "test_tasks": 357,
+      "test_repos": 76,
+      "test_share": 0.08945126534703082,
+      "transferable_candidate": true
+    },
+    {
+      "family": "exception_handling",
+      "train_repos": 11,
+      "train_tasks": 194,
+      "train_share": 0.07957342083675144,
+      "test_tasks": 459,
+      "test_repos": 104,
+      "test_share": 0.11500876973189676,
+      "transferable_candidate": true
+    },
+    {
+      "family": "empty_check",
+      "train_repos": 11,
+      "train_tasks": 153,
+      "train_share": 0.06275635767022149,
+      "test_tasks": 243,
+      "test_repos": 71,
+      "test_share": 0.060886995740415936,
+      "transferable_candidate": true
+    },
+    {
+      "family": "defensive_copy",
+      "train_repos": 10,
+      "train_tasks": 77,
+      "train_share": 0.03158326497128794,
+      "test_tasks": 122,
+      "test_repos": 43,
+      "test_share": 0.030568779754447505,
+      "transferable_candidate": true
+    },
+    {
+      "family": "path_handling",
+      "train_repos": 8,
+      "train_tasks": 78,
+      "train_share": 0.03199343724364233,
+      "test_tasks": 116,
+      "test_repos": 43,
+      "test_share": 0.02906539714357304,
+      "transferable_candidate": true
+    },
+    {
+      "family": "regex_change",
+      "train_repos": 8,
+      "train_tasks": 34,
+      "train_share": 0.01394585726004922,
+      "test_tasks": 114,
+      "test_repos": 36,
+      "test_share": 0.028564269606614883,
+      "transferable_candidate": true
+    },
+    {
+      "family": "deprecation_warning",
+      "train_repos": 6,
+      "train_tasks": 164,
+      "train_share": 0.06726825266611977,
+      "test_tasks": 163,
+      "test_repos": 33,
+      "test_share": 0.0408418942620897,
+      "transferable_candidate": true
+    },
+    {
+      "family": "dtype_cast",
+      "train_repos": 5,
+      "train_tasks": 406,
+      "train_share": 0.16652994257588188,
+      "test_tasks": 172,
+      "test_repos": 22,
+      "test_share": 0.043096968178401404,
+      "transferable_candidate": true
+    },
+    {
+      "family": "encoding",
+      "train_repos": 5,
+      "train_tasks": 29,
+      "train_share": 0.011894995898277276,
+      "test_tasks": 65,
+      "test_repos": 37,
+      "test_share": 0.016286644951140065,
+      "transferable_candidate": true
+    }
+  ],
+  "composition_candidates": {
+    "n_pairs": 3690,
+    "n_tasks_involved": 2243,
+    "pairs_by_repo_owner": {
+      "django": 1153,
+      "sphinx-doc": 496,
+      "matplotlib": 340,
+      "sympy": 326,
+      "pydata": 189,
+      "aws-cloudformation": 156,
+      "scikit-learn": 151,
+      "instructlab": 119,
+      "deepset-ai": 95,
+      "pylint-dev": 83,
+      "pytest-dev": 62,
+      "psf": 56,
+      "reflex-dev": 47,
+      "mikedh": 29,
+      "pdm-project": 27,
+      "sissbruecker": 25,
+      "jlowin": 22,
+      "reata": 19,
+      "beetbox": 17,
+      "beeware": 15,
+      "astropy": 13,
+      "falconry": 12,
+      "pvlib": 12,
+      "stanfordnlp": 12,
+      "kozea": 11,
+      "Kozea": 10,
+      "run-llama": 10,
+      "jupyterlab": 9,
+      "kedro-org": 9,
+      "mwaskom": 9,
+      "pypsa": 9,
+      "python-attrs": 9,
+      "python-telegram-bot": 9,
+      "dynaconf": 7,
+      "keras-team": 7,
+      "koxudaxi": 7,
+      "pallets": 7,
+      "Textualize": 6,
+      "patroni": 6,
+      "python-babel": 6,
+      "PyPSA": 5,
+      "joke2k": 4,
+      "openai": 4,
+      "privacyidea": 4,
+      "python-control": 4,
+      "Archmonger": 3,
+      "Pyomo": 3,
+      "a2aproject": 3,
+      "icloud-photos-downloader": 3,
+      "ipython": 3,
+      "pytorch": 3,
+      "sooperset": 3,
+      "tox-dev": 3,
+      "IBM": 2,
+      "ag2ai": 2,
+      "astronomer": 2,
+      "bridgecrewio": 2,
+      "certbot": 2,
+      "encode": 2,
+      "fonttools": 2,
+      "geopandas": 2,
+      "mesonbuild": 2,
+      "piskvorky": 2,
+      "sdv-dev": 2,
+      "streamlink": 2,
+      "AgentOps-AI": 1,
+      "BerriAI": 1,
+      "Flexget": 1,
+      "albumentations-team": 1,
+      "delgan": 1,
+      "freqtrade": 1,
+      "hiyouga": 1,
+      "kubernetes-client": 1,
+      "projectmesa": 1,
+      "pybamm-team": 1,
+      "qtile": 1,
+      "shapely": 1,
+      "spesmilo": 1,
+      "wemake-services": 1
+    },
+    "examples": [
+      {
+        "a": "AgentOps-AI__agentops-1005",
+        "b": "AgentOps-AI__agentops-1091",
+        "shared_functions": [
+          "agentops/semconv/span_attributes.py::SpanAttributes"
+        ]
+      },
+      {
+        "a": "Archmonger__django-dbbackup-601",
+        "b": "Archmonger__django-dbbackup-604",
+        "shared_functions": [
+          "dbbackup/management/commands/dbrestore.py::_restore_backup"
+        ]
+      },
+      {
+        "a": "Archmonger__django-dbbackup-601",
+        "b": "Archmonger__django-dbbackup-606",
+        "shared_functions": [
+          "dbbackup/management/commands/mediabackup.py::Command",
+          "dbbackup/management/commands/mediabackup.py::backup_mediafiles"
+        ]
+      },
+      {
+        "a": "Archmonger__django-dbbackup-601",
+        "b": "Archmonger__django-dbbackup-623",
+        "shared_functions": [
+          "dbbackup/db/postgresql.py::_restore_dump"
+        ]
+      },
+      {
+        "a": "BerriAI__litellm-10284",
+        "b": "BerriAI__litellm-12188",
+        "shared_functions": [
+          "litellm/litellm_core_utils/streaming_chunk_builder_utils.py::calculate_usage"
+        ]
+      },
+      {
+        "a": "Flexget__Flexget-4441",
+        "b": "Flexget__Flexget-4518",
+        "shared_functions": [
+          "flexget/utils/qualities.py::__deepcopy__"
+        ]
+      },
+      {
+        "a": "IBM__mcp-context-forge-632",
+        "b": "IBM__mcp-context-forge-710",
+        "shared_functions": [
+          "mcpgateway/config.py::Settings",
+          "mcpgateway/utils/verify_credentials.py::require_auth",
+          "mcpgateway/utils/verify_credentials.py::require_auth_override",
+          "mcpgateway/utils/verify_credentials.py::verify_credentials"
+        ]
+      },
+      {
+        "a": "IBM__mcp-context-forge-691",
+        "b": "IBM__mcp-context-forge-695",
+        "shared_functions": [
+          "mcpgateway/schemas.py::_process_auth_fields",
+          "mcpgateway/schemas.py::create_auth_value"
+        ]
+      },
+      {
+        "a": "Kozea__Radicale-1766",
+        "b": "Kozea__Radicale-1844",
+        "shared_functions": [
+          "radicale/app/put.py::do_PUT"
+        ]
+      },
+      {
+        "a": "Kozea__WeasyPrint-2437",
+        "b": "kozea__weasyprint-2121",
+        "shared_functions": [
+          "weasyprint/layout/block.py::block_container_layout"
+        ]
+      },
+      {
+        "a": "Kozea__WeasyPrint-2437",
+        "b": "kozea__weasyprint-2387",
+        "shared_functions": [
+          "weasyprint/layout/block.py::block_container_layout"
+        ]
+      },
+      {
+        "a": "Kozea__WeasyPrint-2437",
+        "b": "kozea__weasyprint-2425",
+        "shared_functions": [
+          "weasyprint/layout/block.py::block_container_layout"
+        ]
+      },
+      {
+        "a": "Kozea__WeasyPrint-2454",
+        "b": "kozea__weasyprint-2051",
+        "shared_functions": [
+          "weasyprint/formatting_structure/build.py::wrap_table"
+        ]
+      },
+      {
+        "a": "Kozea__WeasyPrint-2454",
+        "b": "kozea__weasyprint-2121",
+        "shared_functions": [
+          "weasyprint/formatting_structure/build.py::flex_children",
+          "weasyprint/formatting_structure/build.py::grid_children",
+          "weasyprint/layout/flex.py::flex_layout"
+        ]
+      },
+      {
+        "a": "Kozea__WeasyPrint-2454",
+        "b": "kozea__weasyprint-2231",
+        "shared_functions": [
+          "weasyprint/layout/flex.py::flex_layout"
+        ]
+      },
+      {
+        "a": "Kozea__WeasyPrint-2454",
+        "b": "kozea__weasyprint-2233",
+        "shared_functions": [
+          "weasyprint/layout/flex.py::flex_layout"
+        ]
+      },
+      {
+        "a": "Kozea__WeasyPrint-2454",
+        "b": "kozea__weasyprint-2387",
+        "shared_functions": [
+          "weasyprint/formatting_structure/build.py::flex_children",
+          "weasyprint/formatting_structure/build.py::grid_children",
+          "weasyprint/layout/flex.py::flex_layout"
+        ]
+      },
+      {
+        "a": "Kozea__WeasyPrint-2494",
+        "b": "kozea__weasyprint-2121",
+        "shared_functions": [
+          "weasyprint/layout/column.py::columns_layout"
+        ]
+      },
+      {
+        "a": "PyPSA__PyPSA-1265",
+        "b": "PyPSA__PyPSA-1325",
+        "shared_functions": [
+          "pypsa/networks.py::copy"
+        ]
+      },
+      {
+        "a": "PyPSA__PyPSA-1265",
+        "b": "pypsa__pypsa-1091",
+        "shared_functions": [
+          "pypsa/networks.py::copy"
+        ]
+      },
+      {
+        "a": "PyPSA__PyPSA-1310",
+        "b": "pypsa__pypsa-1012",
+        "shared_functions": [
+          "pypsa/optimization/optimize.py::define_objective"
+        ]
+      },
+      {
+        "a": "PyPSA__PyPSA-1310",
+        "b": "pypsa__pypsa-1195",
+        "shared_functions": [
+          "pypsa/optimization/optimize.py::define_objective"
+        ]
+      },
+      {
+        "a": "PyPSA__PyPSA-1325",
+        "b": "pypsa__pypsa-1091",
+        "shared_functions": [
+          "pypsa/networks.py::copy"
+        ]
+      },
+      {
+        "a": "Pyomo__pyomo-3588",
+        "b": "Pyomo__pyomo-3633",
+        "shared_functions": [
+          "pyomo/common/log.py::__init__",
+          "pyomo/common/tee.py::__enter__"
+        ]
+      },
+      {
+        "a": "Pyomo__pyomo-3588",
+        "b": "Pyomo__pyomo-3679",
+        "shared_functions": [
+          "pyomo/common/tee.py::__enter__",
+          "pyomo/common/tee.py::__init__",
+          "pyomo/common/tee.py::_exit_context_stack",
+          "pyomo/common/tee.py::close",
+          "pyomo/common/tee.py::writelines"
+        ]
+      }
+    ]
+  }
+}

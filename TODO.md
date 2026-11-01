@@ -122,6 +122,16 @@ Lấy bằng workflow `Data snapshots` (HuggingFace, arXiv), không tốn tiền
 
 **R15 (rủi ro go/no-go lớn nhất).** Với skill dạng tài liệu, hiệu ứng thật quá nhỏ để admission hợp lệ có ý nghĩa thực tế. Đề tài chỉ khả thi nếu skill dạng *edit program* của Gatekeeper có hiệu ứng lớn hơn rõ rệt (|STR| ≳ 0,15). **Đây là điều pilot phải đo đầu tiên**, trước mọi việc khác ở Phase 3.
 
+**Ước tính chi phí với Gemini** (`results/cost_estimate.json`; giá chưa xác minh, token mỗi lần chạy là **giả định** 150k–1,5M input):
+
+| Khối lượng | Lần chạy agent | Gemini Flash | Gemini Pro |
+| --- | --- | --- | --- |
+| G1 mini-pilot (4 skill × 30 cặp) | 150 | 43–394 USD | 59–540 USD |
+| Pilot Phase 3 (pre-registration §8) | 3.900 | 1,1k–10k USD | 1,5k–14k USD |
+| Thí nghiệm Phase 6 (ước lượng thô) | 8.640 | 2,5k–23k USD | 3,4k–31k USD |
+
+Dải rộng tới 10 lần → **việc đầu tiên khi có credential: chạy `Pilot (paid)` với n = 2, budget 3 USD để đo token thật**, rồi tính lại bảng này.
+
 ---
 
 ## 1. Đề tài nói gì (cho người mới)
@@ -296,7 +306,7 @@ Những gì **không** phải benchmark mà là "treatment" của thí nghiệm,
 | Gatekeeper | Unit test + mô phỏng | pytest, mô phỏng tỉ lệ admit sai ≤ α, chạy trong GitHub Actions |
 | Artifact | ACM Badges (Available, Functional, Reusable) | Digest, commit, model ID + ngày, seed, kết quả từng task, script sinh bảng/hình |
 
-**LLM chạy ở đâu:** API model (ghi model ID + ngày) và model open-weight trên vLLM (ghi digest weight). Code + test chạy trong Docker trên máy CPU. Harness: **một harness chung** (R6).
+**LLM chạy ở đâu:** **Gemini qua Vertex AI** (2 backend: bậc Pro và bậc Flash; mã model trong `configs/models/vertex_gemini.json`, ghi kèm ngày gọi API). Code + test chạy trong Docker trên runner GitHub Actions hoặc máy CPU. Harness: **mini-swe-agent 2.4.6** cho mọi hệ thống (R6). Hướng dẫn: `docs/vertex_setup.md`.
 
 **GitHub Actions làm được gì và không làm được gì:** CI chạy được unit test, mô phỏng e-process, test phản ví dụ Theorem 7, kiểm tra sổ α, sinh report HTML, và tối đa 1–2 task SWE-bench nhỏ (runner miễn phí chỉ có ~14 GB đĩa, giới hạn 6 giờ). CI **không** chạy được agent LLM hay hàng nghìn trial: phần đó chạy trên máy riêng, kết quả (JSON) commit vào `results/` để CI phân tích và vẽ.
 
@@ -443,9 +453,9 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 **Hạ tầng chạy trial**
 
 - [x] 👤 Tách máy: GPU chạy LLM, CPU chạy container test · ✅ không cần GPU: LLM chạy trên Vertex AI, container test chạy trên runner GitHub Actions / máy CPU
-- [ ] 🤖 Pin Docker image bằng digest · 🔧 `TrialRecord` từ chối image không có `sha256:`; còn chọn image
+- [x] 🤖 Pin Docker image bằng digest · 🔧 `TrialRecord` từ chối image không có `sha256:`; còn chọn image · ✅ pilot tự ghi digest thật của image SWE-bench vào từng `TrialRecord` (vd `sha256:bde4fbda…` cho flask-5014), Pilot dry run run 41357916901
 - [x] 🤖 Script 1 trial: snapshot → áp/không áp skill → agent → test → JSON (cài interface của 5a) · 🔧 interface `TrialRunner.run_pair` sẵn; cần harness + Docker thật; paired trial gold/no-op chạy thật qua harness: `scripts/harness_smoke.py`; pipeline agent đầy đủ: `scripts/run_pilot.py` (dataset theo nhánh → mini-swe-agent → harness → Z → log), dry run trong CI
-- [ ] 🤖 Kiểm tra hai nhánh cùng task, seed, snapshot
+- [x] 🤖 Kiểm tra hai nhánh cùng task, seed, snapshot · ✅ hai nhánh dùng cùng hàng dataset, cùng image, cùng seed; chỉ khác guidance/startup của skill (`pilot.arm_rows`, `pilot.arm_config`, `tests/test_pilot.py`)
 - [x] 🤖 Log model ID, số token, thời gian, chi phí mỗi run · ✅ `runlog.TrialRecord` bắt buộc model ID + ngày, digest, commit, seed
 - [ ] 👤💰 Chạy cùng 1 task 5 lần → mức dao động của agent
 - [ ] 👤 Ước chi phí 1 cặp trial (token + GPU + CPU)
@@ -505,12 +515,12 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 - [ ] 👤 Chọn ≥ 25 repo từ các benchmark này (train: SWE-Gym; test: SWE-bench + SWE-bench-Live) → ghi benchmark, repo, commit
 - [ ] 👤 Chọn 4 dòng version dependency có trong các task đã chọn
 - [x] 🤖 Chia train/test theo repo → lưu file split (danh sách instance_id) · ✅ `data/splits/split_v0.json` hash fb74140ef67fe769: train 11 repo SWE-Gym; test 223 repo, bỏ 4 repo trùng
-- [ ] 👤 Khai báo scope family S trước khi chạy
+- [ ] 👤 Khai báo scope family S trước khi chạy · 🔧 đề xuất từ dữ liệu: scope = (họ skill, framework) cho hàng trăm task/scope (giảm R2); (repo, version) chỉ có ≤ 157 task
 
 **Tạo skill (treatment)**
 
 - [ ] 👤💰 Chạy agent trên task SWE-Gym (train split) → trajectory thành công
-- [ ] 🤖 Induce skill thành edit program (AST rewrite + shell step)
+- [ ] 🤖 Induce skill thành edit program (AST rewrite + shell step) · 🔧 bước đầu: 12 họ mẫu sửa từ gold patch SWE-Gym, đều lặp lại ở 5–11 repo train (`results/skill_mining.json`); chưa thành edit program
 - [ ] 🤖 Ghi D, I, P, K cho từng skill
 - [ ] 🤖 Kiểm tra không skill nào chứa thông tin repo test
 - [ ] 👤 Tạo 52 skill outdated nhưng vô hại
@@ -532,7 +542,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 - [ ] 👤 Regime A: cùng repo SWE-bench, khác version
 - [ ] 👤 Regime B: khác repo (SWE-Gym → SWE-bench / SWE-bench-Live), cùng framework
 - [ ] 👤 Regime C: skill adversarial (hợp lệ về quyền nhưng cài lỗi chức năng) áp lên task SWE-bench
-- [ ] 👤 46 cặp composition: ghép các task SWE-bench cùng sửa một file/hàm, theo 4 cơ chế (exception type, ordering, resource lifetime, transaction scope)
+- [ ] 👤 46 cặp composition: ghép các task SWE-bench cùng sửa một file/hàm, theo 4 cơ chế (exception type, ordering, resource lifetime, transaction scope) · 🔧 3.690 ứng viên (cùng repo, cùng hàm) trong `results/skill_mining.json`; còn lọc theo 4 cơ chế
 
 **Kiểm chứng nhãn**
 
@@ -646,7 +656,9 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 01/11/2026 | Harness smoke xanh: gold 5/5 resolved, R = 0; nhánh không skill đổi từ patch rỗng (bị harness bỏ qua) sang patch no-op để đo thật | run 41335635404, `results/harness_smoke.json` |
 | 01/11/2026 | Bản nháp định vị so với XRepoSkill, GSE, HSE, SWE-Skills-Bench (từ abstract) | `docs/notes/positioning.md` |
 | 01/11/2026 | Harness với patch no-op: nhánh không skill **đo thật** F = 1, R = 0 trên 5/5 task; paired trial end-to-end qua harness chính thức được kiểm chứng | run 41336208056, `results/harness_smoke.json` |
-| 01/11/2026 | @thuthuy chốt **ASE 2027** + **Gemini qua Vertex AI** → lịch ngược với 3 cổng G1–G3; pipeline pilot mini-swe-agent + Vertex (`run_pilot.py`, `pilot.py`, `harness.py`), workflow dry run (miễn phí) và workflow trả phí (chạy tay, trần ngân sách), `docs/vertex_setup.md` | commit sau |
+| 01/11/2026 | @thuthuy chốt **ASE 2027** + **Gemini qua Vertex AI** → lịch ngược với 3 cổng G1–G3; pipeline pilot mini-swe-agent + Vertex (`run_pilot.py`, `pilot.py`, `harness.py`), workflow dry run (miễn phí) và workflow trả phí (chạy tay, trần ngân sách), `docs/vertex_setup.md` | commit 55a6af4 |
+| 01/11/2026 | **Pilot dry run xanh** lần đầu: mini-swe-agent + Docker SWE-bench + harness + log trial, model giả + skill oracle → Z = −0,667 trên 2/2 task; digest image + commit gốc ghi tự động. Còn lại chỉ là thêm credential Vertex | run 41357916901, `results/pilot/dryrun.json` |
+| 01/11/2026 | Ước tính chi phí Gemini (dải 10×, cần đo token thật bằng n = 2); khai thác gold patch: 12 họ mẫu sửa lặp lại ở 5–11 repo train, 3.690 ứng viên cặp composition; đề xuất scope theo (họ skill, framework) | `results/cost_estimate.json`, `results/skill_mining.json`, run 41358048556 |
 
 ---
 

@@ -18,6 +18,7 @@ from pathlib import Path
 
 __all__ = ["load_tasks", "make_split"]
 
+csv.field_size_limit(2**31 - 1)  # some gold patches touch thousands of functions
 TEST_SOURCES = ("swe-bench", "swe-bench-verified", "swe-bench-live")
 TRAIN_SOURCES = ("swe-gym",)
 

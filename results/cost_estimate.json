@@ -1,0 +1,166 @@
+{
+  "prices_verified": false,
+  "token_scenarios": [
+    [
+      "light",
+      150000,
+      8000
+    ],
+    [
+      "typical",
+      500000,
+      20000
+    ],
+    [
+      "heavy",
+      1500000,
+      50000
+    ]
+  ],
+  "rows": [
+    {
+      "workload": "G1 mini-pilot: 4 skills x 30 pairs (+ shared none arm)",
+      "agent_runs": 150,
+      "model": "gemini-pro",
+      "scenario": "light",
+      "usd_per_run": 0.396,
+      "usd_total": 59.4
+    },
+    {
+      "workload": "G1 mini-pilot: 4 skills x 30 pairs (+ shared none arm)",
+      "agent_runs": 150,
+      "model": "gemini-pro",
+      "scenario": "typical",
+      "usd_per_run": 1.24,
+      "usd_total": 186.0
+    },
+    {
+      "workload": "G1 mini-pilot: 4 skills x 30 pairs (+ shared none arm)",
+      "agent_runs": 150,
+      "model": "gemini-pro",
+      "scenario": "heavy",
+      "usd_per_run": 3.6,
+      "usd_total": 540.0
+    },
+    {
+      "workload": "G1 mini-pilot: 4 skills x 30 pairs (+ shared none arm)",
+      "agent_runs": 150,
+      "model": "gemini-flash",
+      "scenario": "light",
+      "usd_per_run": 0.285,
+      "usd_total": 42.75
+    },
+    {
+      "workload": "G1 mini-pilot: 4 skills x 30 pairs (+ shared none arm)",
+      "agent_runs": 150,
+      "model": "gemini-flash",
+      "scenario": "typical",
+      "usd_per_run": 0.9,
+      "usd_total": 135.0
+    },
+    {
+      "workload": "G1 mini-pilot: 4 skills x 30 pairs (+ shared none arm)",
+      "agent_runs": 150,
+      "model": "gemini-flash",
+      "scenario": "heavy",
+      "usd_per_run": 2.625,
+      "usd_total": 393.75
+    },
+    {
+      "workload": "Phase 3 pilot (preregistration \u00a78)",
+      "agent_runs": 3900,
+      "model": "gemini-pro",
+      "scenario": "light",
+      "usd_per_run": 0.396,
+      "usd_total": 1544.4
+    },
+    {
+      "workload": "Phase 3 pilot (preregistration \u00a78)",
+      "agent_runs": 3900,
+      "model": "gemini-pro",
+      "scenario": "typical",
+      "usd_per_run": 1.24,
+      "usd_total": 4836.0
+    },
+    {
+      "workload": "Phase 3 pilot (preregistration \u00a78)",
+      "agent_runs": 3900,
+      "model": "gemini-pro",
+      "scenario": "heavy",
+      "usd_per_run": 3.6,
+      "usd_total": 14040.0
+    },
+    {
+      "workload": "Phase 3 pilot (preregistration \u00a78)",
+      "agent_runs": 3900,
+      "model": "gemini-flash",
+      "scenario": "light",
+      "usd_per_run": 0.285,
+      "usd_total": 1111.5
+    },
+    {
+      "workload": "Phase 3 pilot (preregistration \u00a78)",
+      "agent_runs": 3900,
+      "model": "gemini-flash",
+      "scenario": "typical",
+      "usd_per_run": 0.9,
+      "usd_total": 3510.0
+    },
+    {
+      "workload": "Phase 3 pilot (preregistration \u00a78)",
+      "agent_runs": 3900,
+      "model": "gemini-flash",
+      "scenario": "heavy",
+      "usd_per_run": 2.625,
+      "usd_total": 10237.5
+    },
+    {
+      "workload": "Phase 6 study: 180 pairs x 8 systems x 3 runs x 2 backends (rough)",
+      "agent_runs": 8640,
+      "model": "gemini-pro",
+      "scenario": "light",
+      "usd_per_run": 0.396,
+      "usd_total": 3421.44
+    },
+    {
+      "workload": "Phase 6 study: 180 pairs x 8 systems x 3 runs x 2 backends (rough)",
+      "agent_runs": 8640,
+      "model": "gemini-pro",
+      "scenario": "typical",
+      "usd_per_run": 1.24,
+      "usd_total": 10713.6
+    },
+    {
+      "workload": "Phase 6 study: 180 pairs x 8 systems x 3 runs x 2 backends (rough)",
+      "agent_runs": 8640,
+      "model": "gemini-pro",
+      "scenario": "heavy",
+      "usd_per_run": 3.6,
+      "usd_total": 31104.0
+    },
+    {
+      "workload": "Phase 6 study: 180 pairs x 8 systems x 3 runs x 2 backends (rough)",
+      "agent_runs": 8640,
+      "model": "gemini-flash",
+      "scenario": "light",
+      "usd_per_run": 0.285,
+      "usd_total": 2462.4
+    },
+    {
+      "workload": "Phase 6 study: 180 pairs x 8 systems x 3 runs x 2 backends (rough)",
+      "agent_runs": 8640,
+      "model": "gemini-flash",
+      "scenario": "typical",
+      "usd_per_run": 0.9,
+      "usd_total": 7776.0
+    },
+    {
+      "workload": "Phase 6 study: 180 pairs x 8 systems x 3 runs x 2 backends (rough)",
+      "agent_runs": 8640,
+      "model": "gemini-flash",
+      "scenario": "heavy",
+      "usd_per_run": 2.625,
+      "usd_total": 22680.0
+    }
+  ]
+}

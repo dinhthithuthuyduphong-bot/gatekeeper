@@ -96,3 +96,5 @@ Giả sử 10 skill × 2 scope = 20 ô; mỗi ô tối thiểu 30 cặp trial đ
 | **Tổng pilot** | **~1.950** | **~3.900** |
 
 Chi phí = 3.900 × (chi phí một lần chạy). Chi phí một lần chạy phải **đo** ở Phase 2 (chạy cùng một task 5 lần, `runlog.CostSummary`) trước khi đặt trần ngân sách. ⏳
+
+Ước tính với giá Gemini (chưa xác minh) và giả định 150k–1,5M token input mỗi lần chạy: **1,1k–10k USD (Flash)**, **1,5k–14k USD (Pro)** (`scripts/cost_estimate.py` → `results/cost_estimate.json`). Đề xuất: chạy pilot Phase 3 bằng **Flash**, chỉ dùng Pro cho backend thứ hai ở Phase 6.
