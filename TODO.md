@@ -660,6 +660,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 01/11/2026 | **Pilot dry run xanh** lần đầu: mini-swe-agent + Docker SWE-bench + harness + log trial, model giả + skill oracle → Z = −0,667 trên 2/2 task; digest image + commit gốc ghi tự động. Còn lại chỉ là thêm credential Vertex | run 41357916901, `results/pilot/dryrun.json` |
 | 01/11/2026 | Ước tính chi phí Gemini (dải 10×, cần đo token thật bằng n = 2); khai thác gold patch: 12 họ mẫu sửa lặp lại ở 5–11 repo train, 3.690 ứng viên cặp composition; đề xuất scope theo (họ skill, framework) | `results/cost_estimate.json`, `results/skill_mining.json`, run 41358048556 |
 | 01/11/2026 | Pool 40 task Verified cho G1 + workflow kiểm định (gold ×2, no-op); 4 skill theo họ mẫu sửa + predicate `issue_regex` (I(x) từ nội dung issue); pilot chỉ chạy nhánh skill trên task kích hoạt và chỉ lấy task đã kiểm định | `configs/pilot_pool.json`, `configs/skills/`, `scripts/run_pilot.py` |
+| 01/11/2026 | Pilot dry run đỏ ở bước publish (run 41359134995): token Actions không được sửa file workflow, mà nhánh snapshot đang được tạo lại từ `main` → `scripts/publish_snapshot.sh` chỉ thêm commit dữ liệu lên nhánh snapshot cũ, áp dụng cho cả 5 workflow | commit sau |
 
 ---
 

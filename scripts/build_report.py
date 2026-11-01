@@ -407,6 +407,41 @@ def mining_html(d: dict | None) -> str:
     )
 
 
+def pool_html(d: dict | None) -> str:
+    if not d:
+        return "<p class='muted'>Chưa có <code>results/pool_validation/summary.json</code>.</p>"
+    rej = "".join(f"<li><code>{esc(k)}</code>: {esc(v)}</li>" for k, v in d["rejected"].items())
+    return (
+        f"<p>Pool cho pilot G1: <b>{d['n_usable']}/{d['n_checked']}</b> task dùng được (gold giải được ở cả "
+        "2 lần chạy, kết quả ổn định, nhánh no-op chấm sạch F = 1, R = 0). Pilot trả phí chỉ lấy task trong "
+        "danh sách này.</p>" + (f"<p>Bị loại:</p><ul>{rej}</ul>" if rej else "")
+    )
+
+
+def activation_html(d: dict | None) -> str:
+    if not d:
+        return "<p class='muted'>Chưa có <code>data/activation.json</code>.</p>"
+
+    def f(x):
+        return "—" if x is None else f"{x:.2f}"
+
+    rows = "".join(
+        f"<tr><td><code>{esc(k)}</code></td><td><code>{esc(v['family'])}</code></td>"
+        f"<td class='n'>{pct(v['test']['activation_rate'])}</td><td class='n'>{pct(v['test']['family_rate'])}</td>"
+        f"<td class='n'>{f(v['test']['precision'])}</td><td class='n'>{f(v['test']['recall'])}</td>"
+        f"<td class='n'>{f(v['test']['lift'])}</td></tr>"
+        for k, v in d["skills"].items()
+    )
+    return (
+        f'<p>Predicate I(x) trên nội dung issue so với "gold patch có họ mẫu sửa đó" (oracle), trên '
+        f"{num(d['n_test'])} task test.</p>"
+        "<div class='tbl'><table><thead><tr><th>Skill</th><th>Họ</th><th>Tỉ lệ kích hoạt</th>"
+        "<th>Tỉ lệ có họ (oracle)</th><th>Precision</th><th>Recall</th><th>Lift</th></tr></thead>"
+        f"<tbody>{rows}</tbody></table></div>"
+        "<p>Lift &gt; 1 nghĩa là predicate chọn được task nhiều khả năng cần đúng loại sửa đó hơn ngẫu nhiên.</p>"
+    )
+
+
 def split_html(sp: dict | None) -> str:
     if not sp:
         return "<p class='muted'>Chưa có <code>data/splits/split_v0.json</code>.</p>"
@@ -628,6 +663,8 @@ def build() -> str:
     pilot = pilot_html()
     cost = cost_html(load_json("results/cost_estimate.json"))
     mining = mining_html(load_json("results/skill_mining.json"))
+    pool = pool_html(load_json("results/pool_validation/summary.json"))
+    activation = activation_html(load_json("data/activation.json"))
 
     build_line = f"Build {esc(sha)} · {esc(now)}"
     if run_url:
@@ -723,6 +760,10 @@ trong 2.000 cặp trial. Mỗi ô cần hàng trăm task khác nhau, nhiều hơ
 {harness}
 <h3>5.6 Pilot với agent (mini-swe-agent + Gemini qua Vertex AI)</h3>
 {pilot}
+<h4>Pool task đã kiểm định cho pilot</h4>
+{pool}
+<h4>Độ chính xác của predicate kích hoạt I(x)</h4>
+{activation}
 <h4>Ước tính chi phí (Gemini qua Vertex AI)</h4>
 {cost}
 <h3>5.7 Pilot ngoài trên dữ liệu paired thật (SWE-Skills-Bench)</h3>

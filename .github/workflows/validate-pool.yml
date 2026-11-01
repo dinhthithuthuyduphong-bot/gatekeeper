@@ -63,12 +63,4 @@ jobs:
           pip install -e .
           python scripts/validate_pool.py --merge
       - name: Publish to pilot-snapshots branch
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          mkdir -p /tmp/pv && cp results/pool_validation/*.json /tmp/pv/
-          git fetch origin pilot-snapshots && git checkout -B pilot-snapshots origin/pilot-snapshots || git checkout -B pilot-snapshots
-          mkdir -p results/pool_validation && cp /tmp/pv/*.json results/pool_validation/
-          git add -f results/pool_validation/
-          git commit -m "Pilot pool validation (run ${GITHUB_RUN_ID})" || echo "nothing to commit"
-          git push origin pilot-snapshots
+        run: scripts/publish_snapshot.sh pilot-snapshots "Pilot pool validation (run ${GITHUB_RUN_ID})" results/pool_validation

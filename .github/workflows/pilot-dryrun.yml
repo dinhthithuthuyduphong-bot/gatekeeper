@@ -69,10 +69,4 @@ jobs:
           if-no-files-found: warn
       - name: Publish to pilot-snapshots branch
         if: success()
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -B pilot-snapshots
-          git add -f results/pilot/dryrun.json runs/dryrun/trials.jsonl
-          git commit -m "Pilot dry run from ${GITHUB_SHA::7} (run ${GITHUB_RUN_ID})"
-          git push -f origin pilot-snapshots
+        run: scripts/publish_snapshot.sh pilot-snapshots "Pilot dry run from ${GITHUB_SHA::7} (run ${GITHUB_RUN_ID})" results/pilot/dryrun.json runs/dryrun/trials.jsonl

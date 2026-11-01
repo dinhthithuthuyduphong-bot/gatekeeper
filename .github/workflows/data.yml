@@ -53,10 +53,4 @@ jobs:
           EOF
           du -sh data
       - name: Publish to data-snapshots branch
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -B data-snapshots
-          git add -f data/
-          git commit -m "Data snapshot from ${GITHUB_SHA::7} (run ${GITHUB_RUN_ID})"
-          git push -f origin data-snapshots
+        run: scripts/publish_snapshot.sh data-snapshots "Data snapshot from ${GITHUB_SHA::7} (run ${GITHUB_RUN_ID})" data

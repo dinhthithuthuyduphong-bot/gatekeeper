@@ -57,10 +57,6 @@ jobs:
       - name: Publish to harness-snapshots branch
         if: always()
         run: |
-          test -f results/harness_smoke.json || exit 0
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -B harness-snapshots
-          git add -f results/harness_smoke.json
-          git commit -m "Harness smoke from ${GITHUB_SHA::7} (run ${GITHUB_RUN_ID})"
-          git push -f origin harness-snapshots
+          if [ -f results/harness_smoke.json ]; then
+            scripts/publish_snapshot.sh harness-snapshots "Harness smoke from ${GITHUB_SHA::7} (run ${GITHUB_RUN_ID})" results/harness_smoke.json
+          fi
