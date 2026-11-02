@@ -37,5 +37,5 @@
    "vailable for reducing the overall variance via the expected conditional variance, E[σ2i ]. 3.1 Resampling The first strategy for reducing the expected conditional variance is to resample the model a number of times, and to compute the standard error using the question-level mean scores from the resamples. Suppose each question is sampled (answered) K times, and the score si is the mean of these K answer scores. Since the conditional variances are equal for all K answer scores, the overall conditional variance becomes Var(si) = σ2i /K This relation should clarify the issue of how many times to resample a given question. Once E[σ2i ]/K ≪ Var(x), increasing K further will have little effect on the standard error of ˆµ. We work through an example to show how to compute a value for K. Suppose scores are binary (0 or 1) and question difficulty is uniformly distributed, x ∼ U [0, 1]. Then ϵi = 1 − xi with probability xi and ϵi = −xi otherwise. A bit of integration reveals that Var( x) = 1/12 and E[σ2i ] = 1 /6. The required relation reduces to K ≫ 2, or equivalently 2 /K ≪ 1. Writing the variance of this estimator with arbitrary K in terms of the estimator with K = 1, we have Var(ˆµ|K >1) = Var("
   ]
  },
- "fetched_utc": "2026-11-02T23:44:28+00:00"
+ "fetched_utc": "2026-11-02T23:49:58+00:00"
 }
