@@ -48,3 +48,22 @@ Tỉ lệ `LimitsExceeded` theo nhánh; tỉ lệ bản nộp chạm file gold; 
 | Trần | tổng pilot ≤ 29 USD theo số ghi nhận (~1 USD dự phòng cho lô bị ngắt chưa ghi) |
 | Quy tắc G1 | không đổi: skill đạt nếu Z trung bình ≤ −0,10 **và** cận trên CI 90% < 0 (`g1_decision`) |
 | Phân tích | `scripts/analyze_g1.py --stage-b g1-b3 --stage-c g1-c --rule v2` |
+
+## Bổ sung 2 (02/11/2026, khi C mới chạy lô đầu, **trước khi** có bất kỳ kết quả C nào): phán quyết và kiểm chứng mở rộng
+
+@thuthuy: "phán quyết trong sáng, không khiên cưỡng"; được mở rộng kiểm chứng nếu chưa đủ thuyết phục, tổng pilot **< 35 USD**. Trần ghi nhận: **34 USD**.
+
+**Bước 1: sàng lọc C (1 seed).** Mỗi skill s: Z = loss(s) − loss(none) trên task mà I(x) đúng. Phân loại:
+- *hứa hẹn*: Z trung bình ≤ −0,10 và cận trên CI 90% < 0 (quy tắc G1);
+- *mơ hồ*: Z trung bình ≤ −0,05 nhưng chưa hứa hẹn;
+- *không có tín hiệu*: còn lại.
+
+**Bước 2: kiểm chứng (chỉ cho skill hứa hẹn hoặc mơ hồ; tối đa 2 skill có Z thấp nhất).** Chạy lại skill **và** nhánh `none` trên đúng các task đó với 2 seed mới (11 và 21), không đổi gì khác. Gộp 3 seed: Z theo task = trung bình qua seed; CI 90% bootstrap theo task.
+
+**Phán quyết cuối (áp máy móc):**
+- **G1 PASS** cho skill s nếu, trên dữ liệu gộp 3 seed: Z trung bình ≤ −0,10 **và** cận trên CI **96,25%** < 0. Đây là hiệu chỉnh Bonferroni cho 4 skill: 1 − 0,15/4 ≈ 0,9625 tương đương hai phía α = 0,15/4 cho mỗi skill.
+- Có tín hiệu ở 1 seed nhưng không giữ được khi gộp 3 seed → **không đạt** (ghi là "tín hiệu không lặp lại").
+- Không skill nào hứa hẹn hay mơ hồ ở bước 1 → **G1 FAIL**, không chạy thêm skill khác (tránh "câu cá").
+- Hết ngân sách giữa chừng → báo "chưa kết luận", không suy diễn.
+
+**Báo cáo kèm, không quyết định:** Z theo repo, tỉ lệ task chuyển từ không giải → giải và ngược lại (có hại?), chi phí.

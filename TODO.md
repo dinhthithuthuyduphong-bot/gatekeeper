@@ -679,6 +679,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 02/11/2026 | @thuthuy duyệt phương án 1 → **đăng ký trước quy tắc v2** (đối chứng dương mạnh so với đối chứng nhiễu trên mọi task; CI phải < 0), đối chứng dương mạnh `control-oracle-tests` (file + hàm + test + test_patch), step_limit 100, bỏ phần sửa file test khỏi bản nộp của mọi nhánh; commit **trước** khi chạy `g1-b3` | `docs/preregistration_g1_v2.md`, `configs/skills/control-oracle-tests.json` |
 | 02/11/2026 | @thuthuy nâng trần pilot lên **30 USD** (đến đó thì dừng chờ quyết định); đăng ký trước giai đoạn C (1 seed, 100 bước, trần ghi nhận 29 USD) **trước khi** có kết quả B3 | `docs/preregistration_g1_v2.md` (phần bổ sung) |
 | 02/11/2026 | **B3 ĐẠT** theo quy tắc v2 (5,14 USD, tổng 15,57 USD): nhiễu +0,062 CI [−0,001; +0,135] chứa 0; đối chứng dương mạnh −0,125 CI [−0,22; −0,03]; 100 bước → chạm trần còn 1/39. Tải image qua `mirror.gcr.io` (hết chờ 429). **Giai đoạn C đã tự chạy** | `results/pilot/g1-b3.json`, `results/g1_decision_b3.json` |
+| 02/11/2026 | @thuthuy: tự phán quyết sau C, minh bạch, có thể kiểm chứng mở rộng, tổng pilot < 35 USD → **đăng ký trước** quy tắc phán quyết + kiểm chứng (2 seed thêm cho tối đa 2 skill, Bonferroni cho 4 skill) **trước khi** có kết quả C | `docs/preregistration_g1_v2.md` (bổ sung 2) |
 
 ---
 
