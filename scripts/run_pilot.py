@@ -57,11 +57,18 @@ def pool_ids(pool: str) -> list[str] | None:
 
 
 def load_instances(
-    ids: list[str] | None, n: int, seed: int, allowed: list[str] | None = None
+    ids: list[str] | None,
+    n: int,
+    seed: int,
+    allowed: list[str] | None = None,
+    dataset_file: str = "",
 ) -> list[dict]:
-    from datasets import load_dataset
+    if dataset_file:  # exported rows (scripts/export_instances.py): no HuggingFace needed
+        rows = [json.loads(x) for x in Path(dataset_file).read_text().splitlines() if x.strip()]
+    else:
+        from datasets import load_dataset
 
-    rows = list(load_dataset(DATASET, split="test"))
+        rows = list(load_dataset(DATASET, split="test"))
     if allowed is not None:
         keep = set(allowed)
         rows = [r for r in rows if r["instance_id"] in keep]
@@ -198,6 +205,11 @@ def main() -> int:
     ap.add_argument("--instances", default="")
     ap.add_argument("--n", type=int, default=5)
     ap.add_argument(
+        "--dataset-file",
+        default="",
+        help="local SWE-bench Verified rows (.jsonl) instead of HuggingFace",
+    )
+    ap.add_argument(
         "--no-activation",
         dest="activation",
         action="store_false",
@@ -224,7 +236,8 @@ def main() -> int:
             if not os.environ.get(v):
                 raise SystemExit(f"{v} is not set (Vertex AI); see docs/vertex_setup.md")
     ids = [i for i in a.instances.split(",") if i] or None
-    rows = load_instances(ids, a.n, a.seed, pool_ids(a.pool))
+    rows = load_instances(ids, a.n, a.seed, pool_ids(a.pool), a.dataset_file)
+    harness_dataset = a.dataset_file or DATASET
     arms: list[tuple[str, Skill | None]] = [("none", None)] + [(s.id, s) for s in skills]
     # P_s = tasks where the skill's activation predicates I(x) hold (corrections.md §1.2):
     # a skill arm only runs on its activated tasks; the no-skill arm runs on their union.
@@ -257,6 +270,7 @@ def main() -> int:
             [r["instance_id"] for r in rows_arm],
             f"{a.name}-{arm}",
             a.workers,
+            dataset=harness_dataset,
         )
         losses[arm], usage[arm] = {}, {}
         for r in rows_arm:
@@ -279,7 +293,7 @@ def main() -> int:
         "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "name": a.name,
         "model": a.model if model is None else model.litellm_name,
-        "dataset": DATASET,
+        "dataset": a.dataset_file or DATASET,
         "instances": [r["instance_id"] for r in rows],
         "theta": a.theta,
         "alpha": a.alpha,

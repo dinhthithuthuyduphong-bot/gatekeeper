@@ -1,29 +1,45 @@
 {
-  "_comment": "Gemini via Vertex AI through LiteLLM. IDs and prices taken from LiteLLM 1.106.6's bundled price table (model_prices_and_context_window_backup.json), 2026-11-02 -- NOT from Google's documentation. Confirm in Vertex AI Model Garden / pricing before a paid run; 3.8-flash may be an introductory price until 2026-12-31 (third-party pricing guides say $1.50/$7.50 afterwards).",
+  "_comment": "Gemini via Vertex AI through LiteLLM. IDs and prices taken from LiteLLM 1.106.6's bundled price table (model_prices_and_context_window_backup.json), 2026-11-02 -- NOT from Google's documentation. Confirm in Vertex AI Model Garden / pricing before a paid run; 3.8-flash may be an introductory price until 2026-12-31 (third-party pricing guides say $1.50/$7.50 afterwards). Access tested 2026-11-02 with the gatekeeper-pilot service account: all three models answer on location 'global' (404 on us-central1). Default Gemini 3.8 Flash thinking used ~11x more output tokens on a short prompt; reasoning_effort 'low' keeps the answer and cuts cost ~11x.",
   "_verified": false,
   "_source": "litellm==1.106.6 bundled price table",
-  "_env": ["VERTEXAI_PROJECT", "VERTEXAI_LOCATION", "GOOGLE_APPLICATION_CREDENTIALS"],
+  "_env": [
+    "VERTEXAI_PROJECT",
+    "VERTEXAI_LOCATION",
+    "GOOGLE_APPLICATION_CREDENTIALS"
+  ],
   "models": {
     "gemini-flash": {
       "litellm_name": "vertex_ai/gemini-3.8-flash",
       "usd_per_mtok_in": 0.75,
       "usd_per_mtok_cached": 0.075,
       "usd_per_mtok_out": 3.75,
-      "kwargs": {"temperature": 0.0, "seed": 0, "drop_params": true}
+      "kwargs": {
+        "reasoning_effort": "low",
+        "seed": 0,
+        "drop_params": true
+      }
     },
     "gemini-flash-lite": {
       "litellm_name": "vertex_ai/gemini-3.1-flash-lite",
       "usd_per_mtok_in": 0.25,
       "usd_per_mtok_cached": 0.025,
       "usd_per_mtok_out": 1.5,
-      "kwargs": {"temperature": 0.0, "seed": 0, "drop_params": true}
+      "kwargs": {
+        "seed": 0,
+        "drop_params": true
+      }
     },
     "gemini-pro": {
       "litellm_name": "vertex_ai/gemini-3.1-pro-preview",
       "usd_per_mtok_in": 2.0,
       "usd_per_mtok_cached": 0.2,
       "usd_per_mtok_out": 12.0,
-      "kwargs": {"temperature": 0.0, "seed": 0, "drop_params": true}
+      "kwargs": {
+        "reasoning_effort": "low",
+        "seed": 0,
+        "drop_params": true
+      }
     }
-  }
+  },
+  "_location": "global"
 }
