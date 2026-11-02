@@ -1,0 +1,80 @@
+{
+  "generated_utc": "2026-11-02T23:32:06+00:00",
+  "name": "g1-c-s21-p01",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "django__django-11740",
+    "django__django-11815",
+    "django__django-12708",
+    "django__django-13012"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.3455,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.041904212499999996,
+      "tokens_in_per_run": 661601.5,
+      "tokens_out_per_run": 6699.25,
+      "cached_share": 0.8971163154859836,
+      "api_calls_per_run": 45.5,
+      "solve_rate": 1.0,
+      "solved": 4,
+      "scored": 4
+    },
+    "validation-error": {
+      "runs": 4,
+      "usd_per_run": 0.04446823124999999,
+      "tokens_in_per_run": 739978.5,
+      "tokens_out_per_run": 4234.5,
+      "cached_share": 0.8821766443214228,
+      "api_calls_per_run": 51.25,
+      "solve_rate": 0.75,
+      "solved": 3,
+      "scored": 4
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "validation-error": {
+      "pairs": [
+        {
+          "instance_id": "django__django-11740",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-11815",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-12708",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-13012",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.16666666666666666,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": 0.16666666666666666,
+        "sigma_S2": 0.11111111111111112,
+        "sigma_T2": 0.0,
+        "unpaired_over_paired": 1.0
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": 0.0
+      }
+    }
+  }
+}

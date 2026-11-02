@@ -3,19 +3,19 @@
   select : python scripts/analyze_g1_final.py select --stage-c g1-c
            -> skills with mean Z(resolved) < 0, and the number of confirmation seeds the budget pays
   verdict: python scripts/analyze_g1_final.py verdict --stage-c g1-c --confirm g1-c-s11 g1-c-s21 ...
-           -> sign-flip permutation test per skill (confirmation data only), Holm at one-sided
-              alpha 0.025, A/A TOST between the no-skill arms of two confirmation seeds, MDE
-              with Browne's variance bound. Writes results/g1_final.json.
+           -> EXACT sign-flip permutation test per skill (confirmation data only), Holm at
+              one-sided alpha 0.025, exact two-sided A/A test between the no-skill arms of two
+              confirmation seeds, t-interval and critical effect. Writes results/g1_final.json.
 
 Methods: SWE-bench resolved (Jimenez et al. 2024); data splitting (Cox 1975); sign-flip
-permutation test (Fisher 1935, Pitman 1937); Holm (1979); TOST (Lakens et al. 2018); pilot
-variance upper confidence limit (Browne 1995).
+permutation test (Fisher 1935, Pitman 1937), computed exactly by convolution; Holm (1979);
+A/A test (Kohavi et al. 2020); Student t interval. Every number is either the value input
+ALPHA_FAMILY or derived from it (docs/number_provenance.md, revision of addendum 3).
 """
 
 from __future__ import annotations
 
 import argparse
-import itertools
 import json
 import math
 from collections import defaultdict
@@ -24,10 +24,9 @@ from pathlib import Path
 import numpy as np
 from scipy import stats
 
-ALPHA_FAMILY = 0.025  # one-sided, = two-sided 0.05
-POWER = 0.8
-BROWNE_COVERAGE = 0.9
-SEED_STEP = 10
+ALPHA_FAMILY = 0.025  # one-sided, ICH E9 standard (= two-sided 0.05); a value input (Wald)
+CI_LEVEL = 1 - 2 * ALPHA_FAMILY  # derived: the two-sided interval matching the one-sided test
+SEED_STEP = 10  # derived: seeds must differ from every seed used before and from seed+1 controls
 RESULTS = Path("results/pilot")
 
 
@@ -91,23 +90,38 @@ def plan_seeds(
     return [], 0, 0.0
 
 
-def sign_flip_p(x: list[float], n_mc: int = 200_000, seed: int = 0) -> float:
-    """One-sided p-value for H0 'no effect' against 'mean < 0' (exact for n <= 16)."""
-    a = np.asarray(x, dtype=float)
-    n = a.size
-    if n == 0:
+def _lattice(x: list[float]) -> tuple[list[int], int]:
+    """Per-task means of m values in {-1, 0, 1} are multiples of 1/m: return integers and m."""
+    for m in range(1, 65):
+        b = [round(v * m) for v in x]
+        if all(abs(v * m - k) < 1e-9 for v, k in zip(x, b, strict=True)):
+            return b, m
+    raise ValueError("values are not on a lattice k/m; exact test not available")
+
+
+def _null_dist(b: list[int]) -> dict[int, float]:
+    """Exact distribution of sum(s_i * |b_i|), s_i = +-1 with prob 1/2 (convolution)."""
+    dist = {0: 1.0}
+    for v in (abs(k) for k in b):
+        nxt: dict[int, float] = defaultdict(float)
+        for s, pr in dist.items():
+            nxt[s + v] += pr / 2
+            nxt[s - v] += pr / 2
+        dist = dict(nxt)
+    return dist
+
+
+def sign_flip_p(x: list[float], two_sided: bool = False) -> float:
+    """EXACT sign-flip permutation p-value (Fisher 1935; Pitman 1937), no Monte Carlo.
+    One-sided: H0 'no effect' against 'mean < 0'. Two-sided: against 'mean != 0'."""
+    if not x:
         return 1.0
-    obs = a.mean()
-    if n <= 16:
-        signs = np.array(list(itertools.product((1.0, -1.0), repeat=n)))
-    else:
-        rng = np.random.default_rng(seed)
-        signs = rng.choice((1.0, -1.0), size=(n_mc, n))
-    means = (signs * np.abs(a)).mean(axis=1)
-    return float(
-        (np.sum(means <= obs + 1e-12) + (0 if n <= 16 else 1))
-        / (len(means) + (0 if n <= 16 else 1))
-    )
+    b, _ = _lattice(x)
+    obs = sum(b)
+    dist = _null_dist(b)
+    if two_sided:
+        return float(sum(p for s, p in dist.items() if abs(s) >= abs(obs)))
+    return float(sum(p for s, p in dist.items() if s <= obs))
 
 
 def holm(pvals: dict[str, float], alpha: float) -> dict[str, dict]:
@@ -124,39 +138,26 @@ def holm(pvals: dict[str, float], alpha: float) -> dict[str, dict]:
     return out
 
 
-def tost(d: list[float], margin: float, alpha: float = 0.05) -> dict:
-    """Two one-sided t-tests for equivalence |E[d]| < margin (Lakens et al. 2018)."""
-    a = np.asarray(d, dtype=float)
+def t_interval(x: list[float], level: float = CI_LEVEL) -> list[float]:
+    """Student-t interval for the mean (CLT); level derived from ALPHA_FAMILY."""
+    a = np.asarray(x, dtype=float)
     n = a.size
-    if n < 2 or margin <= 0:
-        return {"n": int(n), "equivalent": False, "note": "not testable"}
-    m, se = a.mean(), a.std(ddof=1) / math.sqrt(n)
-    if se == 0:
-        return {"n": int(n), "mean": m, "margin": margin, "equivalent": abs(m) < margin}
-    p_low = 1 - stats.t.cdf((m + margin) / se, n - 1)  # H0: mean <= -margin
-    p_high = stats.t.cdf((m - margin) / se, n - 1)  # H0: mean >= margin
-    p = max(p_low, p_high)
-    return {"n": int(n), "mean": m, "margin": margin, "p": float(p), "equivalent": bool(p < alpha)}
+    if n < 2:
+        return [float("nan"), float("nan")]
+    se = a.std(ddof=1) / math.sqrt(n)
+    q = stats.t.ppf(1 - (1 - level) / 2, n - 1)
+    return [float(a.mean() - q * se), float(a.mean() + q * se)]
 
 
-def mde(z_task: list[float], n_tests: int) -> float:
-    """Resource-based minimal detectable effect with Browne's (1995) variance upper bound."""
-    a = np.asarray(z_task, dtype=float)
+def critical_effect(x: list[float], n_tests: int) -> float:
+    """Smallest mean effect this test can declare significant: t_{1-a'} * SE, a' = Holm's first
+    level. No power convention needed: a true effect of this size is detected with prob ~1/2."""
+    a = np.asarray(x, dtype=float)
     n = a.size
     if n < 2:
         return float("nan")
-    v = a.var(ddof=1)
-    v_ucl = (n - 1) * v / stats.chi2.ppf(1 - BROWNE_COVERAGE, n - 1)
-    za = stats.norm.ppf(1 - ALPHA_FAMILY / max(1, n_tests))
-    return float((za + stats.norm.ppf(POWER)) * math.sqrt(v_ucl / n))
-
-
-def boot_ci(x: list[float], level: float = 0.95, n_boot: int = 10_000, seed: int = 0):
-    a = np.asarray(x, dtype=float)
-    rng = np.random.default_rng(seed)
-    b = a[rng.integers(0, a.size, (n_boot, a.size))].mean(axis=1)
-    q = (1 - level) / 2
-    return [float(np.quantile(b, q)), float(np.quantile(b, 1 - q))]
+    se = a.std(ddof=1) / math.sqrt(n)
+    return float(stats.t.ppf(1 - ALPHA_FAMILY / max(1, n_tests), n - 1) * se)
 
 
 def per_task_mean(runs: list[dict], skill: str, endpoint: str = "resolved") -> dict[str, float]:
@@ -174,7 +175,12 @@ def per_task_mean(runs: list[dict], skill: str, endpoint: str = "resolved") -> d
 
 
 def verdict(c: dict, confirm: list[dict], skills: list[str]) -> dict:
-    out: dict = {"skills": {}, "alpha_family_one_sided": ALPHA_FAMILY, "n_seeds": len(confirm)}
+    out: dict = {
+        "skills": {},
+        "alpha_family_one_sided": ALPHA_FAMILY,
+        "ci_level": CI_LEVEL,
+        "n_seeds": len(confirm),
+    }
     pvals = {}
     for s in skills:
         zt = per_task_mean(confirm, s)
@@ -184,31 +190,43 @@ def verdict(c: dict, confirm: list[dict], skills: list[str]) -> dict:
         out["skills"][s] = {
             "n_tasks": len(x),
             "mean_z_resolved": float(np.mean(x)) if x else None,
-            "ci95": boot_ci(x) if x else None,
-            "mde": mde(x, len(skills)),
-            "mean_z_loss": float(np.mean(lt)) if lt else None,
+            "ci": t_interval(x) if x else None,
+            "critical_effect": critical_effect(x, len(skills)),
+            "mean_z_loss_secondary": float(np.mean(lt)) if lt else None,
+            "helped_tasks": int(sum(v < 0 for v in x)),
+            "hurt_tasks": int(sum(v > 0 for v in x)),
         }
     for s, h in holm(pvals, ALPHA_FAMILY).items():
         out["skills"][s].update(h)
-    # A/A on fresh data: no-skill arms of the first two confirmation seeds
+    # A/A on fresh data: no-skill arms of two confirmation seeds; exact two-sided sign-flip test
+    # at the two-sided level matching ALPHA_FAMILY (Kohavi et al.: an A/A must not reject)
     if len(confirm) >= 2:
         a, b = no_skill_unresolved(confirm[0]), no_skill_unresolved(confirm[1])
         d = [a[t] - b[t] for t in a if t in b]
-        margins = [v["mde"] for v in out["skills"].values() if v["mde"] == v["mde"]]
-        out["aa_tost"] = tost(d, min(margins) if margins else float("nan"))
+        p_aa = sign_flip_p(d, two_sided=True) if d else 1.0
+        out["aa"] = {
+            "n": len(d),
+            "mean": float(np.mean(d)) if d else None,
+            "ci": t_interval(d) if d else None,
+            "p_two_sided": p_aa,
+            "flag": bool(p_aa < 2 * ALPHA_FAMILY),
+        }
     else:
-        out["aa_tost"] = {"note": "one confirmation seed: A/A not testable"}
-    aa_bad = out["aa_tost"].get("note") is None and not out["aa_tost"]["equivalent"]
+        out["aa"] = {"note": "one confirmation seed: A/A not testable"}
+    aa_bad = bool(out["aa"].get("flag"))
     passing = [s for s, v in out["skills"].items() if v.get("reject")]
     if not skills:
         out["verdict"] = "G1 FAIL: no skill points in the helpful direction on stage C"
     elif aa_bad:
-        out["verdict"] = "INCONCLUSIVE: A/A check did not establish equivalence (pipeline suspect)"
+        out["verdict"] = "INCONCLUSIVE: the A/A check rejects (pipeline suspect)"
     elif passing:
         out["verdict"] = "G1 PASS: " + ", ".join(passing)
     else:
-        worst = max(v["mde"] for v in out["skills"].values())
-        out["verdict"] = f"G1 FAIL: no skill rejects H0 (no effect >= MDE ~{worst:.2f} detected)"
+        crit = max(v["critical_effect"] for v in out["skills"].values())
+        out["verdict"] = (
+            "G1 FAIL: no skill rejects H0 (effects smaller than the critical effect "
+            f"~{crit:.2f} cannot be declared with these data)"
+        )
     return out
 
 

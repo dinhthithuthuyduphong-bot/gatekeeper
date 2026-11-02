@@ -107,3 +107,16 @@ Code: `scripts/analyze_g1_final.py`; test: `tests/test_g1_final.py`.
 - Seed 11 tốn 2,79 USD, so với ước tính 2,28 USD (ước tính dùng chi phí trung bình của C, nơi có nhiều task dễ hơn).
 - Áp lại đúng công thức của mục 3 với chi phí **đo được**: m = ⌊(33,5 − 22,84) / 2,79⌋ = **3**. Seed xác nhận là **11, 21, 31**; bỏ seed 41.
 - Đây không phải thay đổi theo kết quả: công thức không đổi, chỉ thay ước tính chi phí bằng số đo thật. Nếu chạy seed 41, nó sẽ bị dừng giữa chừng vì trần và dữ liệu bị bỏ phí.
+
+## Bổ sung 3, bản sửa (02/11/2026; seed 21 đang chạy, **chưa mở bất kỳ kết quả xác nhận nào**)
+
+@thuthuy: không chấp nhận con số không có cơ sở. Các thay đổi so với Bổ sung 3 (chi tiết và lý do ở `docs/number_provenance.md` §1):
+
+1. Kiểm định đổi dấu được tính **chính xác** bằng tích chập. Bỏ Monte Carlo 200.000 lần và ngưỡng n ≤ 16.
+2. Khoảng tin cậy: **khoảng t**, mức 1 − 2α = 95%. Bỏ bootstrap 10.000 lần.
+3. **Bỏ MDE, power 80% và độ phủ Browne 90%** khỏi phán quyết. Thay bằng **hiệu ứng tới hạn** t₁₋α′ · SE, chỉ phụ thuộc α.
+4. **A/A: bỏ TOST và biên MDE.** Thay bằng kiểm định đổi dấu chính xác hai phía ở mức 2α = 0,05 trên hai nhánh không skill mới. Bác bỏ → "chưa kết luận: pipeline đáng ngờ".
+5. Trần ghi nhận **33,4 USD** = 35 − 1,6 (chi phí tối đa của hai lô bị ngắt chưa ghi). Tiến trình đang chạy dùng 33,5. Với tổng chi dự kiến khoảng 31 USD, trần này không bao giờ chạm, nên không ảnh hưởng. Lần chạy lại sẽ dùng 33,4.
+6. Không đổi: endpoint resolved; chọn "Z < 0"; tách dữ liệu; m = 3 seed (11, 21, 31); Holm với α một phía 0,025; quy tắc phán quyết PASS / FAIL / chưa kết luận.
+
+Đầu vào giá trị duy nhất còn lại: **α = 0,025 một phía** (chuẩn ICH E9).

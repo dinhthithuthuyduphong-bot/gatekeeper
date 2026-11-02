@@ -27,28 +27,41 @@ def run(skill_losses: dict[str, list[tuple[float, float]]], usd=0.05):
     return {"skills": sk, "usage": {"none": {"runs": n, "usd_per_run": usd}}}
 
 
-def test_sign_flip_exact_and_null():
+def test_sign_flip_is_exact():
     assert gf.sign_flip_p([-1.0] * 10) == pytest.approx(1 / 1024)
     assert gf.sign_flip_p([0.0] * 10) == 1.0
+    # brute force over all 2^n sign patterns agrees with the convolution
+    import itertools
+
+    x = [-1.0, -2 / 3, 1 / 3, 0.0, -1 / 3, 1.0, -1.0, 2 / 3]
+    obs = sum(x)
+    pats = list(itertools.product((1, -1), repeat=len(x)))
+    brute = sum(sum(s * abs(v) for s, v in zip(p, x, strict=True)) <= obs + 1e-12 for p in pats)
+    assert gf.sign_flip_p(x) == pytest.approx(brute / len(pats))
+    two = sum(
+        abs(sum(s * abs(v) for s, v in zip(p, x, strict=True))) >= abs(obs) - 1e-12 for p in pats
+    )
+    assert gf.sign_flip_p(x, two_sided=True) == pytest.approx(two / len(pats))
+
+
+def test_exact_test_is_valid_under_h0():
     rng = np.random.default_rng(1)
-    ps = [
-        gf.sign_flip_p(list(rng.choice([-1.0, 0.0, 1.0], 30)), n_mc=5000, seed=i)
-        for i in range(200)
-    ]
-    assert np.mean(np.array(ps) <= 0.05) <= 0.09  # valid under H0 (nominal 0.05)
+    ps = [gf.sign_flip_p(list(rng.choice([-1.0, 0.0, 1.0], 30))) for _ in range(400)]
+    assert np.mean(np.array(ps) <= 0.05) <= 0.075  # exact test: size <= nominal (+ MC noise)
 
 
 def test_holm_step_down():
     h = gf.holm({"a": 0.001, "b": 0.02, "c": 0.5}, 0.025)
     assert h["a"]["reject"] and not h["b"]["reject"] and not h["c"]["reject"]
     h2 = gf.holm({"a": 0.004, "b": 0.012}, 0.025)
-    assert h2["a"]["reject"] and h2["b"]["reject"]  # 0.004 <= .0125, 0.012 <= .025
+    assert h2["a"]["reject"] and h2["b"]["reject"]
 
 
-def test_tost_and_mde():
-    assert gf.tost([0.0] * 30 + [1.0, -1.0] * 5, margin=0.3)["equivalent"]
-    assert not gf.tost([1.0] * 20 + [0.0] * 20, margin=0.3)["equivalent"]
-    assert gf.mde([1.0, -1.0] * 15, 1) > gf.mde([1.0, -1.0] * 15, 4) * 0.8
+def test_interval_and_critical_effect_derive_from_alpha():
+    x = [1.0, -1.0, 0.0] * 10
+    lo, hi = gf.t_interval(x)
+    assert lo < 0 < hi and gf.CI_LEVEL == pytest.approx(0.95)
+    assert gf.critical_effect(x, 4) > gf.critical_effect(x, 1) > 0
 
 
 def test_select_plan_and_verdict():
@@ -59,7 +72,7 @@ def test_select_plan_and_verdict():
     assert skills == ["good"] and m == int(4.0 // (40 * 0.05))
     confirm = [c, c]
     v = gf.verdict(c, confirm, ["good"])
-    assert v["verdict"].startswith("G1 PASS") and v["aa_tost"]["equivalent"]
+    assert v["verdict"].startswith("G1 PASS") and not v["aa"]["flag"]
     none = gf.verdict(c, confirm, [])
     assert none["verdict"].startswith("G1 FAIL")
 

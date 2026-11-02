@@ -682,6 +682,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 02/11/2026 | @thuthuy: tự phán quyết sau C, minh bạch, có thể kiểm chứng mở rộng, tổng pilot < 35 USD → **đăng ký trước** quy tắc phán quyết + kiểm chứng (2 seed thêm cho tối đa 2 skill, Bonferroni cho 4 skill) **trước khi** có kết quả C | `docs/preregistration_g1_v2.md` (bổ sung 2) |
 | 02/11/2026 | Rà soát **mọi** chuẩn/ngưỡng từ đầu dự án (phân loại S/M/V/D/O/P/J): lõi lý thuyết và dữ liệu dựa trên chuẩn công nhận; còn cảm tính: w = 0,5, θ/δ (SESOI), kịch bản mô phỏng (con số 219), cỡ pool, và toàn bộ ngưỡng quy tắc G1 → đề xuất bộ thay thế toàn chuẩn công bố. Chưa mở kết quả C | `docs/review_thresholds.md` |
 | 02/11/2026 | @thuthuy giao tự đánh giá G1, tự chạy (dừng nếu > 35 USD) → **khóa quy tắc G1 chuẩn** (resolved; tách chọn/xác nhận; hoán vị đổi dấu + Holm α 0,025 một phía; A/A TOST; MDE theo Browne; số seed theo ngân sách) **trước khi mở kết quả C** (32/86 task) | `docs/preregistration_g1_v2.md` bổ sung 3, `scripts/analyze_g1_final.py`, `tests/test_g1_final.py` |
+| 02/11/2026 | @thuthuy: mọi con số phải có cơ sở. Rà nguồn gốc từng số: chỉ còn **α** (chuẩn ICH E9) và **θ** là đầu vào giá trị (Wald). G1 bỏ Monte Carlo, bootstrap, MDE, power 80%, Browne 90%, TOST-biên; thay bằng kiểm định đổi dấu **chính xác**, khoảng t (1 − 2α), hiệu ứng tới hạn, A/A chính xác; trần 33,4 USD. Thí nghiệm chính: θ từ chi phí–lợi ích, c theo GRO, chia α đều, mô phỏng theo dữ liệu pilot, step_limit 250. Chưa mở kết quả xác nhận | `docs/number_provenance.md`, `docs/preregistration_g1_v2.md` |
 
 ---
 
