@@ -8,7 +8,10 @@
     "g1-b3-p04",
     "g1-b3-p05",
     "g1-b3-p06",
-    "g1-b3-p07"
+    "g1-b3-p07",
+    "g1-b3-p08",
+    "g1-b3-p09",
+    "g1-b3-p10"
   ],
   "skills": {
     "control-none-seed1": {
@@ -132,12 +135,47 @@
           "instance_id": "pytest-dev__pytest-5809",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "pytest-dev__pytest-5840",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pytest-dev__pytest-7571",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-10297",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13779",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-14496",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-10673",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-7985",
+          "loss_with": 0.7777777777777778,
+          "loss_without": 0.7777777777777778
         }
       ],
-      "mean_Z": 0.056687397669132826,
-      "n": 24,
-      "solve_rate_with": 0.4583333333333333,
-      "solve_rate_without": 0.5
+      "mean_Z": 0.06539239389438241,
+      "n": 31,
+      "solve_rate_with": 0.4838709677419355,
+      "solve_rate_without": 0.5483870967741935
     },
     "control-oracle-tests": {
       "pairs": [
@@ -260,39 +298,73 @@
           "instance_id": "pytest-dev__pytest-5809",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "pytest-dev__pytest-5840",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pytest-dev__pytest-7571",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-10297",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13779",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-14496",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-10673",
+          "loss_with": 0.0,
+          "loss_without": 0.0
         }
       ],
-      "mean_Z": -0.04409555542546411,
-      "n": 24,
-      "solve_rate_with": 0.6666666666666666,
-      "solve_rate_without": 0.5
+      "mean_Z": -0.035276444340371284,
+      "n": 30,
+      "solve_rate_with": 0.7,
+      "solve_rate_without": 0.5666666666666667
     }
   },
   "usage": {
     "none": {
-      "runs": 24,
-      "usd": 0.9926243499999998,
-      "solved": 12,
-      "scored": 24,
-      "usd_per_run": 0.04135934791666666
+      "runs": 31,
+      "usd": 1.2001301999999998,
+      "solved": 17,
+      "scored": 31,
+      "usd_per_run": 0.03871387741935483
     },
     "control-none-seed1": {
-      "runs": 24,
-      "usd": 0.9966011,
-      "solved": 11,
-      "scored": 24,
-      "usd_per_run": 0.041525045833333336
+      "runs": 31,
+      "usd": 1.3073423499999999,
+      "solved": 15,
+      "scored": 31,
+      "usd_per_run": 0.042172333870967735
     },
     "control-oracle-tests": {
-      "runs": 24,
-      "usd": 1.09889915,
-      "solved": 16,
-      "scored": 24,
-      "usd_per_run": 0.04578746458333333
+      "runs": 31,
+      "usd": 1.4336451250000002,
+      "solved": 21,
+      "scored": 30,
+      "usd_per_run": 0.046246616935483875
     }
   },
-  "infra_failures": {},
-  "spent_usd": 3.0881,
+  "infra_failures": {
+    "control-oracle-tests": {
+      "sphinx-doc__sphinx-7985": "harness: no report for a non-empty patch"
+    }
+  },
+  "spent_usd": 3.9411,
   "instances": [
     "astropy__astropy-13579",
     "astropy__astropy-7166",
@@ -317,7 +389,14 @@
     "pylint-dev__pylint-4970",
     "pylint-dev__pylint-6386",
     "pytest-dev__pytest-10081",
-    "pytest-dev__pytest-5809"
+    "pytest-dev__pytest-5809",
+    "pytest-dev__pytest-5840",
+    "pytest-dev__pytest-7571",
+    "scikit-learn__scikit-learn-10297",
+    "scikit-learn__scikit-learn-13779",
+    "scikit-learn__scikit-learn-14496",
+    "sphinx-doc__sphinx-10673",
+    "sphinx-doc__sphinx-7985"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
