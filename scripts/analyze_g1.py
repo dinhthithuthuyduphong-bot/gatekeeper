@@ -13,6 +13,20 @@ from pathlib import Path
 from gatekeeper.analysis import g1_decision
 
 NOISE, POSITIVE = "control-none-seed1", "control-oracle-files"
+POSITIVE_V2 = "control-oracle-tests"
+
+
+def z_vs(run: dict, skill: str, ref: str) -> list[float]:
+    """Per-task loss(skill) - loss(ref), both arms run independently on the same task (v2)."""
+    s, r = run.get("skills", {}).get(skill), run.get("skills", {}).get(ref)
+    if not s or not r:
+        return []
+    ref_loss = {p["instance_id"]: p["loss_with"] for p in r["pairs"]}
+    return [
+        p["loss_with"] - ref_loss[p["instance_id"]]
+        for p in s["pairs"]
+        if p["instance_id"] in ref_loss
+    ]
 
 
 def z_of(run: dict, skill: str, only_failed_baseline: bool = False) -> list[float]:
@@ -28,13 +42,17 @@ def main() -> int:
     ap.add_argument("--stage-b", required=True)
     ap.add_argument("--stage-c", default="")
     ap.add_argument("--effect", type=float, default=0.10)
+    ap.add_argument("--rule", choices=["v1", "v2"], default="v2", help="see preregistration_g1_v2")
     a = ap.parse_args()
     b = json.loads(Path(f"results/pilot/{a.stage_b}.json").read_text())
     c = json.loads(Path(f"results/pilot/{a.stage_c}.json").read_text()) if a.stage_c else {}
     skills = {k: z_of(c, k) for k in c.get("skills", {}) if not k.startswith("control-")}
-    d = g1_decision(
-        skills, z_of(b, NOISE), z_of(b, POSITIVE, only_failed_baseline=True), effect=a.effect
-    )
+    if a.rule == "v2":
+        pos = z_vs(b, POSITIVE_V2, NOISE)
+    else:
+        pos = z_of(b, POSITIVE, only_failed_baseline=True)
+    d = g1_decision(skills, z_of(b, NOISE), pos, effect=a.effect, rule=a.rule)
+    d["rule"] = a.rule
     d["stage_b"], d["stage_c"] = a.stage_b, a.stage_c or None
     d["usage"] = {"stage_b": b.get("usage"), "stage_c": c.get("usage")}
     d["spent_usd"] = round(

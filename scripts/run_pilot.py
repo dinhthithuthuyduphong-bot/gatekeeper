@@ -32,6 +32,7 @@ import yaml
 from gatekeeper.analysis import variance_components
 from gatekeeper.eprocess import run_admission
 from gatekeeper.harness import DATASET, loss_of, read_report, run_harness
+from gatekeeper.patches import drop_files, touched_files
 from gatekeeper.pilot import (
     arm_config,
     arm_rows,
@@ -139,13 +140,25 @@ HARNESS_INFRA = {"_harness_infra": True}
 
 
 def score_arm(
-    agent_dir: Path, ids: list[str], run_id: str, workers: int, dataset: str, retries: int = 1
+    agent_dir: Path,
+    ids: list[str],
+    run_id: str,
+    workers: int,
+    dataset: str,
+    retries: int = 1,
+    test_files: dict[str, set[str]] | None = None,
 ) -> dict[str, dict | None]:
     """Harness reports per instance. An empty submission (the agent never submitted) is skipped by
     the harness and legitimately scored as unsolved (None). A NON-empty patch without a report is a
     harness/infrastructure failure: re-scored once, then marked HARNESS_INFRA (excluded)."""
-    preds_path = agent_dir / "preds.json"
-    preds = json.loads(preds_path.read_text()) if preds_path.exists() else {}
+    raw_path = agent_dir / "preds.json"
+    preds = json.loads(raw_path.read_text()) if raw_path.exists() else {}
+    if test_files:  # same for every arm: the evaluation overwrites these files anyway
+        for i, v in preds.items():
+            if v and v.get("model_patch"):
+                v["model_patch"] = drop_files(v["model_patch"], test_files.get(i, set()))
+    preds_path = agent_dir / "preds_scored.json"
+    preds_path.write_text(json.dumps(preds))
     patch = {i: ((preds.get(i) or {}).get("model_patch") or "").strip() for i in ids}
     try:
         run_harness(str(preds_path), ids, run_id, workers, dataset=dataset)
@@ -376,7 +389,10 @@ def main() -> int:
         rows_arm = arm_rows_map[arm]
         agent_dir = run_arm(arm, skill, rows_arm, a, out_dir, model)
         ids_arm = [r["instance_id"] for r in rows_arm]
-        reports = score_arm(agent_dir, ids_arm, f"{a.name}-{arm}", a.workers, harness_dataset)
+        tfiles = {r["instance_id"]: touched_files(r.get("test_patch") or "") for r in rows_arm}
+        reports = score_arm(
+            agent_dir, ids_arm, f"{a.name}-{arm}", a.workers, harness_dataset, test_files=tfiles
+        )
         losses[arm], usage[arm], infra[arm] = {}, {}, {}
         for r in rows_arm:
             iid = r["instance_id"]

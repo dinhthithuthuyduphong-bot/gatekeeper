@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "id": "control-oracle-tests",
+  "procedure": {
+    "kind": "control",
+    "guidance_template": "Hint from the maintainers. The fix belongs in: {files}. Functions to change: {functions}.\nAfter your fix, these tests must pass:\n{tests}\nThey are added by the following test diff, which is NOT applied to the repository yet. You may apply it locally to check your fix, but your final submission must only change source files (test files are replaced during evaluation):\n```diff\n{test_patch}\n```",
+    "_comment": "STRONG POSITIVE CONTROL v2 (02/11/2026, docs/preregistration_g1_v2.md): leaks the gold patch's files and functions the FAIL_TO_PASS test ids and the test patch (truncated to 4000 chars). Replaces control-oracle-files, which was redundant (agents already touched the gold files in every submitted patch). Never an evaluated skill."
+  },
+  "fingerprints": {},
+  "input_predicates": [],
+  "postconditions": [],
+  "footprint": {
+    "regions": [],
+    "reads": [],
+    "writes": [],
+    "properties": []
+  },
+  "capability_verdict": "approved",
+  "source": "control"
+}

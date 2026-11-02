@@ -259,6 +259,7 @@ def g1_decision(
     positive_z: Sequence[float] | None = None,
     effect: float = 0.10,
     min_unsolved: int = 5,
+    rule: str = "v1",
 ) -> dict[str, object]:
     """Pre-registered G1 rules (docs/budget_200.md), applied mechanically:
 
@@ -270,6 +271,12 @@ def g1_decision(
       results were seen);
     * G1 passes if some skill has mean Z <= -effect AND its 90% CI upper bound < 0.
     Exploratory screening only: the anytime-valid e-process is for the confirmatory study.
+
+    rule="v2" (docs/preregistration_g1_v2.md, fixed 02/11/2026 before stage B3 was run): the v1
+    sensitivity check above is biased by regression to the mean (selecting tasks on the baseline
+    run's failure makes ANY re-run look helpful: the noise control scored -0.17 there in g1-b2).
+    v2: positive_z = loss(positive control) - loss(noise control) per task, on ALL tasks; the
+    check passes iff mean <= -effect AND the 90% CI upper bound < 0.
     """
     out: dict[str, object] = {"effect": effect, "skills": {}}
     ok_pipeline = True
@@ -284,7 +291,7 @@ def g1_decision(
             out["positive_control"] = {"n": len(positive_z), "ok": False, "note": "too few"}
         else:
             m, lo, hi = mean_ci(positive_z)
-            sensitive = m <= -effect
+            sensitive = m <= -effect and (rule == "v1" or hi < 0.0)
             out["positive_control"] = {
                 "n": len(positive_z),
                 "mean": m,

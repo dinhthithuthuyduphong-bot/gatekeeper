@@ -195,3 +195,15 @@ def test_g1_decision_rules():
     assert g1_decision({}, noise, [-2 / 3] * 3)["verdict"].startswith("STOP: positive")  # too few
     assert g1_decision({}, [2 / 3] * 20, positive)["verdict"].startswith("STOP: noise")
     assert g1_decision({}, noise, positive)["verdict"] == "controls OK; run stage C"
+
+
+def test_g1_rule_v2_requires_ci_below_zero():
+    from gatekeeper.analysis import g1_decision
+
+    strong = [-0.667] * 8 + [0.0] * 22  # helps on 8/30 tasks, never hurts
+    weak = [-0.667] * 6 + [0.667] * 2 + [0.0] * 22  # mean -0.09: misses the effect size
+    noisy = [-0.667] * 10 + [0.667] * 6 + [0.0] * 14  # mean -0.09, CI crosses 0
+    noise = [0.667, -0.667] * 5 + [0.0] * 20
+    assert g1_decision({}, noise, strong, rule="v2")["verdict"].startswith("controls OK")
+    assert g1_decision({}, noise, weak, rule="v2")["verdict"].startswith("STOP: positive")
+    assert g1_decision({}, noise, noisy, rule="v2")["verdict"].startswith("STOP: positive")

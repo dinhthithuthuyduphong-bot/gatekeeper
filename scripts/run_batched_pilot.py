@@ -148,10 +148,12 @@ def main() -> int:
         if free_gb < DISK_RESERVE_GB + GB_PER_TASK:
             print(f"[stop] only {free_gb:.1f} GB free", flush=True)
             break
+        spent = pilot_spent_total()
+        # shrink the batch near the cap instead of stopping while a smaller batch still fits
+        size = min(size, max(1, int((a.cap_usd - spent) // (arms * a.cost_limit))))
         ids, todo = todo[:size], todo[size:]
         part = f"{a.name}-p{k:02d}"
         f = RESULTS / f"{part}.json"
-        spent = pilot_spent_total()
         worst = arms * len(ids) * a.cost_limit
         if spent + worst > a.cap_usd:
             print(

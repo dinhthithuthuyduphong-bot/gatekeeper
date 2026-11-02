@@ -281,3 +281,24 @@ def test_seed_zero_is_rejected():
     specs = load_model_specs("configs/models/vertex_gemini.json")
     for spec in specs.values():  # every configured model can actually build an arm
         arm_config(None, spec.litellm_name, spec.kwargs)
+
+
+def test_strong_control_template_and_test_file_stripping():
+    from gatekeeper.patches import drop_files, touched_files
+    from gatekeeper.pilot import fill_template
+
+    row = {
+        "patch": "diff --git a/pkg/m.py b/pkg/m.py\n--- a/pkg/m.py\n+++ b/pkg/m.py\n"
+        "@@ -1,2 +1,2 @@ def run(x):\n-    return x\n+    return x + 1\n",
+        "FAIL_TO_PASS": '["tests/test_m.py::test_run"]',
+        "test_patch": "diff --git a/tests/test_m.py b/tests/test_m.py\nnew file mode 100644\n",
+    }
+    s = fill_template("{files}|{functions}|{tests}|{test_patch}", row)
+    assert "pkg/m.py|run (pkg/m.py)|- tests/test_m.py::test_run|diff --git a/tests" in s
+    model = (
+        "diff --git a/pkg/m.py b/pkg/m.py\n+fix\n"
+        "diff --git a/tests/test_m.py b/tests/test_m.py\n+copied test\n"
+    )
+    out = drop_files(model, touched_files(row["test_patch"]))
+    assert "pkg/m.py" in out and "tests/test_m.py" not in out
+    assert drop_files(model, set()) == model

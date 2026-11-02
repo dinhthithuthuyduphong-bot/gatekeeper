@@ -106,6 +106,40 @@ def litellm_registry(spec: ModelSpec) -> dict[str, dict[str, Any]]:
     return {spec.litellm_name: entry}
 
 
+def _test_list(v: Any) -> list[str]:
+    if isinstance(v, str):
+        import ast
+
+        try:
+            v = json.loads(v)
+        except ValueError:
+            v = ast.literal_eval(v) if v.strip().startswith("[") else [v]
+    return [str(x) for x in (v or [])]
+
+
+def _truncate(s: str, n: int) -> str:
+    return s if len(s) <= n else s[:n] + "\n... (truncated)"
+
+
+def fill_template(template: str, row: Mapping[str, Any], max_items: int = 5) -> str:
+    """Fill {files}, {functions}, {tests}, {test_patch} from the gold patch and FAIL_TO_PASS.
+    Only for controls: these placeholders leak the answer's location (never an evaluated skill)."""
+    from gatekeeper.patches import parse_patch
+
+    pp = parse_patch(row.get("patch") or "")
+    fns = sorted(f.split("::", 1)[1] + " (" + f.split("::", 1)[0] + ")" for f in pp.functions)
+    tests = _test_list(row.get("FAIL_TO_PASS"))
+    vals = {
+        "{files}": ", ".join(pp.files) or "(unknown)",
+        "{functions}": ", ".join(fns[:max_items]) or "(not identifiable from the patch)",
+        "{tests}": "\n".join("- " + x for x in tests[:max_items]) or "(none listed)",
+        "{test_patch}": _truncate(row.get("test_patch") or "", 4000) or "(no test patch)",
+    }
+    for k, v in vals.items():
+        template = template.replace(k, v)
+    return template
+
+
 def arm_rows(rows: Iterable[Mapping[str, Any]], skill: Skill | None) -> list[dict]:
     """Rows of the arm dataset: identical tasks, the skill's guidance appended to the issue."""
     out = []
@@ -113,11 +147,8 @@ def arm_rows(rows: Iterable[Mapping[str, Any]], skill: Skill | None) -> list[dic
     template = (skill.procedure.get("guidance_template") or "").strip() if skill else ""
     for r in rows:
         row = dict(r)
-        if template:  # per-instance guidance, e.g. the positive control naming the gold files
-            from gatekeeper.patches import parse_patch
-
-            files = ", ".join(parse_patch(r.get("patch") or "").files) or "(unknown)"
-            guidance = template.replace("{files}", files)
+        if template:  # per-instance guidance, e.g. the positive control leaking the gold patch
+            guidance = fill_template(template, r)
         if guidance:
             row["problem_statement"] = (
                 f'{r["problem_statement"]}\n\n<skill id="{skill.id}">\n{guidance}\n</skill>'

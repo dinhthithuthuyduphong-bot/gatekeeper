@@ -105,3 +105,29 @@ def composition_candidates(
     return [
         {"a": a, "b": b, "shared_functions": sorted(fns)} for (a, b), fns in sorted(pairs.items())
     ]
+
+
+_DIFF_HEAD = re.compile(r"^diff --git a/(\S+) b/(\S+)", re.M)
+
+
+def touched_files(patch: str) -> set[str]:
+    return {m.group(2) for m in _DIFF_HEAD.finditer(patch or "")}
+
+
+def drop_files(patch: str, files: set[str]) -> str:
+    """Remove the per-file sections of a git diff that touch `files` (e.g. the files the
+    evaluation's test patch writes: they are overwritten at scoring time anyway, and a model
+    patch that already created them makes `git apply` of the test patch fail)."""
+    if not patch or not files:
+        return patch
+    starts = [m.start() for m in _DIFF_HEAD.finditer(patch)]
+    if not starts:
+        return patch
+    keep = [patch[: starts[0]]]
+    for a, b in zip(starts, starts[1:] + [len(patch)], strict=True):
+        sec = patch[a:b]
+        m = _DIFF_HEAD.match(sec)
+        if m and (m.group(1) in files or m.group(2) in files):
+            continue
+        keep.append(sec)
+    return "".join(keep)
