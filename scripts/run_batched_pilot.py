@@ -50,6 +50,21 @@ def task_list(path: str, skills: list[str]) -> list[str]:
     return list(d["instances"])
 
 
+def session_start_epoch() -> float:
+    """Start time of this process's session leader (the background job that runs a chain of
+    stages), so a later stage in the same job sees the time already used. Falls back to now."""
+    import os
+
+    try:
+        ticks = os.sysconf("SC_CLK_TCK")
+        stat = Path(f"/proc/{os.getsid(0)}/stat").read_text()
+        start = int(stat.rsplit(")", 1)[1].split()[19]) / ticks  # field 22: starttime
+        uptime = float(Path("/proc/uptime").read_text().split()[0])
+        return time.time() - (uptime - start)
+    except (OSError, ValueError, IndexError):
+        return time.time()
+
+
 def done_tasks(parts: list[Path]) -> set[str]:
     """Tasks finished in earlier parts; a task with an infrastructure failure in ANY arm is not
     done (it is re-run, and merge() keeps the latest part's result for it)."""
@@ -148,10 +163,10 @@ def main() -> int:
     k = len(parts)
     n_batches = 0
     pull_waits = 0
-    t0 = time.monotonic()
+    started = session_start_epoch()  # the whole background job's clock, not this process's
 
     def minutes_left() -> float:
-        return a.stop_after_min - (time.monotonic() - t0) / 60 if a.stop_after_min else 1e9
+        return a.stop_after_min - (time.time() - started) / 60 if a.stop_after_min else 1e9
 
     while todo:
         if a.max_batches and n_batches >= a.max_batches:
