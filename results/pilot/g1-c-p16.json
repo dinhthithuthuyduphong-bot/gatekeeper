@@ -1,0 +1,122 @@
+{
+  "generated_utc": "2026-11-02T20:59:56+00:00",
+  "name": "g1-c-p16",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "django__django-16485",
+    "scikit-learn__scikit-learn-12585",
+    "scikit-learn__scikit-learn-12973",
+    "scikit-learn__scikit-learn-13135"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.186,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.018151468750000004,
+      "tokens_in_per_run": 182050.75,
+      "tokens_out_per_run": 3032.75,
+      "cached_share": 0.7790341429518967,
+      "api_calls_per_run": 24.5,
+      "solve_rate": 1.0,
+      "solved": 4,
+      "scored": 4
+    },
+    "null-guard": {
+      "runs": 2,
+      "usd_per_run": 0.033857012500000006,
+      "tokens_in_per_run": 446767.0,
+      "tokens_out_per_run": 5459.0,
+      "cached_share": 0.8557603851672124,
+      "api_calls_per_run": 39.0,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    },
+    "type-guard": {
+      "runs": 1,
+      "usd_per_run": 0.00889735,
+      "tokens_in_per_run": 68107.0,
+      "tokens_out_per_run": 965.0,
+      "cached_share": 0.6249577870116141,
+      "api_calls_per_run": 16.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "validation-error": {
+      "runs": 2,
+      "usd_per_run": 0.018388825,
+      "tokens_in_per_run": 160370.5,
+      "tokens_out_per_run": 2849.5,
+      "cached_share": 0.719945376487571,
+      "api_calls_per_run": 24.5,
+      "solve_rate": 1.0,
+      "solved": 2,
+      "scored": 2
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-12973",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13135",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.3333333333333333,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 2,
+        "log_e": 0.0
+      }
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-12585",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 1,
+        "log_e": 0.0
+      }
+    },
+    "validation-error": {
+      "pairs": [
+        {
+          "instance_id": "django__django-16485",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13135",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 2,
+        "log_e": 0.0
+      }
+    }
+  }
+}
