@@ -186,6 +186,7 @@ def score_arm(
 
 
 EX_TEMPFAIL = 75  # images could not be pulled: nothing was run, retry later
+EX_NOSPACE = 76  # images do not fit on the disk: nothing was run, retry with a smaller batch
 
 
 def image_name(row: dict) -> str:
@@ -196,6 +197,7 @@ def image_name(row: dict) -> str:
     return f"docker.io/swebench/sweb.eval.x86_64.{iid}:latest"
 
 
+_NO_SPACE = False  # set by prepull when an image does not fit on the disk
 MIRROR = "mirror.gcr.io"  # Google's public Docker Hub cache: avoids Docker Hub's anonymous 429s
 
 
@@ -204,8 +206,11 @@ def pull_via_mirror(name: str) -> bool:
     and the agent look images up by that name). Same content: the mirror serves the same digest."""
     if not name.startswith("docker.io/"):
         return False
+    global _NO_SPACE
     alias = f"{MIRROR}/{name.removeprefix('docker.io/')}"
-    if subprocess.run(["docker", "pull", "-q", alias], capture_output=True).returncode != 0:
+    r = subprocess.run(["docker", "pull", "-q", alias], capture_output=True, text=True)
+    if r.returncode != 0:
+        _NO_SPACE = _NO_SPACE or "no space left" in (r.stderr or "")
         return False
     # the alias tag is kept: it costs no disk and keeps the image's RepoDigest (content hash,
     # identical to Docker Hub's) for the trial log
@@ -218,6 +223,7 @@ def prepull(rows: list[dict], tries: int = 3) -> list[str]:
     import time
 
     failed = []
+    global _NO_SPACE
     for name in sorted({image_name(r) for r in rows}):
         # already local -> no registry request (Docker Hub rate-limits anonymous pulls: 429)
         if (
@@ -226,14 +232,17 @@ def prepull(rows: list[dict], tries: int = 3) -> list[str]:
         ):
             print(f"image local: {name}", flush=True)
             continue
+        ok = False
         for k in range(tries):
-            ok = pull_via_mirror(name) or (
-                subprocess.run(["docker", "pull", "-q", name], capture_output=True).returncode == 0
-            )
-            if ok:
+            ok = pull_via_mirror(name)
+            if not ok:
+                r = subprocess.run(["docker", "pull", "-q", name], capture_output=True, text=True)
+                ok = r.returncode == 0
+                _NO_SPACE = _NO_SPACE or "no space left" in (r.stderr or "")
+            if ok or _NO_SPACE:  # a full disk does not get better by waiting
                 break
             time.sleep(15 * (k + 1))
-        else:
+        if not ok:
             failed.append(name)
         print(f"image {'ok' if name not in failed else 'FAILED'}: {name}", flush=True)
     return failed
@@ -401,6 +410,9 @@ def main() -> int:
         if missing:
             # never start agents without their image: the run would cost nothing useful and the
             # task would look "done" to the batch driver. Exit 75 (EX_TEMPFAIL) = retry later.
+            if _NO_SPACE:
+                print(f"error: {len(missing)} images do not fit on the disk", flush=True)
+                return EX_NOSPACE
             print(f"error: {len(missing)} images could not be pulled (registry limit?)", flush=True)
             return EX_TEMPFAIL
     for arm, skill in arms:

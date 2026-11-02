@@ -220,3 +220,35 @@ def test_stops_cleanly_when_time_is_short(tmp_path, monkeypatch):
     monkeypatch.setattr(sys, "argv", argv)
     bp.main()
     assert called == []  # less time left than one batch: nothing started
+
+
+def test_full_disk_halves_the_batch(tmp_path, monkeypatch):
+    res = tmp_path / "pilot"
+    res.mkdir()
+    monkeypatch.setattr(bp, "RESULTS", res)
+    pool = tmp_path / "summary.json"
+    pool.write_text(json.dumps({"usable": ["a", "b", "c", "d"]}))
+    sizes = []
+
+    def fake_run(cmd, **kw):
+        class R:
+            returncode = 0
+
+        if "scripts/run_pilot.py" in cmd:
+            ids = cmd[cmd.index("--instances") + 1].split(",")
+            sizes.append(len(ids))
+            if len(ids) > 2:
+                R.returncode = bp.EX_NOSPACE
+            else:
+                name = cmd[cmd.index("--name") + 1]
+                (res / f"{name}.json").write_text(
+                    json.dumps({"instances": ids, "spent_usd": 0.0, "skills": {}})
+                )
+        return R()
+
+    monkeypatch.setattr(bp.subprocess, "run", fake_run)
+    monkeypatch.setattr(bp.shutil, "disk_usage", lambda p: type("U", (), {"free": 100e9})())
+    argv = ["x", "--name", "g", "--model", "m", "--skills", "s.json", "--tasks-from", str(pool)]
+    monkeypatch.setattr(sys, "argv", argv + ["--dataset-file", "d", "--batch", "4"])
+    bp.main()
+    assert sizes == [4, 2, 2] and len(list(res.glob("g-p*.json"))) == 2

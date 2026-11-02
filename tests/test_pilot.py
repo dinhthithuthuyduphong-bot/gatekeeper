@@ -330,3 +330,24 @@ def test_pull_via_mirror_tags_docker_io_name(monkeypatch):
         "docker.io/swebench/x:latest",
     ] in calls
     assert not rp.pull_via_mirror("ghcr.io/other/x:latest")
+
+
+def test_prepull_reports_full_disk(monkeypatch):
+    import importlib.util
+    from pathlib import Path
+
+    pytest.importorskip("yaml")
+    spec = importlib.util.spec_from_file_location(
+        "run_pilot", Path(__file__).parents[1] / "scripts" / "run_pilot.py"
+    )
+    rp = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rp)
+
+    def fake(cmd, **kw):
+        rc = 1  # nothing local, every pull fails
+        err = "write ...: no space left on device"
+        return type("R", (), {"returncode": rc, "stderr": err})()
+
+    monkeypatch.setattr(rp.subprocess, "run", fake)
+    failed = rp.prepull([{"instance_id": "a__b-1"}], tries=3)
+    assert failed and rp._NO_SPACE

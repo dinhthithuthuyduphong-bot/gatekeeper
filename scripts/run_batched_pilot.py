@@ -28,6 +28,7 @@ RESULTS = Path("results/pilot")
 GB_PER_TASK = 6.0  # SWE-bench images are 3.8-7.6 GB (xarray); layers are partly shared
 DISK_RESERVE_GB = 4.0
 EX_TEMPFAIL = 75  # run_pilot.py: task images could not be pulled, nothing was run
+EX_NOSPACE = 76  # run_pilot.py: task images do not fit on the disk, nothing was run
 
 
 def pilot_spent_total(exclude_prefix: str | None = None) -> float:
@@ -163,6 +164,7 @@ def main() -> int:
     k = len(parts)
     n_batches = 0
     pull_waits = 0
+    max_size = a.batch
     started = session_start_epoch()  # the whole background job's clock, not this process's
 
     def minutes_left() -> float:
@@ -178,7 +180,7 @@ def main() -> int:
             )
             break
         free_gb = shutil.disk_usage("/").free / 1e9
-        size = max(1, min(a.batch, int((free_gb - DISK_RESERVE_GB) // GB_PER_TASK)))
+        size = max(1, min(a.batch, max_size, int((free_gb - DISK_RESERVE_GB) // GB_PER_TASK)))
         if free_gb < DISK_RESERVE_GB + GB_PER_TASK:
             print(f"[stop] only {free_gb:.1f} GB free", flush=True)
             break
@@ -224,6 +226,13 @@ def main() -> int:
         if a.model_seed is not None:
             cmd += ["--model-seed", str(a.model_seed)]
         rc = subprocess.run(cmd, check=False).returncode
+        if rc == EX_NOSPACE and len(ids) > 1:  # large images (e.g. matplotlib ~10 GB): halve
+            subprocess.run(["docker", "image", "prune", "-af"], capture_output=True, check=False)
+            half = len(ids) // 2
+            print(f"[shrink] images do not fit: retrying with {half} tasks", flush=True)
+            todo = ids + todo
+            max_size = half
+            continue
         if rc == EX_TEMPFAIL and minutes_left() < a.pull_wait_min + a.batch_min:
             print("[stop] registry limit and not enough time to wait; rerun to resume", flush=True)
             break
@@ -243,6 +252,7 @@ def main() -> int:
             break
         parts.append(f)
         pull_waits = 0  # the retry allowance is per batch, not per stage
+        max_size = a.batch
         k += 1
         n_batches += 1
     if parts:
