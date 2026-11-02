@@ -18,3 +18,11 @@ paper/*.fdb_latexmk
 gcp-*.json
 *credentials*.json
 service-account*.json
+runs/
+logs/
+preds_*.jsonl
+# swebench harness summary reports written to the working directory
+vertex_ai__*.json
+gold.*.json
+noop.*.json
+deterministic.*.json

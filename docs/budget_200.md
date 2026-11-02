@@ -11,14 +11,27 @@ Mọi bước chạy bằng Actions → **Pilot (paid, Vertex AI)** → *Run wor
 - [ ] Xác nhận trong Model Garden có `gemini-3.8-flash` và `gemini-3.1-flash-lite`; đối chiếu giá với `configs/models/vertex_gemini.json` (giá hiện lấy từ bảng LiteLLM 1.106.6; 3.8-flash có thể là **giá ưu đãi đến 31/12/2026** → nên chạy hết trong tháng 11–12).
 - [x] Workflow **Validate pilot pool** với `tag = g1` đã xanh: 86/89 task dùng được (run 41375243272).
 
+## Đã thử thật (02/11/2026, 0,26 USD)
+
+Chạy local bằng key service account `gatekeeper-pilot`, task `psf__requests-1142`, Gemini 3.8 Flash (`reasoning_effort: low`), 30 bước, 2 nhánh:
+
+| Nhánh | USD/lần | Token input | Đã cache | Token output | Kết quả |
+| --- | --- | --- | --- | --- | --- |
+| không skill | 0,134 | 475.584 | 80% | 9.000 | chạm trần 30 bước, chưa nộp |
+| đối chứng dương | 0,125 | 384.782 | 68% | 3.653 | chạm trần 30 bước, chưa nộp |
+
+- Toàn bộ pipeline chạy được với Gemini thật: Vertex AI (location **`global`**), gọi tool, Docker SWE-bench, harness, log chi phí.
+- **30 bước là quá ít**: agent dùng phần lớn số bước để đọc lịch sử git. Dùng **`step_limit = 60`** cho mọi giai đoạn; ước tính ~0,35 USD/lần (chi phí tăng gần bình phương theo số bước, cache 70–80%).
+- Với 0,35 USD/lần: 199 USD ≈ 510 lần chạy → A + B (38 task) + C (193 lần) ≈ 125 USD, còn dư dự phòng.
+
 ## 1. Giai đoạn A — đo chi phí thật và chọn model (≤ 6 USD)
 
 Câu hỏi: một lần chạy agent tốn bao nhiêu, cache trúng bao nhiêu, model giải được bao nhiêu task?
 
 | Lần chạy | name | model | skills | n | step_limit | cost_limit | pool_tag | budget_usd |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| A1 | `g1-a-lite` | gemini-flash-lite | `configs/skills/control-oracle-files.json` | 4 | 40 | 0.3 | default | 3 |
-| A2 | `g1-a-flash` | gemini-flash | `configs/skills/control-oracle-files.json` | 4 | 40 | 0.5 | default | 5 |
+| A1 | `g1-a-lite` | gemini-flash-lite | `configs/skills/control-oracle-files.json` | 4 | 60 | 0.3 | default | 3 |
+| A2 | `g1-a-flash` | gemini-flash | `configs/skills/control-oracle-files.json` | 4 | 60 | 0.6 | default | 5 |
 
 Đọc `results/pilot/g1-a-*.json` → mục `usage` (`usd_per_run`, `cached_share`, `solve_rate`) rồi:
 

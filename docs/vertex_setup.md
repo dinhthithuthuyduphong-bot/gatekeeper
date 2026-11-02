@@ -9,7 +9,7 @@ Quyết định ngày 01/11/2026: backend LLM là **Gemini qua Vertex AI**. Agen
 1. Tạo (hoặc chọn) project → ghi lại **Project ID**.
 2. Bật billing cho project. **Đặt budget alert** (Billing → Budgets & alerts), ví dụ 50 USD, cảnh báo ở 50% / 90% / 100%.
 3. Bật API: **Vertex AI API** (`aiplatform.googleapis.com`).
-4. Chọn region có model Gemini, ví dụ `us-central1` (hoặc `global` nếu model hỗ trợ) → đây là `VERTEXAI_LOCATION`.
+4. **`VERTEXAI_LOCATION = global`** (đã thử 02/11/2026: các model Gemini 3.x trả lời ở `global`, báo 404 ở `us-central1`).
 5. **Xác nhận mã model** trong Vertex AI → Model Garden (tìm "Gemini"). Sửa `configs/models/vertex_gemini.json`:
    - `litellm_name`: `vertex_ai/<mã model đúng như trong Model Garden>`
    - `usd_per_mtok_in` / `usd_per_mtok_out`: giá trên trang pricing chính thức
@@ -27,9 +27,9 @@ Quyết định ngày 01/11/2026: backend LLM là **Gemini qua Vertex AI**. Agen
    - `GCP_WORKLOAD_IDENTITY_PROVIDER` = `projects/<số>/locations/global/workloadIdentityPools/<pool>/providers/<provider>`
    - `GCP_SERVICE_ACCOUNT` = `gatekeeper-pilot@<project>.iam.gserviceaccount.com`
    - `VERTEXAI_PROJECT` = Project ID
-   - `VERTEXAI_LOCATION` = region
+   - `VERTEXAI_LOCATION` = `global`
 
-**Cách đơn giản hơn (kém an toàn hơn):** tạo JSON key cho service account, lưu vào secret `GCP_SA_KEY` (không commit file key vào repo). Workflow tự dùng key nếu không có Workload Identity.
+**Cách đơn giản hơn (kém an toàn hơn), đang dùng:** JSON key của service account `gatekeeper-pilot` → dán **toàn bộ nội dung file** vào secret `GCP_SA_KEY` (không commit file key vào repo; `.gitignore` đã chặn `*key*.json`). Workflow tự dùng key nếu không có Workload Identity. Sau pilot nên **xoá key cũ và tạo key mới** (IAM → Service Accounts → Keys), vì key đã đi qua đoạn chat.
 
 ## 3. Chạy
 

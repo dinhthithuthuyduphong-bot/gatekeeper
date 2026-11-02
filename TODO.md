@@ -445,11 +445,11 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 **Hạ tầng LLM**
 
 - [x] 👤💰 Chọn model API → ghi model ID chính xác · ✅ **Gemini qua Vertex AI** (@thuthuy, 01/11); cấu hình `configs/models/vertex_gemini.json` (Pro + Flash làm 2 backend)
-- [ ] 👤 Xác nhận mã model + giá Gemini trong Vertex Model Garden → sửa `configs/models/vertex_gemini.json`, đặt `_verified: true`
+- [x] 👤 Xác nhận mã model + giá Gemini trong Vertex Model Garden → sửa `configs/models/vertex_gemini.json`, đặt `_verified: true` · ✅ gọi thử được cả 3 model ở location `global` (404 ở us-central1); chi phí LiteLLM khớp giá cấu hình; giá chưa đối chiếu trang Google
 - [ ] 👤 Thiết lập GCP project, billing alert, Workload Identity, secrets GitHub theo `docs/vertex_setup.md`
 - [ ] ~~👤 Chọn model open-weight → ghi digest weight~~ · bỏ: backend thứ hai là Gemini Flash (cùng Vertex AI) thay cho model open-weight; nêu trong Threats to Validity (một nhà cung cấp)
 - [ ] ~~👤💰 Dựng vLLM trên GPU~~ · bỏ (không dùng open-weight)
-- [ ] 👤💰 Gọi thử Gemini qua Vertex từ harness: chạy workflow `Pilot (paid, Vertex AI)` với n = 2, budget 3 USD → thành công + có chi phí thật
+- [x] 👤💰 Gọi thử Gemini qua Vertex từ harness: chạy workflow `Pilot (paid, Vertex AI)` với n = 2, budget 3 USD → thành công + có chi phí thật · ✅ chạy local 02/11: 1 task × 2 nhánh, Gemini 3.8 Flash, **0,26 USD**, pipeline chạy hết (`results/pilot/smoke-flash-1.json`)
 - [x] 👤 Cố định tham số sampling và ghi vào config · ✅ `temperature: 0`, `seed: 0` trong `configs/models/vertex_gemini.json`; giới hạn bước/chi phí mỗi instance trong `scripts/run_pilot.py`
 
 **Hạ tầng chạy trial**
@@ -670,6 +670,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 02/11/2026 | Kiểm định pool g1 đỏ (run 41372092739): 1 shard lỗi (mất 22 task), và 18 task bị loại **nhầm** vì harness không tải được Docker image (`Image ... not found`, nghi Docker Hub giới hạn tải) → script đã gộp lỗi hạ tầng với "gold không giải được". Sửa: tách `infra_error`, tự chạy lại 2 lần (chờ 90 s), báo task thiếu; 8 shard, tối đa 4 chạy song song | commit 0ee9b80 |
 | 02/11/2026 | Kiểm định lại pool g1 xanh: **86/89 dùng được**, 0 lỗi hạ tầng (cơ chế chạy lại gỡ đúng 18 task bị loại nhầm), 3 task Django loại thật (no-op không sạch). Giai đoạn C = 193 lần chạy ≈ 39–120 USD | run 41375243272, `results/pool_validation/g1/summary.json` |
 | 02/11/2026 | Kiểm định lại pool default bằng script mới: vẫn 38/40, 0 lỗi hạ tầng → `psf__requests-1921` và `pylint-dev__pylint-8898` bị loại vì lỗi thật (có report), không phải do tải image | run 41379385559 |
+| 02/11/2026 | **Vertex AI chạy được** (key `gatekeeper-pilot`): 3 model OK ở `global`; Flash mặc định tốn ~11× token output vì thinking → `reasoning_effort: low`; thêm `mcp` cho tool-calling của LiteLLM. Bài thử 0,26 USD: 0,13 USD/lần chạy 30 bước, cache 68–80%; cả 2 nhánh chạm trần 30 bước → dùng 60 bước | `results/pilot/smoke-flash-1.json` |
 
 ---
 

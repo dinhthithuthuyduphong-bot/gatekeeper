@@ -88,7 +88,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install
-        run: pip install -e . "swebench==5.0.2" "mini-swe-agent==2.4.6"
+        run: pip install -e . "swebench==5.0.2" "mini-swe-agent==2.4.6" "litellm==1.106.6" mcp google-auth
       - name: Fetch validated task pool
         run: |
           git fetch origin pilot-snapshots
