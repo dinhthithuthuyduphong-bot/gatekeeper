@@ -203,6 +203,7 @@ def main() -> int:
             print(f"[error] {part} exited {rc}; stopping (rerun to resume)", flush=True)
             break
         parts.append(f)
+        pull_waits = 0  # the retry allowance is per batch, not per stage
         k += 1
         n_batches += 1
     if parts:
