@@ -667,7 +667,8 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 01/11/2026 | Script publish mới chạy đúng trên cả 3 nhánh snapshot; I(x) chọn trên train: lift test 1,46–1,85, recall 5–15% → regex chạm trần (R16) | runs 41360262544/579/573, 41360723396 |
 | 02/11/2026 | @thuthuy có **200 USD Vertex AI** → kế hoạch 3 giai đoạn (`docs/budget_200.md`, `scripts/plan_budget.py`): Flash 3.8 đủ cho G1 kể cả không có cache (~288 lần chạy). Sửa: mã Pro → `gemini-3.1-pro-preview` (bảng LiteLLM), thêm Flash-Lite + giá cache; đăng ký giá với LiteLLM để `cost_limit` luôn hiệu lực; đối chứng nhiễu/dương; pool g1 theo kích hoạt; quy tắc G1 `g1_decision` | commit c6e72f8 |
 | 02/11/2026 | Pool g1: 89 task Verified (null-guard 25, exception-handling 25, type-guard 30, validation-error 30); giai đoạn C ≈ 199 lần chạy agent (~123 USD nếu không có cache) → A+B+C vừa 180 USD | run 41371099871, `configs/pools/g1.json` |
-| 02/11/2026 | Kiểm định pool g1 đỏ (run 41372092739): 1 shard lỗi (mất 22 task), và 18 task bị loại **nhầm** vì harness không tải được Docker image (`Image ... not found`, nghi Docker Hub giới hạn tải) → script đã gộp lỗi hạ tầng với "gold không giải được". Sửa: tách `infra_error`, tự chạy lại 2 lần (chờ 90 s), báo task thiếu; 8 shard, tối đa 4 chạy song song | commit sau |
+| 02/11/2026 | Kiểm định pool g1 đỏ (run 41372092739): 1 shard lỗi (mất 22 task), và 18 task bị loại **nhầm** vì harness không tải được Docker image (`Image ... not found`, nghi Docker Hub giới hạn tải) → script đã gộp lỗi hạ tầng với "gold không giải được". Sửa: tách `infra_error`, tự chạy lại 2 lần (chờ 90 s), báo task thiếu; 8 shard, tối đa 4 chạy song song | commit 0ee9b80 |
+| 02/11/2026 | Kiểm định lại pool g1 xanh: **86/89 dùng được**, 0 lỗi hạ tầng (cơ chế chạy lại gỡ đúng 18 task bị loại nhầm), 3 task Django loại thật (no-op không sạch). Giai đoạn C = 193 lần chạy ≈ 39–120 USD | run 41375243272, `results/pool_validation/g1/summary.json` |
 
 ---
 

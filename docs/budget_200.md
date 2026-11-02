@@ -9,7 +9,7 @@ Mọi bước chạy bằng Actions → **Pilot (paid, Vertex AI)** → *Run wor
 - [ ] GCP: đặt **Budget alert 200 USD** (Billing → Budgets & alerts, cảnh báo 25/50/75/90/100%).
 - [ ] Làm xong `docs/vertex_setup.md` (secrets, Vertex AI API).
 - [ ] Xác nhận trong Model Garden có `gemini-3.8-flash` và `gemini-3.1-flash-lite`; đối chiếu giá với `configs/models/vertex_gemini.json` (giá hiện lấy từ bảng LiteLLM 1.106.6; 3.8-flash có thể là **giá ưu đãi đến 31/12/2026** → nên chạy hết trong tháng 11–12).
-- [ ] Workflow **Validate pilot pool** với `tag = g1` đã xanh (pool task mà 4 skill kích hoạt).
+- [x] Workflow **Validate pilot pool** với `tag = g1` đã xanh: 86/89 task dùng được (run 41375243272).
 
 ## 1. Giai đoạn A — đo chi phí thật và chọn model (≤ 6 USD)
 
@@ -49,9 +49,11 @@ python scripts/analyze_g1.py --stage-b g1-b
 
 | name | model | skills | n | pool_tag | budget_usd |
 | --- | --- | --- | --- | --- | --- |
-| `g1-c` | (model chọn ở A) | `configs/skills/null-guard.json,configs/skills/type-guard.json,configs/skills/exception-handling.json,configs/skills/validation-error.json` | số task usable của pool g1 | g1 | theo kế hoạch |
+| `g1-c` | (model chọn ở A) | `configs/skills/null-guard.json,configs/skills/type-guard.json,configs/skills/exception-handling.json,configs/skills/validation-error.json` | 86 | g1 | 193 × USD/lần đo ở A, cộng 10% |
 
 Mỗi skill chỉ chạy trên task mà I(x) đúng (≤ 30 task/skill); nhánh không skill chạy một lần trên hợp các task đó và **dùng chung** cho cả 4 skill.
+
+Pool g1 đã kiểm định (run 41375243272): **86/89 task dùng được** (loại 3 task Django có nhánh no-op không sạch). Theo skill: exception-handling 25, null-guard 25, type-guard 30, validation-error 27 → **193 lần chạy agent** (86 nhánh không skill + 107 nhánh skill) ≈ **39 USD (có cache) – 120 USD (không cache)** với Flash. Nhập `n = 86`.
 
 ```bash
 python scripts/analyze_g1.py --stage-b g1-b --stage-c g1-c
