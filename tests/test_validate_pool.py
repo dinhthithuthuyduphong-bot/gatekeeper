@@ -10,7 +10,7 @@ spec.loader.exec_module(vp)
 
 
 def test_pool_is_sharded_without_overlap():
-    pool = json.loads(Path("configs/pilot_pool.json").read_text())["instances"]
+    pool = json.loads(Path("configs/pools/default.json").read_text())["instances"]
     shards = [vp.shard_ids(k, 4) for k in range(4)]
     assert sorted(sum(shards, [])) == sorted(pool)
     assert len(pool) == len(set(pool)) == 40
@@ -18,8 +18,10 @@ def test_pool_is_sharded_without_overlap():
 
 def test_merge(tmp_path, monkeypatch):
     monkeypatch.setattr(vp, "OUT", tmp_path)
-    (tmp_path / "shard0.json").write_text(json.dumps({"a": {"usable": True, "reason": ""}}))
-    (tmp_path / "shard1.json").write_text(
+    monkeypatch.setattr(vp, "TAG", "t")
+    (tmp_path / "t").mkdir()
+    (tmp_path / "t" / "shard0.json").write_text(json.dumps({"a": {"usable": True, "reason": ""}}))
+    (tmp_path / "t" / "shard1.json").write_text(
         json.dumps({"b": {"usable": False, "reason": "unstable"}})
     )
     s = vp.merge()

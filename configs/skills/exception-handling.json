@@ -5,13 +5,14 @@
     "kind": "guidance",
     "family": "exception_handling",
     "guidance": "The issue may involve an exception that escapes or is swallowed. Reproduce it and read the full traceback; catch only the specific exception type at the level that can actually handle it; never use a bare `except:` or silently pass; re-raise with context (`raise ... from err`) when translating errors; make sure retries or fallbacks cannot hide a real failure; test both the error path and the normal path.",
-    "_comment": "Family-level prompt skill for the G1/R15 pilot; family from results/skill_mining.json (recurs in SWE-Gym training repos)."
+    "_comment": "Family-level prompt skill for the G1/R15 pilot; family from results/skill_mining.json (recurs in SWE-Gym training repos).",
+    "_activation": "pattern selected on SWE-Gym train (lift 1.83); test lift 1.85, precision 0.21, recall 0.10 (data/activation.json)"
   },
   "fingerprints": {},
   "input_predicates": [
     {
       "kind": "issue_regex",
-      "pattern": "\\bexception\\b|\\braises?\\b|\\btraceback\\b|\\bcrash(es|ed)?\\b|\\bError\\b"
+      "pattern": "\\braises?\\b.*\\b(should|instead|unexpected)\\b|\\bcatch\\b|\\bexcept\\b"
     }
   ],
   "postconditions": [],

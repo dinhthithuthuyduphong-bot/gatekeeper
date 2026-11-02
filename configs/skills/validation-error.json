@@ -5,13 +5,14 @@
     "kind": "guidance",
     "family": "raise_error",
     "guidance": "The issue may be about missing or wrong input validation. Find the public function that receives the bad input; validate it there and raise the most specific built-in exception (usually ValueError or TypeError) with a message naming the parameter and the accepted values; match the project's existing error-message style; do not change behaviour for valid inputs; test the new error.",
-    "_comment": "Family-level prompt skill for the G1/R15 pilot; family from results/skill_mining.json (recurs in SWE-Gym training repos)."
+    "_comment": "Family-level prompt skill for the G1/R15 pilot; family from results/skill_mining.json (recurs in SWE-Gym training repos).",
+    "_activation": "pattern selected on SWE-Gym train (lift 1.38); test lift 1.46, precision 0.23, recall 0.15 (data/activation.json)"
   },
   "fingerprints": {},
   "input_predicates": [
     {
       "kind": "issue_regex",
-      "pattern": "\\bshould (raise|error|fail|warn)\\b|\\binvalid\\b|\\bvalidat|\\bsilently\\b|no error|without (an )?error|\\bValueError\\b"
+      "pattern": "\\binvalid\\b|\\bValueError\\b"
     }
   ],
   "postconditions": [],

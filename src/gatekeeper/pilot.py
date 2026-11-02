@@ -29,6 +29,7 @@ __all__ = [
     "arm_rows",
     "deterministic_outputs",
     "estimate_cost_usd",
+    "litellm_registry",
     "load_model_specs",
     "pair_losses",
     "traj_usage",
@@ -50,6 +51,7 @@ class ModelSpec:
     usd_per_mtok_in: float
     usd_per_mtok_out: float
     kwargs: Mapping[str, Any]
+    usd_per_mtok_cached: float | None = None  # cached input tokens (None = billed as input)
 
 
 def load_model_specs(path: str | Path) -> dict[str, ModelSpec]:
@@ -64,20 +66,58 @@ def load_model_specs(path: str | Path) -> dict[str, ModelSpec]:
             usd_per_mtok_in=float(m["usd_per_mtok_in"]),
             usd_per_mtok_out=float(m["usd_per_mtok_out"]),
             kwargs=dict(m.get("kwargs", {})),
+            usd_per_mtok_cached=(
+                float(m["usd_per_mtok_cached"])
+                if m.get("usd_per_mtok_cached") is not None
+                else None
+            ),
         )
     return out
 
 
-def estimate_cost_usd(spec: ModelSpec, tokens_in: int, tokens_out: int) -> float:
-    return (tokens_in * spec.usd_per_mtok_in + tokens_out * spec.usd_per_mtok_out) / 1e6
+def estimate_cost_usd(
+    spec: ModelSpec, tokens_in: int, tokens_out: int, tokens_cached: int = 0
+) -> float:
+    """tokens_in includes cached tokens; cached ones are billed at the cached rate if known."""
+    cached_rate = (
+        spec.usd_per_mtok_cached if spec.usd_per_mtok_cached is not None else spec.usd_per_mtok_in
+    )
+    fresh = max(tokens_in - tokens_cached, 0)
+    return (
+        fresh * spec.usd_per_mtok_in
+        + tokens_cached * cached_rate
+        + tokens_out * spec.usd_per_mtok_out
+    ) / 1e6
+
+
+def litellm_registry(spec: ModelSpec) -> dict[str, dict[str, Any]]:
+    """Price entry for litellm.register_model, so mini-swe-agent's per-instance cost_limit works
+    even when LiteLLM's bundled table lacks the model (otherwise cost = 0: the limit is inert)."""
+    entry: dict[str, Any] = {
+        "input_cost_per_token": spec.usd_per_mtok_in / 1e6,
+        "output_cost_per_token": spec.usd_per_mtok_out / 1e6,
+        "litellm_provider": "vertex_ai",
+        "mode": "chat",
+        "supports_function_calling": True,
+        "max_input_tokens": 1_048_576,
+    }
+    if spec.usd_per_mtok_cached is not None:
+        entry["cache_read_input_token_cost"] = spec.usd_per_mtok_cached / 1e6
+    return {spec.litellm_name: entry}
 
 
 def arm_rows(rows: Iterable[Mapping[str, Any]], skill: Skill | None) -> list[dict]:
     """Rows of the arm dataset: identical tasks, the skill's guidance appended to the issue."""
     out = []
     guidance = (skill.procedure.get("guidance") or "").strip() if skill else ""
+    template = (skill.procedure.get("guidance_template") or "").strip() if skill else ""
     for r in rows:
         row = dict(r)
+        if template:  # per-instance guidance, e.g. the positive control naming the gold files
+            from gatekeeper.patches import parse_patch
+
+            files = ", ".join(parse_patch(r.get("patch") or "").files) or "(unknown)"
+            guidance = template.replace("{files}", files)
         if guidance:
             row["problem_statement"] = (
                 f'{r["problem_statement"]}\n\n<skill id="{skill.id}">\n{guidance}\n</skill>'
@@ -99,7 +139,10 @@ def arm_config(
     startup = [NOOP_FILE_COMMAND]
     if skill and skill.procedure.get("startup"):
         startup.append(str(skill.procedure["startup"]))
-    model: dict[str, Any] = {"model_name": model_name, "model_kwargs": dict(model_kwargs or {})}
+    kwargs = dict(model_kwargs or {})
+    if skill and skill.procedure.get("model_kwargs"):  # e.g. a different seed for a noise control
+        kwargs.update(skill.procedure["model_kwargs"])
+    model: dict[str, Any] = {"model_name": model_name, "model_kwargs": kwargs}
     if model_class:
         model["model_class"] = model_class
     if outputs is not None:
@@ -125,7 +168,7 @@ def deterministic_outputs() -> list[dict]:
 
 def traj_usage(traj: Mapping[str, Any]) -> dict[str, float]:
     """Best-effort token / cost / call counts from a mini-swe-agent trajectory file."""
-    tin = tout = 0
+    tin = tout = tcached = 0
     cost = 0.0
     calls = 0
     for m in traj.get("messages", []):
@@ -137,12 +180,20 @@ def traj_usage(traj: Mapping[str, Any]) -> dict[str, float]:
         usage = (extra.get("response") or {}).get("usage") or extra.get("usage") or {}
         tin += int(usage.get("prompt_tokens") or usage.get("input_tokens") or 0)
         tout += int(usage.get("completion_tokens") or usage.get("output_tokens") or 0)
+        details = usage.get("prompt_tokens_details") or {}
+        tcached += int(details.get("cached_tokens") or usage.get("cache_read_input_tokens") or 0)
     info = traj.get("info") or {}
     stats = info.get("model_stats") or {}
     if stats:
         cost = float(stats.get("instance_cost", cost))
         calls = int(stats.get("api_calls", calls))
-    return {"tokens_in": tin, "tokens_out": tout, "cost_usd": cost, "api_calls": calls}
+    return {
+        "tokens_in": tin,
+        "tokens_out": tout,
+        "tokens_cached": tcached,
+        "cost_usd": cost,
+        "api_calls": calls,
+    }
 
 
 def pair_losses(

@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "id": "control-oracle-files",
+  "procedure": {
+    "kind": "control",
+    "guidance_template": "Hint: the fix belongs in these files: {files}. Start by reading them.",
+    "_comment": "POSITIVE CONTROL (leaks the gold patch's file list). Only used to check that the pilot can detect a large effect and to calibrate noise. Never an evaluated skill."
+  },
+  "fingerprints": {},
+  "input_predicates": [],
+  "postconditions": [],
+  "footprint": {"regions": [], "reads": [], "writes": [], "properties": []},
+  "capability_verdict": "approved",
+  "source": "control"
+}

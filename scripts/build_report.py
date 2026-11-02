@@ -409,7 +409,7 @@ def mining_html(d: dict | None) -> str:
 
 def pool_html(d: dict | None) -> str:
     if not d:
-        return "<p class='muted'>Chưa có <code>results/pool_validation/summary.json</code>.</p>"
+        return "<p class='muted'>Chưa có <code>results/pool_validation/&lt;tag&gt;/summary.json</code>.</p>"
     rej = "".join(f"<li><code>{esc(k)}</code>: {esc(v)}</li>" for k, v in d["rejected"].items())
     return (
         f"<p>Pool cho pilot G1: <b>{d['n_usable']}/{d['n_checked']}</b> task dùng được (gold giải được ở cả "
@@ -681,7 +681,12 @@ def build() -> str:
     pilot = pilot_html()
     cost = cost_html(load_json("results/cost_estimate.json"))
     mining = mining_html(load_json("results/skill_mining.json"))
-    pool = pool_html(load_json("results/pool_validation/summary.json"))
+    pool = "".join(
+        f"<h5>Pool <code>{esc(t)}</code></h5>"
+        + pool_html(load_json(f"results/pool_validation/{t}/summary.json"))
+        for t in ("default", "g1")
+        if (ROOT / "results" / "pool_validation" / t / "summary.json").exists()
+    ) or pool_html(None)
     activation = activation_html(load_json("data/activation.json"))
 
     build_line = f"Build {esc(sha)} · {esc(now)}"

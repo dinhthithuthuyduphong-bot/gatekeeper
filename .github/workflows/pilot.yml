@@ -19,7 +19,7 @@ on:
         required: true
         default: "gemini-flash"
         type: choice
-        options: ["gemini-flash", "gemini-pro"]
+        options: ["gemini-flash", "gemini-flash-lite", "gemini-pro"]
       skills:
         description: "Comma-separated skill JSON files"
         required: true
@@ -28,10 +28,20 @@ on:
         description: "Number of SWE-bench Verified instances"
         required: true
         default: "10"
+      step_limit:
+        description: "Max agent steps per instance (cost saver)"
+        required: true
+        default: "40"
       cost_limit:
         description: "USD cap per instance per arm (agent stops beyond it)"
         required: true
         default: "0.5"
+      pool_tag:
+        description: "Validated task pool (configs/pools/<tag>.json): default = 38 mixed tasks, g1 = tasks where the family skills activate"
+        required: true
+        default: "default"
+        type: choice
+        options: ["default", "g1"]
       budget_usd:
         description: "Hard budget for the whole run (USD)"
         required: true
@@ -81,15 +91,18 @@ jobs:
         run: pip install -e . "swebench==5.0.2" "mini-swe-agent==2.4.6"
       - name: Fetch validated task pool
         run: |
-          git fetch origin pilot-snapshots && \
-            git show origin/pilot-snapshots:results/pool_validation/summary.json > pool.json || \
-            (echo "no validated pool yet: run 'Validate pilot pool' first" && exit 1)
+          git fetch origin pilot-snapshots
+          tag="${{ inputs.pool_tag }}"
+          git show "origin/pilot-snapshots:results/pool_validation/$tag/summary.json" > pool.json 2>/dev/null || \
+            { [ "$tag" = default ] && git show origin/pilot-snapshots:results/pool_validation/summary.json > pool.json; } || \
+            { echo "pool '$tag' not validated yet: run 'Validate pilot pool' with tag=$tag"; exit 1; }
           python -c "import json; print(json.load(open('pool.json'))['n_usable'], 'usable tasks')"
       - name: Run pilot
         run: |
           python scripts/run_pilot.py --name "${{ inputs.name }}" --model "${{ inputs.model }}" \
             --skills "${{ inputs.skills }}" --n "${{ inputs.n }}" --pool pool.json \
-            --cost-limit "${{ inputs.cost_limit }}" --budget-usd "${{ inputs.budget_usd }}" --workers 2
+            --cost-limit "${{ inputs.cost_limit }}" --budget-usd "${{ inputs.budget_usd }}" \
+            --step-limit "${{ inputs.step_limit }}" --workers 2
       - uses: actions/upload-artifact@v6
         if: always()
         with:

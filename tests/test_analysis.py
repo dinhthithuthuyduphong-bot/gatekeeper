@@ -175,3 +175,22 @@ def test_resumable_log_and_cost(tmp_path):
     assert cs.trials == 4 and cs.cost_usd == 2.0 and cs.over_budget and cs.remaining_usd == -0.5
     assert cs.wall_hours == pytest.approx(4 * 60 / 3600)
     json.loads((tmp_path / "trials.jsonl").read_text().splitlines()[0])
+
+
+def test_g1_decision_rules():
+    from gatekeeper.analysis import g1_decision, mean_ci
+
+    m, lo, hi = mean_ci([0.0] * 10)
+    assert (m, lo, hi) == (0.0, 0.0, 0.0)
+    rng = np.random.default_rng(0)
+    noise = list(rng.choice([-2 / 3, 0.0, 2 / 3], size=40, p=[0.15, 0.7, 0.15]))
+    positive = [-2 / 3] * 15 + [0.0] * 15
+    good = [-2 / 3] * 10 + [0.0] * 20
+    null = [0.0] * 30
+    d = g1_decision({"good": good, "null": null}, noise, positive)
+    assert d["verdict"] == "G1 PASS: good"
+    assert d["skills"]["null"]["promising"] is False
+    assert g1_decision({"null": null}, noise, positive)["verdict"].startswith("G1 FAIL")
+    assert g1_decision({}, noise, [0.0] * 20)["verdict"].startswith("STOP: positive")
+    assert g1_decision({}, [2 / 3] * 20, positive)["verdict"].startswith("STOP: noise")
+    assert g1_decision({}, noise, positive)["verdict"] == "controls OK; run stage C"

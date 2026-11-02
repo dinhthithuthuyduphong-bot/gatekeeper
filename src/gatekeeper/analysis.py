@@ -240,3 +240,65 @@ def penalty_sweep(
         "tau": taus,
         "stable": all(t == 1.0 for t in taus.values()),
     }
+
+
+def mean_ci(z: Sequence[float], level: float = 0.90, n_boot: int = 4000, seed: int = 0):
+    """Mean and two-sided bootstrap CI of paired differences (exploratory, not anytime-valid)."""
+    arr = np.asarray(z, dtype=float)
+    if arr.size == 0:
+        return None, None, None
+    rng = np.random.default_rng(seed)
+    boot = arr[rng.integers(0, arr.size, size=(n_boot, arr.size))].mean(axis=1)
+    q = (1 - level) / 2
+    return float(arr.mean()), float(np.quantile(boot, q)), float(np.quantile(boot, 1 - q))
+
+
+def g1_decision(
+    skill_z: Mapping[str, Sequence[float]],
+    noise_z: Sequence[float] | None = None,
+    positive_z: Sequence[float] | None = None,
+    effect: float = 0.10,
+) -> dict[str, object]:
+    """Pre-registered G1 rules (docs/budget_200.md), applied mechanically:
+
+    * pipeline check: the noise control's 90% CI must contain 0 (else pairing is broken);
+    * sensitivity check: the positive control's mean Z must be <= -effect (else the measurement
+      cannot detect a large effect, and a null result on the skills would be uninformative);
+    * G1 passes if some skill has mean Z <= -effect AND its 90% CI upper bound < 0.
+    Exploratory screening only: the anytime-valid e-process is for the confirmatory study.
+    """
+    out: dict[str, object] = {"effect": effect, "skills": {}}
+    ok_pipeline = True
+    if noise_z is not None and len(noise_z):
+        m, lo, hi = mean_ci(noise_z)
+        ok_pipeline = lo <= 0.0 <= hi
+        out["noise_control"] = {"n": len(noise_z), "mean": m, "ci90": [lo, hi], "ok": ok_pipeline}
+    sensitive = True
+    if positive_z is not None and len(positive_z):
+        m, lo, hi = mean_ci(positive_z)
+        sensitive = m <= -effect
+        out["positive_control"] = {
+            "n": len(positive_z),
+            "mean": m,
+            "ci90": [lo, hi],
+            "ok": sensitive,
+        }
+    passing = []
+    for sid, z in skill_z.items():
+        m, lo, hi = mean_ci(z)
+        hit = m is not None and m <= -effect and hi < 0.0
+        out["skills"][sid] = {"n": len(z), "mean": m, "ci90": [lo, hi], "promising": hit}
+        if hit:
+            passing.append(sid)
+    if not ok_pipeline:
+        verdict = "STOP: noise control shows a non-zero effect (pairing or seeding is broken)"
+    elif not sensitive:
+        verdict = "STOP: positive control too weak; the pilot cannot detect large effects"
+    elif passing:
+        verdict = "G1 PASS: " + ", ".join(passing)
+    elif skill_z:
+        verdict = f"G1 FAIL: no skill with mean Z <= -{effect:.2f} and CI below 0"
+    else:
+        verdict = "controls OK; run stage C"
+    out["verdict"] = verdict
+    return out

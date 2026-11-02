@@ -1,18 +1,28 @@
 {
-  "_comment": "Gemini via Vertex AI through LiteLLM. Model IDs and prices MUST be confirmed in the Vertex AI console (Model Garden) before a paid run; values below are placeholders from public pricing guides (Oct 2026), not verified against Google's documentation.",
+  "_comment": "Gemini via Vertex AI through LiteLLM. IDs and prices taken from LiteLLM 1.106.6's bundled price table (model_prices_and_context_window_backup.json), 2026-11-02 -- NOT from Google's documentation. Confirm in Vertex AI Model Garden / pricing before a paid run; 3.8-flash may be an introductory price until 2026-12-31 (third-party pricing guides say $1.50/$7.50 afterwards).",
   "_verified": false,
+  "_source": "litellm==1.106.6 bundled price table",
   "_env": ["VERTEXAI_PROJECT", "VERTEXAI_LOCATION", "GOOGLE_APPLICATION_CREDENTIALS"],
   "models": {
-    "gemini-pro": {
-      "litellm_name": "vertex_ai/gemini-3.1-pro",
-      "usd_per_mtok_in": 2.0,
-      "usd_per_mtok_out": 12.0,
-      "kwargs": {"temperature": 0.0, "seed": 0, "drop_params": true}
-    },
     "gemini-flash": {
       "litellm_name": "vertex_ai/gemini-3.8-flash",
-      "usd_per_mtok_in": 1.5,
-      "usd_per_mtok_out": 7.5,
+      "usd_per_mtok_in": 0.75,
+      "usd_per_mtok_cached": 0.075,
+      "usd_per_mtok_out": 3.75,
+      "kwargs": {"temperature": 0.0, "seed": 0, "drop_params": true}
+    },
+    "gemini-flash-lite": {
+      "litellm_name": "vertex_ai/gemini-3.1-flash-lite",
+      "usd_per_mtok_in": 0.25,
+      "usd_per_mtok_cached": 0.025,
+      "usd_per_mtok_out": 1.5,
+      "kwargs": {"temperature": 0.0, "seed": 0, "drop_params": true}
+    },
+    "gemini-pro": {
+      "litellm_name": "vertex_ai/gemini-3.1-pro-preview",
+      "usd_per_mtok_in": 2.0,
+      "usd_per_mtok_cached": 0.2,
+      "usd_per_mtok_out": 12.0,
       "kwargs": {"temperature": 0.0, "seed": 0, "drop_params": true}
     }
   }

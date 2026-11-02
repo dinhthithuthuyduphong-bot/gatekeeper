@@ -20,7 +20,7 @@ ROWS = [{"instance_id": "a__b-1", "problem_statement": "Bug X", "patch": "diff"}
 
 def test_model_config_is_vertex_gemini():
     specs = load_model_specs("configs/models/vertex_gemini.json")
-    assert set(specs) == {"gemini-pro", "gemini-flash"}
+    assert set(specs) == {"gemini-pro", "gemini-flash", "gemini-flash-lite"}
     assert all(s.litellm_name.startswith("vertex_ai/gemini") for s in specs.values())
     assert (
         estimate_cost_usd(specs["gemini-pro"], 1_000_000, 0) == specs["gemini-pro"].usd_per_mtok_in
@@ -93,7 +93,13 @@ def test_traj_usage_and_pairing():
         ]
     }
     u = traj_usage(traj)
-    assert u == {"tokens_in": 150, "tokens_out": 25, "cost_usd": 0.75, "api_calls": 2}
+    assert u == {
+        "tokens_in": 150,
+        "tokens_out": 25,
+        "tokens_cached": 0,
+        "cost_usd": 0.75,
+        "api_calls": 2,
+    }
     u2 = traj_usage({**traj, "info": {"model_stats": {"instance_cost": 2.0, "api_calls": 7}}})
     assert u2["cost_usd"] == 2.0 and u2["api_calls"] == 7
     assert pair_losses({"a": 0.6, "b": 0.6}, {"b": 0.0, "c": 0.0}) == [("b", 0.0, 0.6)]
@@ -131,10 +137,70 @@ def test_activated_rows():
         {
             "instance_id": "a",
             "repo": "r",
-            "problem_statement": "crash: 'NoneType' has no attribute",
+            "problem_statement": "foo() returns None instead of an empty list",
         },
         {"instance_id": "b", "repo": "r", "problem_statement": "legend colour is wrong"},
     ]
     assert [r["instance_id"] for r in rp.activated(ng, rows)] == ["a"]
     oracle = Skill.load("configs/skills/oracle-gold.json")  # no predicates: always active
     assert len(rp.activated(oracle, rows)) == 2
+
+
+def test_cached_pricing_and_registry():
+    from gatekeeper.pilot import litellm_registry
+
+    spec = load_model_specs("configs/models/vertex_gemini.json")["gemini-flash"]
+    full = estimate_cost_usd(spec, 1_000_000, 0)
+    cached = estimate_cost_usd(spec, 1_000_000, 0, tokens_cached=900_000)
+    assert cached < full / 5  # cached input is ~10x cheaper
+    reg = litellm_registry(spec)[spec.litellm_name]
+    assert reg["input_cost_per_token"] == spec.usd_per_mtok_in / 1e6
+    assert reg["cache_read_input_token_cost"] == spec.usd_per_mtok_cached / 1e6
+
+
+def test_positive_control_and_noise_control():
+    pos = Skill.load("configs/skills/control-oracle-files.json")
+    rows = [
+        {
+            "instance_id": "a",
+            "problem_statement": "Bug",
+            "patch": "diff --git a/pkg/m.py b/pkg/m.py\n",
+        }
+    ]
+    assert "pkg/m.py" in arm_rows(rows, pos)[0]["problem_statement"]
+    noise = Skill.load("configs/skills/control-none-seed1.json")
+    assert arm_rows(rows, noise)[0]["problem_statement"] == "Bug"
+    c = arm_config(noise, "vertex_ai/x", {"temperature": 0.0, "seed": 0})
+    assert c["model"]["model_kwargs"]["seed"] == 1
+
+
+def test_usage_summary():
+    import importlib.util
+    from pathlib import Path
+
+    pytest.importorskip("yaml")
+    spec = importlib.util.spec_from_file_location(
+        "run_pilot", Path(__file__).parents[1] / "scripts" / "run_pilot.py"
+    )
+    rp = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rp)
+    u = {
+        "a": {
+            "tokens_in": 1000,
+            "tokens_cached": 800,
+            "tokens_out": 10,
+            "cost_usd": 0.2,
+            "api_calls": 5,
+        },
+        "b": {
+            "tokens_in": 3000,
+            "tokens_cached": 2400,
+            "tokens_out": 30,
+            "cost_usd": 0.4,
+            "api_calls": 7,
+        },
+        "c": {},
+    }
+    s = rp.usage_summary(u, {"a": 0.0, "b": 2 / 3})
+    assert s["runs"] == 2 and abs(s["usd_per_run"] - 0.3) < 1e-12
+    assert s["cached_share"] == 0.8 and s["solve_rate"] == 0.5 and s["api_calls_per_run"] == 6

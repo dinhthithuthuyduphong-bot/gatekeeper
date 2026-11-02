@@ -14,7 +14,7 @@ Quyết định ngày 01/11/2026: backend LLM là **Gemini qua Vertex AI**. Agen
    - `litellm_name`: `vertex_ai/<mã model đúng như trong Model Garden>`
    - `usd_per_mtok_in` / `usd_per_mtok_out`: giá trên trang pricing chính thức
    - đổi `"_verified": false` thành `true` khi đã kiểm tra.
-   Giá trị hiện tại (`gemini-3.1-pro`, `gemini-3.8-flash`) lấy từ blog bên thứ ba, **chưa xác minh**.
+   Giá trị hiện tại (`gemini-3.8-flash`, `gemini-3.1-flash-lite`, `gemini-3.1-pro-preview`) lấy từ bảng giá đi kèm LiteLLM 1.106.6, **chưa đối chiếu với trang của Google**.
 
 ## 2. Cấp quyền cho GitHub Actions
 

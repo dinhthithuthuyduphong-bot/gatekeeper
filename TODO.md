@@ -485,7 +485,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 
 **Chuẩn bị**
 
-- [ ] 👤💰 **Đầu tiên (R15):** đo hiệu ứng của 3–5 skill dạng edit program trên 1 repo, khoảng 30 cặp mỗi skill → nếu |STR| < 0,1 cho mọi skill thì dừng, thu hẹp hoặc đổi hướng trước khi chi thêm
+- [ ] 👤💰 **Đầu tiên (R15):** đo hiệu ứng của 3–5 skill dạng edit program trên 1 repo, khoảng 30 cặp mỗi skill → nếu |STR| < 0,1 cho mọi skill thì dừng, thu hẹp hoặc đổi hướng trước khi chi thêm · 🔧 kế hoạch 200 USD (@thuthuy, 02/11): `docs/budget_200.md` — A đo chi phí + chọn model (≤ 6 USD), B kiểm tra phép đo (đối chứng nhiễu + đối chứng dương), C 4 skill trên pool g1; quy tắc G1 cố định trong `analysis.g1_decision`
 - [ ] 👤 Đặt trần chi phí pilot (vd ≤ 1.500 USD)
 - [ ] 👤 Chọn 2 repo (1 cùng framework, 1 khác framework)
 - [ ] 👤 Chọn 10 skill, tạo 20–30 cặp skill/context · 🔧 4 skill theo họ mẫu sửa đã khai thác (null-guard, type-guard, exception-handling, validation-error) với predicate `issue_regex` cho I(x), trong `configs/skills/`; độ chính xác kích hoạt đo bằng `scripts/activation_check.py` (CI)
@@ -530,7 +530,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 **Task target (không tự sinh)**
 
 - [ ] 🤖 Lấy task target từ SWE-bench / SWE-bench-Live theo scope, ưu tiên task sau ngày cutoff của model
-- [x] 🤖 Kiểm tra mỗi task chạy được bằng harness chính thức (gold patch pass, không flaky) · 🔧 pool 40 task Verified cho pilot G1 (`configs/pilot_pool.json`, 12 repo) đang được kiểm bằng workflow `Validate pilot pool` (gold ×2 + no-op) · ✅ pool G1: **38/40 dùng được** (loại `psf__requests-1921`: gold không giải được; `pylint-dev__pylint-8898`: nhánh no-op không sạch), run 41359076353, `results/pool_validation/summary.json`
+- [x] 🤖 Kiểm tra mỗi task chạy được bằng harness chính thức (gold patch pass, không flaky) · 🔧 pool 40 task Verified cho pilot G1 (`configs/pools/default.json`, 12 repo) đang được kiểm bằng workflow `Validate pilot pool` (gold ×2 + no-op) · ✅ pool G1: **38/40 dùng được** (loại `psf__requests-1921`: gold không giải được; `pylint-dev__pylint-8898`: nhánh no-op không sạch), run 41359076353, `results/pool_validation/default/summary.json`
 - [x] 🤖 Đếm task mỗi scope → đủ cho số trial ở Phase 3; thiếu thì bổ sung từ tập SWE-smith đã công bố hoặc gộp scope · ✅ **không đủ**: 0 scope (repo, version) có ≥ 219 task; lớn nhất django@3.2 = 157 (mục 0.4)
 - [ ] 👤 Chạy kiểm tra độ bền trên BugsInPy (tuỳ chọn)
 
@@ -665,6 +665,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 01/11/2026 | Pilot dry run đỏ ở bước publish (run 41359134995): token Actions không được sửa file workflow, mà nhánh snapshot đang được tạo lại từ `main` → `scripts/publish_snapshot.sh` chỉ thêm commit dữ liệu lên nhánh snapshot cũ, áp dụng cho cả 5 workflow | commit 6b44613 |
 | 01/11/2026 | Kiểm định pool: 38/40 task dùng được; **R16**: predicate I(x) theo issue chỉ có lift 1,25–1,71; khung bài LaTeX IEEE + bảng tự sinh, biên dịch xanh | runs 41359076353, 41359285869, 41360404259 |
 | 01/11/2026 | Script publish mới chạy đúng trên cả 3 nhánh snapshot; I(x) chọn trên train: lift test 1,46–1,85, recall 5–15% → regex chạm trần (R16) | runs 41360262544/579/573, 41360723396 |
+| 02/11/2026 | @thuthuy có **200 USD Vertex AI** → kế hoạch 3 giai đoạn (`docs/budget_200.md`, `scripts/plan_budget.py`): Flash 3.8 đủ cho G1 kể cả không có cache (~288 lần chạy). Sửa: mã Pro → `gemini-3.1-pro-preview` (bảng LiteLLM), thêm Flash-Lite + giá cache; đăng ký giá với LiteLLM để `cost_limit` luôn hiệu lực; đối chứng nhiễu/dương; pool g1 theo kích hoạt; quy tắc G1 `g1_decision` | commit sau |
 
 ---
 

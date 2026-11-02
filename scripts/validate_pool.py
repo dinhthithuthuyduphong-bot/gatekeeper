@@ -3,7 +3,7 @@ task chay duoc bang harness chinh thuc (gold pass, khong flaky)').
 
 For the shard's tasks: gold patch twice (flakiness: the two runs must agree) and the no-op patch
 once (the no-skill arm must evaluate with F = 1, R = 0).
-Writes results/pool_validation/shard<k>.json.
+Writes results/pool_validation/<tag>/shard<k>.json.
 
   python scripts/validate_pool.py --shard 0 --shards 4
   python scripts/validate_pool.py --merge          # combine shard files
@@ -18,10 +18,15 @@ from pathlib import Path
 from gatekeeper.harness import NOOP_PATCH, loss_of, read_report, run_harness
 
 OUT = Path("results/pool_validation")
+TAG = "default"
+
+
+def out_dir() -> Path:
+    return OUT / TAG
 
 
 def shard_ids(shard: int, shards: int) -> list[str]:
-    ids = json.loads(Path("configs/pilot_pool.json").read_text())["instances"]
+    ids = json.loads(Path(f"configs/pools/{TAG}.json").read_text())["instances"]
     return ids[shard::shards]
 
 
@@ -35,7 +40,7 @@ def validate(shard: int, shards: int, workers: int) -> dict:
             for i in ids
         )
     )
-    tag = f"pool{shard}"
+    tag = f"{TAG}{shard}"
     run_harness("gold", ids, f"{tag}-gold-a", workers)
     run_harness("gold", ids, f"{tag}-gold-b", workers)
     run_harness(str(noop), ids, f"{tag}-noop", workers)
@@ -65,14 +70,14 @@ def validate(shard: int, shards: int, workers: int) -> dict:
             ),
         }
         print(f"{i:<40} usable={res[i]['usable']} {res[i]['reason']}")
-    OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / f"shard{shard}.json").write_text(json.dumps(res, indent=2) + "\n")
+    out_dir().mkdir(parents=True, exist_ok=True)
+    (out_dir() / f"shard{shard}.json").write_text(json.dumps(res, indent=2) + "\n")
     return res
 
 
 def merge() -> dict:
     allres: dict = {}
-    for f in sorted(OUT.glob("shard*.json")):
+    for f in sorted(out_dir().glob("shard*.json")):
         allres.update(json.loads(f.read_text()))
     usable = sorted(i for i, v in allres.items() if v["usable"])
     summary = {
@@ -81,7 +86,7 @@ def merge() -> dict:
         "usable": usable,
         "rejected": {i: v["reason"] for i, v in allres.items() if not v["usable"]},
     }
-    (OUT / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+    (out_dir() / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     print(json.dumps({k: summary[k] for k in ("n_checked", "n_usable")}), summary["rejected"])
     return summary
 
@@ -92,7 +97,10 @@ def main() -> int:
     ap.add_argument("--shards", type=int, default=1)
     ap.add_argument("--workers", type=int, default=2)
     ap.add_argument("--merge", action="store_true")
+    ap.add_argument("--tag", default="default", help="pool name: configs/pools/<tag>.json")
     a = ap.parse_args()
+    global TAG
+    TAG = a.tag
     if a.merge:
         merge()
     else:

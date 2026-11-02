@@ -36,6 +36,8 @@ from gatekeeper.pilot import (
     arm_config,
     arm_rows,
     deterministic_outputs,
+    estimate_cost_usd,
+    litellm_registry,
     load_model_specs,
     pair_losses,
     traj_usage,
@@ -47,7 +49,7 @@ MODELS_FILE = Path("configs/models/vertex_gemini.json")
 
 
 def pool_ids(pool: str) -> list[str] | None:
-    """Usable task ids from results/pool_validation/summary.json (or a pilot_pool.json)."""
+    """Usable task ids from results/pool_validation/<tag>/summary.json (or a configs/pools file)."""
     if not pool or not Path(pool).exists():
         return None
     d = json.loads(Path(pool).read_text())
@@ -89,6 +91,23 @@ def activated(skill: Skill, rows: list[dict]) -> list[dict]:
             ),
         ).in_scope
     ]
+
+
+def usage_summary(u: dict[str, dict], loss: dict[str, float]) -> dict:
+    """Per-arm calibration numbers: cost and tokens per agent run, cache hit share, solve rate."""
+    runs = [v for v in u.values() if v]
+    n = len(runs)
+    tin = sum(int(v.get("tokens_in", 0)) for v in runs)
+    tc = sum(int(v.get("tokens_cached", 0)) for v in runs)
+    return {
+        "runs": n,
+        "usd_per_run": sum(float(v.get("cost_usd", 0.0)) for v in runs) / n if n else None,
+        "tokens_in_per_run": tin / n if n else None,
+        "tokens_out_per_run": sum(int(v.get("tokens_out", 0)) for v in runs) / n if n else None,
+        "cached_share": tc / tin if tin else None,
+        "api_calls_per_run": sum(int(v.get("api_calls", 0)) for v in runs) / n if n else None,
+        "solve_rate": sum(1 for x in loss.values() if x == 0.0) / len(loss) if loss else None,
+    }
 
 
 def image_digest(instance_id: str) -> str:
@@ -153,7 +172,16 @@ def run_arm(arm: str, skill: Skill | None, rows: list[dict], args, out_dir: Path
         str(arm_dir / "overlay.yaml"),
     ]
     print("+", " ".join(cmd), flush=True)
-    env = {**os.environ, "MSWEA_COST_TRACKING": "ignore_errors"}
+    env = dict(os.environ)
+    if model is None:
+        env["MSWEA_COST_TRACKING"] = "ignore_errors"  # the scripted model has no price
+    else:
+        # register our prices so the per-instance cost_limit is enforced, and fail loudly rather
+        # than silently counting 0 USD if a cost cannot be computed
+        reg = out_dir / "litellm_registry.json"
+        reg.write_text(json.dumps(litellm_registry(model), indent=2))
+        env["LITELLM_MODEL_REGISTRY_PATH"] = str(reg.resolve())
+        env["MSWEA_COST_TRACKING"] = "default"
     rc = subprocess.run(cmd, check=False, env=env).returncode
     if rc != 0:
         raise SystemExit(f"mini-swe-agent failed for arm {arm} (exit {rc})")
@@ -178,7 +206,7 @@ def main() -> int:
     ap.add_argument(
         "--pool",
         default="",
-        help="sample only from validated tasks (results/pool_validation/summary.json)",
+        help="sample only from validated tasks (results/pool_validation/<tag>/summary.json)",
     )
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--workers", type=int, default=2)
@@ -237,6 +265,10 @@ def main() -> int:
             traj = agent_dir / iid / f"{iid}.traj.json"
             u = traj_usage(json.loads(traj.read_text())) if traj.exists() else {}
             usage[arm][iid] = u
+            if model is not None and u and not u.get("cost_usd"):
+                u["cost_usd"] = estimate_cost_usd(
+                    model, int(u["tokens_in"]), int(u["tokens_out"]), int(u.get("tokens_cached", 0))
+                )
             spent += float(u.get("cost_usd", 0.0)) if model else 0.0
         if model is not None and spent >= a.budget_usd:
             print(f"budget reached after arm {arm}: {spent:.2f} USD", flush=True)
@@ -252,6 +284,7 @@ def main() -> int:
         "theta": a.theta,
         "alpha": a.alpha,
         "spent_usd": round(spent, 4),
+        "usage": {arm: usage_summary(usage[arm], losses[arm]) for arm in losses},
         "skills": {},
     }
     for arm, _skill in arms[1:]:

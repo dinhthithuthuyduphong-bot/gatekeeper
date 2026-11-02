@@ -2,7 +2,7 @@
 
 From SWE-bench Verified: at most PER_REPO tasks per repository (diversity), preferring tasks with
 few PASS_TO_PASS tests (fast to evaluate), excluding repositories that also appear in SWE-Gym.
-Writes configs/pilot_pool.json; scripts/validate_pool.py then checks each task in CI.
+Writes configs/pools/default.json; scripts/validate_pool.py then checks each task in CI.
 """
 
 from __future__ import annotations
@@ -48,7 +48,7 @@ def main() -> None:
         "repos": sorted({r["repo"] for r in picked}),
     }
     Path("configs").mkdir(exist_ok=True)
-    Path("configs/pilot_pool.json").write_text(json.dumps(out, indent=2) + "\n")
+    Path("configs/pools/default.json").write_text(json.dumps(out, indent=2) + "\n")
     print(len(out["instances"]), "tasks from", len(out["repos"]), "repos:", out["repos"])
 
 

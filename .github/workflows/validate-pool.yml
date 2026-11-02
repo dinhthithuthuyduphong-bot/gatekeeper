@@ -1,15 +1,20 @@
 name: Validate pilot pool
 
-# Free: checks every task of configs/pilot_pool.json with the official harness (gold twice for
+# Free: checks every task of configs/pools/<tag>.json with the official harness (gold twice for
 # flakiness, no-op once for a clean no-skill arm). Results on the pilot-snapshots branch under
 # results/pool_validation/.
 
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Pool to validate: configs/pools/<tag>.json"
+        required: true
+        default: "g1"
   push:
     branches: ["main"]
     paths:
-      - "configs/pilot_pool.json"
+      - "configs/pools/g1.json"
       - "scripts/validate_pool.py"
       - ".github/workflows/validate-pool.yml"
 
@@ -36,12 +41,12 @@ jobs:
       - name: Install
         run: pip install -e . "swebench==5.0.2"
       - name: Validate shard
-        run: python scripts/validate_pool.py --shard ${{ matrix.shard }} --shards 4 --workers 2
+        run: python scripts/validate_pool.py --tag "${{ inputs.tag || 'g1' }}" --shard ${{ matrix.shard }} --shards 4 --workers 2
       - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: pool-shard-${{ matrix.shard }}
-          path: results/pool_validation/shard${{ matrix.shard }}.json
+          path: results/pool_validation/${{ inputs.tag || 'g1' }}/shard${{ matrix.shard }}.json
           if-no-files-found: warn
 
   merge:
@@ -56,11 +61,11 @@ jobs:
       - uses: actions/download-artifact@v6
         with:
           pattern: pool-shard-*
-          path: results/pool_validation/
+          path: results/pool_validation/${{ inputs.tag || 'g1' }}/
           merge-multiple: true
       - name: Merge
         run: |
           pip install -e .
-          python scripts/validate_pool.py --merge
+          python scripts/validate_pool.py --tag "${{ inputs.tag || 'g1' }}" --merge
       - name: Publish to pilot-snapshots branch
-        run: scripts/publish_snapshot.sh pilot-snapshots "Pilot pool validation (run ${GITHUB_RUN_ID})" results/pool_validation
+        run: scripts/publish_snapshot.sh pilot-snapshots "Pool validation ${{ inputs.tag || 'g1' }} (run ${GITHUB_RUN_ID})" results/pool_validation
