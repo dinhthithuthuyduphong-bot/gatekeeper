@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-11-01T23:24:17+00:00",
+  "generated_utc": "2026-11-02T01:20:14+00:00",
   "n_train": 2438,
   "n_test": 3991,
   "skills": {
@@ -7,84 +7,84 @@
       "family": "exception_handling",
       "train": {
         "n": 2438,
-        "activation_rate": 0.44052502050861364,
+        "activation_rate": 0.04799015586546349,
         "family_rate": 0.07957342083675144,
-        "precision": 0.09590316573556797,
-        "recall": 0.5309278350515464,
-        "lift": 1.2052160724913128,
-        "activated_tasks": 1074
+        "precision": 0.1452991452991453,
+        "recall": 0.08762886597938144,
+        "lift": 1.8259758569036921,
+        "activated_tasks": 117
       },
       "test": {
         "n": 3991,
-        "activation_rate": 0.3976447005762967,
+        "activation_rate": 0.05186670007516913,
         "family_rate": 0.11500876973189676,
-        "precision": 0.14366729678638943,
-        "recall": 0.49673202614379086,
-        "lift": 1.2491855805544232,
-        "activated_tasks": 1587
+        "precision": 0.21256038647342995,
+        "recall": 0.09586056644880174,
+        "lift": 1.848210244913854,
+        "activated_tasks": 207
       }
     },
     "null-guard": {
       "family": "null_guard",
       "train": {
         "n": 2438,
-        "activation_rate": 0.38433141919606234,
+        "activation_rate": 0.034044298605414275,
         "family_rate": 0.21862182116488926,
-        "precision": 0.21558164354322304,
-        "recall": 0.3789868667917448,
-        "lift": 0.986093896732416,
-        "activated_tasks": 937
+        "precision": 0.37349397590361444,
+        "recall": 0.058161350844277676,
+        "lift": 1.7084020886548066,
+        "activated_tasks": 83
       },
       "test": {
         "n": 3991,
-        "activation_rate": 0.23001753946379352,
+        "activation_rate": 0.031821598596842894,
         "family_rate": 0.18441493360060135,
-        "precision": 0.23420479302832245,
-        "recall": 0.2921195652173913,
-        "lift": 1.2699882187174387,
-        "activated_tasks": 918
+        "precision": 0.30708661417322836,
+        "recall": 0.05298913043478261,
+        "lift": 1.6651938548442315,
+        "activated_tasks": 127
       }
     },
     "type-guard": {
       "family": "type_guard",
       "train": {
         "n": 2438,
-        "activation_rate": 0.11812961443806398,
+        "activation_rate": 0.1062346185397867,
         "family_rate": 0.2350287120590648,
-        "precision": 0.3680555555555556,
-        "recall": 0.1849912739965096,
-        "lift": 1.5660025208454529,
-        "activated_tasks": 288
+        "precision": 0.3783783783783784,
+        "recall": 0.17102966841186737,
+        "lift": 1.6099240601858404,
+        "activated_tasks": 259
       },
       "test": {
         "n": 3991,
-        "activation_rate": 0.09045352042094713,
+        "activation_rate": 0.08018040591330494,
         "family_rate": 0.19092959158105738,
-        "precision": 0.3268698060941828,
-        "recall": 0.15485564304461943,
-        "lift": 1.7119913334932855,
-        "activated_tasks": 361
+        "precision": 0.3375,
+        "recall": 0.14173228346456693,
+        "lift": 1.7676673228346458,
+        "activated_tasks": 320
       }
     },
     "validation-error": {
       "family": "raise_error",
       "train": {
         "n": 2438,
-        "activation_rate": 0.17473338802296964,
+        "activation_rate": 0.09680065627563576,
         "family_rate": 0.1694011484823626,
-        "precision": 0.20892018779342722,
-        "recall": 0.21549636803874092,
-        "lift": 1.2332867260057518,
-        "activated_tasks": 426
+        "precision": 0.2330508474576271,
+        "recall": 0.13317191283292978,
+        "lift": 1.3757335740961134,
+        "activated_tasks": 236
       },
       "test": {
         "n": 3991,
-        "activation_rate": 0.17664745677774993,
+        "activation_rate": 0.10473565522425457,
         "family_rate": 0.1591079929842145,
-        "precision": 0.22411347517730495,
-        "recall": 0.24881889763779527,
-        "lift": 1.408562014854526,
-        "activated_tasks": 705
+        "precision": 0.23205741626794257,
+        "recall": 0.15275590551181104,
+        "lift": 1.4584899973627696,
+        "activated_tasks": 418
       }
     }
   },

@@ -665,7 +665,8 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 01/11/2026 | Pilot dry run đỏ ở bước publish (run 41359134995): token Actions không được sửa file workflow, mà nhánh snapshot đang được tạo lại từ `main` → `scripts/publish_snapshot.sh` chỉ thêm commit dữ liệu lên nhánh snapshot cũ, áp dụng cho cả 5 workflow | commit 6b44613 |
 | 01/11/2026 | Kiểm định pool: 38/40 task dùng được; **R16**: predicate I(x) theo issue chỉ có lift 1,25–1,71; khung bài LaTeX IEEE + bảng tự sinh, biên dịch xanh | runs 41359076353, 41359285869, 41360404259 |
 | 01/11/2026 | Script publish mới chạy đúng trên cả 3 nhánh snapshot; I(x) chọn trên train: lift test 1,46–1,85, recall 5–15% → regex chạm trần (R16) | runs 41360262544/579/573, 41360723396 |
-| 02/11/2026 | @thuthuy có **200 USD Vertex AI** → kế hoạch 3 giai đoạn (`docs/budget_200.md`, `scripts/plan_budget.py`): Flash 3.8 đủ cho G1 kể cả không có cache (~288 lần chạy). Sửa: mã Pro → `gemini-3.1-pro-preview` (bảng LiteLLM), thêm Flash-Lite + giá cache; đăng ký giá với LiteLLM để `cost_limit` luôn hiệu lực; đối chứng nhiễu/dương; pool g1 theo kích hoạt; quy tắc G1 `g1_decision` | commit sau |
+| 02/11/2026 | @thuthuy có **200 USD Vertex AI** → kế hoạch 3 giai đoạn (`docs/budget_200.md`, `scripts/plan_budget.py`): Flash 3.8 đủ cho G1 kể cả không có cache (~288 lần chạy). Sửa: mã Pro → `gemini-3.1-pro-preview` (bảng LiteLLM), thêm Flash-Lite + giá cache; đăng ký giá với LiteLLM để `cost_limit` luôn hiệu lực; đối chứng nhiễu/dương; pool g1 theo kích hoạt; quy tắc G1 `g1_decision` | commit c6e72f8 |
+| 02/11/2026 | Pool g1: 89 task Verified (null-guard 25, exception-handling 25, type-guard 30, validation-error 30); giai đoạn C ≈ 199 lần chạy agent (~123 USD nếu không có cache) → A+B+C vừa 180 USD | run 41371099871, `configs/pools/g1.json` |
 
 ---
 
