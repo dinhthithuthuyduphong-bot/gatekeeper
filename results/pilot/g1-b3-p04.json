@@ -1,0 +1,93 @@
+{
+  "generated_utc": "2026-11-02T13:13:58+00:00",
+  "name": "g1-b3-p04",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "psf__requests-1142",
+    "psf__requests-2931"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.2158,
+  "usage": {
+    "none": {
+      "runs": 2,
+      "usd_per_run": 0.0333763125,
+      "tokens_in_per_run": 371166.0,
+      "tokens_out_per_run": 5319.0,
+      "cached_share": 0.8069906726370412,
+      "api_calls_per_run": 44.5,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    },
+    "control-none-seed1": {
+      "runs": 2,
+      "usd_per_run": 0.030808600000000005,
+      "tokens_in_per_run": 365146.0,
+      "tokens_out_per_run": 3920.0,
+      "cached_share": 0.8076878837506093,
+      "api_calls_per_run": 45.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "control-oracle-tests": {
+      "runs": 2,
+      "usd_per_run": 0.043722287500000005,
+      "tokens_in_per_run": 554089.0,
+      "tokens_out_per_run": 6987.5,
+      "cached_share": 0.8444789555468526,
+      "api_calls_per_run": 57.0,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "control-none-seed1": {
+      "pairs": [
+        {
+          "instance_id": "psf__requests-1142",
+          "loss_with": 0.7333333333333334,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "psf__requests-2931",
+          "loss_with": 0.011904761904761904,
+          "loss_without": 0.011904761904761904
+        }
+      ],
+      "mean_Z": 0.3666666666666667,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 2,
+        "log_e": 0.0
+      }
+    },
+    "control-oracle-tests": {
+      "pairs": [
+        {
+          "instance_id": "psf__requests-1142",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "psf__requests-2931",
+          "loss_with": 0.007936507936507936,
+          "loss_without": 0.011904761904761904
+        }
+      ],
+      "mean_Z": -0.001984126984126984,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 2,
+        "log_e": 0.0
+      }
+    }
+  }
+}
