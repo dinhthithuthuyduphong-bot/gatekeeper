@@ -22,32 +22,8 @@
       "n_pass_to_pass": 8
     },
     "usable": true,
+    "infra_error": false,
     "reason": ""
-  },
-  "django__django-10097": {
-    "gold_a": {
-      "resolved": true,
-      "F": 0.0,
-      "R": 0.0,
-      "n_fail_to_pass": 438,
-      "n_pass_to_pass": 1427
-    },
-    "gold_b": {
-      "resolved": true,
-      "F": 0.0,
-      "R": 0.0,
-      "n_fail_to_pass": 438,
-      "n_pass_to_pass": 1427
-    },
-    "noop": {
-      "resolved": true,
-      "F": 0.0,
-      "R": 0.0,
-      "n_fail_to_pass": 438,
-      "n_pass_to_pass": 1427
-    },
-    "usable": false,
-    "reason": "noop arm not clean"
   },
   "django__django-11551": {
     "gold_a": {
@@ -72,31 +48,7 @@
       "n_pass_to_pass": 119
     },
     "usable": true,
-    "reason": ""
-  },
-  "django__django-11964": {
-    "gold_a": {
-      "resolved": true,
-      "F": 0.0,
-      "R": 0.0,
-      "n_fail_to_pass": 2,
-      "n_pass_to_pass": 15
-    },
-    "gold_b": {
-      "resolved": true,
-      "F": 0.0,
-      "R": 0.0,
-      "n_fail_to_pass": 2,
-      "n_pass_to_pass": 15
-    },
-    "noop": {
-      "resolved": false,
-      "F": 1.0,
-      "R": 0.0,
-      "n_fail_to_pass": 2,
-      "n_pass_to_pass": 15
-    },
-    "usable": true,
+    "infra_error": false,
     "reason": ""
   },
   "django__django-13023": {
@@ -122,31 +74,7 @@
       "n_pass_to_pass": 9
     },
     "usable": true,
-    "reason": ""
-  },
-  "django__django-13513": {
-    "gold_a": {
-      "resolved": true,
-      "F": 0.0,
-      "R": 0.0,
-      "n_fail_to_pass": 1,
-      "n_pass_to_pass": 83
-    },
-    "gold_b": {
-      "resolved": true,
-      "F": 0.0,
-      "R": 0.0,
-      "n_fail_to_pass": 1,
-      "n_pass_to_pass": 83
-    },
-    "noop": {
-      "resolved": false,
-      "F": 1.0,
-      "R": 0.0,
-      "n_fail_to_pass": 1,
-      "n_pass_to_pass": 83
-    },
-    "usable": true,
+    "infra_error": false,
     "reason": ""
   },
   "django__django-13820": {
@@ -172,31 +100,7 @@
       "n_pass_to_pass": 24
     },
     "usable": true,
-    "reason": ""
-  },
-  "django__django-14170": {
-    "gold_a": {
-      "resolved": true,
-      "F": 0.0,
-      "R": 0.0,
-      "n_fail_to_pass": 2,
-      "n_pass_to_pass": 76
-    },
-    "gold_b": {
-      "resolved": true,
-      "F": 0.0,
-      "R": 0.0,
-      "n_fail_to_pass": 2,
-      "n_pass_to_pass": 76
-    },
-    "noop": {
-      "resolved": false,
-      "F": 1.0,
-      "R": 0.0,
-      "n_fail_to_pass": 2,
-      "n_pass_to_pass": 76
-    },
-    "usable": true,
+    "infra_error": false,
     "reason": ""
   },
   "django__django-14752": {
@@ -222,31 +126,7 @@
       "n_pass_to_pass": 15
     },
     "usable": true,
-    "reason": ""
-  },
-  "django__django-16255": {
-    "gold_a": {
-      "resolved": true,
-      "F": 0.0,
-      "R": 0.0,
-      "n_fail_to_pass": 1,
-      "n_pass_to_pass": 36
-    },
-    "gold_b": {
-      "resolved": true,
-      "F": 0.0,
-      "R": 0.0,
-      "n_fail_to_pass": 1,
-      "n_pass_to_pass": 36
-    },
-    "noop": {
-      "resolved": false,
-      "F": 1.0,
-      "R": 0.0,
-      "n_fail_to_pass": 1,
-      "n_pass_to_pass": 36
-    },
-    "usable": true,
+    "infra_error": false,
     "reason": ""
   },
   "django__django-16569": {
@@ -272,31 +152,7 @@
       "n_pass_to_pass": 111
     },
     "usable": true,
-    "reason": ""
-  },
-  "matplotlib__matplotlib-20859": {
-    "gold_a": {
-      "resolved": true,
-      "F": 0.0,
-      "R": 0.0,
-      "n_fail_to_pass": 1,
-      "n_pass_to_pass": 88
-    },
-    "gold_b": {
-      "resolved": true,
-      "F": 0.0,
-      "R": 0.0,
-      "n_fail_to_pass": 1,
-      "n_pass_to_pass": 88
-    },
-    "noop": {
-      "resolved": false,
-      "F": 1.0,
-      "R": 0.0,
-      "n_fail_to_pass": 1,
-      "n_pass_to_pass": 88
-    },
-    "usable": true,
+    "infra_error": false,
     "reason": ""
   },
   "matplotlib__matplotlib-25311": {
@@ -322,87 +178,60 @@
       "n_pass_to_pass": 181
     },
     "usable": true,
+    "infra_error": false,
     "reason": ""
-  },
-  "matplotlib__matplotlib-26291": {
-    "gold_a": {
-      "resolved": false,
-      "note": "no report"
-    },
-    "gold_b": {
-      "resolved": false,
-      "note": "no report"
-    },
-    "noop": {
-      "resolved": false,
-      "note": "no report"
-    },
-    "usable": false,
-    "reason": "gold not resolved;noop arm not clean"
   },
   "pydata__xarray-6992": {
     "gold_a": {
-      "resolved": false,
-      "note": "no report"
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 12,
+      "n_pass_to_pass": 945
     },
     "gold_b": {
-      "resolved": false,
-      "note": "no report"
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 12,
+      "n_pass_to_pass": 945
     },
     "noop": {
       "resolved": false,
-      "note": "no report"
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 12,
+      "n_pass_to_pass": 945
     },
-    "usable": false,
-    "reason": "gold not resolved;noop arm not clean"
-  },
-  "scikit-learn__scikit-learn-10297": {
-    "gold_a": {
-      "resolved": false,
-      "note": "no report"
-    },
-    "gold_b": {
-      "resolved": false,
-      "note": "no report"
-    },
-    "noop": {
-      "resolved": false,
-      "note": "no report"
-    },
-    "usable": false,
-    "reason": "gold not resolved;noop arm not clean"
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
   },
   "scikit-learn__scikit-learn-13142": {
     "gold_a": {
-      "resolved": false,
-      "note": "no report"
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 2,
+      "n_pass_to_pass": 54
     },
     "gold_b": {
-      "resolved": false,
-      "note": "no report"
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 2,
+      "n_pass_to_pass": 54
     },
     "noop": {
       "resolved": false,
-      "note": "no report"
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 2,
+      "n_pass_to_pass": 54
     },
-    "usable": false,
-    "reason": "gold not resolved;noop arm not clean"
-  },
-  "scikit-learn__scikit-learn-25747": {
-    "gold_a": {
-      "resolved": false,
-      "note": "no report"
-    },
-    "gold_b": {
-      "resolved": false,
-      "note": "no report"
-    },
-    "noop": {
-      "resolved": false,
-      "note": "no report"
-    },
-    "usable": false,
-    "reason": "gold not resolved;noop arm not clean"
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
   },
   "sphinx-doc__sphinx-8475": {
     "gold_a": {
@@ -427,31 +256,7 @@
       "n_pass_to_pass": 17
     },
     "usable": true,
-    "reason": ""
-  },
-  "sympy__sympy-12481": {
-    "gold_a": {
-      "resolved": true,
-      "F": 0.0,
-      "R": 0.0,
-      "n_fail_to_pass": 1,
-      "n_pass_to_pass": 7
-    },
-    "gold_b": {
-      "resolved": true,
-      "F": 0.0,
-      "R": 0.0,
-      "n_fail_to_pass": 1,
-      "n_pass_to_pass": 7
-    },
-    "noop": {
-      "resolved": false,
-      "F": 1.0,
-      "R": 0.0,
-      "n_fail_to_pass": 1,
-      "n_pass_to_pass": 7
-    },
-    "usable": true,
+    "infra_error": false,
     "reason": ""
   },
   "sympy__sympy-15599": {
@@ -477,31 +282,7 @@
       "n_pass_to_pass": 80
     },
     "usable": true,
-    "reason": ""
-  },
-  "sympy__sympy-17655": {
-    "gold_a": {
-      "resolved": true,
-      "F": 0.0,
-      "R": 0.0,
-      "n_fail_to_pass": 2,
-      "n_pass_to_pass": 9
-    },
-    "gold_b": {
-      "resolved": true,
-      "F": 0.0,
-      "R": 0.0,
-      "n_fail_to_pass": 2,
-      "n_pass_to_pass": 9
-    },
-    "noop": {
-      "resolved": false,
-      "F": 1.0,
-      "R": 0.0,
-      "n_fail_to_pass": 2,
-      "n_pass_to_pass": 9
-    },
-    "usable": true,
+    "infra_error": false,
     "reason": ""
   }
 }
