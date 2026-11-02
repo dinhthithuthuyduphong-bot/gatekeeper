@@ -204,3 +204,26 @@ def test_usage_summary():
     s = rp.usage_summary(u, {"a": 0.0, "b": 2 / 3})
     assert s["runs"] == 2 and abs(s["usd_per_run"] - 0.3) < 1e-12
     assert s["cached_share"] == 0.8 and s["solve_rate"] == 0.5 and s["api_calls_per_run"] == 6
+
+
+def test_infra_failures_are_not_scored(tmp_path):
+    import importlib.util
+    from pathlib import Path
+
+    pytest.importorskip("yaml")
+    spec = importlib.util.spec_from_file_location(
+        "run_pilot", Path(__file__).parents[1] / "scripts" / "run_pilot.py"
+    )
+    rp = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rp)
+    t = tmp_path / "x.traj.json"
+    t.write_text(json.dumps({"info": {"exit_status": "CalledProcessError"}}))
+    assert rp.is_infra_failure(rp.agent_exit_status(t))
+    t.write_text(json.dumps({"info": {"exit_status": "LimitsExceeded"}}))
+    assert not rp.is_infra_failure(rp.agent_exit_status(t))
+    assert rp.is_infra_failure(rp.agent_exit_status(tmp_path / "missing.json"))
+    assert (
+        rp.image_name({"instance_id": "a__b-1", "image": "swebench/x:latest"})
+        == "docker.io/swebench/x:latest"
+    )
+    assert rp.image_name({"instance_id": "psf__requests-1"}).endswith("psf_1776_requests-1:latest")

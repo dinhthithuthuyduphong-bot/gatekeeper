@@ -1,5 +1,5 @@
 {
-  "budget": 199.0,
+  "budget": 197.0,
   "reserve": 0.1,
   "assumptions": {
     "prompt_tokens": 3000,
@@ -12,27 +12,27 @@
       "model": "measured",
       "steps": null,
       "cache": null,
-      "usd_per_run": 0.35,
+      "usd_per_run": 0.025,
       "stage_A": {
         "runs": 8,
-        "usd": 2.8
+        "usd": 0.2
       },
       "stage_B": {
-        "tasks": 41,
-        "runs": 123,
-        "usd": 43.05
+        "tasks": 590,
+        "runs": 1770,
+        "usd": 44.25
       },
       "stage_C": {
         "skills": 4,
         "tasks_per_skill": 30,
         "runs": 216,
-        "usd": 75.6
+        "usd": 5.4
       },
       "ci_halfwidth_per_skill": {
         "SWE-Skills-Bench (0.04)": 0.072,
         "binary worst case (0.25)": 0.179
       },
-      "total_runs_possible": 511
+      "total_runs_possible": 7092
     }
   ]
 }

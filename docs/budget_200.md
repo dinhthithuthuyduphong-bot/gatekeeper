@@ -41,13 +41,27 @@ python scripts/plan_budget.py --budget 190 --usd-per-run <usd_per_run đo đư�
 
 **Chọn model:** model rẻ nhất có `solve_rate` của nhánh `none` trong khoảng **20–70%** (quá thấp thì skill không thể "giúp"; quá cao thì không còn gì để giúp). Nếu Flash-Lite < 20% → dùng Flash.
 
+### Kết quả giai đoạn A (02/11/2026, tổng 2,12 USD)
+
+Cùng 4 task (`pytest-dev__pytest-5840`, `scikit-learn__scikit-learn-10297`, `astropy__astropy-7606`, `pydata__xarray-4075`), 60 bước, 2 nhánh:
+
+| Lượt | Model | USD/lần | Token input/lần | Cache | Bước/lần | Giải được (không skill / gợi ý file) |
+| --- | --- | --- | --- | --- | --- | --- |
+| A1 (`g1-a-lite2`) | gemini-3.1-flash-lite | **0,022** | 0,25M | 79% | 32 | 3/4 / 3/4 |
+| A2 (`g1-a-flash`) | gemini-3.8-flash (`reasoning_effort: low`) | 0,24 | 0,81M | 79% | 42 | 3/4 / 3/4 |
+
+- Lượt A1 đầu tiên (`results/pilot/invalid/g1-a-lite.json`) **không hợp lệ**: 3/8 container không khởi động được (image chưa tải) và bị tính nhầm là "không giải được". Đã sửa pipeline (tải image trước, loại lỗi hạ tầng khỏi phép ghép cặp) rồi chạy lại.
+- **Chọn Flash-Lite**: giải được như Flash trên 4 task này nhưng **rẻ hơn ~11 lần**. Tỉ lệ giải 75% hơi cao so với khoảng 20–70% (chỉ 4 task, chưa chắc chắn), nên giai đoạn B sẽ đo lại trên 38 task.
+- Gợi ý đúng file chưa giúp gì trên 4 task này: 3 task đã được giải sẵn (trần), task còn lại (`pytest-5840`) không giải được ở cả hai nhánh. Đối chứng dương chỉ có thể cho thấy hiệu ứng trên các task mà agent thất bại khi không có gợi ý → giai đoạn B cần đủ nhiều task như vậy.
+- Với 0,022–0,025 USD/lần, toàn bộ G1 (B + C) chỉ khoảng **10 USD**. Ngân sách dư dùng để **lặp lại mỗi cặp với 3 seed** (giảm nhiễu) và chạy lại nhánh skill hứa hẹn bằng Flash, thay vì mở rộng sang skill mới.
+
 ## 2. Giai đoạn B — kiểm tra phép đo (khoảng 25% phần còn lại)
 
 Câu hỏi: (1) pairing có đúng không? (2) phép đo có phát hiện được hiệu ứng lớn không? (3) nhiễu σ_S² thật là bao nhiêu?
 
 | name | model | skills | n | pool_tag | budget_usd |
 | --- | --- | --- | --- | --- | --- |
-| `g1-b` | (model chọn ở A) | `configs/skills/control-none-seed1.json,configs/skills/control-oracle-files.json` | theo `plan_budget.py` (tối đa 38) | default | theo kế hoạch |
+| `g1-b` | gemini-flash-lite | `configs/skills/control-none-seed1.json,configs/skills/control-oracle-files.json` | theo `plan_budget.py` (tối đa 38) | default | theo kế hoạch |
 
 - `control-none-seed1`: giống hệt nhánh không skill, chỉ khác seed → hiệu ứng thật = 0; đo nhiễu.
 - `control-oracle-files`: gợi ý đúng file cần sửa (lấy từ gold patch) → phải giúp rõ rệt. **Chỉ là đối chứng**, không bao giờ là skill được đánh giá.
@@ -62,7 +76,7 @@ python scripts/analyze_g1.py --stage-b g1-b
 
 | name | model | skills | n | pool_tag | budget_usd |
 | --- | --- | --- | --- | --- | --- |
-| `g1-c` | (model chọn ở A) | `configs/skills/null-guard.json,configs/skills/type-guard.json,configs/skills/exception-handling.json,configs/skills/validation-error.json` | 86 | g1 | 193 × USD/lần đo ở A, cộng 10% |
+| `g1-c` | gemini-flash-lite | `configs/skills/null-guard.json,configs/skills/type-guard.json,configs/skills/exception-handling.json,configs/skills/validation-error.json` | 86 | g1 | 193 × USD/lần đo ở A, cộng 10% |
 
 Mỗi skill chỉ chạy trên task mà I(x) đúng (≤ 30 task/skill); nhánh không skill chạy một lần trên hợp các task đó và **dùng chung** cho cả 4 skill.
 

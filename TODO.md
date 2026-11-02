@@ -671,6 +671,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 02/11/2026 | Kiểm định lại pool g1 xanh: **86/89 dùng được**, 0 lỗi hạ tầng (cơ chế chạy lại gỡ đúng 18 task bị loại nhầm), 3 task Django loại thật (no-op không sạch). Giai đoạn C = 193 lần chạy ≈ 39–120 USD | run 41375243272, `results/pool_validation/g1/summary.json` |
 | 02/11/2026 | Kiểm định lại pool default bằng script mới: vẫn 38/40, 0 lỗi hạ tầng → `psf__requests-1921` và `pylint-dev__pylint-8898` bị loại vì lỗi thật (có report), không phải do tải image | run 41379385559 |
 | 02/11/2026 | **Vertex AI chạy được** (key `gatekeeper-pilot`): 3 model OK ở `global`; Flash mặc định tốn ~11× token output vì thinking → `reasoning_effort: low`; thêm `mcp` cho tool-calling của LiteLLM. Bài thử 0,26 USD: 0,13 USD/lần chạy 30 bước, cache 68–80%; cả 2 nhánh chạm trần 30 bước → dùng 60 bước | `results/pilot/smoke-flash-1.json` |
+| 02/11/2026 | **Giai đoạn A** (2,12 USD): Flash-Lite 0,022 USD/lần, Flash 0,24 USD/lần; cả hai giải 3/4 task, gợi ý file chưa giúp (trần) → **chọn Flash-Lite**, G1 (B + C) chỉ ~10 USD. Lượt A1 đầu không hợp lệ (container không khởi động, bị tính là thất bại) → pipeline tải image trước và loại lỗi hạ tầng khỏi phép ghép cặp | `results/pilot/g1-a-lite2.json`, `results/pilot/g1-a-flash.json`, `results/pilot/invalid/` |
 
 ---
 

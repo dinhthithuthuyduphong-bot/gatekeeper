@@ -117,6 +117,48 @@ def usage_summary(u: dict[str, dict], loss: dict[str, float]) -> dict:
     }
 
 
+# Agent exit statuses that reflect the agent's own behaviour. Anything else (CalledProcessError
+# from `docker run`, API errors, ...) is an infrastructure failure: the pair is excluded and
+# reported, never scored as "the agent did not solve the task".
+AGENT_EXIT_STATUSES = {"Submitted", "LimitsExceeded", "TimeExceeded", "FormatError"}
+
+
+def agent_exit_status(traj_path: Path) -> str | None:
+    if not traj_path.exists():
+        return None
+    return (json.loads(traj_path.read_text()).get("info") or {}).get("exit_status")
+
+
+def is_infra_failure(status: str | None) -> bool:
+    return status not in AGENT_EXIT_STATUSES
+
+
+def image_name(row: dict) -> str:
+    if row.get("image"):
+        name = row["image"]
+        return name if name.startswith("docker.io/") else "docker.io/" + name
+    iid = row["instance_id"].replace("__", "_1776_").lower()
+    return f"docker.io/swebench/sweb.eval.x86_64.{iid}:latest"
+
+
+def prepull(rows: list[dict], tries: int = 3) -> list[str]:
+    """Pull every task image before the agents start (an implicit pull inside `docker run`
+    failed with exit 125 in stage A1). Returns the images that could not be pulled."""
+    import time
+
+    failed = []
+    for name in sorted({image_name(r) for r in rows}):
+        for k in range(tries):
+            ok = subprocess.run(["docker", "pull", "-q", name], capture_output=True).returncode == 0
+            if ok:
+                break
+            time.sleep(15 * (k + 1))
+        else:
+            failed.append(name)
+        print(f"image {'ok' if name not in failed else 'FAILED'}: {name}", flush=True)
+    return failed
+
+
 def image_digest(instance_id: str) -> str:
     name = "docker.io/swebench/sweb.eval.x86_64." + instance_id.replace("__", "_1776_").lower()
     try:
@@ -204,6 +246,7 @@ def main() -> int:
     ap.add_argument("--skills", required=True, help="comma-separated skill JSON files")
     ap.add_argument("--instances", default="")
     ap.add_argument("--n", type=int, default=5)
+    ap.add_argument("--prepull", action="store_true", help="pull task images first (dry runs)")
     ap.add_argument(
         "--dataset-file",
         default="",
@@ -261,7 +304,12 @@ def main() -> int:
     log = ResumableLog(out_dir / "trials.jsonl")
     losses: dict[str, dict[str, float]] = {}
     usage: dict[str, dict[str, dict]] = {}
+    infra: dict[str, dict[str, str | None]] = {}
     spent = 0.0
+    if model is not None or a.prepull:
+        missing = prepull(rows)
+        if missing:
+            print(f"warning: {len(missing)} images could not be pulled", flush=True)
     for arm, skill in arms:
         rows_arm = arm_rows_map[arm]
         agent_dir = run_arm(arm, skill, rows_arm, a, out_dir, model)
@@ -272,11 +320,15 @@ def main() -> int:
             a.workers,
             dataset=harness_dataset,
         )
-        losses[arm], usage[arm] = {}, {}
+        losses[arm], usage[arm], infra[arm] = {}, {}, {}
         for r in rows_arm:
             iid = r["instance_id"]
-            losses[arm][iid], _ = loss_of(read_report(f"{a.name}-{arm}", "", iid))
             traj = agent_dir / iid / f"{iid}.traj.json"
+            status = agent_exit_status(traj)
+            if model is not None and is_infra_failure(status):
+                infra[arm][iid] = status  # excluded from pairing
+            else:
+                losses[arm][iid], _ = loss_of(read_report(f"{a.name}-{arm}", "", iid))
             u = traj_usage(json.loads(traj.read_text())) if traj.exists() else {}
             usage[arm][iid] = u
             if model is not None and u and not u.get("cost_usd"):
@@ -299,6 +351,7 @@ def main() -> int:
         "alpha": a.alpha,
         "spent_usd": round(spent, 4),
         "usage": {arm: usage_summary(usage[arm], losses[arm]) for arm in losses},
+        "infra_failures": {arm: v for arm, v in infra.items() if v},
         "skills": {},
     }
     for arm, _skill in arms[1:]:

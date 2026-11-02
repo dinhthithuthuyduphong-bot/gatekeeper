@@ -1,0 +1,75 @@
+{
+  "generated_utc": "2026-11-02T04:01:26+00:00",
+  "name": "g1-a-lite",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "pytest-dev__pytest-5840",
+    "scikit-learn__scikit-learn-10297",
+    "astropy__astropy-7606",
+    "pydata__xarray-4075"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.1559,
+  "usage": {
+    "none": {
+      "runs": 2,
+      "usd_per_run": 0.04034146250000001,
+      "tokens_in_per_run": 629288.0,
+      "tokens_out_per_run": 4207.5,
+      "cached_share": 0.8707674387561816,
+      "api_calls_per_run": 60.0,
+      "solve_rate": 0.0
+    },
+    "control-oracle-files": {
+      "runs": 3,
+      "usd_per_run": 0.025069458333333332,
+      "tokens_in_per_run": 283672.3333333333,
+      "tokens_out_per_run": 3239.0,
+      "cached_share": 0.7944553399050783,
+      "api_calls_per_run": 35.666666666666664,
+      "solve_rate": 0.5
+    }
+  },
+  "skills": {
+    "control-oracle-files": {
+      "pairs": [
+        {
+          "instance_id": "astropy__astropy-7606",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-4075",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pytest-dev__pytest-5840",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-10297",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.3333333333333333,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": -0.3333333333333333,
+        "sigma_S2": 0.14814814814814814,
+        "sigma_T2": 0.0,
+        "unpaired_over_paired": 1.0
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": 0.2333707422762238
+      }
+    }
+  }
+}
