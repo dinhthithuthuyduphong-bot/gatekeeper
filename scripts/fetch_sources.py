@@ -57,6 +57,8 @@ def main() -> int:
             try:
                 raw, ctype = get(url)
                 text = to_text(raw, ctype)
+                if len(text) < 2000:  # an interstitial/redirect page, not the document
+                    raise ValueError(f"only {len(text)} characters: not the document")
                 rec.update(
                     url=url,
                     sha256=hashlib.sha256(raw).hexdigest(),

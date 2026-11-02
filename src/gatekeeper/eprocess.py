@@ -44,7 +44,7 @@ class BettingEProcess:
         alpha: float,
         c: float = 0.5,
         prior_mean: float = 0.0,
-        prior_var: float = 0.25,
+        prior_var: float = 1.0,
         prior_weight: float = 1.0,
     ) -> None:
         if not 0.0 < theta < 1.0:

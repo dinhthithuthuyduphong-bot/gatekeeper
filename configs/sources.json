@@ -1,22 +1,255 @@
 {
-  "_comment": "Primary sources the G1 verdict and the main-experiment design rely on. Fetched by .github/workflows/sources.yml (the dev container cannot reach these hosts). Only short excerpts around the keywords are stored (quotation), not the documents.",
-  "sources": [
-    {"id": "ich_e9", "claim": "one-sided 2.5% = half of two-sided 5%; prespecified analysis; multiplicity", "urls": ["https://www.ema.europa.eu/en/documents/scientific-guideline/ich-e-9-statistical-principles-clinical-trials-step-5_en.pdf", "https://www.fda.gov/media/71336/download", "https://database.ich.org/sites/default/files/E9_Guideline.pdf"], "keywords": ["one-sided", "two-sided", "half", "multiplicity", "pre-specif", "prespecif", "2.5%"]},
-    {"id": "swebench", "claim": "resolved = FAIL_TO_PASS and PASS_TO_PASS tests pass", "urls": ["https://arxiv.org/pdf/2310.06770"], "keywords": ["FAIL_TO_PASS", "PASS_TO_PASS", "fail-to-pass", "pass-to-pass", "resolved", "Resolved"]},
-    {"id": "hemerik_goeman_2018", "claim": "permutation/sign-flip (group invariance) tests are exact", "urls": ["https://arxiv.org/pdf/1411.7565"], "keywords": ["exact", "invarian", "sign", "Pitman", "Fisher"]},
-    {"id": "holm", "claim": "Holm controls FWER under arbitrary dependence; step-down rule", "urls": ["https://en.wikipedia.org/wiki/Holm%E2%80%93Bonferroni_method"], "keywords": ["family-wise", "familywise", "dependence", "assumption", "step-down", "Holm (1979)", "Scandinavian"]},
-    {"id": "wald_complete_class", "claim": "optimality of decision rules is relative to a loss function; complete class theorem", "urls": ["https://en.wikipedia.org/wiki/Admissible_decision_rule", "https://en.wikipedia.org/wiki/Decision_theory"], "keywords": ["loss function", "complete class", "Wald", "admissible"]},
-    {"id": "rinaldo_splitting", "claim": "sample splitting (Cox 1975) gives valid inference after selection", "urls": ["https://arxiv.org/pdf/1611.05401"], "keywords": ["Cox (1975)", "Cox, D", "splitting", "split"]},
-    {"id": "kohavi_aa", "claim": "A/A tests validate the experimentation system", "urls": ["https://ai.stanford.edu/~ronnyk/2007GuideControlledExperiments.pdf", "https://exp-platform.com/Documents/GuideControlledExperiments.pdf", "https://ai.stanford.edu/~ronnyk/2009controlledExperimentsOnTheWebSurvey.pdf"], "keywords": ["A/A", "null test", "A/A test"]},
-    {"id": "lakens_2018_tost", "claim": "SESOI must be justified; resource-based bound; justify alpha", "urls": ["https://journals.sagepub.com/doi/pdf/10.1177/2515245918770963"], "keywords": ["smallest effect size of interest", "SESOI", "resources", "justify", "alpha level"]},
-    {"id": "lakens_2022_ssj", "claim": "sample size justification by resource constraints", "urls": ["https://psyarxiv.com/9d3yf/download", "https://osf.io/download/9d3yf/"], "keywords": ["resource constraint", "Resource constraint", "Resource Constraints", "critical effect"]},
-    {"id": "mudge_2012", "claim": "optimal alpha minimizes weighted Type I + Type II error for a critical effect size", "urls": ["https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0032734&type=printable"], "keywords": ["optimal", "minimiz", "relative cost", "critical effect size"]},
-    {"id": "waudby_smith_ramdas", "claim": "betting confidence sequences; aGRAPA; default prior mean/variance; truncation c", "urls": ["https://arxiv.org/pdf/2010.09686"], "keywords": ["aGRAPA", "GRAPA", "truncat", "1/2", "3/4", "prior", "PrPl", "Ville"]},
-    {"id": "grunwald_safe_testing", "claim": "GRO: choose e-variables maximizing expected log growth", "urls": ["https://arxiv.org/pdf/1906.07801"], "keywords": ["GRO", "growth", "Kelly", "log-optimal"]},
-    {"id": "miller_2024", "claim": "evals as experiments: clustered SE, paired differences, power, resampling", "urls": ["https://arxiv.org/pdf/2411.00640"], "keywords": ["cluster", "paired", "power", "resampl"]},
-    {"id": "nosek_2018", "claim": "preregistration separates confirmatory from exploratory analysis", "urls": ["https://www.pnas.org/doi/pdf/10.1073/pnas.1708274114"], "keywords": ["preregistration", "confirmatory", "exploratory"]},
-    {"id": "steegen_2016", "claim": "multiverse analysis: report results across all reasonable choices", "urls": ["https://journals.sagepub.com/doi/pdf/10.1177/1745691616658637"], "keywords": ["multiverse", "arbitrary", "reasonable"]},
-    {"id": "kelly_1956", "claim": "Kelly criterion: maximize expected log growth", "urls": ["https://www.princeton.edu/~wbialek/rome/refs/kelly_56.pdf"], "keywords": ["logarithm", "log", "rate"]},
-    {"id": "ville_inequality", "claim": "Ville: P(sup nonneg supermartingale >= 1/alpha) <= alpha", "urls": ["https://en.wikipedia.org/wiki/Ville%27s_inequality"], "keywords": ["Ville", "supermartingale", "inequality"]}
-  ]
+ "_comment": "Primary sources the G1 verdict and the main-experiment design rely on. Fetched by .github/workflows/sources.yml (the dev container cannot reach these hosts). Only short excerpts around the keywords are stored (quotation), not the documents.",
+ "sources": [
+  {
+   "id": "ich_e9",
+   "claim": "one-sided 2.5% = half of two-sided 5%; prespecified analysis; multiplicity",
+   "urls": [
+    "https://www.ema.europa.eu/en/documents/scientific-guideline/ich-e-9-statistical-principles-clinical-trials-step-5_en.pdf",
+    "https://www.fda.gov/media/71336/download",
+    "https://database.ich.org/sites/default/files/E9_Guideline.pdf"
+   ],
+   "keywords": [
+    "one-sided",
+    "two-sided",
+    "half",
+    "multiplicity",
+    "pre-specif",
+    "prespecif",
+    "2.5%"
+   ]
+  },
+  {
+   "id": "swebench",
+   "claim": "resolved = FAIL_TO_PASS and PASS_TO_PASS tests pass",
+   "urls": [
+    "https://arxiv.org/pdf/2310.06770"
+   ],
+   "keywords": [
+    "FAIL_TO_PASS",
+    "PASS_TO_PASS",
+    "fail-to-pass",
+    "pass-to-pass",
+    "resolved",
+    "Resolved",
+    "considered resolved",
+    "all tests",
+    "apply the"
+   ]
+  },
+  {
+   "id": "hemerik_goeman_2018",
+   "claim": "permutation/sign-flip (group invariance) tests are exact",
+   "urls": [
+    "https://arxiv.org/pdf/1411.7565"
+   ],
+   "keywords": [
+    "exact",
+    "invarian",
+    "sign",
+    "Pitman",
+    "Fisher"
+   ]
+  },
+  {
+   "id": "holm",
+   "claim": "Holm controls FWER under arbitrary dependence; step-down rule",
+   "urls": [
+    "https://en.wikipedia.org/wiki/Holm%E2%80%93Bonferroni_method"
+   ],
+   "keywords": [
+    "family-wise",
+    "familywise",
+    "dependence",
+    "assumption",
+    "step-down",
+    "Holm (1979)",
+    "Scandinavian"
+   ]
+  },
+  {
+   "id": "wald_complete_class",
+   "claim": "optimality of decision rules is relative to a loss function; complete class theorem",
+   "urls": [
+    "https://en.wikipedia.org/wiki/Admissible_decision_rule",
+    "https://en.wikipedia.org/wiki/Decision_theory"
+   ],
+   "keywords": [
+    "loss function",
+    "complete class",
+    "Wald",
+    "admissible"
+   ]
+  },
+  {
+   "id": "rinaldo_splitting",
+   "claim": "sample splitting (Cox 1975) gives valid inference after selection",
+   "urls": [
+    "https://arxiv.org/pdf/1611.05401"
+   ],
+   "keywords": [
+    "Cox (1975)",
+    "Cox, D",
+    "splitting",
+    "split"
+   ]
+  },
+  {
+   "id": "kohavi_aa",
+   "claim": "A/A tests validate the experimentation system",
+   "urls": [
+    "https://ai.stanford.edu/~ronnyk/2007GuideControlledExperiments.pdf",
+    "https://exp-platform.com/Documents/GuideControlledExperiments.pdf",
+    "https://ai.stanford.edu/~ronnyk/2009controlledExperimentsOnTheWebSurvey.pdf"
+   ],
+   "keywords": [
+    "A/A",
+    "null test",
+    "A/A test"
+   ]
+  },
+  {
+   "id": "lakens_2018_tost",
+   "claim": "SESOI must be justified; resource-based bound; justify alpha",
+   "urls": [
+    "https://journals.sagepub.com/doi/pdf/10.1177/2515245918770963",
+    "https://psyarxiv.com/v3zkt/download",
+    "https://osf.io/download/v3zkt/",
+    "https://europepmc.org/api/fulltextRepo?pprId=PPR42478&type=FILE&fileName=v3zkt.pdf"
+   ],
+   "keywords": [
+    "smallest effect size of interest",
+    "SESOI",
+    "resources",
+    "justify",
+    "alpha level"
+   ]
+  },
+  {
+   "id": "lakens_2022_ssj",
+   "claim": "sample size justification by resource constraints",
+   "urls": [
+    "https://online.ucpress.edu/collabra/article/8/1/33267/120491/Sample-Size-Justification",
+    "https://osf.io/download/9d3yf/",
+    "https://psyarxiv.com/9d3yf/download"
+   ],
+   "keywords": [
+    "resource constraint",
+    "Resource constraint",
+    "Resource Constraints",
+    "critical effect"
+   ]
+  },
+  {
+   "id": "mudge_2012",
+   "claim": "optimal alpha minimizes weighted Type I + Type II error for a critical effect size",
+   "urls": [
+    "https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0032734&type=printable"
+   ],
+   "keywords": [
+    "optimal",
+    "minimiz",
+    "relative cost",
+    "critical effect size"
+   ]
+  },
+  {
+   "id": "waudby_smith_ramdas",
+   "claim": "betting confidence sequences; aGRAPA; default prior mean/variance; truncation c",
+   "urls": [
+    "https://arxiv.org/pdf/2010.09686"
+   ],
+   "keywords": [
+    "aGRAPA",
+    "GRAPA",
+    "truncat",
+    "1/2",
+    "3/4",
+    "prior",
+    "PrPl",
+    "Ville",
+    "aGRAPA",
+    "(μ̂",
+    "mean - m",
+    "σ̂2"
+   ]
+  },
+  {
+   "id": "grunwald_safe_testing",
+   "claim": "GRO: choose e-variables maximizing expected log growth",
+   "urls": [
+    "https://arxiv.org/pdf/1906.07801"
+   ],
+   "keywords": [
+    "GRO",
+    "growth",
+    "Kelly",
+    "log-optimal"
+   ]
+  },
+  {
+   "id": "miller_2024",
+   "claim": "evals as experiments: clustered SE, paired differences, power, resampling",
+   "urls": [
+    "https://arxiv.org/pdf/2411.00640"
+   ],
+   "keywords": [
+    "cluster",
+    "paired",
+    "power",
+    "resampl"
+   ]
+  },
+  {
+   "id": "nosek_2018",
+   "claim": "preregistration separates confirmatory from exploratory analysis",
+   "urls": [
+    "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5856500/",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC5856500/",
+    "https://www.pnas.org/doi/pdf/10.1073/pnas.1708274114"
+   ],
+   "keywords": [
+    "preregistration",
+    "confirmatory",
+    "exploratory"
+   ]
+  },
+  {
+   "id": "steegen_2016",
+   "claim": "multiverse analysis: report results across all reasonable choices",
+   "urls": [
+    "https://journals.sagepub.com/doi/full/10.1177/1745691616658637",
+    "https://journals.sagepub.com/doi/pdf/10.1177/1745691616658637"
+   ],
+   "keywords": [
+    "multiverse",
+    "arbitrary",
+    "reasonable"
+   ]
+  },
+  {
+   "id": "kelly_1956",
+   "claim": "Kelly criterion: maximize expected log growth",
+   "urls": [
+    "https://www.princeton.edu/~wbialek/rome/refs/kelly_56.pdf"
+   ],
+   "keywords": [
+    "logarithm",
+    "log",
+    "rate"
+   ]
+  },
+  {
+   "id": "ville_inequality",
+   "claim": "Ville: P(sup nonneg supermartingale >= 1/alpha) <= alpha",
+   "urls": [
+    "https://en.wikipedia.org/wiki/Ville%27s_inequality"
+   ],
+   "keywords": [
+    "Ville",
+    "supermartingale",
+    "inequality"
+   ]
+  }
+ ]
 }

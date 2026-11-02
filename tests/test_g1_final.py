@@ -62,6 +62,13 @@ def test_interval_and_critical_effect_derive_from_alpha():
     lo, hi = gf.t_interval(x)
     assert lo < 0 < hi and gf.CI_LEVEL == pytest.approx(0.95)
     assert gf.critical_effect(x, 4) > gf.critical_effect(x, 1) > 0
+    # consistency with the exact test: observing exactly the critical effect is significant
+    n = 30
+    crit = gf.critical_effect([1.0] * n, 1)  # |Z| = 1 for all tasks
+    k = round(crit * n)  # net number of helped tasks needed
+    obs = [-1.0] * ((n + k) // 2) + [1.0] * ((n - k) // 2)
+    weaker = [-1.0] * ((n + k) // 2 - 1) + [1.0] * ((n - k) // 2 + 1)  # one helped -> hurt
+    assert gf.sign_flip_p(obs) <= gf.ALPHA_FAMILY < gf.sign_flip_p(weaker)
 
 
 def test_select_plan_and_verdict():

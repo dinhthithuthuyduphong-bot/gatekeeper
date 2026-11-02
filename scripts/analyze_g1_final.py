@@ -150,14 +150,24 @@ def t_interval(x: list[float], level: float = CI_LEVEL) -> list[float]:
 
 
 def critical_effect(x: list[float], n_tests: int) -> float:
-    """Smallest mean effect this test can declare significant: t_{1-a'} * SE, a' = Holm's first
-    level. No power convention needed: a true effect of this size is detected with prob ~1/2."""
-    a = np.asarray(x, dtype=float)
-    n = a.size
-    if n < 2:
+    """Smallest helpful mean effect the EXACT sign-flip test can declare at Holm's first level
+    a' = ALPHA_FAMILY / n_tests: the most negative-tail cut of the same null distribution the
+    test uses (conditional on the observed |Z_i|). Returned as a positive magnitude."""
+    if not x:
         return float("nan")
-    se = a.std(ddof=1) / math.sqrt(n)
-    return float(stats.t.ppf(1 - ALPHA_FAMILY / max(1, n_tests), n - 1) * se)
+    b, m = _lattice(x)
+    dist = _null_dist(b)
+    a = ALPHA_FAMILY / max(1, n_tests)
+    acc, cut = 0.0, None
+    for s in sorted(dist):
+        acc += dist[s]
+        if acc <= a + 1e-15:
+            cut = s
+        else:
+            break
+    if cut is None:  # not even the most extreme outcome is significant
+        return float("inf")
+    return float(-cut / (m * len(x)))
 
 
 def per_task_mean(runs: list[dict], skill: str, endpoint: str = "resolved") -> dict[str, float]:

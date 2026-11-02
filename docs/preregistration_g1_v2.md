@@ -120,3 +120,11 @@ Code: `scripts/analyze_g1_final.py`; test: `tests/test_g1_final.py`.
 6. Không đổi: endpoint resolved; chọn "Z < 0"; tách dữ liệu; m = 3 seed (11, 21, 31); Holm với α một phía 0,025; quy tắc phán quyết PASS / FAIL / chưa kết luận.
 
 Đầu vào giá trị duy nhất còn lại: **α = 0,025 một phía** (chuẩn ICH E9).
+
+## Bổ sung 3, bản sửa 2 (sau khi đối chiếu bản gốc; **chưa mở kết quả xác nhận**)
+
+Theo `docs/source_verification.md` §2:
+- **H₀ được phát biểu lại** đúng điều kiện chính xác của Hemerik & Goeman (2018): "skill không có tác dụng: trên mỗi task, hai nhánh hoán đổi được, nên Z_i đối xứng quanh 0 và độc lập giữa các task".
+- **Hiệu ứng tới hạn** được lấy từ chính phân phối chính xác của kiểm định đổi dấu, không dùng phân phối t.
+- **Cách diễn giải A/A:** nếu không bác bỏ, chỉ được ghi "không phát hiện lệch; độ lệch ước lượng [khoảng t]", không được ghi "pipeline sạch" (ICH E9 §3.3.2).
+- **Kiểm định một phía** được lý giải trước: quyết định admit chỉ có một chiều.

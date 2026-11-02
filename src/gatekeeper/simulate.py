@@ -41,7 +41,7 @@ def simulate(
     seed: int = 0,
     c: float = 0.5,
     prior_mean: float = 0.0,
-    prior_var: float = 0.25,
+    prior_var: float = 1.0,
     prior_weight: float = 1.0,
 ) -> SimResult:
     p_minus = p_plus - str_true

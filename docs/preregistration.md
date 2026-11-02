@@ -44,7 +44,7 @@
 | θ | **0,02 hoặc 0,05** | θ 0,05 → 0,02 giảm ~2 lần trial (`results/design_table.json`); θ nhỏ = chấp nhận skill chỉ giúp 2 điểm | ❓ quyết định quan trọng nhất |
 | ξ_s báo cáo | lưới {0; 0,01; 0,025; 0,05} | `corrections.md` §3 | ✅ |
 | Budget mỗi ô | ⏳ theo pilot; tham khảo design table: 200–1.600 cặp | | ⏳ |
-| Bettor | aGRAPA plug-in, c = 0,5, prior (0; 0,25; 1) | đã kiểm chứng sai loại I 3,0% ≤ 5% | ✅ |
+| Bettor | aGRAPA plug-in, c = 0,5 (mặc định của Waudby-Smith & Ramdas 2024, Định lý 2–3), prior (0; 1; 1) = mặc định (½; ¼) của bài gốc đổi sang thang [−1, 1] | đã kiểm chứng sai loại I 3,0% ≤ 5% | ✅ |
 
 ## 5. Hệ thống so sánh
 
