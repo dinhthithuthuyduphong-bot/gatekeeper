@@ -1,0 +1,36 @@
+name: Source verification
+
+# Fetches primary sources (papers, guidelines) the statistical design relies on and publishes short
+# excerpts to the `sources-snapshots` branch, because the development container cannot reach them.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths:
+      - "configs/sources.json"
+      - "scripts/fetch_sources.py"
+      - ".github/workflows/sources.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sources-snapshots
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: pip install "pypdf>=4"
+      - name: Fetch sources
+        run: python scripts/fetch_sources.py
+      - name: Publish to sources-snapshots branch
+        run: scripts/publish_snapshot.sh sources-snapshots "Sources from ${GITHUB_SHA::7} (run ${GITHUB_RUN_ID})" data/sources
