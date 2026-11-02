@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-11-01T23:09:04+00:00",
+  "generated_utc": "2026-11-02T01:15:22+00:00",
   "name": "dryrun",
   "model": "deterministic",
   "dataset": "SWE-bench/SWE-bench_Verified",
@@ -10,6 +10,26 @@
   "theta": 0.05,
   "alpha": 0.05,
   "spent_usd": 0.0,
+  "usage": {
+    "none": {
+      "runs": 2,
+      "usd_per_run": 0.0,
+      "tokens_in_per_run": 0.0,
+      "tokens_out_per_run": 0.0,
+      "cached_share": null,
+      "api_calls_per_run": 1.0,
+      "solve_rate": 0.0
+    },
+    "oracle-gold": {
+      "runs": 2,
+      "usd_per_run": 0.0,
+      "tokens_in_per_run": 0.0,
+      "tokens_out_per_run": 0.0,
+      "cached_share": null,
+      "api_calls_per_run": 1.0,
+      "solve_rate": 1.0
+    }
+  },
   "skills": {
     "oracle-gold": {
       "pairs": [
