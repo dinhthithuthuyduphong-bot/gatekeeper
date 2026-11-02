@@ -15,9 +15,12 @@ from gatekeeper.analysis import g1_decision
 NOISE, POSITIVE = "control-none-seed1", "control-oracle-files"
 
 
-def z_of(run: dict, skill: str) -> list[float]:
+def z_of(run: dict, skill: str, only_failed_baseline: bool = False) -> list[float]:
     s = run.get("skills", {}).get(skill)
-    return [p["loss_with"] - p["loss_without"] for p in s["pairs"]] if s else []
+    if not s:
+        return []
+    pairs = [p for p in s["pairs"] if not only_failed_baseline or p["loss_without"] > 0]
+    return [p["loss_with"] - p["loss_without"] for p in pairs]
 
 
 def main() -> int:
@@ -29,7 +32,9 @@ def main() -> int:
     b = json.loads(Path(f"results/pilot/{a.stage_b}.json").read_text())
     c = json.loads(Path(f"results/pilot/{a.stage_c}.json").read_text()) if a.stage_c else {}
     skills = {k: z_of(c, k) for k in c.get("skills", {}) if not k.startswith("control-")}
-    d = g1_decision(skills, z_of(b, NOISE), z_of(b, POSITIVE), effect=a.effect)
+    d = g1_decision(
+        skills, z_of(b, NOISE), z_of(b, POSITIVE, only_failed_baseline=True), effect=a.effect
+    )
     d["stage_b"], d["stage_c"] = a.stage_b, a.stage_c or None
     d["usage"] = {"stage_b": b.get("usage"), "stage_c": c.get("usage")}
     d["spent_usd"] = round(

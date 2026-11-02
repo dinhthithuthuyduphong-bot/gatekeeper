@@ -227,3 +227,45 @@ def test_infra_failures_are_not_scored(tmp_path):
         == "docker.io/swebench/x:latest"
     )
     assert rp.image_name({"instance_id": "psf__requests-1"}).endswith("psf_1776_requests-1:latest")
+
+
+def test_score_arm_rescores_and_flags_harness_infra(tmp_path, monkeypatch):
+    import importlib.util
+    from pathlib import Path
+
+    pytest.importorskip("yaml")
+    spec = importlib.util.spec_from_file_location(
+        "run_pilot", Path(__file__).parents[1] / "scripts" / "run_pilot.py"
+    )
+    rp = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rp)
+    (tmp_path / "preds.json").write_text(
+        json.dumps(
+            {
+                "ok": {"model_patch": "diff --git a/x b/x"},
+                "flaky": {"model_patch": "diff --git a/y b/y"},
+                "dead": {"model_patch": "diff --git a/z b/z"},
+                "empty": {"model_patch": ""},
+            }
+        )
+    )
+    calls = []
+    good = {"resolved": True}
+
+    def fake_run(preds, ids, run_id, workers, dataset):
+        calls.append((run_id, sorted(ids)))
+
+    def fake_read(run_id, model, iid):
+        if iid == "ok":
+            return good
+        if iid == "flaky" and run_id.endswith("-r1"):
+            return good  # report only on the re-score
+        return None  # "dead" never gets a report, "empty" was skipped by the harness
+
+    monkeypatch.setattr(rp, "run_harness", fake_run)
+    monkeypatch.setattr(rp, "read_report", fake_read)
+    r = rp.score_arm(tmp_path, ["ok", "flaky", "dead", "empty"], "run", 1, "ds.jsonl")
+    assert r["ok"] is good and r["flaky"] is good
+    assert r["dead"] is rp.HARNESS_INFRA  # excluded, never scored as unsolved
+    assert r["empty"] is None  # agent did not submit: legitimately unsolved
+    assert calls == [("run", ["dead", "empty", "flaky", "ok"]), ("run-r1", ["dead", "flaky"])]

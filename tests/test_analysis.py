@@ -192,5 +192,6 @@ def test_g1_decision_rules():
     assert d["skills"]["null"]["promising"] is False
     assert g1_decision({"null": null}, noise, positive)["verdict"].startswith("G1 FAIL")
     assert g1_decision({}, noise, [0.0] * 20)["verdict"].startswith("STOP: positive")
+    assert g1_decision({}, noise, [-2 / 3] * 3)["verdict"].startswith("STOP: positive")  # too few
     assert g1_decision({}, [2 / 3] * 20, positive)["verdict"].startswith("STOP: noise")
     assert g1_decision({}, noise, positive)["verdict"] == "controls OK; run stage C"

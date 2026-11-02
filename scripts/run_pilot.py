@@ -133,6 +133,43 @@ def is_infra_failure(status: str | None) -> bool:
     return status not in AGENT_EXIT_STATUSES
 
 
+HARNESS_INFRA = {"_harness_infra": True}
+
+
+def score_arm(
+    agent_dir: Path, ids: list[str], run_id: str, workers: int, dataset: str, retries: int = 1
+) -> dict[str, dict | None]:
+    """Harness reports per instance. An empty submission (the agent never submitted) is skipped by
+    the harness and legitimately scored as unsolved (None). A NON-empty patch without a report is a
+    harness/infrastructure failure: re-scored once, then marked HARNESS_INFRA (excluded)."""
+    preds_path = agent_dir / "preds.json"
+    preds = json.loads(preds_path.read_text()) if preds_path.exists() else {}
+    patch = {i: ((preds.get(i) or {}).get("model_patch") or "").strip() for i in ids}
+    try:
+        run_harness(str(preds_path), ids, run_id, workers, dataset=dataset)
+    except SystemExit as exc:
+        print(f"harness error in {run_id}: {exc}", flush=True)
+    reports = {i: read_report(run_id, "", i) for i in ids}
+    for k in range(1, retries + 1):
+        todo = [i for i in ids if reports[i] is None and patch[i]]
+        if not todo:
+            break
+        sub = agent_dir / f"preds_retry{k}.json"
+        sub.write_text(json.dumps({i: preds[i] for i in todo}))
+        rid = f"{run_id}-r{k}"
+        print(f"re-scoring {len(todo)} non-empty patches without a report ({rid})", flush=True)
+        try:
+            run_harness(str(sub), todo, rid, workers, dataset=dataset)
+        except SystemExit as exc:
+            print(f"harness error in {rid}: {exc}", flush=True)
+        for i in todo:
+            reports[i] = read_report(rid, "", i)
+    for i in ids:
+        if reports[i] is None and patch[i]:
+            reports[i] = HARNESS_INFRA
+    return reports
+
+
 def image_name(row: dict) -> str:
     if row.get("image"):
         name = row["image"]
@@ -313,22 +350,19 @@ def main() -> int:
     for arm, skill in arms:
         rows_arm = arm_rows_map[arm]
         agent_dir = run_arm(arm, skill, rows_arm, a, out_dir, model)
-        run_harness(
-            str(agent_dir / "preds.json"),
-            [r["instance_id"] for r in rows_arm],
-            f"{a.name}-{arm}",
-            a.workers,
-            dataset=harness_dataset,
-        )
+        ids_arm = [r["instance_id"] for r in rows_arm]
+        reports = score_arm(agent_dir, ids_arm, f"{a.name}-{arm}", a.workers, harness_dataset)
         losses[arm], usage[arm], infra[arm] = {}, {}, {}
         for r in rows_arm:
             iid = r["instance_id"]
             traj = agent_dir / iid / f"{iid}.traj.json"
             status = agent_exit_status(traj)
             if model is not None and is_infra_failure(status):
-                infra[arm][iid] = status  # excluded from pairing
+                infra[arm][iid] = status  # agent never ran properly: excluded from pairing
+            elif reports[iid] == HARNESS_INFRA:
+                infra[arm][iid] = "harness: no report for a non-empty patch"
             else:
-                losses[arm][iid], _ = loss_of(read_report(f"{a.name}-{arm}", "", iid))
+                losses[arm][iid], _ = loss_of(reports[iid])
             u = traj_usage(json.loads(traj.read_text())) if traj.exists() else {}
             usage[arm][iid] = u
             if model is not None and u and not u.get("cost_usd"):

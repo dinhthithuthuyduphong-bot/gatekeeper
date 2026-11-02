@@ -258,12 +258,16 @@ def g1_decision(
     noise_z: Sequence[float] | None = None,
     positive_z: Sequence[float] | None = None,
     effect: float = 0.10,
+    min_unsolved: int = 5,
 ) -> dict[str, object]:
     """Pre-registered G1 rules (docs/budget_200.md), applied mechanically:
 
     * pipeline check: the noise control's 90% CI must contain 0 (else pairing is broken);
-    * sensitivity check: the positive control's mean Z must be <= -effect (else the measurement
-      cannot detect a large effect, and a null result on the skills would be uninformative);
+    * sensitivity check, on the tasks the no-skill arm FAILED (the caller restricts positive_z to
+      them): mean Z <= -effect with at least `min_unsolved` such tasks. On tasks the agent already
+      solves no hint can lower the loss, so averaging over them caps the effect at the failure
+      rate (ceiling) and would wrongly fail the check (rule fixed 02/11/2026, before the stage B
+      results were seen);
     * G1 passes if some skill has mean Z <= -effect AND its 90% CI upper bound < 0.
     Exploratory screening only: the anytime-valid e-process is for the confirmatory study.
     """
@@ -274,15 +278,19 @@ def g1_decision(
         ok_pipeline = lo <= 0.0 <= hi
         out["noise_control"] = {"n": len(noise_z), "mean": m, "ci90": [lo, hi], "ok": ok_pipeline}
     sensitive = True
-    if positive_z is not None and len(positive_z):
-        m, lo, hi = mean_ci(positive_z)
-        sensitive = m <= -effect
-        out["positive_control"] = {
-            "n": len(positive_z),
-            "mean": m,
-            "ci90": [lo, hi],
-            "ok": sensitive,
-        }
+    if positive_z is not None:
+        if len(positive_z) < min_unsolved:
+            sensitive = False
+            out["positive_control"] = {"n": len(positive_z), "ok": False, "note": "too few"}
+        else:
+            m, lo, hi = mean_ci(positive_z)
+            sensitive = m <= -effect
+            out["positive_control"] = {
+                "n": len(positive_z),
+                "mean": m,
+                "ci90": [lo, hi],
+                "ok": sensitive,
+            }
     passing = []
     for sid, z in skill_z.items():
         m, lo, hi = mean_ci(z)

@@ -70,7 +70,7 @@ Câu hỏi: (1) pairing có đúng không? (2) phép đo có phát hiện đư�
 python scripts/analyze_g1.py --stage-b g1-b
 ```
 
-**Dừng nếu:** nhiễu khác 0 (lỗi pairing/seed) hoặc đối chứng dương không cho Z ≤ −0,10 (phép đo quá kém nhạy; kết quả "không hiệu ứng" ở C sẽ vô nghĩa). Khi đó **không chạy C**, báo lại để sửa thiết kế.
+**Dừng nếu:** nhiễu khác 0 (lỗi pairing/seed) hoặc đối chứng dương không cho Z ≤ −0,10 **trên các task mà nhánh không skill thất bại** (cần ≥ 5 task như vậy). Lý do (sửa 02/11/2026, trước khi thấy kết quả B): agent tự giải ~75% task, gợi ý không thể làm tốt hơn trên những task đó, nên tính trung bình trên mọi task sẽ bị trần và báo sai. Khi dừng thì **không chạy C**, báo lại để sửa thiết kế.
 
 ## 3. Giai đoạn C — 4 skill trên task chúng kích hoạt (phần còn lại, giữ 10% dự phòng)
 
