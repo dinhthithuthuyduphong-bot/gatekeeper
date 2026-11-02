@@ -20,6 +20,9 @@ Bản gốc được tải bằng GitHub Actions (`.github/workflows/sources.yml
 | GRO (chọn c bằng tăng trưởng log) | **Grünwald, de Heide & Koolen**, *Safe Testing* (JRSSB 2024); **Kelly 1956** | "We define growth-rate optimality (GRO) as an analogue of power"; Kelly: "G = lim (1/N) log(V_N/V_0)" | ✅ |
 | Đánh giá LLM như thí nghiệm | **Miller 2024**, *Adding Error Bars to Evals* | "1. Computing standard errors of the mean using the Central Limit Theorem 2. … clustered standard errors 3. Reducing variance by resampling answers … 4. … question-level paired differences … 5. Using power analysis" | ✅ Khớp với thiết kế: ghép cặp theo task, cụm theo task, lặp seed |
 | Ville | Wikipedia *Ville's inequality* | "provides an upper bound on the probability that a supermartingale exceeds a certain value" | ✅ (nguồn thứ cấp) |
+| SESOI là đầu vào giá trị | **Lakens, Scheel & Isager 2018**, *Equivalence testing for psychological research: a tutorial* (AMPPS; bản OSF v3zkt) | "if there are no theoretical reference points, natural constraints, or prior studies a researcher can use to define the SESOI for a hypothesis test, any choice will be somewhat arbitrary"; khuyến nghị lý giải α thay vì mặc định 5% | ✅ Xác nhận θ không suy ra được từ dữ liệu, phải lấy từ chi phí–lợi ích ("natural constraints") |
+| Cỡ mẫu theo ràng buộc nguồn lực; "the minimal statistically detectable effect" | **Lakens 2022**, *Sample Size Justification* (Collabra; bản OSF 9d3yf), Bảng 1–2 | Sáu cách lý giải cỡ mẫu, trong đó có "Resource constraints"; Bảng 2: "The minimal statistically [detectable effect]: Given the test and sample size, what is the …" | ✅ Khớp với hiệu ứng tới hạn và với n = ngân sách / chi phí |
+| Đăng ký trước | **Nosek et al. 2018**, *The preregistration revolution* (PNAS; PMC5856500) | "Widespread adoption of preregistration will increase distinctiveness between hypothesis generation and hypothesis testing and will improve the credibility of research findings." | ✅ |
 | step_limit mặc định 250, cost_limit 3 USD | Cấu hình đi kèm `mini-swe-agent` 2.4.6 (`config/benchmarks/swebench.yaml`) | `step_limit: 250`, `cost_limit: 3.` | ✅ |
 
 ## 2. Đối chiếu bản gốc phát hiện ra, và đã sửa
@@ -35,9 +38,7 @@ Bản gốc được tải bằng GitHub Actions (`.github/workflows/sources.yml
 
 | Nguồn | Tình trạng | Ảnh hưởng |
 | --- | --- | --- |
-| Lakens, Scheel & Isager 2018 (TOST, SESOI) | Lượt tải đầu thất bại; đang thử lại qua mirror | TOST và biên đã bị **bỏ** khỏi phán quyết G1; chỉ còn dùng để lý giải θ cho thí nghiệm chính |
-| Lakens 2022 (*Sample size justification*) | Như trên | Chỉ dùng cho kế hoạch thí nghiệm chính |
-| Nosek et al. 2018; Steegen et al. 2016 | Như trên | Không ảnh hưởng phép tính nào |
+| Steegen et al. 2016 (multiverse) | Chưa tải được (sagepub chặn) | Chỉ dùng cho đường cong theo w (endpoint phụ); không ảnh hưởng phán quyết |
 | Holm 1979, Cox 1975, Fisher 1935, Pitman 1937, Wald 1950 | Sách hoặc bài sau tường phí | Đã xác nhận qua nguồn thứ cấp uy tín (mục 1) |
 | ICH E9 về mức 2,5% | ✅ đã mở bản gốc | — |
 
