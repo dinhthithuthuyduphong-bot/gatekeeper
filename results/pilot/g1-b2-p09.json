@@ -1,0 +1,129 @@
+{
+  "generated_utc": "2026-11-02T10:32:26+00:00",
+  "name": "g1-b2-p09",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "sphinx-doc__sphinx-7985",
+    "sphinx-doc__sphinx-8593",
+    "sphinx-doc__sphinx-8721",
+    "sphinx-doc__sphinx-9711"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.4013,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.025921481250000003,
+      "tokens_in_per_run": 316246.5,
+      "tokens_out_per_run": 3917.0,
+      "cached_share": 0.8293902066900345,
+      "api_calls_per_run": 31.5,
+      "solve_rate": 0.75,
+      "solved": 3,
+      "scored": 4
+    },
+    "control-none-seed1": {
+      "runs": 4,
+      "usd_per_run": 0.045118337499999994,
+      "tokens_in_per_run": 651496.0,
+      "tokens_out_per_run": 6711.75,
+      "cached_share": 0.8719984466520132,
+      "api_calls_per_run": 49.75,
+      "solve_rate": 0.5,
+      "solved": 2,
+      "scored": 4
+    },
+    "control-oracle-files": {
+      "runs": 4,
+      "usd_per_run": 0.029291374999999994,
+      "tokens_in_per_run": 387083.75,
+      "tokens_out_per_run": 4672.25,
+      "cached_share": 0.8552606509573186,
+      "api_calls_per_run": 35.25,
+      "solve_rate": 0.5,
+      "solved": 2,
+      "scored": 4
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "control-none-seed1": {
+      "pairs": [
+        {
+          "instance_id": "sphinx-doc__sphinx-7985",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.7777777777777778
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8593",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8721",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-9711",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.13888888888888887,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": 0.13888888888888887,
+        "sigma_S2": 0.1265432098765432,
+        "sigma_T2": 0.08641975308641975,
+        "unpaired_over_paired": 2.3658536585365857
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": -0.03156997772044153
+      }
+    },
+    "control-oracle-files": {
+      "pairs": [
+        {
+          "instance_id": "sphinx-doc__sphinx-7985",
+          "loss_with": 0.7777777777777778,
+          "loss_without": 0.7777777777777778
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8593",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8721",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-9711",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.16666666666666666,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": 0.16666666666666666,
+        "sigma_S2": 0.11111111111111112,
+        "sigma_T2": 0.10802469135802469,
+        "unpaired_over_paired": 2.944444444444444
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": 0.0
+      }
+    }
+  }
+}
