@@ -18,11 +18,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 RESULTS = Path("results/pilot")
+GB_PER_TASK = 6.0  # SWE-bench images are 3.8-7.6 GB (xarray); layers are partly shared
+DISK_RESERVE_GB = 4.0
 
 
 def pilot_spent_total(exclude_prefix: str | None = None) -> float:
@@ -99,22 +102,30 @@ def main() -> int:
     ap.add_argument("--step-limit", type=int, default=60)
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--max-batches", type=int, default=0)
+    ap.add_argument("--model-seed", type=int, default=None, help="replicate seed (see run_pilot)")
     a = ap.parse_args()
 
     skills = [s for s in a.skills.split(",") if s]
     tasks = task_list(a.tasks_from, skills)
-    batches = [tasks[i : i + a.batch] for i in range(0, len(tasks), a.batch)]
-    if a.max_batches:
-        batches = batches[: a.max_batches]
     arms = 1 + len(skills)
-    parts: list[Path] = []
-    for k, ids in enumerate(batches):
+    # resume by TASK, not by part number: parts already written cover these instances
+    parts = sorted(RESULTS.glob(f"{a.name}-p[0-9][0-9].json"))
+    done = {i for p in parts for i in json.loads(p.read_text()).get("instances", [])}
+    todo = [t for t in tasks if t not in done]
+    print(f"{len(done)} tasks already done in {len(parts)} parts; {len(todo)} to go", flush=True)
+    k = len(parts)
+    n_batches = 0
+    while todo:
+        if a.max_batches and n_batches >= a.max_batches:
+            break
+        free_gb = shutil.disk_usage("/").free / 1e9
+        size = max(1, min(a.batch, int((free_gb - DISK_RESERVE_GB) // GB_PER_TASK)))
+        if free_gb < DISK_RESERVE_GB + GB_PER_TASK:
+            print(f"[stop] only {free_gb:.1f} GB free", flush=True)
+            break
+        ids, todo = todo[:size], todo[size:]
         part = f"{a.name}-p{k:02d}"
         f = RESULTS / f"{part}.json"
-        if f.exists():
-            print(f"[skip] {part} already done", flush=True)
-            parts.append(f)
-            continue
         spent = pilot_spent_total()
         worst = arms * len(ids) * a.cost_limit
         if spent + worst > a.cap_usd:
@@ -123,7 +134,10 @@ def main() -> int:
                 flush=True,
             )
             break
-        print(f"[run] {part}: {len(ids)} tasks, spent so far {spent:.2f} USD", flush=True)
+        print(
+            f"[run] {part}: {len(ids)} tasks ({free_gb:.0f} GB free), spent so far {spent:.2f} USD",
+            flush=True,
+        )
         cmd = [
             sys.executable,
             "scripts/run_pilot.py",
@@ -146,6 +160,8 @@ def main() -> int:
             "--budget-usd",
             str(round(a.cap_usd - spent, 4)),
         ]
+        if a.model_seed is not None:
+            cmd += ["--model-seed", str(a.model_seed)]
         rc = subprocess.run(cmd, check=False).returncode
         subprocess.run(["docker", "image", "prune", "-af"], capture_output=True, check=False)
         subprocess.run(["docker", "container", "prune", "-f"], capture_output=True, check=False)
@@ -153,6 +169,8 @@ def main() -> int:
             print(f"[error] {part} exited {rc}; stopping (rerun to resume)", flush=True)
             break
         parts.append(f)
+        k += 1
+        n_batches += 1
     if parts:
         m = merge(a.name, parts)
         print(

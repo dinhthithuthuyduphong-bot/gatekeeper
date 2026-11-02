@@ -142,6 +142,8 @@ def arm_config(
     kwargs = dict(model_kwargs or {})
     if skill and skill.procedure.get("model_kwargs"):  # e.g. a different seed for a noise control
         kwargs.update(skill.procedure["model_kwargs"])
+    if skill and skill.procedure.get("seed_offset"):  # noise control relative to the run's seed
+        kwargs["seed"] = int(kwargs.get("seed", 0)) + int(skill.procedure["seed_offset"])
     model: dict[str, Any] = {"model_name": model_name, "model_kwargs": kwargs}
     if model_class:
         model["model_class"] = model_class

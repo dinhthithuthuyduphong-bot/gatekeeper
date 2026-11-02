@@ -3,13 +3,18 @@
   "id": "control-none-seed1",
   "procedure": {
     "kind": "control",
-    "model_kwargs": {"seed": 1},
-    "_comment": "NOISE CONTROL: identical to the no-skill arm except the sampling seed. Its paired difference with 'none' measures run-to-run agent noise (sigma_S^2 of a null skill); its true STR is 0."
+    "_comment": "NOISE CONTROL: identical to the no-skill arm except the sampling seed (run seed + 1; Vertex honours `seed`, verified 02/11/2026). Its paired difference with 'none' measures run-to-run sampling noise; its true STR is 0.",
+    "seed_offset": 1
   },
   "fingerprints": {},
   "input_predicates": [],
   "postconditions": [],
-  "footprint": {"regions": [], "reads": [], "writes": [], "properties": []},
+  "footprint": {
+    "regions": [],
+    "reads": [],
+    "writes": [],
+    "properties": []
+  },
   "capability_verdict": "approved",
   "source": "control"
 }

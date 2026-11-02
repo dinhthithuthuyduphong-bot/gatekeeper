@@ -285,6 +285,12 @@ def main() -> int:
     ap.add_argument("--n", type=int, default=5)
     ap.add_argument("--prepull", action="store_true", help="pull task images first (dry runs)")
     ap.add_argument(
+        "--model-seed",
+        type=int,
+        default=None,
+        help="sampling seed for every arm (replicates need different seeds: Vertex honours seed)",
+    )
+    ap.add_argument(
         "--dataset-file",
         default="",
         help="local SWE-bench Verified rows (.jsonl) instead of HuggingFace",
@@ -311,6 +317,10 @@ def main() -> int:
 
     skills = [Skill.load(p) for p in a.skills.split(",") if p]
     model = None if a.model == "deterministic" else load_model_specs(MODELS_FILE)[a.model]
+    if model is not None and a.model_seed is not None:
+        from dataclasses import replace
+
+        model = replace(model, kwargs={**model.kwargs, "seed": a.model_seed})
     if model is not None:
         for v in ("VERTEXAI_PROJECT", "VERTEXAI_LOCATION"):
             if not os.environ.get(v):

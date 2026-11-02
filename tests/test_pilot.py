@@ -172,6 +172,8 @@ def test_positive_control_and_noise_control():
     assert arm_rows(rows, noise)[0]["problem_statement"] == "Bug"
     c = arm_config(noise, "vertex_ai/x", {"temperature": 0.0, "seed": 0})
     assert c["model"]["model_kwargs"]["seed"] == 1
+    c7 = arm_config(noise, "vertex_ai/x", {"seed": 7})  # replicate with run seed 7
+    assert c7["model"]["model_kwargs"]["seed"] == 8
 
 
 def test_usage_summary():
