@@ -102,3 +102,8 @@ Code: `scripts/analyze_g1_final.py`; test: `tests/test_g1_final.py`.
 - Lượt xác nhận chỉ nạp 32 task mà I(x) của `validation-error` đúng (`results/pool_validation/g1_validation_error.json`). Task, nhánh và seed không đổi, chỉ bớt việc tải image cho các task không được chạy.
 - Một lô bị dừng giữa chừng chưa ghi chi phí, tối đa khoảng 0,4 USD. Vì vậy trần ghi nhận hạ xuống 33,5 USD để tổng thật vẫn < 35 USD.
 - Số seed vẫn là 4: (33,5 − 22,84) / 2,28 = 4,7, phần nguyên là 4.
+
+**Ghi chú thực thi 2** (02/11/2026, sau seed 11, **chưa mở kết quả xác nhận nào**, chỉ biết chi phí):
+- Seed 11 tốn 2,79 USD, so với ước tính 2,28 USD (ước tính dùng chi phí trung bình của C, nơi có nhiều task dễ hơn).
+- Áp lại đúng công thức của mục 3 với chi phí **đo được**: m = ⌊(33,5 − 22,84) / 2,79⌋ = **3**. Seed xác nhận là **11, 21, 31**; bỏ seed 41.
+- Đây không phải thay đổi theo kết quả: công thức không đổi, chỉ thay ước tính chi phí bằng số đo thật. Nếu chạy seed 41, nó sẽ bị dừng giữa chừng vì trần và dữ liệu bị bỏ phí.
