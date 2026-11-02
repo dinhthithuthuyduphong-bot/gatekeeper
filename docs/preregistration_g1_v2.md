@@ -67,3 +67,33 @@ Tỉ lệ `LimitsExceeded` theo nhánh; tỉ lệ bản nộp chạm file gold; 
 - Hết ngân sách giữa chừng → báo "chưa kết luận", không suy diễn.
 
 **Báo cáo kèm, không quyết định:** Z theo repo, tỉ lệ task chuyển từ không giải → giải và ngược lại (có hại?), chi phí.
+
+## Bổ sung 3 (02/11/2026; C đang chạy, 32/86 task, **chưa mở bất kỳ kết quả C nào**): thay thế Bổ sung 2
+
+@thuthuy giao: tự đánh giá G1, tự chạy, dừng nếu tổng > 35 USD. Bổ sung 2 **bị thay thế** vì có nhiều ngưỡng cảm tính (`docs/review_thresholds.md` §3). Mọi thành phần dưới đây là phương pháp đã công bố. Chỗ nào là lựa chọn giá trị thì ghi rõ.
+
+1. **Endpoint chính: resolved của SWE-bench** (Jimenez et al. 2024). Z = 1[không resolved | skill] − 1[không resolved | không skill] ∈ {−1, 0, 1}. Endpoint phụ: loss (w = 0,5), chỉ báo cáo.
+2. **Chọn (dữ liệu C, seed 1):** chọn skill có Z trung bình **< 0**, tức chỉ cần đúng hướng có ích. Không có ngưỡng độ lớn.
+3. **Xác nhận trên dữ liệu mới** (tách dữ liệu, Cox 1975): chạy lại mỗi skill được chọn và nhánh `none` trên đúng các task mà I(x) đúng, với seed 11, 21, 31, … (bước 10, để không trùng seed + 1 của đối chứng nhiễu).
+   - **Số seed m** = phần nguyên của (34 − chi phí đã ghi sau C) / (chi phí một seed cho mọi skill được chọn). Chi phí một seed = số lần chạy × chi phí trung bình/lần **đo ở C**.
+   - Nếu m < 1: bỏ skill có Z (ở C) cao nhất rồi tính lại.
+   - Không có trần m tự đặt.
+4. **Kiểm định:** một phía, H₀: skill không giúp.
+   - Thống kê: trung bình theo task của Z qua m seed.
+   - **Kiểm định hoán vị đổi dấu** (Fisher 1935; Pitman 1937): liệt kê hết 2ⁿ cách nếu n ≤ 16, nếu không thì Monte Carlo 200.000 lần với seed cố định.
+   - **Holm (1979)**, α nhóm một phía = **0,025** (tương đương hai phía 0,05), trên số skill được xác nhận.
+   - Chỉ dùng dữ liệu xác nhận.
+5. **A/A trên dữ liệu mới:** nhánh `none` seed 11 so với seed 21 (nếu m ≥ 2). **TOST** (Lakens et al. 2018), α = 0,05, biên = MDE ở mục 6. Nếu TOST không kết luận tương đương thì phán quyết là "**chưa kết luận: pipeline đáng ngờ**". Nếu m = 1 thì báo là không kiểm được.
+6. **MDE theo nguồn lực** (Lakens et al. 2018): MDE = (z₁₋α′ + z₀,₈) · √(V_UCL / n), trong đó:
+   - V_UCL = cận trên 90% (χ², Browne 1995) của phương sai Z theo task, đo trên dữ liệu xác nhận;
+   - α′ = 0,025 / (số skill được xác nhận);
+   - n = số task.
+   MDE dùng để diễn giải, không dùng làm ngưỡng phán quyết.
+7. **Phán quyết:**
+   - **G1 PASS** nếu ≥ 1 skill bị bác bỏ H₀ theo Holm **và** A/A không báo pipeline đáng ngờ.
+   - **G1 FAIL** nếu không skill nào được chọn, hoặc không skill nào bị bác bỏ. Câu phán quyết phải kèm "không có hiệu ứng ≥ MDE".
+   - Mỗi skill báo: ước lượng Z, CI 95% (bootstrap theo task), p đã hiệu chỉnh Holm, MDE, kèm endpoint phụ là loss.
+8. **Không thử thêm skill nào khác.** Hết ngân sách giữa chừng thì phán quyết là "chưa kết luận".
+9. **Giới hạn bắt buộc phải nêu:** 1 model (Flash-Lite, `reasoning_effort` low); step_limit 100 so với mặc định 250 của mini-swe-agent; 1 benchmark (SWE-bench Verified); I(x) có lift thấp (R16).
+
+Code: `scripts/analyze_g1_final.py`; test: `tests/test_g1_final.py`.
