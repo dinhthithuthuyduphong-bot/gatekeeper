@@ -196,6 +196,22 @@ def image_name(row: dict) -> str:
     return f"docker.io/swebench/sweb.eval.x86_64.{iid}:latest"
 
 
+MIRROR = "mirror.gcr.io"  # Google's public Docker Hub cache: avoids Docker Hub's anonymous 429s
+
+
+def pull_via_mirror(name: str) -> bool:
+    """Pull a docker.io image through the mirror and tag it with its docker.io name (the harness
+    and the agent look images up by that name). Same content: the mirror serves the same digest."""
+    if not name.startswith("docker.io/"):
+        return False
+    alias = f"{MIRROR}/{name.removeprefix('docker.io/')}"
+    if subprocess.run(["docker", "pull", "-q", alias], capture_output=True).returncode != 0:
+        return False
+    # the alias tag is kept: it costs no disk and keeps the image's RepoDigest (content hash,
+    # identical to Docker Hub's) for the trial log
+    return subprocess.run(["docker", "tag", alias, name], capture_output=True).returncode == 0
+
+
 def prepull(rows: list[dict], tries: int = 3) -> list[str]:
     """Pull every task image before the agents start (an implicit pull inside `docker run`
     failed with exit 125 in stage A1). Returns the images that could not be pulled."""
@@ -211,7 +227,9 @@ def prepull(rows: list[dict], tries: int = 3) -> list[str]:
             print(f"image local: {name}", flush=True)
             continue
         for k in range(tries):
-            ok = subprocess.run(["docker", "pull", "-q", name], capture_output=True).returncode == 0
+            ok = pull_via_mirror(name) or (
+                subprocess.run(["docker", "pull", "-q", name], capture_output=True).returncode == 0
+            )
             if ok:
                 break
             time.sleep(15 * (k + 1))

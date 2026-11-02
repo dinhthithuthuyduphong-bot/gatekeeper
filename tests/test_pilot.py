@@ -302,3 +302,31 @@ def test_strong_control_template_and_test_file_stripping():
     out = drop_files(model, touched_files(row["test_patch"]))
     assert "pkg/m.py" in out and "tests/test_m.py" not in out
     assert drop_files(model, set()) == model
+
+
+def test_pull_via_mirror_tags_docker_io_name(monkeypatch):
+    import importlib.util
+    from pathlib import Path
+
+    pytest.importorskip("yaml")
+    spec = importlib.util.spec_from_file_location(
+        "run_pilot", Path(__file__).parents[1] / "scripts" / "run_pilot.py"
+    )
+    rp = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rp)
+    calls = []
+
+    def fake(cmd, **kw):
+        calls.append(cmd)
+        return type("R", (), {"returncode": 0})()
+
+    monkeypatch.setattr(rp.subprocess, "run", fake)
+    assert rp.pull_via_mirror("docker.io/swebench/x:latest")
+    assert ["docker", "pull", "-q", "mirror.gcr.io/swebench/x:latest"] in calls
+    assert [
+        "docker",
+        "tag",
+        "mirror.gcr.io/swebench/x:latest",
+        "docker.io/swebench/x:latest",
+    ] in calls
+    assert not rp.pull_via_mirror("ghcr.io/other/x:latest")
