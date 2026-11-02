@@ -127,6 +127,14 @@ def main() -> int:
     ap.add_argument("--model-seed", type=int, default=None, help="replicate seed (see run_pilot)")
     ap.add_argument("--pull-retries", type=int, default=6, help="waits on a registry limit")
     ap.add_argument("--pull-wait-min", type=float, default=30.0)
+    ap.add_argument(
+        "--stop-after-min",
+        type=float,
+        default=0.0,
+        help="do not start a batch (or a registry wait) after this many minutes; 0 = no limit. "
+        "Lets a time-limited host stop cleanly between batches instead of killing one mid-run",
+    )
+    ap.add_argument("--batch-min", type=float, default=25.0, help="expected minutes per batch")
     a = ap.parse_args()
 
     skills = [s for s in a.skills.split(",") if s]
@@ -140,8 +148,19 @@ def main() -> int:
     k = len(parts)
     n_batches = 0
     pull_waits = 0
+    t0 = time.monotonic()
+
+    def minutes_left() -> float:
+        return a.stop_after_min - (time.monotonic() - t0) / 60 if a.stop_after_min else 1e9
+
     while todo:
         if a.max_batches and n_batches >= a.max_batches:
+            break
+        if minutes_left() < a.batch_min:
+            print(
+                f"[stop] time: {minutes_left():.0f} min left < one batch; rerun to resume",
+                flush=True,
+            )
             break
         free_gb = shutil.disk_usage("/").free / 1e9
         size = max(1, min(a.batch, int((free_gb - DISK_RESERVE_GB) // GB_PER_TASK)))
@@ -190,6 +209,9 @@ def main() -> int:
         if a.model_seed is not None:
             cmd += ["--model-seed", str(a.model_seed)]
         rc = subprocess.run(cmd, check=False).returncode
+        if rc == EX_TEMPFAIL and minutes_left() < a.pull_wait_min + a.batch_min:
+            print("[stop] registry limit and not enough time to wait; rerun to resume", flush=True)
+            break
         if rc == EX_TEMPFAIL and pull_waits < a.pull_retries:  # registry limit: nothing ran
             pull_waits += 1
             print(

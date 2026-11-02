@@ -204,3 +204,19 @@ def test_registry_limit_waits_and_retries(tmp_path, monkeypatch):
     monkeypatch.setattr(sys, "argv", argv + ["--dataset-file", "d"])
     bp.main()
     assert len(calls) == 2 and (res / "g-p00.json").exists()
+
+
+def test_stops_cleanly_when_time_is_short(tmp_path, monkeypatch):
+    res = tmp_path / "pilot"
+    res.mkdir()
+    monkeypatch.setattr(bp, "RESULTS", res)
+    pool = tmp_path / "summary.json"
+    pool.write_text(json.dumps({"usable": ["a", "b"]}))
+    called = []
+    monkeypatch.setattr(bp.subprocess, "run", lambda cmd, **kw: called.append(cmd))
+    monkeypatch.setattr(bp.shutil, "disk_usage", lambda p: type("U", (), {"free": 100e9})())
+    argv = ["x", "--name", "g", "--model", "m", "--skills", "s.json", "--tasks-from", str(pool)]
+    argv += ["--dataset-file", "d", "--stop-after-min", "10", "--batch-min", "25"]
+    monkeypatch.setattr(sys, "argv", argv)
+    bp.main()
+    assert called == []  # less time left than one batch: nothing started
