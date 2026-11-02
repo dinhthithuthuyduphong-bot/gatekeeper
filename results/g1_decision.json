@@ -1,0 +1,52 @@
+{
+  "effect": 0.1,
+  "skills": {},
+  "noise_control": {
+    "n": 38,
+    "mean": -0.020511213932266563,
+    "ci90": [
+      -0.11435053981106615,
+      0.08182796735428313
+    ],
+    "ok": true
+  },
+  "positive_control": {
+    "n": 20,
+    "mean": -0.06643835616438357,
+    "ci90": [
+      -0.13333333333333333,
+      0.00022831050228310778
+    ],
+    "ok": false
+  },
+  "verdict": "STOP: positive control too weak; the pilot cannot detect large effects",
+  "stage_b": "g1-b2",
+  "stage_c": null,
+  "usage": {
+    "stage_b": {
+      "none": {
+        "runs": 38,
+        "usd": 1.3537453249999998,
+        "solved": 18,
+        "scored": 38,
+        "usd_per_run": 0.0356248769736842
+      },
+      "control-none-seed1": {
+        "runs": 38,
+        "usd": 1.3511003249999998,
+        "solved": 19,
+        "scored": 38,
+        "usd_per_run": 0.03555527171052631
+      },
+      "control-oracle-files": {
+        "runs": 38,
+        "usd": 1.236893325,
+        "solved": 19,
+        "scored": 38,
+        "usd_per_run": 0.032549824342105266
+      }
+    },
+    "stage_c": null
+  },
+  "spent_usd": 3.94
+}

@@ -83,6 +83,20 @@ python scripts/analyze_g1.py --stage-b g1-b
 - 38% lần chạy nhánh gốc chạm trần 60 bước và **không nộp bản sửa** (patch rỗng); phần lớn các cặp "lật" là chạm trần ở một nhánh, nộp ở nhánh kia (C1 trong `docs/audit_pilot.md`).
 - Chi phí 0,035 USD/lần (cao hơn A vì nhiều task dài hơn). Tổng pilot sau B: 6,49 USD; B chạy lại (`g1-b2`) thêm ~4 USD.
 
+### Kết quả giai đoạn B lần 2 (`g1-b2`, seed đã sửa, 02/11/2026, 3,94 USD) — **STOP, chưa chạy C**
+
+| Nhánh | n | Z trung bình | CI 90% | Giải được |
+| --- | --- | --- | --- | --- |
+| không skill (seed 1) | 38 | — | — | 18/38 (47%) |
+| đối chứng nhiễu (seed 2) | 38 | −0,021 | [−0,11; +0,08] ✅ chứa 0 | 19/38 |
+| gợi ý đúng file (seed 1) | 38 | −0,017 | — | 19/38 |
+| gợi ý đúng file, chỉ task nhánh gốc thất bại | 20 | −0,066 | [−0,13; +0,0002] ❌ | 2/20 |
+
+- **Pairing và seed nay đúng**: đối chứng nhiễu ≈ 0, 0 lỗi hạ tầng trên 114 lần chạy.
+- Quy tắc đặt trước báo **STOP: đối chứng dương quá yếu** → không chạy C.
+- Phân tích thêm (thăm dò, không phải quy tắc): trên chính 20 task đó, đối chứng **nhiễu** giải được 5, gợi ý file chỉ 2. Gợi ý file và đối chứng nhiễu giải gần như cùng tập task (16 chung, 3 chỉ gợi ý giải, 3 chỉ nhiễu giải). Nghĩa là (1) **gợi ý tên file không giúp Flash-Lite** (agent tự tìm đúng file; cái khó là sửa đúng), và (2) quy tắc A11 thiên lệch do hồi quy về trung bình (A19).
+- Nhiễu giữa hai lần chạy là lớn: ~1/4 cặp lật kết quả chỉ vì đổi seed → thí nghiệm chính bắt buộc nhiều seed/cặp.
+
 ## 3. Giai đoạn C — 4 skill trên task chúng kích hoạt (phần còn lại, giữ 10% dự phòng)
 
 | name | model | skills | n | pool_tag | budget_usd |
