@@ -97,6 +97,18 @@ python scripts/analyze_g1.py --stage-b g1-b
 - Phân tích thêm (thăm dò, không phải quy tắc): trên chính 20 task đó, đối chứng **nhiễu** giải được 5, gợi ý file chỉ 2. Gợi ý file và đối chứng nhiễu giải gần như cùng tập task (16 chung, 3 chỉ gợi ý giải, 3 chỉ nhiễu giải). Nghĩa là (1) **gợi ý tên file không giúp Flash-Lite** (agent tự tìm đúng file; cái khó là sửa đúng), và (2) quy tắc A11 thiên lệch do hồi quy về trung bình (A19).
 - Nhiễu giữa hai lần chạy là lớn: ~1/4 cặp lật kết quả chỉ vì đổi seed → thí nghiệm chính bắt buộc nhiều seed/cặp.
 
+### Kết quả giai đoạn B3 (`g1-b3`, quy tắc v2 đăng ký trước, 100 bước, 5,14 USD) — **ĐẠT, chạy C**
+
+| Kiểm tra | n | Z trung bình | CI 90% | Kết quả |
+| --- | --- | --- | --- | --- |
+| Nhiễu: seed 2 − seed 1 (không skill) | 38 | +0,062 | [−0,001; +0,135] | ✅ chứa 0 (sát mép) |
+| Độ nhạy: đối chứng dương mạnh − nhiễu | 38 | **−0,125** | [−0,22; −0,03] | ✅ ≤ −0,10 và cận trên < 0 |
+
+- Tỉ lệ giải: không skill 22/39, nhiễu 20/39, **đối chứng dương mạnh 28/38**. Có 9 task chỉ đối chứng dương giải được, 1 task chỉ nhánh nhiễu giải được.
+- **Trần 100 bước gần như hết chạm trần**: `LimitsExceeded` còn 1/39 ở mỗi nhánh (trước là ~30% với 60 bước) → C1 coi như đã giải quyết.
+- Chi phí 0,042–0,045 USD/lần. Tổng pilot sau B3: **15,57 USD**.
+- Ghi chú: một task bị lỗi hạ tầng ở lượt đầu được chạy lại (A18), nên bảng `usage` đếm 39 lần chạy; phép ghép cặp dùng 38 task, không trùng.
+
 ## 3. Giai đoạn C — 4 skill trên task chúng kích hoạt (phần còn lại, giữ 10% dự phòng)
 
 | name | model | skills | n | pool_tag | budget_usd |

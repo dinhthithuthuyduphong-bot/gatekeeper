@@ -678,6 +678,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 02/11/2026 | Rà soát lý thuyết + lỗi sau B (miễn phí): công thức loss/Z/CI đúng (CI bootstrap khớp CI t); hai lần STOP do **thiết kế kiểm tra** (D1 hồi quy về trung bình, D2 đối chứng dương yếu, D3 báo động giả 10%), không phải lỗi tính toán; cấu hình giống hệt vẫn lật 8/37 task (seed không làm quỹ đạo tất định); nhiễu SD 0,36/cặp → C 1 seed thiếu power. Chờ @thuthuy quyết | `docs/review_pilot_b.md` |
 | 02/11/2026 | @thuthuy duyệt phương án 1 → **đăng ký trước quy tắc v2** (đối chứng dương mạnh so với đối chứng nhiễu trên mọi task; CI phải < 0), đối chứng dương mạnh `control-oracle-tests` (file + hàm + test + test_patch), step_limit 100, bỏ phần sửa file test khỏi bản nộp của mọi nhánh; commit **trước** khi chạy `g1-b3` | `docs/preregistration_g1_v2.md`, `configs/skills/control-oracle-tests.json` |
 | 02/11/2026 | @thuthuy nâng trần pilot lên **30 USD** (đến đó thì dừng chờ quyết định); đăng ký trước giai đoạn C (1 seed, 100 bước, trần ghi nhận 29 USD) **trước khi** có kết quả B3 | `docs/preregistration_g1_v2.md` (phần bổ sung) |
+| 02/11/2026 | **B3 ĐẠT** theo quy tắc v2 (5,14 USD, tổng 15,57 USD): nhiễu +0,062 CI [−0,001; +0,135] chứa 0; đối chứng dương mạnh −0,125 CI [−0,22; −0,03]; 100 bước → chạm trần còn 1/39. Tải image qua `mirror.gcr.io` (hết chờ 429). **Giai đoạn C đã tự chạy** | `results/pilot/g1-b3.json`, `results/g1_decision_b3.json` |
 
 ---
 
