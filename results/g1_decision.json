@@ -1,6 +1,43 @@
 {
   "effect": 0.1,
-  "skills": {},
+  "skills": {
+    "null-guard": {
+      "n": 25,
+      "mean": 0.026717363751584285,
+      "ci90": [
+        -0.05328263624841571,
+        0.10671736375158428
+      ],
+      "promising": false
+    },
+    "type-guard": {
+      "n": 32,
+      "mean": 0.06165890269151138,
+      "ci90": [
+        0.018310041407867496,
+        0.12415890269151138
+      ],
+      "promising": false
+    },
+    "exception-handling": {
+      "n": 25,
+      "mean": -0.01913554437131673,
+      "ci90": [
+        -0.07358299995698371,
+        0.015941798941798875
+      ],
+      "promising": false
+    },
+    "validation-error": {
+      "n": 32,
+      "mean": 0.0087056904839828,
+      "ci90": [
+        -0.052458664592695006,
+        0.07118819895198474
+      ],
+      "promising": false
+    }
+  },
   "noise_control": {
     "n": 38,
     "mean": 0.06211835642261021,
@@ -19,10 +56,10 @@
     ],
     "ok": true
   },
-  "verdict": "controls OK; run stage C",
+  "verdict": "G1 FAIL: no skill with mean Z <= -0.10 and CI below 0",
   "rule": "v2",
   "stage_b": "g1-b3",
-  "stage_c": null,
+  "stage_c": "g1-c",
   "usage": {
     "stage_b": {
       "none": {
@@ -47,7 +84,43 @@
         "usd_per_run": 0.0446661185897436
       }
     },
-    "stage_c": null
+    "stage_c": {
+      "none": {
+        "runs": 88,
+        "usd": 3.0984948500000002,
+        "solved": 60,
+        "scored": 88,
+        "usd_per_run": 0.03521016875
+      },
+      "null-guard": {
+        "runs": 25,
+        "usd": 0.8540794000000002,
+        "solved": 20,
+        "scored": 25,
+        "usd_per_run": 0.034163176
+      },
+      "type-guard": {
+        "runs": 32,
+        "usd": 1.037943,
+        "solved": 22,
+        "scored": 32,
+        "usd_per_run": 0.03243571875
+      },
+      "exception-handling": {
+        "runs": 25,
+        "usd": 1.00905755,
+        "solved": 13,
+        "scored": 25,
+        "usd_per_run": 0.040362302
+      },
+      "validation-error": {
+        "runs": 34,
+        "usd": 1.2706279750000002,
+        "solved": 19,
+        "scored": 32,
+        "usd_per_run": 0.03737141102941177
+      }
+    }
   },
-  "spent_usd": 5.14
+  "spent_usd": 12.41
 }

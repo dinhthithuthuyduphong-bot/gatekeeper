@@ -16,7 +16,14 @@
     "g1-c-p12",
     "g1-c-p13",
     "g1-c-p14",
-    "g1-c-p15"
+    "g1-c-p15",
+    "g1-c-p16",
+    "g1-c-p17",
+    "g1-c-p18",
+    "g1-c-p19",
+    "g1-c-p20",
+    "g1-c-p21",
+    "g1-c-p22"
   ],
   "skills": {
     "null-guard": {
@@ -115,12 +122,42 @@
           "instance_id": "matplotlib__matplotlib-26291",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-12973",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13135",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13779",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-14710",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-7454",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-9229",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.03515442598892669,
-      "n": 19,
-      "solve_rate_with": 0.8421052631578947,
-      "solve_rate_without": 0.8421052631578947
+      "mean_Z": 0.026717363751584285,
+      "n": 25,
+      "solve_rate_with": 0.8,
+      "solve_rate_without": 0.8
     },
     "type-guard": {
       "pairs": [
@@ -218,12 +255,77 @@
           "instance_id": "scikit-learn__scikit-learn-10297",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-12585",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-14496",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-14710",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-25747",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-25973",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-7889",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-13091",
+          "loss_with": 0.7116104868913857,
+          "loss_without": 0.7116104868913857
+        },
+        {
+          "instance_id": "sympy__sympy-13877",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-14711",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-15599",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-16792",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-17139",
+          "loss_with": 0.3333333333333333,
+          "loss_without": 0.3333333333333333
+        },
+        {
+          "instance_id": "sympy__sympy-17655",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.06875885365587882,
-      "n": 19,
-      "solve_rate_with": 0.7894736842105263,
-      "solve_rate_without": 0.8947368421052632
+      "mean_Z": 0.06165890269151138,
+      "n": 32,
+      "solve_rate_with": 0.6875,
+      "solve_rate_without": 0.78125
     },
     "exception-handling": {
       "pairs": [
@@ -311,12 +413,52 @@
           "instance_id": "pytest-dev__pytest-5787",
           "loss_with": 0.005420054200542006,
           "loss_without": 0.6829268292682927
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13142",
+          "loss_with": 0.0,
+          "loss_without": 0.006172839506172839
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-25747",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8475",
+          "loss_with": 0.05882352941176471,
+          "loss_without": 0.05882352941176471
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8638",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-9602",
+          "loss_with": 0.6814814814814815,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-12481",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-17655",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-18211",
+          "loss_with": 0.0,
+          "loss_without": 0.0
         }
       ],
-      "mean_Z": -0.028648857917150602,
-      "n": 17,
-      "solve_rate_with": 0.5882352941176471,
-      "solve_rate_without": 0.6470588235294118
+      "mean_Z": -0.01913554437131673,
+      "n": 25,
+      "solve_rate_with": 0.52,
+      "solve_rate_without": 0.52
     },
     "validation-error": {
       "pairs": [
@@ -434,57 +576,100 @@
           "instance_id": "pytest-dev__pytest-5787",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6829268292682927
+        },
+        {
+          "instance_id": "django__django-16485",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13135",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-25747",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-12481",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-13877",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-15809",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-17139",
+          "loss_with": 0.0,
+          "loss_without": 0.3333333333333333
+        },
+        {
+          "instance_id": "sympy__sympy-22714",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-24443",
+          "loss_with": 0.0,
+          "loss_without": 0.0
         }
       ],
-      "mean_Z": 0.02660501864438187,
-      "n": 23,
-      "solve_rate_with": 0.4782608695652174,
-      "solve_rate_without": 0.43478260869565216
+      "mean_Z": 0.008705690483982802,
+      "n": 32,
+      "solve_rate_with": 0.59375,
+      "solve_rate_without": 0.53125
     }
   },
   "usage": {
     "none": {
-      "runs": 60,
-      "usd": 2.0792417750000003,
-      "solved": 43,
-      "scored": 60,
-      "usd_per_run": 0.034654029583333336
+      "runs": 88,
+      "usd": 3.0984948500000002,
+      "solved": 60,
+      "scored": 88,
+      "usd_per_run": 0.03521016875
     },
     "null-guard": {
-      "runs": 19,
-      "usd": 0.5917939250000002,
-      "solved": 16,
-      "scored": 19,
-      "usd_per_run": 0.031147048684210536
+      "runs": 25,
+      "usd": 0.8540794000000002,
+      "solved": 20,
+      "scored": 25,
+      "usd_per_run": 0.034163176
     },
     "type-guard": {
-      "runs": 19,
-      "usd": 0.6257747,
-      "solved": 15,
-      "scored": 19,
-      "usd_per_run": 0.03293551052631579
+      "runs": 32,
+      "usd": 1.037943,
+      "solved": 22,
+      "scored": 32,
+      "usd_per_run": 0.03243571875
     },
     "exception-handling": {
-      "runs": 17,
-      "usd": 0.5806089,
-      "solved": 10,
-      "scored": 17,
-      "usd_per_run": 0.034153464705882354
+      "runs": 25,
+      "usd": 1.00905755,
+      "solved": 13,
+      "scored": 25,
+      "usd_per_run": 0.040362302
     },
     "validation-error": {
-      "runs": 25,
-      "usd": 0.9950078,
-      "solved": 11,
-      "scored": 23,
-      "usd_per_run": 0.039800312
+      "runs": 34,
+      "usd": 1.2706279750000002,
+      "solved": 19,
+      "scored": 32,
+      "usd_per_run": 0.03737141102941177
     }
   },
   "infra_failures": {
-    "validation-error": {
-      "django__django-16485": "harness: no report for a non-empty patch"
-    }
+    "validation-error": {}
   },
-  "spent_usd": 4.8724,
+  "spent_usd": 7.2702,
   "instances": [
     "astropy__astropy-13977",
     "astropy__astropy-14365",
@@ -544,7 +729,34 @@
     "pylint-dev__pylint-6903",
     "pytest-dev__pytest-5631",
     "pytest-dev__pytest-5787",
-    "scikit-learn__scikit-learn-10297"
+    "scikit-learn__scikit-learn-10297",
+    "scikit-learn__scikit-learn-12585",
+    "scikit-learn__scikit-learn-12973",
+    "scikit-learn__scikit-learn-13135",
+    "scikit-learn__scikit-learn-13142",
+    "scikit-learn__scikit-learn-13779",
+    "scikit-learn__scikit-learn-14496",
+    "scikit-learn__scikit-learn-14710",
+    "scikit-learn__scikit-learn-25747",
+    "scikit-learn__scikit-learn-25973",
+    "sphinx-doc__sphinx-7454",
+    "sphinx-doc__sphinx-7889",
+    "sphinx-doc__sphinx-8475",
+    "sphinx-doc__sphinx-8638",
+    "sphinx-doc__sphinx-9229",
+    "sphinx-doc__sphinx-9602",
+    "sympy__sympy-12481",
+    "sympy__sympy-13091",
+    "sympy__sympy-13877",
+    "sympy__sympy-14711",
+    "sympy__sympy-15599",
+    "sympy__sympy-15809",
+    "sympy__sympy-16792",
+    "sympy__sympy-17139",
+    "sympy__sympy-17655",
+    "sympy__sympy-18211",
+    "sympy__sympy-22714",
+    "sympy__sympy-24443"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
