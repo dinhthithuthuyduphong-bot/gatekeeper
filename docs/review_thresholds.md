@@ -110,3 +110,31 @@ Rà soát từ đầu dự án đến giờ: lý thuyết, kế hoạch, dữ li
 - Cấu hình SWE-bench mặc định của mini-swe-agent 2.4.6: `step_limit: 250`, `cost_limit: 3`.
 
 Các tài liệu kinh điển không kèm link được trích theo hiểu biết, chưa mở bản gốc trong phiên này.
+
+## 5. Phân tích độ nhạy: đổi con số thì kết luận có đổi không (02/11/2026)
+
+Tính lại trên dữ liệu thật (`results/pilot/g1-b3.json`, `g1-c.json`). Kết quả xác nhận **chưa mở** khi viết mục này.
+
+| Con số | Vì sao chọn | Nếu chọn số khác | Kết luận có đổi? |
+| --- | --- | --- | --- |
+| **CI 90% cho kiểm A/A ở B3** | Khớp với các CI 90% còn lại trong pilot | CI 80%: [+0,008; +0,118], **không chứa 0 → STOP**. CI 90%, 95%, 99%: chứa 0 → đạt | ⚠️ **Có.** "A/A đạt" ở B3 phụ thuộc vào mức CI |
+| **Kiểm A/A bằng "CI chứa 0"** thay vì TOST | Đơn giản (đã đăng ký trước cho B3) | TOST trên resolved, n = 38: chỉ chứng minh tương đương với biên ±0,20 (p = 0,014). Với biên ±0,15 thì p = 0,071, chưa đạt | ⚠️ Với 38 task, dữ liệu **không loại trừ được** độ lệch của thước đo tới khoảng 0,15 |
+| **Ngưỡng −0,10 cho đối chứng dương ở B3** | ≈ 15 điểm % tỉ lệ giải | Đạt với mọi ngưỡng ≤ 0,125. Ngưỡng 0,15 thì trượt | Ổn định trong 0–0,125 |
+| **CI 90% cho đối chứng dương** | Như trên | 80% / 95%: đạt; 99%: trượt (cận trên +0,024) | Ổn định tới 95% |
+| Endpoint loss (w = 0,5) so với **resolved** | Theo paper | Đối chứng dương trên resolved: −0,211, hoán vị p = 0,0105 | Không đổi: đạt mạnh hơn |
+| **Chọn skill "Z < 0"** | Chỉ chọn skill có tín hiệu đúng hướng; Z = 0 là không có tín hiệu | "Z ≤ 0" thêm null-guard và exception-handling (Z = 0) → 3 skill, mỗi skill khoảng 1 seed, Holm chặt hơn | Có đổi thiết kế. Thêm hai skill không có tín hiệu làm **giảm** power cho ứng viên duy nhất |
+| Seed 11 / 21 / 31 (bước 10) | Tránh trùng seed + 1 của đối chứng nhiễu | Bất kỳ seed nào khác nhau | Không (tính hợp lệ không phụ thuộc giá trị seed) |
+| α một phía 0,025 | ≡ hai phía 0,05 (quy ước) | 0,05 một phía | Chỉ đổi nếu p nằm trong (0,025; 0,05) |
+| Power 80%, độ phủ Browne 90% | Quy ước (Cohen; Browne đề xuất 80–90%) | MDE thay đổi khoảng 10–20% | Không (MDE chỉ để diễn giải) |
+| Monte Carlo 200.000 lần, liệt kê hết khi n ≤ 16 | Độ chính xác khoảng ±0,0003 tại p = 0,025 | 10⁶ lần | Không |
+| step_limit 100 (mặc định của harness là 250) | Chi phí; dữ liệu bão hoà | 250: chỉ 1/39 lần chạy chạm trần 100 | Gần như không (tối đa 1 lần chạy mỗi nhánh) |
+| cost_limit 0,20 USD | Chưa bao giờ chạm (tối đa 0,129 USD) | Bất kỳ giá trị ≥ 0,13 | Không |
+| Flash-Lite, `reasoning_effort` low | Chi phí | Model mạnh hơn: tỉ lệ giải cao hơn, hiệu ứng skill có thể khác | Chưa biết. Đây là giới hạn về khả năng tổng quát hoá, không phải về tính hợp lệ |
+| w = 0,5 | Paper | Chỉ ảnh hưởng endpoint phụ (loss) | Không ảnh hưởng phán quyết (dùng resolved) |
+| c = 0,5, prior, chia α 70/20/10, dãy 6/(π²k²) | Loại V | Đúng với mọi giá trị; chỉ đổi power | Không về tính hợp lệ |
+| Kịch bản mô phỏng (p₊ = 0,10…) → "219 trial" | Minh hoạ | Đổi kịch bản thì con số đổi | Con số đổi; kết luận định tính (không đủ task cho trial không lặp) giữ nguyên |
+| θ (thí nghiệm chính) | **Chưa chọn** | Số trial cần tỉ lệ khoảng 1/(STR + θ)² | Quyết định lớn nhất, phải lý giải theo SESOI |
+
+**Hệ quả cho phán quyết G1:**
+- Mục 5 của Bổ sung 3 dùng TOST cho A/A với biên = MDE. Với khoảng 32 task, MDE ước khoảng 0,15–0,2, và TOST chỉ đạt khi độ lệch thật ≈ 0. Vì vậy **"chưa kết luận: pipeline đáng ngờ" là một khả năng thật**, không phải chỉ có PASS hoặc FAIL. Quy tắc đã khóa trước nên vẫn áp đúng như vậy.
+- Kiểm A/A ở B3 (CI chứa 0) **yếu hơn** chuẩn TOST. Báo cáo cuối phải nói rõ: thước đo được chứng minh **đủ nhạy** (đối chứng dương chắc chắn), nhưng độ **sạch** chỉ được chứng minh trong biên khoảng ±0,2.
