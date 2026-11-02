@@ -170,8 +170,8 @@ def test_positive_control_and_noise_control():
     assert "pkg/m.py" in arm_rows(rows, pos)[0]["problem_statement"]
     noise = Skill.load("configs/skills/control-none-seed1.json")
     assert arm_rows(rows, noise)[0]["problem_statement"] == "Bug"
-    c = arm_config(noise, "vertex_ai/x", {"temperature": 0.0, "seed": 0})
-    assert c["model"]["model_kwargs"]["seed"] == 1
+    c = arm_config(noise, "vertex_ai/x", {"temperature": 0.0, "seed": 1})
+    assert c["model"]["model_kwargs"]["seed"] == 2
     c7 = arm_config(noise, "vertex_ai/x", {"seed": 7})  # replicate with run seed 7
     assert c7["model"]["model_kwargs"]["seed"] == 8
 
@@ -271,3 +271,13 @@ def test_score_arm_rescores_and_flags_harness_infra(tmp_path, monkeypatch):
     assert r["dead"] is rp.HARNESS_INFRA  # excluded, never scored as unsolved
     assert r["empty"] is None  # agent did not submit: legitimately unsolved
     assert calls == [("run", ["dead", "empty", "flaky", "ok"]), ("run-r1", ["dead", "flaky"])]
+
+
+def test_seed_zero_is_rejected():
+    """Vertex AI drops seed=0 (unseeded sampling) while seed>=1 is deterministic (stage B bug)."""
+    with pytest.raises(ValueError):
+        arm_config(None, "vertex_ai/x", {"seed": 0})
+    assert arm_config(None, "vertex_ai/x", {"seed": 1})["model"]["model_kwargs"]["seed"] == 1
+    specs = load_model_specs("configs/models/vertex_gemini.json")
+    for spec in specs.values():  # every configured model can actually build an arm
+        arm_config(None, spec.litellm_name, spec.kwargs)

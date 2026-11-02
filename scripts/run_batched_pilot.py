@@ -33,7 +33,7 @@ def pilot_spent_total(exclude_prefix: str | None = None) -> float:
     total = 0.0
     for f in RESULTS.rglob("*.json"):
         d = json.loads(f.read_text())
-        if d.get("merged_from"):
+        if d.get("merged_from") or "instances" not in d:  # merged files / analysis outputs
             continue
         if exclude_prefix and f.stem == exclude_prefix:
             continue
@@ -73,6 +73,8 @@ def merge(name: str, parts: list[Path]) -> dict:
             n = u.get("runs") or 0
             agg["runs"] += n
             agg["usd"] += (u.get("usd_per_run") or 0.0) * n
+            agg["solved"] += int(u.get("solved") or 0)
+            agg["scored"] += int(u.get("scored") or 0)
     for agg in out["usage"].values():
         agg["usd_per_run"] = agg["usd"] / agg["runs"] if agg["runs"] else None
     # solve rates recomputed from pairs (no-skill arm = loss_without)

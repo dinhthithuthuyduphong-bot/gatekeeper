@@ -114,6 +114,8 @@ def usage_summary(u: dict[str, dict], loss: dict[str, float]) -> dict:
         "cached_share": tc / tin if tin else None,
         "api_calls_per_run": sum(int(v.get("api_calls", 0)) for v in runs) / n if n else None,
         "solve_rate": sum(1 for x in loss.values() if x == 0.0) / len(loss) if loss else None,
+        "solved": sum(1 for x in loss.values() if x == 0.0),
+        "scored": len(loss),
     }
 
 

@@ -90,7 +90,7 @@ def test_cap_stops_before_overspending(tmp_path, monkeypatch):
     res = tmp_path / "results" / "pilot"
     res.mkdir(parents=True)
     monkeypatch.setattr(bp, "RESULTS", res)
-    (res / "old.json").write_text(json.dumps({"spent_usd": 19.9}))
+    (res / "old.json").write_text(json.dumps({"instances": ["z"], "spent_usd": 19.9}))
     pool = tmp_path / "summary.json"
     pool.write_text(json.dumps({"usable": ["a", "b"]}))
     called = []
@@ -117,3 +117,23 @@ def test_cap_stops_before_overspending(tmp_path, monkeypatch):
     )
     bp.main()
     assert called == []  # 19.9 + worst batch > 20: nothing is run
+
+
+def test_spend_ignores_analysis_files_and_merge_counts(tmp_path, monkeypatch):
+    res = tmp_path / "pilot"
+    (res / "invalid").mkdir(parents=True)
+    monkeypatch.setattr(bp, "RESULTS", res)
+    part = {
+        "instances": ["a", "b"],
+        "spent_usd": 0.5,
+        "skills": {"s": {"pairs": [{"instance_id": "a", "loss_with": 0.0, "loss_without": 1.0}]}},
+        "usage": {"none": {"runs": 2, "usd_per_run": 0.1, "solved": 1, "scored": 2}},
+    }
+    (res / "g-p00.json").write_text(json.dumps(part))
+    (res / "invalid" / "old.json").write_text(json.dumps({**part, "spent_usd": 1.0}))
+    # analysis output carries spent_usd too, but no instances: must not be double counted
+    (res / "invalid" / "g1_decision.json").write_text(json.dumps({"spent_usd": 3.0}))
+    assert bp.pilot_spent_total() == 1.5
+    m = bp.merge("g", [res / "g-p00.json"])
+    assert m["usage"]["none"]["solved"] == 1 and m["usage"]["none"]["scored"] == 2
+    assert bp.pilot_spent_total() == 1.5  # merged file not counted either

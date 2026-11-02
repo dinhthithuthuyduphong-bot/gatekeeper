@@ -1,5 +1,5 @@
 {
-  "_comment": "Gemini via Vertex AI through LiteLLM. IDs and prices taken from LiteLLM 1.106.6's bundled price table (model_prices_and_context_window_backup.json), 2026-11-02 -- NOT from Google's documentation. Confirm in Vertex AI Model Garden / pricing before a paid run; 3.8-flash may be an introductory price until 2026-12-31 (third-party pricing guides say $1.50/$7.50 afterwards). Access tested 2026-11-02 with the gatekeeper-pilot service account: all three models answer on location 'global' (404 on us-central1). Default Gemini 3.8 Flash thinking used ~11x more output tokens on a short prompt; reasoning_effort 'low' keeps the answer and cuts cost ~11x.",
+  "_comment": "Gemini via Vertex AI through LiteLLM. IDs and prices taken from LiteLLM 1.106.6's bundled price table (model_prices_and_context_window_backup.json), 2026-11-02 -- NOT from Google's documentation. Confirm in Vertex AI Model Garden / pricing before a paid run; 3.8-flash may be an introductory price until 2026-12-31 (third-party pricing guides say $1.50/$7.50 afterwards). Access tested 2026-11-02 with the gatekeeper-pilot service account: all three models answer on location 'global' (404 on us-central1). Default Gemini 3.8 Flash thinking used ~11x more output tokens on a short prompt; reasoning_effort 'low' keeps the answer and cuts cost ~11x. SEED: Vertex treats seed=0 as UNSET (proto3 default; tested 2026-11-02: two seed-0 calls differ, two seed-1 calls are identical), so seeds start at 1; arm_config rejects seed 0.",
   "_verified": false,
   "_source": "litellm==1.106.6 bundled price table",
   "_env": [
@@ -15,7 +15,7 @@
       "usd_per_mtok_out": 3.75,
       "kwargs": {
         "reasoning_effort": "low",
-        "seed": 0,
+        "seed": 1,
         "drop_params": true
       }
     },
@@ -25,7 +25,7 @@
       "usd_per_mtok_cached": 0.025,
       "usd_per_mtok_out": 1.5,
       "kwargs": {
-        "seed": 0,
+        "seed": 1,
         "drop_params": true
       }
     },
@@ -36,7 +36,7 @@
       "usd_per_mtok_out": 12.0,
       "kwargs": {
         "reasoning_effort": "low",
-        "seed": 0,
+        "seed": 1,
         "drop_params": true
       }
     }

@@ -144,6 +144,10 @@ def arm_config(
         kwargs.update(skill.procedure["model_kwargs"])
     if skill and skill.procedure.get("seed_offset"):  # noise control relative to the run's seed
         kwargs["seed"] = int(kwargs.get("seed", 0)) + int(skill.procedure["seed_offset"])
+    if "seed" in kwargs and int(kwargs["seed"]) == 0:
+        # Vertex AI drops seed=0 (proto3 default) -> unseeded sampling, while seed>=1 is
+        # deterministic: arms would differ in HOW they sample, not only in the skill (stage B bug).
+        raise ValueError("seed 0 means 'unset' on Vertex AI; use seeds >= 1")
     model: dict[str, Any] = {"model_name": model_name, "model_kwargs": kwargs}
     if model_class:
         model["model_class"] = model_class
