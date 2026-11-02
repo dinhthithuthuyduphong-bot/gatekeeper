@@ -137,3 +137,70 @@ def test_spend_ignores_analysis_files_and_merge_counts(tmp_path, monkeypatch):
     m = bp.merge("g", [res / "g-p00.json"])
     assert m["usage"]["none"]["solved"] == 1 and m["usage"]["none"]["scored"] == 2
     assert bp.pilot_spent_total() == 1.5  # merged file not counted either
+
+
+def test_infra_failed_tasks_are_rerun_and_replaced(tmp_path, monkeypatch):
+    res = tmp_path / "pilot"
+    res.mkdir()
+    monkeypatch.setattr(bp, "RESULTS", res)
+
+    def pair(i, lw):
+        return {"instance_id": i, "loss_with": lw, "loss_without": 0.5}
+
+    (res / "g-p00.json").write_text(
+        json.dumps(
+            {
+                "instances": ["a", "b"],
+                "spent_usd": 0.1,
+                "infra_failures": {"s": {"b": "harness"}},
+                "skills": {"s": {"pairs": [pair("a", 0.0)]}, "t": {"pairs": [pair("b", 1.0)]}},
+            }
+        )
+    )
+    assert bp.done_tasks([res / "g-p00.json"]) == {"a"}  # b is re-run
+    (res / "g-p01.json").write_text(
+        json.dumps(
+            {
+                "instances": ["b"],
+                "spent_usd": 0.1,
+                "skills": {"s": {"pairs": [pair("b", 0.0)]}, "t": {"pairs": [pair("b", 0.0)]}},
+            }
+        )
+    )
+    m = bp.merge("g", [res / "g-p00.json", res / "g-p01.json"])
+    assert m["instances"] == ["a", "b"]
+    assert sorted(p["instance_id"] for p in m["skills"]["t"]["pairs"]) == ["b"]  # no duplicate
+    assert m["skills"]["t"]["pairs"][0]["loss_with"] == 0.0  # latest part wins
+    assert m["skills"]["s"]["n"] == 2 and not m["infra_failures"]["s"]
+
+
+def test_registry_limit_waits_and_retries(tmp_path, monkeypatch):
+    res = tmp_path / "pilot"
+    res.mkdir()
+    monkeypatch.setattr(bp, "RESULTS", res)
+    pool = tmp_path / "summary.json"
+    pool.write_text(json.dumps({"usable": ["a"]}))
+    calls = []
+
+    def fake_run(cmd, **kw):
+        class R:
+            returncode = 0
+
+        if "scripts/run_pilot.py" in cmd:
+            calls.append(cmd)
+            if len(calls) == 1:
+                R.returncode = bp.EX_TEMPFAIL  # first attempt: images not pullable
+            else:
+                name = cmd[cmd.index("--name") + 1]
+                (res / f"{name}.json").write_text(
+                    json.dumps({"instances": ["a"], "spent_usd": 0.0, "skills": {}})
+                )
+        return R()
+
+    monkeypatch.setattr(bp.subprocess, "run", fake_run)
+    monkeypatch.setattr(bp.time, "sleep", lambda s: None)
+    monkeypatch.setattr(bp.shutil, "disk_usage", lambda p: type("U", (), {"free": 100e9})())
+    argv = ["x", "--name", "g", "--model", "m", "--skills", "s.json", "--tasks-from", str(pool)]
+    monkeypatch.setattr(sys, "argv", argv + ["--dataset-file", "d"])
+    bp.main()
+    assert len(calls) == 2 and (res / "g-p00.json").exists()

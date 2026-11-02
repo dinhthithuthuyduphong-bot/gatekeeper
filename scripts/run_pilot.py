@@ -172,6 +172,9 @@ def score_arm(
     return reports
 
 
+EX_TEMPFAIL = 75  # images could not be pulled: nothing was run, retry later
+
+
 def image_name(row: dict) -> str:
     if row.get("image"):
         name = row["image"]
@@ -187,6 +190,13 @@ def prepull(rows: list[dict], tries: int = 3) -> list[str]:
 
     failed = []
     for name in sorted({image_name(r) for r in rows}):
+        # already local -> no registry request (Docker Hub rate-limits anonymous pulls: 429)
+        if (
+            subprocess.run(["docker", "image", "inspect", name], capture_output=True).returncode
+            == 0
+        ):
+            print(f"image local: {name}", flush=True)
+            continue
         for k in range(tries):
             ok = subprocess.run(["docker", "pull", "-q", name], capture_output=True).returncode == 0
             if ok:
@@ -358,7 +368,10 @@ def main() -> int:
     if model is not None or a.prepull:
         missing = prepull(rows)
         if missing:
-            print(f"warning: {len(missing)} images could not be pulled", flush=True)
+            # never start agents without their image: the run would cost nothing useful and the
+            # task would look "done" to the batch driver. Exit 75 (EX_TEMPFAIL) = retry later.
+            print(f"error: {len(missing)} images could not be pulled (registry limit?)", flush=True)
+            return EX_TEMPFAIL
     for arm, skill in arms:
         rows_arm = arm_rows_map[arm]
         agent_dir = run_arm(arm, skill, rows_arm, a, out_dir, model)

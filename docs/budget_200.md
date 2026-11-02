@@ -72,6 +72,17 @@ python scripts/analyze_g1.py --stage-b g1-b
 
 **Dừng nếu:** nhiễu khác 0 (lỗi pairing/seed) hoặc đối chứng dương không cho Z ≤ −0,10 **trên các task mà nhánh không skill thất bại** (cần ≥ 5 task như vậy). Lý do (sửa 02/11/2026, trước khi thấy kết quả B): agent tự giải ~75% task, gợi ý không thể làm tốt hơn trên những task đó, nên tính trung bình trên mọi task sẽ bị trần và báo sai. Khi dừng thì **không chạy C**, báo lại để sửa thiết kế.
 
+### Kết quả giai đoạn B lần 1 (02/11/2026, 3,95 USD) — **không hợp lệ, chạy lại**
+
+| Nhánh | n | Z trung bình | CI 90% | Giải được |
+| --- | --- | --- | --- | --- |
+| đối chứng nhiễu (seed + 1) | 37 | −0,104 | [−0,19; −0,02] | 49% so với 38% |
+| đối chứng dương (task nhánh gốc thất bại) | 23 | −0,25 | [−0,37; −0,14] | — |
+
+- Quy tắc G1 **báo STOP đúng** (nhiễu khác 0). Rà soát tìm ra nguyên nhân có thật: Vertex AI coi `seed=0` là *không đặt seed*, nên nhánh gốc lấy mẫu ngẫu nhiên còn đối chứng nhiễu (seed 1) tất định → hai nhánh khác nhau về cách lấy mẫu. Đã sửa (seed từ 1, seed 0 bị từ chối), kết quả cũ ở `results/pilot/invalid/g1-b/`.
+- 38% lần chạy nhánh gốc chạm trần 60 bước và **không nộp bản sửa** (patch rỗng); phần lớn các cặp "lật" là chạm trần ở một nhánh, nộp ở nhánh kia (C1 trong `docs/audit_pilot.md`).
+- Chi phí 0,035 USD/lần (cao hơn A vì nhiều task dài hơn). Tổng pilot sau B: 6,49 USD; B chạy lại (`g1-b2`) thêm ~4 USD.
+
 ## 3. Giai đoạn C — 4 skill trên task chúng kích hoạt (phần còn lại, giữ 10% dự phòng)
 
 | name | model | skills | n | pool_tag | budget_usd |

@@ -22,6 +22,8 @@ Cập nhật 02/11/2026. Mỗi mục: đã xảy ra/được phát hiện thế 
 | A14 | Vertex AI coi `seed=0` là **không đặt seed** (proto3 bỏ giá trị mặc định): hai lệnh gọi seed 0 khác nhau, hai lệnh gọi seed 1 giống hệt | giai đoạn B: nhánh không skill + đối chứng dương lấy mẫu ngẫu nhiên, đối chứng nhiễu lấy mẫu tất định → đối chứng nhiễu khác nhánh gốc về *cách lấy mẫu*; quy tắc G1 báo STOP (Z = −0,104, CI 90% [−0,19; −0,02]) | seed bắt đầu từ 1; `arm_config` từ chối seed 0; lượt B cách ly, chạy lại thành `g1-b2` | thử 6 lệnh gọi (02/11/2026); `test_seed_zero_is_rejected`; `results/pilot/invalid/README.md` |
 | A15 | Trần tích luỹ cộng cả file phân tích (`g1_decision.json` có `spent_usd`) | đếm trùng 3,95 USD → dừng sớm oan | chỉ cộng file kết quả chạy (có `instances`, không `merged_from`) | `pilot_spent_total()` = 6,49 USD sau khi cách ly |
 | A16 | File gộp các lô ghi `solved`/`scored` = 0 | bảng chi phí/tỉ lệ giải sai | `usage_summary` ghi `solved`/`scored`; `merge` cộng dồn | `tests/test_batched_pilot.py` |
+| A17 | Docker Hub giới hạn pull ẩn danh (HTTP 429, ~100 lần/6 giờ/IP) | lần chạy lại B2 đầu: image không tải được → container không chạy → task bị driver coi là "xong" và bị bỏ qua khi chạy tiếp | image có sẵn thì không gọi registry; thiếu image → `run_pilot.py` thoát mã 75 **trước khi chạy agent**; driver chờ 30 phút rồi thử lại (tối đa 6 lần) | `test_registry_limit_waits_and_retries` |
+| A18 | Chạy tiếp coi task có lỗi hạ tầng ở một nhánh là "xong"; file gộp có thể chứa cặp trùng | mất task hoặc đếm một task hai lần | task có lỗi hạ tầng ở bất kỳ nhánh nào được chạy lại; khi gộp, lô sau thay thế dữ liệu của task đó | `test_infra_failed_tasks_are_rerun_and_replaced` |
 
 ## B. Đã kiểm tra, không có lỗi
 
@@ -41,4 +43,4 @@ Cập nhật 02/11/2026. Mỗi mục: đã xảy ra/được phát hiện thế 
 | C3 | Agent dùng nhiều bước đọc lịch sử git | tốn chi phí; hành vi khác với người dùng thật | ghi nhận; không chặn (chặn là thay đổi harness) |
 | C4 | Tỉ lệ giải ~75% (chỉ đo trên 4–8 task) | trần: skill chỉ có thể giúp trên ~25% task | đo lại ở B; nếu cao, chọn task khó hơn cho C/Phase 6 |
 | C5 | Chi phí tính theo bảng giá LiteLLM, chưa đối chiếu hoá đơn Google | ngân sách lớn cần số thật | đối chiếu Billing Reports sau 24 giờ |
-| C6 | Chạy local phụ thuộc container phiên này (key, Docker, đĩa) | máy bị thu hồi giữa chừng | chạy tiếp theo task đã có; lâu dài chuyển sang workflow GitHub (cần secrets) |
+| C6 | Chạy local phụ thuộc container phiên này (key, Docker, đĩa, giới hạn pull Docker Hub theo IP) | máy bị thu hồi giữa chừng; giai đoạn C (86 image) chạm giới hạn 429 → chạy chậm | chạy tiếp theo task đã có, tự chờ khi bị 429 (A17); lâu dài chuyển sang workflow GitHub (cần secrets `GCP_SA_KEY`, `VERTEXAI_PROJECT`, `VERTEXAI_LOCATION`) |

@@ -21,11 +21,13 @@ import json
 import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 RESULTS = Path("results/pilot")
 GB_PER_TASK = 6.0  # SWE-bench images are 3.8-7.6 GB (xarray); layers are partly shared
 DISK_RESERVE_GB = 4.0
+EX_TEMPFAIL = 75  # run_pilot.py: task images could not be pulled, nothing was run
 
 
 def pilot_spent_total(exclude_prefix: str | None = None) -> float:
@@ -48,6 +50,18 @@ def task_list(path: str, skills: list[str]) -> list[str]:
     return list(d["instances"])
 
 
+def done_tasks(parts: list[Path]) -> set[str]:
+    """Tasks finished in earlier parts; a task with an infrastructure failure in ANY arm is not
+    done (it is re-run, and merge() keeps the latest part's result for it)."""
+    done: set[str] = set()
+    for p in parts:
+        d = json.loads(p.read_text())
+        failed = {i for v in (d.get("infra_failures") or {}).values() for i in v}
+        done |= set(d.get("instances", [])) - failed
+        done -= failed
+    return done
+
+
 def merge(name: str, parts: list[Path]) -> dict:
     out: dict = {
         "name": name,
@@ -61,9 +75,15 @@ def merge(name: str, parts: list[Path]) -> dict:
     for p in parts:
         d = json.loads(p.read_text())
         out["spent_usd"] += float(d.get("spent_usd") or 0.0)
-        out["instances"] += d.get("instances", [])
+        out["instances"] += [i for i in d.get("instances", []) if i not in out["instances"]]
         for k in ("model", "dataset", "theta", "alpha"):
             out.setdefault(k, d.get(k))
+        rerun = set(d.get("instances", []))  # a task re-run in a later part replaces old data
+        for sk in out["skills"].values():
+            sk["pairs"] = [q for q in sk["pairs"] if q["instance_id"] not in rerun]
+        for v in out["infra_failures"].values():
+            for i in rerun & set(v):
+                del v[i]
         for sk, v in d.get("skills", {}).items():
             out["skills"].setdefault(sk, {"pairs": []})["pairs"] += v["pairs"]
         for arm, v in (d.get("infra_failures") or {}).items():
@@ -105,6 +125,8 @@ def main() -> int:
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--max-batches", type=int, default=0)
     ap.add_argument("--model-seed", type=int, default=None, help="replicate seed (see run_pilot)")
+    ap.add_argument("--pull-retries", type=int, default=6, help="waits on a registry limit")
+    ap.add_argument("--pull-wait-min", type=float, default=30.0)
     a = ap.parse_args()
 
     skills = [s for s in a.skills.split(",") if s]
@@ -112,11 +134,12 @@ def main() -> int:
     arms = 1 + len(skills)
     # resume by TASK, not by part number: parts already written cover these instances
     parts = sorted(RESULTS.glob(f"{a.name}-p[0-9][0-9].json"))
-    done = {i for p in parts for i in json.loads(p.read_text()).get("instances", [])}
+    done = done_tasks(parts)
     todo = [t for t in tasks if t not in done]
     print(f"{len(done)} tasks already done in {len(parts)} parts; {len(todo)} to go", flush=True)
     k = len(parts)
     n_batches = 0
+    pull_waits = 0
     while todo:
         if a.max_batches and n_batches >= a.max_batches:
             break
@@ -165,6 +188,15 @@ def main() -> int:
         if a.model_seed is not None:
             cmd += ["--model-seed", str(a.model_seed)]
         rc = subprocess.run(cmd, check=False).returncode
+        if rc == EX_TEMPFAIL and pull_waits < a.pull_retries:  # registry limit: nothing ran
+            pull_waits += 1
+            print(
+                f"[wait] images not pullable; retry {pull_waits} in {a.pull_wait_min} min",
+                flush=True,
+            )
+            time.sleep(a.pull_wait_min * 60)
+            todo = ids + todo
+            continue
         subprocess.run(["docker", "image", "prune", "-af"], capture_output=True, check=False)
         subprocess.run(["docker", "container", "prune", "-f"], capture_output=True, check=False)
         if rc != 0 or not f.exists():
