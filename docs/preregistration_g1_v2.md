@@ -32,3 +32,19 @@ Quy tắc v1 (`docs/budget_200.md` §2) có hai lỗi thiết kế, được ph�
 ## Báo cáo kèm (thăm dò, không quyết định)
 
 Tỉ lệ `LimitsExceeded` theo nhánh; tỉ lệ bản nộp chạm file gold; SD của Z_nhiễu (cập nhật số task/seed cần cho C); số task đổi kết quả giữa hai nhánh không skill.
+
+## Bổ sung (02/11/2026, trong lúc B3 đang chạy, **trước khi** có kết quả B3): giai đoạn C
+
+@thuthuy nâng trần tổng pilot lên **30 USD**; đến đó thì dừng chờ quyết định.
+
+| Mục | Giá trị |
+| --- | --- |
+| Điều kiện chạy | B3 đạt cả hai kiểm tra của v2 (verdict `controls OK; run stage C`) |
+| Tên lượt | `g1-c` |
+| Task | pool `g1` (86 task); mỗi skill chỉ chạy trên task mà I(x) đúng; nhánh `none` chạy một lần trên hợp các task đó |
+| Skill | `null-guard`, `type-guard`, `exception-handling`, `validation-error` |
+| Model, seed, bước | `gemini-flash-lite`, seed 1, step_limit 100, cost_limit 0,20 USD |
+| Số seed | **1** (3 seed ≈ 30 USD, vượt trần). Hệ quả: CI rộng hơn, chỉ phát hiện chắc chắn hiệu ứng lớn |
+| Trần | tổng pilot ≤ 29 USD theo số ghi nhận (~1 USD dự phòng cho lô bị ngắt chưa ghi) |
+| Quy tắc G1 | không đổi: skill đạt nếu Z trung bình ≤ −0,10 **và** cận trên CI 90% < 0 (`g1_decision`) |
+| Phân tích | `scripts/analyze_g1.py --stage-b g1-b3 --stage-c g1-c --rule v2` |
