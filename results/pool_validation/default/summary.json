@@ -1,4 +1,5 @@
 {
+  "n_expected": 40,
   "n_checked": 40,
   "n_usable": 38,
   "usable": [
@@ -44,5 +45,7 @@
   "rejected": {
     "psf__requests-1921": "gold not resolved;noop arm not clean",
     "pylint-dev__pylint-8898": "noop arm not clean"
-  }
+  },
+  "infra_error": [],
+  "missing": []
 }
