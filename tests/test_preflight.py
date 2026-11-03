@@ -29,3 +29,21 @@ def test_defaults_check_flags_a_scientific_default():
     names = [a.arg for a in fn.args.args[len(fn.args.args) - len(fn.args.defaults) :]]
     assert "alpha" in names  # sanity of the AST walk used by check_defaults
     assert pf.SCIENTIFIC >= {"alpha", "theta"}
+
+
+def test_results_check_flags_a_silently_lost_run(tmp_path, monkeypatch):
+    import json
+
+    d = tmp_path / "results" / "pilot"
+    d.mkdir(parents=True)
+    ok = {
+        "instances": ["a"],
+        "usage": {"none": {"runs": 2, "scored": 1}},
+        "infra_failures": {"none": {"a": "x"}},
+    }
+    lost = {"instances": ["a"], "usage": {"none": {"runs": 2, "scored": 1}}, "infra_failures": {}}
+    (d / "ok.json").write_text(json.dumps(ok))
+    (d / "lost.json").write_text(json.dumps(lost))
+    monkeypatch.chdir(tmp_path)
+    bad = pf.check_results()
+    assert len(bad) == 1 and bad[0].startswith("lost.json")

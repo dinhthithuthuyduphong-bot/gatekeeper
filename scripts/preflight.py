@@ -100,6 +100,17 @@ def check_results() -> list[str]:
         d = json.loads(f.read_text())
         if "instances" not in d or d.get("merged_from"):
             continue
+        # every agent run of an arm is either scored or listed as an infrastructure failure: a run
+        # that is neither was lost silently (e.g. a harness crash after scoring, audit A51)
+        for arm, u in (d.get("usage") or {}).items():
+            if u.get("scored") is None:  # files older than the "scored" field (audit A16)
+                continue
+            n_infra = len((d.get("infra_failures") or {}).get(arm, {}))
+            if (u.get("runs") or 0) != (u.get("scored") or 0) + n_infra:
+                bad.append(
+                    f"{f.name}: arm {arm} runs {u.get('runs')} != scored {u.get('scored')}"
+                    f" + infra {n_infra}"
+                )
         if d.get("endpoint_mismatch"):
             bad.append(f"{f.name}: endpoint mismatch {d['endpoint_mismatch']}")
         # files written before A42 keep their (unused) fields: raw results are never rewritten
