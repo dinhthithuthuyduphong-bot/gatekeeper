@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T01:35:35+00:00",
+  "name": "g1-c-s31-p07",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "scikit-learn__scikit-learn-25747",
+    "sympy__sympy-12481"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.2147,
+  "usage": {
+    "none": {
+      "runs": 2,
+      "usd_per_run": 0.052158825000000006,
+      "tokens_in_per_run": 470217.0,
+      "tokens_out_per_run": 5915.5,
+      "cached_share": 0.7019801495905083,
+      "api_calls_per_run": 37.5,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    },
+    "validation-error": {
+      "runs": 2,
+      "usd_per_run": 0.055206250000000005,
+      "tokens_in_per_run": 655465.0,
+      "tokens_out_per_run": 7309.0,
+      "cached_share": 0.811118824040948,
+      "api_calls_per_run": 52.5,
+      "solve_rate": 1.0,
+      "solved": 2,
+      "scored": 2
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "validation-error": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-25747",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-12481",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": -0.3333333333333333,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 2,
+        "log_e": -0.020702992326375166
+      }
+    }
+  }
+}
