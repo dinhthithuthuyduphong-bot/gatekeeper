@@ -25,7 +25,14 @@ def _part():
     return {
         "name": "x-p1",
         "instances": ["a", "b"],
-        "exit_status": {"none": {}, "sk": {}},
+        "exit_status": {
+            "none": {"a": "Submitted", "b": "Submitted"},
+            "sk": {"a": "Submitted", "b": "Submitted"},
+        },
+        "usage": {
+            "none": {"runs": 2, "scored": 1, "solved": 1},
+            "sk": {"runs": 2, "scored": 2, "solved": 2},
+        },
         "infra_failures": {"none": {"b": m.NO_REPORT}},
         "skills": {"sk": {"pairs": [{"instance_id": "a", "loss_with": 0.0, "loss_without": 0.0}]}},
     }
@@ -48,6 +55,10 @@ def test_first_timeout_is_unresolved_even_if_the_rescore_resolved(tmp_path):
     }
     lt = m.loss_of(dict(m.TEST_TIMED_OUT))[0]
     assert pairs == {"a": (lt, 0.0), "b": (0.0, lt)}
+    assert {a: (u["scored"], u["solved"]) for a, u in d["usage"].items()} == {
+        "none": (2, 1),
+        "sk": (2, 1),
+    }
     assert m.apply(d, tmp_path) == {}  # idempotent: new-format file is left alone
 
 
@@ -67,3 +78,15 @@ def test_agent_infra_with_a_timeout_log_stops(tmp_path):
     d["infra_failures"]["none"]["b"] = "APIError"
     with pytest.raises(SystemExit):
         m.apply(d, tmp_path)
+
+
+def test_no_pair_for_a_task_the_skill_arm_did_not_run(tmp_path):
+    n, s = "x-p1-none-20261103T115546-1", "x-p1-sk-20261103T115136-1"
+    _log(tmp_path, n, "a", report=RESOLVED)
+    _log(tmp_path, n, "b", "Test timed out after 1800 seconds")
+    _log(tmp_path, s, "a", report=RESOLVED)
+    d = _part()
+    del d["exit_status"]["sk"]["b"]  # the skill is not activated on b (task set)
+    d["usage"]["sk"] = {"runs": 1, "scored": 1, "solved": 1}
+    m.apply(d, tmp_path)
+    assert [p["instance_id"] for p in d["skills"]["sk"]["pairs"]] == ["a"]

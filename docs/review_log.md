@@ -226,3 +226,7 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - ruff;
   - test `test_prepull_reports_full_disk` không đổi;
   - chạy lại bước kiểm giữ image với tên mới `kidry2-*`; tiêu chí đạt giữ nguyên như R-17.
+- **Bổ sung R-20 (sau lần áp đầu tiên):** sửa 2 lỗi như ghi ở A57.
+  - Kiểm tay từng cặp của p25 trước và sau, so với danh sách task mỗi nhánh đã chạy (`exit_status`): chỉ các cặp có cả hai nhánh cùng chạy được tạo hoặc đổi.
+  - Thay đổi duy nhất về kết quả: exception-handling/25370 từ "giải được ở lần chấm lại" thành "không giải được (quá giờ ở lần chấm đầu)".
+  - Preflight `--ci`: PASS.

@@ -76,7 +76,10 @@ def apply(d: dict, logs: Path) -> dict[str, list[str]]:
     for sk, v in d["skills"].items():
         keep = [p for p in v["pairs"] if p["instance_id"] not in affected]
         for i in affected:
-            if not bad("none", i) and not bad(sk, i):
+            ran = i in (d["exit_status"].get(sk) or {}) and i in (
+                d["exit_status"].get("none") or {}
+            )
+            if ran and not bad("none", i) and not bad(sk, i):  # a pair only where BOTH arms ran
                 keep.append(
                     {
                         "instance_id": i,
@@ -90,6 +93,14 @@ def apply(d: dict, logs: Path) -> dict[str, list[str]]:
         v["pairs"] = keep
         v["mean_Z"] = sum(z) / len(z) if z else None
         v["variance_components"] = variance_components(pairs) if len(pairs) >= 3 else None
+    # per-arm counts as run_pilot.usage_summary computes them (runs == scored + infra, preflight)
+    for arm in timeouts:
+        ran = [i for i in (d["exit_status"].get(arm) or {}) if not bad(arm, i)]
+        losses = [arm_loss(rid[arm], i, logs) for i in ran]
+        u = d["usage"][arm]
+        u["scored"] = len(losses)
+        u["solved"] = sum(1 for x in losses if x == 0.0)
+        u["solve_rate"] = u["solved"] / len(losses) if losses else None
     d["harness_test_timeout"] = timeouts
     d["timeout_rule_applied"] = {
         "by": "scripts/apply_timeout_rule.py",

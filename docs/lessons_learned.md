@@ -220,3 +220,4 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Phòng ngừa:**
   - Mỗi lần commit một bản sửa ảnh hưởng đến kết quả: liệt kê các tiến trình đang chạy (`ps -eo lstart,cmd`), so thời điểm khởi động với thời điểm sửa.
   - Kết quả của các tiến trình chạy mã cũ phải được xử lý theo quy tắc mới, bằng một script có test, trước lô kế tiếp.
+- **Bổ sung L22 (A57):** một script sửa dữ liệu phải được kiểm bằng cách so **từng bản ghi trước và sau** với nguồn gốc (ở đây: task nào nhánh nào đã chạy), không chỉ bằng test trên dữ liệu giả. Test giả của tôi cho mọi nhánh chạy mọi task, nên không bắt được lỗi tạo cặp bịa.

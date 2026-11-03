@@ -21,7 +21,7 @@
       "api_calls_per_run": 88.25,
       "solve_rate": 0.0,
       "solved": 0,
-      "scored": 2
+      "scored": 4
     },
     "null-guard": {
       "runs": 1,
@@ -30,9 +30,9 @@
       "tokens_out_per_run": 1434.0,
       "cached_share": 0.8188695932782751,
       "api_calls_per_run": 19.0,
-      "solve_rate": null,
+      "solve_rate": 0.0,
       "solved": 0,
-      "scored": 0
+      "scored": 1
     },
     "type-guard": {
       "runs": 2,
@@ -52,8 +52,8 @@
       "tokens_out_per_run": 2825.0,
       "cached_share": 0.808882892689321,
       "api_calls_per_run": 34.5,
-      "solve_rate": 0.5,
-      "solved": 1,
+      "solve_rate": 0.0,
+      "solved": 0,
       "scored": 2
     },
     "harm-swallow-exceptions": {
@@ -90,15 +90,7 @@
       "scored": 1
     }
   },
-  "infra_failures": {
-    "none": {
-      "scikit-learn__scikit-learn-14710": "harness: no report for a non-empty patch",
-      "scikit-learn__scikit-learn-25370": "harness: no report for a non-empty patch"
-    },
-    "null-guard": {
-      "scikit-learn__scikit-learn-14710": "harness: no report for a non-empty patch"
-    }
-  },
+  "infra_failures": {},
   "model_seed": 41,
   "endpoint_mismatch": {},
   "patch_apply_failed": {},
@@ -132,19 +124,30 @@
   },
   "skills": {
     "null-guard": {
-      "pairs": [],
-      "mean_Z": null,
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-14710",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
       "variance_components": null
     },
     "type-guard": {
       "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-14710",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
         {
           "instance_id": "scikit-learn__scikit-learn-15084",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6969696969696969
         }
       ],
-      "mean_Z": -0.030303030303030276,
+      "mean_Z": -0.34848484848484845,
       "variance_components": null
     },
     "exception-handling": {
@@ -153,25 +156,73 @@
           "instance_id": "scikit-learn__scikit-learn-14878",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-25370",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
       "mean_Z": 0.0,
       "variance_components": null
     },
     "harm-swallow-exceptions": {
-      "pairs": [],
-      "mean_Z": null,
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-14710",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.6666666666666666,
       "variance_components": null
     },
     "harm-minimal-edit": {
-      "pairs": [],
-      "mean_Z": null,
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-14710",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.6666666666666666,
       "variance_components": null
     },
     "harm-skip-verification": {
-      "pairs": [],
-      "mean_Z": null,
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-14710",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.6666666666666666,
       "variance_components": null
+    }
+  },
+  "harness_test_timeout": {
+    "none": [
+      "scikit-learn__scikit-learn-14710",
+      "scikit-learn__scikit-learn-25370"
+    ],
+    "null-guard": [
+      "scikit-learn__scikit-learn-14710"
+    ],
+    "exception-handling": [
+      "scikit-learn__scikit-learn-25370"
+    ]
+  },
+  "timeout_rule_applied": {
+    "by": "scripts/apply_timeout_rule.py",
+    "rule": "docs/preregistration_e1.md execution note 7 (audit A56, A57)",
+    "first_scoring_runs": {
+      "none": "g1-e1-s41-p25-none-20261103T115546-30525",
+      "null-guard": "g1-e1-s41-p25-null-guard-20261103T115158-30525",
+      "type-guard": "g1-e1-s41-p25-type-guard-20261103T115136-30525",
+      "exception-handling": "g1-e1-s41-p25-exception-handling-20261103T121441-30525",
+      "harm-swallow-exceptions": "g1-e1-s41-p25-harm-swallow-exceptions-20261103T125438-30525",
+      "harm-minimal-edit": "g1-e1-s41-p25-harm-minimal-edit-20261103T125843-30525",
+      "harm-skip-verification": "g1-e1-s41-p25-harm-skip-verification-20261103T130410-30525"
     }
   }
 }
