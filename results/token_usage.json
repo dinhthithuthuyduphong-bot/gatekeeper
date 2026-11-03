@@ -1,0 +1,242 @@
+{
+ "A (model choice)": {
+  "total": {
+   "runs": 16,
+   "tokens_in": 8435517,
+   "tokens_cached": 6681746,
+   "tokens_out": 168778,
+   "in_per_run": 527220,
+   "out_per_run": 10549,
+   "cached_share": 0.792
+  },
+  "per_arm": {
+   "none": {
+    "runs": 8,
+    "tokens_in": 4278244,
+    "tokens_cached": 3380064,
+    "tokens_out": 84495,
+    "in_per_run": 534780,
+    "out_per_run": 10562,
+    "cached_share": 0.79
+   },
+   "control-oracle-files": {
+    "runs": 8,
+    "tokens_in": 4157273,
+    "tokens_cached": 3301682,
+    "tokens_out": 84283,
+    "in_per_run": 519659,
+    "out_per_run": 10535,
+    "cached_share": 0.794
+   }
+  }
+ },
+ "B1 (invalid, seed 0)": {
+  "total": {
+   "runs": 113,
+   "tokens_in": 51812133,
+   "tokens_cached": 43968931,
+   "tokens_out": 594290,
+   "in_per_run": 458514,
+   "out_per_run": 5259,
+   "cached_share": 0.849
+  },
+  "per_arm": {
+   "control-none-seed1": {
+    "runs": 38,
+    "tokens_in": 18059292,
+    "tokens_cached": 15454890,
+    "tokens_out": 197371,
+    "in_per_run": 475245,
+    "out_per_run": 5194,
+    "cached_share": 0.856
+   },
+   "none": {
+    "runs": 37,
+    "tokens_in": 18144262,
+    "tokens_cached": 15579905,
+    "tokens_out": 181352,
+    "in_per_run": 490385,
+    "out_per_run": 4901,
+    "cached_share": 0.859
+   },
+   "control-oracle-files": {
+    "runs": 38,
+    "tokens_in": 15608579,
+    "tokens_cached": 12934136,
+    "tokens_out": 215567,
+    "in_per_run": 410752,
+    "out_per_run": 5673,
+    "cached_share": 0.829
+   }
+  }
+ },
+ "B2": {
+  "total": {
+   "runs": 114,
+   "tokens_in": 51326189,
+   "tokens_cached": 43420099,
+   "tokens_out": 586476,
+   "in_per_run": 450230,
+   "out_per_run": 5145,
+   "cached_share": 0.846
+  },
+  "per_arm": {
+   "control-none-seed1": {
+    "runs": 38,
+    "tokens_in": 18305328,
+    "tokens_cached": 15665023,
+    "tokens_out": 199599,
+    "in_per_run": 481719,
+    "out_per_run": 5253,
+    "cached_share": 0.856
+   },
+   "none": {
+    "runs": 38,
+    "tokens_in": 17641259,
+    "tokens_cached": 14897253,
+    "tokens_out": 196875,
+    "in_per_run": 464244,
+    "out_per_run": 5181,
+    "cached_share": 0.844
+   },
+   "control-oracle-files": {
+    "runs": 38,
+    "tokens_in": 15379602,
+    "tokens_cached": 12857823,
+    "tokens_out": 190002,
+    "in_per_run": 404726,
+    "out_per_run": 5000,
+    "cached_share": 0.836
+   }
+  }
+ },
+ "B3": {
+  "total": {
+   "runs": 117,
+   "tokens_in": 73636258,
+   "tokens_cached": 64088868,
+   "tokens_out": 762659,
+   "in_per_run": 629370,
+   "out_per_run": 6518,
+   "cached_share": 0.87
+  },
+  "per_arm": {
+   "control-none-seed1": {
+    "runs": 39,
+    "tokens_in": 26688658,
+    "tokens_cached": 23501084,
+    "tokens_out": 240110,
+    "in_per_run": 684325,
+    "out_per_run": 6157,
+    "cached_share": 0.881
+   },
+   "control-oracle-tests": {
+    "runs": 39,
+    "tokens_in": 23858244,
+    "tokens_cached": 20765464,
+    "tokens_out": 298974,
+    "in_per_run": 611750,
+    "out_per_run": 7666,
+    "cached_share": 0.87
+   },
+   "none": {
+    "runs": 39,
+    "tokens_in": 23089356,
+    "tokens_cached": 19822320,
+    "tokens_out": 223575,
+    "in_per_run": 592035,
+    "out_per_run": 5733,
+    "cached_share": 0.859
+   }
+  }
+ },
+ "C (screening)": {
+  "total": {
+   "runs": 204,
+   "tokens_in": 97199277,
+   "tokens_cached": 83056104,
+   "tokens_out": 1104758,
+   "in_per_run": 476467,
+   "out_per_run": 5415,
+   "cached_share": 0.854
+  },
+  "per_arm": {
+   "none": {
+    "runs": 88,
+    "tokens_in": 41090576,
+    "tokens_cached": 34988294,
+    "tokens_out": 465478,
+    "in_per_run": 466938,
+    "out_per_run": 5290,
+    "cached_share": 0.851
+   },
+   "exception-handling": {
+    "runs": 25,
+    "tokens_in": 14631908,
+    "tokens_cached": 12772682,
+    "tokens_out": 149956,
+    "in_per_run": 585276,
+    "out_per_run": 5998,
+    "cached_share": 0.873
+   },
+   "null-guard": {
+    "runs": 25,
+    "tokens_in": 11808742,
+    "tokens_cached": 10195469,
+    "tokens_out": 130003,
+    "in_per_run": 472350,
+    "out_per_run": 5200,
+    "cached_share": 0.863
+   },
+   "type-guard": {
+    "runs": 32,
+    "tokens_in": 13496094,
+    "tokens_cached": 11427820,
+    "tokens_out": 156786,
+    "in_per_run": 421753,
+    "out_per_run": 4900,
+    "cached_share": 0.847
+   },
+   "validation-error": {
+    "runs": 34,
+    "tokens_in": 16171957,
+    "tokens_cached": 13671839,
+    "tokens_out": 202535,
+    "in_per_run": 475646,
+    "out_per_run": 5957,
+    "cached_share": 0.845
+   }
+  }
+ },
+ "Confirmation (seeds 11/21/31)": {
+  "total": {
+   "runs": 192,
+   "tokens_in": 122510787,
+   "tokens_cached": 106400506,
+   "tokens_out": 1154267,
+   "in_per_run": 638077,
+   "out_per_run": 6012,
+   "cached_share": 0.868
+  },
+  "per_arm": {
+   "none": {
+    "runs": 96,
+    "tokens_in": 59740958,
+    "tokens_cached": 51769711,
+    "tokens_out": 586227,
+    "in_per_run": 622302,
+    "out_per_run": 6107,
+    "cached_share": 0.867
+   },
+   "validation-error": {
+    "runs": 96,
+    "tokens_in": 62769829,
+    "tokens_cached": 54630795,
+    "tokens_out": 568040,
+    "in_per_run": 653852,
+    "out_per_run": 5917,
+    "cached_share": 0.87
+   }
+  }
+ }
+}

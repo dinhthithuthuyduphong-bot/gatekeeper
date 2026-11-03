@@ -331,30 +331,52 @@ def harness_html(d: dict | None) -> str:
 
 
 def pilot_html() -> str:
-    files = sorted((ROOT / "results" / "pilot").glob("*.json"))
-    if not files:
-        return "<p class='muted'>Chưa có kết quả pilot (<code>results/pilot/</code>).</p>"
-    rows = []
-    for f in files:
-        d = json.loads(f.read_text(encoding="utf-8"))
-        for sk, v in d.get("skills", {}).items():
-            vc = v.get("variance_components") or {}
+    """Pilot results as tokens (USD is only for budget control during runs)."""
+    tok_f = ROOT / "results" / "token_usage.json"
+    verdict_f = ROOT / "results" / "g1_final.json"
+    parts = []
+    if verdict_f.exists():
+        v = json.loads(verdict_f.read_text(encoding="utf-8"))
+        rows = []
+        for sk, r in v.get("skills", {}).items():
+            ci = r.get("ci") or [float("nan"), float("nan")]
             rows.append(
-                f"<tr><td><code>{esc(d['name'])}</code></td><td>{esc(d['model'])}</td><td>{esc(sk)}</td>"
-                f"<td class='n'>{len(v['pairs'])}</td>"
-                f"<td class='n'>{'—' if v['mean_Z'] is None else format(v['mean_Z'], '+.3f')}</td>"
-                f"<td class='n'>{'—' if not vc else format(vc['sigma_S2'], '.3f')}</td>"
-                f"<td class='{'ok' if v['eprocess']['admitted'] else 'warn'}'>"
-                f"{'Admit' if v['eprocess']['admitted'] else 'Quarantine'}</td>"
-                f"<td class='n'>{d.get('spent_usd', 0):.2f}</td></tr>"
+                f"<tr><td>{esc(sk)}</td><td class='n'>{r.get('n_tasks')}</td>"
+                f"<td class='n'>{r.get('mean_z_resolved', 0):+.3f}</td>"
+                f"<td class='n'>[{ci[0]:+.3f}; {ci[1]:+.3f}]</td>"
+                f"<td class='n'>{r.get('p', 1):.3f}</td>"
+                f"<td class='n'>{r.get('s1_paired_t_p', 1):.3f}</td>"
+                f"<td class='n'>{r.get('s2_cluster_sign_flip_p', 1):.3f}</td></tr>"
             )
-    return (
-        "<div class='tbl'><table><thead><tr><th>Lần chạy</th><th>Model</th><th>Skill</th><th>Cặp</th>"
-        "<th>Z trung bình</th><th>σ<sub>S</sub>²</th><th>E-process</th><th>Chi phí (USD)</th></tr></thead>"
-        f"<tbody>{''.join(rows)}</tbody></table></div>"
-        "<p class='muted'><code>dryrun</code> dùng model giả và skill oracle (áp gold patch) để kiểm tra "
-        "pipeline; không phải kết quả thực nghiệm.</p>"
-    )
+        parts.append(
+            f"<p><b>Phán quyết G1:</b> {esc(v.get('verdict', ''))}</p>"
+            "<div class='tbl'><table><thead><tr><th>Skill</th><th>Task</th><th>Ẑ (resolved)</th>"
+            "<th>CI 95%</th><th>p chính xác</th><th>p (S1: t)</th><th>p (S2: cụm)</th></tr></thead>"
+            f"<tbody>{''.join(rows)}</tbody></table></div>"
+            "<p class='muted'>Quy tắc đã đăng ký trước: <code>docs/preregistration_g1_v2.md</code>; "
+            "chi tiết: <code>docs/g1_verdict.md</code>.</p>"
+        )
+    if tok_f.exists():
+        d = json.loads(tok_f.read_text(encoding="utf-8"))
+        rows = []
+        for stage, s in d.items():
+            tt = s["total"]
+            cs = tt.get("cached_share")
+            rows.append(
+                f"<tr><td>{esc(stage)}</td><td class='n'>{tt['runs']}</td>"
+                f"<td class='n'>{tt['tokens_in'] / 1e6:.1f}M</td>"
+                f"<td class='n'>{'—' if cs is None else format(cs, '.0%')}</td>"
+                f"<td class='n'>{tt['tokens_out'] / 1e6:.2f}M</td>"
+                f"<td class='n'>{tt['in_per_run'] / 1e3:.0f}k / {tt['out_per_run'] / 1e3:.1f}k</td></tr>"
+            )
+        parts.append(
+            "<div class='tbl'><table><thead><tr><th>Giai đoạn</th><th>Lần chạy agent</th>"
+            "<th>Token input</th><th>Cache</th><th>Token output</th><th>Mỗi lần chạy (in / out)</th>"
+            f"</tr></thead><tbody>{''.join(rows)}</tbody></table></div>"
+        )
+    if not parts:
+        return "<p class='muted'>Chưa có kết quả pilot (<code>results/pilot/</code>).</p>"
+    return "".join(parts)
 
 
 def cost_html(d: dict | None) -> str:
