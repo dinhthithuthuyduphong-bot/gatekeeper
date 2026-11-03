@@ -202,3 +202,14 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Phòng ngừa:**
   - Mỗi khẳng định về hiệu năng hay về "không ảnh hưởng kết quả" phải có **số đo trước và sau**.
   - Mỗi bộ đếm phải được kiểm bằng một **ca chắc chắn có** (sanity check) trước khi tin kết quả 0.
+
+## L21. Không đề xuất cài đặt hay thao tác của @thuthuy khi chưa hỏi tình trạng hiện tại (2026-11-03)
+
+- **Xảy ra:**
+  - Tôi khẳng định các secret GitHub chưa có và gợi ý tạo khóa mới, nhưng không kiểm và không hỏi.
+  - Thực tế `GCP_SA_KEY`, `VERTEXAI_PROJECT` và `VERTEXAI_LOCATION` đều đã có.
+  - Hậu quả: mất thời gian của @thuthuy và lệch khỏi hướng chính.
+- **Phòng ngừa:**
+  - Trước mọi gợi ý cài đặt, tạo khóa hay cấu hình mà @thuthuy phải làm, **hỏi tình trạng hiện tại trước**. Chỉ gợi ý khi đã biết chắc là thiếu.
+  - Không tự kết luận "chưa có" từ việc mình không nhìn thấy.
+  - Chỉ đề xuất việc phục vụ trực tiếp mục tiêu đang làm (TODO.md).

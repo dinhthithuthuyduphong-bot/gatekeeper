@@ -52,6 +52,7 @@ Repo nghiên cứu Gatekeeper (ASE 2027). Người phụ trách: @thuthuy. File 
 ## Không bao giờ
 - Commit khóa service account. Khóa chỉ nằm ở scratchpad `secret/gcp-key.json`. Trước mỗi commit chạy `python scripts/preflight.py --ci`: kiểm tra [secrets] **chặn** commit nếu có khóa thật (dấu hiệu PEM có gạch ngang, hoặc trường `private_key` của file khóa). Một lệnh chỉ đếm số dòng khớp (`grep -c`) không chặn được gì (A47).
 - Phân phối lại nội dung không có LICENSE (rule của XRepoSkill: chỉ commit mã rule).
+- Gợi ý @thuthuy cài đặt, tạo khóa hay cấu hình khi chưa hỏi tình trạng hiện tại; tự kết luận "chưa có" vì mình không thấy (L21).
 - Coi "không có kết quả" là "kết quả xấu" hoặc ngược lại mà chưa đọc log của công cụ (L1).
 - Chạy lại một lỗi do agent gây ra (thành thử lại đến khi thành công, L1).
 - Ghi đè kết quả của thí nghiệm khác (L6). Thay đổi thiết kế giữa chừng phải chạy thành giai đoạn riêng (L12).
