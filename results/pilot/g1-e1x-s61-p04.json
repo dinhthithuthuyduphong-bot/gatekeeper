@@ -1,0 +1,104 @@
+{
+  "generated_utc": "2026-11-03T18:46:31+00:00",
+  "format_version": 2,
+  "name": "g1-e1x-s61-p04",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "django__django-16802",
+    "django__django-16948",
+    "matplotlib__matplotlib-22835",
+    "matplotlib__matplotlib-23332"
+  ],
+  "spent_usd": 0.2014,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.029186306249999995,
+      "tokens_in_per_run": 373487.25,
+      "tokens_out_per_run": 3473.75,
+      "cached_share": 0.8258039598406639,
+      "api_calls_per_run": 44.5,
+      "solve_rate": 0.25,
+      "solved": 1,
+      "scored": 4
+    },
+    "type-guard": {
+      "runs": 2,
+      "usd_per_run": 0.030365587499999992,
+      "tokens_in_per_run": 395557.5,
+      "tokens_out_per_run": 4104.5,
+      "cached_share": 0.8391030381170879,
+      "api_calls_per_run": 45.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "exception-handling": {
+      "runs": 2,
+      "usd_per_run": 0.011958375,
+      "tokens_in_per_run": 109941.0,
+      "tokens_out_per_run": 2011.0,
+      "cached_share": 0.7496293466495666,
+      "api_calls_per_run": 17.5,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "django__django-16802": "Submitted",
+      "django__django-16948": "Submitted",
+      "matplotlib__matplotlib-22835": "Submitted",
+      "matplotlib__matplotlib-23332": "Submitted"
+    },
+    "type-guard": {
+      "django__django-16948": "Submitted",
+      "matplotlib__matplotlib-23332": "Submitted"
+    },
+    "exception-handling": {
+      "django__django-16802": "Submitted",
+      "matplotlib__matplotlib-22835": "Submitted"
+    }
+  },
+  "skills": {
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "django__django-16948",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "matplotlib__matplotlib-23332",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "django__django-16802",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "matplotlib__matplotlib-22835",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

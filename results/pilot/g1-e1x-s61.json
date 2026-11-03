@@ -4,7 +4,8 @@
     "g1-e1x-s61-p00",
     "g1-e1x-s61-p01",
     "g1-e1x-s61-p02",
-    "g1-e1x-s61-p03"
+    "g1-e1x-s61-p03",
+    "g1-e1x-s61-p04"
   ],
   "skills": {
     "null-guard": {
@@ -76,12 +77,22 @@
           "instance_id": "django__django-16693",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-16948",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "matplotlib__matplotlib-23332",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
       "mean_Z": 0.0,
-      "n": 6,
-      "solve_rate_with": 0.16666666666666666,
-      "solve_rate_without": 0.16666666666666666
+      "n": 8,
+      "solve_rate_with": 0.125,
+      "solve_rate_without": 0.125
     },
     "exception-handling": {
       "pairs": [
@@ -109,21 +120,31 @@
           "instance_id": "django__django-16560",
           "loss_with": 0.17676767676767677,
           "loss_without": 0.4166666666666667
+        },
+        {
+          "instance_id": "django__django-16802",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "matplotlib__matplotlib-22835",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.043608213280344435,
-      "n": 5,
-      "solve_rate_with": 0.2,
-      "solve_rate_without": 0.2
+      "mean_Z": -0.031148723771674595,
+      "n": 7,
+      "solve_rate_with": 0.2857142857142857,
+      "solve_rate_without": 0.2857142857142857
     }
   },
   "usage": {
     "none": {
-      "runs": 16,
-      "usd": 0.7890826750000001,
-      "solved": 5,
-      "scored": 16,
-      "usd_per_run": 0.049317667187500004
+      "runs": 20,
+      "usd": 0.9058279,
+      "solved": 6,
+      "scored": 20,
+      "usd_per_run": 0.045291395
     },
     "null-guard": {
       "runs": 6,
@@ -133,18 +154,18 @@
       "usd_per_run": 0.027509516666666664
     },
     "type-guard": {
-      "runs": 6,
-      "usd": 0.23139947500000002,
+      "runs": 8,
+      "usd": 0.29213065,
       "solved": 1,
-      "scored": 6,
-      "usd_per_run": 0.03856657916666667
+      "scored": 8,
+      "usd_per_run": 0.03651633125
     },
     "exception-handling": {
-      "runs": 5,
-      "usd": 0.19280485000000003,
-      "solved": 1,
-      "scored": 5,
-      "usd_per_run": 0.03856097000000001
+      "runs": 7,
+      "usd": 0.21672160000000001,
+      "solved": 2,
+      "scored": 7,
+      "usd_per_run": 0.030960228571428574
     }
   },
   "infra_failures": {},
@@ -165,7 +186,11 @@
       "django__django-14267": "Submitted",
       "django__django-16302": "Submitted",
       "django__django-16560": "Submitted",
-      "django__django-16693": "Submitted"
+      "django__django-16693": "Submitted",
+      "django__django-16802": "Submitted",
+      "django__django-16948": "Submitted",
+      "matplotlib__matplotlib-22835": "Submitted",
+      "matplotlib__matplotlib-23332": "Submitted"
     },
     "null-guard": {
       "astropy__astropy-14590": "Submitted",
@@ -181,19 +206,23 @@
       "astropy__astropy-7671": "Submitted",
       "django__django-13460": "Submitted",
       "django__django-14267": "Submitted",
-      "django__django-16693": "Submitted"
+      "django__django-16693": "Submitted",
+      "django__django-16948": "Submitted",
+      "matplotlib__matplotlib-23332": "Submitted"
     },
     "exception-handling": {
       "astropy__astropy-13838": "Submitted",
       "django__django-11551": "Submitted",
       "django__django-12073": "Submitted",
       "django__django-16302": "Submitted",
-      "django__django-16560": "Submitted"
+      "django__django-16560": "Submitted",
+      "django__django-16802": "Submitted",
+      "matplotlib__matplotlib-22835": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 1.3783,
+  "spent_usd": 1.5797,
   "instances": [
     "astropy__astropy-12880",
     "astropy__astropy-13838",
@@ -210,7 +239,11 @@
     "django__django-14267",
     "django__django-16302",
     "django__django-16560",
-    "django__django-16693"
+    "django__django-16693",
+    "django__django-16802",
+    "django__django-16948",
+    "matplotlib__matplotlib-22835",
+    "matplotlib__matplotlib-23332"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
