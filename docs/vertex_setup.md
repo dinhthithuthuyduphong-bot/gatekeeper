@@ -55,3 +55,14 @@ Cần Docker và khoảng 120 GB đĩa trống cho image SWE-bench (khuyến ngh
 ## 5. Tái lập
 
 `TrialRecord` bắt buộc ghi: model ID (`vertex_ai/...`), ngày gọi, digest image Docker, commit repo, seed. Gemini trên Vertex là model đóng: ghi đúng mã phiên bản (không dùng alias tự cập nhật), và ghi ngày gọi API cho mọi lần chạy.
+
+## Khóa nào dùng ở đâu (03/11/2026)
+
+Tài khoản dịch vụ: `gatekeeper-pilot@gatekeeper-research.iam.gserviceaccount.com`. Mỗi khóa được nhận diện bằng **mã khóa** (`private_key_id`, liệt kê ở Google Cloud Console → IAM & Admin → Service Accounts → Keys). Mã khóa chỉ là định danh, không phải bí mật. Không bao giờ ghi file khóa vào repo.
+
+| Mã khóa (8 ký tự đầu) | Dùng ở đâu | Nạp vào bằng | Thu hồi khi nào |
+| --- | --- | --- | --- |
+| `0cf3193a` | Máy chạy E1 (container của phiên làm việc) | file trong thư mục tạm của phiên, không vào git (preflight [secrets] chặn) | sau pilot (xoay vòng khóa) |
+| *(chờ @thuthuy tạo)* | GitHub Actions: `pilot.yml`, `e2-shards.yml` | secret `GCP_SA_KEY` (cùng với `VERTEXAI_PROJECT` = `gatekeeper-research`, `VERTEXAI_LOCATION` = `global`) | khi không còn chạy trên Actions |
+
+- **Trên GitHub, mỗi tên secret giữ đúng một giá trị.** Tạo lại một tên đã có thì giá trị mới thay hẳn giá trị cũ. Hai workflow dùng chung `GCP_SA_KEY` là chủ ý, vì cùng một project Vertex.
