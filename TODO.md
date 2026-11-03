@@ -141,7 +141,7 @@ Lấy bằng workflow `Data snapshots` (HuggingFace, arXiv), không tốn tiền
 | Cặp có Z = 0 | 69% | Phần lớn skill không đổi kết quả |
 | SD thật của STR giữa các ô (đã trừ nhiễu) | 0,032 | Chỉ 20% phương sai quan sát là thật; khoảng 6% skill có STR thật ≤ −0,05 |
 | Trial tối thiểu để admit skill **hoàn hảo** | 9–23 (θ, α) | 10 requirement mỗi skill như SWE-Skills-Bench là không đủ; e-process admit 0/392 ô với 5 trial |
-| Plug-in "trung bình 5 trial ≤ −θ", chấm trên 5 trial còn lại | harmful acc. 18,5–29,8% | Admission không có thống kê hợp lệ admit nhầm nhiều skill có hại |
+| Plug-in "trung bình 5 trial ≤ −θ", chấm trên 5 trial còn lại | ~~harmful acc. 18,5–29,8%~~ **không diễn giải được** (A23: nhãn từ 5 requirement giữ lại chủ yếu là nhiễu, r split-half = 0,03 / −0,17) | Thay bằng sàng lọc rồi xác nhận (`results/sskb_screen_confirm.json`, thăm dò): hiệu ứng của các ô được nhận co lại từ −0,077 (sàng lọc) còn −0,004 trên nửa giữ lại (CI 95% [−0,019; +0,011]) ở θ = 0; tỉ lệ còn lại 5–25% tùy cách chia |
 | Tương quan hiệu ứng giữa cấu hình / độ tin cậy trong cấu hình | 0,07 / 0,16 | Quá nhiễu để kết luận về phụ thuộc ngữ cảnh |
 
 **R15 (rủi ro go/no-go lớn nhất).** Với skill dạng tài liệu, hiệu ứng thật quá nhỏ để admission hợp lệ có ý nghĩa thực tế. Đề tài chỉ khả thi nếu skill dạng *edit program* của Gatekeeper có hiệu ứng lớn hơn rõ rệt (|STR| ≳ 0,15). **Đây là điều pilot phải đo đầu tiên**, trước mọi việc khác ở Phase 3.

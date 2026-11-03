@@ -239,3 +239,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Mỗi lập luận trong tài liệu ghi rõ là **giả thuyết** hay **đã đo**, kèm số và nguồn.
   - Mỗi phép đo mới được so với một con số đã biết trước khi dùng (sanity check, như L20).
   - Mỗi thuật ngữ chuẩn được đối chiếu câu gốc trong `sources-snapshots`.
+
+## L25. Một kết quả đã bị bác bỏ phải được gỡ ở **mọi** nơi nó xuất hiện (A23, rà soát 03/11)
+
+- **Xảy ra:** con số "harmful acceptance 18,5–29,8%" đã bị bác bỏ ở A23, nhưng vẫn nằm trong bảng của TODO.md. Tôi đọc lại bảng đó và nhắc con số với @thuthuy như một phát hiện.
+- **Phòng ngừa:**
+  - Khi một kết quả bị bác bỏ: `grep` con số ở mọi file (`docs/`, `TODO.md`, `paper/`), gạch đi và dẫn tới mục audit.
+  - Khi báo cáo phát hiện: lấy từ file kết quả hiện hành và đối chiếu sổ audit, không lấy từ bảng tóm tắt.
