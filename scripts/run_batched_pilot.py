@@ -145,6 +145,7 @@ def main() -> int:
     ap.add_argument("--max-batches", type=int, default=0)
     ap.add_argument("--model-seed", type=int, default=None, help="replicate seed (see run_pilot)")
     ap.add_argument("--task-sets", default="", help="per-skill task sets (see run_pilot)")
+    ap.add_argument("--arm-parallel", type=int, default=1, help="see run_pilot")
     ap.add_argument("--harness-python", default="", help="see run_pilot (SWE-bench-Live)")
     ap.add_argument("--harness-namespace", default="", help="see run_pilot (SWE-bench-Live)")
     ap.add_argument("--pull-retries", type=int, default=6, help="waits on a registry limit")
@@ -233,6 +234,8 @@ def main() -> int:
             cmd += ["--model-seed", str(a.model_seed)]
         if a.task_sets:
             cmd += ["--task-sets", a.task_sets]
+        if a.arm_parallel > 1:
+            cmd += ["--arm-parallel", str(a.arm_parallel)]
         if a.harness_python:
             cmd += ["--harness-python", a.harness_python]
         if a.harness_namespace:

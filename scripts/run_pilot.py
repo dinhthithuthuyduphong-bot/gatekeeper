@@ -347,7 +347,9 @@ def run_arm(arm: str, skill: Skill | None, rows: list[dict], args, out_dir: Path
     else:
         # register our prices so the per-instance cost_limit is enforced, and fail loudly rather
         # than silently counting 0 USD if a cost cannot be computed
-        reg = out_dir / "litellm_registry.json"
+        # one file per arm: arms may run in parallel (--arm-parallel), and a shared file could be
+        # read by one mini-swe-agent process while another rewrites it (review R-13)
+        reg = arm_dir / "litellm_registry.json"
         reg.write_text(json.dumps(litellm_registry(model), indent=2))
         env["LITELLM_MODEL_REGISTRY_PATH"] = str(reg.resolve())
         env["MSWEA_COST_TRACKING"] = "default"
@@ -402,6 +404,12 @@ def main() -> int:
     )
     ap.add_argument("--harness-namespace", default=None, help="SWE-bench-Live: starryzhang")
     ap.add_argument("--workers", type=int, default=2)
+    ap.add_argument(
+        "--arm-parallel",
+        type=int,
+        default=1,
+        help="arms of a batch run at the same time (operational: when runs happen, not what)",
+    )
     ap.add_argument("--step-limit", type=int, default=60)
     ap.add_argument("--cost-limit", type=float, default=1.0, help="USD per instance per arm")
     ap.add_argument("--budget-usd", type=float, default=0.0)
@@ -464,7 +472,11 @@ def main() -> int:
                 return EX_NOSPACE
             print(f"error: {len(missing)} images could not be pulled (registry limit?)", flush=True)
             return EX_TEMPFAIL
-    for arm, skill in arms:
+
+    def agent_and_score(arm: str, skill: Skill | None) -> tuple[Path, dict]:
+        """Stage 1 of an arm (agent runs, then harness scoring). Arms share nothing here: own
+        directory, own harness run id, own containers, own price file; so they may run in
+        parallel. Stage 2 below (losses, classification, cost) stays sequential, in arm order."""
         rows_arm = arm_rows_map[arm]
         agent_dir = run_arm(arm, skill, rows_arm, a, out_dir, model)
         ids_arm = [r["instance_id"] for r in rows_arm]
@@ -478,6 +490,19 @@ def main() -> int:
             test_files=tfiles,
             harness_kw={"namespace": a.harness_namespace, "python": a.harness_python},
         )
+        return agent_dir, reports
+
+    if a.arm_parallel > 1:
+        from concurrent.futures import ThreadPoolExecutor
+
+        with ThreadPoolExecutor(max_workers=a.arm_parallel) as ex:
+            futures = {arm: ex.submit(agent_and_score, arm, skill) for arm, skill in arms}
+            stage1 = {arm: f.result() for arm, f in futures.items()}  # re-raises any failure
+    else:
+        stage1 = {arm: agent_and_score(arm, skill) for arm, skill in arms}
+    for arm, _skill in arms:
+        rows_arm = arm_rows_map[arm]
+        agent_dir, reports = stage1[arm]
         losses[arm], usage[arm], infra[arm] = {}, {}, {}
         for r in rows_arm:
             iid = r["instance_id"]
@@ -503,9 +528,8 @@ def main() -> int:
                     model, int(u["tokens_in"]), int(u["tokens_out"]), int(u.get("tokens_cached", 0))
                 )
             spent += float(u.get("cost_usd", 0.0)) if model else 0.0
-        if model is not None and spent >= a.budget_usd:
-            print(f"budget reached after arm {arm}: {spent:.2f} USD", flush=True)
-            break
+    # no "stop after arm X" any more: the worst-case check above already guarantees that all arms
+    # together cost <= --budget-usd (each run is capped by --cost-limit)
 
     today = date.today().isoformat()
     summary = {

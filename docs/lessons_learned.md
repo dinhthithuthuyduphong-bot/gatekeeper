@@ -157,3 +157,7 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Phòng ngừa:**
   - Mọi bước kiểm phải **thất bại bằng mã thoát khác 0** và đứng **trước** hành động cần chặn (`check && action`).
   - Mỗi bước kiểm phải được thử với một ca xấu có chủ đích (khóa giả, mặc định giả) để chứng minh nó chặn được.
+
+## L16. Chạy song song cần rà mọi tài nguyên dùng chung (A49)
+
+- **Phòng ngừa:** trước khi cho hai việc chạy cùng lúc, liệt kê mọi file, thư mục, cổng, tên container và image mà chúng ghi hoặc đọc. Mỗi thứ phải riêng, hoặc chỉ đọc. Danh sách review §4 có mục này.

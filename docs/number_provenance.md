@@ -107,3 +107,5 @@ Mọi con số khác bên dưới đều được **suy ra từ α**, **suy ra t
 | Mô hình hiệu ứng trong plasmode (q′ = min(1, q + δ)) | không nêu | **Nêu rõ là giả định.** Chỉ ảnh hưởng tới power, không ảnh hưởng tới tỉ lệ sai (tính ở δ = 0). Kiểm định mô hình: P(Z = +1) mô phỏng 0,055 nằm trong khoảng đo được 0,04–0,08 | Franklin et al. 2014 |
 | Nhãn mức độ "Cao/Trung bình/Thấp" | tự đặt | **K1/K2/K3**, định nghĩa theo hậu quả (`docs/method_check.md` §3) | – |
 | Ký hiệu R | trùng 3 nghĩa | **R** = tỉ lệ PASS_TO_PASS bị hỏng; **1[resolved]**; **n_sim** | `docs/glossary.md` §7 |
+
+| `--arm-parallel` 3 (E1), 2 (E2) | Vận hành | Chỉ quyết định **khi nào** các nhánh chạy; kết quả của từng nhánh không phụ thuộc vào nó (đã kiểm bằng chạy thử song song `par-dryrun`: oracle resolved, các nhánh còn lại không, 0 lỗi hạ tầng). Giá trị lấy từ **số đo**: 1 nhánh × 4 worker cho tải trung bình 1,0 trên 4 CPU, nên 3 nhánh cho tải ≈ 3 < 4. E2 chỉ có 2 nhánh. Nếu harness quá thời gian vì tranh CPU, ca đó là lỗi hạ tầng và được chạy lại (A3), không thành kết quả |

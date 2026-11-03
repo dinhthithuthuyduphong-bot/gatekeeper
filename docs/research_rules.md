@@ -107,6 +107,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Bước kiểm phải chặn được (L15)**
 - [ ] Mỗi bước kiểm trả mã thoát khác 0 khi thất bại và đứng trước hành động cần chặn (`python scripts/preflight.py --ci && git commit …`). Đã thử với một ca xấu có chủ đích.
 
+**Chạy song song (L16)**
+- [ ] Các việc chạy cùng lúc không ghi chung file, thư mục, tên container hay image. Phần tính kết quả vẫn tuần tự và giữ thứ tự cũ.
+
 **Kiểm thử**
 - [ ] Mô phỏng hoặc phép toán mảng: assert kích thước kết quả, vì broadcasting âm thầm làm rộng mẫu (R-6).
 - [ ] Có test cho từng chỗ sửa; `ruff check`, `ruff format --check` và `pytest` đều qua.
