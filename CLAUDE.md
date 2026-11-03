@@ -56,6 +56,7 @@ Repo nghiên cứu Gatekeeper (ASE 2027). Người phụ trách: @thuthuy. File 
 - Chạy lại một lỗi do agent gây ra (thành thử lại đến khi thành công, L1).
 - Ghi đè kết quả của thí nghiệm khác (L6). Thay đổi thiết kế giữa chừng phải chạy thành giai đoạn riêng (L12).
 - Vượt ngân sách @thuthuy đã duyệt. Trần tính từ số đã chi thực tế (L8).
+- Để mất dữ liệu gốc: sau mỗi giai đoạn chạy `python scripts/archive_raw.py` (các script chạy tự gọi), kiểm bằng `python scripts/verify_archive.py`. Không xóa `runs/` hay `logs/` trước khi lô đã lên nhánh `raw-archive` (A52, `docs/raw_archive.md`).
 
 ## File tham chiếu
 | Việc | File |
@@ -64,9 +65,10 @@ Repo nghiên cứu Gatekeeper (ASE 2027). Người phụ trách: @thuthuy. File 
 | Quy tắc, danh sách review §4, mục đang vi phạm §5 | `docs/research_rules.md` |
 | Sổ review trước khi chạy | `docs/review_log.md` |
 | Lỗi đã gặp (A#, B#, C#) | `docs/audit_pilot.md` |
-| Bài học L1–L17 | `docs/lessons_learned.md` |
+| Bài học L1–L18 | `docs/lessons_learned.md` |
 | Nguồn gốc mọi con số | `docs/number_provenance.md` |
 | Ký hiệu và thuật ngữ (một nghĩa duy nhất) | `docs/glossary.md` §7 |
 | Kiểm định phương pháp bằng số | `docs/method_check.md`, `scripts/verify_methods.py` |
 | Bản đăng ký trước | `docs/preregistration_g1_v2.md`, `_e1.md`, `_e2.md` |
 | Kiểm tra tự động trước khi chạy | `scripts/preflight.py` (chạy cả trong CI) |
+| Lưu trữ và kiểm tra dữ liệu gốc | `docs/raw_archive.md`, nhánh `raw-archive` |

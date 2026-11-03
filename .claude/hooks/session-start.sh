@@ -56,6 +56,14 @@ for stage in "g1-e1-s41:e1_selected" "g1-e1-s51:e1_selected" "g1-e1-s61:e1_selec
   [ -n "$left" ] && [ "$left" != "0" ] && echo "Dở dang: $name còn $left task (chạy tiếp bằng script của thí nghiệm, đi qua cổng preflight)"
 done
 
+# 4b. Raw evidence not yet on the raw-archive branch (lost if the container is reclaimed, A52).
+if [ -d runs ]; then
+  git fetch -q origin raw-archive 2>/dev/null
+  archived=$(git show origin/raw-archive:archive/MANIFEST.json 2>/dev/null | "$PY" -c "import json,sys; print(' '.join(json.load(sys.stdin)['batches']))" 2>/dev/null)
+  n=0; for d in runs/*/; do b=$(basename "$d"); case " $archived " in *" $b "*) ;; *) n=$((n+1));; esac; done
+  [ "$n" -gt 0 ] && echo "Lưu trữ: $n lô chưa lên nhánh raw-archive (chạy: python scripts/archive_raw.py; kiểm: python scripts/verify_archive.py)" || echo "Lưu trữ: mọi lô đã lên nhánh raw-archive"
+fi
+
 # 5. Preflight once (report only: the gates block commits and paid runs).
 if "$PY" scripts/preflight.py --ci > /tmp/gatekeeper-preflight-session.log 2>&1; then
   echo "Preflight: PASS"

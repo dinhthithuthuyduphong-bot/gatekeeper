@@ -136,3 +136,19 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - Phần nhắc nhở và preflight không bao giờ làm hỏng việc khởi động phiên (`set +e`, `exit 0`).
 - **git hook:** thử commit một file chứa khóa giả bằng `git commit` trực tiếp → bị git chặn; file giả đã xóa.
 - **Kiểm thử:** ruff, pytest (`tests/test_preflight.py`), `bash -n` cho cả hai hook.
+
+## 03/11/2026, R-16: lưu trữ dữ liệu gốc (@thuthuy: "chọn điều tốt nhất cho việc lưu trữ, đảm bảo dễ kiểm soát")
+
+- **Chọn nhánh git `raw-archive`** thay cho GCS. Cùng chỗ với mã và kết quả, cùng quyền truy cập, có lịch sử, không tốn phí và không cần cấp thêm quyền. GCS cần quyền ghi Storage cho tài khoản dịch vụ và tốn phí.
+- **Kiểm trước:**
+  - repo **công khai**, nên lô có rule của XRepoSkill (không giấy phép) không được đưa lên;
+  - 661 MB dữ liệu gốc không chứa khóa hay đường dẫn tới file khóa.
+- **Thiết kế đã review:**
+  - nén tất định (đã thử: hai lần nén ra cùng SHA-256);
+  - gán log cho nhánh theo tên nhánh dài nhất trước (`control-none` không lấy log của `control-none-seed1`); đã kiểm mọi thư mục log được gán đúng 1 lần, 0 thư mục bị bỏ sót;
+  - ghi nhánh bằng lệnh cấp thấp (không đụng thư mục làm việc của E1);
+  - quét khóa trước khi ghi;
+  - mỗi file < 95 MB (lớn nhất 1,4 MB).
+- **Lỗi bắt được khi đối chiếu số lượng:** 932 so với 1.040 trajectory, do lô bị loại và lô bị dừng không được lưu. Đã sửa, nay 1.052/1.052 (trừ lô đang chạy). Lô đang chạy được nhận biết bằng tiến trình đang chạy, không bằng ngưỡng thời gian tự đặt.
+- **Tự động:** các script chạy gọi bước lưu trữ sau mỗi giai đoạn (cài bằng đổi tên nguyên tử, không ảnh hưởng tiến trình đang chạy); hook khởi động phiên báo số lô chưa lưu.
+- **Kiểm thử:** `verify_archive.py`: 119 lô, 0 chỗ lệch.

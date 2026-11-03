@@ -174,3 +174,12 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Các script chạy có chi phí có cổng preflight.
   - CI chạy preflight ở mọi lần push.
 - **Khi dừng một tiến trình giữa chừng:** dừng sau cả bước dọn dẹp của nó, hoặc tự dọn trước khi chạy tiếp.
+
+## L18. Kết quả tóm tắt không phải là bằng chứng; lưu bằng chứng gốc và đối chiếu số lượng (A52)
+
+- **Xảy ra:**
+  - Chỉ file tóm tắt được commit; dữ liệu gốc nằm trên một máy tạm.
+  - Ở lần lưu trữ đầu, script bỏ sót 108 trajectory. Lỗi chỉ lộ ra khi **đối chiếu tổng số** (1.040 trên máy so với 932 đã lưu).
+- **Phòng ngừa:**
+  - Mọi dữ liệu gốc của lần chạy có chi phí được lưu ra ngoài máy tạm sau mỗi giai đoạn.
+  - Mỗi lần lưu phải **đối chiếu số lượng** với nguồn (trajectory trên máy, số lần chạy trong file kết quả), không chỉ dựa vào việc script chạy xong không lỗi.
