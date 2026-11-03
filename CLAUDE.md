@@ -25,7 +25,7 @@ Repo nghiên cứu Gatekeeper (ASE 2027). Người phụ trách: @thuthuy. File 
 8. Sau khi chạy: kiểm `infra_failures`, `endpoint_mismatch`, `patch_apply_failed` trong file kết quả. Commit và push.
 
 ## Không bao giờ
-- Commit khóa service account. Khóa chỉ nằm ở scratchpad `secret/gcp-key.json`. Trước mỗi commit kiểm `git diff --cached | grep "BEGIN PRIVATE KEY"`.
+- Commit khóa service account. Khóa chỉ nằm ở scratchpad `secret/gcp-key.json`. Trước mỗi commit chạy `python scripts/preflight.py --ci`: kiểm tra [secrets] **chặn** commit nếu có khóa thật (dấu hiệu PEM có gạch ngang, hoặc trường `private_key` của file khóa). Một lệnh chỉ đếm số dòng khớp (`grep -c`) không chặn được gì (A47).
 - Phân phối lại nội dung không có LICENSE (rule của XRepoSkill: chỉ commit mã rule).
 - Coi "không có kết quả" là "kết quả xấu" hoặc ngược lại mà chưa đọc log của công cụ (L1).
 - Chạy lại một lỗi do agent gây ra (thành thử lại đến khi thành công, L1).

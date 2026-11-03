@@ -150,3 +150,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - **`CLAUDE.md`** ở gốc repo được nạp tự động ở mọi phiên. File tóm tắt R1–R5, quy trình 8 bước và các điều cấm.
   - **`scripts/preflight.py`** tự động hóa phần kiểm được bằng máy của §4: mặc định khoa học, nguồn, kết quả, khóa bí mật, lint, test. File chạy ở **mọi lần push** (CI).
   - Mỗi lỗi mới có thể kiểm bằng máy phải được thêm thành một kiểm tra trong preflight, không chỉ một dòng trong tài liệu.
+
+## L15. Một bước kiểm không chặn được thì không phải là bước kiểm (A47)
+
+- **Xảy ra:** bước kiểm khóa bí mật in ra số dòng khớp nhưng không bao giờ dừng commit.
+- **Phòng ngừa:**
+  - Mọi bước kiểm phải **thất bại bằng mã thoát khác 0** và đứng **trước** hành động cần chặn (`check && action`).
+  - Mỗi bước kiểm phải được thử với một ca xấu có chủ đích (khóa giả, mặc định giả) để chứng minh nó chặn được.

@@ -108,13 +108,21 @@ def check_results() -> list[str]:
     return bad
 
 
+# Real key material only (audit A47): the PEM header WITH its dashes, and the JSON field of a
+# Google service-account key file. Prose that merely names the check does not match.
+SECRET_PATTERNS = ["-" * 5 + "BEGIN " + "PRIVATE KEY" + "-" * 5, '"private' + '_key":']
+
+
 def check_secrets() -> list[str]:
-    marker = "BEGIN " + "PRIVATE KEY"  # split so this file does not match itself
-    out = subprocess.run(["git", "grep", "-l", marker], capture_output=True, text=True).stdout
+    bad = []
     staged = subprocess.run(["git", "diff", "--cached"], capture_output=True, text=True).stdout
-    bad = [f"tracked file contains a private key: {x}" for x in out.split()]
-    if marker in staged:
-        bad.append("staged changes contain a private key")
+    for pat in SECRET_PATTERNS:
+        out = subprocess.run(
+            ["git", "grep", "-l", "-F", "--", pat], capture_output=True, text=True
+        ).stdout
+        bad += [f"tracked file contains key material ({pat!r}): {x}" for x in out.split()]
+        if pat in staged:
+            bad.append(f"staged changes contain key material ({pat!r})")
     return bad
 
 
