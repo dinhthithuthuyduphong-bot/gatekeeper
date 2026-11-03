@@ -128,6 +128,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Kết quả bị bác bỏ (L25)**
 - [ ] Khi một kết quả bị bác bỏ: tìm con số đó ở mọi file (`docs/`, `TODO.md`, `paper/`), gạch đi, dẫn tới mục audit. Khi báo cáo: lấy số từ file kết quả hiện hành, không từ bảng tóm tắt.
 
+**Không xem kết quả trước khi phân tích (L28)**
+- [ ] Lệnh đọc file kết quả trong lúc thí nghiệm đang chạy chỉ in trường vận hành (chi phí, token, lỗi, trạng thái), không in `solved` hay `solve_rate` của nhánh skill, không in Z.
+
 **Kiểm thử**
 - [ ] Mô phỏng hoặc phép toán mảng: assert kích thước kết quả, vì broadcasting âm thầm làm rộng mẫu (R-6).
 - [ ] Có test cho từng chỗ sửa; `ruff check`, `ruff format --check` và `pytest` đều qua.

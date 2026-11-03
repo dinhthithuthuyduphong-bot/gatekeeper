@@ -155,3 +155,5 @@ Mã: `scripts/rq1_mini.py`; test: `tests/test_rq1_mini.py`.
 - **Không đổi:** cặp (skill, không skill) luôn ở cùng một lô, cùng seed, cùng chế độ. Ước lượng và kiểm định giữ nguyên.
 - **Báo cáo thêm (mô tả, không suy luận):** tỉ lệ giải được của nhánh không skill và Z̄ theo từng chế độ. Task được lấy theo thứ tự ngẫu nhiên đã cố định, nên mỗi chế độ ứng với một tập con ngẫu nhiên của task.
 - **Giới hạn đã biết** (đã có trong `docs/method_check.md`): ở n = 53, power mô phỏng của kiểm định chính là 0,370 ở δ = 0,109 và 0,901 ở δ = 0,20. Công thức n = (z + z)²·V/δ² cho 80% ở δ = 0,109, nhưng hiệu ứng thực hiện được nhỏ hơn δ (0,068), vì xác suất giải được bị chặn ở 1. Paper phải ghi E1 đủ power cho hiệu ứng khoảng ≥ 0,20, không phải 0,109.
+
+**Ghi chú thực thi 10** (03/11/2026, khoảng 18:20 UTC; A66): **công bố một lần xem kết quả giữa chừng ngoài kế hoạch.** Khi tính chi phí mỗi nhánh để suy θ, lệnh đã in tỉ lệ giải được của từng nhánh. Số liệu gộp, không ghép cặp, trên seed 41 và một phần giai đoạn mở rộng. Không có kiểm định, ước lượng chính hay quy tắc nào được tính lại hoặc đổi sau lần xem. θ = 0 (D2) và mọi quy tắc khác đã chốt từ trước.

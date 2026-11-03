@@ -260,3 +260,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Phòng ngừa:**
   - Mục "Quyền quyết định" trong `CLAUDE.md`.
   - Mỗi giai đoạn mới phải trả lời: dữ liệu có dùng lại được ở giai đoạn sau không, cần chốt gì trước.
+
+## L28. Script vận hành không được in kết quả của nhánh skill trước khi phân tích (A66)
+
+- **Xảy ra:** tôi đọc khối `usage` của file kết quả để tính chi phí, và in luôn `solve_rate` của mọi nhánh.
+- **Phòng ngừa:**
+  - Mọi lệnh đọc file kết quả trước khi phân tích chỉ in chi phí, token, lỗi hạ tầng và trạng thái.
+  - Muốn có tỉ lệ nền thì chỉ in của nhánh `none`, và ghi rõ trong log.
