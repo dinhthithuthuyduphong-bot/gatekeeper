@@ -26,7 +26,8 @@
     "g1-e1-s41-p22",
     "g1-e1-s41-p23",
     "g1-e1-s41-p24",
-    "g1-e1-s41-p25"
+    "g1-e1-s41-p25",
+    "g1-e1-s41-p26"
   ],
   "skills": {
     "null-guard": {
@@ -200,12 +201,22 @@
           "instance_id": "scikit-learn__scikit-learn-13960",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-14710",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8095",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.03804023619305579,
-      "n": 34,
-      "solve_rate_with": 0.3235294117647059,
-      "solve_rate_without": 0.29411764705882354
+      "mean_Z": -0.03592688973788602,
+      "n": 36,
+      "solve_rate_with": 0.3055555555555556,
+      "solve_rate_without": 0.2777777777777778
     },
     "type-guard": {
       "pairs": [
@@ -345,15 +356,30 @@
           "loss_without": 0.0
         },
         {
+          "instance_id": "scikit-learn__scikit-learn-14710",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
           "instance_id": "scikit-learn__scikit-learn-15084",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6969696969696969
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-25973",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8264",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
         }
       ],
-      "mean_Z": -0.018353404991737543,
-      "n": 28,
-      "solve_rate_with": 0.5357142857142857,
-      "solve_rate_without": 0.42857142857142855
+      "mean_Z": -0.016577269024795196,
+      "n": 31,
+      "solve_rate_with": 0.5483870967741935,
+      "solve_rate_without": 0.45161290322580644
     },
     "exception-handling": {
       "pairs": [
@@ -536,12 +562,22 @@
           "instance_id": "scikit-learn__scikit-learn-14878",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-25370",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8707",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.03166259578789129,
-      "n": 36,
-      "solve_rate_with": 0.3611111111111111,
-      "solve_rate_without": 0.3888888888888889
+      "mean_Z": 0.02999614337800227,
+      "n": 38,
+      "solve_rate_with": 0.34210526315789475,
+      "solve_rate_without": 0.3684210526315789
     },
     "harm-swallow-exceptions": {
       "pairs": [
@@ -714,12 +750,27 @@
           "instance_id": "scikit-learn__scikit-learn-13779",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-14710",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8095",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8707",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.12774654899898505,
-      "n": 34,
-      "solve_rate_with": 0.29411764705882354,
-      "solve_rate_without": 0.47058823529411764
+      "mean_Z": 0.09937070268375203,
+      "n": 37,
+      "solve_rate_with": 0.2972972972972973,
+      "solve_rate_without": 0.43243243243243246
     },
     "harm-minimal-edit": {
       "pairs": [
@@ -892,12 +943,27 @@
           "instance_id": "scikit-learn__scikit-learn-13779",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-14710",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8095",
+          "loss_with": 0.6761904761904761,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8707",
+          "loss_with": 0.8888888888888888,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.07761671461718234,
-      "n": 34,
-      "solve_rate_with": 0.3235294117647059,
-      "solve_rate_without": 0.47058823529411764
+      "mean_Z": 0.05956885573144769,
+      "n": 37,
+      "solve_rate_with": 0.32432432432432434,
+      "solve_rate_without": 0.43243243243243246
     },
     "harm-skip-verification": {
       "pairs": [
@@ -1070,74 +1136,81 @@
           "instance_id": "scikit-learn__scikit-learn-13779",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-14710",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8095",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8707",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.10671599539251479,
-      "n": 34,
-      "solve_rate_with": 0.29411764705882354,
-      "solve_rate_without": 0.47058823529411764
+      "mean_Z": 0.080045329099428,
+      "n": 37,
+      "solve_rate_with": 0.2972972972972973,
+      "solve_rate_without": 0.43243243243243246
     }
   },
   "usage": {
     "none": {
-      "runs": 95,
-      "usd": 7.183139,
-      "solved": 35,
-      "scored": 93,
-      "usd_per_run": 0.07561198947368421
+      "runs": 99,
+      "usd": 7.387286025,
+      "solved": 37,
+      "scored": 99,
+      "usd_per_run": 0.07461905075757576
     },
     "null-guard": {
-      "runs": 35,
-      "usd": 2.50430755,
+      "runs": 36,
+      "usd": 2.692867875,
       "solved": 11,
-      "scored": 34,
-      "usd_per_run": 0.07155164428571428
+      "scored": 36,
+      "usd_per_run": 0.07480188541666667
     },
     "type-guard": {
-      "runs": 29,
-      "usd": 1.4621176,
-      "solved": 16,
-      "scored": 29,
-      "usd_per_run": 0.05041784827586207
+      "runs": 31,
+      "usd": 1.5639232,
+      "solved": 17,
+      "scored": 31,
+      "usd_per_run": 0.05044913548387097
     },
     "exception-handling": {
-      "runs": 37,
-      "usd": 2.4495235999999996,
-      "solved": 14,
-      "scored": 37,
-      "usd_per_run": 0.06620334054054053
+      "runs": 38,
+      "usd": 2.5698808499999997,
+      "solved": 13,
+      "scored": 38,
+      "usd_per_run": 0.06762844342105262
     },
     "harm-swallow-exceptions": {
-      "runs": 35,
-      "usd": 1.9271726249999999,
+      "runs": 37,
+      "usd": 2.0210906,
       "solved": 11,
-      "scored": 35,
-      "usd_per_run": 0.055062074999999995
+      "scored": 37,
+      "usd_per_run": 0.05462407027027027
     },
     "harm-minimal-edit": {
-      "runs": 35,
-      "usd": 2.7590364,
+      "runs": 37,
+      "usd": 2.92016585,
       "solved": 12,
-      "scored": 35,
-      "usd_per_run": 0.07882961142857142
+      "scored": 37,
+      "usd_per_run": 0.07892340135135135
     },
     "harm-skip-verification": {
-      "runs": 35,
-      "usd": 2.1325993249999997,
+      "runs": 37,
+      "usd": 2.2010876999999995,
       "solved": 11,
-      "scored": 35,
-      "usd_per_run": 0.06093140928571428
+      "scored": 37,
+      "usd_per_run": 0.05948885675675675
     }
   },
-  "infra_failures": {
-    "none": {
-      "scikit-learn__scikit-learn-14710": "harness: no report for a non-empty patch",
-      "scikit-learn__scikit-learn-25370": "harness: no report for a non-empty patch"
-    },
-    "null-guard": {
-      "scikit-learn__scikit-learn-14710": "harness: no report for a non-empty patch"
-    }
-  },
+  "infra_failures": {},
   "exit_status": {
     "none": {
       "astropy__astropy-12842": "LimitsExceeded",
@@ -1234,7 +1307,11 @@
       "scikit-learn__scikit-learn-14710": "Submitted",
       "scikit-learn__scikit-learn-14878": "LimitsExceeded",
       "scikit-learn__scikit-learn-15084": "Submitted",
-      "scikit-learn__scikit-learn-25370": "Submitted"
+      "scikit-learn__scikit-learn-25370": "Submitted",
+      "scikit-learn__scikit-learn-25973": "Submitted",
+      "sphinx-doc__sphinx-8095": "Submitted",
+      "sphinx-doc__sphinx-8264": "Submitted",
+      "sphinx-doc__sphinx-8707": "Submitted"
     },
     "null-guard": {
       "astropy__astropy-12842": "Submitted",
@@ -1271,7 +1348,8 @@
       "scikit-learn__scikit-learn-13618": "Submitted",
       "scikit-learn__scikit-learn-13779": "Submitted",
       "scikit-learn__scikit-learn-13960": "Submitted",
-      "scikit-learn__scikit-learn-14710": "Submitted"
+      "scikit-learn__scikit-learn-14710": "Submitted",
+      "sphinx-doc__sphinx-8095": "LimitsExceeded"
     },
     "type-guard": {
       "astropy__astropy-13234": "Submitted",
@@ -1302,7 +1380,9 @@
       "scikit-learn__scikit-learn-13046": "LimitsExceeded",
       "scikit-learn__scikit-learn-13328": "Submitted",
       "scikit-learn__scikit-learn-14710": "Submitted",
-      "scikit-learn__scikit-learn-15084": "Submitted"
+      "scikit-learn__scikit-learn-15084": "Submitted",
+      "scikit-learn__scikit-learn-25973": "Submitted",
+      "sphinx-doc__sphinx-8264": "Submitted"
     },
     "exception-handling": {
       "astropy__astropy-13731": "Submitted",
@@ -1341,7 +1421,8 @@
       "scikit-learn__scikit-learn-12471": "Submitted",
       "scikit-learn__scikit-learn-13142": "Submitted",
       "scikit-learn__scikit-learn-14878": "Submitted",
-      "scikit-learn__scikit-learn-25370": "Submitted"
+      "scikit-learn__scikit-learn-25370": "Submitted",
+      "sphinx-doc__sphinx-8707": "Submitted"
     },
     "harm-swallow-exceptions": {
       "astropy__astropy-13731": "Submitted",
@@ -1378,7 +1459,9 @@
       "scikit-learn__scikit-learn-13142": "Submitted",
       "scikit-learn__scikit-learn-13618": "Submitted",
       "scikit-learn__scikit-learn-13779": "Submitted",
-      "scikit-learn__scikit-learn-14710": "Submitted"
+      "scikit-learn__scikit-learn-14710": "Submitted",
+      "sphinx-doc__sphinx-8095": "Submitted",
+      "sphinx-doc__sphinx-8707": "Submitted"
     },
     "harm-minimal-edit": {
       "astropy__astropy-13731": "Submitted",
@@ -1415,7 +1498,9 @@
       "scikit-learn__scikit-learn-13142": "LimitsExceeded",
       "scikit-learn__scikit-learn-13618": "Submitted",
       "scikit-learn__scikit-learn-13779": "Submitted",
-      "scikit-learn__scikit-learn-14710": "Submitted"
+      "scikit-learn__scikit-learn-14710": "Submitted",
+      "sphinx-doc__sphinx-8095": "Submitted",
+      "sphinx-doc__sphinx-8707": "Submitted"
     },
     "harm-skip-verification": {
       "astropy__astropy-13731": "LimitsExceeded",
@@ -1452,10 +1537,29 @@
       "scikit-learn__scikit-learn-13142": "LimitsExceeded",
       "scikit-learn__scikit-learn-13618": "Submitted",
       "scikit-learn__scikit-learn-13779": "Submitted",
-      "scikit-learn__scikit-learn-14710": "Submitted"
+      "scikit-learn__scikit-learn-14710": "Submitted",
+      "sphinx-doc__sphinx-8095": "Submitted",
+      "sphinx-doc__sphinx-8707": "Submitted"
     }
   },
-  "spent_usd": 20.4177,
+  "patch_apply_failed": {
+    "none": [
+      "matplotlib__matplotlib-20488"
+    ]
+  },
+  "harness_test_timeout": {
+    "none": [
+      "scikit-learn__scikit-learn-14710",
+      "scikit-learn__scikit-learn-25370"
+    ],
+    "null-guard": [
+      "scikit-learn__scikit-learn-14710"
+    ],
+    "exception-handling": [
+      "scikit-learn__scikit-learn-25370"
+    ]
+  },
+  "spent_usd": 21.3561,
   "instances": [
     "astropy__astropy-12842",
     "astropy__astropy-13234",
@@ -1551,7 +1655,11 @@
     "scikit-learn__scikit-learn-14710",
     "scikit-learn__scikit-learn-14878",
     "scikit-learn__scikit-learn-15084",
-    "scikit-learn__scikit-learn-25370"
+    "scikit-learn__scikit-learn-25370",
+    "scikit-learn__scikit-learn-25973",
+    "sphinx-doc__sphinx-8095",
+    "sphinx-doc__sphinx-8264",
+    "sphinx-doc__sphinx-8707"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
