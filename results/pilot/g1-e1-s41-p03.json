@@ -199,5 +199,35 @@
         "log_e": 0.0
       }
     }
-  }
+  },
+  "exit_status": {
+    "none": {
+      "django__django-10730": "Submitted",
+      "django__django-10853": "Submitted",
+      "django__django-11030": "Submitted",
+      "django__django-11451": "Submitted"
+    },
+    "null-guard": {
+      "django__django-11030": "Submitted",
+      "django__django-11451": "Submitted"
+    },
+    "exception-handling": {
+      "django__django-10730": "Submitted",
+      "django__django-10853": "Submitted",
+      "django__django-11030": "Submitted"
+    },
+    "harm-swallow-exceptions": {
+      "django__django-10853": "LimitsExceeded",
+      "django__django-11451": "Submitted"
+    },
+    "harm-minimal-edit": {
+      "django__django-10853": "Submitted",
+      "django__django-11451": "Submitted"
+    },
+    "harm-skip-verification": {
+      "django__django-10853": "Submitted",
+      "django__django-11451": "Submitted"
+    }
+  },
+  "exit_status_backfilled_from": "runs/g1-e1-s41-p03/*/agent/*/*.traj.json"
 }

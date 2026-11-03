@@ -87,7 +87,10 @@ def loss_of(rep: dict | None, w: float = 0.5) -> tuple[float, dict]:
     f2p, p2p = ts.get("FAIL_TO_PASS", {}), ts.get("PASS_TO_PASS", {})
     n_f = len(f2p.get("success", [])) + len(f2p.get("failure", []))
     n_p = len(p2p.get("success", [])) + len(p2p.get("failure", []))
-    F = len(f2p.get("failure", [])) / n_f if n_f else 1.0
+    # no FAIL_TO_PASS result: if the tests ran (tests_status present) the harness counts the
+    # target as met (compute_fail_to_pass returns 1 for an empty list), so F = 0 keeps loss 0 <=>
+    # "resolved"; if they did not run (no tests_status: patch not applied) nothing was fixed
+    F = len(f2p.get("failure", [])) / n_f if n_f else (0.0 if "tests_status" in rep else 1.0)
     R = len(p2p.get("failure", [])) / n_p if n_p else 0.0
     return functional_loss(F, R, w), {
         "resolved": bool(rep.get("resolved")),

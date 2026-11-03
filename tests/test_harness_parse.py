@@ -41,3 +41,18 @@ def test_read_report_searches_other_layouts(tmp_path, monkeypatch):
     (d / "report.json").write_text('{"x__y-2": {"resolved": false}}')
     monkeypatch.chdir(tmp_path)
     assert hs.read_report("r", "gold", "x__y-2") == {"resolved": False}
+
+
+def test_empty_fail_to_pass_matches_harness_convention():
+    from gatekeeper.harness import loss_of
+
+    ran = {
+        "resolved": True,
+        "tests_status": {
+            "FAIL_TO_PASS": {"success": [], "failure": []},
+            "PASS_TO_PASS": {"success": ["t"], "failure": []},
+        },
+    }
+    assert loss_of(ran)[0] == 0.0  # harness: compute_fail_to_pass([]) == 1 -> resolved
+    not_run = {"resolved": False}  # patch not applied: no tests_status
+    assert loss_of(not_run)[0] > 0.0

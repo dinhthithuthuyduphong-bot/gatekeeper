@@ -219,7 +219,50 @@ def per_task_mean(runs: list[dict], skill: str, endpoint: str = "resolved") -> d
     return {t: sum(v) / len(v) for t, v in acc.items() if len(v) == need}
 
 
-def verdict(c: dict, confirm: list[dict], skills: list[str]) -> dict:
+TRUNCATED = {"LimitsExceeded", "TimeExceeded"}  # step or cost limit hit (mini-swe-agent 2.4.6)
+
+
+def _truncated(run: dict, arm: str, task: str) -> bool | None:
+    st = (run.get("exit_status") or {}).get(arm, {})
+    return None if task not in st else st[task] in TRUNCATED
+
+
+def intercurrent(confirm: list[dict], skills: list[str]) -> dict:
+    """ICH E9(R1) intercurrent event "truncated" (preregistration_e1.md section 3), REPORTED ONLY:
+    truncation rate per arm, and the hypothetical-strategy estimate that drops every seed-pair
+    with a truncated arm (tasks then need all seeds). Primary = treatment policy (as is)."""
+    out: dict = {"truncation_rate": {}, "hypothetical": {}}
+    if not all("exit_status" in r for r in confirm):
+        out["note"] = "exit statuses not recorded for every run"
+        return out
+    for arm in ["none", *skills]:
+        st = [v for r in confirm for v in (r["exit_status"].get(arm) or {}).values()]
+        out["truncation_rate"][arm] = (
+            {"n": len(st), "rate": sum(x in TRUNCATED for x in st) / len(st)} if st else None
+        )
+    for s in skills:
+        acc: dict[str, list[float]] = defaultdict(list)
+        for r in confirm:
+            pairs = [
+                p
+                for p in r.get("skills", {}).get(s, {}).get("pairs", [])
+                if _truncated(r, s, p["instance_id"]) is False
+                and _truncated(r, "none", p["instance_id"]) is False
+            ]
+            for t, z in z_resolved(pairs).items():
+                acc[t].append(z)
+        x = [sum(v) / len(v) for v in acc.values() if len(v) == len(confirm)]
+        out["hypothetical"][s] = {
+            "n_tasks": len(x),
+            "mean_z_resolved": float(np.mean(x)) if x else None,
+            "ci": t_interval(x) if len(x) >= 2 else None,
+            "p_help_one_sided": sign_flip_p(x) if x else None,
+            "p_harm_one_sided": sign_flip_p([-v for v in x]) if x else None,
+        }
+    return out
+
+
+def verdict(c: dict | None, confirm: list[dict], skills: list[str], label: str = "G1") -> dict:
     out: dict = {
         "skills": {},
         "alpha_family_one_sided": ALPHA_FAMILY,
@@ -284,15 +327,17 @@ def verdict(c: dict, confirm: list[dict], skills: list[str]) -> dict:
         }
     else:
         out["aa"] = {"note": "one confirmation seed: A/A not testable"}
+    out["intercurrent_events"] = intercurrent(confirm, skills)
     aa_bad = bool(out["aa"].get("flag"))
     passing = [s for s, v in out["skills"].items() if v.get("robust")]
     fragile = [s for s, v in out["skills"].items() if v.get("reject") and not v.get("robust")]
+    tag = label
     if not skills:
-        out["verdict"] = "G1 FAIL: no skill points in the helpful direction on stage C"
+        out["verdict"] = f"{tag} FAIL: no skill points in the helpful direction on stage C"
     elif aa_bad:
         out["verdict"] = "INCONCLUSIVE: the A/A check rejects (pipeline suspect)"
     elif passing:
-        out["verdict"] = "G1 PASS: " + ", ".join(passing)
+        out["verdict"] = f"{tag} PASS: " + ", ".join(passing)
     elif fragile:
         out["verdict"] = (
             "INCONCLUSIVE: primary test rejects but a sensitivity analysis does not "
@@ -301,9 +346,15 @@ def verdict(c: dict, confirm: list[dict], skills: list[str]) -> dict:
     else:
         crit = max(v["critical_effect"] for v in out["skills"].values())
         out["verdict"] = (
-            "G1 FAIL: no skill rejects H0 (effects smaller than the critical effect "
+            f"{tag} FAIL: no skill rejects H0 (effects smaller than the critical effect "
             f"~{crit:.2f} cannot be declared with these data)"
         )
+    harmed = [s for s, v in out["skills"].items() if v["harm"]["reject"]]
+    out["harm_verdict"] = (
+        "harm established (primary, S1 and S2 reject): " + ", ".join(harmed)
+        if harmed and not aa_bad
+        else "no harm established"
+    )
     return out
 
 
@@ -315,11 +366,13 @@ def main() -> int:
     s1.add_argument("--cap-usd", type=float, default=34.0)
     s1.add_argument("--spent-usd", type=float, required=True)
     s2 = sub.add_parser("verdict")
-    s2.add_argument("--stage-c", required=True)
-    s2.add_argument("--confirm", nargs="+", required=True)
-    s2.add_argument("--skills", required=True, help="comma list fixed by `select`")
+    s2.add_argument("--stage-c", default="", help="G1 only (unused by the tests themselves)")
+    s2.add_argument("--confirm", nargs="+", required=True, help="seed runs; first two = A/A")
+    s2.add_argument("--skills", required=True, help="comma list = the Holm family")
+    s2.add_argument("--label", default="G1", help="experiment name in the verdict (G1, E1, E2)")
+    s2.add_argument("--out", default="results/g1_final.json", help="never overwrite G1's file")
     a = ap.parse_args()
-    c = json.loads((RESULTS / f"{a.stage_c}.json").read_text())
+    c = json.loads((RESULTS / f"{a.stage_c}.json").read_text()) if a.stage_c else None
     if a.cmd == "select":
         sel = select(c)
         skills, m, per_seed = plan_seeds(c, sel, a.spent_usd, a.cap_usd)
@@ -333,9 +386,11 @@ def main() -> int:
         Path("results/g1_selection.json").write_text(json.dumps(out, indent=2) + "\n")
     else:
         confirm = [json.loads((RESULTS / f"{r}.json").read_text()) for r in a.confirm]
-        out = verdict(c, confirm, [s for s in a.skills.split(",") if s])
+        if a.label != "G1" and Path(a.out).name == "g1_final.json":
+            raise SystemExit("--out must be given for E1/E2 (results/g1_final.json is G1's)")
+        out = verdict(c, confirm, [s for s in a.skills.split(",") if s], label=a.label)
         out["confirm_runs"] = a.confirm
-        Path("results/g1_final.json").write_text(json.dumps(out, indent=2) + "\n")
+        Path(a.out).write_text(json.dumps(out, indent=2) + "\n")
     print(json.dumps(out, indent=1))
     return 0
 

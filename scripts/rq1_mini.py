@@ -33,8 +33,10 @@ def z_by_task(run: dict, skill: str) -> dict[str, float]:
 
 
 def decide(screen: list[float], alpha_cell: float) -> dict[str, bool]:
+    """Every rule sees the SAME screening data: the first BUDGET trials."""
+    screen = screen[:BUDGET]
     return {
-        "Gatekeeper": run_admission(screen[:BUDGET], 1e-9, alpha_cell, budget=BUDGET).admitted,
+        "Gatekeeper": run_admission(screen, 1e-9, alpha_cell, budget=BUDGET).admitted,
         "Plug-in (mean < 0)": bool(np.mean(screen) < 0) if screen else False,
         "B1 never": False,
         "B2 always": True,
@@ -108,7 +110,8 @@ def cell_from_runs(screen_run: dict, truth_runs: list[dict], skill: str) -> dict
     s = z_by_task(screen_run, skill)
     tr = [z_by_task(r, skill) for r in truth_runs]
     tasks = sorted(t for t in s if all(t in x for x in tr))
-    random.Random(f"{ORDER_SEED}-{skill}").shuffle(tasks)
+    # preregistration_e1.md section 6: random.Random("2027-order"), a fresh generator per cell
+    random.Random(ORDER_SEED).shuffle(tasks)
     screen = [s[t] for t in tasks]
     truth_task = [float(np.mean([x[t] for x in tr])) for t in tasks]
     return {"skill": skill, "n_tasks": len(tasks), "screen": screen, "truth_task": truth_task}
@@ -119,6 +122,12 @@ def main() -> int:
     ap.add_argument("--e1", nargs=3, default=None)
     ap.add_argument("--g1", nargs=3, default=None)
     ap.add_argument("--sskb", action="store_true")
+    ap.add_argument(
+        "--e2",
+        nargs=3,
+        default=None,
+        help="E2 cell (preregistration_e2.md section 5.5): its own hypothesis at alpha 0.05",
+    )
     a = ap.parse_args()
     cells: dict[str, dict] = {}
     if a.sskb:
@@ -144,6 +153,24 @@ def main() -> int:
         print(json.dumps(out, indent=1))
         return 0
     load = lambda n: json.loads(Path(f"results/pilot/{n}.json").read_text())  # noqa: E731
+    if a.e2:  # separate from the K = 7 family of E1 (pre-registered as its own hypothesis)
+        e2 = [load(n) for n in a.e2]
+        sp = cell_from_runs(e2[0], e2[1:], "xreposkill")
+        cell = {
+            "n_tasks": sp["n_tasks"],
+            "decisions": decide(sp["screen"], ALPHA),
+            "label_tested": label_tested(sp["truth_task"], ALPHA),
+            "label": label(sp["truth_task"]) if sp["truth_task"] else None,
+            "str_true": float(np.mean(sp["truth_task"])) if sp["truth_task"] else None,
+            "truth_p_benefit": gf.sign_flip_p(sp["truth_task"]),
+            "truth_p_harm": gf.sign_flip_p([-v for v in sp["truth_task"]]),
+            "screen_mean": float(np.mean(sp["screen"][:BUDGET])) if sp["screen"] else None,
+            "screen_trials_used": min(BUDGET, len(sp["screen"])),
+        }
+        out = {"alpha_cell": ALPHA, "cell": cell, "runs": a.e2}
+        Path("results/rq1_e2.json").write_text(json.dumps(out, indent=1) + "\n")
+        print(json.dumps(out, indent=1))
+        return 0
     specs = []
     if a.e1:
         e1 = [load(n) for n in a.e1]
@@ -161,7 +188,7 @@ def main() -> int:
             "str_true": float(np.mean(s["truth_task"])),
             "truth_p_benefit": gf.sign_flip_p(s["truth_task"]),
             "truth_p_harm": gf.sign_flip_p([-v for v in s["truth_task"]]),
-            "screen_mean": float(np.mean(s["screen"])),
+            "screen_mean": float(np.mean(s["screen"][:BUDGET])),
             "label_tested": label_tested(s["truth_task"], ledger.cell(s["skill"])),
         }
     out = {

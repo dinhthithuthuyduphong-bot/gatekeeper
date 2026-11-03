@@ -141,3 +141,14 @@ def test_harm_direction_is_reported_separately():
     v = gf.verdict(run, [run, run, run], ["s"])
     assert not v["skills"]["s"]["reject"] and v["skills"]["s"]["harm"]["reject"]
     assert v["verdict"].startswith("G1 FAIL")  # the primary (benefit) decision is unchanged
+
+
+def test_verdict_has_harm_verdict_and_label():
+    import analyze_g1_final as gf
+
+    pairs = [{"instance_id": f"o__r-{i}", "loss_with": 1.0, "loss_without": 0.0} for i in range(12)]
+    run = {"skills": {"s": {"pairs": pairs}}}
+    out = gf.verdict(None, [run, run, run], ["s"], label="E2")
+    assert out["harm_verdict"].startswith("harm established") is False  # 1 repo cluster: S2 fails
+    assert out["skills"]["s"]["harm"]["p"] < 0.025
+    assert "E2" in out["verdict"]

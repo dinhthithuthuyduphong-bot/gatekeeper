@@ -126,7 +126,18 @@ def usage_summary(u: dict[str, dict], loss: dict[str, float]) -> dict:
 # Agent exit statuses that reflect the agent's own behaviour. Anything else (CalledProcessError
 # from `docker run`, API errors, ...) is an infrastructure failure: the pair is excluded and
 # reported, never scored as "the agent did not solve the task".
-AGENT_EXIT_STATUSES = {"Submitted", "LimitsExceeded", "TimeExceeded", "FormatError"}
+# mini-swe-agent 2.4.6 (agents/default.py): Submitted, LimitsExceeded (step or cost limit),
+# TimeExceeded, FormatError, RepeatedFormatError (max_consecutive_format_errors reached: the
+# MODEL's output, so treatment policy, preregistration_e1.md section 3). ContextWindowExceededError
+# (LiteLLM) is the trajectory outgrowing the context: also the agent's own behaviour.
+AGENT_EXIT_STATUSES = {
+    "Submitted",
+    "LimitsExceeded",
+    "TimeExceeded",
+    "FormatError",
+    "RepeatedFormatError",
+    "ContextWindowExceededError",
+}
 
 
 def agent_exit_status(traj_path: Path) -> str | None:
@@ -435,6 +446,8 @@ def main() -> int:
     losses: dict[str, dict[str, float]] = {}
     usage: dict[str, dict[str, dict]] = {}
     infra: dict[str, dict[str, str | None]] = {}
+    mismatch: dict[str, list[str]] = {}
+    exit_status: dict[str, dict[str, str | None]] = {}  # intercurrent events (ICH E9(R1))
     spent = 0.0
     if model is not None or a.prepull:
         missing = prepull(rows)
@@ -465,12 +478,17 @@ def main() -> int:
             iid = r["instance_id"]
             traj = agent_dir / iid / f"{iid}.traj.json"
             status = agent_exit_status(traj)
+            exit_status.setdefault(arm, {})[iid] = status
             if model is not None and is_infra_failure(status):
                 infra[arm][iid] = status  # agent never ran properly: excluded from pairing
             elif reports[iid] == HARNESS_INFRA:
                 infra[arm][iid] = "harness: no report for a non-empty patch"
             else:
-                losses[arm][iid], _ = loss_of(reports[iid])
+                losses[arm][iid], info = loss_of(reports[iid])
+                # the endpoint is the harness's own "resolved" (get_resolution_status); loss 0
+                # must agree with it, otherwise the analysis would score a different endpoint
+                if (losses[arm][iid] == 0.0) != bool(info.get("resolved")):
+                    mismatch.setdefault(arm, []).append(iid)
             u = traj_usage(json.loads(traj.read_text())) if traj.exists() else {}
             usage[arm][iid] = u
             if model is not None and u and not u.get("cost_usd"):
@@ -494,8 +512,14 @@ def main() -> int:
         "spent_usd": round(spent, 4),
         "usage": {arm: usage_summary(usage[arm], losses[arm]) for arm in losses},
         "infra_failures": {arm: v for arm, v in infra.items() if v},
+        "model_seed": a.model_seed,
+        "endpoint_mismatch": mismatch,
+        "exit_status": exit_status,
         "skills": {},
     }
+    # the replicate's sampling seed (a.seed only orders a random task sample)
+    seed_used = a.model_seed if a.model_seed is not None else a.seed
+    bench = "live" if any("starryzhang/" in str(r.get("image", "")) for r in rows) else "verified"
     for arm, _skill in arms[1:]:
         if arm not in losses:
             continue
@@ -505,11 +529,11 @@ def main() -> int:
             r = next(x for x in rows if x["instance_id"] == iid)
             log.append(
                 TrialRecord(
-                    key=f"{a.name}/{arm}/{iid}/{a.seed}",
+                    key=f"{a.name}/{arm}/{iid}/{seed_used}",
                     system="pilot",
-                    cell=f"{arm}@verified",
+                    cell=f"{arm}@{bench}",
                     task_id=iid,
-                    seed=a.seed,
+                    seed=seed_used,
                     loss_with=lw,
                     loss_without=lo,
                     model_id=summary["model"],

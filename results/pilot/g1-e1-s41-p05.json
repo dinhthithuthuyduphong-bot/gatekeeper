@@ -209,5 +209,36 @@
         "log_e": 0.0
       }
     }
-  }
+  },
+  "exit_status": {
+    "none": {
+      "django__django-11911": "Submitted",
+      "django__django-12518": "Submitted",
+      "django__django-12869": "Submitted",
+      "django__django-12915": "Submitted"
+    },
+    "null-guard": {
+      "django__django-11911": "Submitted"
+    },
+    "type-guard": {
+      "django__django-12915": "Submitted"
+    },
+    "exception-handling": {
+      "django__django-12518": "Submitted",
+      "django__django-12869": "Submitted"
+    },
+    "harm-swallow-exceptions": {
+      "django__django-11911": "Submitted",
+      "django__django-12518": "Submitted"
+    },
+    "harm-minimal-edit": {
+      "django__django-11911": "Submitted",
+      "django__django-12518": "Submitted"
+    },
+    "harm-skip-verification": {
+      "django__django-11911": "Submitted",
+      "django__django-12518": "Submitted"
+    }
+  },
+  "exit_status_backfilled_from": "runs/g1-e1-s41-p05/*/agent/*/*.traj.json"
 }

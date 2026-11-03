@@ -85,6 +85,7 @@ def merge(name: str, parts: list[Path]) -> dict:
         "skills": {},
         "usage": {},
         "infra_failures": {},
+        "exit_status": {},
         "spent_usd": 0.0,
         "instances": [],
     }
@@ -104,6 +105,8 @@ def merge(name: str, parts: list[Path]) -> dict:
             out["skills"].setdefault(sk, {"pairs": []})["pairs"] += v["pairs"]
         for arm, v in (d.get("infra_failures") or {}).items():
             out["infra_failures"].setdefault(arm, {}).update(v)
+        for arm, v in (d.get("exit_status") or {}).items():  # a re-run replaces older statuses
+            out["exit_status"].setdefault(arm, {}).update(v)
         for arm, u in (d.get("usage") or {}).items():
             agg = out["usage"].setdefault(arm, {"runs": 0, "usd": 0.0, "solved": 0, "scored": 0})
             n = u.get("runs") or 0

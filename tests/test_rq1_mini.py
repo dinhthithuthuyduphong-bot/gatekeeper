@@ -37,3 +37,11 @@ def test_tested_labels_keep_undetermined():
     s = rq.summarise_tested(cells)
     assert s["N"]["harmful_acceptance"] == 1.0 and s["G"]["harmful_acceptance"] == 0.0
     assert s["N"]["admitted_undetermined"] == 1 and s["N"]["clean_reuse_coverage"] is None
+
+
+def test_rules_see_the_same_screening_trials():
+    import rq1_mini as rq
+
+    screen = [0.0] * rq.BUDGET + [-1.0] * 10  # only trials beyond the budget look helpful
+    d = rq.decide(screen, 0.05)
+    assert d["Plug-in (mean < 0)"] is False and d["Gatekeeper"] is False

@@ -113,5 +113,24 @@
         "log_e": 0.0
       }
     }
-  }
+  },
+  "exit_status": {
+    "none": {
+      "django__django-11457": "Submitted",
+      "django__django-11517": "Submitted",
+      "django__django-11618": "Submitted",
+      "django__django-11638": "Submitted"
+    },
+    "null-guard": {
+      "django__django-11638": "Submitted"
+    },
+    "type-guard": {
+      "django__django-11517": "Submitted"
+    },
+    "exception-handling": {
+      "django__django-11457": "Submitted",
+      "django__django-11618": "Submitted"
+    }
+  },
+  "exit_status_backfilled_from": "runs/g1-e1-s41-p04/*/agent/*/*.traj.json"
 }

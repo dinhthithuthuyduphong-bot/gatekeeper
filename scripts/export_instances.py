@@ -20,6 +20,8 @@ def main() -> int:
     wanted: dict[str, set[str]] = defaultdict(set)
     for p in Path("configs/pools").glob("*.json"):
         pool = json.loads(p.read_text())
+        if not isinstance(pool, dict) or not isinstance(pool.get("instances"), list):
+            continue  # task-set files (e.g. e1_task_sets.json) are not pools
         wanted[pool.get("dataset", DATASET)] |= set(pool["instances"])
     rows: dict[str, dict] = {}
     for ds in sorted(wanted, key=lambda d: d != DATASET):  # Verified first
@@ -36,6 +38,17 @@ def main() -> int:
                     row["image"] = f"starryzhang/sweb.eval.x86_64.{key}:latest"
                     row["image_name"] = "docker.io/" + row["image"]  # mini-swe-agent's key
                 rows[r["instance_id"]] = row
+    # the datasets change over time (SWE-bench-Live grows every month): record the exact revision
+    revisions = {}
+    try:
+        from huggingface_hub import HfApi
+
+        for ds in wanted:
+            revisions[ds] = HfApi().dataset_info(ds).sha
+    except Exception as exc:  # noqa: BLE001
+        revisions["_error"] = repr(exc)
+    Path("data/instances").mkdir(parents=True, exist_ok=True)
+    Path("data/instances/revisions.json").write_text(json.dumps(revisions, indent=1) + "\n")
     ids = set().union(*wanted.values())
     out = Path("data/instances/verified_pools.jsonl")
     out.parent.mkdir(parents=True, exist_ok=True)

@@ -94,9 +94,21 @@ def main() -> int:
             r = json.loads(line)
             rows[r["instance_id"]] = r
     inst = [rows[i] for i in ids]
-    res = retrieval.run_flow_batch(
-        flow=flow, instances=inst, out_dir=a.out / "retrieval", workers=a.workers
-    )
+    # XRepoSkill records an API error and moves on, and its resume re-reads that file: a transient
+    # error would silently mark an issue "no rule selected" (not activated) and bias the sample.
+    # Errored results are re-run (their file is replaced); any error left stops the experiment.
+    for attempt in range(4):
+        res = retrieval.run_flow_batch(
+            flow=flow, instances=inst, out_dir=a.out / "retrieval", workers=a.workers
+        )
+        errored = [r["instance_id"] for r in res if r["error"]]
+        if not errored:
+            break
+        print(f"[retry {attempt + 1}] {len(errored)} errored selections", flush=True)
+        for iid in errored:
+            (a.out / "retrieval" / f"{iid}.json").unlink()
+    else:
+        raise SystemExit(f"selection errors remain for {errored}; not writing the task set")
     guidance, sel = {}, {}
     for r in sorted(res, key=lambda x: x["instance_id"]):
         rules = [flow.by_id[s["rule_id"]] for s in r["selected"]]

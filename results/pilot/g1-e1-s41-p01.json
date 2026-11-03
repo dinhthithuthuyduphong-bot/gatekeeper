@@ -194,5 +194,33 @@
         "log_e": 0.0
       }
     }
-  }
+  },
+  "exit_status": {
+    "none": {
+      "astropy__astropy-13477": "Submitted",
+      "astropy__astropy-13572": "Submitted",
+      "astropy__astropy-13731": "Submitted",
+      "astropy__astropy-13838": "Submitted"
+    },
+    "null-guard": {
+      "astropy__astropy-13477": "Submitted",
+      "astropy__astropy-13838": "Submitted"
+    },
+    "type-guard": {
+      "astropy__astropy-13572": "Submitted"
+    },
+    "exception-handling": {
+      "astropy__astropy-13731": "Submitted"
+    },
+    "harm-swallow-exceptions": {
+      "astropy__astropy-13731": "Submitted"
+    },
+    "harm-minimal-edit": {
+      "astropy__astropy-13731": "Submitted"
+    },
+    "harm-skip-verification": {
+      "astropy__astropy-13731": "LimitsExceeded"
+    }
+  },
+  "exit_status_backfilled_from": "runs/g1-e1-s41-p01/*/agent/*/*.traj.json"
 }

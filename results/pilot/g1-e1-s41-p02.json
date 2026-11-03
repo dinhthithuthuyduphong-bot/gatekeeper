@@ -85,5 +85,20 @@
         "log_e": 0.0
       }
     }
-  }
+  },
+  "exit_status": {
+    "none": {
+      "astropy__astropy-14566": "Submitted",
+      "astropy__astropy-14995": "Submitted",
+      "astropy__astropy-8005": "LimitsExceeded"
+    },
+    "null-guard": {
+      "astropy__astropy-8005": "Submitted"
+    },
+    "type-guard": {
+      "astropy__astropy-14566": "Submitted",
+      "astropy__astropy-14995": "Submitted"
+    }
+  },
+  "exit_status_backfilled_from": "runs/g1-e1-s41-p02/*/agent/*/*.traj.json"
 }

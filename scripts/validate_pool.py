@@ -99,12 +99,14 @@ def classify(ra: dict | None, rb: dict | None, rn: dict | None) -> dict:
     ok_gold = ia.get("resolved") and ib.get("resolved")
     stable = la == lb and ia.get("R") == ib.get("R")
     ok_noop = in_.get("F") == 1.0 and in_.get("R") == 0.0
+    has_target = (ia.get("n_fail_to_pass") or 0) >= 1  # an empty target is "resolved" by anything
     bad = [
         x
         for x, b in (
             ("gold not resolved", not ok_gold),
             ("unstable", not stable),
             ("noop arm not clean", not ok_noop),
+            ("no FAIL_TO_PASS test", not has_target),
         )
         if b
     ]

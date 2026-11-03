@@ -430,3 +430,15 @@ def test_unwrapped_guidance_is_verbatim(tmp_path):
     out = arm_rows([{"instance_id": "a", "problem_statement": "Bug"}], sk)
     assert out[0]["problem_statement"] == "<relevant_skills>\nR\n</relevant_skills>\n\nBug"
     assert "<skill" not in out[0]["problem_statement"]
+
+
+def test_repeated_format_error_is_agent_behaviour():
+    import sys as _sys
+    from pathlib import Path as _P
+
+    _sys.path.insert(0, str(_P(__file__).parents[1] / "scripts"))
+    import run_pilot as rp
+
+    assert not rp.is_infra_failure("RepeatedFormatError")
+    assert not rp.is_infra_failure("LimitsExceeded")
+    assert rp.is_infra_failure(None) and rp.is_infra_failure("APIError")
