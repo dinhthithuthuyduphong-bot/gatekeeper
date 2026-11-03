@@ -128,3 +128,9 @@ Mã: `scripts/rq1_mini.py`; test: `tests/test_rq1_mini.py`.
   - `python scripts/combine_runs.py g1-e1all-s<seed> g1-e1-s<seed> g1-e1x-s<seed>` cho từng seed 41, 51, 61;
   - rồi `python scripts/analyze_g1_final.py verdict --label E1 --out results/e1_final.json --skills null-guard,type-guard,exception-handling --confirm g1-e1all-s41 g1-e1all-s51 g1-e1all-s61`.
   - Kết luận chính: `verdict_ich_e9_r1` (sai lệch D1). Quy tắc đã đăng ký: `verdict`.
+
+**Sai lệch D2** (03/11/2026, trước khi phân tích; `docs/audit_pilot.md` A41):
+- **α của RQ1** (Gatekeeper và nhãn đã xác lập) = **0,025 một phía**, theo ICH E9, thay cho 0,05. Lý do: admit là khẳng định một phía, và 0,05 trước đây bị gắn nhầm là "quy ước hai phía".
+- θ của Gatekeeper = 0 (trước đây là 1e-9 để lách một ràng buộc không có cơ sở trong mã).
+- Quyết định ở α = 0,05 đã đăng ký vẫn được báo cáo (`Gatekeeper (registered alpha, D2)`).
+- **Ký hiệu:** "R(none) − R(skill)" ở §4 nghĩa là 1[resolved | none] − 1[resolved | skill] = Z_resolved (`docs/glossary.md` §7).

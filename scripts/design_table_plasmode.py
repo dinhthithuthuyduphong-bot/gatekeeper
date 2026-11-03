@@ -6,8 +6,9 @@ input measured or published, replacing the hand-picked scenario of scripts/desig
 - True effects STR from the PUBLISHED SWE-Skills-Bench distribution: p25 magnitude 0.02, the 15%
   tail 0.05, p05 0.109 (results/sskb_analysis.json).
 - alpha per cell = alpha_family / K with equal weights (Bonferroni, no prior ranking); K = number
-  of (skill, scope) hypotheses; alpha_family = 0.05 (ICH E9 two-sided convention, the e-process
-  is one-sided at level alpha).
+  of (skill, scope) hypotheses; alpha_family = 0.025: the admission claim ("the skill helps") is
+  ONE-sided, and ICH E9's one-sided level is 0.025 (= two-sided 0.05). (Was 0.05 with a wrong
+  "two-sided convention" label: audit A41.)
 - Power 80% (Cohen 1988 convention, reported as such); theta in {0, 0.02, 0.05}.
 Plasmode simulation: Franklin et al. 2014. Writes results/design_table_plasmode.json.
 """
@@ -19,7 +20,7 @@ from pathlib import Path
 
 from gatekeeper.analysis import trials_needed
 
-ALPHA_FAMILY = 0.05
+ALPHA_FAMILY = 0.025
 P_PLUS = [0.04, 0.08]
 EFFECTS = [-0.02, -0.05, -0.109]
 THETAS = [0.0, 0.02, 0.05]

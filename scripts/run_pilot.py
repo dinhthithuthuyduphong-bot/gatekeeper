@@ -30,7 +30,6 @@ from pathlib import Path
 import yaml
 
 from gatekeeper.analysis import variance_components
-from gatekeeper.eprocess import run_admission
 from gatekeeper.harness import DATASET, loss_of, patch_apply_failed, read_report, run_harness
 from gatekeeper.patches import drop_files, touched_files
 from gatekeeper.pilot import (
@@ -406,8 +405,6 @@ def main() -> int:
     ap.add_argument("--step-limit", type=int, default=60)
     ap.add_argument("--cost-limit", type=float, default=1.0, help="USD per instance per arm")
     ap.add_argument("--budget-usd", type=float, default=0.0)
-    ap.add_argument("--theta", type=float, default=0.05)
-    ap.add_argument("--alpha", type=float, default=0.05)
     a = ap.parse_args()
 
     skills = [Skill.load(p) for p in a.skills.split(",") if p]
@@ -517,8 +514,6 @@ def main() -> int:
         "model": a.model if model is None else model.litellm_name,
         "dataset": a.dataset_file or DATASET,
         "instances": [r["instance_id"] for r in rows],
-        "theta": a.theta,
-        "alpha": a.alpha,
         "spent_usd": round(spent, 4),
         "usage": {arm: usage_summary(usage[arm], losses[arm]) for arm in losses},
         "infra_failures": {arm: v for arm, v in infra.items() if v},
@@ -557,18 +552,16 @@ def main() -> int:
                 )
             )
         z = [lw - lo for _, lw, lo in pairs]
-        dec = run_admission(z, a.theta, a.alpha, budget=len(z))
+        # no per-batch admission decision here: it needed a theta and an alpha that no analysis
+        # uses (audit A42); admission is decided only by the pre-registered analysis scripts
         summary["skills"][arm] = {
             "pairs": [
                 {"instance_id": i, "loss_with": lw, "loss_without": lo} for i, lw, lo in pairs
             ],
             "mean_Z": sum(z) / len(z) if z else None,
             "variance_components": variance_components(pairs) if len(pairs) >= 3 else None,
-            "eprocess": {"admitted": dec.admitted, "n": dec.n_trials, "log_e": dec.log_e},
         }
-        print(
-            f"[{arm}] n={len(z)} mean Z={summary['skills'][arm]['mean_Z']} admitted={dec.admitted}"
-        )
+        print(f"[{arm}] n={len(z)} mean Z={summary['skills'][arm]['mean_Z']}")
     Path("results/pilot").mkdir(parents=True, exist_ok=True)
     out = Path("results/pilot") / f"{a.name}.json"
     out.write_text(json.dumps(summary, indent=2) + "\n")

@@ -25,10 +25,13 @@ class AlphaLedger:
         self,
         total_alpha: float,
         cell_weights: Mapping[str, float],
-        cell_frac: float = 0.7,
-        composite_frac: float = 0.2,
-        readmit_frac: float = 0.1,
+        *,
+        cell_frac: float,
+        composite_frac: float,
+        readmit_frac: float,
     ) -> None:
+        """Explicit split only (no default): use from_plan() for the equal-weight split, which is
+        the Bonferroni rule without prior ranking (docs/number_provenance.md section 3)."""
         if not 0.0 < total_alpha < 1.0:
             raise ValueError("total_alpha must be in (0, 1)")
         fracs = (cell_frac, composite_frac, readmit_frac)

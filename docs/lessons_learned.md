@@ -121,3 +121,20 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Phòng ngừa:**
   - Mọi thay đổi thiết kế giữa chừng (thêm task, seed, nhánh) phải chạy thành giai đoạn riêng, có bước gộp với kiểm tra trùng.
   - Trước khi chạy, kiểm chồng lấn giữa tập mới và tập cũ.
+
+## L13. Quy ước bị gắn nhầm nguồn, và mặc định tự đặt nằm trong mã (A41, A42, A43)
+
+- **Xảy ra:**
+  - "0,05 (ICH two-sided convention)" bị dùng cho một phép kiểm một phía.
+  - θ = 0,05 và α = 0,05 mặc định được ghi vào file kết quả.
+  - θ = 1e-9 chỉ để lách một ràng buộc không có cơ sở.
+  - Ký hiệu trùng nghĩa.
+- **Nguyên nhân gốc:**
+  - Viết lý do sau khi đã chọn số.
+  - Không phân biệt kiểm một phía với hai phía.
+  - Để giá trị mặc định trong hàm, nên con số đi vào kết quả mà không ai quyết định.
+- **Phòng ngừa:**
+  - Mọi hàm nhận con số khoa học (α, θ, cách chia) **không có giá trị mặc định**.
+  - Mỗi câu "theo chuẩn X" phải ghi rõ **một phía hay hai phía** và trích câu gốc.
+  - Mỗi ký hiệu chỉ một nghĩa (`docs/glossary.md` §7).
+  - Danh sách review có mục tương ứng.

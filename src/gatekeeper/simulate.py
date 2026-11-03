@@ -63,9 +63,10 @@ def simulate(
     for i in range(budget):
         w = i + prior_weight
         mean = s / w
-        var = np.maximum(s2 / w - mean**2, 1e-6)
+        var = np.maximum(s2 / w - mean**2, 0.0)  # as eprocess.var: gap^2 > 0 keeps the ratio finite
         gap = -theta - mean
-        lam = np.where(gap > 0, np.minimum(gap / (var + gap**2), lam_max), 0.0)
+        safe = np.where(gap > 0, var + gap**2, 1.0)  # avoid 0/0 where gap <= 0 (bet is 0 there)
+        lam = np.where(gap > 0, np.minimum(gap / safe, lam_max), 0.0)
         zi = z[:, i]
         log_e = np.where(active, log_e + np.log1p(lam * (-theta - zi)), log_e)
         s = s + zi

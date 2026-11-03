@@ -8,7 +8,7 @@ from gatekeeper.eprocess import BettingEProcess, run_admission
 
 def test_rejects_out_of_range_inputs():
     with pytest.raises(ValueError):
-        BettingEProcess(theta=0.0, alpha=0.05)
+        BettingEProcess(theta=-0.01, alpha=0.05)  # theta = 0 is valid (H0: E[Z] >= 0)
     with pytest.raises(ValueError):
         BettingEProcess(theta=0.05, alpha=1.5)
     ep = BettingEProcess(theta=0.05, alpha=0.05)
@@ -69,3 +69,10 @@ def test_neutral_skill_stays_in_quarantine():
 def test_budget_is_respected():
     res = run_admission([-1.0] * 10_000, theta=0.05, alpha=1e-300, budget=7)
     assert res.n_trials == 7
+
+
+def test_theta_zero_is_a_valid_null():
+    ep = BettingEProcess(theta=0.0, alpha=0.05)
+    for _ in range(200):
+        ep.update(-1.0)
+    assert ep.crossed  # a skill that always helps is admitted under H0: E[Z] >= 0

@@ -79,7 +79,7 @@ TARGET = TargetContext(name="Rb", fingerprints=dict(FP), dependencies={"django":
 
 def make_gk(budget=600):
     keys = {f"{s}@django4": 1.0 for s in LIB}
-    ledger = AlphaLedger(0.05, keys)
+    ledger = AlphaLedger(0.05, keys, cell_frac=0.7, composite_frac=0.2, readmit_frac=0.1)
     return Gatekeeper(
         LIB, ledger, KnownEffectRunner(EFFECTS), PoolSampler(), theta=THETA, budget_per_cell=budget
     )

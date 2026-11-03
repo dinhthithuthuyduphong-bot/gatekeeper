@@ -93,7 +93,7 @@ def merge(name: str, parts: list[Path]) -> dict:
         d = json.loads(p.read_text())
         out["spent_usd"] += float(d.get("spent_usd") or 0.0)
         out["instances"] += [i for i in d.get("instances", []) if i not in out["instances"]]
-        for k in ("model", "dataset", "theta", "alpha"):
+        for k in ("model", "dataset"):
             out.setdefault(k, d.get(k))
         rerun = set(d.get("instances", []))  # a task re-run in a later part replaces old data
         for sk in out["skills"].values():

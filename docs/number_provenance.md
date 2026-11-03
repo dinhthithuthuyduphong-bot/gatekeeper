@@ -88,3 +88,22 @@ Mọi con số khác bên dưới đều được **suy ra từ α**, **suy ra t
 | Mốc cắt dữ liệu huấn luyện 01/2025 | ❌ Chưa xác nhận → treo | `docs/research_rules.md` N3 |
 | Thử lại 4 lần (chọn rule), 2 lần cách 90 s (kiểm định pool) | Vận hành | Còn lỗi thì dừng hoặc loại khỏi pool, không bao giờ âm thầm đổi dữ liệu (`docs/research_rules.md` N5) |
 | Lô 4 task | Vận hành | Chỉ quyết định khi nào chạy. Với E2, cùng lô được chạy cho cả 3 seed trước khi sang lô sau |
+
+## 7. Rà soát lần cuối mọi chuẩn và ký hiệu (03/11/2026; yêu cầu của @thuthuy: không ngưỡng mơ hồ)
+
+| Con số / quy tắc | Trước | Sau | Cơ sở (bản gốc đã đọc) |
+| --- | --- | --- | --- |
+| α của RQ1 và của ô E2 | 0,05, chú thích sai "ICH two-sided" | **0,025** (một phía). 0,05 báo cáo như sai lệch D2 | ICH E9: một phía 0,025 ≡ hai phía 0,05; việc admit là khẳng định một phía (A41) |
+| θ của RQ1 | 1e-9 (vì mã cấm θ = 0) | **0** | Với θ = 0, mỗi thừa số 1 + λ(−Z), λ ∈ [0, c], vẫn ≥ 1 − c > 0, nên Ville vẫn áp dụng. Ràng buộc θ > 0 không có cơ sở |
+| Mức sàn phương sai 1e-6 (e-process, mô phỏng) | có | **bỏ** | λ chỉ được tính khi gap > 0, và khi đó var + gap² > 0. Mức sàn không bao giờ có tác dụng |
+| θ = 0,05, α = 0,05 của e-process theo lô trong `run_pilot.py` | ghi vào mọi file kết quả | **bỏ** (A42) | Không phân tích nào dùng; là mặc định tự đặt |
+| Tỉ lệ chia 70/20/10 mặc định của AlphaLedger | mặc định | **bắt buộc truyền tường minh**. Thí nghiệm dùng `from_plan` (chia đều) | Bonferroni đều khi không có thông tin ưu tiên (mục 3) |
+| Prior (0; 1; 1), c = 0,5, công thức aGRAPA | "cần đối chiếu" | **đã đối chiếu** | Waudby-Smith & Ramdas, arXiv 2010.09686: "σ̂²ₜ := 1/4 + …/(t + 1), µ̂ₜ := 1/2 + …/(t + 1)", "truncation level c := 1/2"; aGRAPA ở mục B.3 |
+| n_sim = 12.000 / 2.500 | "chờ bản gốc" | **đã đối chiếu** | Morris, White & Crowther 2019 (arXiv 1712.03198): sai số Monte Carlo của tỉ lệ bác bỏ = √(p(1 − p)/n_sim) |
+| Power 80% | quy ước Cohen 1988 | **chỉ còn là điểm tham chiếu** cho bảng số trial. n của E1 dựa vào ràng buộc nguồn lực + đường cong power. **Chờ đối chiếu** qua Lakens 2022 (đã thêm từ khóa) | Lakens 2022 (resource constraints: đã đối chiếu) |
+| δ = 0,109 | "phân vị 5%" như căn cứ của n | **chỉ còn là điểm tham chiếu**; báo cáo đường cong power theo δ ∈ {0,02; 0,05; 0,109; 0,15; 0,20; 0,30} | Lakens 2022: "sensitivity power analysis" |
+| Kiểm định pool chạy gold 2 lần | không ghi lý do | **Vận hành:** k = 2 là số lần nhỏ nhất phát hiện được kết quả không ổn định. Task không ổn định nhưng lọt qua chỉ thêm nhiễu **như nhau cho cả hai nhánh** (cùng task), không làm lệch Z | Thiết kế ghép cặp |
+| Điều kiện pool: no-op cho F = 1 và R = 0, gold resolved, ≥ 1 test FAIL_TO_PASS | | Giữ | SWE-bench (Jimenez et al. 2024, Stage III: "at least one test where its status changes from a fail to pass") |
+| Mô hình hiệu ứng trong plasmode (q′ = min(1, q + δ)) | không nêu | **Nêu rõ là giả định.** Chỉ ảnh hưởng tới power, không ảnh hưởng tới tỉ lệ sai (tính ở δ = 0). Kiểm định mô hình: P(Z = +1) mô phỏng 0,055 nằm trong khoảng đo được 0,04–0,08 | Franklin et al. 2014 |
+| Nhãn mức độ "Cao/Trung bình/Thấp" | tự đặt | **K1/K2/K3**, định nghĩa theo hậu quả (`docs/method_check.md` §3) | – |
+| Ký hiệu R | trùng 3 nghĩa | **R** = tỉ lệ PASS_TO_PASS bị hỏng; **1[resolved]**; **n_sim** | `docs/glossary.md` §7 |

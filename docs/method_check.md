@@ -5,7 +5,7 @@ Câu hỏi của @thuthuy: các con số có **đáng tin** (tỉ lệ kết lu�
 - **Mã:** `scripts/verify_methods.py`. **Kết quả:** `results/method_check.json`.
 - **Phương pháp:** mô phỏng plasmode (Franklin et al. 2014). Tỉ lệ giải của từng task lấy từ nhánh không skill **đã đo** ở G1 (32 task × 3 seed). **Không dùng dữ liệu E1** (R5).
 - **Hiệu ứng thử:** các mốc của SWE-Skills-Bench (0,02; 0,05; 0,109) và lớn hơn. Skill dịch tỉ lệ giải của mỗi task thêm δ, cắt trong [0, 1]. Hiệu ứng thực hiện được (`eff` trong bảng) nhỏ hơn δ, vì task đã giải chắc chắn thì không thể cải thiện.
-- **Số lần lặp:** R = 12.000 cho kiểm tính hợp lệ (sai số Monte Carlo < α/10), R = 2.500 cho power (sai số ≤ 0,01). Công thức sai số √(p(1−p)/R) theo Morris, White & Crowther 2019. Nguồn này **đang chờ lấy bản gốc**.
+- **Số lần lặp:** n_sim = 12.000 cho kiểm tính hợp lệ (sai số Monte Carlo < α′/10), n_sim = 2.500 cho power (sai số ≤ 0,01). Công thức sai số √(p(1−p)/n_sim): Morris, White & Crowther 2019, bảng chỉ số hiệu năng ("Rejection % (power or type I error)"); **đã đối chiếu bản gốc** (arXiv 1712.03198).
 - **Kiểm plasmode:** tỉ lệ bất đồng P(Z = +1) trong mô phỏng là 0,055, nằm trong khoảng đã đo 0,04–0,08.
 - **Kiểm phép tính:** kiểm định chính xác bằng tích chập trùng khớp với liệt kê đủ 2¹² cách đổi dấu, trên 50 bộ dữ liệu.
 - **Lỗi tìm được trong chính script kiểm định khi review:** `rng.random((n, s)) < q` với q có dạng (n,) âm thầm tạo ra ma trận n × n khi s = 1. Đã sửa và thêm assert về kích thước (review R-6).
@@ -16,11 +16,11 @@ Câu hỏi của @thuthuy: các con số có **đáng tin** (tỉ lệ kết lu�
 | --- | --- | --- | --- | --- |
 | E1 (n = 40, 3 seed, 8 repo, mức Holm đầu 0,025/3) | 0,0083 | 0,0012 | 0,0001 | ✅ (bảo thủ) |
 | E2 (n = 119, 3 seed, 65 repo) | 0,025 | 0,0162 | 0,0135 | ✅ |
-| A/A E1 (n = 40) | 0,05 | 0,0055 | – | ✅ nhưng **rất bảo thủ** |
+| A/A E1 (n = 40) | 0,05 | 0,0055 | – | ✅; tỉ lệ thực bằng 1/9 mức danh nghĩa (C9) |
 | A/A E2 (n = 119) | 0,05 | 0,0233 | – | ✅ |
-| Gatekeeper RQ1 (40 trial, α = 0,05/7) với skill trung tính hoặc có hại (δ ≤ 0) | 0,0071 | 0 / 12.000 | – | ✅ |
+| Gatekeeper RQ1 (40 trial, α = 0,025/7, D2) với skill trung tính hoặc có hại (δ ≤ 0) | 0,0036 | 0 / 12.000 | – | ✅ |
 
-**Kết luận:** mọi phương pháp đều **hợp lệ**: tỉ lệ sai ≤ mức danh nghĩa. Chúng bảo thủ vì dữ liệu rời rạc (nhiều cặp Z = 0).
+**Kết luận:** mọi phương pháp đều **hợp lệ**: tỉ lệ sai ≤ mức danh nghĩa. Tỉ lệ thực thấp hơn mức danh nghĩa (0,0012 so với 0,0083; 0,016 so với 0,025) vì dữ liệu rời rạc: nhiều cặp Z = 0 không đóng góp vào phân phối đổi dấu.
 
 ## 2. Tác dụng: power
 
@@ -37,22 +37,24 @@ Câu hỏi của @thuthuy: các con số có **đáng tin** (tỉ lệ kết lu�
 
 | δ | −0,20 | −0,10 | −0,05 | 0 | 0,05 | 0,109 | 0,20 | 0,30 | 0,40 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Gatekeeper (α = 0,05/7) | 0 | 0 | 0 | 0 | 0 | 0 | 0,001 | 0,012 | 0,091 |
+| Gatekeeper (α = 0,025/7, D2) | 0 | 0 | 0 | 0 | 0 | 0 | 0,0008 | 0,0048 | 0,0508 |
 | Plug-in (trung bình < 0) | 0,014 | **0,100** | **0,211** | **0,402** | 0,624 | 0,849 | 0,963 | 0,996 | 1,000 |
 | Gatekeeper, ô E2 (α = 0,05) | | | | 0 | | 0,007 | 0,072 | 0,317 | |
 | Kiểm định chính xác, cỡ mẫu cố định, cùng dữ liệu, α = 0,05 (để so sánh) | | | | 0,009 | | 0,145 | 0,450 | 0,810 | |
 
 ## 3. Phát hiện
 
-| # | Phát hiện | Mức độ | Xử lý đề xuất (kèm cơ sở) |
+Cột **Hậu quả** dùng 3 loại được định nghĩa: **K1** = làm sai một con số hoặc kết luận đã báo cáo hay sẽ báo cáo; **K2** = không làm sai số, nhưng làm giảm power hoặc thu hẹp phạm vi kết luận; **K3** = chỉ ảnh hưởng tài liệu hoặc truy vết.
+
+| # | Phát hiện | Hậu quả | Xử lý đề xuất (kèm cơ sở) |
 | --- | --- | --- | --- |
-| **A38** | **Power của E1 bị tính sai trong bản đăng ký trước.** n = 40 ra từ (z₁₋α′ + z₁₋β)²·V/δ² với α′ = 0,025. Nhưng phân tích của E1 dùng Holm trên 3 skill (mức đầu 0,0083) và đòi S2 cùng bác bỏ. Với α′ = 0,0083 thì công thức cho n ≈ 53. Plasmode: ở hiệu ứng thực hiện 0,094–0,125, power của kiểm định chính là 0,48–0,75, power của kết luận "vững" chỉ 0,05–0,11 | Cao: tuyên bố "power 80%" sai | **Giữ thiết kế E1** (R5: dữ liệu đang được thu, và tôi đã lỡ thấy 1 cặp). Báo cáo power đã sửa. Lý do không tăng n: dù n = 53, điều kiện S2 với 8 repo vẫn giới hạn kết luận "vững" (xem C7). Tăng n tốn thêm khoảng 30% chi phí E1 mà không gỡ được nút thắt. **E2 (65 repo, power 0,90 ở 0,068) là phép kiểm mạnh của paper** |
-| **C8** | **RQ1 thu nhỏ không thể cho thấy độ phủ.** Với 40 trial, Gatekeeper gần như không bao giờ admit, kể cả khi δ = 0,3. Điều này đã biết từ trước: bảng plasmode (`results/design_table_plasmode.json`) cho thấy cần 186–413 trial ở δ = 0,109. Vì vậy RQ1 thu nhỏ chỉ kiểm được **một vế**: harmful acceptance (Gatekeeper 0 so với plug-in 10–21% ở δ = −0,10/−0,05). Vế clean-reuse coverage chắc chắn ≈ 0 | Cao cho paper: đây chính là rủi ro "an toàn nhưng gần như vô dụng" | (1) Báo cáo RQ1 thu nhỏ đúng phạm vi: chỉ vế an toàn. (2) Vế độ phủ cần ngân sách mỗi ô theo bảng plasmode; đó là việc của thí nghiệm chính. (3) Chi phí của tính hợp lệ mọi lúc so với kiểm định cỡ mẫu cố định (0,007 so với 0,145 ở δ = 0,109) là một **kết quả đo** cần báo cáo, không phải lỗi. Lý thuyết của đánh đổi này nằm trong Waudby-Smith & Ramdas 2024 và Grünwald et al. 2024 (GRO; c đã chọn bằng GRO, `results/gro_c.json`) |
-| **C9** | A/A của E1 bảo thủ: tỉ lệ báo động 0,0055 ở mức 0,05. A/A đạt **gần như không chứng minh** pipeline sạch | Trung bình | Đã có trong bản đăng ký trước: không bác bỏ ≠ tương đương (ICH E9). Báo cáo A/A kèm CI, không dùng như bằng chứng sạch |
+| **A38** | **Power của E1 bị tính sai trong bản đăng ký trước.** n = 40 ra từ (z₁₋α′ + z₁₋β)²·V/δ² với α′ = 0,025, trong khi phân tích dùng Holm trên 3 skill (mức đầu 0,0083). Với α′ = 0,0083 thì công thức cho n ≈ 53 | K1: tuyên bố "power 80%" sai | **Đã sửa** (@thuthuy duyệt 80 USD): E1 mở rộng lên n = 53 (ghi chú thực thi 4), kết luận chính theo ICH E9(R1) (A39). **Căn cứ của n:** δ = 0,109 (phân vị 5% của SWE-Skills-Bench) và power 80% (quy ước Cohen) chỉ là **điểm tham chiếu quy ước**, không phải chứng minh. Căn cứ cuối cùng là **ràng buộc nguồn lực** đã duyệt (Lakens 2022, Table 1, đã đối chiếu bản gốc), kèm **đường cong power theo δ** (§2, §5) như Lakens khuyến nghị ("sensitivity power analysis") |
+| **C8** | **RQ1 thu nhỏ không thể cho thấy độ phủ.** Với 40 trial, Gatekeeper admit với tỉ lệ 0,0048 khi δ = 0,3 và 0,0508 khi δ = 0,4. Điều này đã biết từ trước: bảng plasmode (`results/design_table_plasmode.json`, ở α = 0,025/K) cho thấy cần 216–470 trial ở δ = 0,109. Vì vậy RQ1 thu nhỏ chỉ kiểm được **một vế**: harmful acceptance (Gatekeeper 0 so với plug-in 10–21% ở δ = −0,10/−0,05). Vế clean-reuse coverage chắc chắn ≈ 0 | K2: RQ1 thu nhỏ chỉ trả lời được vế an toàn | (1) Báo cáo RQ1 thu nhỏ đúng phạm vi: chỉ vế an toàn. (2) Vế độ phủ cần ngân sách mỗi ô theo bảng plasmode; đó là việc của thí nghiệm chính. (3) Chi phí của tính hợp lệ mọi lúc so với kiểm định cỡ mẫu cố định (0,007 so với 0,145 ở δ = 0,109) là một **kết quả đo** cần báo cáo, không phải lỗi. Lý thuyết của đánh đổi này nằm trong Waudby-Smith & Ramdas 2024 và Grünwald et al. 2024 (GRO; c đã chọn bằng GRO, `results/gro_c.json`) |
+| **C9** | A/A của E1 bảo thủ: tỉ lệ báo động 0,0055 ở mức 0,05. A/A đạt **không phải** bằng chứng pipeline sạch: với hiệu ứng nhiễu bằng 0 nó chỉ báo động 0,55% số lần | K2 | Đã có trong bản đăng ký trước: không bác bỏ ≠ tương đương (ICH E9). Báo cáo A/A kèm CI, không dùng như bằng chứng sạch |
 | C7 | S2 với 8 repo (E1) | (đã ghi) | Như A38 |
-| N3, N6, N7 | **Ba nguồn chưa xác nhận được từ bản gốc:** mốc cắt dữ liệu của Gemini (cả hai trang của Google tải được nhưng không ghi mốc); Steegen et al. 2016 (đa vũ trụ) và McHugh 2012 (κ): chưa tải được | Trung bình | Không dùng cho tới khi xác nhận (R1). Steegen chỉ dùng để báo loss dạng đường cong, không quyết định nào phụ thuộc. McHugh chỉ dùng cho bước gán nhãn hai người, chưa làm. Mốc cắt: phân tích nhiễm dữ liệu E2 bị treo |
-| **C10** | **Nhãn "có hại đã xác lập" của RQ1** (2 seed giữ lại, 40 task, α = 0,05/7) chỉ đạt khi skill hại mạnh: tỉ lệ gán nhãn 0,013 / 0,088 / 0,419 / 0,820 ở δ = −0,05 / −0,109 / −0,20 / −0,30. Gán nhãn sai chiều: 0 | Trung bình | Skill có hại yếu sẽ thành "chưa xác định", được báo cáo riêng (§6.1 bản đăng ký trước E1). Harmful acceptance chỉ tính trên các ô đã xác lập, nên số ô có thể rất ít. Phải nêu rõ khi báo cáo |
-| – | Plasmode của E2 dùng tỉ lệ giải đo trên Verified; Live có thể khác | Thấp | Sau seed đầu, đo lại tỉ lệ giải của Live và tính lại bảng E2 (không nhìn hiệu ứng) |
+| N3, N6, N7 | **Ba nguồn chưa xác nhận được từ bản gốc:** mốc cắt dữ liệu của Gemini (cả hai trang của Google tải được nhưng không ghi mốc); Steegen et al. 2016 (đa vũ trụ) và McHugh 2012 (κ): chưa tải được | K3 (chưa dùng cho kết luận nào) | Không dùng cho tới khi xác nhận (R1). Steegen chỉ dùng để báo loss dạng đường cong, không quyết định nào phụ thuộc. McHugh chỉ dùng cho bước gán nhãn hai người, chưa làm. Mốc cắt: phân tích nhiễm dữ liệu E2 bị treo |
+| **C10** | **Nhãn "có hại đã xác lập" của RQ1** (2 seed giữ lại, 40 task, α = 0,025/7) theo δ: tỉ lệ gán nhãn 0,006 / 0,049 / 0,299 / 0,743 / 0,934 ở δ = −0,05 / −0,109 / −0,20 / −0,30 / −0,40. Gán nhãn sai chiều: 0 (khi δ < 0); 0,0002 khi δ = 0 (n_sim = 12.000) | K2 | Một skill có hại chỉ được xác lập với xác suất ≥ 0,74 khi δ ≤ −0,30. Các ô không đạt được ghi là "chưa xác định" và báo cáo riêng (§6.1 bản đăng ký trước E1). Harmful acceptance chỉ tính trên các ô đã xác lập, và số ô đó được báo cáo cạnh tỉ lệ |
+| – | Plasmode của E2 dùng tỉ lệ giải đo trên Verified; Live có thể khác | K2 | Sau seed đầu, đo lại tỉ lệ giải của Live và tính lại bảng E2 (không nhìn hiệu ứng) |
 
 ## 4. Tóm lại
 
@@ -60,7 +62,7 @@ Câu hỏi của @thuthuy: các con số có **đáng tin** (tỉ lệ kết lu�
 - **Có tác dụng:**
   - **E2: có.** Power 0,90 ở hiệu ứng 0,068.
   - **E1: yếu.** Kết luận "vững" có power ≤ 0,11 ở hiệu ứng thực tế. Kiểm định chính có power 0,98 khi δ = 0,30, nhưng chỉ 0,26 ở δ = 0,109.
-  - **RQ1 thu nhỏ: chỉ đo được vế an toàn**, không đo được độ phủ. Vế an toàn cũng chỉ đo được trên các skill có hại mạnh (C10).
+  - **RQ1 thu nhỏ: chỉ đo được vế an toàn**, không đo được độ phủ. Vế an toàn chỉ đo được trên các ô có hại đã xác lập: xác suất xác lập ≥ 0,74 khi δ ≤ −0,30 (C10).
 
 ## 5. Bản sửa (03/11/2026, yêu cầu của @thuthuy: sửa mọi lỗi làm nghiên cứu yếu đi hoặc làm số liệu sai)
 
@@ -78,5 +80,5 @@ Power của từng quy tắc quyết định ở E1 (plasmode, mức Holm đầu
    - Chi phí thêm: 32 task cho nhánh `none` + 39 lần chạy skill mỗi seed, tức 71 lần chạy × 3 seed × 0,0617 USD ≈ 13,1 USD (khoảng 213 lần chạy, ước 77M token input).
    - Cơ sở: công thức cỡ mẫu của chính bản đăng ký trước, ở mức Holm đúng.
    - Quyết định chỉ dựa vào lỗi thiết kế, phát hiện bằng mô phỏng trên dữ liệu G1. Kết quả E1 chưa được phân tích.
-3. **C8:** RQ1 thu nhỏ được báo cáo đúng phạm vi (chỉ vế an toàn). Độ phủ cần 186–413 trial mỗi ô, là việc của thí nghiệm chính.
+3. **C8:** RQ1 thu nhỏ được báo cáo đúng phạm vi (chỉ vế an toàn). Độ phủ cần 216–470 trial mỗi ô (α = 0,025/K, p₊ đo được 0,04–0,08, power 80% theo quy ước Cohen; quy ước này **đang chờ đối chiếu** qua Lakens 2022), là việc của thí nghiệm chính.
 4. **Nguồn chưa xác nhận:** đã thêm URL chính thức thay thế (PMC cho McHugh; trang tổng quan model của Google; bản PDF của Steegen). Từ khóa "Sample Size Adjustment" được thêm cho ICH E9.

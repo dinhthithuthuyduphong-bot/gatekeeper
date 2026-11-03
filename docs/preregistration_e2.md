@@ -99,3 +99,9 @@ Z_ik = R(none) − R(xreposkill) ∈ {−1, 0, 1}; Z̄_i là trung bình qua 3 s
 - S1 và S2 được báo cáo như phân tích độ nhạy, kèm p nhỏ nhất đạt được của S2.
 - Quy tắc đã đăng ký (cả ba cùng bác bỏ) **vẫn được tính và báo cáo** cạnh kết quả (Nosek et al. 2018: sai lệch phải được công khai).
 - Lý do: mô phỏng trên dữ liệu G1 cho thấy điều kiện S2 làm power gần 0 với 8 repo, trong khi không làm tỉ lệ sai tốt hơn chuẩn.
+
+**Sai lệch D2** (03/11/2026, trước khi phân tích; `docs/audit_pilot.md` A41):
+- **α của RQ1** (Gatekeeper và nhãn đã xác lập) = **0,025 một phía**, theo ICH E9, thay cho 0,05. Lý do: admit là khẳng định một phía, và 0,05 trước đây bị gắn nhầm là "quy ước hai phía".
+- θ của Gatekeeper = 0 (trước đây là 1e-9 để lách một ràng buộc không có cơ sở trong mã).
+- Quyết định ở α = 0,05 đã đăng ký vẫn được báo cáo (`Gatekeeper (registered alpha, D2)`).
+- **Ký hiệu:** "R(none) − R(skill)" ở §4 nghĩa là 1[resolved | none] − 1[resolved | skill] = Z_resolved (`docs/glossary.md` §7).

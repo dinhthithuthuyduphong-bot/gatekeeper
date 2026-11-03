@@ -67,16 +67,16 @@ Giới hạn của v2: ngưỡng −0,10 và CI 90% là **lựa chọn chưa có
 
 | Khái niệm | Định nghĩa | Vì sao cần | Cơ sở |
 | --- | --- | --- | --- |
-| **H₀ (giả thuyết không)** | "Skill không giúp": E[Z] ≥ 0 | Mặc định là hoài nghi; chỉ kết luận "giúp" khi dữ liệu đủ mạnh | Neyman–Pearson 1933 |
+| **H₀ (giả thuyết không)** | **Hai dạng, dùng cho hai phép kiểm khác nhau:** (a) kiểm định đổi dấu (E1, E2): *hai nhánh hoán đổi được trên mỗi task*, tức skill không đổi phân phối kết quả của bất kỳ task nào (Hemerik & Goeman 2018); (b) e-process (Gatekeeper, RQ1): *E[Z] ≥ −θ* | Mặc định là hoài nghi | (a) Fisher 1935, Pitman 1937; (b) Waudby-Smith & Ramdas 2024 |
 | **α** | Xác suất tối đa kết luận "giúp" khi thực ra không giúp (sai lầm loại I) | Kiểm soát kết luận sai. 0,025 một phía ≡ 0,05 hai phía | Quy ước; ICH E9 |
 | **Power** | Xác suất phát hiện được khi skill thật sự giúp | Thí nghiệm power thấp thì "không thấy" không nói lên gì | Cohen 1988 |
 | **CI (khoảng tin cậy)** | Khoảng chứa giá trị thật với tần suất (ví dụ 95%) nếu lặp lại thí nghiệm nhiều lần | Cho thấy độ bất định, không chỉ một con số | Neyman 1937 |
-| **Bootstrap** | Lấy mẫu lại các task có hoàn lại để ước lượng CI | Không cần công thức phân phối | Efron 1979 |
+| **Bootstrap** | *(Không còn dùng từ Bổ sung 3: thay bằng kiểm định chính xác và khoảng t, `number_provenance.md` §1)* Lấy mẫu lại các task có hoàn lại để ước lượng CI | | Efron 1979 |
 | **Kiểm định hoán vị đổi dấu** | Nếu H₀ đúng (skill không có tác dụng với task nào) thì đổi dấu Z của mỗi task không làm đổi phân phối. Đổi dấu ngẫu nhiên nhiều lần cho ra phân phối khi H₀ đúng | Chính xác với mẫu nhỏ và dữ liệu rời rạc; không cần giả định phân phối chuẩn | Fisher 1935; Pitman 1937 |
 | **FWER và Holm** | FWER = xác suất ít nhất một skill "đạt" sai. Holm: xếp p-value tăng dần, so lần lượt với α/k, α/(k − 1), … | Thử nhiều skill thì xác suất "đạt do may" tăng; phải kiểm soát cho cả nhóm | Holm 1979 |
 | **Tách dữ liệu** | Chọn skill trên C, kết luận chỉ trên dữ liệu xác nhận (seed mới) | Tránh "lời nguyền người thắng": chọn cái tốt nhất rồi kiểm trên cùng dữ liệu thì kết quả bị thổi phồng | Cox 1975 |
-| **TOST** | Hai kiểm định một phía để khẳng định \|hiệu ứng\| < biên | "Không bác bỏ khác 0" không chứng minh "bằng 0". TOST chứng minh "gần như bằng 0" | Schuirmann 1987; Lakens 2018 |
-| **MDE** | Hiệu ứng nhỏ nhất mà thí nghiệm có power 80% để phát hiện | Diễn giải đúng kết quả "không thấy": nó chỉ có nghĩa là không có hiệu ứng ≥ MDE | Lakens 2018; Browne 1995 |
+| **TOST** | *(Không còn dùng: biên tương đương là con số tự đặt, đã thay bằng A/A chính xác)* Hai kiểm định một phía để khẳng định \|hiệu ứng\| < biên | | Schuirmann 1987; Lakens 2018 |
+| **MDE** | *(Không còn dùng trong phán quyết: thay bằng **hiệu ứng tới hạn**, §7)* Hiệu ứng nhỏ nhất mà thí nghiệm có power 80% để phát hiện | | Lakens 2018 |
 | **Phương sai theo cụm** | Nhiều seed trên cùng task không độc lập; đơn vị là task | Không thổi phồng cỡ mẫu (128 lần chạy ≠ 128 quan sát độc lập) | Miller 2024 |
 | **Hồi quy về trung bình** | Giá trị cực trị ở lần đo đầu thường gần trung bình hơn ở lần sau | Lý do quy tắc v1 sai | Galton |
 | **Đăng ký trước** | Ghi quy tắc phân tích trước khi thấy dữ liệu | Chống "khu vườn lối rẽ" | ICH E9; Nosek et al. 2018 |
@@ -89,3 +89,43 @@ Giới hạn của v2: ngưỡng −0,10 và CI 90% là **lựa chọn chưa có
 | **θ** (thí nghiệm chính) | Mức có ích tối thiểu để admit: Gatekeeper admit skill khi chứng minh được STR ≤ −θ | Quyết định quan trọng nhất còn mở. θ nhỏ thì cần nhiều trial; θ lớn thì ít skill đạt |
 | **E-process** (thí nghiệm chính) | Thống kê cá cược, tăng khi dữ liệu cho thấy skill giúp; admit khi vượt 1/α | Cho phép quyết định **trong lúc** đang chạy mà vẫn giữ được α (Ville 1939) |
 | **Sổ α (alpha ledger)** | Chia tổng α cho các ô (skill, scope), các skill kết hợp, và các lần xét lại | Gatekeeper ra rất nhiều quyết định; tổng sai lầm vẫn phải ≤ α |
+
+## 7. Ký hiệu và thuật ngữ của E1, E2, RQ1 (03/11/2026, `docs/research_rules.md` R2)
+
+**Quy ước ký hiệu, để không trùng:**
+- **R** chỉ dùng cho tỉ lệ test PASS_TO_PASS bị hỏng (ký hiệu của paper).
+- Chỉ báo resolved viết là **1[resolved]**. Trong bản đăng ký trước E1, "R(none) − R(skill)" ở §4 nghĩa là 1[resolved | none] − 1[resolved | skill], và **bằng Z_resolved**.
+- Số lần lặp Monte Carlo viết là **n_sim**, theo Morris, White & Crowther 2019.
+
+| Ký hiệu / thuật ngữ | Định nghĩa chính xác | Nguồn |
+| --- | --- | --- |
+| **Z_ik**, **Z̄_i** | Z_resolved của task i ở seed k; Z̄_i = trung bình của Z_ik qua các seed của task i | §2 |
+| **n** | Số task trong một phân tích (E1: 53 mỗi skill; E2: 121) | `docs/number_provenance.md` §6 |
+| **m** | Số seed (3: 41, 51, 61) | như trên |
+| **G** | Số cụm repo trong tập task của một skill (E1: 8–9; E2: 65 trên 120 task) | `scripts/verify_methods.py` |
+| **α** | Mức sai lầm loại I **một phía cho mỗi chiều** (có ích, có hại): **0,025** | ICH E9 |
+| **α′** | Mức của một skill sau Holm: α/k, α/(k − 1), …; mức đầu của E1 là 0,025/3 = 0,0083 | Holm 1979 |
+| **Kiểm định chính** | Kiểm định đổi dấu chính xác trên Z̄_i, một phía, tính bằng tích chập (không dùng Monte Carlo) | Fisher 1935; Pitman 1937; Hemerik & Goeman 2018 |
+| **S1** | Kiểm định t ghép cặp một phía trên Z̄_i (phân tích độ nhạy: bỏ giả định đối xứng) | Student 1908 |
+| **S2** | Kiểm định đổi dấu chính xác trên **tổng theo repo** (phân tích độ nhạy: bỏ giả định độc lập giữa các task). p nhỏ nhất đạt được là 2⁻ᴳ | Canay, Romano & Shaikh 2017 |
+| **Kết luận chính** (`verdict_ich_e9_r1`) | "Có ích" hoặc "có hại" nếu kiểm định chính bác bỏ ở α′ và A/A không bác bỏ. S1 và S2 được báo cáo kèm | ICH E9(R1) |
+| **Kết luận theo quy tắc đã đăng ký** (`verdict`) | Như trên nhưng đòi cả S1 và S2 cùng bác bỏ. Được báo cáo cạnh kết luận chính (sai lệch D1) | bản đăng ký trước |
+| **Hiệu ứng tới hạn** | Giá trị \|Z̄\| nhỏ nhất mà kiểm định chính có thể tuyên bố ở α′, tính từ chính phân phối khi H₀ đúng của dữ liệu | định nghĩa vùng bác bỏ |
+| **A/A** | So nhánh `none` của hai seed đầu trên cùng task; kiểm định đổi dấu chính xác **hai phía** ở 2α = 0,05. Không bác bỏ ≠ chứng minh sạch | Kohavi et al. 2020; ICH E9 |
+| **Biến cố xen giữa** | Sự kiện sau khi bắt đầu can thiệp làm thay đổi cách hiểu kết quả: chạm trần bước, model trả sai định dạng nhiều lần, bản vá không áp được | ICH E9(R1) |
+| **Treatment policy** (chính) | Giữ biến cố xen giữa trong phân tích như một phần kết quả của chính sách (agent + skill + ngân sách): không nộp được hoặc không áp được thì tính là không resolved | ICH E9(R1) |
+| **Hypothetical** (độ nhạy) | Bỏ các **cặp** (task × seed) có một nhánh bị cắt | ICH E9(R1) |
+| **Dữ liệu thiếu (hạ tầng)** | Lỗi không do chính sách: container không chạy, harness không chạy. Chạy lại; vẫn lỗi thì loại khỏi cặp | ICH E9(R1) |
+| **δ** (mô phỏng) | Độ dịch tỉ lệ giải của mỗi task khi có skill: q′ = min(1, q + δ). **Hiệu ứng thực hiện được** = trung bình (q′ − q), nhỏ hơn δ vì task đã giải chắc chắn không cải thiện được. Đây là **giả định mô hình**, chỉ ảnh hưởng tới power, không ảnh hưởng tới tỉ lệ sai (tính ở δ = 0) | Franklin et al. 2014 (plasmode) |
+| **q** | Tỉ lệ giải của nhánh `none` trên mỗi task, **đo** ở G1 (32 task × 3 seed) | `results/pilot/g1-c-s*.json` |
+| **n_sim** | Số lần lặp mô phỏng: 12.000 cho tỉ lệ sai (sai số Monte Carlo < α′/10), 2.500 cho power (≤ 0,01). Sai số = √(p(1 − p)/n_sim) | Morris, White & Crowther 2019 (đã đối chiếu bản gốc) |
+| **c** | Trần cược của e-process: λ ≤ c/(1 + θ); c = 0,5 | Waudby-Smith & Ramdas 2024 ("truncation level c := 1/2"); chọn lại bằng GRO (`results/gro_c.json`) |
+| **Prior (0; 1; 1)** | Trung bình, phương sai, trọng số giả của e-process trên thang Z ∈ [−1, 1]: đổi thang từ μ̂₀ = 1/2, σ̂²₀ = 1/4 trên [0, 1], trọng số 1 (mẫu số t + 1) | Waudby-Smith & Ramdas 2024, đã đối chiếu bản gốc |
+| **θ** (RQ1) | 0: H₀ "skill không giúp", E[Z] ≥ 0 | – |
+| **Ô (cell)**, **K** | Một skill trên tập task của nó; K = số ô trong một họ. α mỗi ô = α/K | Bonferroni |
+| **Harmful acceptance** | Số ô *có hại đã xác lập* được admit / số ô có hại đã xác lập | `scripts/rq1_mini.py` |
+| **Clean-reuse coverage** | Số ô *có ích đã xác lập* được admit / số ô có ích đã xác lập | như trên |
+| **Đã xác lập / chưa xác định** | Nhãn của một ô trên dữ liệu giữ lại: có hại (hoặc có ích) đã xác lập nếu kiểm định một phía bác bỏ ở α mỗi ô; còn lại là chưa xác định | bản đăng ký trước E1 §6.1 |
+| **Kích hoạt (E2)** | Bước chọn của XRepoSkill chọn ≥ 1 rule cho issue. Con số 1 là định nghĩa: 0 rule thì prompt giống hệt nhánh `none` | `docs/preregistration_e2.md` §3 |
+| **D1, D2** | Sai lệch so với bản đăng ký trước, có ngày và lý do. D1: kết luận chính theo ICH E9(R1). D2: α của RQ1 = 0,025 (ICH, một phía) thay cho 0,05; mức 0,05 vẫn được báo cáo | `docs/audit_pilot.md` A39, A41 |
+| **Plasmode** | Mô phỏng dùng dữ liệu đo thật làm đầu vào, chỉ thêm hiệu ứng đã biết | Franklin et al. 2014 |

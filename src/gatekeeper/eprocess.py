@@ -47,8 +47,8 @@ class BettingEProcess:
         prior_var: float = 1.0,
         prior_weight: float = 1.0,
     ) -> None:
-        if not 0.0 < theta < 1.0:
-            raise ValueError("theta must be in (0, 1)")
+        if not 0.0 <= theta < 1.0:  # theta = 0: H0 E[Z] >= 0; every factor is still >= 1 - c > 0
+            raise ValueError("theta must be in [0, 1)")
         if not 0.0 < alpha < 1.0:
             raise ValueError("alpha must be in (0, 1)")
         if not 0.0 < c < 1.0:
@@ -71,7 +71,8 @@ class BettingEProcess:
     @property
     def var(self) -> float:
         m = self.mean
-        return max(self._s2 / (self.n + self._w0) - m * m, 1e-6)
+        # no floor needed: next_lambda divides by var + gap^2 only when gap > 0, which is > 0
+        return max(self._s2 / (self.n + self._w0) - m * m, 0.0)
 
     def next_lambda(self) -> float:
         """Bet for the next observation; depends only on past data (predictable)."""

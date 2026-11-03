@@ -23,8 +23,11 @@ import analyze_g1_final as gf  # noqa: E402
 from gatekeeper.alpha_ledger import AlphaLedger  # noqa: E402
 from gatekeeper.eprocess import run_admission  # noqa: E402
 
-ALPHA = 0.05
-BUDGET = 40
+# One-sided admission claim ("the skill helps"): ICH E9 one-sided level 0.025 (= two-sided 0.05),
+# as everywhere else. The registered 0.05 is reported as a sensitivity analysis (deviation D2).
+ALPHA = 0.025
+ALPHA_REGISTERED = 0.05
+BUDGET = 40  # = n per skill of the registered E1 design (preregistration_e1.md section 2)
 ORDER_SEED = "2027-order"
 
 
@@ -32,15 +35,23 @@ def z_by_task(run: dict, skill: str) -> dict[str, float]:
     return gf.z_resolved(run.get("skills", {}).get(skill, {}).get("pairs", []))
 
 
-def decide(screen: list[float], alpha_cell: float) -> dict[str, bool]:
-    """Every rule sees the SAME screening data: the first BUDGET trials."""
+def decide(
+    screen: list[float], alpha_cell: float, alpha_cell_registered: float | None = None
+) -> dict[str, bool]:
+    """Every rule sees the SAME screening data: the first BUDGET trials. The Gatekeeper decision
+    at the registered level (0.05 family) is reported next to it (deviation D2)."""
     screen = screen[:BUDGET]
-    return {
-        "Gatekeeper": run_admission(screen, 1e-9, alpha_cell, budget=BUDGET).admitted,
+    out = {
+        "Gatekeeper": run_admission(screen, 0.0, alpha_cell, budget=BUDGET).admitted,
         "Plug-in (mean < 0)": bool(np.mean(screen) < 0) if screen else False,
         "B1 never": False,
         "B2 always": True,
     }
+    if alpha_cell_registered is not None:
+        out["Gatekeeper (registered alpha, D2)"] = run_admission(
+            screen, 0.0, alpha_cell_registered, budget=BUDGET
+        ).admitted
+    return out
 
 
 def label(truth: list[float]) -> str:
@@ -158,7 +169,7 @@ def main() -> int:
         sp = cell_from_runs(e2[0], e2[1:], "xreposkill")
         cell = {
             "n_tasks": sp["n_tasks"],
-            "decisions": decide(sp["screen"], ALPHA),
+            "decisions": decide(sp["screen"], ALPHA, ALPHA_REGISTERED),
             "label_tested": label_tested(sp["truth_task"], ALPHA),
             "label": label(sp["truth_task"]) if sp["truth_task"] else None,
             "str_true": float(np.mean(sp["truth_task"])) if sp["truth_task"] else None,
@@ -167,7 +178,12 @@ def main() -> int:
             "screen_mean": float(np.mean(sp["screen"][:BUDGET])) if sp["screen"] else None,
             "screen_trials_used": min(BUDGET, len(sp["screen"])),
         }
-        out = {"alpha_cell": ALPHA, "cell": cell, "runs": a.e2}
+        out = {
+            "alpha_cell": ALPHA,
+            "alpha_registered": ALPHA_REGISTERED,
+            "cell": cell,
+            "runs": a.e2,
+        }
         Path("results/rq1_e2.json").write_text(json.dumps(out, indent=1) + "\n")
         print(json.dumps(out, indent=1))
         return 0
@@ -180,10 +196,11 @@ def main() -> int:
         g1 = [load(n) for n in a.g1]
         specs.append(cell_from_runs(g1[0], g1[1:], "validation-error"))
     ledger = AlphaLedger.from_plan(ALPHA, [s["skill"] for s in specs])
+    ledger_reg = AlphaLedger.from_plan(ALPHA_REGISTERED, [s["skill"] for s in specs])
     for s in specs:
         cells[s["skill"]] = {
             "n_tasks": s["n_tasks"],
-            "decisions": decide(s["screen"], ledger.cell(s["skill"])),
+            "decisions": decide(s["screen"], ledger.cell(s["skill"]), ledger_reg.cell(s["skill"])),
             "label": label(s["truth_task"]),
             "str_true": float(np.mean(s["truth_task"])),
             "truth_p_benefit": gf.sign_flip_p(s["truth_task"]),

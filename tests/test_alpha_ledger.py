@@ -1,11 +1,13 @@
 import pytest
 
+# An explicit example split: the union-bound properties tested here hold for ANY split
+# (the experiments use AlphaLedger.from_plan, equal weights)
 from gatekeeper.alpha_ledger import AlphaLedger
 
 
 def make(n_cells=1598):
     weights = {f"skill{i % 94}@scope{i // 94}": 1.0 + (i % 5) for i in range(n_cells)}
-    return AlphaLedger(0.05, weights)
+    return AlphaLedger(0.05, weights, cell_frac=0.7, composite_frac=0.2, readmit_frac=0.1)
 
 
 def test_cells_sum_to_their_share():
@@ -34,11 +36,11 @@ def test_composite_alpha_is_decreasing():
 
 def test_invalid_configuration():
     with pytest.raises(ValueError):
-        AlphaLedger(0.05, {"a": 1.0}, cell_frac=0.8, composite_frac=0.3)
+        AlphaLedger(0.05, {"a": 1.0}, cell_frac=0.8, composite_frac=0.3, readmit_frac=0.0)
     with pytest.raises(ValueError):
-        AlphaLedger(0.05, {})
+        AlphaLedger(0.05, {}, cell_frac=0.7, composite_frac=0.2, readmit_frac=0.1)
     with pytest.raises(ValueError):
-        AlphaLedger(1.2, {"a": 1.0})
+        AlphaLedger(1.2, {"a": 1.0}, cell_frac=0.7, composite_frac=0.2, readmit_frac=0.1)
 
 
 def test_from_plan_equal_weights_and_total():

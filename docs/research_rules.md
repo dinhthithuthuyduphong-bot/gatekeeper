@@ -81,6 +81,11 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 - [ ] Quy tắc quyết định **cuối cùng**, bao gồm hiệu chỉnh bội và mọi điều kiện kèm theo, đã được mô phỏng trên đúng thiết kế (`scripts/verify_methods.py`), cả tỉ lệ sai lẫn power, trước khi đăng ký trước.
 - [ ] Quy tắc quyết định theo chuẩn công bố, không chặt hơn chuẩn mà không có lý do đã công bố.
 
+**Ký hiệu và mặc định (L13)**
+- [ ] Hàm nhận con số khoa học (α, θ, cách chia α) không có giá trị mặc định. File kết quả không chứa con số mà không phân tích nào dùng.
+- [ ] "Theo chuẩn X" ghi rõ một phía hay hai phía, kèm câu gốc.
+- [ ] Mỗi ký hiệu có đúng một nghĩa trong `docs/glossary.md` §7. Không dùng từ đánh giá (mạnh, yếu, gần như) khi không kèm con số.
+
 **Kiểm thử**
 - [ ] Mô phỏng hoặc phép toán mảng: assert kích thước kết quả, vì broadcasting âm thầm làm rộng mẫu (R-6).
 - [ ] Có test cho từng chỗ sửa; `ruff check`, `ruff format --check` và `pytest` đều qua.

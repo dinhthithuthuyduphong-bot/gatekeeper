@@ -78,7 +78,13 @@ def _boundary_null_cells(alphas, theta=0.05, budget=300, reps=200, seed=0):
 def test_family_wise_error_with_ledger():
     # 50 cells sharing one alpha budget; every cell is at the boundary null.
     total = 0.10
-    led = AlphaLedger(total, {f"c{i}": 1.0 for i in range(50)})
+    led = AlphaLedger(
+        total,
+        {f"c{i}": 1.0 for i in range(50)},
+        cell_frac=0.7,
+        composite_frac=0.2,
+        readmit_frac=0.1,
+    )
     fwer = _boundary_null_cells(list(led.cell_alpha.values()), reps=400)
     assert fwer <= total
     # without the union-bound split (each cell gets the full alpha) FWER blows up
