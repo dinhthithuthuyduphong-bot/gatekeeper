@@ -2,7 +2,8 @@
   "name": "g1-e1x-s41",
   "merged_from": [
     "g1-e1x-s41-p00",
-    "g1-e1x-s41-p01"
+    "g1-e1x-s41-p01",
+    "g1-e1x-s41-p02"
   ],
   "skills": {
     "null-guard": {
@@ -21,10 +22,25 @@
           "instance_id": "django__django-12803",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-12973",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-13410",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-13671",
+          "loss_with": 0.45161290322580644,
+          "loss_without": 0.45161290322580644
         }
       ],
       "mean_Z": 0.2222222222222222,
-      "n": 3,
+      "n": 6,
       "solve_rate_with": 0.3333333333333333,
       "solve_rate_without": 0.6666666666666666
     },
@@ -44,12 +60,17 @@
           "instance_id": "astropy__astropy-7671",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-13460",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
       "mean_Z": 0.0,
-      "n": 3,
-      "solve_rate_with": 0.3333333333333333,
-      "solve_rate_without": 0.3333333333333333
+      "n": 4,
+      "solve_rate_with": 0.25,
+      "solve_rate_without": 0.25
     },
     "exception-handling": {
       "pairs": [
@@ -77,25 +98,25 @@
   },
   "usage": {
     "none": {
-      "runs": 8,
-      "usd": 0.414459075,
-      "solved": 4,
-      "scored": 8,
-      "usd_per_run": 0.051807384375
+      "runs": 12,
+      "usd": 0.5099132,
+      "solved": 6,
+      "scored": 12,
+      "usd_per_run": 0.04249276666666666
     },
     "null-guard": {
-      "runs": 3,
-      "usd": 0.29980512499999984,
-      "solved": 1,
-      "scored": 3,
-      "usd_per_run": 0.09993504166666661
+      "runs": 6,
+      "usd": 0.36517069999999985,
+      "solved": 2,
+      "scored": 6,
+      "usd_per_run": 0.06086178333333331
     },
     "type-guard": {
-      "runs": 3,
-      "usd": 0.172191175,
+      "runs": 4,
+      "usd": 0.238152725,
       "solved": 1,
-      "scored": 3,
-      "usd_per_run": 0.057397058333333334
+      "scored": 4,
+      "usd_per_run": 0.05953818125
     },
     "exception-handling": {
       "runs": 3,
@@ -115,17 +136,25 @@
       "django__django-11211": "Submitted",
       "django__django-11551": "Submitted",
       "django__django-12073": "Submitted",
-      "django__django-12803": "Submitted"
+      "django__django-12803": "Submitted",
+      "django__django-12973": "Submitted",
+      "django__django-13410": "Submitted",
+      "django__django-13460": "Submitted",
+      "django__django-13671": "Submitted"
     },
     "null-guard": {
       "astropy__astropy-14590": "Submitted",
       "django__django-11211": "LimitsExceeded",
-      "django__django-12803": "Submitted"
+      "django__django-12803": "Submitted",
+      "django__django-12973": "Submitted",
+      "django__django-13410": "Submitted",
+      "django__django-13671": "Submitted"
     },
     "type-guard": {
       "astropy__astropy-12880": "Submitted",
       "astropy__astropy-14590": "Submitted",
-      "astropy__astropy-7671": "Submitted"
+      "astropy__astropy-7671": "Submitted",
+      "django__django-13460": "Submitted"
     },
     "exception-handling": {
       "astropy__astropy-13838": "Submitted",
@@ -135,7 +164,7 @@
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 1.0134,
+  "spent_usd": 1.2402,
   "instances": [
     "astropy__astropy-12880",
     "astropy__astropy-13838",
@@ -144,7 +173,11 @@
     "django__django-11211",
     "django__django-11551",
     "django__django-12073",
-    "django__django-12803"
+    "django__django-12803",
+    "django__django-12973",
+    "django__django-13410",
+    "django__django-13460",
+    "django__django-13671"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
