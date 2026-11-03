@@ -5,7 +5,8 @@
     "g2-e2-s41-k11-p01",
     "g2-e2-s41-k11-p02",
     "g2-e2-s41-k11-p03",
-    "g2-e2-s41-k11-p04"
+    "g2-e2-s41-k11-p04",
+    "g2-e2-s41-k11-p05"
   ],
   "skills": {
     "xreposkill": {
@@ -34,28 +35,33 @@
           "instance_id": "projectmesa__mesa-2351",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "deepset-ai__haystack-6713",
+          "loss_with": 0.5,
+          "loss_without": 0.5
         }
       ],
-      "mean_Z": -0.13333333333333333,
-      "n": 5,
-      "solve_rate_with": 0.2,
+      "mean_Z": -0.1111111111111111,
+      "n": 6,
+      "solve_rate_with": 0.16666666666666666,
       "solve_rate_without": 0.0
     }
   },
   "usage": {
     "none": {
-      "runs": 5,
-      "usd": 0.7085516,
+      "runs": 6,
+      "usd": 0.75621195,
       "solved": 0,
-      "scored": 5,
-      "usd_per_run": 0.14171032
+      "scored": 6,
+      "usd_per_run": 0.126035325
     },
     "xreposkill": {
-      "runs": 5,
-      "usd": 0.396663425,
+      "runs": 6,
+      "usd": 0.4372229,
       "solved": 1,
-      "scored": 5,
-      "usd_per_run": 0.079332685
+      "scored": 6,
+      "usd_per_run": 0.07287048333333333
     }
   },
   "infra_failures": {},
@@ -65,25 +71,28 @@
       "commaai__opendbc-2318": "Submitted",
       "python-control__python-control-1145": "Submitted",
       "iterative__dvc-10749": "LimitsExceeded",
-      "projectmesa__mesa-2351": "Submitted"
+      "projectmesa__mesa-2351": "Submitted",
+      "deepset-ai__haystack-6713": "Submitted"
     },
     "xreposkill": {
       "geopandas__geopandas-3202": "Submitted",
       "commaai__opendbc-2318": "Submitted",
       "python-control__python-control-1145": "Submitted",
       "iterative__dvc-10749": "LimitsExceeded",
-      "projectmesa__mesa-2351": "Submitted"
+      "projectmesa__mesa-2351": "Submitted",
+      "deepset-ai__haystack-6713": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 1.1053,
+  "spent_usd": 1.1935,
   "instances": [
     "geopandas__geopandas-3202",
     "commaai__opendbc-2318",
     "python-control__python-control-1145",
     "iterative__dvc-10749",
-    "projectmesa__mesa-2351"
+    "projectmesa__mesa-2351",
+    "deepset-ai__haystack-6713"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "e2_rows.jsonl"

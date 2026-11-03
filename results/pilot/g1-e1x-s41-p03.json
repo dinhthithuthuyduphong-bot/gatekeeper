@@ -1,0 +1,101 @@
+{
+  "generated_utc": "2026-11-03T15:21:02+00:00",
+  "format_version": 2,
+  "name": "g1-e1x-s41-p03",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "django__django-14267",
+    "django__django-16302",
+    "django__django-16560",
+    "django__django-16693"
+  ],
+  "spent_usd": 0.3258,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.05770639375,
+      "tokens_in_per_run": 894950.5,
+      "tokens_out_per_run": 8379.25,
+      "cached_share": 0.8869521275199019,
+      "api_calls_per_run": 54.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 4
+    },
+    "type-guard": {
+      "runs": 2,
+      "usd_per_run": 0.006642025,
+      "tokens_in_per_run": 48104.5,
+      "tokens_out_per_run": 1238.5,
+      "cached_share": 0.6690850128366369,
+      "api_calls_per_run": 9.5,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "exception-handling": {
+      "runs": 2,
+      "usd_per_run": 0.040825375000000004,
+      "tokens_in_per_run": 815593.0,
+      "tokens_out_per_run": 4265.5,
+      "cached_share": 0.9235059643719356,
+      "api_calls_per_run": 51.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {
+    "type-guard": {
+      "django__django-16693": "RateLimitError"
+    },
+    "exception-handling": {
+      "django__django-16560": "RateLimitError"
+    }
+  },
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "django__django-14267": "Submitted",
+      "django__django-16302": "Submitted",
+      "django__django-16560": "Submitted",
+      "django__django-16693": "Submitted"
+    },
+    "type-guard": {
+      "django__django-14267": "Submitted",
+      "django__django-16693": "RateLimitError"
+    },
+    "exception-handling": {
+      "django__django-16302": "Submitted",
+      "django__django-16560": "RateLimitError"
+    }
+  },
+  "skills": {
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "django__django-14267",
+          "loss_with": 0.3333333333333333,
+          "loss_without": 0.3333333333333333
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "django__django-16302",
+          "loss_with": 0.03278688524590164,
+          "loss_without": 0.01092896174863388
+        }
+      ],
+      "mean_Z": 0.021857923497267763,
+      "variance_components": null
+    }
+  }
+}

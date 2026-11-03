@@ -1,0 +1,123 @@
+{
+  "generated_utc": "2026-11-03T20:04:42+00:00",
+  "format_version": 2,
+  "name": "g1-e1x-s51-p07",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "scikit-learn__scikit-learn-26634",
+    "sphinx-doc__sphinx-10048",
+    "sympy__sympy-13364",
+    "sympy__sympy-13441"
+  ],
+  "spent_usd": 0.4151,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.0528080125,
+      "tokens_in_per_run": 906771.25,
+      "tokens_out_per_run": 7417.0,
+      "cached_share": 0.906808635584774,
+      "api_calls_per_run": 51.5,
+      "solve_rate": 0.25,
+      "solved": 1,
+      "scored": 4
+    },
+    "null-guard": {
+      "runs": 2,
+      "usd_per_run": 0.049457712500000015,
+      "tokens_in_per_run": 811374.5,
+      "tokens_out_per_run": 5001.5,
+      "cached_share": 0.8812927938948044,
+      "api_calls_per_run": 59.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "type-guard": {
+      "runs": 1,
+      "usd_per_run": 0.09274225,
+      "tokens_in_per_run": 1836796.0,
+      "tokens_out_per_run": 6800.0,
+      "cached_share": 0.9113859132968495,
+      "api_calls_per_run": 99.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "exception-handling": {
+      "runs": 1,
+      "usd_per_run": 0.012247275,
+      "tokens_in_per_run": 136854.0,
+      "tokens_out_per_run": 947.0,
+      "cached_share": 0.7595028278311193,
+      "api_calls_per_run": 15.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "scikit-learn__scikit-learn-26634": "Submitted",
+      "sphinx-doc__sphinx-10048": "Submitted",
+      "sympy__sympy-13364": "Submitted",
+      "sympy__sympy-13441": "Submitted"
+    },
+    "null-guard": {
+      "scikit-learn__scikit-learn-26634": "Submitted",
+      "sympy__sympy-13441": "Submitted"
+    },
+    "type-guard": {
+      "sympy__sympy-13364": "Submitted"
+    },
+    "exception-handling": {
+      "sphinx-doc__sphinx-10048": "Submitted"
+    }
+  },
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-26634",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-13441",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-13364",
+          "loss_with": 0.8738738738738738,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.2072072072072072,
+      "variance_components": null
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "sphinx-doc__sphinx-10048",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}
