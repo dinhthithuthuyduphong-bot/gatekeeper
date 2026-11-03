@@ -179,4 +179,4 @@ Z_ik = R(none) − R(xreposkill) ∈ {−1, 0, 1}; Z̄_i là trung bình qua 3 s
   - 8 lỗi hạ tầng (429), đã được chạy lại.
 - **Tập phân tích:** **109 task có đủ 3 seed**, theo quy tắc của `per_task_mean`. Số task xong theo từng seed: 113 / 114 / 110.
 - **Power mô phỏng** ở n = 109: khoảng 0,89 ở δ = 0,109 (nội suy giữa 0,873 ở n = 105 và 0,936 ở n = 121, `results/e2_power_final.json`).
-- File kết quả được chép từ `e2-results` vào `results/pilot/` để phân tích. Phân tích chỉ chạy sau khi bản đăng ký trước của thí nghiệm chính được commit (L27).
+- File kết quả được chép từ `e2-results` vào **`results/e2/`** (không phải `results/pilot/`, A69) để phân tích. Phân tích chỉ chạy sau khi bản đăng ký trước của thí nghiệm chính được commit (L27).

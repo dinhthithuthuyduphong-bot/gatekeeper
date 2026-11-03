@@ -277,3 +277,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Liệt kê **mọi** bên ghi lên mỗi nhánh. Nếu có hơn một bên, dùng ghi kiểu so-và-đổi kèm thử lại, và có test với hai bản sao của repo.
   - Bước tạo đầu vào cho lần chạy sau phải là `if: always()`.
   - Bước chạy nối tiếp phải dừng khi thiếu đầu vào, không được mặc định "chưa có gì".
+
+## L30. Trước khi chép dữ liệu vào một thư mục, kiểm xem có mã nào đang cộng dồn trên thư mục đó (A69)
+
+- **Xảy ra:** tôi chép kết quả E2 vào `results/pilot/`, đúng chỗ bộ chặn ngân sách của E1 đang cộng dồn số đã chi.
+- **Phòng ngừa:**
+  - Mỗi thí nghiệm có thư mục kết quả riêng.
+  - Trước khi thêm file vào một thư mục, `grep` các chỗ đọc thư mục đó (`glob`, `rglob`), rồi chạy lại các phép tính phụ thuộc (ở đây là `pilot_spent_total()`) trước và sau.

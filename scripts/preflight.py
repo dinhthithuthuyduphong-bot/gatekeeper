@@ -96,7 +96,8 @@ def check_sources() -> tuple[list[str], list[str]]:
 
 def check_results() -> list[str]:
     bad = []
-    for f in sorted(Path("results/pilot").glob("*.json")):
+    # E2 lives in results/e2: outside the E1 driver's cumulative spend (A69), checked here too
+    for f in sorted([*Path("results/pilot").glob("*.json"), *Path("results/e2").glob("*.json")]):
         d = json.loads(f.read_text())
         if "instances" not in d or d.get("merged_from"):
             continue
