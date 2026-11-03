@@ -72,4 +72,5 @@ Repo nghiên cứu Gatekeeper (ASE 2027). Người phụ trách: @thuthuy. File 
 | Kiểm định phương pháp bằng số | `docs/method_check.md`, `scripts/verify_methods.py` |
 | Bản đăng ký trước | `docs/preregistration_g1_v2.md`, `_e1.md`, `_e2.md` |
 | Kiểm tra tự động trước khi chạy | `scripts/preflight.py` (chạy cả trong CI) |
+| Đổi hoặc thêm model (chỉ khi @thuthuy ra lệnh) | `docs/model_switch_checklist.md` |
 | Lưu trữ và kiểm tra dữ liệu gốc | `docs/raw_archive.md`, nhánh `raw-archive` |

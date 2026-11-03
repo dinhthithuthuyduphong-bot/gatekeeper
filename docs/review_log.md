@@ -181,3 +181,21 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Đã kiểm trên dữ liệu thật: khối 1 = `random_order[0:120]` và khối 2 = `random_order[120:200]` (sau khi sắp xếp), cùng một `random_order`.
   - Thêm 2 test.
   - Preflight: PASS.
+
+## R-19. Danh sách việc khi đổi model (`docs/model_switch_checklist.md`, 2026-11-03)
+
+- **Cách soát:** tìm mọi chỗ ghi cứng Gemini hoặc Vertex trong `scripts/`, `src/`, `configs/`, `.github/`, `tests/`, rồi đọc mã liên quan đến tiền.
+- **Đã đọc mã:**
+  - `load_model_specs`, `litellm_registry`, `estimate_cost_usd`, `traj_usage`, `arm_config`;
+  - bộ chặn trường hợp xấu nhất trong `run_pilot.py`;
+  - `minisweagent/models/litellm_model.py` dòng 108–126.
+- **Số đo dùng trong file:**
+  - 1.071 trajectory thật (1.061 Flash-Lite, 10 Flash; 12 của mô hình giả lập bị loại);
+  - lời gọi lớn nhất 130.532 token; 1 lần chạy vượt 128.000.
+- **Sửa trong lúc soát:**
+  - Bản nháp viết rằng sai nhà cung cấp trong `litellm_registry` làm `cost_limit` mất tác dụng. Đọc mã thấy chế độ `default` báo lỗi khi không tính được giá. Rủi ro tốn tiền thật là litellm tính bằng giá khác giá thật. Đã sửa C4.
+  - C5: `spent_usd` lấy từ `instance_cost`; token chỉ dùng để tính bù và báo cáo. Đã sửa.
+- **Phát hiện mở** (chưa sửa vì chỉ cần khi đổi model; đã ghi trong danh sách):
+  - C8: gộp kết quả không kiểm cùng model;
+  - C9: preflight không nhận ra key dạng chuỗi;
+  - D5: hóa đơn Google chưa được đối chiếu (mục C5 của audit vẫn mở).
