@@ -28,7 +28,8 @@
     "g1-e1-s41-p24",
     "g1-e1-s41-p25",
     "g1-e1-s41-p26",
-    "g1-e1-s41-p27"
+    "g1-e1-s41-p27",
+    "g1-e1-s41-p28"
   ],
   "skills": {
     "null-guard": {
@@ -395,12 +396,32 @@
           "instance_id": "sympy__sympy-13346",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.007246376811594203
+        },
+        {
+          "instance_id": "sympy__sympy-15523",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-16106",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-16943",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-17139",
+          "loss_with": 0.3333333333333333,
+          "loss_without": 0.3333333333333333
         }
       ],
-      "mean_Z": -0.015631839736037583,
-      "n": 33,
-      "solve_rate_with": 0.5151515151515151,
-      "solve_rate_without": 0.42424242424242425
+      "mean_Z": -0.03195992913394343,
+      "n": 37,
+      "solve_rate_with": 0.4864864864864865,
+      "solve_rate_without": 0.3783783783783784
     },
     "exception-handling": {
       "pairs": [
@@ -1212,11 +1233,11 @@
   },
   "usage": {
     "none": {
-      "runs": 103,
-      "usd": 7.88921185,
+      "runs": 107,
+      "usd": 8.347196049999999,
       "solved": 37,
-      "scored": 103,
-      "usd_per_run": 0.07659428980582524
+      "scored": 107,
+      "usd_per_run": 0.07801117803738317
     },
     "null-guard": {
       "runs": 38,
@@ -1226,11 +1247,11 @@
       "usd_per_run": 0.07472098881578948
     },
     "type-guard": {
-      "runs": 33,
-      "usd": 1.883319175,
-      "solved": 17,
-      "scored": 33,
-      "usd_per_run": 0.05707027803030303
+      "runs": 37,
+      "usd": 2.22892605,
+      "solved": 18,
+      "scored": 37,
+      "usd_per_run": 0.060241244594594595
     },
     "exception-handling": {
       "runs": 38,
@@ -1366,7 +1387,11 @@
       "sphinx-doc__sphinx-9229": "Submitted",
       "sympy__sympy-11831": "LimitsExceeded",
       "sympy__sympy-13286": "Submitted",
-      "sympy__sympy-13346": "Submitted"
+      "sympy__sympy-13346": "Submitted",
+      "sympy__sympy-15523": "LimitsExceeded",
+      "sympy__sympy-16106": "LimitsExceeded",
+      "sympy__sympy-16943": "Submitted",
+      "sympy__sympy-17139": "Submitted"
     },
     "null-guard": {
       "astropy__astropy-12842": "Submitted",
@@ -1441,7 +1466,11 @@
       "scikit-learn__scikit-learn-25973": "Submitted",
       "sphinx-doc__sphinx-8264": "Submitted",
       "sympy__sympy-11831": "Submitted",
-      "sympy__sympy-13346": "LimitsExceeded"
+      "sympy__sympy-13346": "LimitsExceeded",
+      "sympy__sympy-15523": "Submitted",
+      "sympy__sympy-16106": "LimitsExceeded",
+      "sympy__sympy-16943": "Submitted",
+      "sympy__sympy-17139": "Submitted"
     },
     "exception-handling": {
       "astropy__astropy-13731": "Submitted",
@@ -1624,7 +1653,7 @@
       "scikit-learn__scikit-learn-25370"
     ]
   },
-  "spent_usd": 22.9295,
+  "spent_usd": 23.7331,
   "instances": [
     "astropy__astropy-12842",
     "astropy__astropy-13234",
@@ -1728,7 +1757,11 @@
     "sphinx-doc__sphinx-9229",
     "sympy__sympy-11831",
     "sympy__sympy-13286",
-    "sympy__sympy-13346"
+    "sympy__sympy-13346",
+    "sympy__sympy-15523",
+    "sympy__sympy-16106",
+    "sympy__sympy-16943",
+    "sympy__sympy-17139"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
