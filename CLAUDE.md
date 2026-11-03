@@ -7,9 +7,32 @@ Repo nghiên cứu Gatekeeper (ASE 2027). Người phụ trách: @thuthuy. File 
 - Báo cáo chi phí bằng **token** (input, cache, output). USD chỉ dùng để kiểm soát ngân sách trong trao đổi.
 - Không ghi mã định danh model trong commit hay tài liệu.
 
+## Yêu cầu của @thuthuy (nguyên văn; mọi quy tắc bên dưới được rút ra từ đây, nếu khác thì nguyên văn thắng)
+
+- "Tôi không chấp nhận những con số chọn mà không có lý do chính đáng. Phải chứng minh được con số đó tại sao xuất hiện: hoặc là đã số đó đã được chứng minh từ lý thuyết có sẵn, hoặc là nó là con số nhạy cảm phải đổi liên tục và thử đi thử lại nhiều lần mới chọn được (tuy nhiệ trường hợp này cũng phải giải thích lý do tại sao phải thử, áp dụng quy tắc có thật nào để chọn giữa nhiều kết quả)"
+- "Mở bản gốc đọc và xác nhận kỹ lần nữa. Vì đây là giai đoạn quan trọng nên tôi không muốn có bất cứ 1 sự mơ hồ nào từ cơ sở lý thuyết, phương pháp, công thức, con số"
+- "Những điều không thể chứng minh hoặc do bạn tự đặt ra phải được củng cố và thay thế bởi 1 lý thuyết, công thức có thật được công bố"
+- "Tất cả các update fix bug đều phải được note lại kĩ lưỡng để tránh tái phạm. Bất kể bạn đề xuất cho tôi hướng đi nào đều phải tuân thủ theo quy tắc: tại sao lại đề xuất như vậy? Dựa trên lý thuyết hay công thức hoặc thực nghiệm nào đã công bố (đọc từ tài liệu thật và không suy đoán dựa trên hiểu biết)? Sau khi chọn phương án, bạn code xong hay viết mã hay rule đều phải được review kĩ càng trước khi thực thi để tránh tình trạng nhận kết quả sai do hành vi bản thân. Từ đây tất cả các khái niệm, con số đều được phải chứng minh và giải thích dựa trên nguồn tài liệu công bố thật trước khi đem vô quy trình nghiên cứu. Bất cứ 1 khái niệm hay con số tự đặt không có sự chứng minh hay cho phép đều phải cân nhắc hướng thay thế hoặc tìm tài liệu trích dẫn thêm"
+- "Tôi không chấp nhận những ngưỡng mơ hồ và tối nghĩa, mọi thứ phải thực sự rõ ràng để không bị reviewer bắt bẻ"
+- "Fix tất cả bug làm cho research yếu đi và làm số liệu sai. Nhớ note"
+- "Confirm ngân sách. Tuy nhiên hãy nhớ các khâu review trước khi chạy"
+- "Đảm bảo những kinh nghiệm và quy trình bạn được train đều sẽ được áp dụng từ đây về sau"
+- "Làm điều tốt nhất cho paper, nó phải là 1 research đủ mạnh"
+- "Usd dùng để kiểm soát budget trong đoạn chat, khi report thì đổi qua thành token để so sánh"
+- "đổi qua xuất tiếng việt trên màn hình"
+- Ngân sách: chạy không cần hỏi trong mức đã duyệt; **chạm mức đã duyệt thì dừng, chờ @thuthuy quyết** ("nếu khi tổng chi phí lên 30 đô thì chờ tôi quyết định"). Mức hiện tại: E1 80 USD, E2 45 USD.
+- Phán quyết phải "trong sáng, không khiên cưỡng".
+
+## Cơ chế bảo đảm áp dụng (không phụ thuộc vào trí nhớ)
+1. File này được nạp tự động khi mở một phiên mới trong repo.
+2. Mọi script chạy có chi phí (`run_e1_par.sh`, `run_e2.sh`, và mọi script mới) **bắt đầu bằng cổng** `python scripts/preflight.py --ci || exit 7`: kiểm tra thất bại thì không chạy.
+3. Mọi commit: `python scripts/preflight.py --ci && git commit …`.
+4. CI chạy preflight ở mọi lần push.
+5. Mỗi lỗi mới có thể kiểm bằng máy phải được thêm vào preflight. Lỗi chỉ kiểm được bằng người thì thêm vào danh sách §4 và ghi vào `docs/review_log.md` khi review.
+
 ## Quy tắc nghiên cứu R1–R5 (`docs/research_rules.md`)
 1. **R1:** mọi đề xuất phải nêu: tại sao; dựa trên lý thuyết, công thức hay thực nghiệm **đã công bố** nào; câu trích từ **bản gốc đã đọc** (nhánh `sources-snapshots`, cấu hình ở `configs/sources.json`). Không suy đoán từ trí nhớ. Không tự đoán URL.
-2. **R2:** mọi con số và khái niệm phải thuộc một nhóm có điều kiện kiểm được: chuẩn công bố, suy ra, bên thứ ba, định nghĩa can thiệp, vận hành. Ghi vào `docs/number_provenance.md`. Số tự đặt thì thay thế, tìm nguồn, hoặc hỏi @thuthuy.
+2. **R2:** mọi con số và khái niệm phải thuộc một nhóm có điều kiện kiểm được: chuẩn công bố, suy ra, bên thứ ba, định nghĩa can thiệp, vận hành. Ghi vào `docs/number_provenance.md`. Số tự đặt thì thay thế, tìm nguồn, hoặc hỏi @thuthuy. Số phải thử nhiều lần mới chọn được: nêu vì sao phải thử, và chọn bằng một quy tắc đã công bố, trên dữ liệu không dùng để kết luận. Không ngưỡng hay từ ngữ mơ hồ: mỗi ký hiệu một nghĩa (`docs/glossary.md` §7), mọi đánh giá kèm con số.
 3. **R3:** mọi mã hay quy tắc mới phải **review trước khi chạy** theo danh sách `docs/research_rules.md` §4, chạy `python scripts/preflight.py`, và ghi vào `docs/review_log.md`.
 4. **R4:** mọi lỗi được ghi vào `docs/audit_pilot.md` (lỗi, ảnh hưởng, sửa, bằng chứng) **và** `docs/lessons_learned.md` (nguyên nhân gốc, phòng ngừa). Mỗi bài học thành một mục kiểm tra trong §4.
 5. **R5:** không đổi quy tắc sau khi thấy dữ liệu. Mọi thay đổi trước khi phân tích là một "Ghi chú thực thi" hoặc một "Sai lệch D#" có ngày và lý do, ghi trong bản đăng ký trước. Quy tắc cũ vẫn được tính và báo cáo.
