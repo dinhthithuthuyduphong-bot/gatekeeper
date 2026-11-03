@@ -257,3 +257,17 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - 3 test;
   - yaml hợp lệ;
   - chạy thử trên Actions (`budget_usd` 3, 2 job): một job phải chờ job kia trả phần giữ chỗ.
+- **Bổ sung R-23 (review lần 2, theo yêu cầu của @thuthuy, trước khi chạy có trả phí):**
+  1. **Hết giờ thì phần giữ chỗ bị kẹt.** Khi driver dừng vì thời gian, nó không bắt đầu lần gọi nào, nhưng phần giữ chỗ 2 USD vẫn bị giữ. 20 job sẽ kẹt 40 USD và chặn lần chạy kế tiếp.
+     - Nay: `reserve` từ chối sau hạn.
+     - Nếu không có thư mục lần chạy mới, coi như không có gì đã chạy và trả lại phần giữ chỗ.
+     - Chỉ khi một lần gọi đã bắt đầu mà không ghi kết quả mới giữ lại phần xấu nhất.
+  2. **Chạy nối tiếp qua nhiều lần dispatch.** Mỗi job có tối đa khoảng 4,7 giờ cho các lần gọi mới, có thể không đủ.
+     - Nay: lần dispatch có trả phí lấy kết quả cũ từ `e2-results` cho đúng shard, để task đã xong không bị chạy lại.
+     - Chạy có trả phí bắt buộc 20 shard, để task luôn thuộc cùng một shard.
+     - `BASE`: chi phí của các lần dispatch trước không bị ghi hai lần vào sổ.
+  3. **Lỗi của chính tôi:** bản viết lại vòng lặp đã bỏ mất quy tắc "một vòng không xong task nào thì dừng" (có ở bản trước và trong `run_e1_inter.sh`). Thiếu quy tắc này, lỗi hạ tầng lặp lại sẽ được chạy lại mãi. Đã thêm lại.
+  4. **Ô `guidance_sha256` trống** làm bước kiểm SHA bị bỏ qua. Nay chạy có trả phí bắt buộc phải điền.
+  5. **Đã đọc mã mini-swe-agent** (`models/utils/retry.py`): khi lỗi API, agent thử lại 10 lần, chờ theo cấp số mũ 4–60 s. Hết 10 lần thì là lỗi hạ tầng, task được chạy lại ở vòng sau, và quy tắc ở mục 3 chặn vòng lặp vô tận.
+  6. **[secrets] chỉ quét file được git theo dõi** (`git grep`) và phần đã stage. File khóa tạm `gha-creds-*.json` do bước xác thực tạo không làm cổng preflight thất bại, và cũng không nằm trong danh sách artifact.
+  7. **Giới hạn đã biết, cần người kiểm:** số tiền ghi trong sổ là số tính theo bảng giá của litellm. Hóa đơn Google **chưa từng được đối chiếu** (`docs/audit_pilot.md` C5).

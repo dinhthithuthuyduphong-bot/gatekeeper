@@ -97,6 +97,9 @@ def reserve(branch: str, key: str, usd: float, cap: float, deadline: float, wait
         mine = entries.get(key, {"spent": 0.0, "reserved": 0.0})
         if float(mine.get("reserved", 0.0)) > 0:
             raise SystemExit(f"{key} already holds a reservation: settle it first")
+        if time.time() > deadline:
+            print("[ledger] past the deadline: no new call", flush=True)
+            return EXHAUSTED
         if spent + usd > cap:
             print(f"[ledger] exhausted: spent {spent:.4f} + {usd:.2f} > cap {cap:.4f}", flush=True)
             return EXHAUSTED

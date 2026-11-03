@@ -57,6 +57,8 @@ jobs:
         run: |
           n="${{ inputs.shards }}"
           [ "$n" -ge 1 ] && [ "$n" -le 20 ] || { echo "shards must be 1..20"; exit 1; }
+          # paid: the task -> shard assignment must be the same in every dispatch (resume, A60)
+          [ "${{ inputs.mode }}" != paid ] || [ "$n" = 20 ] || { echo "paid runs use 20 shards"; exit 1; }
           echo "shards=$(python3 -c "import json; print(json.dumps(list(range($n))))")" >> "$GITHUB_OUTPUT"
 
   run:
@@ -111,9 +113,17 @@ jobs:
           json.dump({"xreposkill": mine, "oracle-gold": mine}, open("shard_sets.json", "w"))
           print(f"shard {k}/{n}: {len(mine)} tasks")
           EOF
+          # paid: results of earlier dispatches (same 20-shard assignment) so done tasks are not re-run
+          if [ "${{ inputs.mode }}" = paid ] && git fetch -q origin e2-results 2>/dev/null; then
+            mkdir -p results/pilot
+            for f in $(git ls-tree --name-only origin/e2-results results/pilot/ | grep -E "/g2-e2-s[0-9]+-k$K-p[0-9]+\.json$"); do
+              git show "origin/e2-results:$f" > "$f"; echo "resumed: $f"
+            done
+          fi
       - name: XRepoSkill guidance (paid only; rebuilt from the recorded rule ids, no LLM call)
         if: inputs.mode == 'paid'
         run: |
+          [ -n "${{ inputs.guidance_sha256 }}" ] || { echo "paid runs need guidance_sha256 (execution note 7)"; exit 1; }
           git clone -q https://github.com/XREPOSKILL/XRepoSkill xrepo
           git -C xrepo checkout -q 26fd70345698108c0fdce2d8904293a38b9cd42f
           mkdir -p runs/e2_xreposkill
@@ -141,6 +151,8 @@ jobs:
           left() { python scripts/missing_tasks.py "$1" shard_pool.json; }
           parts() { ls results/pilot/ 2>/dev/null | grep -cE "^$PREFIX-s[0-9]+-k$K-p[0-9]+\.json$" || true; }
           shard_spent() { python -c "import glob, json, re; print(round(sum(json.load(open(f)).get('spent_usd', 0) for f in glob.glob('results/pilot/$PREFIX-s*-k$K-p*.json') if re.search(r'-p\d+\.json$', f)), 6))"; }
+          rundirs() { ls -d runs/$PREFIX-s*-k$K-p*/ 2>/dev/null | wc -l; }
+          BASE=$(shard_spent)  # spend of earlier dispatches: already in their own ledger entries
           stop=0
           while [ $stop = 0 ]; do
             total=0; for s in ${{ inputs.seeds }}; do total=$((total + $(left $PREFIX-s$s-k$K))); done
@@ -149,7 +161,7 @@ jobs:
               [ "$(left $PREFIX-s$s-k$K)" -gt 0 ] || continue
               python scripts/e2_ledger.py reserve --branch "$LEDGER" --key "$KEY" --usd "$WORST" \
                 --cap "$TOTAL" --deadline-epoch "$DEADLINE" --wait-s 60 || { echo "[stop] budget or time"; stop=1; break; }
-              before=$(parts)
+              before=$(parts); dirs_before=$(rundirs)
               # unrounded: the driver recomputes the same sum, so exactly one worst-case call fits
               CAP=$(python -c "import sys; sys.path.insert(0,'scripts'); import run_batched_pilot as r; print(repr(r.pilot_spent_total() + $WORST))")
               python scripts/run_batched_pilot.py --name $PREFIX-s$s-k$K --model $MODEL --model-seed $s \
@@ -158,14 +170,23 @@ jobs:
                 --step-limit 250 --workers 2 --arm-parallel $ARMS --keep-images \
                 --stop-after-min 330 --batch-min 50 \
                 --harness-python livenv/bin/python --harness-namespace starryzhang
-              # a call that wrote no result keeps its worst-case reservation (its spend is unknown)
+              SPENT=$(python -c "print(round($(shard_spent) - $BASE, 6))")
               if [ "$(parts)" -gt "$before" ]; then
-                python scripts/e2_ledger.py settle --branch "$LEDGER" --key "$KEY" --spent "$(shard_spent)"
+                python scripts/e2_ledger.py settle --branch "$LEDGER" --key "$KEY" --spent "$SPENT"
+              elif [ "$(rundirs)" -eq "$dirs_before" ]; then
+                # the driver started nothing (time, disk or registry stop): nothing was spent
+                python scripts/e2_ledger.py settle --branch "$LEDGER" --key "$KEY" --spent "$SPENT"
+                echo "[stop] the driver started no call"; stop=1; break
               else
-                python scripts/e2_ledger.py settle --branch "$LEDGER" --key "$KEY" --spent "$(shard_spent)" --keep-reserved
+                # a call started but wrote no result: its spend is unknown, keep the worst case
+                python scripts/e2_ledger.py settle --branch "$LEDGER" --key "$KEY" --spent "$SPENT" --keep-reserved
                 echo "[stop] no result from the last call"; stop=1; break
               fi
             done
+            # same rule as the local runs: a round that completes no task stops the shard
+            # (e.g. an infrastructure failure that repeats), it is never retried without end
+            now=0; for s in ${{ inputs.seeds }}; do now=$((now + $(left $PREFIX-s$s-k$K))); done
+            [ $stop = 1 ] || [ "$now" -lt "$total" ] || { echo "[stop] no progress in a round"; stop=1; }
           done
           python scripts/e2_ledger.py total --branch "$LEDGER"
           python scripts/preflight.py --ci
