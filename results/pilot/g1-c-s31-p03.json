@@ -1,0 +1,80 @@
+{
+  "generated_utc": "2026-11-03T01:01:54+00:00",
+  "name": "g1-c-s31-p03",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "django__django-16255",
+    "django__django-16315",
+    "django__django-16485",
+    "matplotlib__matplotlib-20488"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.2798,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.0337307625,
+      "tokens_in_per_run": 441971.25,
+      "tokens_out_per_run": 5288.0,
+      "cached_share": 0.8516798321157768,
+      "api_calls_per_run": 41.75,
+      "solve_rate": 0.5,
+      "solved": 2,
+      "scored": 4
+    },
+    "validation-error": {
+      "runs": 4,
+      "usd_per_run": 0.03622238125,
+      "tokens_in_per_run": 520782.25,
+      "tokens_out_per_run": 4731.25,
+      "cached_share": 0.8625490788136501,
+      "api_calls_per_run": 44.25,
+      "solve_rate": 0.5,
+      "solved": 2,
+      "scored": 4
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "validation-error": {
+      "pairs": [
+        {
+          "instance_id": "django__django-16255",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-16315",
+          "loss_with": 0.7222222222222222,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-16485",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "matplotlib__matplotlib-20488",
+          "loss_with": 0.6696696696696697,
+          "loss_without": 0.6696696696696697
+        }
+      ],
+      "mean_Z": 0.013888888888888895,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": 0.013888888888888895,
+        "sigma_S2": 0.0007716049382716057,
+        "sigma_T2": 0.15497667337006676,
+        "unpaired_over_paired": 402.6995373752127
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": 0.0
+      }
+    }
+  }
+}
