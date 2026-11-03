@@ -314,3 +314,4 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - tổng cộng dồn: trung vị 114,73; phân vị 95% 118,46; phân vị 99% 120,01; trần 122,26.
   - Giả định: các lần chạy còn lại (seed 51 và 61 trên cùng task) có cùng phân phối chi phí với các lần đã chạy.
 - **Kết luận:** rút đề nghị nâng 5 USD cho E1.
+- **R-26 bổ sung (18:55 UTC):** E2 còn khoảng 3 lần gọi song song (6 agent), nên E1 trở lại `--workers 4` (12 agent; tổng khoảng 18, dưới mức 20 đã chạy không có lần chạy nào hỏng).
