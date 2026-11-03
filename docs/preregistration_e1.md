@@ -94,3 +94,11 @@ Mã: `scripts/rq1_mini.py`; test: `tests/test_rq1_mini.py`.
 - Nhãn theo dấu của ước lượng điểm chỉ là phân tích phụ.
 
 **Ghi chú ngân sách** (03/11/2026, chưa mở kết quả nào): chi phí đo được là khoảng 0,20 USD mỗi task cho mỗi seed (250 bước), nên dự kiến E1 tốn 68–72 USD. @thuthuy duyệt thêm 10 USD, nâng ngân sách E1 lên **75 USD**; trần ghi nhận trong driver = 31,26 + 75 = **106,26 USD**. Thiết kế không đổi.
+
+**Ghi chú thực thi 1** (03/11/2026, rà soát toàn bộ mã trước khi chạy tiếp; **chưa phân tích kết quả nào**; `docs/audit_pilot.md` A24–A35):
+- **Lệnh phân tích §4** (họ Holm = **3 skill E1**; skill có hại thuộc §6, không thuộc họ này):
+  `python scripts/analyze_g1_final.py verdict --label E1 --out results/e1_final.json --skills null-guard,type-guard,exception-handling --confirm g1-e1-s41 g1-e1-s51 g1-e1-s61` (A/A = hai run đầu: seed 41 so với 51).
+- **Lệnh §6:** `python scripts/rq1_mini.py --e1 g1-e1-s41 g1-e1-s51 g1-e1-s61 --g1 g1-c-s11 g1-c-s21 g1-c-s31`. Thứ tự sàng lọc trong mã nay đúng là `random.Random("2027-order")` như §6; mọi quy tắc dùng cùng 40 trial đầu.
+- **cost_limit (§2):** lập luận "chi phí tăng gần bình phương" là ngoại suy không có nguồn. Thay bằng số đo: lần chạy đắt nhất trong 80 lần đầu là 0,53 USD, không lần nào chạm 1,00 USD. Giới hạn này vẫn không ràng buộc.
+- **§3:** trạng thái kết thúc của từng lần chạy nay được lưu, gồm cả 7 lô đầu (bổ sung từ trajectory), nên tỉ lệ bị cắt và phân tích *hypothetical* làm được.
+- **Giới hạn đã biết trước khi phân tích:** S2 với G = 8–9 repo có p nhỏ nhất 2⁻ᴳ (0,0039 hoặc 0,0020). Con số này được báo cáo cạnh kết quả (`docs/audit_pilot.md` C7).

@@ -75,3 +75,9 @@ Z_ik = R(none) − R(xreposkill) ∈ {−1, 0, 1}; Z̄_i là trung bình qua 3 s
 - Không thêm seed, task hay skill sau khi thấy dữ liệu; không phân tích giữa chừng.
 - Không chỉnh prompt hay rule của XRepoSkill.
 - Không chọn lại `top_n`.
+
+**Ghi chú thực thi 1** (03/11/2026, chưa có dữ liệu E2; `docs/audit_pilot.md` A29–A35):
+- Pool chỉ nhận task có ≥ 1 test FAIL_TO_PASS. Task có danh sách rỗng thì "resolved" với mọi patch.
+- Bước chọn rule bị lỗi API thì được chạy lại; còn lỗi thì không lập tập task.
+- Trần = số đã chi ngoài E2 lúc bắt đầu + 45 USD. E2 chỉ chạy khi E1 xong.
+- **Lệnh phân tích:** `python scripts/analyze_g1_final.py verdict --label E2 --out results/e2_final.json --skills xreposkill --confirm g2-e2-s41 g2-e2-s51 g2-e2-s61` (giả thuyết có ích: `reject`/`robust`; có hại: `harm`/`harm_verdict`); `python scripts/rq1_mini.py --e2 g2-e2-s41 g2-e2-s51 g2-e2-s61`.
