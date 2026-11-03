@@ -56,10 +56,10 @@
   },
   {
    "id": "holm",
-   "claim": "Holm (1979) step-down procedure controls the family-wise error rate (full text; official: JSTOR stable 4615733)",
+   "claim": "Holm (1979) step-down procedure controls the family-wise error rate (full text; official: JSTOR stable 4615733). Second URL: Shaffer (1986, JASA, peer reviewed) restating Holm's procedure; Wikipedia removed (A64)",
    "urls": [
     "https://www.ime.usp.br/~abe/lista/pdf4R8xPVzCnX.pdf",
-    "https://en.wikipedia.org/wiki/Holm%E2%80%93Bonferroni_method"
+    "https://sci2s.ugr.es/keel/pdf/algorithm/articulo/1986-Shaffer-JASA.pdf"
    ],
    "keywords": [
     "family-wise",
@@ -70,7 +70,10 @@
     "Holm (1979)",
     "Scandinavian",
     "sequentially rejective",
-    "multiple test"
+    "multiple test",
+    "Holm",
+    "Bonferroni",
+    "familywise error"
    ]
   },
   {
@@ -177,9 +180,12 @@
     "prior",
     "PrPl",
     "Ville",
-    "(\u03bc\u0302",
+    "(μ̂",
     "mean - m",
-    "\u03c3\u03022"
+    "σ̂2",
+    "a.s.",
+    "sqrt(2 log",
+    "predictable"
    ]
   },
   {
@@ -205,7 +211,9 @@
     "cluster",
     "paired",
     "power",
-    "resampl"
+    "resampl",
+    "super-population",
+    "law of total variance"
    ]
   },
   {
@@ -251,13 +259,15 @@
    "id": "ville_inequality",
    "claim": "Ville's inequality for nonnegative supermartingales (Ramdas, Grunwald, Vovk & Shafer, Statistical Science)",
    "urls": [
-    "https://arxiv.org/pdf/2210.01948",
-    "https://en.wikipedia.org/wiki/Ville%27s_inequality"
+    "https://arxiv.org/pdf/2210.01948"
    ],
    "keywords": [
     "Ville",
     "supermartingale",
-    "inequality"
+    "inequality",
+    "nonnegative supermartingale",
+    "sup t",
+    "gamblers"
    ]
   },
   {
@@ -620,6 +630,20 @@
     "6 hours",
     "retention",
     "artifact"
+   ]
+  },
+  {
+   "id": "levin_peres_2017",
+   "claim": "Total variation distance: ||mu - nu||_TV = (1/2) sup over |f| <= 1 of |E_mu f - E_nu f| (Levin & Peres, Markov Chains and Mixing Times, 2nd ed., AMS 2017, Ch. 4); used for the factor 2 in Theorem 4' step 3",
+   "urls": [
+    "https://darkwing.uoregon.edu/~dlevin/MARKOV/mcmt2e.pdf"
+   ],
+   "keywords": [
+    "Proposition 4.5",
+    "Remark 4.6",
+    "total variation distance",
+    "max_{",
+    "f satisfying"
    ]
   }
  ]
