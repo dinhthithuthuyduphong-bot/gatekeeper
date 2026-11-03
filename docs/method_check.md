@@ -92,3 +92,14 @@ Power của từng quy tắc quyết định ở E1 (plasmode, mức Holm đầu
 | 0,15 | 0,994 | 0,987 |
 
 Tỉ lệ bác bỏ sai của kiểm định chính là 0,016 ở cả hai cỡ, dưới mức 0,025.
+
+**Độ bất định của power do đầu vào** (`scripts/power_input_uncertainty.py` → `results/power_input_uncertainty.json`). Phân phối q chỉ đo trên 32 task của G1, trong đó 38% task luôn giải được và 41% task không bao giờ giải được. Bootstrap 32 task (60 lần), mỗi lần 300 lần mô phỏng:
+
+| Thiết kế | δ | Power trung vị | Khoảng 5%–95% |
+| --- | --- | --- | --- |
+| E2, n = 121 | 0,109 | 0,93 | 0,84–0,99 |
+| E2, n = 121 | 0,20 | 1,00 | 1,00–1,00 |
+| E1, n = 53 | 0,109 | 0,37 | 0,20–0,58 |
+| E1, n = 53 | 0,20 | 0,90 | 0,75–0,98 |
+
+Khoảng này chỉ phản ánh sai số của q. Nó không phản ánh sai lệch do mô hình hiệu ứng (q′ = min(1, q + δ)) hay do q đo trên Verified được dùng cho SWE-bench full và Live.

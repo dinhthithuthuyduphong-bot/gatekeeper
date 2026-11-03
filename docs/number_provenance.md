@@ -112,3 +112,7 @@ Mọi con số khác bên dưới đều được **suy ra từ α**, **suy ra t
 
 | `--stop-after-min 118`, `--batch-min 50` | Vận hành | Giới hạn cứng của tác vụ nền là 120 phút. Lô dài nhất đã thấy ≥ 45 phút (p25, bị cắt khi đang chấm lại); trung vị 15,7 phút; ở trạng thái ổn định dài nhất 27 phút. Nếu một lô vẫn bị cắt, chi phí của nó được ghi và lô được chạy lại (A53); kết quả không đổi |
 | `FETCH_TRIES` = 12 (`scripts/e2_ledger.py`) | Vận hành | Chờ 1, 2, 4, … 60 s, tổng khoảng 7 phút: cùng khoảng với cơ chế thử lại API của mini-swe-agent 2.4.6 (10 lần, 4–60 s). Không ảnh hưởng kết quả, chỉ ảnh hưởng việc job có sống qua lỗi mạng hay không |
+
+| **32 task của G1** | Suy ra (không chọn trực tiếp) | Số task trong pool G1 đã kiểm định (86/89 task dùng được) mà I(x) của `validation-error` đúng. Pool G1 = hợp các task mà I(x) đúng trên SWE-bench Verified, **tối đa 30 task mỗi skill**, seed 2027 (`scripts/select_activated_pool.py`). Con số 30 được chọn theo ngân sách lúc đầu, và đã bị đánh dấu ⚠️ ở `docs/review_thresholds.md` (nhóm J) |
+| **3 seed của G1** | Suy ra | m = ⌊(33,5 − 22,84) / 2,79⌋ = 3: ngân sách còn lại sau C chia cho chi phí một seed **đo ở C** (bản đăng ký trước G1, Ghi chú thực thi 2) |
+| Power của E1/E2 | Suy ra (mô phỏng) | Plasmode từ q của 32 task trên (Franklin et al. 2014, ⏳ đang lấy nguồn). Khoảng bất định do q: `results/power_input_uncertainty.json` |
