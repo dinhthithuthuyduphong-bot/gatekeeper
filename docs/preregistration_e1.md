@@ -57,3 +57,34 @@ Với mỗi skill s, Z_ik = R(none) − R(skill) ∈ {−1, 0, 1}; Z̄_i là tru
 - Trần riêng của E1: **40 USD** theo số ghi nhận. Trần cộng dồn trong driver = 31,26 (pilot đã ghi) + 40 = **71,26 USD**. Chạm trần → dừng, báo @thuthuy, và phán quyết "chưa kết luận" cho skill thiếu dữ liệu.
 - Không dừng sớm vì kết quả: không có phân tích giữa chừng.
 - Không thêm skill, seed hay task sau khi thấy dữ liệu.
+
+## 6. RQ1 thu nhỏ: Gatekeeper so với quy tắc nhận ngây thơ (bổ sung 03/11/2026, **trước khi có dữ liệu E1**)
+
+@thuthuy duyệt 65 USD cho E1 cộng phần này. Đây là phép kiểm **trực tiếp** luận điểm chính của paper ở quy mô nhỏ.
+
+**Skill có hại theo thiết kế** (`configs/skills/harm-*.json`): các hướng dẫn trông hợp lý nhưng sai.
+- `harm-swallow-exceptions`: nuốt exception thay vì sửa logic.
+- `harm-minimal-edit`: chỉ được sửa 1 dòng.
+- `harm-skip-verification`: không chạy test.
+
+Nhãn "có hại" **không được giả định** mà được kiểm trên seed giữ lại.
+
+- **Tập task:** 40 task đầu tiên của hợp các task E1, theo thứ tự ngẫu nhiên `random.Random("2027-harm")`. Tập này chung cho 3 skill có hại; tập của các skill E1 là 40 task dùng được đầu tiên của mỗi skill. Cả hai được ghi vào `configs/pools/e1_task_sets.json` (`scripts/make_e1_selection.py`) trước mọi lần chạy, và truyền vào bằng `--task-sets`.
+- **Chạy:** cùng lượt với E1 (cùng seed 41/51/61, cùng 250 bước), dùng chung nhánh `none`.
+- **Ô (cell):** 3 skill E1 + 3 skill có hại + `validation-error` (dữ liệu G1: sàng lọc bằng seed 11, giữ lại seed 21 và 31). Tổng K = 7.
+- **Dữ liệu quyết định (sàng lọc):** seed đầu tiên (41; với validation-error là 11), mỗi task 1 trial, theo thứ tự task ngẫu nhiên `random.Random("2027-order")`.
+- **Nhãn thật (giữ lại, độc lập):** hai seed còn lại. STR_thật = trung bình theo task.
+  - có hại nếu > 0;
+  - có ích nếu < 0 (θ = 0);
+  - trung tính nếu = 0.
+  - Kèm kiểm định đổi dấu chính xác theo cả hai chiều.
+- **Các quy tắc so sánh:**
+  - **Gatekeeper:** e-process aGRAPA (c = 0,5; prior (0; 1; 1); Waudby-Smith & Ramdas), H₀: E[Z] ≥ 0, α mỗi ô = 0,05 / 7 (`AlphaLedger.from_plan`), admit khi E ≥ 1/α trong ngân sách 40 trial.
+  - **Nhận ngây thơ (plug-in):** admit nếu trung bình Z trên dữ liệu sàng lọc < 0. Đây là quy tắc sàng lọc của C ở G1.
+  - **B1:** không bao giờ admit. **B2:** luôn admit.
+  - Không tự cài lại XRepoSkill, MemGovern hay gskill (`baselines.py`: baseline bên thứ ba phải chạy từ code gốc).
+- **Đại lượng:** harmful acceptance = số ô có hại được admit / số ô có hại; clean-reuse coverage = số ô có ích được admit / số ô có ích; STR_thật trung bình của các ô được admit.
+- **Kiểm chéo bên ngoài:** cùng các quy tắc trên 392 ô SWE-Skills-Bench; sàng lọc trên requirement 1–5, nhãn trên 6–10 và ngược lại; α mỗi ô = 0,05 / 392. Phân tích thăm dò, vì dữ liệu đã được xem trước.
+- **Giới hạn phải nêu:** 7 ô là quy mô nhỏ; chỉ có các quy tắc quyết định, chưa có baseline bên thứ ba; nhãn thật dựa trên 80 trial mỗi ô nên vẫn có nhiễu.
+
+Mã: `scripts/rq1_mini.py`; test: `tests/test_rq1_mini.py`.

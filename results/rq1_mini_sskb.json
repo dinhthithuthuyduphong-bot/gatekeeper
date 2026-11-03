@@ -1,0 +1,31 @@
+{
+ "alpha_cell": 0.00012755102040816328,
+ "n_cells": 784,
+ "summary": {
+  "Gatekeeper": {
+   "admitted": 0,
+   "harmful_acceptance": 0.0,
+   "clean_reuse_coverage": 0.0,
+   "mean_true_STR_of_admitted": null
+  },
+  "Plug-in (mean < 0)": {
+   "admitted": 304,
+   "harmful_acceptance": 0.4359861591695502,
+   "clean_reuse_coverage": 0.4276315789473684,
+   "mean_true_STR_of_admitted": -0.009718421052631581
+  },
+  "B1 never": {
+   "admitted": 0,
+   "harmful_acceptance": 0.0,
+   "clean_reuse_coverage": 0.0,
+   "mean_true_STR_of_admitted": null
+  },
+  "B2 always": {
+   "admitted": 784,
+   "harmful_acceptance": 1.0,
+   "clean_reuse_coverage": 1.0,
+   "mean_true_STR_of_admitted": -0.003433163265306122
+  }
+ },
+ "caveat": "Per-cell labels come from 5 held-out requirements; split-half reliability of skill effects is ~0 (audit A23), so harmful_acceptance / clean_reuse_coverage are dominated by label noise (equal by construction under pure noise). Interpretable: mean_true_STR_of_admitted (unbiased aggregate). Gatekeeper cannot admit with 5 trials at alpha/392 (minimum 9-23 trials even for a perfect skill, results/sskb_analysis.json)."
+}

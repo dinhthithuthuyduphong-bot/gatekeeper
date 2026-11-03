@@ -25,6 +25,7 @@ PREDICATE_KINDS = (
     "declared_class",
     "python",
     "issue_regex",
+    "instance_in",
 )
 
 

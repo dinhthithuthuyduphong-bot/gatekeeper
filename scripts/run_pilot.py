@@ -95,7 +95,10 @@ def activated(skill: Skill, rows: list[dict]) -> list[dict]:
         if screen(
             skill,
             TargetContext(
-                name=r["repo"], fingerprints={}, issue_text=r.get("problem_statement", "")
+                name=r["repo"],
+                fingerprints={},
+                issue_text=r.get("problem_statement", ""),
+                task_id=r.get("instance_id", ""),
             ),
         ).in_scope
     ]
@@ -368,6 +371,11 @@ def main() -> int:
         default="",
         help="sample only from validated tasks (results/pool_validation/<tag>/summary.json)",
     )
+    ap.add_argument(
+        "--task-sets",
+        default="",
+        help="JSON {skill_id: [instance ids]}: restrict each skill to its pre-registered task set",
+    )
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--workers", type=int, default=2)
     ap.add_argument("--step-limit", type=int, default=60)
@@ -394,6 +402,12 @@ def main() -> int:
     # P_s = tasks where the skill's activation predicates I(x) hold (corrections.md §1.2):
     # a skill arm only runs on its activated tasks; the no-skill arm runs on their union.
     arm_rows_map = {sid: activated(sk, rows) for sid, sk in arms if sk is not None}
+    if a.task_sets:  # experiment-defined task set per skill (fixed before any trial), intersected
+        sets = json.loads(Path(a.task_sets).read_text())
+        for sid in list(arm_rows_map):
+            if sid in sets:
+                keep = set(sets[sid])
+                arm_rows_map[sid] = [r for r in arm_rows_map[sid] if r["instance_id"] in keep]
     union = {r["instance_id"] for rs in arm_rows_map.values() for r in rs}
     arm_rows_map["none"] = [r for r in rows if r["instance_id"] in union] if a.activation else rows
     if not a.activation:

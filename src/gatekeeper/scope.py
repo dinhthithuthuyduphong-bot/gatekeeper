@@ -50,6 +50,7 @@ class TargetContext:
     dependencies: Mapping[str, str] = field(default_factory=dict)
     declared_classes: Mapping[str, str] = field(default_factory=dict)
     issue_text: str = ""  # the task's issue / problem statement (activation predicates I(x))
+    task_id: str = ""  # the task instance id (experiment-defined task sets, e.g. RQ1-mini)
 
 
 @dataclass(frozen=True)
@@ -152,6 +153,8 @@ def evaluate_predicate(pred: Mapping[str, Any], target: TargetContext) -> bool:
     if kind == "issue_regex":
         flags = re.IGNORECASE if pred.get("ignore_case", True) else 0
         return re.search(pred["pattern"], target.issue_text, flags) is not None
+    if kind == "instance_in":  # an experiment-defined task set (fixed before any trial)
+        return target.task_id in set(pred["ids"])
     raise ValueError(f"unknown predicate kind {kind!r}")
 
 
