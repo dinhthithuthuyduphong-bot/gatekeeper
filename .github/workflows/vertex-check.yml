@@ -1,0 +1,53 @@
+name: Vertex credentials check
+
+# Which service account / key the GCP_SA_KEY secret holds, whether VERTEXAI_PROJECT and
+# VERTEXAI_LOCATION are set, and whether that account may call the pilot model (one request of a
+# few tokens). Prints identifiers only (client_email, first 8 characters of private_key_id),
+# never key material. docs/vertex_setup.md records the result.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      VERTEXAI_PROJECT: ${{ secrets.VERTEXAI_PROJECT }}
+      VERTEXAI_LOCATION: ${{ secrets.VERTEXAI_LOCATION }}
+      HAS_KEY: ${{ secrets.GCP_SA_KEY != '' }}
+    steps:
+      - name: Which secrets are set
+        run: |
+          echo "GCP_SA_KEY set: $HAS_KEY"
+          [ -n "$VERTEXAI_PROJECT" ] && echo "VERTEXAI_PROJECT set" || echo "VERTEXAI_PROJECT NOT set"
+          [ -n "$VERTEXAI_LOCATION" ] && echo "VERTEXAI_LOCATION set" || echo "VERTEXAI_LOCATION NOT set"
+      - uses: google-github-actions/auth@v2
+        if: env.HAS_KEY == 'true'
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Identify the key and call the model once
+        if: env.HAS_KEY == 'true'
+        run: |
+          pip -q install "litellm==1.106.6" "google-auth==2.62.0"
+          python - <<'EOF'
+          import json, os
+          d = json.load(open(os.environ["GOOGLE_APPLICATION_CREDENTIALS"]))
+          print("service account:", d.get("client_email"))
+          print("key id (first 8):", (d.get("private_key_id") or "")[:8])
+          print("project in key:", d.get("project_id"))
+          import litellm
+          r = litellm.completion(
+              model="vertex_ai/gemini-3.1-flash-lite",
+              messages=[{"role": "user", "content": "Reply with the single word OK."}],
+              max_tokens=5,
+              vertex_project=os.environ.get("VERTEXAI_PROJECT") or d.get("project_id"),
+              vertex_location=os.environ.get("VERTEXAI_LOCATION") or "global",
+          )
+          print("model call OK:", r.choices[0].message.content, "| tokens", r.usage.prompt_tokens, r.usage.completion_tokens)
+          EOF
