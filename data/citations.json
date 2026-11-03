@@ -1,134 +1,353 @@
 {
-  "generated_utc": "2026-11-03T05:21:53+00:00",
-  "arxiv_status": "failed: <HTTPError 429: 'Unknown Error'>",
+  "generated_utc": "2026-11-03T05:33:38+00:00",
+  "arxiv_status": "ok",
   "arxiv": [
     {
       "key": "LTT [1]",
-      "arxiv_id": "2110.01052",
+      "arxiv_id": "2110.01052v5",
       "draft_title": "Learn then test: Calibrating predictive algorithms to achieve risk control",
       "draft_uses_placeholder_authors": false,
-      "exists_on_arxiv": false,
-      "title_similarity": null
+      "exists_on_arxiv": true,
+      "title_similarity": 1.0,
+      "title": "Learn then Test: Calibrating Predictive Algorithms to Achieve Risk Control",
+      "authors": [
+        "Anastasios N. Angelopoulos",
+        "Stephen Bates",
+        "Emmanuel J. Candès",
+        "Michael I. Jordan",
+        "Lihua Lei"
+      ],
+      "published": "2021-10-03",
+      "abstract": "We introduce a framework for calibrating machine learning models so that their predictions satisfy explicit, finite-sample statistical guarantees. Our calibration algorithms work with any underlying model and (unknown) data-generating distribution and do not require model refitting. The framework addresses, among other examples, false discovery rate control in multi-label classification, intersection-over-union control in instance segmentation, and the simultaneous control of the type-1 error of outlier detection and confidence set coverage in classification or regression. Our main insight is to reframe the risk-control problem as multiple hypothesis testing, enabling techniques and mathematical arguments different from those in the previous literature. We use the framework to provide new calibration methods for several core machine learning tasks, with detailed worked examples in computer vision and tabular medical data.",
+      "updated": "2022-09-29"
     },
     {
       "key": "CooperBench [6]",
-      "arxiv_id": "2601.13295",
+      "arxiv_id": "2601.13295v2",
       "draft_title": "CooperBench: Measuring collaborative conflicts between coding agents",
       "draft_uses_placeholder_authors": true,
-      "exists_on_arxiv": false,
-      "title_similarity": null
+      "exists_on_arxiv": true,
+      "title_similarity": 0.375,
+      "title": "CooperBench: Why Coding Agents Cannot be Your Teammates Yet",
+      "authors": [
+        "Arpandeep Khatua",
+        "Hao Zhu",
+        "Peter Tran",
+        "Arya Prabhudesai",
+        "Frederic Sadrieh",
+        "Johann K. Lieberwirth",
+        "Xinkai Yu",
+        "Yicheng Fu",
+        "Michael J. Ryan",
+        "Jiaxin Pei",
+        "Diyi Yang"
+      ],
+      "published": "2026-01-19",
+      "abstract": "Resolving team conflicts requires not only task-specific competence, but also social intelligence to find common ground and build consensus. As AI agents increasingly collaborate on complex work, they must develop coordination capabilities to function as effective teammates. Yet we hypothesize that current agents lack these capabilities. To test this, we introduce CooperBench, a benchmark of over 600 collaborative coding tasks across 12 libraries in 4 programming languages. Each task assigns two agents different features that can be implemented independently but may conflict without proper coordination. Tasks are grounded in real open-source repositories with expert-written tests. Evaluating state-of-the-art coding agents, we observe the curse of coordination: agents achieve on average 30% lower success rates when working together compared to performing both tasks individually. This contrasts sharply with human teams, where adding teammates typically improves productivity. Our analysis reveals three key issues: (1) communication channels become jammed with vague, ill-timed, and inaccurate messages; (2) even with effective communication, agents deviate from their commitments; and (3) agents often hold incorrect expectations about others' plans and communication. Through large-scale simulation, we also observe rare but interesting emergent coordination behavior including role division, resource division, and negotiation. Our research presents a novel benchmark for collaborative coding and calls for a shift from pursuing individual agent capability to developing social intelligence.",
+      "updated": "2026-01-26"
     },
     {
       "key": "Formal skill verification [7]",
-      "arxiv_id": "2605.23951",
+      "arxiv_id": "2605.23951v1",
       "draft_title": "Formal verification of learned agent skills and capability containment",
       "draft_uses_placeholder_authors": true,
-      "exists_on_arxiv": false,
-      "title_similarity": null
+      "exists_on_arxiv": true,
+      "title_similarity": 0.56,
+      "title": "Methods for Formal Verification of Agent Skills: Three Layers Toward a Mechanically Checkable Capability-Containment Proof",
+      "authors": [
+        "Alfredo Metere"
+      ],
+      "published": "2026-05-09",
+      "abstract": "The companion paper introduced a four-level verification lattice on agent-skill manifests (unverified, declared, tested, formal) and left the top level aspirational. This paper closes that gap. We give a precise semantics for skill behaviour faithful to how a skill is consumed by an LLM-driven runtime (a deterministic script-side reachable through a non-deterministic LLM-side), state the verification problem as a capability-containment property over that semantics, and present three composable methods that together raise a skill from declared or tested to formal: (1) sound static capability-containment analysis of the script-side via abstract interpretation over a small effect lattice; (2) a refinement type system for tool-call envelopes that mechanically rejects any call whose statically-inferred capability is not in the manifest's declared set; (3) SMT-bounded model checking against the parent paper's biconditional correctness criterion, with the bound chosen so any counter-example fitting the runtime's transaction-buffer horizon is exhibited as a concrete trace. We prove the three layers composed soundly cover the parent paper's threat model modulo a single residual (the LLM's freedom to refuse to act) that the parent paper's runtime biconditional catches at session boundary. The methods reuse existing well-engineered tools (Z3, Semgrep, CodeQL, refinement-type checkers, mechanised proof assistants) rather than asking operators to build new ones, and the proof-carrying artifact extends the existing SKILL.md convention. All three methods plus the bundle producer and re-checker ship as zero-dependency JavaScript modules in the open-source enclawed framework (https://github.com/metereconsulting/enclawed; project page https://www.enclawed.com/), with 53 unit tests and an end-to-end CLI demo on a sample skill.",
+      "updated": "2026-05-09"
     },
     {
       "key": "GEM/MemState [8]",
-      "arxiv_id": "2605.26252",
+      "arxiv_id": "2605.26252v1",
       "draft_title": "GEM/MemState: Dependency-aware correctness for agent memory",
       "draft_uses_placeholder_authors": true,
-      "exists_on_arxiv": false,
-      "title_similarity": null
+      "exists_on_arxiv": true,
+      "title_similarity": 0.182,
+      "title": "Is Agent Memory a Database? Rethinking Data Foundations for Long-Term AI Agent Memory",
+      "authors": [
+        "Abdelghny Orogat",
+        "Essam Mansour"
+      ],
+      "published": "2026-05-25",
+      "abstract": "Long-running AI agents need persistent memory. Memory supports learning across sessions, reduces repeated context injection, and enables auditing of past decisions. Current agent memory systems and database paradigms treat memory as storage. They localize correctness at records, embeddings, or edges. Each supplies only some of the capabilities that long-term memory requires. The result is four recurring failure modes: unregulated growth, missing semantic revision, capacity-driven forgetting, and read-only retrieval. In our vision, long-term agent memory is a new data-management workload. Its correctness is a property of the state trajectory, not of individual records. We formalize this as Governed Evolving Memory (GEM). GEM replaces record-level database operations with four state-level operators: ingestion, revision, forgetting, and retrieval. Six correctness conditions govern how the state evolves. Three structural observations establish that no record-level system can satisfy these conditions, regardless of the storage model. We realize the abstraction in MemState, a prototype on a property-graph backend. MemState validates feasibility and exposes the gap to a native engine. We outline three research directions that define memory-centric data management as a workload.",
+      "updated": "2026-05-25"
     },
     {
       "key": "GSE [9]",
-      "arxiv_id": "2608.06153",
+      "arxiv_id": "2608.06153v1",
       "draft_title": "GSE: Globally reusable skill evolution for coding agents",
       "draft_uses_placeholder_authors": true,
-      "exists_on_arxiv": false,
-      "title_similarity": null
+      "exists_on_arxiv": true,
+      "title_similarity": 0.667,
+      "title": "Learning Globally Reusable Skills for Coding Agents",
+      "authors": [
+        "Chen Yang",
+        "Jiashuo Tian",
+        "Ziqi Wang",
+        "Xinyin Liu",
+        "Meiru Ye",
+        "Junjie Chen"
+      ],
+      "published": "2026-08-06",
+      "abstract": "Automated skill evolution enables Large Language Model (LLM) agents to continuously improve without expensive retraining. However, existing approaches typically treat skill evolution as a sequence of local updates, overlooking relationships among skills and often producing overfitted skill updates that fail to generalize across tasks. We propose GSE, a globalized skill evolution framework that jointly optimizes skill compatibility and skill generalization. To preserve consistency across the skill bank, GSE maintains a Skill Relation Graph (SRG) that explicitly models and co-evolves inter-skill relationships. To improve generalization, GSE performs cluster-based skill consolidation to abstract reusable capabilities from local updates and employs replay-driven verification to prevent overfitting and behavioral regressions. We evaluate GSE on two representative software engineering tasks: bug-revealing test generation and false-positive bug report filtering. Across two state-of-the-art coding agents, OpenHands and mini-SWE-agent, GSE consistently achieves the best precision, recall, and F1-score. Compared with existing evolution techniques, GSE improves precision and recall by 6.1%~34.1% and 31.8%~180.0% for test generation, and by 15.4%~96.4% and 13.1%~19.8% for false-positive filtering. Deployment on an internal industrial agent further yields a 61.4% improvement in F1-score, demonstrating the effectiveness and generalizability of GSE for evolving effective skills.",
+      "updated": "2026-08-06"
     },
     {
       "key": "MemCoder [12]",
-      "arxiv_id": "2603.13258",
+      "arxiv_id": "2603.13258v1",
       "draft_title": "MemCoder: Structured intent-to-code experience memory for coding agents",
       "draft_uses_placeholder_authors": true,
-      "exists_on_arxiv": false,
-      "title_similarity": null
+      "exists_on_arxiv": true,
+      "title_similarity": 0.2,
+      "title": "Your Code Agent Can Grow Alongside You with Structured Memory",
+      "authors": [
+        "Yi-Xuan Deng",
+        "Xiaoqin Liu",
+        "Yi Zhang",
+        "Guo-Wei Yang",
+        "Shuojin Yang"
+      ],
+      "published": "2026-02-25",
+      "abstract": "While \"Intent-oriented programming\" (or \"Vibe Coding\") redefines software engineering, existing code agents remain tethered to static code snapshots. Consequently, they struggle to model the critical information embedded in the temporal evolution of projects, failing to leverage the \"reasoning trajectories\" implicit in past successful practices. This limitation results in rigid behavioral logic and a lack of autonomous adaptability, ultimately hindering their ability to tackle complex, repository-level problems. To bridge this static-dynamic mismatch, we propose MemCoder, a framework designed to enable continual human-AI co-evolution. MemCoder first structures historical human experience to distill latent intent-to-code mappings from past commits. It then employs a self-refinement mechanism driven by verification feedback to correct agent behavior in real-time. Crucially, an experience self-internalization mechanism is introduced to crystallize human-validated solutions into long-term knowledge, thereby supporting sustained evolution. Experimental results on SWE-bench Verified demonstrate that MemCoder not only achieves State-of-the-Art (SOTA) performance but also delivers a 9.4% improvement in resolved rate over the general foundation model DeepSeek-V3.2. These findings indicate that equipping agents with the capability to co-evolve with humans via project history and real-time feedback effectively unlocks the potential of general models in complex software engineering tasks.",
+      "updated": "2026-02-25"
     },
     {
       "key": "MemGovern [13]",
-      "arxiv_id": "2601.06789",
+      "arxiv_id": "2601.06789v2",
       "draft_title": "MemGovern: Governed development histories as reusable experience cards",
       "draft_uses_placeholder_authors": true,
-      "exists_on_arxiv": false,
-      "title_similarity": null
+      "exists_on_arxiv": true,
+      "title_similarity": 0.222,
+      "title": "MemGovern: Enhancing Code Agents through Learning from Governed Human Experiences",
+      "authors": [
+        "Qihao Wang",
+        "Ziming Cheng",
+        "Shuo Zhang",
+        "Fan Liu",
+        "Rui Xu",
+        "Heng Lian",
+        "Kunyi Wang",
+        "Xiaoming Yu",
+        "Jianghao Yin",
+        "Sen Hu",
+        "Yue Hu",
+        "Shaolei Zhang",
+        "Yanbing Liu",
+        "Ronghao Chen",
+        "Huacan Wang"
+      ],
+      "published": "2026-01-11",
+      "abstract": "While autonomous software engineering (SWE) agents are reshaping programming paradigms, they currently suffer from a \"closed-world\" limitation: they attempt to fix bugs from scratch or solely using local context, ignoring the immense historical human experience available on platforms like GitHub. Accessing this open-world experience is hindered by the unstructured and fragmented nature of real-world issue-tracking data. In this paper, we introduce MemGovern, a framework designed to govern and transform raw GitHub data into actionable experiential memory for agents. MemGovern employs experience governance to convert human experience into agent-friendly experience cards and introduces an agentic experience search strategy that enables logic-driven retrieval of human expertise. By producing 135K governed experience cards, MemGovern achieves a significant performance boost, improving resolution rates on the SWE-bench Verified by 4.65%. As a plug-in approach, MemGovern provides a solution for agent-friendly memory infrastructure.",
+      "updated": "2026-01-13"
     },
     {
       "key": "SWE-bench-Live [22]",
-      "arxiv_id": "2505.23419",
+      "arxiv_id": "2505.23419v2",
       "draft_title": "SWE-bench-Live: A continuously updated benchmark for LLM-based software engineering",
       "draft_uses_placeholder_authors": false,
-      "exists_on_arxiv": false,
-      "title_similarity": null
+      "exists_on_arxiv": true,
+      "title_similarity": 0.375,
+      "title": "SWE-bench Goes Live!",
+      "authors": [
+        "Linghao Zhang",
+        "Shilin He",
+        "Chaoyun Zhang",
+        "Yu Kang",
+        "Bowen Li",
+        "Chengxing Xie",
+        "Junhao Wang",
+        "Maoquan Wang",
+        "Yufan Huang",
+        "Shengyu Fu",
+        "Elsie Nallipogu",
+        "Qingwei Lin",
+        "Yingnong Dang",
+        "Saravan Rajmohan",
+        "Dongmei Zhang"
+      ],
+      "published": "2025-05-29",
+      "abstract": "The issue-resolving task, where a model generates patches to fix real-world bugs, has emerged as a critical benchmark for evaluating the capabilities of large language models (LLMs). While SWE-bench and its variants have become standard in this domain, they suffer from key limitations: they have not been updated since their initial releases, cover a narrow set of repositories, and depend heavily on manual effort for instance construction and environment setup. These factors hinder scalability and introduce risks of overfitting and data contamination. In this work, we present SWE-bench-Live, a live-updatable benchmark designed to overcome these challenges. Our initial release consists of 1,319 tasks derived from real GitHub issues created since 2024, spanning 93 repositories. Each task is accompanied by a dedicated Docker image to ensure reproducible execution. Central to our benchmark is \\method, an automated curation pipeline that streamlines the entire process from instance creation to environment setup, removing manual bottlenecks and enabling scalability and continuous updates. We evaluate a range of state-of-the-art agent frameworks and LLMs on SWE-bench-Live, revealing a substantial performance gap compared to static benchmarks like SWE-bench, even under controlled evaluation conditions. To better understand this discrepancy, we perform detailed analyses across repository origin, issue recency, and task difficulty. By providing a fresh, diverse, and executable benchmark grounded in live repository activity, SWE-bench-Live facilitates rigorous, contamination-resistant evaluation of LLMs and agents in dynamic, real-world software development settings.",
+      "updated": "2025-06-01"
     },
     {
       "key": "XRepoSkill",
-      "arxiv_id": "2609.36807",
+      "arxiv_id": "2609.36807v1",
       "draft_title": "XRepoSkill: Learning Transferable Skills for SWE Agents",
       "draft_uses_placeholder_authors": false,
-      "exists_on_arxiv": false,
-      "title_similarity": null
+      "exists_on_arxiv": true,
+      "title_similarity": 0.8,
+      "title": "XRepoSkill: Learning Transferable Skills for Software Engineering Agents",
+      "authors": [
+        "Yaoqi Guo",
+        "Haoyang Zhou",
+        "Jiayi Zhang",
+        "Yiran Zhang",
+        "Yang Liu",
+        "Qiuyuan Chen",
+        "Qiang Lin",
+        "Hande Dong",
+        "Jie M. Zhang",
+        "Zhenpeng Chen"
+      ],
+      "published": "2026-09-29",
+      "abstract": "Software engineering agents increasingly use reusable skills distilled from prior experience to resolve repository-level issues, yet such skills often fail to transfer across repositories. A central challenge is that a behavior appearing in a successful trajectory is not necessarily responsible for the successful outcome: it may be genuinely useful, merely incidental, or simply a recurring habit of the model. We introduce XRepoSkill, a trajectory-based approach for learning transferable skills. We represent a skill as a collection of rules, each specifying what action to take and when to take it during issue resolution. XRepoSkill first contrasts successful and failed trajectories of the same agent on the same issue and derives candidate rules from where their execution paths diverge. Each rule is paired with an executable predicate that enables its prescribed behavior to be evaluated systematically on other trajectories. A rule is verified based on its association with successful issue resolution and retained only when its prescribed behavior recurs across multiple repositories; repository-specific variants of the same behavior are then consolidated into transferable rules. For a new issue, XRepoSkill selects relevant rules to guide the agent. We learn skills from publicly released trajectories on the official SWE-bench Verified leaderboard and evaluate them on SWE-bench Pro and DeepSWE using three backbone LLMs from different vendors; none of the evaluation repositories appears in the skill-learning trajectory pool. Against three recent skill learning methods, XRepoSkill achieves the highest issue resolution rate in all six benchmark--LLM combinations. In particular, on the challenging long-horizon DeepSWE benchmark, XRepoSkill improves issue resolution by 10.3 percentage points over the same agent without learned skills and by 5.0 points over the strongest skill-learning baseline.",
+      "updated": "2026-09-29"
     },
     {
       "key": "SWE-Skills-Bench",
-      "arxiv_id": "2603.15401",
+      "arxiv_id": "2603.15401v2",
       "draft_title": null,
       "draft_uses_placeholder_authors": false,
-      "exists_on_arxiv": false,
-      "title_similarity": null
+      "exists_on_arxiv": true,
+      "title_similarity": null,
+      "title": "SWE-Skills-Bench: Do Agent Skills Actually Help in Real-World Software Engineering?",
+      "authors": [
+        "Tingxu Han",
+        "Yi Zhang",
+        "Wei Song",
+        "Chunrong Fang",
+        "Zhenyu Chen",
+        "Youcheng Sun",
+        "Lijie Hu"
+      ],
+      "published": "2026-03-16",
+      "abstract": "Agent skills, structured procedural knowledge packages injected at inference time, are increasingly used to augment LLM agents on software engineering tasks. However, their real utility in end-to-end development settings remains unclear, and no standard procedure tests an individual skill before installation. We present swe-skills-bench, a skill-centric, requirement-driven benchmark that measures how much individual agent skills improve performance on real-world software engineering (SWE) tasks. We start from 98 public SWE skills, each paired with a real GitHub repository pinned at a fixed commit. For each skill, we derive repository-specific requirements, create executable verifiers, and build a reproducible environment. Under each of four agent-model configurations, we run every task once without the skill and once with it, yielding 3,920 paired evaluations. For each requirement, we compute a paired delta, i.e., the change in outcome when the skill is added. We then aggregate these deltas across a skill's ten requirements into a per-skill utility profile, and use a statistical test to classify each skill as Golden (significantly helpful), Ineffective (no significant effect), or Harmful (significantly detrimental). Our results show that skills provide limited benefits: 92 of 98 skills have no statistically significant effect, and adding skills raises the average pass ratio only from 76.6% to 76.9%. The few helpful skills supply procedures that the agent would otherwise omit (gains of up to $+17.7$ points). In contrast, harmful skills anchor the agent on their own templates and override the task's explicit instructions (losses of up to -17.0 points). Our code is available at https://github.com/ControllableModel/SWE-Skills-Bench.",
+      "updated": "2026-10-27"
     },
     {
       "key": "ASI",
-      "arxiv_id": "2504.06821",
+      "arxiv_id": "2504.06821v2",
       "draft_title": "Inducing Programmatic Skills for Agentic Tasks",
       "draft_uses_placeholder_authors": false,
-      "exists_on_arxiv": false,
-      "title_similarity": null
+      "exists_on_arxiv": true,
+      "title_similarity": 1.0,
+      "title": "Inducing Programmatic Skills for Agentic Tasks",
+      "authors": [
+        "Zora Zhiruo Wang",
+        "Apurva Gandhi",
+        "Graham Neubig",
+        "Daniel Fried"
+      ],
+      "published": "2025-04-09",
+      "abstract": "To succeed in common digital tasks such as web navigation, agents must carry out a variety of specialized tasks such as searching for products or planning a travel route. To tackle these tasks, agents can bootstrap themselves by learning task-specific skills online through interaction with the web environment. In this work, we demonstrate that programs are an effective representation for skills. We propose agent skill induction (ASI), which allows agents to adapt themselves by inducing, verifying, and utilizing program-based skills on the fly. We start with an evaluation on the WebArena agent benchmark and show that ASI outperforms the static baseline agent and its text-skill counterpart by 23.5% and 11.3% in success rate, mainly thanks to the programmatic verification guarantee during the induction phase. ASI also improves efficiency by reducing 10.7-15.3% of the steps over baselines, by composing primitive actions (e.g., click) into higher-level skills (e.g., search product). We then highlight the efficacy of ASI in remaining efficient and accurate under scaled-up web activities. Finally, we examine the generalizability of induced skills when transferring between websites, and find that ASI can effectively reuse common skills, while also updating incompatible skills to versatile website changes.",
+      "updated": "2025-08-29"
     },
     {
       "key": "CODESKILL",
-      "arxiv_id": "2605.25430",
+      "arxiv_id": "2605.25430v2",
       "draft_title": null,
       "draft_uses_placeholder_authors": false,
-      "exists_on_arxiv": false,
-      "title_similarity": null
+      "exists_on_arxiv": true,
+      "title_similarity": null,
+      "title": "CODESKILL: Learning Self-Evolving Skills for Coding Agents",
+      "authors": [
+        "Yanzhou Li",
+        "Yiran Zhang",
+        "Xiaoyu Zhang",
+        "Xiaoxia Liu",
+        "Yang Liu"
+      ],
+      "published": "2026-05-25",
+      "abstract": "Coding agents produce rich trajectories while solving software-engineering tasks. To enable agent self-evolution, these trajectories can be distilled into reusable procedural skills that compactly encode experience to guide future behavior. However, existing skill construction and maintenance methods often rely on fixed prompts and heuristic update rules, leaving it unclear how knowledge should be selected, abstracted, and maintained to best serve downstream agents. We propose CODESKILL, an LLM-based framework that reformulates skill extraction and skill-bank maintenance as a learnable management policy. CODESKILL extracts multi-granularity procedural skills from coding-agent trajectories, evolves skills with new experience, and maintains a compact skill bank for future task solving. We train CODESKILL with reinforcement learning, using a hybrid reward that combines dense rubric-based skill-quality feedback with sparse verifiable execution feedback from the frozen downstream agent. Experiments on EnvBench, SWE-Bench Verified, and Terminal-Bench 2 show that CODESKILL improves average pass rate by 11.03 over the no-skill baseline and by 5.10 over the strongest prompt-based or memory baseline, while maintaining a compact skill bank.",
+      "updated": "2026-09-25"
     },
     {
       "key": "Hierarchical Skill Evolution",
-      "arxiv_id": "2610.35616",
+      "arxiv_id": "2610.35616v1",
       "draft_title": "Hierarchical Skill Evolution for Coding Agent",
       "draft_uses_placeholder_authors": false,
-      "exists_on_arxiv": false,
-      "title_similarity": null
+      "exists_on_arxiv": true,
+      "title_similarity": 1.0,
+      "title": "Hierarchical Skill Evolution for Coding Agent",
+      "authors": [
+        "Jun Gao",
+        "Yun Peng",
+        "Changhai Zhou",
+        "Yuhan Zhu",
+        "Xiangyu Zeng",
+        "Shiyang Zhang Yuhua Zhou",
+        "Luozheng Qin",
+        "Qian Qiao",
+        "Xiaoteng Ma",
+        "Baian Chen Weiyi Shang",
+        "Zhen Ming Jack Jiang",
+        "Lizhi Liao",
+        "Xiaoxue Ren"
+      ],
+      "published": "2026-10-26",
+      "abstract": "Skills provide agents with reusable experience to guide future decisions without modifying the underlying model. However, coding trajectories are often entangled with task- and repository-specific contexts, making it challenging to distill procedural skills that generalize across diverse coding environments. To address this challenge, we present Hierarchical Skill Evolution (HSE), which progressively distills procedural knowledge from coding trajectories through hierarchical evidence aggregation. HSE first extracts task-level evidence from individual trajectories, then aggregates recurring evidence within the same repository to form repository-specific skill candidates, and finally consolidates consistent patterns across repositories into transferable skills across repositories. The evolution is driven by an external writer-evaluator loop that generates and assesses skills while keeping the underlying coding model frozen. The loop externally updates the writer and evaluator policies to improve subsequent skill generation and assessment. This hierarchy progressively filters task-specific details while preserving procedures that generalize across diverse coding environments. Successful trajectories yield reusable guidance for future tasks, while failed trajectories reveal recurring failure modes that guide avoidance and recovery. We evaluate HSE on SWE-bench Verified and DeepSWE, using GLM-5.2 across Pi and Claude Code harnesses and GPT-5.5 and Opus 4.8 with Pi. Across both benchmarks, 10 skills evolved solely from SWE-Gym improve coding performance across all evaluated settings, demonstrating transfer across benchmarks, coding models, and agent harnesses. We further evolve the skill library from target-benchmark trajectories without verifier feedback, relying solely on the learned evaluator for candidate assessment and achieving additional gains through benchmark-tailored skills.",
+      "updated": "2026-10-26"
     },
     {
       "key": "SWE-bench [11]",
-      "arxiv_id": "2310.06770",
+      "arxiv_id": "2310.06770v3",
       "draft_title": "SWE-bench: Can language models resolve real-world GitHub issues?",
       "draft_uses_placeholder_authors": false,
-      "exists_on_arxiv": false,
-      "title_similarity": null
+      "exists_on_arxiv": true,
+      "title_similarity": 1.0,
+      "title": "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?",
+      "authors": [
+        "Carlos E. Jimenez",
+        "John Yang",
+        "Alexander Wettig",
+        "Shunyu Yao",
+        "Kexin Pei",
+        "Ofir Press",
+        "Karthik Narasimhan"
+      ],
+      "published": "2023-10-10",
+      "abstract": "Language models have outpaced our ability to evaluate them effectively, but for their future development it is essential to study the frontier of their capabilities. We find real-world software engineering to be a rich, sustainable, and challenging testbed for evaluating the next generation of language models. To this end, we introduce SWE-bench, an evaluation framework consisting of $2,294$ software engineering problems drawn from real GitHub issues and corresponding pull requests across $12$ popular Python repositories. Given a codebase along with a description of an issue to be resolved, a language model is tasked with editing the codebase to address the issue. Resolving issues in SWE-bench frequently requires understanding and coordinating changes across multiple functions, classes, and even files simultaneously, calling for models to interact with execution environments, process extremely long contexts and perform complex reasoning that goes far beyond traditional code generation tasks. Our evaluations show that both state-of-the-art proprietary models and our fine-tuned model SWE-Llama can resolve only the simplest issues. The best-performing model, Claude 2, is able to solve a mere $1.96$% of the issues. Advances on SWE-bench represent steps towards LMs that are more practical, intelligent, and autonomous.",
+      "updated": "2024-11-11"
     },
     {
       "key": "SWE-Gym",
-      "arxiv_id": "2412.21139",
+      "arxiv_id": "2412.21139v2",
       "draft_title": null,
       "draft_uses_placeholder_authors": false,
-      "exists_on_arxiv": false,
-      "title_similarity": null
+      "exists_on_arxiv": true,
+      "title_similarity": null,
+      "title": "Training Software Engineering Agents and Verifiers with SWE-Gym",
+      "authors": [
+        "Jiayi Pan",
+        "Xingyao Wang",
+        "Graham Neubig",
+        "Navdeep Jaitly",
+        "Heng Ji",
+        "Alane Suhr",
+        "Yizhe Zhang"
+      ],
+      "published": "2024-12-30",
+      "abstract": "We present SWE-Gym, the first environment for training real-world software engineering (SWE) agents. SWE-Gym contains 2,438 real-world Python task instances, each comprising a codebase with an executable runtime environment, unit tests, and a task specified in natural language. We use SWE-Gym to train language model based SWE agents, achieving up to 19% absolute gains in resolve rate on the popular SWE-Bench Verified and Lite test sets. We also experiment with inference-time scaling through verifiers trained on agent trajectories sampled from SWE-Gym. When combined with our fine-tuned SWE agents, we achieve 32.0% and 26.0% on SWE-Bench Verified and Lite, respectively, reflecting a new state-of-the-art for open-weight SWE agents. To facilitate further research, we publicly release SWE-Gym, models, and agent trajectories.",
+      "updated": "2025-06-06"
     },
     {
       "key": "SWE-smith",
-      "arxiv_id": "2504.21798",
+      "arxiv_id": "2504.21798v2",
       "draft_title": null,
       "draft_uses_placeholder_authors": false,
-      "exists_on_arxiv": false,
-      "title_similarity": null
+      "exists_on_arxiv": true,
+      "title_similarity": null,
+      "title": "SWE-smith: Scaling Data for Software Engineering Agents",
+      "authors": [
+        "John Yang",
+        "Kilian Lieret",
+        "Carlos E. Jimenez",
+        "Alexander Wettig",
+        "Kabir Khandpur",
+        "Yanzhe Zhang",
+        "Binyuan Hui",
+        "Ofir Press",
+        "Ludwig Schmidt",
+        "Diyi Yang"
+      ],
+      "published": "2025-04-30",
+      "abstract": "Despite recent progress in Language Models (LMs) for software engineering, collecting training data remains a significant pain point. Existing datasets are small, with at most 1,000s of training instances from 11 or fewer GitHub repositories. The procedures to curate such datasets are often complex, necessitating hundreds of hours of human labor; companion execution environments also take up several terabytes of storage, severely limiting their scalability and usability. To address this pain point, we introduce SWE-smith, a novel pipeline for generating software engineering training data at scale. Given any Python codebase, SWE-smith constructs a corresponding execution environment, then automatically synthesizes 100s to 1,000s of task instances that break existing test(s) in the codebase. Using SWE-smith, we create a dataset of 50k instances sourced from 128 GitHub repositories, an order of magnitude larger than all previous works. We train SWE-agent-LM-32B, achieving 40.2% Pass@1 resolve rate on the SWE-bench Verified benchmark, state of the art among open source models. We open source SWE-smith (collection procedure, task instances, trajectories, models) to lower the barrier of entry for research in LM systems for automated software engineering. All assets available at https://swesmith.com.",
+      "updated": "2025-05-21"
     }
   ],
   "dblp": {
