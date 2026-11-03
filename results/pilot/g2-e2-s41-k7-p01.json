@@ -1,0 +1,59 @@
+{
+  "generated_utc": "2026-11-03T15:26:20+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s41-k7-p01",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "streamlink__streamlink-6361"
+  ],
+  "spent_usd": 0.1142,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.03611847499999999,
+      "tokens_in_per_run": 550949.0,
+      "tokens_out_per_run": 2829.0,
+      "cached_share": 0.8539792249373354,
+      "api_calls_per_run": 52.0,
+      "solve_rate": null,
+      "solved": 0,
+      "scored": 0
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.078039425,
+      "tokens_in_per_run": 1179074.0,
+      "tokens_out_per_run": 7198.0,
+      "cached_share": 0.8576450672307251,
+      "api_calls_per_run": 70.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {
+    "none": {
+      "streamlink__streamlink-6361": "RateLimitError"
+    }
+  },
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "streamlink__streamlink-6361": "RateLimitError"
+    },
+    "xreposkill": {
+      "streamlink__streamlink-6361": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [],
+      "mean_Z": null,
+      "variance_components": null
+    }
+  }
+}

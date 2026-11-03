@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T15:38:41+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s51-k16-p01",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "jlowin__fastmcp-1397"
+  ],
+  "spent_usd": 0.0449,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.026181200000000005,
+      "tokens_in_per_run": 428645.0,
+      "tokens_out_per_run": 2236.0,
+      "cached_share": 0.8744252236699367,
+      "api_calls_per_run": 30.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.018745325,
+      "tokens_in_per_run": 239204.0,
+      "tokens_out_per_run": 2600.0,
+      "cached_share": 0.8352828548017591,
+      "api_calls_per_run": 25.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "jlowin__fastmcp-1397": "Submitted"
+    },
+    "xreposkill": {
+      "jlowin__fastmcp-1397": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "jlowin__fastmcp-1397",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

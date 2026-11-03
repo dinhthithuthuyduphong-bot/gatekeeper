@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T16:04:27+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k5-p03",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "kozea__weasyprint-2231"
+  ],
+  "spent_usd": 0.1277,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.073445425,
+      "tokens_in_per_run": 1410838.0,
+      "tokens_out_per_run": 11678.0,
+      "cached_share": 0.9349244916850836,
+      "api_calls_per_run": 62.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.054274725,
+      "tokens_in_per_run": 1031376.0,
+      "tokens_out_per_run": 7348.0,
+      "cached_share": 0.9247248336203285,
+      "api_calls_per_run": 58.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "kozea__weasyprint-2231": "Submitted"
+    },
+    "xreposkill": {
+      "kozea__weasyprint-2231": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "kozea__weasyprint-2231",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6667903984162336
+        }
+      ],
+      "mean_Z": -0.00012373174956692434,
+      "variance_components": null
+    }
+  }
+}

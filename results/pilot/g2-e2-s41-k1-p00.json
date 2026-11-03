@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T15:23:29+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s41-k1-p00",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "mikedh__trimesh-2126"
+  ],
+  "spent_usd": 0.4968,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.40408602499999996,
+      "tokens_in_per_run": 11424398.0,
+      "tokens_out_per_run": 9128.0,
+      "cached_share": 0.9592357514155232,
+      "api_calls_per_run": 250.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.09266967499999999,
+      "tokens_in_per_run": 2049770.0,
+      "tokens_out_per_run": 6030.0,
+      "cached_share": 0.9297906594398396,
+      "api_calls_per_run": 106.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "mikedh__trimesh-2126": "LimitsExceeded"
+    },
+    "xreposkill": {
+      "mikedh__trimesh-2126": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "mikedh__trimesh-2126",
+          "loss_with": 0.4444444444444444,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.2222222222222222,
+      "variance_components": null
+    }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "name": "g2-e2-s51-k4",
+  "merged_from": [
+    "g2-e2-s51-k4-p00",
+    "g2-e2-s51-k4-p01",
+    "g2-e2-s51-k4-p02",
+    "g2-e2-s51-k4-p03"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "arviz-devs__arviz-2413",
+          "loss_with": 0.666755154411114,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "HypothesisWorks__hypothesis-4419",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pytorch__torchtune-1806",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "lastmile-ai__mcp-agent-282",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 2.2121936111840768e-05,
+      "n": 4,
+      "solve_rate_with": 0.25,
+      "solve_rate_without": 0.25
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd": 0.44109335000000005,
+      "solved": 1,
+      "scored": 4,
+      "usd_per_run": 0.11027333750000001
+    },
+    "xreposkill": {
+      "runs": 4,
+      "usd": 0.3465566500000001,
+      "solved": 1,
+      "scored": 4,
+      "usd_per_run": 0.08663916250000002
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "arviz-devs__arviz-2413": "Submitted",
+      "HypothesisWorks__hypothesis-4419": "Submitted",
+      "pytorch__torchtune-1806": "Submitted",
+      "lastmile-ai__mcp-agent-282": "LimitsExceeded"
+    },
+    "xreposkill": {
+      "arviz-devs__arviz-2413": "Submitted",
+      "HypothesisWorks__hypothesis-4419": "LimitsExceeded",
+      "pytorch__torchtune-1806": "Submitted",
+      "lastmile-ai__mcp-agent-282": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.7877,
+  "instances": [
+    "arviz-devs__arviz-2413",
+    "HypothesisWorks__hypothesis-4419",
+    "pytorch__torchtune-1806",
+    "lastmile-ai__mcp-agent-282"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

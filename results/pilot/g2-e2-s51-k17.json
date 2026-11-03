@@ -1,0 +1,99 @@
+{
+  "name": "g2-e2-s51-k17",
+  "merged_from": [
+    "g2-e2-s51-k17-p00",
+    "g2-e2-s51-k17-p01",
+    "g2-e2-s51-k17-p02",
+    "g2-e2-s51-k17-p03",
+    "g2-e2-s51-k17-p04",
+    "g2-e2-s51-k17-p05"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "projectmesa__mesa-2755",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sissbruecker__linkding-810",
+          "loss_with": 0.3337730870712401,
+          "loss_without": 0.3337730870712401
+        },
+        {
+          "instance_id": "deepset-ai__haystack-7599",
+          "loss_with": 0.5333333333333333,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "dynaconf__dynaconf-1241",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "conan-io__conan-17092",
+          "loss_with": 1.0,
+          "loss_without": 0.6670800264550265
+        },
+        {
+          "instance_id": "streamlink__streamlink-5890",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.14437555114638448,
+      "n": 6,
+      "solve_rate_with": 0.16666666666666666,
+      "solve_rate_without": 0.3333333333333333
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 6,
+      "usd": 0.21538367500000005,
+      "solved": 2,
+      "scored": 6,
+      "usd_per_run": 0.03589727916666668
+    },
+    "xreposkill": {
+      "runs": 6,
+      "usd": 0.16453442499999998,
+      "solved": 1,
+      "scored": 6,
+      "usd_per_run": 0.027422404166666664
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "projectmesa__mesa-2755": "Submitted",
+      "sissbruecker__linkding-810": "Submitted",
+      "deepset-ai__haystack-7599": "Submitted",
+      "dynaconf__dynaconf-1241": "Submitted",
+      "conan-io__conan-17092": "Submitted",
+      "streamlink__streamlink-5890": "Submitted"
+    },
+    "xreposkill": {
+      "projectmesa__mesa-2755": "Submitted",
+      "sissbruecker__linkding-810": "Submitted",
+      "deepset-ai__haystack-7599": "Submitted",
+      "dynaconf__dynaconf-1241": "Submitted",
+      "conan-io__conan-17092": "Submitted",
+      "streamlink__streamlink-5890": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.3798,
+  "instances": [
+    "projectmesa__mesa-2755",
+    "sissbruecker__linkding-810",
+    "deepset-ai__haystack-7599",
+    "dynaconf__dynaconf-1241",
+    "conan-io__conan-17092",
+    "streamlink__streamlink-5890"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

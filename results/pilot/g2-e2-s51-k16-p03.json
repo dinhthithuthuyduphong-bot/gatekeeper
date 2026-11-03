@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T16:01:17+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s51-k16-p03",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "a2aproject__a2a-python-226"
+  ],
+  "spent_usd": 0.0488,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.0236442,
+      "tokens_in_per_run": 378951.0,
+      "tokens_out_per_run": 1858.0,
+      "cached_share": 0.8664919738963612,
+      "api_calls_per_run": 29.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.025124999999999995,
+      "tokens_in_per_run": 431814.0,
+      "tokens_out_per_run": 1802.0,
+      "cached_share": 0.880332735853863,
+      "api_calls_per_run": 31.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "a2aproject__a2a-python-226": "Submitted"
+    },
+    "xreposkill": {
+      "a2aproject__a2a-python-226": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "a2aproject__a2a-python-226",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

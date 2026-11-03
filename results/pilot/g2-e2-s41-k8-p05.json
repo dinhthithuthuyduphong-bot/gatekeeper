@@ -1,0 +1,65 @@
+{
+  "generated_utc": "2026-11-03T16:19:00+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s41-k8-p05",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "jarun__buku-778"
+  ],
+  "spent_usd": 0.1446,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.048550625000000014,
+      "tokens_in_per_run": 794951.0,
+      "tokens_out_per_run": 7546.0,
+      "cached_share": 0.9029550249009058,
+      "api_calls_per_run": 44.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.09601877499999997,
+      "tokens_in_per_run": 1948180.0,
+      "tokens_out_per_run": 13039.0,
+      "cached_share": 0.9366798755761788,
+      "api_calls_per_run": 65.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {
+    "xreposkill": [
+      "jarun__buku-778"
+    ]
+  },
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "jarun__buku-778": "Submitted"
+    },
+    "xreposkill": {
+      "jarun__buku-778": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "jarun__buku-778",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

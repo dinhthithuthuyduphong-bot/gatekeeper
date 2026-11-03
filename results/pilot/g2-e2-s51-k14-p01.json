@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T15:29:14+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s51-k14-p01",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "IBM__mcp-context-forge-562"
+  ],
+  "spent_usd": 0.074,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.028841200000000004,
+      "tokens_in_per_run": 461188.0,
+      "tokens_out_per_run": 3477.0,
+      "cached_share": 0.8834314856414304,
+      "api_calls_per_run": 36.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.04519157499999999,
+      "tokens_in_per_run": 846733.0,
+      "tokens_out_per_run": 5835.0,
+      "cached_share": 0.9198448625481704,
+      "api_calls_per_run": 46.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "IBM__mcp-context-forge-562": "Submitted"
+    },
+    "xreposkill": {
+      "IBM__mcp-context-forge-562": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "IBM__mcp-context-forge-562",
+          "loss_with": 0.6669868715978226,
+          "loss_without": 0.6669868715978226
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

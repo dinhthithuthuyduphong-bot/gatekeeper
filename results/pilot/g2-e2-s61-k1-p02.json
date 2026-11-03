@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T17:07:47+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k1-p02",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "ag2ai__faststream-1589"
+  ],
+  "spent_usd": 0.0708,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.043937175,
+      "tokens_in_per_run": 795528.0,
+      "tokens_out_per_run": 3086.0,
+      "cached_share": 0.8915047616174415,
+      "api_calls_per_run": 53.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.026829375,
+      "tokens_in_per_run": 430995.0,
+      "tokens_out_per_run": 1994.0,
+      "cached_share": 0.8652884604229747,
+      "api_calls_per_run": 36.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "ag2ai__faststream-1589": "Submitted"
+    },
+    "xreposkill": {
+      "ag2ai__faststream-1589": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "ag2ai__faststream-1589",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

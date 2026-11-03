@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T16:13:24+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s41-k7-p03",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "hgrecco__pint-2170"
+  ],
+  "spent_usd": 0.0276,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.012852574999999998,
+      "tokens_in_per_run": 146117.0,
+      "tokens_out_per_run": 1775.0,
+      "cached_share": 0.8011593449085322,
+      "api_calls_per_run": 23.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.014796874999999998,
+      "tokens_in_per_run": 76874.0,
+      "tokens_out_per_run": 1532.0,
+      "cached_share": 0.3884928584436871,
+      "api_calls_per_run": 22.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "hgrecco__pint-2170": "Submitted"
+    },
+    "xreposkill": {
+      "hgrecco__pint-2170": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "hgrecco__pint-2170",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

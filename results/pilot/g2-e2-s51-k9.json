@@ -1,0 +1,72 @@
+{
+  "name": "g2-e2-s51-k9",
+  "merged_from": [
+    "g2-e2-s51-k9-p00",
+    "g2-e2-s51-k9-p01",
+    "g2-e2-s51-k9-p02"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "ansible__ansible-lint-4662",
+          "loss_with": 0.6699382042893492,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "aws-cloudformation__cfn-lint-3688",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "keras-team__keras-19955",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6615776081424937
+        }
+      ],
+      "mean_Z": 0.002786865382285194,
+      "n": 3,
+      "solve_rate_with": 0.0,
+      "solve_rate_without": 0.0
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 3,
+      "usd": 0.43330864999999985,
+      "solved": 0,
+      "scored": 3,
+      "usd_per_run": 0.14443621666666662
+    },
+    "xreposkill": {
+      "runs": 3,
+      "usd": 0.18581752500000004,
+      "solved": 0,
+      "scored": 3,
+      "usd_per_run": 0.06193917500000001
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "ansible__ansible-lint-4662": "LimitsExceeded",
+      "aws-cloudformation__cfn-lint-3688": "Submitted",
+      "keras-team__keras-19955": "Submitted"
+    },
+    "xreposkill": {
+      "ansible__ansible-lint-4662": "Submitted",
+      "aws-cloudformation__cfn-lint-3688": "Submitted",
+      "keras-team__keras-19955": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.6191,
+  "instances": [
+    "ansible__ansible-lint-4662",
+    "aws-cloudformation__cfn-lint-3688",
+    "keras-team__keras-19955"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

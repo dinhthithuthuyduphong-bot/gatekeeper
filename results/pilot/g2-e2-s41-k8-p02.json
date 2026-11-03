@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T15:51:06+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s41-k8-p02",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "shapely__shapely-2120"
+  ],
+  "spent_usd": 0.0409,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.0233247,
+      "tokens_in_per_run": 339360.0,
+      "tokens_out_per_run": 2749.0,
+      "cached_share": 0.8596416784535597,
+      "api_calls_per_run": 32.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.017588375000000003,
+      "tokens_in_per_run": 243593.0,
+      "tokens_out_per_run": 1555.0,
+      "cached_share": 0.8327620251813476,
+      "api_calls_per_run": 27.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "shapely__shapely-2120": "Submitted"
+    },
+    "xreposkill": {
+      "shapely__shapely-2120": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "shapely__shapely-2120",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

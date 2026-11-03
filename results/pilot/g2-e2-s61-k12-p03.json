@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T17:55:18+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k12-p03",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "streamlink__streamlink-6016"
+  ],
+  "spent_usd": 0.0825,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.029251475,
+      "tokens_in_per_run": 405644.0,
+      "tokens_out_per_run": 2415.0,
+      "cached_share": 0.8303068700634053,
+      "api_calls_per_run": 54.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.053218625,
+      "tokens_in_per_run": 806021.0,
+      "tokens_out_per_run": 5696.0,
+      "cached_share": 0.8647727540597577,
+      "api_calls_per_run": 70.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "streamlink__streamlink-6016": "Submitted"
+    },
+    "xreposkill": {
+      "streamlink__streamlink-6016": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "streamlink__streamlink-6016",
+          "loss_with": 0.6667211328976035,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 5.4466230936855986e-05,
+      "variance_components": null
+    }
+  }
+}

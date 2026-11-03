@@ -1,0 +1,99 @@
+{
+  "name": "g2-e2-s51-k13",
+  "merged_from": [
+    "g2-e2-s51-k13-p00",
+    "g2-e2-s51-k13-p01",
+    "g2-e2-s51-k13-p02",
+    "g2-e2-s51-k13-p03",
+    "g2-e2-s51-k13-p04",
+    "g2-e2-s51-k13-p05"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "pvlib__pvlib-python-1947",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "instructlab__instructlab-1443",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "jupyterlab__jupyter-ai-711",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.9259259259259259
+        },
+        {
+          "instance_id": "instructlab__instructlab-2741",
+          "loss_with": 0.6682464454976303,
+          "loss_without": 0.6682464454976303
+        },
+        {
+          "instance_id": "sdv-dev__SDV-2656",
+          "loss_with": 0.0,
+          "loss_without": 0.6670929241261723
+        },
+        {
+          "instance_id": "deepset-ai__haystack-6987",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": -0.04328091945312749,
+      "n": 6,
+      "solve_rate_with": 0.16666666666666666,
+      "solve_rate_without": 0.16666666666666666
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 6,
+      "usd": 0.45703940000000015,
+      "solved": 1,
+      "scored": 6,
+      "usd_per_run": 0.07617323333333335
+    },
+    "xreposkill": {
+      "runs": 6,
+      "usd": 0.237874225,
+      "solved": 1,
+      "scored": 6,
+      "usd_per_run": 0.039645704166666663
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "pvlib__pvlib-python-1947": "LimitsExceeded",
+      "instructlab__instructlab-1443": "Submitted",
+      "jupyterlab__jupyter-ai-711": "Submitted",
+      "instructlab__instructlab-2741": "Submitted",
+      "sdv-dev__SDV-2656": "Submitted",
+      "deepset-ai__haystack-6987": "Submitted"
+    },
+    "xreposkill": {
+      "pvlib__pvlib-python-1947": "Submitted",
+      "instructlab__instructlab-1443": "Submitted",
+      "jupyterlab__jupyter-ai-711": "Submitted",
+      "instructlab__instructlab-2741": "Submitted",
+      "sdv-dev__SDV-2656": "Submitted",
+      "deepset-ai__haystack-6987": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.6948,
+  "instances": [
+    "pvlib__pvlib-python-1947",
+    "instructlab__instructlab-1443",
+    "jupyterlab__jupyter-ai-711",
+    "instructlab__instructlab-2741",
+    "sdv-dev__SDV-2656",
+    "deepset-ai__haystack-6987"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T15:44:09+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k11-p01",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "commaai__opendbc-2318"
+  ],
+  "spent_usd": 0.0902,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.035992424999999995,
+      "tokens_in_per_run": 639300.0,
+      "tokens_out_per_run": 2226.0,
+      "cached_share": 0.8841029250743,
+      "api_calls_per_run": 30.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.054225275,
+      "tokens_in_per_run": 608045.0,
+      "tokens_out_per_run": 2398.0,
+      "cached_share": 0.7410487710613524,
+      "api_calls_per_run": 36.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "commaai__opendbc-2318": "Submitted"
+    },
+    "xreposkill": {
+      "commaai__opendbc-2318": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "commaai__opendbc-2318",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

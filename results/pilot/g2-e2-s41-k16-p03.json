@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T15:59:18+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s41-k16-p03",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "albumentations-team__albumentations-2521"
+  ],
+  "spent_usd": 0.0725,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.0324917,
+      "tokens_in_per_run": 274805.0,
+      "tokens_out_per_run": 9100.0,
+      "cached_share": 0.8063827077382144,
+      "api_calls_per_run": 24.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.039976674999999996,
+      "tokens_in_per_run": 695584.0,
+      "tokens_out_per_run": 4089.0,
+      "cached_share": 0.894869634724203,
+      "api_calls_per_run": 41.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "albumentations-team__albumentations-2521": "Submitted"
+    },
+    "xreposkill": {
+      "albumentations-team__albumentations-2521": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "albumentations-team__albumentations-2521",
+          "loss_with": 0.4444444444444444,
+          "loss_without": 0.4444444444444444
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

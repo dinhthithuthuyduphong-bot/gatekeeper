@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T15:11:05+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s41-k17-p00",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "projectmesa__mesa-2755"
+  ],
+  "spent_usd": 0.0477,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.023912750000000003,
+      "tokens_in_per_run": 261776.0,
+      "tokens_out_per_run": 4084.0,
+      "cached_share": 0.8091268871095899,
+      "api_calls_per_run": 36.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.02378515,
+      "tokens_in_per_run": 251887.0,
+      "tokens_out_per_run": 3107.0,
+      "cached_share": 0.7736643812503226,
+      "api_calls_per_run": 24.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "projectmesa__mesa-2755": "Submitted"
+    },
+    "xreposkill": {
+      "projectmesa__mesa-2755": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "projectmesa__mesa-2755",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

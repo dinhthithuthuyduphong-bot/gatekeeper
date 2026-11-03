@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T19:14:58+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s41-k4-p03",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "lastmile-ai__mcp-agent-282"
+  ],
+  "spent_usd": 0.08,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.038061725000000005,
+      "tokens_in_per_run": 518060.0,
+      "tokens_out_per_run": 7215.0,
+      "cached_share": 0.8774253947419218,
+      "api_calls_per_run": 39.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.041959750000000004,
+      "tokens_in_per_run": 674644.0,
+      "tokens_out_per_run": 2522.0,
+      "cached_share": 0.8596089196672615,
+      "api_calls_per_run": 52.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "lastmile-ai__mcp-agent-282": "Submitted"
+    },
+    "xreposkill": {
+      "lastmile-ai__mcp-agent-282": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "lastmile-ai__mcp-agent-282",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6695580338703015
+        }
+      ],
+      "mean_Z": -0.0028913672036349203,
+      "variance_components": null
+    }
+  }
+}

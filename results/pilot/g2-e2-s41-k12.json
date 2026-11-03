@@ -1,0 +1,99 @@
+{
+  "name": "g2-e2-s41-k12",
+  "merged_from": [
+    "g2-e2-s41-k12-p00",
+    "g2-e2-s41-k12-p01",
+    "g2-e2-s41-k12-p02",
+    "g2-e2-s41-k12-p03",
+    "g2-e2-s41-k12-p04",
+    "g2-e2-s41-k12-p05"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "reflex-dev__reflex-3982",
+          "loss_with": 0.6667913238593867,
+          "loss_without": 0.6685365245574669
+        },
+        {
+          "instance_id": "lastmile-ai__mcp-agent-367",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "streamlink__streamlink-6016",
+          "loss_with": 0.6667211328976035,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "dottxt-ai__outlines-1679",
+          "loss_with": 1.0,
+          "loss_without": 1.0
+        },
+        {
+          "instance_id": "aws-cloudformation__cfn-lint-3607",
+          "loss_with": 0.2225098264787652,
+          "loss_without": 0.2225098264787652
+        },
+        {
+          "instance_id": "deepset-ai__haystack-8992",
+          "loss_with": 0.6668158758579529,
+          "loss_without": 0.6668158758579529
+        }
+      ],
+      "mean_Z": 0.11082932203325387,
+      "n": 6,
+      "solve_rate_with": 0.0,
+      "solve_rate_without": 0.16666666666666666
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 6,
+      "usd": 0.267450225,
+      "solved": 1,
+      "scored": 6,
+      "usd_per_run": 0.0445750375
+    },
+    "xreposkill": {
+      "runs": 6,
+      "usd": 0.4340129499999999,
+      "solved": 0,
+      "scored": 6,
+      "usd_per_run": 0.07233549166666665
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "reflex-dev__reflex-3982": "Submitted",
+      "lastmile-ai__mcp-agent-367": "Submitted",
+      "streamlink__streamlink-6016": "Submitted",
+      "dottxt-ai__outlines-1679": "Submitted",
+      "aws-cloudformation__cfn-lint-3607": "Submitted",
+      "deepset-ai__haystack-8992": "Submitted"
+    },
+    "xreposkill": {
+      "reflex-dev__reflex-3982": "Submitted",
+      "lastmile-ai__mcp-agent-367": "Submitted",
+      "streamlink__streamlink-6016": "Submitted",
+      "dottxt-ai__outlines-1679": "Submitted",
+      "aws-cloudformation__cfn-lint-3607": "Submitted",
+      "deepset-ai__haystack-8992": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.7014,
+  "instances": [
+    "reflex-dev__reflex-3982",
+    "lastmile-ai__mcp-agent-367",
+    "streamlink__streamlink-6016",
+    "dottxt-ai__outlines-1679",
+    "aws-cloudformation__cfn-lint-3607",
+    "deepset-ai__haystack-8992"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

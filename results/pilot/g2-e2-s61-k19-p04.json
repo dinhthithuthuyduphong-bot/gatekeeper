@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T17:39:41+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k19-p04",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "sdv-dev__SDV-2658"
+  ],
+  "spent_usd": 0.0643,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.032364025000000005,
+      "tokens_in_per_run": 377605.0,
+      "tokens_out_per_run": 6882.0,
+      "cached_share": 0.8516862859337138,
+      "api_calls_per_run": 27.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.031928625,
+      "tokens_in_per_run": 349206.0,
+      "tokens_out_per_run": 7058.0,
+      "cached_share": 0.8394901576719759,
+      "api_calls_per_run": 23.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "sdv-dev__SDV-2658": "Submitted"
+    },
+    "xreposkill": {
+      "sdv-dev__SDV-2658": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "sdv-dev__SDV-2658",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T17:54:53+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k0-p05",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "patroni__patroni-3370"
+  ],
+  "spent_usd": 0.1639,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.09924600000000003,
+      "tokens_in_per_run": 2601129.0,
+      "tokens_out_per_run": 4074.0,
+      "cached_share": 0.9519750846651589,
+      "api_calls_per_run": 94.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.06469635,
+      "tokens_in_per_run": 1488006.0,
+      "tokens_out_per_run": 4337.0,
+      "cached_share": 0.9373040162472464,
+      "api_calls_per_run": 62.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "patroni__patroni-3370": "Submitted"
+    },
+    "xreposkill": {
+      "patroni__patroni-3370": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "patroni__patroni-3370",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

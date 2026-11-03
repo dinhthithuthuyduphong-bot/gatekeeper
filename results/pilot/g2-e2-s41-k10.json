@@ -1,0 +1,99 @@
+{
+  "name": "g2-e2-s41-k10",
+  "merged_from": [
+    "g2-e2-s41-k10-p00",
+    "g2-e2-s41-k10-p01",
+    "g2-e2-s41-k10-p02",
+    "g2-e2-s41-k10-p03",
+    "g2-e2-s41-k10-p04",
+    "g2-e2-s41-k10-p05"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "beeware__briefcase-1640",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "llamastack__llama-stack-2686",
+          "loss_with": 0.4444444444444444,
+          "loss_without": 0.4444444444444444
+        },
+        {
+          "instance_id": "beetbox__beets-5153",
+          "loss_with": 0.3333333333333333,
+          "loss_without": 0.3333333333333333
+        },
+        {
+          "instance_id": "AgentOps-AI__agentops-1005",
+          "loss_with": 1.0,
+          "loss_without": 0.5714285714285714
+        },
+        {
+          "instance_id": "deepset-ai__haystack-9679",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.5555555555555556
+        },
+        {
+          "instance_id": "beeware__briefcase-1811",
+          "loss_with": 0.00012042389210019268,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.08996716059577331,
+      "n": 6,
+      "solve_rate_with": 0.0,
+      "solve_rate_without": 0.16666666666666666
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 6,
+      "usd": 0.368988975,
+      "solved": 1,
+      "scored": 6,
+      "usd_per_run": 0.0614981625
+    },
+    "xreposkill": {
+      "runs": 6,
+      "usd": 0.25201,
+      "solved": 0,
+      "scored": 6,
+      "usd_per_run": 0.042001666666666666
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "beeware__briefcase-1640": "Submitted",
+      "llamastack__llama-stack-2686": "Submitted",
+      "beetbox__beets-5153": "Submitted",
+      "AgentOps-AI__agentops-1005": "Submitted",
+      "deepset-ai__haystack-9679": "Submitted",
+      "beeware__briefcase-1811": "Submitted"
+    },
+    "xreposkill": {
+      "beeware__briefcase-1640": "Submitted",
+      "llamastack__llama-stack-2686": "Submitted",
+      "beetbox__beets-5153": "Submitted",
+      "AgentOps-AI__agentops-1005": "Submitted",
+      "deepset-ai__haystack-9679": "Submitted",
+      "beeware__briefcase-1811": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.6209,
+  "instances": [
+    "beeware__briefcase-1640",
+    "llamastack__llama-stack-2686",
+    "beetbox__beets-5153",
+    "AgentOps-AI__agentops-1005",
+    "deepset-ai__haystack-9679",
+    "beeware__briefcase-1811"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

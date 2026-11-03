@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T18:05:56+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k18-p05",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "AgentOps-AI__agentops-1002"
+  ],
+  "spent_usd": 0.0321,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.012091399999999999,
+      "tokens_in_per_run": 123134.0,
+      "tokens_out_per_run": 777.0,
+      "cached_share": 0.7167476082966524,
+      "api_calls_per_run": 20.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.02002855,
+      "tokens_in_per_run": 275200.0,
+      "tokens_out_per_run": 1848.0,
+      "cached_share": 0.8324200581395349,
+      "api_calls_per_run": 28.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "AgentOps-AI__agentops-1002": "Submitted"
+    },
+    "xreposkill": {
+      "AgentOps-AI__agentops-1002": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "AgentOps-AI__agentops-1002",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

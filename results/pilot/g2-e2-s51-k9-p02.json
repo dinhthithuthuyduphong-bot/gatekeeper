@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T20:03:14+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s51-k9-p02",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "keras-team__keras-19955"
+  ],
+  "spent_usd": 0.1032,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.07498855,
+      "tokens_in_per_run": 1458844.0,
+      "tokens_out_per_run": 7336.0,
+      "cached_share": 0.9161788374905062,
+      "api_calls_per_run": 73.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.028200450000000002,
+      "tokens_in_per_run": 449745.0,
+      "tokens_out_per_run": 3598.0,
+      "cached_share": 0.8857641552435269,
+      "api_calls_per_run": 37.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "keras-team__keras-19955": "Submitted"
+    },
+    "xreposkill": {
+      "keras-team__keras-19955": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "keras-team__keras-19955",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6615776081424937
+        }
+      ],
+      "mean_Z": 0.0050890585241729624,
+      "variance_components": null
+    }
+  }
+}

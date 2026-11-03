@@ -1,0 +1,72 @@
+{
+  "name": "g2-e2-s61-k4",
+  "merged_from": [
+    "g2-e2-s61-k4-p00",
+    "g2-e2-s61-k4-p01",
+    "g2-e2-s61-k4-p02"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "arviz-devs__arviz-2413",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "HypothesisWorks__hypothesis-4419",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pytorch__torchtune-1806",
+          "loss_with": 0.0,
+          "loss_without": 0.0011947431302270011
+        }
+      ],
+      "mean_Z": -0.00039824771007566706,
+      "n": 3,
+      "solve_rate_with": 0.3333333333333333,
+      "solve_rate_without": 0.0
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 3,
+      "usd": 0.12953060000000002,
+      "solved": 0,
+      "scored": 3,
+      "usd_per_run": 0.043176866666666674
+    },
+    "xreposkill": {
+      "runs": 3,
+      "usd": 0.126054475,
+      "solved": 1,
+      "scored": 3,
+      "usd_per_run": 0.04201815833333333
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "arviz-devs__arviz-2413": "Submitted",
+      "HypothesisWorks__hypothesis-4419": "Submitted",
+      "pytorch__torchtune-1806": "Submitted"
+    },
+    "xreposkill": {
+      "arviz-devs__arviz-2413": "Submitted",
+      "HypothesisWorks__hypothesis-4419": "Submitted",
+      "pytorch__torchtune-1806": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.2556,
+  "instances": [
+    "arviz-devs__arviz-2413",
+    "HypothesisWorks__hypothesis-4419",
+    "pytorch__torchtune-1806"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

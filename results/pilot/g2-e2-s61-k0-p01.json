@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T16:39:29+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k0-p01",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "aws-cloudformation__cfn-lint-3650"
+  ],
+  "spent_usd": 0.1689,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.11025352499999999,
+      "tokens_in_per_run": 2267631.0,
+      "tokens_out_per_run": 12139.0,
+      "cached_share": 0.9307074210927616,
+      "api_calls_per_run": 112.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.05867077500000001,
+      "tokens_in_per_run": 1048104.0,
+      "tokens_out_per_run": 6147.0,
+      "cached_share": 0.9014191339790708,
+      "api_calls_per_run": 73.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "aws-cloudformation__cfn-lint-3650": "Submitted"
+    },
+    "xreposkill": {
+      "aws-cloudformation__cfn-lint-3650": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "aws-cloudformation__cfn-lint-3650",
+          "loss_with": 0.6680790960451978,
+          "loss_without": 0.6680790960451978
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

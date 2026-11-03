@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T15:53:33+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k13-p00",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "pvlib__pvlib-python-1947"
+  ],
+  "spent_usd": 0.0809,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.04978162499999998,
+      "tokens_in_per_run": 676104.0,
+      "tokens_out_per_run": 7389.0,
+      "cached_share": 0.8567247050749589,
+      "api_calls_per_run": 62.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.031140649999999995,
+      "tokens_in_per_run": 361250.0,
+      "tokens_out_per_run": 3858.0,
+      "cached_share": 0.7991861591695502,
+      "api_calls_per_run": 38.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "pvlib__pvlib-python-1947": "Submitted"
+    },
+    "xreposkill": {
+      "pvlib__pvlib-python-1947": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "pvlib__pvlib-python-1947",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

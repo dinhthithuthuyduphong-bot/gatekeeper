@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T18:00:36+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k17-p04",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "conan-io__conan-17092"
+  ],
+  "spent_usd": 0.0576,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.018046524999999997,
+      "tokens_in_per_run": 209191.0,
+      "tokens_out_per_run": 1616.0,
+      "cached_share": 0.7791970017830595,
+      "api_calls_per_run": 17.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.0395673,
+      "tokens_in_per_run": 674904.0,
+      "tokens_out_per_run": 4694.0,
+      "cached_share": 0.8969157094934983,
+      "api_calls_per_run": 37.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "conan-io__conan-17092": "Submitted"
+    },
+    "xreposkill": {
+      "conan-io__conan-17092": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "conan-io__conan-17092",
+          "loss_with": 0.5571263227513228,
+          "loss_without": 0.5562996031746031
+        }
+      ],
+      "mean_Z": 0.0008267195767196478,
+      "variance_components": null
+    }
+  }
+}

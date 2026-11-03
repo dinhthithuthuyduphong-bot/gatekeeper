@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T15:10:19+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s41-k8-p00",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "falconry__falcon-2475"
+  ],
+  "spent_usd": 0.0815,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.013385574999999999,
+      "tokens_in_per_run": 112387.0,
+      "tokens_out_per_run": 2433.0,
+      "cached_share": 0.7260893163800084,
+      "api_calls_per_run": 15.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.06814065000000001,
+      "tokens_in_per_run": 1035732.0,
+      "tokens_out_per_run": 10236.0,
+      "cached_share": 0.8845975599865602,
+      "api_calls_per_run": 69.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "falconry__falcon-2475": "Submitted"
+    },
+    "xreposkill": {
+      "falconry__falcon-2475": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "falconry__falcon-2475",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

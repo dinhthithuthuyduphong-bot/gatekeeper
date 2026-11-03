@@ -1,0 +1,90 @@
+{
+  "name": "g2-e2-s41-k11",
+  "merged_from": [
+    "g2-e2-s41-k11-p00",
+    "g2-e2-s41-k11-p01",
+    "g2-e2-s41-k11-p02",
+    "g2-e2-s41-k11-p03",
+    "g2-e2-s41-k11-p04"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "geopandas__geopandas-3202",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "commaai__opendbc-2318",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "python-control__python-control-1145",
+          "loss_with": 0.4444444444444444,
+          "loss_without": 0.4444444444444444
+        },
+        {
+          "instance_id": "iterative__dvc-10749",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "projectmesa__mesa-2351",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.13333333333333333,
+      "n": 5,
+      "solve_rate_with": 0.2,
+      "solve_rate_without": 0.0
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 5,
+      "usd": 0.7085516,
+      "solved": 0,
+      "scored": 5,
+      "usd_per_run": 0.14171032
+    },
+    "xreposkill": {
+      "runs": 5,
+      "usd": 0.396663425,
+      "solved": 1,
+      "scored": 5,
+      "usd_per_run": 0.079332685
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "geopandas__geopandas-3202": "Submitted",
+      "commaai__opendbc-2318": "Submitted",
+      "python-control__python-control-1145": "Submitted",
+      "iterative__dvc-10749": "LimitsExceeded",
+      "projectmesa__mesa-2351": "Submitted"
+    },
+    "xreposkill": {
+      "geopandas__geopandas-3202": "Submitted",
+      "commaai__opendbc-2318": "Submitted",
+      "python-control__python-control-1145": "Submitted",
+      "iterative__dvc-10749": "LimitsExceeded",
+      "projectmesa__mesa-2351": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 1.1053,
+  "instances": [
+    "geopandas__geopandas-3202",
+    "commaai__opendbc-2318",
+    "python-control__python-control-1145",
+    "iterative__dvc-10749",
+    "projectmesa__mesa-2351"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

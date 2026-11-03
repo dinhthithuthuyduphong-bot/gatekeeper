@@ -1,0 +1,102 @@
+{
+  "name": "g2-e2-s51-k19",
+  "merged_from": [
+    "g2-e2-s51-k19-p00",
+    "g2-e2-s51-k19-p01",
+    "g2-e2-s51-k19-p02",
+    "g2-e2-s51-k19-p03",
+    "g2-e2-s51-k19-p04",
+    "g2-e2-s51-k19-p05",
+    "g2-e2-s51-k19-p06"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "reflex-dev__reflex-4230",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "deepset-ai__haystack-8943",
+          "loss_with": 0.0,
+          "loss_without": 1.0
+        },
+        {
+          "instance_id": "shapely__shapely-2094",
+          "loss_with": 1.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "aws-cloudformation__cfn-lint-3508",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6669874879692012
+        },
+        {
+          "instance_id": "sdv-dev__SDV-2658",
+          "loss_with": 0.6668802049967969,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "fonttools__fonttools-3581",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": -0.11112899160651181,
+      "n": 6,
+      "solve_rate_with": 0.3333333333333333,
+      "solve_rate_without": 0.16666666666666666
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 7,
+      "usd": 0.6775450000000001,
+      "solved": 1,
+      "scored": 6,
+      "usd_per_run": 0.09679214285714287
+    },
+    "xreposkill": {
+      "runs": 7,
+      "usd": 0.5985078749999999,
+      "solved": 2,
+      "scored": 7,
+      "usd_per_run": 0.08550112499999998
+    }
+  },
+  "infra_failures": {
+    "none": {}
+  },
+  "exit_status": {
+    "none": {
+      "reflex-dev__reflex-4230": "LimitsExceeded",
+      "deepset-ai__haystack-8943": "Submitted",
+      "shapely__shapely-2094": "Submitted",
+      "aws-cloudformation__cfn-lint-3508": "Submitted",
+      "sdv-dev__SDV-2658": "Submitted",
+      "fonttools__fonttools-3581": "Submitted"
+    },
+    "xreposkill": {
+      "reflex-dev__reflex-4230": "Submitted",
+      "deepset-ai__haystack-8943": "Submitted",
+      "shapely__shapely-2094": "Submitted",
+      "aws-cloudformation__cfn-lint-3508": "LimitsExceeded",
+      "sdv-dev__SDV-2658": "Submitted",
+      "fonttools__fonttools-3581": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 1.276,
+  "instances": [
+    "reflex-dev__reflex-4230",
+    "deepset-ai__haystack-8943",
+    "shapely__shapely-2094",
+    "aws-cloudformation__cfn-lint-3508",
+    "sdv-dev__SDV-2658",
+    "fonttools__fonttools-3581"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

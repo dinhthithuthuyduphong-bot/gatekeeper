@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T16:13:21+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s41-k6-p01",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "celery__celery-9806"
+  ],
+  "spent_usd": 0.1393,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.05852512500000002,
+      "tokens_in_per_run": 1157928.0,
+      "tokens_out_per_run": 3429.0,
+      "cached_share": 0.9062178304695975,
+      "api_calls_per_run": 75.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.08082464999999997,
+      "tokens_in_per_run": 1975977.0,
+      "tokens_out_per_run": 4498.0,
+      "cached_share": 0.9444927749665102,
+      "api_calls_per_run": 75.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "celery__celery-9806": "Submitted"
+    },
+    "xreposkill": {
+      "celery__celery-9806": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "celery__celery-9806",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

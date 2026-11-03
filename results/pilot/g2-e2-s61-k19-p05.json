@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T17:54:41+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k19-p05",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "fonttools__fonttools-3581"
+  ],
+  "spent_usd": 0.0507,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.032492349999999996,
+      "tokens_in_per_run": 343954.0,
+      "tokens_out_per_run": 7196.0,
+      "cached_share": 0.8307331794367852,
+      "api_calls_per_run": 41.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.01823935,
+      "tokens_in_per_run": 149113.0,
+      "tokens_out_per_run": 2869.0,
+      "cached_share": 0.6957408140135334,
+      "api_calls_per_run": 27.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "fonttools__fonttools-3581": "Submitted"
+    },
+    "xreposkill": {
+      "fonttools__fonttools-3581": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "fonttools__fonttools-3581",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

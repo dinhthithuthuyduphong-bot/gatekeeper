@@ -1,0 +1,99 @@
+{
+  "name": "g2-e2-s41-k14",
+  "merged_from": [
+    "g2-e2-s41-k14-p00",
+    "g2-e2-s41-k14-p01",
+    "g2-e2-s41-k14-p02",
+    "g2-e2-s41-k14-p03",
+    "g2-e2-s41-k14-p04",
+    "g2-e2-s41-k14-p05"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "python-pillow__Pillow-9105",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "IBM__mcp-context-forge-562",
+          "loss_with": 1.0,
+          "loss_without": 1.0
+        },
+        {
+          "instance_id": "Archmonger__django-dbbackup-626",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "instructlab__instructlab-1102",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "jlowin__fastmcp-279",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pdm-project__pdm-3250",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6673952641165756
+        }
+      ],
+      "mean_Z": -0.00012143290831815683,
+      "n": 6,
+      "solve_rate_with": 0.3333333333333333,
+      "solve_rate_without": 0.3333333333333333
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 6,
+      "usd": 0.21749695000000008,
+      "solved": 2,
+      "scored": 6,
+      "usd_per_run": 0.03624949166666668
+    },
+    "xreposkill": {
+      "runs": 6,
+      "usd": 0.2607233,
+      "solved": 2,
+      "scored": 6,
+      "usd_per_run": 0.04345388333333333
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "python-pillow__Pillow-9105": "Submitted",
+      "IBM__mcp-context-forge-562": "Submitted",
+      "Archmonger__django-dbbackup-626": "Submitted",
+      "instructlab__instructlab-1102": "Submitted",
+      "jlowin__fastmcp-279": "Submitted",
+      "pdm-project__pdm-3250": "Submitted"
+    },
+    "xreposkill": {
+      "python-pillow__Pillow-9105": "Submitted",
+      "IBM__mcp-context-forge-562": "Submitted",
+      "Archmonger__django-dbbackup-626": "Submitted",
+      "instructlab__instructlab-1102": "Submitted",
+      "jlowin__fastmcp-279": "Submitted",
+      "pdm-project__pdm-3250": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.4783,
+  "instances": [
+    "python-pillow__Pillow-9105",
+    "IBM__mcp-context-forge-562",
+    "Archmonger__django-dbbackup-626",
+    "instructlab__instructlab-1102",
+    "jlowin__fastmcp-279",
+    "pdm-project__pdm-3250"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

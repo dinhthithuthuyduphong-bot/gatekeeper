@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T16:03:52+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s51-k11-p02",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "python-control__python-control-1145"
+  ],
+  "spent_usd": 0.1735,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.14407887499999997,
+      "tokens_in_per_run": 3361403.0,
+      "tokens_out_per_run": 16046.0,
+      "cached_share": 0.9524341472890933,
+      "api_calls_per_run": 119.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.029376025000000004,
+      "tokens_in_per_run": 529993.0,
+      "tokens_out_per_run": 2856.0,
+      "cached_share": 0.9006930280211248,
+      "api_calls_per_run": 38.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "python-control__python-control-1145": "Submitted"
+    },
+    "xreposkill": {
+      "python-control__python-control-1145": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "python-control__python-control-1145",
+          "loss_with": 0.4444444444444444,
+          "loss_without": 0.6706728580533552
+        }
+      ],
+      "mean_Z": -0.22622841360891077,
+      "variance_components": null
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T18:00:00+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k18-p04",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "piskvorky__smart_open-833"
+  ],
+  "spent_usd": 0.0525,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.028575699999999996,
+      "tokens_in_per_run": 349990.0,
+      "tokens_out_per_run": 4472.0,
+      "cached_share": 0.8334180976599331,
+      "api_calls_per_run": 41.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.023967174999999993,
+      "tokens_in_per_run": 307534.0,
+      "tokens_out_per_run": 3212.0,
+      "cached_share": 0.8343695331247927,
+      "api_calls_per_run": 33.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "piskvorky__smart_open-833": "Submitted"
+    },
+    "xreposkill": {
+      "piskvorky__smart_open-833": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "piskvorky__smart_open-833",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}
