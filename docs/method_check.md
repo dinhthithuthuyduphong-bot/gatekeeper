@@ -61,3 +61,22 @@ Câu hỏi của @thuthuy: các con số có **đáng tin** (tỉ lệ kết lu�
   - **E2: có.** Power 0,90 ở hiệu ứng 0,068.
   - **E1: yếu.** Kết luận "vững" có power ≤ 0,11 ở hiệu ứng thực tế. Kiểm định chính có power 0,98 khi δ = 0,30, nhưng chỉ 0,26 ở δ = 0,109.
   - **RQ1 thu nhỏ: chỉ đo được vế an toàn**, không đo được độ phủ. Vế an toàn cũng chỉ đo được trên các skill có hại mạnh (C10).
+
+## 5. Bản sửa (03/11/2026, yêu cầu của @thuthuy: sửa mọi lỗi làm nghiên cứu yếu đi hoặc làm số liệu sai)
+
+Power của từng quy tắc quyết định ở E1 (plasmode, mức Holm đầu 0,0083, R = 2.000; tỉ lệ sai ở δ = 0 với n = 40, R = 6.000):
+
+| δ | chính | chính + S1 | chính + S1 + S2 (đã đăng ký) |
+| --- | --- | --- | --- |
+| 0 (tỉ lệ sai) | 0,002 | 0,002 | 0,000 |
+| 0,109 | 0,263 (n = 53: 0,370) | 0,262 | 0,018 (n = 53: 0,035) |
+| 0,15 | 0,488 (n = 53: 0,657) | 0,488 | 0,057 (n = 53: 0,089) |
+| 0,20 | 0,760 (n = 53: 0,901) | 0,760 | 0,117 (n = 53: 0,211) |
+
+1. **A39, đã sửa:** quy tắc kết luận theo ICH E9(R1) (`verdict_ich_e9_r1`). Quy tắc đã đăng ký vẫn được báo cáo (sai lệch D1).
+2. **A38, chờ @thuthuy duyệt ngân sách:** mở rộng E1 lên n = 53 mỗi skill, theo đúng thủ tục lấy mẫu đã đăng ký (53 task dùng được đầu tiên theo thứ tự ngẫu nhiên; 40 task đầu giữ nguyên).
+   - Chi phí thêm: 32 task cho nhánh `none` + 39 lần chạy skill mỗi seed, tức 71 lần chạy × 3 seed × 0,0617 USD ≈ 13,1 USD (khoảng 213 lần chạy, ước 77M token input).
+   - Cơ sở: công thức cỡ mẫu của chính bản đăng ký trước, ở mức Holm đúng.
+   - Quyết định chỉ dựa vào lỗi thiết kế, phát hiện bằng mô phỏng trên dữ liệu G1. Kết quả E1 chưa được phân tích.
+3. **C8:** RQ1 thu nhỏ được báo cáo đúng phạm vi (chỉ vế an toàn). Độ phủ cần 186–413 trial mỗi ô, là việc của thí nghiệm chính.
+4. **Nguồn chưa xác nhận:** đã thêm URL chính thức thay thế (PMC cho McHugh; trang tổng quan model của Google; bản PDF của Steegen). Từ khóa "Sample Size Adjustment" được thêm cho ICH E9.

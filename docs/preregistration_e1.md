@@ -111,3 +111,9 @@ Mã: `scripts/rq1_mini.py`; test: `tests/test_rq1_mini.py`.
 **Ghi chú thực thi 3** (03/11/2026, chưa phân tích kết quả nào; `docs/method_check.md`, A38):
 - Power ở §2 tính với α′ = 0,025, chưa tính Holm trên 3 skill và điều kiện S2. Đúng theo công thức là n ≈ 53 ở mức Holm đầu.
 - Thiết kế **không đổi** (R5). Power đã sửa (plasmode) được báo cáo cạnh kết quả.
+
+**Sai lệch D1** (03/11/2026, trước khi phân tích; `docs/audit_pilot.md` A39):
+- **Kết luận chính** (có ích hoặc có hại) = kiểm định chính xác ở mức Holm, theo ICH E9(R1): phép ước lượng chính quyết định, phân tích độ nhạy "explore the robustness of inferences from the main estimator".
+- S1 và S2 được báo cáo như phân tích độ nhạy, kèm p nhỏ nhất đạt được của S2.
+- Quy tắc đã đăng ký (cả ba cùng bác bỏ) **vẫn được tính và báo cáo** cạnh kết quả (Nosek et al. 2018: sai lệch phải được công khai).
+- Lý do: mô phỏng trên dữ liệu G1 cho thấy điều kiện S2 làm power gần 0 với 8 repo, trong khi không làm tỉ lệ sai tốt hơn chuẩn.

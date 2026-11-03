@@ -310,6 +310,7 @@ def verdict(c: dict | None, confirm: list[dict], skills: list[str], label: str =
         out["skills"][s]["harm"] = {
             "p": h["p"],
             "p_holm": h["p_holm"],
+            "reject_primary": bool(h["reject"]),
             "reject": bool(
                 h["reject"]
                 and paired_t_p(x) <= h["p_holm_level"]
@@ -353,6 +354,28 @@ def verdict(c: dict | None, confirm: list[dict], skills: list[str], label: str =
             f"{tag} FAIL: no skill rejects H0 (effects smaller than the critical effect "
             f"~{crit:.2f} cannot be declared with these data)"
         )
+    # ICH E9(R1) (A.5.2): conclusions come from the MAIN estimator; sensitivity analyses "explore
+    # the robustness of inferences from the main estimator" - they are reported, not extra gates.
+    # The pre-registered conjunction (primary AND S1 AND S2) stays in "verdict" (deviation D1,
+    # docs/method_check.md: with 8 repositories S2 cuts power from 0.49 to 0.06 at delta 0.15).
+    helped = [s for s, v in out["skills"].items() if v.get("reject")]
+    harmed_primary = [s for s, v in out["skills"].items() if v["harm"]["reject_primary"]]
+    for v in out["skills"].values():
+        lvl = v["p_holm_level"]
+        v["sensitivity_agrees"] = {
+            "s1": v["s1_paired_t_p"] <= lvl,
+            "s2": v["s2_cluster_sign_flip_p"] <= lvl,
+            "s2_min_attainable_p": 2.0 ** -v["s2_clusters"],
+        }
+    out["verdict_ich_e9_r1"] = (
+        "INCONCLUSIVE: the A/A check rejects (pipeline suspect)"
+        if aa_bad
+        else {
+            "benefit": helped,
+            "harm": harmed_primary,
+            "rule": "primary exact sign-flip test at its Holm level; S1, S2 reported",
+        }
+    )
     harmed = [s for s, v in out["skills"].items() if v["harm"]["reject"]]
     out["harm_verdict"] = (
         "harm established (primary, S1 and S2 reject): " + ", ".join(harmed)

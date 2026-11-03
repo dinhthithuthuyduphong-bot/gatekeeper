@@ -100,3 +100,17 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Tham số vận hành phải có bằng chứng không ảnh hưởng kết quả (số đo cho thấy giới hạn không chạm, hoặc lỗi thì chạy lại).
   - Nếu ảnh hưởng thì dùng mặc định của tác giả công cụ.
   - Báo cáo tỉ lệ chạm giới hạn theo nhánh.
+
+## L11. Quy tắc quyết định tự đặt, chưa kiểm power (A38, A39, C8)
+
+- **Xảy ra:**
+  - Cỡ mẫu tính ở mức α không có hiệu chỉnh bội (A38).
+  - Quy tắc "mọi phân tích độ nhạy cùng phải bác bỏ" làm power gần 0 (A39).
+  - RQ1 thu nhỏ được thiết kế với 40 trial, trong khi bảng plasmode đã cho biết cần 186–413 trial (C8).
+- **Nguyên nhân gốc:**
+  - Mỗi thành phần được chọn riêng lẻ mà **không ai mô phỏng toàn bộ quy tắc quyết định** trên chính thiết kế sẽ chạy.
+  - Quy tắc "chặt hơn" bị coi là "an toàn hơn", trong khi nó làm mất khả năng phát hiện.
+- **Phòng ngừa:**
+  - Trước khi đăng ký trước, chạy `scripts/verify_methods.py` cho **đúng quy tắc quyết định cuối cùng**, trên đúng cỡ mẫu, số cụm và mức α. Báo cả tỉ lệ sai lẫn power.
+  - Quy tắc quyết định phải theo chuẩn công bố (ICH E9(R1): phép ước lượng chính quyết định, phân tích độ nhạy để báo cáo).
+  - Danh sách review §4 có mục tương ứng.

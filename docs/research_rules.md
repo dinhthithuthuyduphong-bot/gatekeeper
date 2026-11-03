@@ -77,6 +77,10 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 - [ ] Mọi con số mới đã được xếp vào một nhóm của R2 và ghi trong `docs/number_provenance.md`.
 - [ ] Mọi câu "theo X" trong tài liệu đã có đoạn trích của X trong `sources-snapshots` **chứa đúng nội dung đó** (R1).
 
+**Power của quy tắc quyết định (L11)**
+- [ ] Quy tắc quyết định **cuối cùng**, bao gồm hiệu chỉnh bội và mọi điều kiện kèm theo, đã được mô phỏng trên đúng thiết kế (`scripts/verify_methods.py`), cả tỉ lệ sai lẫn power, trước khi đăng ký trước.
+- [ ] Quy tắc quyết định theo chuẩn công bố, không chặt hơn chuẩn mà không có lý do đã công bố.
+
 **Kiểm thử**
 - [ ] Mô phỏng hoặc phép toán mảng: assert kích thước kết quả, vì broadcasting âm thầm làm rộng mẫu (R-6).
 - [ ] Có test cho từng chỗ sửa; `ruff check`, `ruff format --check` và `pytest` đều qua.

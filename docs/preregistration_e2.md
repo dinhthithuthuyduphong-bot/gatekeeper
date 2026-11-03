@@ -93,3 +93,9 @@ Z_ik = R(none) − R(xreposkill) ∈ {−1, 0, 1}; Z̄_i là trung bình qua 3 s
 - Thay cho câu "mọi task trong tập kích hoạt" ở §4.
 
 **Ghi chú thực thi 4** (03/11/2026, chưa có dữ liệu E2): như ghi chú thực thi 2 của E1 (A37). Bản vá không áp được tính là không resolved. Image Live có file chưa theo dõi (A36), nhưng chỉ ảnh hưởng tới mô hình giả lập.
+
+**Sai lệch D1** (03/11/2026, trước khi phân tích; `docs/audit_pilot.md` A39):
+- **Kết luận chính** (có ích hoặc có hại) = kiểm định chính xác ở mức Holm, theo ICH E9(R1): phép ước lượng chính quyết định, phân tích độ nhạy "explore the robustness of inferences from the main estimator".
+- S1 và S2 được báo cáo như phân tích độ nhạy, kèm p nhỏ nhất đạt được của S2.
+- Quy tắc đã đăng ký (cả ba cùng bác bỏ) **vẫn được tính và báo cáo** cạnh kết quả (Nosek et al. 2018: sai lệch phải được công khai).
+- Lý do: mô phỏng trên dữ liệu G1 cho thấy điều kiện S2 làm power gần 0 với 8 repo, trong khi không làm tỉ lệ sai tốt hơn chuẩn.

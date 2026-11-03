@@ -172,3 +172,16 @@ def test_hypothetical_drops_pairs_not_tasks():
     assert h["n_tasks"] == 4 and h["n_pairs"] == 10  # 12 pairs minus the 2 truncated ones
     assert abs(out["truncation_rate"]["s"]["rate"] - 2 / 12) < 1e-12
     assert gf._lattice([1 / 2, 1 / 3, 1.0])[1] == 6  # means of 1..3 seeds stay exact
+
+
+def test_ich_verdict_uses_primary_test_and_reports_sensitivity():
+    import analyze_g1_final as gf
+
+    # 30 helped tasks in ONE repository: primary rejects, S2 (1 cluster) cannot
+    pairs = [{"instance_id": f"o__r-{i}", "loss_with": 0.0, "loss_without": 1.0} for i in range(30)]
+    run = {"skills": {"s": {"pairs": pairs}}}
+    out = gf.verdict(None, [run, run, run], ["s"], label="E1")
+    assert out["verdict_ich_e9_r1"]["benefit"] == ["s"]
+    assert out["skills"]["s"]["sensitivity_agrees"]["s2"] is False
+    assert out["skills"]["s"]["sensitivity_agrees"]["s2_min_attainable_p"] == 0.5
+    assert "INCONCLUSIVE" in out["verdict"]  # the pre-registered conjunction, still reported
