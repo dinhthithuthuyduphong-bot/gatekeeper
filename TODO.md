@@ -29,6 +29,21 @@ Bản 1 nhìn chung **đúng và kỹ**: mình tính lại mọi số trong bả
 | M5 | 15/05/2027 | Bản nháp đầy đủ, 2 người đọc, artifact | |
 | M6 | ~29/05/2027 | Nộp ASE 2027 | |
 
+### 0.1b Kết quả G1 và hướng đi (03/11/2026)
+
+- **G1 FAIL** (`docs/g1_verdict.md`). validation-error: sàng lọc C cho −0,062, xác nhận trên seed mới cho +0,031, CI 95% [−0,057; +0,120], p = 0,83. Tín hiệu **không lặp lại** ("lời nguyền người thắng"). Không có bug làm sai số liệu (rà soát §4). Trần 100 bước phạt nhánh skill (A22).
+- Theo quy tắc đăng ký trước (Bổ sung 4): **chứng nhận theo từng (skill, scope) với θ nhỏ là không khả thi**, vì δ = 0,02 cần ≥ 576 task cho mỗi ô, trong khi scope lớn nhất chỉ có 157.
+- **Hướng của paper** (@thuthuy: "làm điều tốt nhất cho paper, research đủ mạnh"):
+  1. **Claim an toàn:** sàng lọc ngây thơ nhận skill vì nhiễu; kiểm định xác nhận kiểu Gatekeeper chặn được. Có bằng chứng thực nghiệm từ G1 và E1.
+  2. **Claim chứng nhận:** gộp scope theo skill, chỉ nhắm hiệu ứng lớn (δ ≈ 0,1).
+  3. **Đóng góp đo lường:** nhiễu của agent, phương sai, cỡ mẫu cần thiết, tương tác trần bước × skill, cách xử lý biến cố xen giữa theo ICH E9(R1).
+  4. **Bằng chứng ngoài:** SWE-Skills-Bench (3.920 cặp đã công bố).
+- **E1** (`docs/preregistration_e1.md`): 3 skill × 40 task ngẫu nhiên từ SWE-bench đầy đủ × 3 seed (41, 51, 61), step_limit 250, trần 40 USD.
+- [ ] 🤖 E1: chọn pool → kiểm định pool → xuất dữ liệu → chạy → phân tích theo quy tắc đã khóa
+- [ ] 🤖 Phân tích ngoài trên SWE-Skills-Bench theo cùng khung (sàng lọc so với xác nhận, tách dữ liệu): rà lại `scripts/analyze_sskb.py` (nhãn split-half đang nhiễu)
+- [ ] 👤 Chuyên gia thống kê rà các định lý đã sửa (4′, 7′, Prop. 9)
+- [ ] 🤖 Viết lại phần giới thiệu và đóng góp của paper (`paper/main.tex`) theo hướng trên
+
 ### 0.2 Những gì bản 1 đúng (đã kiểm chứng lại)
 
 | Nội dung | Cách kiểm | Kết quả |
