@@ -82,3 +82,13 @@ Power của từng quy tắc quyết định ở E1 (plasmode, mức Holm đầu
    - Quyết định chỉ dựa vào lỗi thiết kế, phát hiện bằng mô phỏng trên dữ liệu G1. Kết quả E1 chưa được phân tích.
 3. **C8:** RQ1 thu nhỏ được báo cáo đúng phạm vi (chỉ vế an toàn). Độ phủ cần 216–470 trial mỗi ô (α = 0,025/K, p₊ đo được 0,04–0,08, power 80% theo quy ước Cohen; quy ước này **đang chờ đối chiếu** qua Lakens 2022), là việc của thí nghiệm chính.
 4. **Nguồn chưa xác nhận:** đã thêm URL chính thức thay thế (PMC cho McHugh; trang tổng quan model của Google; bản PDF của Steegen). Từ khóa "Sample Size Adjustment" được thêm cho ICH E9.
+
+**Power của E2 trên đúng tập đã chốt** (`scripts/e2_power_final.py` → `results/e2_power_final.json`, A63). Dòng E2 ở trên dùng khối 1 (n = 119). Trên 121 task đã chốt, với cụm theo repo của chính tập đó:
+
+| δ | n = 121 | n = 105 (nếu dừng vì ngân sách) |
+| --- | --- | --- |
+| 0,05 | 0,357 | 0,316 |
+| 0,109 | 0,936 | 0,873 |
+| 0,15 | 0,994 | 0,987 |
+
+Tỉ lệ bác bỏ sai của kiểm định chính là 0,016 ở cả hai cỡ, dưới mức 0,025.

@@ -146,3 +146,12 @@ Mã: `scripts/rq1_mini.py`; test: `tests/test_rq1_mini.py`.
 - **Quá giờ khi chấm** (harness dừng test ở 1.800 s) được tính là **không resolved**, như quy ước chính thức của SWE-bench (giống bản vá không áp được, A37). Phân tích độ nhạy *hypothetical* bỏ thêm các cặp có quá giờ (`harness_test_timeout`).
 
 **Ghi chú thực thi 8** (03/11/2026, trước khi phân tích; A62): như ghi chú thực thi 9 của E2 (lỗi hạ tầng là dữ liệu thiếu theo ICH E9(R1); phân tích độ nhạy kiểm giả định "thiếu không liên quan đến kết quả"; 2 lần lỗi đã gặp đều ở lời gọi đầu tiên). Hai lần chạy của lô g1-e1x-s41-p03 hỏng vì lỗi 429. Ước lượng chính không đổi. Báo cáo thêm tỉ lệ lỗi hạ tầng theo nhánh và phân tích độ nhạy S-infra: chỉ dùng lần chạy đầu tiên của mỗi (task, seed), nhánh lỗi hạ tầng tính là không giải được.
+
+**Ghi chú thực thi 9** (03/11/2026, ghi bổ sung, **chưa phân tích kết quả nào**; R5, L12; A49–A51, A56): **chế độ chạy thay đổi giữa chừng ở seed 41.**
+- Trước đây chỉ ghi trong `docs/audit_pilot.md` và `docs/number_provenance.md`. Nay ghi vào bản đăng ký trước. Chế độ của từng lô được suy từ thời điểm bắt đầu chấm của các nhánh (tên thư mục log của harness):
+  - **M1** (p00–p17): các nhánh chạy tuần tự.
+  - **M2** (p18–p25): agent các nhánh song song, chấm song song. Có tranh CPU khi chấm; quá giờ chỉ xảy ra ở p25, đã xử lý theo ghi chú thực thi 7 (A57).
+  - **M3** (p26 trở đi, và toàn bộ giai đoạn mở rộng, seed 51, seed 61): agent song song, chấm tuần tự.
+- **Không đổi:** cặp (skill, không skill) luôn ở cùng một lô, cùng seed, cùng chế độ. Ước lượng và kiểm định giữ nguyên.
+- **Báo cáo thêm (mô tả, không suy luận):** tỉ lệ giải được của nhánh không skill và Z̄ theo từng chế độ. Task được lấy theo thứ tự ngẫu nhiên đã cố định, nên mỗi chế độ ứng với một tập con ngẫu nhiên của task.
+- **Giới hạn đã biết** (đã có trong `docs/method_check.md`): ở n = 53, power mô phỏng của kiểm định chính là 0,370 ở δ = 0,109 và 0,901 ở δ = 0,20. Công thức n = (z + z)²·V/δ² cho 80% ở δ = 0,109, nhưng hiệu ứng thực hiện được nhỏ hơn δ (0,068), vì xác suất giải được bị chặn ở 1. Paper phải ghi E1 đủ power cho hiệu ứng khoảng ≥ 0,20, không phải 0,109.
