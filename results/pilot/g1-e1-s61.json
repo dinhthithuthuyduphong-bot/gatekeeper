@@ -1,7 +1,8 @@
 {
   "name": "g1-e1-s61",
   "merged_from": [
-    "g1-e1-s61-p00"
+    "g1-e1-s61-p00",
+    "g1-e1-s61-p01"
   ],
   "skills": {
     "null-guard": {
@@ -10,10 +11,20 @@
           "instance_id": "astropy__astropy-12842",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "astropy__astropy-13477",
+          "loss_with": 0.6728395061728395,
+          "loss_without": 0.6728395061728395
+        },
+        {
+          "instance_id": "astropy__astropy-13838",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
       "mean_Z": 0.0,
-      "n": 1,
+      "n": 3,
       "solve_rate_with": 0.0,
       "solve_rate_without": 0.0
     },
@@ -33,35 +44,120 @@
           "instance_id": "astropy__astropy-13306",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "astropy__astropy-13572",
+          "loss_with": 0.0,
+          "loss_without": 0.0
         }
       ],
-      "mean_Z": -0.03128371089536138,
-      "n": 3,
+      "mean_Z": -0.023462783171521034,
+      "n": 4,
+      "solve_rate_with": 0.25,
+      "solve_rate_without": 0.25
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "astropy__astropy-13731",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.6666666666666666,
+      "n": 1,
       "solve_rate_with": 0.0,
-      "solve_rate_without": 0.0
+      "solve_rate_without": 1.0
+    },
+    "harm-swallow-exceptions": {
+      "pairs": [
+        {
+          "instance_id": "astropy__astropy-13731",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "n": 1,
+      "solve_rate_with": 1.0,
+      "solve_rate_without": 1.0
+    },
+    "harm-minimal-edit": {
+      "pairs": [
+        {
+          "instance_id": "astropy__astropy-13731",
+          "loss_with": 0.6721311475409836,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.6721311475409836,
+      "n": 1,
+      "solve_rate_with": 0.0,
+      "solve_rate_without": 1.0
+    },
+    "harm-skip-verification": {
+      "pairs": [
+        {
+          "instance_id": "astropy__astropy-13731",
+          "loss_with": 0.6748633879781422,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.6748633879781422,
+      "n": 1,
+      "solve_rate_with": 0.0,
+      "solve_rate_without": 1.0
     }
   },
   "usage": {
     "none": {
-      "runs": 4,
-      "usd": 0.22698257500000005,
-      "solved": 0,
-      "scored": 4,
-      "usd_per_run": 0.05674564375000001
+      "runs": 8,
+      "usd": 0.5810086750000001,
+      "solved": 2,
+      "scored": 8,
+      "usd_per_run": 0.07262608437500001
     },
     "null-guard": {
-      "runs": 1,
-      "usd": 0.08774417500000001,
-      "solved": 0,
-      "scored": 1,
-      "usd_per_run": 0.08774417500000001
-    },
-    "type-guard": {
       "runs": 3,
-      "usd": 0.078584625,
+      "usd": 0.182248975,
       "solved": 0,
       "scored": 3,
-      "usd_per_run": 0.026194875000000003
+      "usd_per_run": 0.06074965833333334
+    },
+    "type-guard": {
+      "runs": 4,
+      "usd": 0.09303850000000001,
+      "solved": 1,
+      "scored": 4,
+      "usd_per_run": 0.023259625000000003
+    },
+    "exception-handling": {
+      "runs": 1,
+      "usd": 0.073197275,
+      "solved": 0,
+      "scored": 1,
+      "usd_per_run": 0.073197275
+    },
+    "harm-swallow-exceptions": {
+      "runs": 1,
+      "usd": 0.043716975000000005,
+      "solved": 1,
+      "scored": 1,
+      "usd_per_run": 0.043716975000000005
+    },
+    "harm-minimal-edit": {
+      "runs": 1,
+      "usd": 0.048423774999999995,
+      "solved": 0,
+      "scored": 1,
+      "usd_per_run": 0.048423774999999995
+    },
+    "harm-skip-verification": {
+      "runs": 1,
+      "usd": 0.05174692499999998,
+      "solved": 0,
+      "scored": 1,
+      "usd_per_run": 0.05174692499999998
     }
   },
   "infra_failures": {},
@@ -70,25 +166,48 @@
       "astropy__astropy-12842": "Submitted",
       "astropy__astropy-13234": "Submitted",
       "astropy__astropy-13236": "Submitted",
-      "astropy__astropy-13306": "Submitted"
+      "astropy__astropy-13306": "Submitted",
+      "astropy__astropy-13477": "Submitted",
+      "astropy__astropy-13572": "Submitted",
+      "astropy__astropy-13731": "Submitted",
+      "astropy__astropy-13838": "Submitted"
     },
     "null-guard": {
-      "astropy__astropy-12842": "Submitted"
+      "astropy__astropy-12842": "Submitted",
+      "astropy__astropy-13477": "Submitted",
+      "astropy__astropy-13838": "Submitted"
     },
     "type-guard": {
       "astropy__astropy-13234": "Submitted",
       "astropy__astropy-13236": "Submitted",
-      "astropy__astropy-13306": "Submitted"
+      "astropy__astropy-13306": "Submitted",
+      "astropy__astropy-13572": "Submitted"
+    },
+    "exception-handling": {
+      "astropy__astropy-13731": "Submitted"
+    },
+    "harm-swallow-exceptions": {
+      "astropy__astropy-13731": "Submitted"
+    },
+    "harm-minimal-edit": {
+      "astropy__astropy-13731": "Submitted"
+    },
+    "harm-skip-verification": {
+      "astropy__astropy-13731": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 0.3933,
+  "spent_usd": 1.0734,
   "instances": [
     "astropy__astropy-12842",
     "astropy__astropy-13234",
     "astropy__astropy-13236",
-    "astropy__astropy-13306"
+    "astropy__astropy-13306",
+    "astropy__astropy-13477",
+    "astropy__astropy-13572",
+    "astropy__astropy-13731",
+    "astropy__astropy-13838"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
