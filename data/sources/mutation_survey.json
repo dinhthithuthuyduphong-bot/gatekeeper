@@ -23,7 +23,7 @@
   }
  ],
  "url": "https://en.wikipedia.org/wiki/Mutation_testing",
- "sha256": "a0a5ba1932dac5016bffa8459803fcfdccda7f4f308a258cebcd47d4dc6d4f1d",
+ "sha256": "6121ad9919fe57ae29c065f8a69bed9886e80cab2bf6abce4df2ddb600d80836",
  "n_chars": 28976,
  "head": " Mutation testing - Wikipedia Jump to content Main menu Main menu move to sidebar hide Navigation Main page Contents Current events Random article About Wikipedia Contact us Contribute Help Learn to edit Community portal Recent changes Upload file Special pages Search Search Appearance Donate Create account Log in Personal tools Donate Create account Log in Contents move to sidebar hide (Top) 1 Introduction 2 Overview 3 Goals 4 ",
  "excerpts": {
@@ -55,5 +55,5 @@
    "Dynamics (2005) evolved fuzzing concepts to a fully stateful mutation testing platform, complete with monitors for thoroughly exercising protocol implementations. Mutation testing overview [ edit ] Mutation testing is based on two hypotheses. The first is the competent programmer hypothesis. This hypothesis states that competent programmers write programs that are close to being correct. [ 1 ] \"Close\" is intended to be based on behavior, not syntax. The second hypothesis is called the coupling effect . The coupling effect asserts that simple faults can cascade or couple to form other emergent faults. [ 12 ] [ 13 ] Subtle and important faults are also revealed by higher-order mutants, which further support the coupling effect. [ 14 ] [ 15 ] [ 8 ] [ 16 ] [ 17 ] Higher-order mutants are enabled by creating mutants with more than one mutation. Mutation testing is done by selecting a set of mutation operators and then applying them to the source program one at a time for each applicable piece of the source code. The result of applying one mutation operator to the program is called a mutant . If the test suite is able to detect the change (i.e., one of the tests fails), then the mutant is sai"
   ]
  },
- "fetched_utc": "2026-11-03T04:03:58+00:00"
+ "fetched_utc": "2026-11-03T05:27:30+00:00"
 }
