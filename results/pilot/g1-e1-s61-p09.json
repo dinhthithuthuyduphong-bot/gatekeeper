@@ -1,0 +1,204 @@
+{
+  "generated_utc": "2026-11-03T23:46:47+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s61-p09",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "django__django-14762",
+    "django__django-14785",
+    "django__django-14787",
+    "django__django-15180"
+  ],
+  "spent_usd": 0.5208,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.04697864375,
+      "tokens_in_per_run": 651578.75,
+      "tokens_out_per_run": 8041.25,
+      "cached_share": 0.8729424493969455,
+      "api_calls_per_run": 40.25,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 4
+    },
+    "null-guard": {
+      "runs": 2,
+      "usd_per_run": 0.033948475000000006,
+      "tokens_in_per_run": 462794.5,
+      "tokens_out_per_run": 6612.0,
+      "cached_share": 0.8803345761455679,
+      "api_calls_per_run": 32.5,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "type-guard": {
+      "runs": 1,
+      "usd_per_run": 0.028124724999999996,
+      "tokens_in_per_run": 371437.0,
+      "tokens_out_per_run": 5073.0,
+      "cached_share": 0.8656353567361356,
+      "api_calls_per_run": 36.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "exception-handling": {
+      "runs": 2,
+      "usd_per_run": 0.0173698625,
+      "tokens_in_per_run": 149766.5,
+      "tokens_out_per_run": 3448.0,
+      "cached_share": 0.7491294782210975,
+      "api_calls_per_run": 21.0,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    },
+    "harm-swallow-exceptions": {
+      "runs": 1,
+      "usd_per_run": 0.013728000000000002,
+      "tokens_in_per_run": 78759.0,
+      "tokens_out_per_run": 1913.0,
+      "cached_share": 0.4983557434705875,
+      "api_calls_per_run": 15.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "harm-minimal-edit": {
+      "runs": 1,
+      "usd_per_run": 0.11215399999999999,
+      "tokens_in_per_run": 1893524.0,
+      "tokens_out_per_run": 16177.0,
+      "cached_share": 0.9048208525479476,
+      "api_calls_per_run": 152.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "harm-skip-verification": {
+      "runs": 1,
+      "usd_per_run": 0.07628647499999999,
+      "tokens_in_per_run": 1167804.0,
+      "tokens_out_per_run": 9876.0,
+      "cached_share": 0.8771583245133601,
+      "api_calls_per_run": 113.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "django__django-14762": "Submitted",
+      "django__django-14785": "Submitted",
+      "django__django-14787": "Submitted",
+      "django__django-15180": "Submitted"
+    },
+    "null-guard": {
+      "django__django-14762": "Submitted",
+      "django__django-15180": "Submitted"
+    },
+    "type-guard": {
+      "django__django-14785": "Submitted"
+    },
+    "exception-handling": {
+      "django__django-14787": "Submitted",
+      "django__django-15180": "Submitted"
+    },
+    "harm-swallow-exceptions": {
+      "django__django-14785": "Submitted"
+    },
+    "harm-minimal-edit": {
+      "django__django-14785": "Submitted"
+    },
+    "harm-skip-verification": {
+      "django__django-14785": "Submitted"
+    }
+  },
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "django__django-14762",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-15180",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "django__django-14785",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "django__django-14787",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-15180",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.3333333333333333,
+      "variance_components": null
+    },
+    "harm-swallow-exceptions": {
+      "pairs": [
+        {
+          "instance_id": "django__django-14785",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-minimal-edit": {
+      "pairs": [
+        {
+          "instance_id": "django__django-14785",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-skip-verification": {
+      "pairs": [
+        {
+          "instance_id": "django__django-14785",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}
