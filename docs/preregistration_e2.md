@@ -130,3 +130,14 @@ Z_ik = R(none) − R(xreposkill) ∈ {−1, 0, 1}; Z̄_i là trung bình qua 3 s
   - Chi phí cộng dồn của bước chọn: **0,4454 USD** (khối 1: 0,2946; khối 2: 0,1508). Số này được trừ vào 45 USD của E2.
 - **Tập E2:** 121 task kích hoạt đầu tiên theo `random_order` (vị trí cuối: 173), tạo bởi `scripts/make_e2_selection.py --blocks e2 e2b --n 121`, ghi vào `configs/pools/e2_selected.json` và `e2_task_sets.json`.
 - **File hướng dẫn:** SHA-256 `59360eb5cc6b45b0f9d5ca7975662aaeb65b863f77f45a99342934fd480e28e4` (178 task). Bản dựng lại chỉ từ mã rule (`scripts/build_e2_guidance.py`) cho cùng SHA.
+
+**Ghi chú thực thi 8** (03/11/2026, chưa có lần chạy agent nào của E2; A60): **chạy trên GitHub Actions với một sổ ngân sách chung.**
+- **Máy chạy:** toàn bộ E2 chạy trên runner của GitHub Actions: 20 job song song, cùng phiên bản đã ghim như máy chạy E1. Không trộn hai loại máy trong E2.
+- **Chia task:** job k nhận `instances[k::20]` theo thứ tự ngẫu nhiên đã cố định. Mỗi lần gọi chạy 1 task × 2 nhánh. Các seed 41, 51, 61 chạy liền nhau trên cùng task rồi mới sang task kế tiếp. Mỗi cặp vẫn nằm trong một lần gọi của một seed.
+- **Ngân sách:** 45 USD trừ 0,4454 USD đã chi cho bước chọn rule, còn **44,5546 USD**, giữ bằng sổ chung `scripts/e2_ledger.py` (nhánh `e2-ledger`):
+  - trước mỗi lần gọi, job giữ chỗ phần xấu nhất: 2 nhánh × 1 task × `cost_limit` 1,00 USD = 2,00 USD, đúng giới hạn mà driver dùng;
+  - sau lần gọi, job ghi số thật và trả phần giữ chỗ;
+  - ghi theo kiểu so-và-đổi: git từ chối lần đẩy dựa trên bản đã cũ.
+
+  Vì vậy tổng đã chi cộng tổng đang giữ chỗ luôn ≤ trần, và tổng chi không thể vượt trần.
+- **Dừng:** job dừng khi tổng đã chi cộng 2,00 USD vượt trần, hoặc khi hết thời gian. Lần gọi nào không ghi được kết quả thì giữ nguyên phần giữ chỗ, vì chi phí của nó chưa biết. Như §4: phân tích dùng các task đã có đủ 3 seed. Một task có thuộc tập phân tích hay không phụ thuộc vào thời gian và chi phí của các task khác, không phụ thuộc kết quả của chính nó.

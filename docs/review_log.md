@@ -242,3 +242,18 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - tập E2: 121 task, theo đúng thứ tự, khớp `e2_task_sets.json`;
   - SHA-256 của file hướng dẫn dựng lại khớp file gốc.
 - **Code:** `spent_on_disk` có test.
+
+## R-23. Sổ ngân sách chung cho E2 trên Actions (2026-11-03, A60)
+
+- **Bất biến:** tổng đã chi cộng tổng đang giữ chỗ ≤ trần.
+  - Mỗi lần giữ chỗ chỉ được ghi nếu bất biến này vẫn đúng với bản sổ vừa đọc.
+  - Ghi kiểu so-và-đổi: git từ chối lần đẩy không có `--force` khi cha của commit không còn là đầu nhánh.
+- **Số dùng:** `WORST` = 2 nhánh × 1 task × 1,00 USD, suy từ đúng các tham số truyền cho driver (không phải số tự đặt). Trần của driver mỗi lần gọi là số đã chi cộng đúng `WORST`, không làm tròn; đã kiểm bằng số rằng nó cho chạy đúng 1 task.
+- **Dừng an toàn:**
+  - lần gọi không ghi kết quả thì giữ nguyên phần giữ chỗ;
+  - số tiền đã ghi không được giảm;
+  - giữ chỗ hai lần thì dừng.
+- **Kiểm:**
+  - 3 test;
+  - yaml hợp lệ;
+  - chạy thử trên Actions (`budget_usd` 3, 2 job): một job phải chờ job kia trả phần giữ chỗ.

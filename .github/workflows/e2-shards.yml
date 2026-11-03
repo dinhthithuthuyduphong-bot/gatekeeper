@@ -9,9 +9,11 @@ name: E2 shards (SWE-bench-Live, XRepoSkill)
 # mode=dryrun: scripted model + oracle skill on 2 tasks per shard, no credentials, 0 USD: checks
 #   Docker, the Live harness, disk and the plumbing on the runner (expected: oracle resolved,
 #   no-skill not, no run lost).
-# mode=paid: needs repository secrets GCP_SA_KEY, VERTEXAI_PROJECT, VERTEXAI_LOCATION; each shard
-#   has its own cap (spend recorded in the checkout + shard_budget_usd), so the total stays below
-#   shards x shard_budget_usd. Raw files are redacted (no XRepoSkill text: no LICENSE) before upload.
+# mode=paid: needs repository secrets GCP_SA_KEY, VERTEXAI_PROJECT, VERTEXAI_LOCATION. ONE budget
+#   for all shards: scripts/e2_ledger.py (branch e2-ledger) - each call reserves its worst case
+#   (arms x tasks x cost limit) before it starts and settles its actual spend after, so the total
+#   can never exceed the cap (audit A60). Raw files are redacted (no XRepoSkill text: no LICENSE)
+#   before upload.
 
 on:
   workflow_dispatch:
@@ -30,10 +32,9 @@ on:
         description: "Seeds, interleaved on the same task batch"
         required: true
         default: "41 51 61"
-      shard_budget_usd:
-        description: "USD cap per shard (paid only)"
+      budget_usd:
+        description: "Approved USD for this experiment (paid: E2 total, the XRepoSkill selection already spent is subtracted; dryrun: any cap, exercises the ledger)"
         required: true
-        default: "0"
       guidance_sha256:
         description: "SHA-256 the rebuilt guidance file must have (paid only)"
         required: false
@@ -120,31 +121,53 @@ jobs:
             --expect-sha256 "${{ inputs.guidance_sha256 }}"
       - name: Gate (preflight)
         run: python scripts/preflight.py --ci
-      - name: Run (seeds interleaved on the same tasks, images kept between seeds)
+      - name: Run (seeds interleaved on the same task, one shared budget ledger)
         run: |
+          set -u
+          ARMS=2; BATCH=1; COST_LIMIT=1.0
+          WORST=$(python -c "print($ARMS * $BATCH * $COST_LIMIT)")  # the driver's own worst-case bound
           if [ "${{ inputs.mode }}" = paid ]; then
-            MODEL=gemini-flash-lite; SKILLS=configs/skills/xreposkill-e2.json; PREFIX=g2-e2
-            CAP=$(python -c "import sys; sys.path.insert(0,'scripts'); import run_batched_pilot as r; print(round(r.pilot_spent_total() + float('${{ inputs.shard_budget_usd }}'), 4))")
+            MODEL=gemini-flash-lite; SKILLS=configs/skills/xreposkill-e2.json; PREFIX=g2-e2; LEDGER=e2-ledger
+            TOTAL=$(python -c "import json; print(round(float('${{ inputs.budget_usd }}') - json.load(open('results/e2_selection.json'))['spent_usd'], 4))")
           else
-            MODEL=deterministic; SKILLS=configs/skills/oracle-gold.json; PREFIX=e2dry; CAP=1000
+            MODEL=deterministic; SKILLS=configs/skills/oracle-gold.json; PREFIX=e2dry; LEDGER=e2-ledger-dryrun-${GITHUB_RUN_ID}
+            TOTAL="${{ inputs.budget_usd }}"
           fi
-          echo "cap for this shard: $CAP"
+          KEY="${GITHUB_RUN_ID}-k${K}"
+          DEADLINE=$(python -c "import time; print(int(time.time() + (330 - 50) * 60))")
+          echo "budget for ALL shards: $TOTAL USD (ledger $LEDGER); worst case per call $WORST USD"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           left() { python scripts/missing_tasks.py "$1" shard_pool.json; }
-          while :; do
+          parts() { ls results/pilot/ 2>/dev/null | grep -cE "^$PREFIX-s[0-9]+-k$K-p[0-9]+\.json$" || true; }
+          shard_spent() { python -c "import glob, json, re; print(round(sum(json.load(open(f)).get('spent_usd', 0) for f in glob.glob('results/pilot/$PREFIX-s*-k$K-p*.json') if re.search(r'-p\d+\.json$', f)), 6))"; }
+          stop=0
+          while [ $stop = 0 ]; do
             total=0; for s in ${{ inputs.seeds }}; do total=$((total + $(left $PREFIX-s$s-k$K))); done
             [ "$total" -gt 0 ] || break
             for s in ${{ inputs.seeds }}; do
               [ "$(left $PREFIX-s$s-k$K)" -gt 0 ] || continue
+              python scripts/e2_ledger.py reserve --branch "$LEDGER" --key "$KEY" --usd "$WORST" \
+                --cap "$TOTAL" --deadline-epoch "$DEADLINE" --wait-s 60 || { echo "[stop] budget or time"; stop=1; break; }
+              before=$(parts)
+              # unrounded: the driver recomputes the same sum, so exactly one worst-case call fits
+              CAP=$(python -c "import sys; sys.path.insert(0,'scripts'); import run_batched_pilot as r; print(repr(r.pilot_spent_total() + $WORST))")
               python scripts/run_batched_pilot.py --name $PREFIX-s$s-k$K --model $MODEL --model-seed $s \
                 --skills $SKILLS --task-sets shard_sets.json --tasks-from shard_pool.json \
-                --dataset-file e2_rows.jsonl --batch 4 --max-batches 1 --cap-usd $CAP --cost-limit 1.0 \
-                --step-limit 250 --workers 4 --arm-parallel 2 --keep-images \
+                --dataset-file e2_rows.jsonl --batch $BATCH --max-batches 1 --cap-usd $CAP --cost-limit $COST_LIMIT \
+                --step-limit 250 --workers 2 --arm-parallel $ARMS --keep-images \
                 --stop-after-min 330 --batch-min 50 \
                 --harness-python livenv/bin/python --harness-namespace starryzhang
+              # a call that wrote no result keeps its worst-case reservation (its spend is unknown)
+              if [ "$(parts)" -gt "$before" ]; then
+                python scripts/e2_ledger.py settle --branch "$LEDGER" --key "$KEY" --spent "$(shard_spent)"
+              else
+                python scripts/e2_ledger.py settle --branch "$LEDGER" --key "$KEY" --spent "$(shard_spent)" --keep-reserved
+                echo "[stop] no result from the last call"; stop=1; break
+              fi
             done
-            now=0; for s in ${{ inputs.seeds }}; do now=$((now + $(left $PREFIX-s$s-k$K))); done
-            [ "$now" -lt "$total" ] || { echo "no progress (time, cap or error)"; break; }
           done
+          python scripts/e2_ledger.py total --branch "$LEDGER"
           python scripts/preflight.py --ci
       - name: Redact third-party text from raw files (paid only)
         if: always() && inputs.mode == 'paid'
