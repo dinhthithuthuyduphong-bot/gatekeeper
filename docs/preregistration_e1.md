@@ -92,3 +92,5 @@ Mã: `scripts/rq1_mini.py`; test: `tests/test_rq1_mini.py`.
 **Bổ sung §6.1** (03/11/2026, E1 vừa chạy lô đầu, **chưa mở kết quả nào**; phản biện của thầy, `docs/advisor_qa.md` §5.2e):
 - **Nhãn chính là nhãn 3 lớp theo kiểm định** trên hai seed giữ lại: *có hại đã xác lập* hoặc *có ích đã xác lập* nếu kiểm định đổi dấu chính xác một phía bác bỏ ở α mỗi ô = 0,05/7; còn lại là *chưa xác định*, được báo cáo riêng (số ô chưa xác định mà mỗi quy tắc đã admit).
 - Nhãn theo dấu của ước lượng điểm chỉ là phân tích phụ.
+
+**Ghi chú ngân sách** (03/11/2026, chưa mở kết quả nào): chi phí đo được là khoảng 0,20 USD mỗi task cho mỗi seed (250 bước), nên dự kiến E1 tốn 68–72 USD. @thuthuy duyệt thêm 10 USD, nâng ngân sách E1 lên **75 USD**; trần ghi nhận trong driver = 31,26 + 75 = **106,26 USD**. Thiết kế không đổi.
