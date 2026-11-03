@@ -66,7 +66,7 @@ Skill được xác nhận: `validation-error`, 32 task × 3 seed (11, 21, 31), 
   - nhiễu của agent: 16–29% cặp lật kết quả chỉ vì đổi seed;
   - phương sai đo được;
   - hiệu ứng "lời nguyền người thắng" được phát hiện nhờ tách dữ liệu;
-  - type-guard có tín hiệu gây hại (C: +0,094; chưa kiểm định xác nhận).
+  - type-guard có tín hiệu gây hại ở C (+0,094; chưa kiểm định xác nhận). **Đính chính sau rà soát (A22):** 2/3 task bị hại là do nhánh skill chạm trần 100 bước, nên đây chủ yếu là **skill làm agent tốn bước hơn**, chưa phải bằng chứng skill làm sai bản sửa.
 
 ## Lượng tính toán theo giai đoạn (`results/token_usage.json`)
 
