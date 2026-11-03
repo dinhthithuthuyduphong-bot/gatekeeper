@@ -150,6 +150,7 @@ def score_arm(
     dataset: str,
     retries: int = 1,
     test_files: dict[str, set[str]] | None = None,
+    harness_kw: dict | None = None,
 ) -> dict[str, dict | None]:
     """Harness reports per instance. An empty submission (the agent never submitted) is skipped by
     the harness and legitimately scored as unsolved (None). A NON-empty patch without a report is a
@@ -164,7 +165,7 @@ def score_arm(
     preds_path.write_text(json.dumps(preds))
     patch = {i: ((preds.get(i) or {}).get("model_patch") or "").strip() for i in ids}
     try:
-        run_harness(str(preds_path), ids, run_id, workers, dataset=dataset)
+        run_harness(str(preds_path), ids, run_id, workers, dataset=dataset, **(harness_kw or {}))
     except SystemExit as exc:
         print(f"harness error in {run_id}: {exc}", flush=True)
     reports = {i: read_report(run_id, "", i) for i in ids}
@@ -177,7 +178,7 @@ def score_arm(
         rid = f"{run_id}-r{k}"
         print(f"re-scoring {len(todo)} non-empty patches without a report ({rid})", flush=True)
         try:
-            run_harness(str(sub), todo, rid, workers, dataset=dataset)
+            run_harness(str(sub), todo, rid, workers, dataset=dataset, **(harness_kw or {}))
         except SystemExit as exc:
             print(f"harness error in {rid}: {exc}", flush=True)
         for i in todo:
@@ -261,8 +262,8 @@ def prepull(rows: list[dict], tries: int = 3) -> list[str]:
     return failed
 
 
-def image_digest(instance_id: str) -> str:
-    name = "docker.io/swebench/sweb.eval.x86_64." + instance_id.replace("__", "_1776_").lower()
+def image_digest(row: dict) -> str:
+    name = image_name(row).removesuffix(":latest")
     try:
         out = subprocess.run(
             [
@@ -377,6 +378,12 @@ def main() -> int:
         help="JSON {skill_id: [instance ids]}: restrict each skill to its pre-registered task set",
     )
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument(
+        "--harness-python",
+        default=None,
+        help="interpreter whose swebench scores the runs (SWE-bench-Live: its own harness fork)",
+    )
+    ap.add_argument("--harness-namespace", default=None, help="SWE-bench-Live: starryzhang")
     ap.add_argument("--workers", type=int, default=2)
     ap.add_argument("--step-limit", type=int, default=60)
     ap.add_argument("--cost-limit", type=float, default=1.0, help="USD per instance per arm")
@@ -451,6 +458,7 @@ def main() -> int:
             a.workers,
             harness_dataset,
             test_files=tfiles,
+            harness_kw={"namespace": a.harness_namespace, "python": a.harness_python},
         )
         losses[arm], usage[arm], infra[arm] = {}, {}, {}
         for r in rows_arm:
@@ -506,7 +514,7 @@ def main() -> int:
                     loss_without=lo,
                     model_id=summary["model"],
                     model_access_date=today,
-                    image_digest=image_digest(iid),
+                    image_digest=image_digest(r),
                     repo_commit=r.get("base_commit", "unknown"),
                     tokens_in=int(u_w.get("tokens_in", 0)) + int(u_o.get("tokens_in", 0)),
                     tokens_out=int(u_w.get("tokens_out", 0)) + int(u_o.get("tokens_out", 0)),

@@ -30,7 +30,12 @@ def main() -> int:
             data = load_dataset(ds, split="test")
         for r in data:
             if r["instance_id"] in wanted[ds] and r["instance_id"] not in rows:
-                rows[r["instance_id"]] = dict(r)
+                row = dict(r)
+                if "Live" in ds:  # prebuilt image of SWE-bench-Live (namespace starryzhang)
+                    key = r["instance_id"].lower().replace("__", "_1776_")
+                    row["image"] = f"starryzhang/sweb.eval.x86_64.{key}:latest"
+                    row["image_name"] = "docker.io/" + row["image"]  # mini-swe-agent's key
+                rows[r["instance_id"]] = row
     ids = set().union(*wanted.values())
     out = Path("data/instances/verified_pools.jsonl")
     out.parent.mkdir(parents=True, exist_ok=True)

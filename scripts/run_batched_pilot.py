@@ -142,6 +142,8 @@ def main() -> int:
     ap.add_argument("--max-batches", type=int, default=0)
     ap.add_argument("--model-seed", type=int, default=None, help="replicate seed (see run_pilot)")
     ap.add_argument("--task-sets", default="", help="per-skill task sets (see run_pilot)")
+    ap.add_argument("--harness-python", default="", help="see run_pilot (SWE-bench-Live)")
+    ap.add_argument("--harness-namespace", default="", help="see run_pilot (SWE-bench-Live)")
     ap.add_argument("--pull-retries", type=int, default=6, help="waits on a registry limit")
     ap.add_argument("--pull-wait-min", type=float, default=30.0)
     ap.add_argument(
@@ -228,6 +230,10 @@ def main() -> int:
             cmd += ["--model-seed", str(a.model_seed)]
         if a.task_sets:
             cmd += ["--task-sets", a.task_sets]
+        if a.harness_python:
+            cmd += ["--harness-python", a.harness_python]
+        if a.harness_namespace:
+            cmd += ["--harness-namespace", a.harness_namespace]
         rc = subprocess.run(cmd, check=False).returncode
         if rc == EX_NOSPACE and len(ids) > 1:  # large images (e.g. matplotlib ~10 GB): halve
             subprocess.run(["docker", "image", "prune", "-af"], capture_output=True, check=False)

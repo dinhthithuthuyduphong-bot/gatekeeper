@@ -33,6 +33,13 @@ def pool_dataset() -> str:
     return json.loads(Path(f"configs/pools/{TAG}.json").read_text()).get("dataset", DATASET)
 
 
+def pool_harness() -> dict:
+    """Harness options of the pool: {"split", "namespace"} (e.g. SWE-bench-Live needs its own
+    fork, installed by the workflow from "pip", with split "full" and namespace "starryzhang")."""
+    h = json.loads(Path(f"configs/pools/{TAG}.json").read_text()).get("harness", {})
+    return {k: h[k] for k in ("split", "namespace") if k in h}
+
+
 def shard_ids(shard: int, shards: int) -> list[str]:
     ids = json.loads(Path(f"configs/pools/{TAG}.json").read_text())["instances"]
     return ids[shard::shards]
@@ -65,7 +72,7 @@ def _run_with_retries(
         rid = run_id if attempt == 0 else f"{run_id}-r{attempt}"
         preds = "gold" if arm == "gold" else _preds(rid, todo)
         try:
-            run_harness(preds, todo, rid, workers, dataset=pool_dataset())
+            run_harness(preds, todo, rid, workers, dataset=pool_dataset(), **pool_harness())
         except SystemExit as exc:  # harness crash: keep going, missing reports are retried
             print(f"harness error in {rid}: {exc}", flush=True)
         model = "gold" if arm == "gold" else "noop"

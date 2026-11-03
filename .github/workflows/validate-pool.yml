@@ -40,7 +40,10 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install
-        run: pip install -e . "swebench==5.0.2"
+        run: |
+          # a pool may name its own harness (SWE-bench-Live: its fork), default swebench 5.0.2
+          H=$(python -c "import json;print(json.load(open('configs/pools/${{ inputs.tag || 'g1' }}.json')).get('harness',{}).get('pip','swebench==5.0.2'))")
+          pip install -e . "$H"
       - name: Validate shard
         run: python scripts/validate_pool.py --tag "${{ inputs.tag || 'g1' }}" --shard ${{ matrix.shard }} --shards 8 --workers 2
       - uses: actions/upload-artifact@v6

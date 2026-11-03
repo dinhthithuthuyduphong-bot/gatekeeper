@@ -29,16 +29,27 @@ NOOP_PATCH = (
 
 
 def run_harness(
-    preds: str, ids: list[str], run_id: str, workers: int, dataset: str = DATASET
+    preds: str,
+    ids: list[str],
+    run_id: str,
+    workers: int,
+    dataset: str = DATASET,
+    split: str = "test",
+    namespace: str | None = None,
+    python: str | None = None,
 ) -> None:
+    """`python`: interpreter whose `swebench` package scores the run (default: this one).
+    SWE-bench-Live must be scored with its own harness fork and its prebuilt images
+    (`--namespace starryzhang`, README of the python-only branch), installed in a separate
+    environment because the fork is also named `swebench`."""
     cmd = [
-        sys.executable,
+        python or sys.executable,
         "-m",
         "swebench.harness.run_evaluation",
         "--dataset_name",
         dataset,
         "--split",
-        "test",
+        split,
         "--predictions_path",
         preds,
         "--instance_ids",
@@ -50,6 +61,8 @@ def run_harness(
         "--timeout",
         "1800",
     ]
+    if namespace:
+        cmd += ["--namespace", namespace]
     print("+", " ".join(cmd), flush=True)
     rc = subprocess.run(cmd, check=False).returncode
     if rc != 0:
