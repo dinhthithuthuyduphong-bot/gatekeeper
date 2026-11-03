@@ -120,6 +120,23 @@ jobs:
               git show "origin/e2-results:$f" > "$f"; echo "resumed: $f"
             done
           fi
+          # paid: if an earlier dispatch of THIS shard spent money, its results must be here; else
+          # every task would run again (A68: the results branch was not written once)
+          if [ "${{ inputs.mode }}" = paid ]; then
+            python - <<'EOF'
+          import glob, os, sys
+          sys.path.insert(0, "scripts")
+          import e2_ledger
+          k = os.environ["K"]; run = os.environ["GITHUB_RUN_ID"]
+          _, entries = e2_ledger.read("e2-ledger")
+          prior = sum(float(e.get("spent", 0)) for key, e in entries.items()
+                      if key.endswith(f"-k{k}") and not key.startswith(run + "-"))
+          mine = glob.glob(f"results/pilot/g2-e2-s*-k{k}-p*.json")
+          print(f"shard {k}: earlier spend {prior:.4f} USD, resumed result files {len(mine)}")
+          if prior > 0 and not mine:
+              sys.exit("earlier spend but no earlier results on e2-results: stop (A68)")
+          EOF
+          fi
       - name: XRepoSkill guidance (paid only; rebuilt from the recorded rule ids, no LLM call)
         if: inputs.mode == 'paid'
         run: |
@@ -226,7 +243,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           python scripts/archive_raw.py --redacted-ok
-      - name: Results to the e2-results branch
+      - name: Results to the e2-results branch (always, a later dispatch resumes from it; A68)
+        if: always()
         run: |
+          # publish_snapshot.sh resets and cleans the work tree: it must run AFTER the archive
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           ls results/pilot/ | head -50
           scripts/publish_snapshot.sh e2-results "E2 shards (${{ inputs.mode }}) run ${GITHUB_RUN_ID}" results/pilot

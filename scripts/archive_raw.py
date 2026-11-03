@@ -30,6 +30,7 @@ import subprocess
 import sys
 import tarfile
 import tempfile
+import time
 from pathlib import Path
 
 BRANCH = "raw-archive"
@@ -127,6 +128,34 @@ def load_manifest() -> dict:
         return {"_comment": "see docs/raw_archive.md", "batches": {}}
 
 
+PUSH_TRIES = 8  # operational: concurrent writers are two (local E1, the E2 collect job)
+
+
+def build_commit(manifest: dict, new: dict[str, bytes]) -> str:
+    """Commit on top of origin/BRANCH (as fetched last) adding the new archives and the manifest."""
+    env = dict(os.environ)
+    with tempfile.TemporaryDirectory() as tmp:
+        env["GIT_INDEX_FILE"] = str(Path(tmp) / "index")
+        try:
+            parent = git("rev-parse", f"origin/{BRANCH}").strip()
+            git("read-tree", parent, env=env)
+        except subprocess.CalledProcessError:
+            parent = None
+        for path, blob in sorted(new.items()):
+            oid = git("hash-object", "-w", "--stdin", inp=blob).strip()
+            git("update-index", "--add", "--cacheinfo", f"100644,{oid},{path}", env=env)
+        mf = json.dumps(manifest, indent=1, sort_keys=True).encode() + b"\n"
+        oid = git("hash-object", "-w", "--stdin", inp=mf).strip()
+        git("update-index", "--add", "--cacheinfo", f"100644,{oid},archive/MANIFEST.json", env=env)
+        tree = git("write-tree", env=env).strip()
+        msg = (
+            f"Raw evidence: {len(new)} new batch archive(s)\n\n"
+            "scripts/archive_raw.py; docs/raw_archive.md"
+        )
+        args = ["commit-tree", tree, "-m", msg] + (["-p", parent] if parent else [])
+        return git(*args).strip()
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
@@ -141,6 +170,7 @@ def main() -> int:
     done = manifest["batches"]
     parts = sorted(p.name for p in Path("runs").iterdir() if p.is_dir())
     new: dict[str, bytes] = {}
+    touched: set[str] = set()  # batches whose manifest entry this run writes or updates
     changed = False
     for part in parts:
         res, status = result_of(part)
@@ -154,6 +184,7 @@ def main() -> int:
         if part in done and done[part].get("sha256") == sha:
             if done[part].get("result_sha256") != res_sha:  # result file updated after archiving
                 done[part]["result_sha256"] = res_sha
+                touched.add(part)
                 changed = True
             continue
         n_traj = sum(1 for f in files if f.name.endswith(".traj.json"))
@@ -180,33 +211,31 @@ def main() -> int:
             entry["path"] = f"archive/{stage_of(part)}/{part}.tar.gz"
             new[entry["path"]] = blob
         done[part] = entry
+        touched.add(part)
         changed = True
     print(f"{len(new)} new or changed archives; {len(done)} batches in the manifest")
     if a.dry_run or not changed:
         return 0
-    # write the branch with plumbing: a temporary index and a staging work tree
-    env = dict(os.environ)
-    with tempfile.TemporaryDirectory() as tmp:
-        env["GIT_INDEX_FILE"] = str(Path(tmp) / "index")
-        try:
-            parent = git("rev-parse", f"origin/{BRANCH}").strip()
-            git("read-tree", parent, env=env)
-        except subprocess.CalledProcessError:
-            parent = None
-        for path, blob in sorted(new.items()):
-            oid = git("hash-object", "-w", "--stdin", inp=blob).strip()
-            git("update-index", "--add", "--cacheinfo", f"100644,{oid},{path}", env=env)
-        mf = json.dumps(manifest, indent=1, sort_keys=True).encode() + b"\n"
-        oid = git("hash-object", "-w", "--stdin", inp=mf).strip()
-        git("update-index", "--add", "--cacheinfo", f"100644,{oid},archive/MANIFEST.json", env=env)
-        tree = git("write-tree", env=env).strip()
-        msg = (
-            f"Raw evidence: {len(new)} new batch archive(s)\n\n"
-            "scripts/archive_raw.py; docs/raw_archive.md"
+    # write the branch with plumbing: a temporary index and a staging work tree. Another writer
+    # (local E1 and the E2 collect job both archive) may push in between: then re-read the tip,
+    # merge ITS manifest entries with ours (ours win only for the batches written here), retry
+    # (audit A68). The push is never forced, so nothing another writer pushed can be lost.
+    mine = {k: v for k, v in done.items() if k in touched}
+    for attempt in range(PUSH_TRIES):
+        commit = build_commit(manifest, new)
+        r = subprocess.run(
+            ["git", "push", "-q", "origin", f"{commit}:refs/heads/{BRANCH}"],
+            capture_output=True,
+            text=True,
         )
-        args = ["commit-tree", tree, "-m", msg] + (["-p", parent] if parent else [])
-        commit = git(*args).strip()
-    git("push", "-q", "origin", f"{commit}:refs/heads/{BRANCH}")
+        if r.returncode == 0:
+            break
+        print(f"push rejected (attempt {attempt + 1}): {r.stderr.strip()[:200]}", flush=True)
+        time.sleep(2 + 3 * attempt)
+        manifest = load_manifest()  # the other writer's tip, re-fetched
+        manifest["batches"].update(mine)
+    else:
+        raise SystemExit(f"could not push to {BRANCH} after {PUSH_TRIES} attempts")
     print(f"pushed {commit[:7]} to {BRANCH}")
     return 0
 

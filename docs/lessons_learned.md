@@ -267,3 +267,13 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Phòng ngừa:**
   - Mọi lệnh đọc file kết quả trước khi phân tích chỉ in chi phí, token, lỗi hạ tầng và trạng thái.
   - Muốn có tỉ lệ nền thì chỉ in của nhánh `none`, và ghi rõ trong log.
+
+## L29. Mọi bước ghi lên một nhánh dùng chung phải chịu được việc có bên khác ghi cùng lúc (A68)
+
+- **Xảy ra:**
+  - Sổ ngân sách E2 đã được thiết kế để chịu ghi đồng thời, nhưng nhánh `raw-archive` thì chưa, dù có hai bên cùng ghi (E1 trên máy cục bộ và bước gom kết quả E2).
+  - Bước đăng kết quả không được chạy khi bước trước lỗi, nên một lỗi phụ làm mất đầu vào của bước chạy nối tiếp.
+- **Phòng ngừa:**
+  - Liệt kê **mọi** bên ghi lên mỗi nhánh. Nếu có hơn một bên, dùng ghi kiểu so-và-đổi kèm thử lại, và có test với hai bản sao của repo.
+  - Bước tạo đầu vào cho lần chạy sau phải là `if: always()`.
+  - Bước chạy nối tiếp phải dừng khi thiếu đầu vào, không được mặc định "chưa có gì".
