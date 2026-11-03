@@ -246,3 +246,8 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Phòng ngừa:**
   - Khi một kết quả bị bác bỏ: `grep` con số ở mọi file (`docs/`, `TODO.md`, `paper/`), gạch đi và dẫn tới mục audit.
   - Khi báo cáo phát hiện: lấy từ file kết quả hiện hành và đối chiếu sổ audit, không lấy từ bảng tóm tắt.
+
+## L26. Không đẩy quyết định sang @thuthuy mà thiếu lý do, ảnh hưởng và lời khuyên (03/11)
+
+- **Xảy ra:** tôi đưa các lựa chọn (nâng ngân sách, nối tiếp ô E1/E2) mà không nói vì sao @thuthuy phải quyết, ảnh hưởng ra sao tới sức mạnh của kết quả, và tôi khuyên gì. @thuthuy thấy đó là đẩy trách nhiệm.
+- **Phòng ngừa:** mọi yêu cầu quyết định theo mẫu ba mục trong `CLAUDE.md` ("Khi cần @thuthuy quyết"), kèm số (power, n, chi phí). Việc kỹ thuật thì tự quyết và ghi lý do.

@@ -39,6 +39,14 @@ Repo nghiên cứu Gatekeeper (ASE 2027). Người phụ trách: @thuthuy. File 
 
 6. **R6:** thuật ngữ, ký hiệu và ngưỡng phải rõ nghĩa. Mỗi ký hiệu được định nghĩa trước khi dùng và chỉ có một nghĩa (`docs/glossary.md` §7). Mỗi ngưỡng ghi đủ giá trị, chiều (một phía hay hai phía), đại lượng áp dụng và nguồn. Không dùng từ đánh giá mơ hồ khi không kèm con số. Preflight [terms] kiểm tự động.
 
+## Khi cần @thuthuy quyết (bài học L26)
+Mỗi yêu cầu quyết định phải ghi đủ ba điều:
+1. **Vì sao phải do @thuthuy quyết**: quy tắc nào (ví dụ "chạm mức đã duyệt thì dừng"), hoặc đây là định hướng nghiên cứu hay tiền thật.
+2. **Ảnh hưởng tới sức mạnh của research, bằng số**: power, n, chi phí, điều reviewer có thể bắt bẻ.
+3. **Lời khuyên của tôi, kèm lý do.**
+
+Việc không thuộc quyền @thuthuy (kỹ thuật, vận hành) thì tôi tự quyết và ghi lý do, không đẩy sang.
+
 ## Quy trình cho mỗi tác vụ (theo thứ tự)
 1. Đọc bản đăng ký trước liên quan (`docs/preregistration_*.md`), kể cả mọi ghi chú thực thi và sai lệch.
 2. Tìm nguồn → thêm vào `configs/sources.json` → workflow `sources` → kiểm đoạn trích **chứa đúng câu cần dùng**.
