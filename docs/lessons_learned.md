@@ -183,3 +183,11 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Phòng ngừa:**
   - Mọi dữ liệu gốc của lần chạy có chi phí được lưu ra ngoài máy tạm sau mỗi giai đoạn.
   - Mỗi lần lưu phải **đối chiếu số lượng** với nguồn (trajectory trên máy, số lần chạy trong file kết quả), không chỉ dựa vào việc script chạy xong không lỗi.
+
+## L19. Tham số dừng phải lấy từ số đo, và một lần dừng giữa chừng phải được ghi sổ (A53)
+
+- **Xảy ra:** `--batch-min` 25 là ước tính, nên một lô dài hơn bị giới hạn cứng cắt ngang.
+- **Lỗi đo khi sửa:** lần đo đầu dùng thời điểm tạo run id của harness làm mốc bắt đầu, nên bỏ sót thời gian agent chạy. Cách đúng là đo khoảng cách giữa hai lần ghi kết quả liên tiếp.
+- **Phòng ngừa:**
+  - Mọi tham số dừng lấy từ số đo: trung vị và lô dài nhất.
+  - Lô nào bị cắt thì: ghi chi phí từ trajectory, đổi tên trước khi chạy lại, lưu trữ với trạng thái `aborted`.

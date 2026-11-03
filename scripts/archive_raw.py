@@ -107,7 +107,10 @@ def result_of(part: str) -> tuple[Path | None, str]:
     if res.exists():
         return res, "valid"
     inv = sorted(Path("results/pilot/invalid").rglob(f"{part}.json"))
-    return (inv[0], "invalid") if inv else (None, "no result file")
+    if inv:
+        return inv[0], "invalid"
+    ab = Path("results/pilot/aborted") / f"{part}.json"  # cut off mid-batch; spend recorded (A53)
+    return (ab, "aborted") if ab.exists() else (None, "no result file")
 
 
 def is_running(part: str) -> bool:
