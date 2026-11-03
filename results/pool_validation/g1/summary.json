@@ -1,17 +1,13 @@
 {
   "n_expected": 89,
-  "n_checked": 0,
-  "n_usable": 0,
-  "usable": [],
-  "rejected": {},
-  "infra_error": [],
-  "missing": [
+  "n_checked": 89,
+  "n_usable": 86,
+  "usable": [
     "astropy__astropy-13977",
     "astropy__astropy-14365",
     "astropy__astropy-14598",
     "astropy__astropy-7336",
     "astropy__astropy-7606",
-    "django__django-10097",
     "django__django-11087",
     "django__django-11211",
     "django__django-11451",
@@ -36,7 +32,6 @@
     "django__django-14007",
     "django__django-14140",
     "django__django-14170",
-    "django__django-14238",
     "django__django-14559",
     "django__django-14672",
     "django__django-14752",
@@ -49,7 +44,6 @@
     "django__django-16560",
     "django__django-16569",
     "django__django-16595",
-    "django__django-7530",
     "matplotlib__matplotlib-20488",
     "matplotlib__matplotlib-20859",
     "matplotlib__matplotlib-22719",
@@ -95,5 +89,12 @@
     "sympy__sympy-18211",
     "sympy__sympy-22714",
     "sympy__sympy-24443"
-  ]
+  ],
+  "rejected": {
+    "django__django-7530": "noop arm not clean",
+    "django__django-10097": "noop arm not clean",
+    "django__django-14238": "noop arm not clean"
+  },
+  "infra_error": [],
+  "missing": []
 }
