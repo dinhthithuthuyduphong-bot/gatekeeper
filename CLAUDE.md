@@ -39,13 +39,25 @@ Repo nghiên cứu Gatekeeper (ASE 2027). Người phụ trách: @thuthuy. File 
 
 6. **R6:** thuật ngữ, ký hiệu và ngưỡng phải rõ nghĩa. Mỗi ký hiệu được định nghĩa trước khi dùng và chỉ có một nghĩa (`docs/glossary.md` §7). Mỗi ngưỡng ghi đủ giá trị, chiều (một phía hay hai phía), đại lượng áp dụng và nguồn. Không dùng từ đánh giá mơ hồ khi không kèm con số. Preflight [terms] kiểm tự động.
 
-## Khi cần @thuthuy quyết (bài học L26)
-Mỗi yêu cầu quyết định phải ghi đủ ba điều:
-1. **Vì sao phải do @thuthuy quyết**: quy tắc nào (ví dụ "chạm mức đã duyệt thì dừng"), hoặc đây là định hướng nghiên cứu hay tiền thật.
-2. **Ảnh hưởng tới sức mạnh của research, bằng số**: power, n, chi phí, điều reviewer có thể bắt bẻ.
-3. **Lời khuyên của tôi, kèm lý do.**
+## Quyền quyết định (bài học L26, L27)
+**@thuthuy quyết** (chỉ những việc sau):
+1. Tiền **vượt** mức đã duyệt, hoặc một ngân sách mới.
+2. Câu hỏi nghiên cứu, phạm vi kết luận của paper, venue, việc thêm hoặc bỏ một thí nghiệm.
+3. Việc ra bên ngoài: công bố, liên hệ người khác; tài khoản, khóa, quyền truy cập.
+4. Đánh đổi giữa các phương án **không có phương án nào trội hơn**, tức một phương án mạnh hơn nhưng đắt hơn (cần một phán đoán giá trị).
 
-Việc không thuộc quyền @thuthuy (kỹ thuật, vận hành) thì tôi tự quyết và ghi lý do, không đẩy sang.
+**Tôi tự quyết, ghi lý do, rồi báo sau:**
+- Mọi việc kỹ thuật và vận hành, việc sửa lỗi, và lựa chọn phương pháp theo chuẩn đã công bố.
+- **Mọi phương án trội:** không kém hơn về độ mạnh và tính hợp lệ, không đắt hơn, không lâu hơn, nằm trong ngân sách đã duyệt và trong hướng @thuthuy đã chọn. Hỏi về phương án trội chỉ làm tốn thời gian.
+
+**Khi cần @thuthuy quyết**, ghi đủ ba điều:
+1. vì sao việc này thuộc quyền @thuthuy (mục nào ở trên);
+2. ảnh hưởng tới sức mạnh của research, bằng số (power, n, chi phí, điều reviewer có thể bắt bẻ);
+3. lời khuyên của tôi, kèm lý do.
+
+Gửi yêu cầu **sớm nhất có thể**, kèm hạn cần trả lời, để không làm chậm việc khác.
+
+**Lập kế hoạch (L27):** thiết kế thí nghiệm chính song song với pilot ngay từ đầu, để pilot sinh dữ liệu dùng lại được (ước lượng tham số, nối tiếp e-process). Mỗi giai đoạn mới phải trả lời: "dữ liệu này có dùng lại được ở giai đoạn sau không, và cần chốt gì trước để dùng lại được?"
 
 ## Quy trình cho mỗi tác vụ (theo thứ tự)
 1. Đọc bản đăng ký trước liên quan (`docs/preregistration_*.md`), kể cả mọi ghi chú thực thi và sai lệch.

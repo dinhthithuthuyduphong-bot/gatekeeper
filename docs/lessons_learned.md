@@ -251,3 +251,12 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 
 - **Xảy ra:** tôi đưa các lựa chọn (nâng ngân sách, nối tiếp ô E1/E2) mà không nói vì sao @thuthuy phải quyết, ảnh hưởng ra sao tới sức mạnh của kết quả, và tôi khuyên gì. @thuthuy thấy đó là đẩy trách nhiệm.
 - **Phòng ngừa:** mọi yêu cầu quyết định theo mẫu ba mục trong `CLAUDE.md` ("Khi cần @thuthuy quyết"), kèm số (power, n, chi phí). Việc kỹ thuật thì tự quyết và ghi lý do.
+
+## L27. Thiết kế giai đoạn sau song song với giai đoạn trước; phương án trội thì tự quyết (03/11)
+
+- **Xảy ra:**
+  - Nối tiếp e-process từ E1/E2 sang thí nghiệm chính vừa tiết kiệm tiền và thời gian vừa không làm yếu kết quả, nhưng tôi không đề xuất từ đầu, vì đã thiết kế pilot đứng riêng.
+  - Khi nhận ra, tôi lại đưa cho @thuthuy quyết dù đó là phương án trội, làm chậm việc phải xong trước khi phân tích E1/E2.
+- **Phòng ngừa:**
+  - Mục "Quyền quyết định" trong `CLAUDE.md`.
+  - Mỗi giai đoạn mới phải trả lời: dữ liệu có dùng lại được ở giai đoạn sau không, cần chốt gì trước.
