@@ -285,3 +285,14 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 | 7 | File hướng dẫn khác bản đã chốt | Không: SHA-256 được kiểm ở mọi job | `--expect-sha256` |
 | 8 | Lỗi chấm trên runner không bị phát hiện (chạy thật không có oracle) | Mỗi job chạy preflight [results] khi kết thúc (`runs == scored + infra`). Khi phân tích kiểm `endpoint_mismatch`, `patch_apply_failed`, `harness_test_timeout`. Chạy thử oracle trên runner đã đạt (run 41636185462 shard 1; lỗi A58 đã sửa) | workflow |
 | 9 | Chạy nối tiếp qua dispatch làm task chạy lại hoặc tiền bị tính hai lần | Không. Kết quả cũ được lấy theo đúng shard, 20 shard cố định, và chi phí của lần dispatch trước được trừ ra (`BASE`) | R-23 |
+
+## R-25. Chứng minh lại các định lý từ kết quả đã công bố (`docs/theory/proofs.md`, 03/11/2026)
+
+- **Mỗi bước được gắn nhãn** [ĐN] định nghĩa, [TĐ] tiên đề xác suất, hoặc [CB] kết quả đã công bố, kèm id nguồn và sha256. Bước nào chưa có câu gốc được đánh dấu ⏳.
+- **Phát hiện:**
+  1. **Giả định SP (superpopulation) chưa được nêu.** Tính hợp lệ của e-process khi mỗi task dùng một lần (`corrections.md` §1.2 lựa chọn (a), RQ1 trong `rq1_mini.py`) cần pool là mẫu i.i.d. từ P_s. Với P_s là chính pool hữu hạn và rút không hoàn lại, Bổ đề E không còn được bảo đảm. Đã thêm vào `corrections.md` và `proofs.md` §0.
+  2. **Mẫu số của công thức cỡ mẫu** ở Prop. 9 viết θ², đúng ra là (|STR| − θ)², theo phương trình (17) của Waudby-Smith & Ramdas. Đã sửa.
+  3. **Prop. 9 chứng minh được không cần mô hình cộng:** tỉ lệ = 1 + 2 Cov(W, O) / Var(W − O). Đây đúng là đại lượng mà mã tính.
+  4. **Theorem 4′ cần giả thiết (iii):** composite được chọn dựa trên dữ liệu thì phải dùng dữ liệu mới để admit. Đã nêu rõ.
+  5. Nguồn Holm trong bản lưu là Wikipedia (A64).
+- **Còn ⏳:** câu gốc cho TV (Levin & Peres), cho Ville với supermartingale, cho định nghĩa super-population (Miller), cho Holm. Workflow `sources` đang chờ, vì E2 dùng hết 20 job.

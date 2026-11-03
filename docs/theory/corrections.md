@@ -28,7 +28,7 @@ Paper: P_s là mọi task trong scope. Skill chỉ liên quan 10% task thì STR 
 
 **Lưu ý pool hữu hạn (R2).** Trong thực tế chỉ có pool hữu hạn T_s các task. Có hai lựa chọn, phải chốt trước pre-register:
 
-- (a) Mỗi trial dùng một task **khác nhau**: cần |T_s| ≥ số trial. Khi đó bound đúng cho P_s.
+- (a) Mỗi trial dùng một task **khác nhau**: cần |T_s| ≥ số trial. Khi đó bound đúng cho P_s **với giả định pool là mẫu i.i.d. từ P_s** (giả định SP, `docs/theory/proofs.md` §0). Nếu P_s được hiểu là chính pool hữu hạn thì điều này không còn đúng.
 - (b) Rút **có hoàn lại** từ T_s: các Z_i i.i.d. theo phân phối đều trên T_s, nên bound đúng cho P̂_s (pool). Chênh lệch P̂_s và P_s phải được tính vào ξ_s.
 
 Khuyến nghị: (b), vì (a) không khả thi. Bằng chứng từ dữ liệu thật (`data/splits/split_v0.json`): trong SWE-bench ∪ Verified ∪ SWE-bench-Live, **không scope (repo, version) nào có ≥ 219 task** (scope lớn nhất là django@3.2 với 157), trong khi `results/simulation.json` cần trung vị 219 cặp trial để admit một skill rất mạnh với α Bonferroni.
@@ -153,7 +153,7 @@ Giá trị 1 − θ là lớn nhất có thể (cận chặt). Vì (STR(S1), STR
 Cả hai thiết kế đều tốn **2 lần chạy cho mỗi mẫu**, nên tỉ lệ số mẫu chính là tỉ lệ chi phí:
 
 ```
-n_unpaired / n_paired = 1 + 2σ_T²/σ_S²,    n_paired ≈ c · σ_S² · log(1/α_{S,s}) / θ²
+n_unpaired / n_paired = 1 + 2σ_T²/σ_S²,    n_paired ≈ 2 · σ_S² · log(1/α_{S,s}) / (|STR| − θ)²   (sửa 03/11: mẫu số là bình phương khoảng cách, xem proofs.md §4)
 ```
 
 Paper ghi 1 + σ_T²/σ_S² và "net 1,55×" (chia đôi vì tưởng paired tốn gấp đôi). Cả hai đều sai. Với σ_T²/σ_S² = 2,1 (số dự kiến của paper) thì mức tiết kiệm đúng là **5,2×**. Kiểm chứng Monte-Carlo: `tests/test_theory.py::test_prop9_variance_ratio`. Ước lượng σ_T², σ_S² từ dữ liệu pilot: `gatekeeper.analysis.variance_components`.
