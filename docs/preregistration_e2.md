@@ -105,3 +105,15 @@ Z_ik = R(none) − R(xreposkill) ∈ {−1, 0, 1}; Z̄_i là trung bình qua 3 s
 - θ của Gatekeeper = 0 (trước đây là 1e-9 để lách một ràng buộc không có cơ sở trong mã).
 - Quyết định ở α = 0,05 đã đăng ký vẫn được báo cáo (`Gatekeeper (registered alpha, D2)`).
 - **Ký hiệu:** "R(none) − R(skill)" ở §4 nghĩa là 1[resolved | none] − 1[resolved | skill] = Z_resolved (`docs/glossary.md` §7).
+
+**Ghi chú thực thi 5** (03/11/2026, chưa có dữ liệu agent của E2):
+- **Kiểm định khối 1** (120 task, run 41585420373): **79 task dùng được**.
+  - 36 task bị loại vì patch gold sửa được bug (F = 0) nhưng có test PASS_TO_PASS hỏng **như nhau ở nhánh gold và nhánh no-op** (cùng R). Tức là test đó hỏng bất kể bản vá, và phụ thuộc môi trường chạy. Ví dụ conan-15453: 5/3.573 test.
+  - 5 task bị loại vì nhánh no-op không sạch.
+  - 0 lỗi hạ tầng.
+- Cách loại này đúng theo quy tắc pool (§3): không agent nào đạt "resolved" được trên những task đó, và hai nhánh bị ảnh hưởng như nhau nên Z không bị lệch.
+- Phát hiện này được báo cáo trong paper: test PASS_TO_PASS của SWE-bench-Live nhạy với môi trường ở 36/120 task.
+- **Khối 2** theo ghi chú thực thi 3: `random_order[120:200]` (`configs/pools/e2b.json`).
+  - Cần thêm 42 task dùng được.
+  - Với tỉ lệ dùng được 79/120, phân phối Binomial(80; 0,66) cho số task dùng được ≥ 42 với xác suất ≈ 0,996.
+  - Chỉ 121 task dùng được và được kích hoạt đầu tiên theo thứ tự ngẫu nhiên được dùng.
