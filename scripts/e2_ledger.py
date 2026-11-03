@@ -30,6 +30,9 @@ import time
 from pathlib import Path
 
 EXHAUSTED = 3
+# operational: backoff 1, 2, 4, ... 60 s = about 7 minutes in total, the same window as
+# mini-swe-agent's own API retries (models/utils/retry.py: 10 attempts, exponential 4-60 s)
+FETCH_TRIES = 12
 
 
 def _git(*args: str, env: dict | None = None, check: bool = True) -> subprocess.CompletedProcess:
@@ -38,11 +41,16 @@ def _git(*args: str, env: dict | None = None, check: bool = True) -> subprocess.
 
 def read(branch: str, remote: str = "origin") -> tuple[str | None, dict[str, dict]]:
     """(tip commit or None if the branch does not exist yet, {key: entry})."""
-    r = _git("fetch", "-q", remote, f"+refs/heads/{branch}:refs/ledger/{branch}", check=False)
-    if r.returncode != 0:
-        if "couldn't find remote ref" in (r.stderr or "") or "not found" in (r.stderr or ""):
+    for attempt in range(FETCH_TRIES):
+        r = _git("fetch", "-q", remote, f"+refs/heads/{branch}:refs/ledger/{branch}", check=False)
+        if r.returncode == 0:
+            break
+        if "couldn't find remote ref" in (r.stderr or ""):
             return None, {}
-        raise SystemExit(f"ledger fetch failed: {r.stderr.strip()}")
+        # transient server errors (HTTP 502 seen on 2026-11-03, audit A61): retry with backoff
+        time.sleep(min(60, 2**attempt) + random.uniform(0, 1))
+    else:
+        raise SystemExit(f"ledger fetch failed {FETCH_TRIES} times: {r.stderr.strip()}")
     tip = _git("rev-parse", f"refs/ledger/{branch}").stdout.strip()
     names = _git("ls-tree", "-r", "--name-only", tip, "ledger/").stdout.split()
     out = {}
