@@ -1,0 +1,79 @@
+{
+ "source": "data/external/swe-skills-bench/ALL_combined_cells.csv",
+ "n_cells": 392,
+ "screens": {
+  "theta=0.0, screen on (1, 5), held-out (6, 10)": {
+   "admitted": 152,
+   "screen_mean": -0.07701447368421054,
+   "heldout_mean": -0.004153947368421052,
+   "heldout_ci95": [
+    -0.01912445808436738,
+    0.010816563347525277
+   ],
+   "heldout_t_p_one_sided": 0.2921699170320893,
+   "heldout_signflip_p_one_sided": 0.2917470825291747,
+   "shrinkage_heldout_over_screen": 0.05393722984401427
+  },
+  "theta=0.0, screen on (6, 10), held-out (1, 5)": {
+   "admitted": 152,
+   "screen_mean": -0.06046184210526316,
+   "heldout_mean": -0.015282894736842101,
+   "heldout_ci95": [
+    -0.03443864269144649,
+    0.003872853217762288
+   ],
+   "heldout_t_p_one_sided": 0.05852038330505282,
+   "heldout_signflip_p_one_sided": 0.057829421705782945,
+   "shrinkage_heldout_over_screen": 0.25276925420556673
+  },
+  "theta=0.02, screen on (1, 5), held-out (6, 10)": {
+   "admitted": 99,
+   "screen_mean": -0.11363434343434346,
+   "heldout_mean": -0.013024242424242426,
+   "heldout_ci95": [
+    -0.03296139446937669,
+    0.0069129096208918345
+   ],
+   "heldout_t_p_one_sided": 0.09894401442979141,
+   "heldout_signflip_p_one_sided": 0.1002389976100239,
+   "shrinkage_heldout_over_screen": 0.11461537093992781
+  },
+  "theta=0.02, screen on (6, 10), held-out (1, 5)": {
+   "admitted": 95,
+   "screen_mean": -0.09125052631578949,
+   "heldout_mean": -0.02895789473684211,
+   "heldout_ci95": [
+    -0.05551280842351709,
+    -0.0024029810501671224
+   ],
+   "heldout_t_p_one_sided": 0.0164522296046574,
+   "heldout_signflip_p_one_sided": 0.015779842201577986,
+   "shrinkage_heldout_over_screen": 0.3173449612403101
+  },
+  "theta=0.05, screen on (1, 5), held-out (6, 10)": {
+   "admitted": 68,
+   "screen_mean": -0.1516764705882353,
+   "heldout_mean": -0.02549705882352941,
+   "heldout_ci95": [
+    -0.05179415085479342,
+    0.000800033207734599
+   ],
+   "heldout_t_p_one_sided": 0.02858882509429784,
+   "heldout_signflip_p_one_sided": 0.027759722402775973,
+   "shrinkage_heldout_over_screen": 0.16810160946286598
+  },
+  "theta=0.05, screen on (6, 10), held-out (1, 5)": {
+   "admitted": 61,
+   "screen_mean": -0.12449180327868851,
+   "heldout_mean": -0.04926885245901639,
+   "heldout_ci95": [
+    -0.08795051137972384,
+    -0.010587193538308927
+   ],
+   "heldout_t_p_one_sided": 0.00671038296594707,
+   "heldout_signflip_p_one_sided": 0.006589934100658994,
+   "shrinkage_heldout_over_screen": 0.3957598103766131
+  }
+ },
+ "overall_mean_Z": -0.003433163265306122
+}
