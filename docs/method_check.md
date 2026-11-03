@@ -103,3 +103,16 @@ Tỉ lệ bác bỏ sai của kiểm định chính là 0,016 ở cả hai cỡ,
 | E1, n = 53 | 0,20 | 0,90 | 0,75–0,98 |
 
 Khoảng này chỉ phản ánh sai số của q. Nó không phản ánh sai lệch do mô hình hiệu ứng (q′ = min(1, q + δ)) hay do q đo trên Verified được dùng cho SWE-bench full và Live.
+
+**Power của E2 tính lại bằng q đo được của Live** (`scripts/e2_power_live_q.py` → `results/e2_power_live_q.json`; đúng bước đã ghi ở hàng "Plasmode của E2 dùng tỉ lệ giải đo trên Verified" ở trên). Chỉ đọc nhánh `none` (L28), không xem nhánh skill.
+- q của Live: 109 task, trung bình 0,202; 73% không bao giờ giải được, 14% luôn giải được. G1 (Verified) là 0,49, 41% và 38%.
+- Tỉ lệ bác bỏ sai của kiểm định chính: 0,011 ở mức 0,025.
+
+| δ | Hiệu ứng thực hiện được | Power (n = 109) |
+| --- | --- | --- |
+| 0,02 | 0,017 | 0,18 |
+| 0,05 | 0,043 | 0,69 |
+| 0,109 | 0,094 | 0,996 |
+| 0,15 | 0,130 | 1,00 |
+
+Power cao hơn bảng dựa trên q của G1, vì ít task luôn giải được hơn, nên hiệu ứng ít bị chặn ở mức 1. **Đây là power dùng để báo cáo cho E2.**
