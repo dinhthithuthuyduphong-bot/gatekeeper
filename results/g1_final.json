@@ -1,0 +1,43 @@
+{
+  "skills": {
+    "validation-error": {
+      "n_tasks": 32,
+      "mean_z_resolved": 0.031249999999999997,
+      "ci": [
+        -0.057007451760421324,
+        0.11950745176042132
+      ],
+      "critical_effect": 0.09375,
+      "mean_z_loss_secondary": 0.01770214171354775,
+      "helped_tasks": 4,
+      "hurt_tasks": 7,
+      "p": 0.82958984375,
+      "p_holm": 0.82958984375,
+      "reject": false,
+      "p_holm_level": 0.025,
+      "s1_paired_t_p": 0.76219145649398,
+      "s2_cluster_sign_flip_p": 0.6875,
+      "s2_clusters": 10,
+      "robust": false
+    }
+  },
+  "alpha_family_one_sided": 0.025,
+  "ci_level": 0.95,
+  "n_seeds": 3,
+  "aa": {
+    "n": 32,
+    "mean": 0.0,
+    "ci": [
+      -0.09157685713192386,
+      0.09157685713192386
+    ],
+    "p_two_sided": 1.0,
+    "flag": false
+  },
+  "verdict": "G1 FAIL: no skill rejects H0 (effects smaller than the critical effect ~0.09 cannot be declared with these data)",
+  "confirm_runs": [
+    "g1-c-s11",
+    "g1-c-s21",
+    "g1-c-s31"
+  ]
+}
