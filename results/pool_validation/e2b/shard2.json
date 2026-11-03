@@ -1,0 +1,262 @@
+{
+  "PriorLabs__TabPFN-263": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 320
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 320
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 320
+    },
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
+  },
+  "aws-cloudformation__cfn-lint-3734": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 1223
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 1223
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 1223
+    },
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
+  },
+  "conan-io__conan-16335": {
+    "gold_a": {
+      "resolved": false,
+      "F": 0.0,
+      "R": 0.0012966804979253112,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 3856
+    },
+    "gold_b": {
+      "resolved": false,
+      "F": 0.0,
+      "R": 0.0012966804979253112,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 3856
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0012966804979253112,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 3856
+    },
+    "usable": false,
+    "infra_error": false,
+    "reason": "gold not resolved;noop arm not clean"
+  },
+  "conan-io__conan-17964": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 4301
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 4301
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 4301
+    },
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
+  },
+  "deepset-ai__haystack-9251": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 4,
+      "n_pass_to_pass": 2581
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 4,
+      "n_pass_to_pass": 2581
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 4,
+      "n_pass_to_pass": 2581
+    },
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
+  },
+  "fsspec__filesystem_spec-1862": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 1806
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 1806
+    },
+    "noop": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 1806
+    },
+    "usable": false,
+    "infra_error": false,
+    "reason": "noop arm not clean"
+  },
+  "kedro-org__kedro-4178": {
+    "gold_a": {
+      "resolved": false,
+      "F": 0.0,
+      "R": 0.01559177888022679,
+      "n_fail_to_pass": 9,
+      "n_pass_to_pass": 1411
+    },
+    "gold_b": {
+      "resolved": false,
+      "F": 0.0,
+      "R": 0.01630049610205528,
+      "n_fail_to_pass": 9,
+      "n_pass_to_pass": 1411
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.01559177888022679,
+      "n_fail_to_pass": 9,
+      "n_pass_to_pass": 1411
+    },
+    "usable": false,
+    "infra_error": false,
+    "reason": "gold not resolved;unstable;noop arm not clean"
+  },
+  "pdm-project__pdm-3250": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 915
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 915
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 915
+    },
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
+  },
+  "python__mypy-19216": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 12198
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 12198
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 12198
+    },
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
+  },
+  "stanfordnlp__dspy-8255": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 2,
+      "n_pass_to_pass": 348
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 2,
+      "n_pass_to_pass": 348
+    },
+    "noop": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 2,
+      "n_pass_to_pass": 348
+    },
+    "usable": false,
+    "infra_error": false,
+    "reason": "noop arm not clean"
+  }
+}
