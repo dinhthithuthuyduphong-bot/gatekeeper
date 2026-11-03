@@ -172,6 +172,39 @@ def local_images() -> set[str]:
     return {x for x in out.split() if x and "<none>" not in x}
 
 
+def arms_per_task(ids: list[str], skill_paths: list[str], task_sets: str | None) -> dict[str, int]:
+    """Agent runs per task in one batch: the no-skill arm plus every skill whose task set holds the
+    task (run_pilot.py runs a skill arm only on its set, intersected with I(x)). An upper bound of
+    the real count, so a worst case built on it still never exceeds the cap (audit A65). Without a
+    task-set file every skill arm may run on every task."""
+    if not task_sets:
+        return {i: 1 + len(skill_paths) for i in ids}
+    from gatekeeper.skill import Skill  # noqa: PLC0415
+
+    sets = json.loads(Path(task_sets).read_text())
+    sids = [Skill.load(p).id for p in skill_paths]
+    return {i: 1 + sum(1 for s in sids if s not in sets or i in sets[s]) for i in ids}
+
+
+def plan_batch(
+    todo: list[str], size: int, arms_of: dict[str, int], room: float, cost_limit: float
+) -> tuple[list[str], float]:
+    """Longest PREFIX of todo (at most size tasks; order kept, nothing skipped) whose worst case
+    sum(arms x cost_limit) fits in room. At least one task is returned; the caller stops if even
+    that one does not fit."""
+    take: list[str] = []
+    worst = 0.0
+    for t in todo[:size]:
+        w = arms_of[t] * cost_limit
+        if take and worst + w > room:
+            break
+        take.append(t)
+        worst += w
+        if worst > room:
+            break
+    return take, worst
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--name", required=True)
@@ -211,7 +244,7 @@ def main() -> int:
 
     skills = [s for s in a.skills.split(",") if s]
     tasks = task_list(a.tasks_from, skills)
-    arms = 1 + len(skills)
+    arms_of = arms_per_task(tasks, skills, a.task_sets)
     # resume by TASK, not by part number: parts already written cover these instances
     parts = sorted(RESULTS.glob(f"{a.name}-p[0-9][0-9].json"))
     done = done_tasks(parts)
@@ -254,12 +287,12 @@ def main() -> int:
                 print(f"[stop] only {free_gb:.1f} GB free", flush=True)
                 break
         spent = pilot_spent_total()
-        # shrink the batch near the cap instead of stopping while a smaller batch still fits
-        size = min(size, max(1, int((a.cap_usd - spent) // (arms * a.cost_limit))))
-        ids, todo = todo[:size], todo[size:]
+        # shrink the batch near the cap instead of stopping while a smaller batch still fits; the
+        # worst case counts only the arms that really run on each task (A65)
+        ids, worst = plan_batch(todo, size, arms_of, a.cap_usd - spent, a.cost_limit)
+        todo = todo[len(ids) :]
         part = f"{a.name}-p{k:02d}"
         f = RESULTS / f"{part}.json"
-        worst = arms * len(ids) * a.cost_limit
         if spent + worst > a.cap_usd:
             print(
                 f"[stop] cap: spent {spent:.2f} + worst batch {worst:.2f} > cap {a.cap_usd:.2f}",

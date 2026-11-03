@@ -303,3 +303,14 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Thay đổi:** `--workers` 4 → 2 trong `run_e1_inter.sh`, tức 6 agent cho E1 và tổng khoảng 20 agent. Đây là tham số vận hành: chỉ đổi số task chạy cùng lúc trong một nhánh; mỗi cặp vẫn chạy trong cùng một lô. Cùng loại thay đổi như ghi chú thực thi 9 (chế độ M3, ít worker hơn).
 - **Theo dõi:** đếm dòng "Error processing instance" (lần chạy hỏng sau 10 lần thử) trong `e1.log`. Thấy lại thì dừng E1.
 - **Bộ đếm "Retrying" trước khi chạy lại:** 579 (để so sánh).
+
+## R-27. Bộ chặn chính xác trong driver và ước tính chi phí còn lại của E1 (2026-11-03, A65)
+
+- **Bất biến giữ nguyên:** đã chi cộng trường hợp xấu nhất của lô ≤ trần. Số nhánh lấy từ task set là cận trên của số nhánh thật, vì I(x) có thể loại thêm task.
+- **Thứ tự ngẫu nhiên giữ nguyên:** `plan_batch` chỉ lấy một đoạn đầu của danh sách.
+- **Có hiệu lực từ lần gọi driver kế tiếp:** mỗi lô là một lần gọi (`--max-batches 1`). Lô đang chạy dùng bộ chặn cũ, chặt hơn, nên vẫn an toàn (L22).
+- **Ước tính** (bootstrap, có hoàn lại, trên chi phí từng lần chạy, lấy từ `instance_cost` của 453 trajectory E1):
+  - còn 845 lần chạy;
+  - tổng cộng dồn: trung vị 114,73; phân vị 95% 118,46; phân vị 99% 120,01; trần 122,26.
+  - Giả định: các lần chạy còn lại (seed 51 và 61 trên cùng task) có cùng phân phối chi phí với các lần đã chạy.
+- **Kết luận:** rút đề nghị nâng 5 USD cho E1.

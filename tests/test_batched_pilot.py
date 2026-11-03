@@ -297,3 +297,32 @@ def test_merge_carries_timeouts_and_a_rerun_replaces_them(tmp_path, monkeypatch)
         (tmp_path / f"x-p{k:02d}.json").write_text(_json.dumps(d))
     m = rbp.merge("x", sorted(tmp_path.glob("x-p*.json")))
     assert m["harness_test_timeout"] == {"none": []} and m["patch_apply_failed"] == {"s": ["c"]}
+
+
+def test_plan_batch_keeps_order_and_fits_the_exact_worst_case():
+    """A65: a prefix of the task order whose worst case (arms that really run x cost limit) fits."""
+    arms_of = {"a": 2, "b": 6, "c": 2, "d": 2}
+    assert bp.plan_batch(["a", "b", "c", "d"], 4, arms_of, 20.0, 1.0) == (
+        ["a", "b", "c", "d"],
+        12.0,
+    )
+    assert bp.plan_batch(["a", "b", "c", "d"], 4, arms_of, 9.0, 1.0) == (["a", "b"], 8.0)
+    # never skips b to take the cheaper c: the random order is kept
+    assert bp.plan_batch(["a", "b", "c", "d"], 4, arms_of, 5.0, 1.0) == (["a"], 2.0)
+    # nothing fits: one task returned, its worst case exceeds the room, so the caller stops
+    take, worst = bp.plan_batch(["b", "a"], 4, arms_of, 3.0, 1.0)
+    assert take == ["b"] and worst > 3.0
+
+
+def test_arms_per_task_counts_only_skills_whose_set_holds_the_task(tmp_path):
+    import json
+
+    sk = []
+    for sid in ("s1", "s2", "s3"):
+        p = tmp_path / f"{sid}.json"
+        p.write_text(json.dumps({"id": sid, "procedure": {}, "fingerprints": {}}))
+        sk.append(str(p))
+    sets = tmp_path / "sets.json"
+    sets.write_text(json.dumps({"s1": ["a", "b"], "s2": ["a"]}))  # s3 has no set: all tasks
+    assert bp.arms_per_task(["a", "b", "c"], sk, str(sets)) == {"a": 4, "b": 3, "c": 2}
+    assert bp.arms_per_task(["a"], sk, None) == {"a": 4}
