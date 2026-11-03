@@ -128,3 +128,38 @@ Theo `docs/source_verification.md` §2:
 - **Hiệu ứng tới hạn** được lấy từ chính phân phối chính xác của kiểm định đổi dấu, không dùng phân phối t.
 - **Cách diễn giải A/A:** nếu không bác bỏ, chỉ được ghi "không phát hiện lệch; độ lệch ước lượng [khoảng t]", không được ghi "pipeline sạch" (ICH E9 §3.3.2).
 - **Kiểm định một phía** được lý giải trước: quyết định admit chỉ có một chiều.
+
+## Bổ sung 4 (03/11/2026; seed 31 đang chạy, **chưa mở bất kỳ kết quả xác nhận nào**): làm gì sau phán quyết
+
+@thuthuy: nếu G1 FAIL, chọn phương án tốt nhất; mọi lý lẽ và con số phải dựa trên lý thuyết hoặc dữ liệu đã công bố. Quy tắc dưới đây được chốt **trước** khi biết kết quả.
+
+**Nguyên tắc chọn:** phân tích cỡ mẫu theo ràng buộc nguồn lực (Lakens 2022, *Sample Size Justification*; công thức cỡ mẫu chuẩn, Cohen 1988):
+
+  n_cần(δ) = (z₁₋α′ + z₁₋β)² · V / δ²
+
+- **V** = phương sai của Z theo task. Lấy **từ dữ liệu xác nhận** (3 seed), và đối chiếu với SWE-Skills-Bench (σ_S² = 0,040, σ_T² = 0,067; `results/sskb_analysis.json`).
+- **α′** = 0,025 / số skill được kiểm (ICH E9; Holm).
+- **1 − β:** quy ước power 80% (Cohen 1988). Đây là quy ước, nêu rõ là quy ước. Bảng sẽ báo cả 50% (bằng hiệu ứng tới hạn) và 80%.
+- **δ** (hiệu ứng cần phát hiện) lấy từ **phân phối hiệu ứng đã công bố**: SWE-Skills-Bench, 98 skill × 4 cấu hình, trung bình Z = −0,003, độ lệch chuẩn giữa các skill khoảng 0,03 (R15). Báo cáo n_cần ở các phân vị của phân phối này, không chọn một δ tuỳ ý.
+- **n_có:** số task mà I(x) đúng trên tập test đã công bố (`data/activation.json`; ví dụ validation-error 418, type-guard 320), sau khi trừ tỉ lệ task không chạy được đo ở kiểm định pool (86/89).
+- **Chi phí** = n_cần × 2 nhánh × số seed × chi phí/lần chạy **đo được**. **Hạn** = lịch ASE 2027 (cổng G2 ngày 15/01/2027).
+
+**Phương án** (lấy từ `TODO.md` §0.1, R14–R16; không thêm phương án sau khi thấy kết quả):
+- **P1.** Kiểm định lại skill hiện có trên **nhiều task hơn**, lấy từ tập test lớn hơn.
+- **P2.** Dùng **skill mạnh hơn**: chương trình sửa code thay vì đoạn hướng dẫn; I(x) có lift cao hơn (R16).
+- **P3.** Thu hẹp claim của paper: **gộp scope**, dùng θ lớn hơn, hoặc trọng tâm là phát hiện / chặn skill gây hại.
+- **P4.** Đổi hướng: paper về **phương pháp đo**, dùng kết quả cỡ mẫu và nhiễu đo được làm đóng góp chính.
+
+**Quy tắc chọn:**
+1. Một phương án là **khả thi** nếu n_cần ≤ n_có, chi phí ≤ ngân sách còn lại, và kịp hạn.
+2. Trong các phương án khả thi, chọn phương án **giữ được claim cốt lõi** của paper ("Gatekeeper chứng nhận được skill có ích") ở mức δ lớn nhất mà phân phối đã công bố cho là có thật. Nếu nhiều phương án ngang nhau, chọn phương án rẻ nhất.
+3. Nếu không phương án nào giữ được claim cốt lõi mà vẫn khả thi → chọn P3 hoặc P4 theo cùng tiêu chí khả thi, và báo @thuthuy vì đây là thay đổi hướng nghiên cứu.
+4. **Không chi thêm tiền** cho phương án được chọn mà không báo lại, nếu tổng vượt 35 USD.
+
+**Các yếu tố của phán quyết G1** (nhắc lại, đã khóa ở Bổ sung 3 và hai bản sửa):
+- Z trên resolved, ghép cặp theo task, trung bình qua 3 seed;
+- H₀: hoán đổi được;
+- kiểm định đổi dấu chính xác, một phía, Holm với α = 0,025;
+- A/A chính xác hai phía ở mức 0,05;
+- khoảng t 95%;
+- hiệu ứng tới hạn từ phân phối chính xác.
