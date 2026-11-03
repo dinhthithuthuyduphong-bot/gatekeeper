@@ -1,0 +1,238 @@
+{
+ "inputs": {
+  "baseline_solve_rate_per_task": "G1 confirmation no-skill arms, 32 tasks x 3 seeds",
+  "n_tasks_q": 32,
+  "mean_q": 0.4895833333333333,
+  "R_valid": 12000,
+  "R_power": 2500,
+  "simulated_p_plus_at_delta0": 0.05525
+ },
+ "exact_test_matches_enumeration": true,
+ "E1": {
+  "n": 40,
+  "clusters": [
+   16,
+   7,
+   6,
+   4,
+   3,
+   2,
+   1,
+   1
+  ],
+  "level": 0.008333333333333333,
+  "type1": {
+   "primary": 0.0011666666666666668,
+   "robust": 8.333333333333333e-05,
+   "s2_alone": 8.333333333333333e-05
+  },
+  "type1_mcse": 0.0008298538470160919,
+  "power": {
+   "0.02": {
+    "realised_mean_effect": 0.012544200000000007,
+    "primary": 0.01,
+    "robust": 0.0
+   },
+   "0.05": {
+    "realised_mean_effect": 0.03130200000000001,
+    "primary": 0.044,
+    "robust": 0.0008
+   },
+   "0.109": {
+    "realised_mean_effect": 0.06793642999999999,
+    "primary": 0.2548,
+    "robust": 0.0164
+   },
+   "0.15": {
+    "realised_mean_effect": 0.09365549999999999,
+    "primary": 0.4752,
+    "robust": 0.05
+   },
+   "0.2": {
+    "realised_mean_effect": 0.12472799999999999,
+    "primary": 0.7528,
+    "robust": 0.114
+   },
+   "0.3": {
+    "realised_mean_effect": 0.187461,
+    "primary": 0.9796,
+    "robust": 0.3068
+   }
+  }
+ },
+ "E2": {
+  "n": 119,
+  "clusters": [
+   16,
+   6,
+   4,
+   4,
+   4,
+   3,
+   3,
+   3,
+   3,
+   3,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "level": 0.025,
+  "type1": {
+   "primary": 0.016166666666666666,
+   "robust": 0.0135,
+   "s2_alone": 0.01625
+  },
+  "type1_mcse": 0.0014252192813739226,
+  "power": {
+   "0.02": {
+    "realised_mean_effect": 0.012517714285714288,
+    "primary": 0.0828,
+    "robust": 0.0696
+   },
+   "0.05": {
+    "realised_mean_effect": 0.031252268907563024,
+    "primary": 0.3604,
+    "robust": 0.3172
+   },
+   "0.109": {
+    "realised_mean_effect": 0.06812481680672268,
+    "primary": 0.9244,
+    "robust": 0.8988
+   },
+   "0.15": {
+    "realised_mean_effect": 0.09363226890756303,
+    "primary": 0.9932,
+    "robust": 0.9924
+   },
+   "0.2": {
+    "realised_mean_effect": 0.12497008403361343,
+    "primary": 1.0,
+    "robust": 1.0
+   },
+   "0.3": {
+    "realised_mean_effect": 0.18685109243697479,
+    "primary": 1.0,
+    "robust": 1.0
+   }
+  }
+ },
+ "AA_E1": {
+  "n": 40,
+  "level": 0.05,
+  "rate": 0.0055
+ },
+ "AA_E2": {
+  "n": 119,
+  "level": 0.05,
+  "rate": 0.02325
+ },
+ "RQ1": {
+  "alpha_cell": 0.0071428571428571435,
+  "budget": 40,
+  "by_delta": {
+   "-0.2": {
+    "gatekeeper": 0.0,
+    "plug_in": 0.014333333333333333,
+    "reps": 12000
+   },
+   "-0.1": {
+    "gatekeeper": 0.0,
+    "plug_in": 0.10008333333333333,
+    "reps": 12000
+   },
+   "-0.05": {
+    "gatekeeper": 0.0,
+    "plug_in": 0.21058333333333334,
+    "reps": 12000
+   },
+   "0.0": {
+    "gatekeeper": 0.0,
+    "plug_in": 0.40208333333333335,
+    "reps": 12000
+   },
+   "0.05": {
+    "gatekeeper": 0.0,
+    "plug_in": 0.624,
+    "reps": 2500
+   },
+   "0.109": {
+    "gatekeeper": 0.0,
+    "plug_in": 0.8492,
+    "reps": 2500
+   },
+   "0.15": {
+    "gatekeeper": 0.0,
+    "plug_in": 0.918,
+    "reps": 2500
+   },
+   "0.2": {
+    "gatekeeper": 0.0012,
+    "plug_in": 0.9628,
+    "reps": 2500
+   },
+   "0.3": {
+    "gatekeeper": 0.0124,
+    "plug_in": 0.9956,
+    "reps": 2500
+   },
+   "0.4": {
+    "gatekeeper": 0.0912,
+    "plug_in": 1.0,
+    "reps": 2500
+   }
+  }
+ }
+}

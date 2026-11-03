@@ -78,6 +78,7 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 - [ ] Mọi câu "theo X" trong tài liệu đã có đoạn trích của X trong `sources-snapshots` **chứa đúng nội dung đó** (R1).
 
 **Kiểm thử**
+- [ ] Mô phỏng hoặc phép toán mảng: assert kích thước kết quả, vì broadcasting âm thầm làm rộng mẫu (R-6).
 - [ ] Có test cho từng chỗ sửa; `ruff check`, `ruff format --check` và `pytest` đều qua.
 - [ ] Chạy thử miễn phí (mô hình giả lập, không gọi LLM) trên ít nhất một task thật của bộ dữ liệu mới trước khi chạy có chi phí.
 

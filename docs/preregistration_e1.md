@@ -107,3 +107,7 @@ Mã: `scripts/rq1_mini.py`; test: `tests/test_rq1_mini.py`.
 - Bản vá của agent không áp được là **đầu ra của agent**, nên tính là không resolved (treatment policy, §3).
 - Trường hợp này **không** thuộc dòng "lỗi hạ tầng → chạy lại" của §3. Cơ sở: SWE-bench (Jimenez et al. 2024, Table 5) tính % Resolved trên mọi task, cạnh % Apply.
 - Các lô E1 tới nay có 0 ca như vậy.
+
+**Ghi chú thực thi 3** (03/11/2026, chưa phân tích kết quả nào; `docs/method_check.md`, A38):
+- Power ở §2 tính với α′ = 0,025, chưa tính Holm trên 3 skill và điều kiện S2. Đúng theo công thức là n ≈ 53 ở mức Holm đầu.
+- Thiết kế **không đổi** (R5). Power đã sửa (plasmode) được báo cáo cạnh kết quả.
