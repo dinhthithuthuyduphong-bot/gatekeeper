@@ -121,3 +121,11 @@ Nguồn tải qua `.github/workflows/sources.yml`; trích đoạn ở nhánh `so
 | **(e) Nhãn có hại / có ích không chắc chắn** | **Nhãn 3 lớp theo kiểm định trên dữ liệu độc lập** (có hại đã xác lập, có ích đã xác lập, chưa xác định), báo cáo cả lớp chưa xác định. Code: thêm vào `rq1_mini.py` **trước khi có kết quả E1** | Ngay bây giờ |
 | **(f) Test chỉ đo tính đúng chức năng** | Đọc tay một mẫu bản sửa (2 người, báo κ kèm CI, ngưỡng theo McHugh 2012), ước lượng tỉ lệ "qua test nhưng sai". Ghi rõ estimand là "đúng chức năng theo test của SWE-bench" | Thí nghiệm chính (👤) |
 | **(g) Quy tắc admit của baseline** | Cài **đúng công thức đã công bố** của XRepoSkill (gain Mantel–Haenszel + z Sato, trên trajectory) **chỉ để so sánh quy tắc quyết định**, và vẫn chạy code gốc của họ cho bước học và chọn skill | E2 |
+
+### 5.3 Chuẩn bị E2: skill của bên thứ ba (03/11/2026)
+
+- Repo XRepoSkill tại commit `26fd70345698108c0fdce2d8904293a38b9cd42f` công bố `data/general_strategies_36.md`: **36 chiến lược** học từ trajectory SWE-bench Verified của 11 repo Python. Mỗi chiến lược có *Trigger* và *Action*.
+- Bước chọn skill (`src/xreposkill/retrieval.py`): 2 lần gọi LLM cho mỗi issue (phân tích, rồi chọn tối đa `top_n` rule); chỉ chèn tiêu đề và nội dung của rule được chọn lên đầu đề bài.
+- **Repo không có file LICENSE**, nên không phân phối lại nội dung skill. E2 tải nội dung tại đúng commit trên khi chạy và chỉ ghi lại mã commit vào kết quả.
+- **Tập đánh giá:** SWE-bench-Live (Python), loại 11 repo học skill (`data/verified_submissions.txt` cùng danh sách repo của SWE-bench Verified). Pool được chọn ngẫu nhiên và kiểm định như E1.
+- **Việc còn lại:** đọc `llm.py`, `config.py`; chạy bước chọn bằng Gemini Flash-Lite (cùng backbone với agent); đăng ký trước E2; chọn và kiểm định pool trên Actions.
