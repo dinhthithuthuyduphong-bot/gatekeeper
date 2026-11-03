@@ -23,7 +23,12 @@ def main() -> int:
         wanted[pool.get("dataset", DATASET)] |= set(pool["instances"])
     rows: dict[str, dict] = {}
     for ds in sorted(wanted, key=lambda d: d != DATASET):  # Verified first
-        for r in load_dataset(ds, split="test"):
+        split = "full" if "Live" in ds else "test"
+        try:
+            data = load_dataset(ds, split=split)
+        except Exception:  # noqa: BLE001
+            data = load_dataset(ds, split="test")
+        for r in data:
             if r["instance_id"] in wanted[ds] and r["instance_id"] not in rows:
                 rows[r["instance_id"]] = dict(r)
     ids = set().union(*wanted.values())
