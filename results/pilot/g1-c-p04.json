@@ -1,0 +1,149 @@
+{
+  "generated_utc": "2026-11-02T17:45:28+00:00",
+  "name": "g1-c-p04",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "django__django-13023",
+    "django__django-13112",
+    "django__django-13410",
+    "django__django-13449"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.3638,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.03927169375,
+      "tokens_in_per_run": 559909.0,
+      "tokens_out_per_run": 5519.25,
+      "cached_share": 0.8650963817334603,
+      "api_calls_per_run": 39.5,
+      "solve_rate": 0.75,
+      "solved": 3,
+      "scored": 4
+    },
+    "null-guard": {
+      "runs": 2,
+      "usd_per_run": 0.0404452125,
+      "tokens_in_per_run": 635679.0,
+      "tokens_out_per_run": 7105.5,
+      "cached_share": 0.9028511245455647,
+      "api_calls_per_run": 38.0,
+      "solve_rate": 1.0,
+      "solved": 2,
+      "scored": 2
+    },
+    "type-guard": {
+      "runs": 1,
+      "usd_per_run": 0.026860174999999997,
+      "tokens_in_per_run": 300683.0,
+      "tokens_out_per_run": 4247.0,
+      "cached_share": 0.8082498844297815,
+      "api_calls_per_run": 38.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "exception-handling": {
+      "runs": 2,
+      "usd_per_run": 0.036073499999999994,
+      "tokens_in_per_run": 448578.0,
+      "tokens_out_per_run": 5846.5,
+      "cached_share": 0.840589596458141,
+      "api_calls_per_run": 35.5,
+      "solve_rate": 1.0,
+      "solved": 2,
+      "scored": 2
+    },
+    "validation-error": {
+      "runs": 1,
+      "usd_per_run": 0.0268545,
+      "tokens_in_per_run": 316524.0,
+      "tokens_out_per_run": 4953.0,
+      "cached_share": 0.838356649100858,
+      "api_calls_per_run": 32.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "django__django-13410",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-13449",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 2,
+        "log_e": 0.0
+      }
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "django__django-13023",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 1,
+        "log_e": 0.0
+      }
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "django__django-13410",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-13449",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 2,
+        "log_e": 0.0
+      }
+    },
+    "validation-error": {
+      "pairs": [
+        {
+          "instance_id": "django__django-13112",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 1,
+        "log_e": 0.0
+      }
+    }
+  }
+}

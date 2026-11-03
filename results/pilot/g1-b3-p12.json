@@ -1,0 +1,129 @@
+{
+  "generated_utc": "2026-11-02T16:50:09+00:00",
+  "name": "g1-b3-p12",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "sympy__sympy-13852",
+    "sympy__sympy-14711",
+    "sympy__sympy-19495",
+    "sympy__sympy-24443"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.5191,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.04054720625000001,
+      "tokens_in_per_run": 602682.5,
+      "tokens_out_per_run": 6110.0,
+      "cached_share": 0.8796849916830172,
+      "api_calls_per_run": 47.25,
+      "solve_rate": 0.75,
+      "solved": 3,
+      "scored": 4
+    },
+    "control-none-seed1": {
+      "runs": 4,
+      "usd_per_run": 0.05177754375,
+      "tokens_in_per_run": 875477.25,
+      "tokens_out_per_run": 7564.0,
+      "cached_share": 0.9058564914165388,
+      "api_calls_per_run": 52.75,
+      "solve_rate": 0.5,
+      "solved": 2,
+      "scored": 4
+    },
+    "control-oracle-tests": {
+      "runs": 4,
+      "usd_per_run": 0.037443674999999996,
+      "tokens_in_per_run": 478821.0,
+      "tokens_out_per_run": 7660.5,
+      "cached_share": 0.8702145478164074,
+      "api_calls_per_run": 38.75,
+      "solve_rate": 1.0,
+      "solved": 4,
+      "scored": 4
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "control-none-seed1": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-13852",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-14711",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-19495",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-24443",
+          "loss_with": 1.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.25,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": 0.25,
+        "sigma_S2": 0.25,
+        "sigma_T2": 0.05555555555555556,
+        "unpaired_over_paired": 1.4444444444444444
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": 0.0
+      }
+    },
+    "control-oracle-tests": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-13852",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-14711",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-19495",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-24443",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": -0.16666666666666666,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": -0.16666666666666666,
+        "sigma_S2": 0.11111111111111112,
+        "sigma_T2": 0.0,
+        "unpaired_over_paired": 1.0
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": -0.0722926547371815
+      }
+    }
+  }
+}

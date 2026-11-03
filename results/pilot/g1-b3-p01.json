@@ -1,0 +1,129 @@
+{
+  "generated_utc": "2026-11-02T11:27:32+00:00",
+  "name": "g1-b3-p01",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "django__django-10973",
+    "django__django-11333",
+    "django__django-12209",
+    "django__django-16502"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.3874,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.02861795,
+      "tokens_in_per_run": 292034.0,
+      "tokens_out_per_run": 5401.75,
+      "cached_share": 0.7988898552908223,
+      "api_calls_per_run": 34.25,
+      "solve_rate": 0.75,
+      "solved": 3,
+      "scored": 4
+    },
+    "control-none-seed1": {
+      "runs": 4,
+      "usd_per_run": 0.0288699125,
+      "tokens_in_per_run": 301176.5,
+      "tokens_out_per_run": 5256.25,
+      "cached_share": 0.8014287303292256,
+      "api_calls_per_run": 29.25,
+      "solve_rate": 0.75,
+      "solved": 3,
+      "scored": 4
+    },
+    "control-oracle-tests": {
+      "runs": 4,
+      "usd_per_run": 0.03935084375,
+      "tokens_in_per_run": 531375.5,
+      "tokens_out_per_run": 6946.75,
+      "cached_share": 0.86913350352058,
+      "api_calls_per_run": 38.5,
+      "solve_rate": 0.5,
+      "solved": 2,
+      "scored": 4
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "control-none-seed1": {
+      "pairs": [
+        {
+          "instance_id": "django__django-10973",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-11333",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-12209",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-16502",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": 0.0,
+        "sigma_S2": 0.0,
+        "sigma_T2": 0.1111111111111111,
+        "unpaired_over_paired": Infinity
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": 0.0
+      }
+    },
+    "control-oracle-tests": {
+      "pairs": [
+        {
+          "instance_id": "django__django-10973",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-11333",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-12209",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-16502",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.16666666666666666,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": 0.16666666666666666,
+        "sigma_S2": 0.11111111111111112,
+        "sigma_T2": 0.07407407407407407,
+        "unpaired_over_paired": 2.333333333333333
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": 0.0
+      }
+    }
+  }
+}

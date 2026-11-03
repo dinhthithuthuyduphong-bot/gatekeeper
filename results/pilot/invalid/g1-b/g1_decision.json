@@ -1,0 +1,52 @@
+{
+  "effect": 0.1,
+  "skills": {},
+  "noise_control": {
+    "n": 37,
+    "mean": -0.10416625416625416,
+    "ci90": [
+      -0.19393459393459395,
+      -0.017079167079167075
+    ],
+    "ok": false
+  },
+  "positive_control": {
+    "n": 23,
+    "mean": -0.25452832191962627,
+    "ci90": [
+      -0.37282197271327705,
+      -0.1400966183574879
+    ],
+    "ok": true
+  },
+  "verdict": "STOP: noise control shows a non-zero effect (pairing or seeding is broken)",
+  "stage_b": "g1-b",
+  "stage_c": null,
+  "usage": {
+    "stage_b": {
+      "none": {
+        "runs": 37,
+        "usd": 1.3026148750000002,
+        "solved": 0,
+        "scored": 0,
+        "usd_per_run": 0.035205807432432436
+      },
+      "control-none-seed1": {
+        "runs": 38,
+        "usd": 1.3335292499999998,
+        "solved": 0,
+        "scored": 0,
+        "usd_per_run": 0.035092874999999996
+      },
+      "control-oracle-files": {
+        "runs": 38,
+        "usd": 1.31531465,
+        "solved": 0,
+        "scored": 0,
+        "usd_per_run": 0.03461354342105263
+      }
+    },
+    "stage_c": null
+  },
+  "spent_usd": 3.95
+}

@@ -1,0 +1,129 @@
+{
+  "generated_utc": "2026-11-02T14:33:43+00:00",
+  "name": "g1-b3-p07",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "pylint-dev__pylint-4970",
+    "pylint-dev__pylint-6386",
+    "pytest-dev__pytest-10081",
+    "pytest-dev__pytest-5809"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.5478,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.0515188375,
+      "tokens_in_per_run": 728528.5,
+      "tokens_out_per_run": 7217.25,
+      "cached_share": 0.8628605469792877,
+      "api_calls_per_run": 51.75,
+      "solve_rate": 0.25,
+      "solved": 1,
+      "scored": 4
+    },
+    "control-none-seed1": {
+      "runs": 4,
+      "usd_per_run": 0.0416404,
+      "tokens_in_per_run": 579118.75,
+      "tokens_out_per_run": 5502.25,
+      "cached_share": 0.854882526252172,
+      "api_calls_per_run": 42.0,
+      "solve_rate": 0.5,
+      "solved": 2,
+      "scored": 4
+    },
+    "control-oracle-tests": {
+      "runs": 4,
+      "usd_per_run": 0.043783843749999996,
+      "tokens_in_per_run": 692476.0,
+      "tokens_out_per_run": 5255.75,
+      "cached_share": 0.8806965873185497,
+      "api_calls_per_run": 49.25,
+      "solve_rate": 0.75,
+      "solved": 3,
+      "scored": 4
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "control-none-seed1": {
+      "pairs": [
+        {
+          "instance_id": "pylint-dev__pylint-4970",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-6386",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pytest-dev__pytest-10081",
+          "loss_with": 0.0,
+          "loss_without": 0.005291005291005291
+        },
+        {
+          "instance_id": "pytest-dev__pytest-5809",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": -0.0013227513227513227,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": -0.0013227513227513227,
+        "sigma_S2": 6.998684247361495e-06,
+        "sigma_T2": 0.14756025867136974,
+        "unpaired_over_paired": 42168.99999999999
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": 0.0
+      }
+    },
+    "control-oracle-tests": {
+      "pairs": [
+        {
+          "instance_id": "pylint-dev__pylint-4970",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-6386",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pytest-dev__pytest-10081",
+          "loss_with": 0.0,
+          "loss_without": 0.005291005291005291
+        },
+        {
+          "instance_id": "pytest-dev__pytest-5809",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": -0.16798941798941797,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": -0.16798941798941797,
+        "sigma_S2": 0.11053022031858008,
+        "sigma_T2": 0.07378012933568488,
+        "unpaired_over_paired": 2.3350218451212568
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": -0.0456174499716504
+      }
+    }
+  }
+}

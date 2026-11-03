@@ -1,0 +1,196 @@
+{
+  "generated_utc": "2026-11-03T10:09:39+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s41-p19",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "pallets__flask-4992",
+    "psf__requests-5087",
+    "pydata__xarray-3156",
+    "pydata__xarray-6721"
+  ],
+  "spent_usd": 1.2736,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.12872795625000005,
+      "tokens_in_per_run": 2659885.5,
+      "tokens_out_per_run": 9709.75,
+      "cached_share": 0.9203538084628079,
+      "api_calls_per_run": 150.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 4
+    },
+    "type-guard": {
+      "runs": 2,
+      "usd_per_run": 0.0665334,
+      "tokens_in_per_run": 1179754.5,
+      "tokens_out_per_run": 10303.0,
+      "cached_share": 0.9186835057632753,
+      "api_calls_per_run": 73.0,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    },
+    "exception-handling": {
+      "runs": 2,
+      "usd_per_run": 0.086684875,
+      "tokens_in_per_run": 1566458.5,
+      "tokens_out_per_run": 12035.5,
+      "cached_share": 0.9163855920855867,
+      "api_calls_per_run": 89.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "harm-swallow-exceptions": {
+      "runs": 2,
+      "usd_per_run": 0.13834443749999997,
+      "tokens_in_per_run": 3307591.5,
+      "tokens_out_per_run": 7708.5,
+      "cached_share": 0.9407532641198286,
+      "api_calls_per_run": 161.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "harm-minimal-edit": {
+      "runs": 2,
+      "usd_per_run": 0.052877700000000014,
+      "tokens_in_per_run": 740169.0,
+      "tokens_out_per_run": 7090.5,
+      "cached_share": 0.8574636333053668,
+      "api_calls_per_run": 62.0,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    },
+    "harm-skip-verification": {
+      "runs": 2,
+      "usd_per_run": 0.03492195,
+      "tokens_in_per_run": 499750.5,
+      "tokens_out_per_run": 4724.0,
+      "cached_share": 0.8635569149005353,
+      "api_calls_per_run": 47.5,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "exit_status": {
+    "none": {
+      "pallets__flask-4992": "Submitted",
+      "psf__requests-5087": "Submitted",
+      "pydata__xarray-3156": "LimitsExceeded",
+      "pydata__xarray-6721": "LimitsExceeded"
+    },
+    "type-guard": {
+      "pallets__flask-4992": "Submitted",
+      "pydata__xarray-6721": "Submitted"
+    },
+    "exception-handling": {
+      "psf__requests-5087": "Submitted",
+      "pydata__xarray-3156": "Submitted"
+    },
+    "harm-swallow-exceptions": {
+      "pydata__xarray-3156": "Submitted",
+      "pydata__xarray-6721": "LimitsExceeded"
+    },
+    "harm-minimal-edit": {
+      "pydata__xarray-3156": "Submitted",
+      "pydata__xarray-6721": "Submitted"
+    },
+    "harm-skip-verification": {
+      "pydata__xarray-3156": "Submitted",
+      "pydata__xarray-6721": "Submitted"
+    }
+  },
+  "skills": {
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "pallets__flask-4992",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-6721",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.3333333333333333,
+      "variance_components": null
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "psf__requests-5087",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-3156",
+          "loss_with": 0.8518518518518517,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.09259259259259256,
+      "variance_components": null
+    },
+    "harm-swallow-exceptions": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-3156",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-6721",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-minimal-edit": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-3156",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-6721",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.3333333333333333,
+      "variance_components": null
+    },
+    "harm-skip-verification": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-3156",
+          "loss_with": 0.8148148148148149,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-6721",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.07407407407407413,
+      "variance_components": null
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "generated_utc": "2026-11-03T04:42:10+00:00",
+  "name": "g1-e1-s41-p02",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "astropy__astropy-14566",
+    "astropy__astropy-14995",
+    "astropy__astropy-8005"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.581,
+  "usage": {
+    "none": {
+      "runs": 3,
+      "usd_per_run": 0.1613709333333333,
+      "tokens_in_per_run": 4063197.3333333335,
+      "tokens_out_per_run": 11385.666666666666,
+      "cached_share": 0.953279814451542,
+      "api_calls_per_run": 126.66666666666667,
+      "solve_rate": 0.3333333333333333,
+      "solved": 1,
+      "scored": 3
+    },
+    "null-guard": {
+      "runs": 1,
+      "usd_per_run": 0.01287255,
+      "tokens_in_per_run": 152184.0,
+      "tokens_out_per_run": 1938.0,
+      "cached_share": 0.8200730694422541,
+      "api_calls_per_run": 19.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "type-guard": {
+      "runs": 2,
+      "usd_per_run": 0.04198883750000001,
+      "tokens_in_per_run": 707892.5,
+      "tokens_out_per_run": 6056.0,
+      "cached_share": 0.9045208135416041,
+      "api_calls_per_run": 45.0,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "astropy__astropy-8005",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.6666666666666666,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 1,
+        "log_e": 0.0
+      }
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "astropy__astropy-14566",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6680161943319839
+        },
+        {
+          "instance_id": "astropy__astropy-14995",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": -0.0006747638326586314,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 2,
+        "log_e": 0.0
+      }
+    }
+  },
+  "exit_status": {
+    "none": {
+      "astropy__astropy-14566": "Submitted",
+      "astropy__astropy-14995": "Submitted",
+      "astropy__astropy-8005": "LimitsExceeded"
+    },
+    "null-guard": {
+      "astropy__astropy-8005": "Submitted"
+    },
+    "type-guard": {
+      "astropy__astropy-14566": "Submitted",
+      "astropy__astropy-14995": "Submitted"
+    }
+  },
+  "exit_status_backfilled_from": "runs/g1-e1-s41-p02/*/agent/*/*.traj.json"
+}

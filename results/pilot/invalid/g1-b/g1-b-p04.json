@@ -1,0 +1,117 @@
+{
+  "generated_utc": "2026-11-02T06:04:13+00:00",
+  "name": "g1-b-p04",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "pydata__xarray-4075",
+    "pydata__xarray-6461",
+    "pydata__xarray-6992",
+    "pydata__xarray-7233"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.3381,
+  "usage": {
+    "none": {
+      "runs": 3,
+      "usd_per_run": 0.019996383333333336,
+      "tokens_in_per_run": 242631.33333333334,
+      "tokens_out_per_run": 2478.6666666666665,
+      "cached_share": 0.8129288055678436,
+      "api_calls_per_run": 29.333333333333332,
+      "solve_rate": 0.6666666666666666
+    },
+    "control-none-seed1": {
+      "runs": 4,
+      "usd_per_run": 0.033825775,
+      "tokens_in_per_run": 373993.0,
+      "tokens_out_per_run": 6204.75,
+      "cached_share": 0.8197372678098254,
+      "api_calls_per_run": 38.75,
+      "solve_rate": 0.5
+    },
+    "control-oracle-files": {
+      "runs": 4,
+      "usd_per_run": 0.03569270000000001,
+      "tokens_in_per_run": 355954.25,
+      "tokens_out_per_run": 6213.0,
+      "cached_share": 0.7818153596986129,
+      "api_calls_per_run": 40.75,
+      "solve_rate": 0.5
+    }
+  },
+  "infra_failures": {
+    "none": {
+      "pydata__xarray-6461": null
+    }
+  },
+  "skills": {
+    "control-none-seed1": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-4075",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "pydata__xarray-6992",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-7233",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": {
+        "n": 3,
+        "n_tasks": 3,
+        "mean_Z": 0.0,
+        "sigma_S2": 0.0,
+        "sigma_T2": 0.14814814814814814,
+        "unpaired_over_paired": Infinity
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 3,
+        "log_e": 0.0
+      }
+    },
+    "control-oracle-files": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-4075",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "pydata__xarray-6992",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-7233",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": {
+        "n": 3,
+        "n_tasks": 3,
+        "mean_Z": 0.0,
+        "sigma_S2": 0.0,
+        "sigma_T2": 0.14814814814814814,
+        "unpaired_over_paired": Infinity
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 3,
+        "log_e": 0.0
+      }
+    }
+  }
+}

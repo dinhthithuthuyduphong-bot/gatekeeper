@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T01:38:52+00:00",
+  "name": "g1-c-s31-p08",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "sympy__sympy-13877",
+    "sympy__sympy-15809"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.0918,
+  "usage": {
+    "none": {
+      "runs": 2,
+      "usd_per_run": 0.019482,
+      "tokens_in_per_run": 200506.5,
+      "tokens_out_per_run": 2674.0,
+      "cached_share": 0.7681795852004798,
+      "api_calls_per_run": 27.5,
+      "solve_rate": 1.0,
+      "solved": 2,
+      "scored": 2
+    },
+    "validation-error": {
+      "runs": 2,
+      "usd_per_run": 0.02639395,
+      "tokens_in_per_run": 349012.0,
+      "tokens_out_per_run": 2924.0,
+      "cached_share": 0.8308539534457268,
+      "api_calls_per_run": 38.0,
+      "solve_rate": 1.0,
+      "solved": 2,
+      "scored": 2
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "validation-error": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-13877",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-15809",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 2,
+        "log_e": 0.0
+      }
+    }
+  }
+}

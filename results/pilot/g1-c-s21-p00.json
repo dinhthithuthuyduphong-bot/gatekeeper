@@ -1,0 +1,80 @@
+{
+  "generated_utc": "2026-11-02T23:25:41+00:00",
+  "name": "g1-c-s21-p00",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "astropy__astropy-13977",
+    "astropy__astropy-14365",
+    "django__django-11087",
+    "django__django-11734"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.595,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.07568860625000001,
+      "tokens_in_per_run": 1411739.75,
+      "tokens_out_per_run": 9106.25,
+      "cached_share": 0.915830449627844,
+      "api_calls_per_run": 87.25,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 4
+    },
+    "validation-error": {
+      "runs": 4,
+      "usd_per_run": 0.07307072499999998,
+      "tokens_in_per_run": 1255082.5,
+      "tokens_out_per_run": 8216.5,
+      "cached_share": 0.8960000637408297,
+      "api_calls_per_run": 82.25,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 4
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "validation-error": {
+      "pairs": [
+        {
+          "instance_id": "astropy__astropy-13977",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "astropy__astropy-14365",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-11087",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-11734",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": 0.0,
+        "sigma_S2": 0.0,
+        "sigma_T2": 0.0,
+        "unpaired_over_paired": Infinity
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": 0.0
+      }
+    }
+  }
+}

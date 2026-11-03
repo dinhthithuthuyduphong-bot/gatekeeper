@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T01:29:59+00:00",
+  "name": "g1-c-s31-p06",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "pytest-dev__pytest-5787",
+    "scikit-learn__scikit-learn-13135"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.1173,
+  "usage": {
+    "none": {
+      "runs": 2,
+      "usd_per_run": 0.028894799999999995,
+      "tokens_in_per_run": 333154.5,
+      "tokens_out_per_run": 4693.0,
+      "cached_share": 0.8195506889446188,
+      "api_calls_per_run": 34.0,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    },
+    "validation-error": {
+      "runs": 2,
+      "usd_per_run": 0.0297305875,
+      "tokens_in_per_run": 372854.5,
+      "tokens_out_per_run": 4849.0,
+      "cached_share": 0.8434214955163475,
+      "api_calls_per_run": 34.5,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "validation-error": {
+      "pairs": [
+        {
+          "instance_id": "pytest-dev__pytest-5787",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6747967479674797
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13135",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": -0.004065040650406526,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 2,
+        "log_e": 0.0
+      }
+    }
+  }
+}

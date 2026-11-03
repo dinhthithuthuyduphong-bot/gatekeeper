@@ -1,0 +1,69 @@
+{
+  "generated_utc": "2026-11-03T13:15:41+00:00",
+  "format_version": 2,
+  "name": "e2dry-s51-k0-p00",
+  "model": "deterministic",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "conan-io__conan-18655",
+    "conan-io__conan-15705"
+  ],
+  "spent_usd": 0.0,
+  "usage": {
+    "none": {
+      "runs": 2,
+      "usd_per_run": 0.0,
+      "tokens_in_per_run": 0.0,
+      "tokens_out_per_run": 0.0,
+      "cached_share": null,
+      "api_calls_per_run": 1.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "oracle-gold": {
+      "runs": 2,
+      "usd_per_run": 0.0,
+      "tokens_in_per_run": 0.0,
+      "tokens_out_per_run": 0.0,
+      "cached_share": null,
+      "api_calls_per_run": 1.0,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "conan-io__conan-18655": "Submitted",
+      "conan-io__conan-15705": "Submitted"
+    },
+    "oracle-gold": {
+      "conan-io__conan-18655": "Submitted",
+      "conan-io__conan-15705": "Submitted"
+    }
+  },
+  "skills": {
+    "oracle-gold": {
+      "pairs": [
+        {
+          "instance_id": "conan-io__conan-15705",
+          "loss_with": 0.00045662100456621003,
+          "loss_without": 0.6671232876712329
+        },
+        {
+          "instance_id": "conan-io__conan-18655",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.6666666666666666,
+      "variance_components": null
+    }
+  }
+}

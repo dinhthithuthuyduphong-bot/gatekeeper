@@ -1,0 +1,93 @@
+{
+  "generated_utc": "2026-11-02T09:11:21+00:00",
+  "name": "g1-b2-p05",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "pydata__xarray-6992",
+    "pydata__xarray-7233"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.1837,
+  "usage": {
+    "none": {
+      "runs": 2,
+      "usd_per_run": 0.030640487500000008,
+      "tokens_in_per_run": 339845.5,
+      "tokens_out_per_run": 5069.0,
+      "cached_share": 0.8098371171605921,
+      "api_calls_per_run": 40.5,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    },
+    "control-none-seed1": {
+      "runs": 2,
+      "usd_per_run": 0.034725675,
+      "tokens_in_per_run": 358558.5,
+      "tokens_out_per_run": 7015.5,
+      "cached_share": 0.8111145043277457,
+      "api_calls_per_run": 37.5,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    },
+    "control-oracle-files": {
+      "runs": 2,
+      "usd_per_run": 0.026467374999999998,
+      "tokens_in_per_run": 269714.5,
+      "tokens_out_per_run": 4864.5,
+      "cached_share": 0.7952112326181944,
+      "api_calls_per_run": 35.0,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "control-none-seed1": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-6992",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-7233",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 2,
+        "log_e": 0.0
+      }
+    },
+    "control-oracle-files": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-6992",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-7233",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 2,
+        "log_e": 0.0
+      }
+    }
+  }
+}

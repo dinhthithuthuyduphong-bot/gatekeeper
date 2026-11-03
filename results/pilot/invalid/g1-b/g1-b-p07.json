@@ -1,0 +1,123 @@
+{
+  "generated_utc": "2026-11-02T06:30:34+00:00",
+  "name": "g1-b-p07",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "scikit-learn__scikit-learn-14496",
+    "sphinx-doc__sphinx-10673",
+    "sphinx-doc__sphinx-7985",
+    "sphinx-doc__sphinx-8593"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.4695,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.04344885,
+      "tokens_in_per_run": 701652.75,
+      "tokens_out_per_run": 5395.25,
+      "cached_share": 0.8871575006297631,
+      "api_calls_per_run": 50.75,
+      "solve_rate": 0.5
+    },
+    "control-none-seed1": {
+      "runs": 4,
+      "usd_per_run": 0.0388558,
+      "tokens_in_per_run": 603457.0,
+      "tokens_out_per_run": 5398.0,
+      "cached_share": 0.8845733830248054,
+      "api_calls_per_run": 44.5,
+      "solve_rate": 0.25
+    },
+    "control-oracle-files": {
+      "runs": 4,
+      "usd_per_run": 0.03508185,
+      "tokens_in_per_run": 498287.25,
+      "tokens_out_per_run": 3812.75,
+      "cached_share": 0.8492119756224948,
+      "api_calls_per_run": 47.0,
+      "solve_rate": 0.5
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "control-none-seed1": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-14496",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-10673",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-7985",
+          "loss_with": 0.7777777777777778,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8593",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.19444444444444445,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": 0.19444444444444445,
+        "sigma_S2": 0.10185185185185185,
+        "sigma_T2": 0.08641975308641975,
+        "unpaired_over_paired": 2.6969696969696972
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": 0.0
+      }
+    },
+    "control-oracle-files": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-14496",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-10673",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-7985",
+          "loss_with": 0.7777777777777778,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8593",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.02777777777777779,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": 0.02777777777777779,
+        "sigma_S2": 0.0030864197530864226,
+        "sigma_T2": 0.16049382716049382,
+        "unpaired_over_paired": 104.9999999999999
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": 0.0
+      }
+    }
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "generated_utc": "2026-11-02T08:49:21+00:00",
+  "name": "g1-b2-p04",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "psf__requests-5414",
+    "pydata__xarray-2905",
+    "pydata__xarray-4075",
+    "pydata__xarray-6461"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.3968,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.037628825000000005,
+      "tokens_in_per_run": 449919.5,
+      "tokens_out_per_run": 6087.25,
+      "cached_share": 0.8295995172469742,
+      "api_calls_per_run": 48.75,
+      "solve_rate": 0.5,
+      "solved": 2,
+      "scored": 4
+    },
+    "control-none-seed1": {
+      "runs": 4,
+      "usd_per_run": 0.0318655375,
+      "tokens_in_per_run": 390385.75,
+      "tokens_out_per_run": 4457.5,
+      "cached_share": 0.8244511998708969,
+      "api_calls_per_run": 46.0,
+      "solve_rate": 0.5,
+      "solved": 2,
+      "scored": 4
+    },
+    "control-oracle-files": {
+      "runs": 4,
+      "usd_per_run": 0.029698106250000005,
+      "tokens_in_per_run": 331432.5,
+      "tokens_out_per_run": 4357.5,
+      "cached_share": 0.8005151878587646,
+      "api_calls_per_run": 41.5,
+      "solve_rate": 0.5,
+      "solved": 2,
+      "scored": 4
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "control-none-seed1": {
+      "pairs": [
+        {
+          "instance_id": "psf__requests-5414",
+          "loss_with": 0.010256410256410256,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-2905",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "pydata__xarray-4075",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "pydata__xarray-6461",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.1641025641025641,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": -0.1641025641025641,
+        "sigma_S2": 0.40401490247644095,
+        "sigma_T2": 0.0,
+        "unpaired_over_paired": 1.0
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": -0.4174412991548801
+      }
+    },
+    "control-oracle-files": {
+      "pairs": [
+        {
+          "instance_id": "psf__requests-5414",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-2905",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "pydata__xarray-4075",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "pydata__xarray-6461",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": 0.0,
+        "sigma_S2": 0.0,
+        "sigma_T2": 0.14814814814814814,
+        "unpaired_over_paired": Infinity
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": 0.0
+      }
+    }
+  }
+}
