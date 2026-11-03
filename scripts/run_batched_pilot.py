@@ -87,6 +87,8 @@ def merge(name: str, parts: list[Path]) -> dict:
         "usage": {},
         "infra_failures": {},
         "exit_status": {},
+        "patch_apply_failed": {},
+        "harness_test_timeout": {},
         "spent_usd": 0.0,
         "instances": [],
     }
@@ -108,6 +110,11 @@ def merge(name: str, parts: list[Path]) -> dict:
             out["infra_failures"].setdefault(arm, {}).update(v)
         for arm, v in (d.get("exit_status") or {}).items():  # a re-run replaces older statuses
             out["exit_status"].setdefault(arm, {}).update(v)
+        for key in ("patch_apply_failed", "harness_test_timeout"):  # agent outcomes (A37, A56)
+            for arm in out[key]:  # a re-run task's old outcome goes, in EVERY arm
+                out[key][arm] = [i for i in out[key][arm] if i not in rerun]
+            for arm, ids in (d.get(key) or {}).items():
+                out[key].setdefault(arm, []).extend(i for i in ids if i not in out[key][arm])
         for arm, u in (d.get("usage") or {}).items():
             agg = out["usage"].setdefault(arm, {"runs": 0, "usd": 0.0, "solved": 0, "scored": 0})
             n = u.get("runs") or 0

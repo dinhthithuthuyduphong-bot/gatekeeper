@@ -30,7 +30,14 @@ from pathlib import Path
 import yaml
 
 from gatekeeper.analysis import variance_components
-from gatekeeper.harness import DATASET, loss_of, patch_apply_failed, read_report, run_harness
+from gatekeeper.harness import (
+    DATASET,
+    eval_timed_out,
+    loss_of,
+    patch_apply_failed,
+    read_report,
+    run_harness,
+)
 from gatekeeper.patches import drop_files, touched_files
 from gatekeeper.pilot import (
     arm_config,
@@ -152,6 +159,8 @@ def is_infra_failure(status: str | None) -> bool:
 HARNESS_INFRA = {"_harness_infra": True}
 # a report-less patch the harness could not apply (no tests_status: loss_of gives F = 1, R = 0)
 PATCH_NOT_APPLIED = {"resolved": False, "patch_successfully_applied": False, "_apply_failed": True}
+# the harness stopped the tests at its time limit: an error, i.e. not resolved, in SWE-bench (A56)
+TEST_TIMED_OUT = {"resolved": False, "_test_timeout": True}
 
 
 def score_arm(
@@ -181,6 +190,14 @@ def score_arm(
     except SystemExit as exc:
         print(f"harness error in {run_id}: {exc}", flush=True)
     reports = {i: read_report(run_id, "", i) for i in ids}
+    # the agent's own outcomes, decided by the harness itself: never re-scored (same patch, same
+    # result; a timed-out suite would cost another 30 minutes) - audits A37, A56
+    for i in ids:
+        if reports[i] is None and patch[i]:
+            if patch_apply_failed(run_id, i):
+                reports[i] = dict(PATCH_NOT_APPLIED)
+            elif eval_timed_out(run_id, i):
+                reports[i] = dict(TEST_TIMED_OUT)
     for k in range(1, retries + 1):
         todo = [i for i in ids if reports[i] is None and patch[i]]
         if not todo:
@@ -201,6 +218,8 @@ def score_arm(
             if any(patch_apply_failed(r, i) for r in rids):
                 # the agent's patch does not apply: its own output, "not resolved" (A37)
                 reports[i] = dict(PATCH_NOT_APPLIED)
+            elif any(eval_timed_out(r, i) for r in rids):
+                reports[i] = dict(TEST_TIMED_OUT)  # A56
             else:
                 reports[i] = HARNESS_INFRA
     return reports
@@ -405,6 +424,12 @@ def main() -> int:
     ap.add_argument("--harness-namespace", default=None, help="SWE-bench-Live: starryzhang")
     ap.add_argument("--workers", type=int, default=2)
     ap.add_argument(
+        "--score-parallel",
+        type=int,
+        default=1,
+        help="arms scored by the harness at the same time (CPU-bound; 1 = no contention, A56)",
+    )
+    ap.add_argument(
         "--arm-parallel",
         type=int,
         default=1,
@@ -460,6 +485,7 @@ def main() -> int:
     infra: dict[str, dict[str, str | None]] = {}
     mismatch: dict[str, list[str]] = {}
     apply_failed: dict[str, list[str]] = {}
+    test_timeout: dict[str, list[str]] = {}
     exit_status: dict[str, dict[str, str | None]] = {}  # intercurrent events (ICH E9(R1))
     spent = 0.0
     if model is not None or a.prepull:
@@ -473,6 +499,10 @@ def main() -> int:
             print(f"error: {len(missing)} images could not be pulled (registry limit?)", flush=True)
             return EX_TEMPFAIL
 
+    import threading
+
+    score_gate = threading.Semaphore(max(1, a.score_parallel))
+
     def agent_and_score(arm: str, skill: Skill | None) -> tuple[Path, dict]:
         """Stage 1 of an arm (agent runs, then harness scoring). Arms share nothing here: own
         directory, own harness run id, own containers, own price file; so they may run in
@@ -481,15 +511,16 @@ def main() -> int:
         agent_dir = run_arm(arm, skill, rows_arm, a, out_dir, model)
         ids_arm = [r["instance_id"] for r in rows_arm]
         tfiles = {r["instance_id"]: touched_files(r.get("test_patch") or "") for r in rows_arm}
-        reports = score_arm(
-            agent_dir,
-            ids_arm,
-            scoring_run_id(a.name, arm),
-            a.workers,
-            harness_dataset,
-            test_files=tfiles,
-            harness_kw={"namespace": a.harness_namespace, "python": a.harness_python},
-        )
+        with score_gate:  # scoring is CPU-bound: at most --score-parallel arms at once (A56)
+            reports = score_arm(
+                agent_dir,
+                ids_arm,
+                scoring_run_id(a.name, arm),
+                a.workers,
+                harness_dataset,
+                test_files=tfiles,
+                harness_kw={"namespace": a.harness_namespace, "python": a.harness_python},
+            )
         return agent_dir, reports
 
     if a.arm_parallel > 1:
@@ -516,6 +547,8 @@ def main() -> int:
             else:
                 if (reports[iid] or {}).get("_apply_failed"):
                     apply_failed.setdefault(arm, []).append(iid)
+                if (reports[iid] or {}).get("_test_timeout"):
+                    test_timeout.setdefault(arm, []).append(iid)  # sensitivity: drop these pairs
                 losses[arm][iid], info = loss_of(reports[iid])
                 # the endpoint is the harness's own "resolved" (get_resolution_status); loss 0
                 # must agree with it, otherwise the analysis would score a different endpoint
@@ -546,6 +579,7 @@ def main() -> int:
         "model_seed": a.model_seed,
         "endpoint_mismatch": mismatch,
         "patch_apply_failed": apply_failed,
+        "harness_test_timeout": test_timeout,
         "exit_status": exit_status,
         "skills": {},
     }

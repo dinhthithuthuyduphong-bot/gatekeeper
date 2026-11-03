@@ -152,3 +152,18 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Lỗi bắt được khi đối chiếu số lượng:** 932 so với 1.040 trajectory, do lô bị loại và lô bị dừng không được lưu. Đã sửa, nay 1.052/1.052 (trừ lô đang chạy). Lô đang chạy được nhận biết bằng tiến trình đang chạy, không bằng ngưỡng thời gian tự đặt.
 - **Tự động:** các script chạy gọi bước lưu trữ sau mỗi giai đoạn (cài bằng đổi tên nguyên tử, không ảnh hưởng tiến trình đang chạy); hook khởi động phiên báo số lô chưa lưu.
 - **Kiểm thử:** `verify_archive.py`: 119 lô, 0 chỗ lệch.
+
+## 03/11/2026, R-17: giảm thời gian chạy mà không làm yếu kết quả (yêu cầu của @thuthuy)
+
+- **Đo trước:** khoảng 29% thời gian là xóa và tải image; tải CPU 15,6 trên 4 lõi khi chạy 3 nhánh; bộ test nặng quá giờ khi chấm song song.
+- **Ba thay đổi, đều không đổi thiết kế hay ước lượng:**
+  - giữ image qua các seed (A54);
+  - chấm tuần tự giữa các nhánh (A56);
+  - quá giờ khi chấm tính là không resolved, không chấm lại (A56, quy ước của SWE-bench).
+- **Review bắt được trước khi chạy:**
+  - kiểm dung lượng đĩa sai khi giữ image;
+  - giữ image xóa luôn image của tiến trình khác (nên chỉ dùng khi một tiến trình dùng Docker một mình);
+  - bước gộp không mang theo danh sách quá giờ và bản vá hỏng;
+  - test bắt được lỗi khi gộp lô chạy lại.
+- **Chưa làm** (chờ E1 nghỉ giữa hai lần khởi động, vì giữ image cần dùng Docker một mình): chạy thử miễn phí chế độ giữ image với 2 seed xen kẽ.
+- **Phần 2 (E2 trên Actions):** đã có dựng lại file hướng dẫn (trùng SHA-256) và thay khối rule kèm bước dò (đã thử). Workflow chưa viết xong; cần @thuthuy thêm 3 secret.

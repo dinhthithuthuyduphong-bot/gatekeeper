@@ -232,6 +232,16 @@ def _truncated(run: dict, arm: str, task: str, pair: dict | None = None) -> bool
     return None if task not in st else st[task] in TRUNCATED
 
 
+def _timed_out(run: dict, arm: str, pair: dict) -> bool:
+    """Harness stopped the tests at its limit in either arm of the pair (scored 'not resolved' in
+    the primary analysis, as SWE-bench does; dropped in the hypothetical sensitivity, A56)."""
+    if run.get("pair_level_exit_status"):
+        return bool(pair.get("timeout_with") or pair.get("timeout_without"))
+    tt = run.get("harness_test_timeout") or {}
+    t = pair["instance_id"]
+    return t in tt.get(arm, []) or t in tt.get("none", [])
+
+
 def intercurrent(confirm: list[dict], skills: list[str]) -> dict:
     """ICH E9(R1) intercurrent event "truncated" (preregistration_e1.md section 3), REPORTED ONLY:
     truncation rate per arm, and the hypothetical-strategy estimate that drops every seed-pair
@@ -266,6 +276,7 @@ def intercurrent(confirm: list[dict], skills: list[str]) -> dict:
                 for p in r.get("skills", {}).get(s, {}).get("pairs", [])
                 if _truncated(r, s, p["instance_id"], p) is False
                 and _truncated(r, "none", p["instance_id"], p) is False
+                and not _timed_out(r, s, p)
             ]
             for t, z in z_resolved(pairs).items():
                 acc[t].append(z)

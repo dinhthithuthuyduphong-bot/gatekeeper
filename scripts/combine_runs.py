@@ -32,6 +32,9 @@ def combine(runs: list[dict]) -> dict:
                 q["status_with"] = (st.get(sk) or {}).get(p["instance_id"])
                 q["status_without"] = (st.get("none") or {}).get(p["instance_id"])
                 q["stage"] = r.get("name")
+                tt = r.get("harness_test_timeout") or {}
+                q["timeout_with"] = p["instance_id"] in tt.get(sk, [])
+                q["timeout_without"] = p["instance_id"] in tt.get("none", [])
                 dst["pairs"].append(q)
         out["instances"] += [i for i in r.get("instances", []) if i not in out["instances"]]
     out["pair_level_exit_status"] = True

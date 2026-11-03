@@ -117,3 +117,8 @@ Z_ik = R(none) − R(xreposkill) ∈ {−1, 0, 1}; Z̄_i là trung bình qua 3 s
   - Cần thêm 42 task dùng được.
   - Với tỉ lệ dùng được 79/120, phân phối Binomial(80; 0,66) cho số task dùng được ≥ 42 với xác suất ≈ 0,996.
   - Chỉ 121 task dùng được và được kích hoạt đầu tiên theo thứ tự ngẫu nhiên được dùng.
+
+**Ghi chú thực thi 6** (03/11/2026, trước khi phân tích; A54, A56):
+- **Thứ tự chạy:** các seed **xen kẽ** trên cùng nhóm 4 task, để dùng lại image. Mỗi cặp (skill, không skill) vẫn chạy trong cùng một lô của cùng một seed. Ước lượng và kiểm định không đổi.
+- **Khâu chấm:** tuần tự giữa các nhánh (`--score-parallel 1`), để tránh tranh CPU ở khâu nặng CPU nhất.
+- **Quá giờ khi chấm** (harness dừng test ở 1.800 s) được tính là **không resolved**, như quy ước chính thức của SWE-bench (giống bản vá không áp được, A37). Phân tích độ nhạy *hypothetical* bỏ thêm các cặp có quá giờ (`harness_test_timeout`).

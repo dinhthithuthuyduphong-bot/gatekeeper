@@ -12,9 +12,11 @@ from gatekeeper.loss import functional_loss
 
 __all__ = [
     "APPLY_PATCH_FAIL",
+    "TEST_TIMEOUT",
     "DATASET",
     "NOOP_PATCH",
     "loss_of",
+    "eval_timed_out",
     "patch_apply_failed",
     "read_report",
     "run_harness",
@@ -97,6 +99,20 @@ def patch_apply_failed(run_id: str, iid: str, root: str | Path = "logs/run_evalu
     instances in error_ids, never in resolved_ids) - not an infrastructure failure (audit A37)."""
     for log in sorted((Path(root) / run_id).glob(f"*/{iid}/run_instance.log")):
         if APPLY_PATCH_FAIL in log.read_text(errors="replace"):
+            return True
+    return False
+
+
+TEST_TIMEOUT = "Test timed out after"  # swebench run_instance: EvaluationError on its --timeout
+
+
+def eval_timed_out(run_id: str, iid: str, root: str | Path = "logs/run_evaluation") -> bool:
+    """True if the harness stopped the tests at its time limit. SWE-bench counts such instances as
+    errors, i.e. not resolved (reporting.make_run_report: error_ids, never resolved_ids), the same
+    as a patch that does not apply (audit A56). Scoring is serialised across arms
+    (run_pilot --score-parallel 1) so CPU contention does not push slow suites over the limit."""
+    for log in sorted((Path(root) / run_id).glob(f"*/{iid}/run_instance.log")):
+        if TEST_TIMEOUT in log.read_text(errors="replace"):
             return True
     return False
 

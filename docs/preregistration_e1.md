@@ -139,3 +139,8 @@ Mã: `scripts/rq1_mini.py`; test: `tests/test_rq1_mini.py`.
 - @thuthuy duyệt nâng ngân sách E1 lên **91 USD**. Trần cộng dồn trong driver = 31,26 + 91 = **122,26 USD**.
 - **Lý do:** chi phí đo được là 0,0706 USD mỗi lần chạy (277 lần chạy, khoảng 1,42M token input mỗi lần), cao hơn mức 0,0617 USD dùng để ước tính. Phần còn lại (khoảng 1.000 lần chạy) cần khoảng 71 USD.
 - **Thiết kế không đổi.** Nếu chi phí thực tế vượt ước tính và chạm trần, driver dừng, và tôi hỏi lại trước khi chạy tiếp.
+
+**Ghi chú thực thi 7** (03/11/2026, trước khi phân tích; A54, A56):
+- **Thứ tự chạy:** các seed **xen kẽ** trên cùng nhóm 4 task, để dùng lại image. Mỗi cặp (skill, không skill) vẫn chạy trong cùng một lô của cùng một seed. Ước lượng và kiểm định không đổi.
+- **Khâu chấm:** tuần tự giữa các nhánh (`--score-parallel 1`), để tránh tranh CPU ở khâu nặng CPU nhất.
+- **Quá giờ khi chấm** (harness dừng test ở 1.800 s) được tính là **không resolved**, như quy ước chính thức của SWE-bench (giống bản vá không áp được, A37). Phân tích độ nhạy *hypothetical* bỏ thêm các cặp có quá giờ (`harness_test_timeout`).

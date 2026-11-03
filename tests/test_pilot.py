@@ -454,3 +454,37 @@ def test_dry_run_records_preexisting_untracked_files_only():
     real = arm_config(None, "vertex_ai/x", {"seed": 1})
     assert dry["run"]["env_startup_command"].startswith(PREEXISTING_COMMAND)
     assert PREEXISTING_COMMAND not in real["run"]["env_startup_command"]  # real agents unchanged
+
+
+def test_score_arm_classifies_timeouts_and_apply_failures_without_rescoring(tmp_path, monkeypatch):
+    import json as _json
+    import sys as _sys
+    from pathlib import Path as _P
+
+    _sys.path.insert(0, str(_P(__file__).parents[1] / "scripts"))
+    import run_pilot as rp
+
+    monkeypatch.chdir(tmp_path)
+    agent = tmp_path / "agent"
+    agent.mkdir()
+    ids = ["o__r-1", "o__r-2", "o__r-3"]
+    (agent / "preds.json").write_text(_json.dumps({i: {"model_patch": "diff x"} for i in ids}))
+    calls = []
+
+    def fake_harness(preds, todo, run_id, workers, dataset, **kw):
+        calls.append((run_id, list(todo)))
+        for i, msg in (
+            ("o__r-1", "Test timed out after 1800 seconds"),
+            ("o__r-2", ">>>>> Patch Apply Failed"),
+        ):
+            if i in todo:
+                d = tmp_path / "logs/run_evaluation" / run_id / "m" / i
+                d.mkdir(parents=True)
+                (d / "run_instance.log").write_text(f"INFO - {msg}\n")
+
+    monkeypatch.setattr(rp, "run_harness", fake_harness)
+    monkeypatch.setattr(rp, "read_report", lambda run_id, model, iid: None)
+    rep = rp.score_arm(agent, ids, "rid", 1, "ds", retries=1)
+    assert rep["o__r-1"].get("_test_timeout") and rep["o__r-2"].get("_apply_failed")
+    assert rep["o__r-3"] == rp.HARNESS_INFRA
+    assert calls == [("rid", ids), ("rid-r1", ["o__r-3"])]  # only the unexplained one re-scored

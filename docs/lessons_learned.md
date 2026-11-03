@@ -191,3 +191,14 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Phòng ngừa:**
   - Mọi tham số dừng lấy từ số đo: trung vị và lô dài nhất.
   - Lô nào bị cắt thì: ghi chi phí từ trajectory, đổi tên trước khi chạy lại, lưu trữ với trạng thái `aborted`.
+
+## L20. Suy luận của chính tôi phải được kiểm bằng số đo trước khi dùng (A54, A56, R-13)
+
+- **Xảy ra, cùng một ngày:**
+  - "1 nhánh cho tải 1, nên 3 nhánh cho tải khoảng 3": đo được là 15,6.
+  - "tranh CPU không làm chậm khâu chấm": đúng cho task nhẹ, sai cho bộ test nặng.
+  - "bỏ bước xóa image là tiết kiệm": làm driver dừng vì tưởng đĩa đầy.
+  - Lần đếm lệnh quá giờ đầu tiên cho 0 vì mẫu tìm sai.
+- **Phòng ngừa:**
+  - Mỗi khẳng định về hiệu năng hay về "không ảnh hưởng kết quả" phải có **số đo trước và sau**.
+  - Mỗi bộ đếm phải được kiểm bằng một **ca chắc chắn có** (sanity check) trước khi tin kết quả 0.

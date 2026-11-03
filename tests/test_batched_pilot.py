@@ -277,3 +277,23 @@ def test_keep_images_plan_removes_only_unneeded_task_images():
     assert remove == {b, f"{m}/{b}"}  # unneeded task image and its mirror alias only
     assert "python:3.11" not in remove and a not in remove and f"{m}/{a}" not in remove
     assert missing == 1  # only new-4 has to be pulled
+
+
+def test_merge_carries_timeouts_and_a_rerun_replaces_them(tmp_path, monkeypatch):
+    import importlib.util as _u
+    import json as _json
+    from pathlib import Path as _P
+
+    spec = _u.spec_from_file_location(
+        "rbp2", _P(__file__).parents[1] / "scripts" / "run_batched_pilot.py"
+    )
+    rbp = _u.module_from_spec(spec)
+    spec.loader.exec_module(rbp)
+    monkeypatch.setattr(rbp, "RESULTS", tmp_path)
+    p0 = {"instances": ["a", "b"], "skills": {}, "harness_test_timeout": {"none": ["a"]}}
+    p1 = {"instances": ["a"], "skills": {}, "harness_test_timeout": {}}  # 'a' re-run, no timeout
+    p2 = {"instances": ["c"], "skills": {}, "patch_apply_failed": {"s": ["c"]}}
+    for k, d in enumerate((p0, p1, p2)):
+        (tmp_path / f"x-p{k:02d}.json").write_text(_json.dumps(d))
+    m = rbp.merge("x", sorted(tmp_path.glob("x-p*.json")))
+    assert m["harness_test_timeout"] == {"none": []} and m["patch_apply_failed"] == {"s": ["c"]}
