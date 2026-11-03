@@ -1,0 +1,56 @@
+# BẢN NHÁP: Đăng ký trước thí nghiệm chính (RQ1, Gatekeeper)
+
+> **Trạng thái:** bản nháp, chưa đăng ký.
+> - Phải được commit thành bản chính thức **trước khi phân tích E1/E2** (L27). Sau mốc đó, dữ liệu E1/E2 không còn dùng làm đoạn đầu được nữa.
+> - Mục đánh dấu **[@thuthuy]** chờ @thuthuy quyết (mục "Quyền quyết định" trong `CLAUDE.md`). Mục **[mô phỏng]** chờ kết quả plasmode, chạy trước khi đăng ký.
+> - Soạn ngày 03/11/2026. Chưa xem kết quả nào của E1/E2, trừ lần xem ngoài kế hoạch đã công bố ở A66 (tỉ lệ giải gộp theo nhánh); không quyết định nào dưới đây dùng số liệu đó.
+
+## 1. Câu hỏi (RQ1)
+
+Với mỗi ô (skill, scope), Gatekeeper (e-process, admit khi E_n ≥ 1/α_ô) có:
+- **(a) An toàn:** không admit ô có hại hoặc trung tính, với xác suất sai ≤ α_ô (Theorem 4′; `docs/theory/proofs.md`);
+- **(b) Độ phủ:** admit được ô thật sự có ích với số trial khả thi?
+
+So sánh với quy tắc sàng lọc ngây thơ (plug-in) trên cùng dữ liệu.
+
+## 2. Quyết định đã chốt (tự quyết vì là phương án trội hoặc theo chuẩn; lý do kèm theo)
+
+| Mục | Giá trị | Lý do và nguồn |
+| --- | --- | --- |
+| Model | Gemini 3.1 Flash-Lite, cấu hình như E1/E2 | Hướng @thuthuy đã chọn ("thí nghiệm chính với Gemini"); điều kiện để nối tiếp E1/E2 |
+| θ | 0 | Sai lệch D2; chi phí–lợi ích ≤ 0 (nhánh skill không đắt hơn); θ = 0 cho số trial ít nhất. Lakens 2018: mọi θ > 0 phải có căn cứ |
+| α tổng | 0,025 một phía | ICH E9 (đã lưu) |
+| Chia α | α_ô = 0,025 / K, chia đều cho K ô đăng ký trước | `docs/number_provenance.md` (thay chia 70/20/10 tự đặt) |
+| e-process | aGRAPA, c = 0,5 | Waudby-Smith & Ramdas; c chọn bằng GRO (`results/gro_c.json`) |
+| **Đơn vị trial** | **một task** (giả định SP, `proofs.md` §0). Giá trị trial = Z của task: trung bình qua các seed nếu task có nhiều seed (E1/E2: 3 seed), hoặc Z của một lần chạy (phần mới) | Mọi trial nằm trong [−1, 1] và có kỳ vọng có điều kiện bằng STR, nên Bổ đề E đúng dù các trial không cùng phân phối |
+| **Nối tiếp E1/E2** | Trial của E1 (null-guard, type-guard, exception-handling và 3 skill có hại) và của E2 (xreposkill) là đoạn đầu của chuỗi e-process của ô tương ứng, theo đúng thứ tự ngẫu nhiên đã cố định | Anytime-valid: "optional stopping or continuation for any reason" (Ramdas, Grünwald, Vovk & Shafer, đã lưu). Có lợi hoàn toàn: tiết kiệm 11–55% số trial mỗi ô |
+| Task mới | Lấy tiếp theo `random_order` đã cố định của từng pool, sau các task đã dùng; mỗi task một lần | Giữ giả định SP; không chọn task theo kết quả |
+| Dừng | Mỗi ô dừng khi admit, hoặc khi hết số trial phân cho ô | Ville: hợp lệ với mọi thời điểm dừng |
+| Thước đo phụ | Tỉ lệ phương sai ghép cặp (Prop. 9) đo trên nhánh `none` và các nhánh skill | Nối Prop. 9 với thực nghiệm |
+| Đầu vào mô phỏng | q từ **nhánh không skill** của E1 (112 task) và E2 (121 task), không dùng nhánh skill | Tham số nền, không vi phạm R5. Tốt hơn 32 task của G1 (`results/power_input_uncertainty.json`) |
+
+## 3. Giới hạn đã biết trước (phải ghi trong paper)
+
+| Ô | Task kích hoạt có thể dùng (ước) | Trial cần để admit ở δ = 0,109 | Hệ quả |
+| --- | --- | --- | --- |
+| null-guard | khoảng 122 | 216–470 | **Không thể admit** dù bao nhiêu tiền. Chỉ kiểm được vế an toàn |
+| exception-handling | khoảng 200 | 216–470 | Sát ngưỡng |
+| type-guard | khoảng 309 | 216–470 | Có thể |
+| xreposkill (E2) | khoảng 1.100 (1.649 ứng viên × 69% dùng được × 99% kích hoạt) | 216–470 | Có thể |
+| 3 skill có hại | như skill gốc | không áp dụng (đối chứng an toàn) | Kiểm vế (a) |
+
+Nguồn: số task kích hoạt `data/activation.json` × 86/89 (`docs/g1_verdict.md`); số trial cần `results/design_table_plasmode.json`. Số trial cần sẽ được tính lại bằng q mới **[mô phỏng]**.
+
+## 4. Còn mở
+
+1. **[@thuthuy] Ngân sách B.** Quyền: ngân sách mới. Ảnh hưởng: chi phí một trial mới (1 task × 2 nhánh × 1 seed) ≈ 2 × 0,064 = 0,13 USD (đo ở E1 và E2). Ví dụ B = 114,6 USD (3 triệu VND theo tỉ giá Vietcombank ngày 04/10) cho khoảng 890 trial mới. Lời khuyên: chờ kết quả mô phỏng ở mục 2, rồi chọn B để ít nhất một ô có ích đạt power admit ≥ mức đã báo cáo ở §5.
+2. **[mô phỏng] Phân trial giữa các ô.** Đây là phương án trội nếu chỉ dồn trial cho các ô có thể admit (type-guard, xreposkill) mà không làm yếu vế an toàn. Vế an toàn đã đủ với số trial hiện có, vì nó không cần trial để "không admit". Sẽ tính bằng plasmode trước khi đăng ký.
+3. **[@thuthuy] Số seed của phần mới: 1 seed, hay kết hợp với một tập con 2 seed** để đo nhiễu và làm A/A. Đây là đánh đổi: 1 seed rẻ hơn 13% cho cùng độ chính xác, nhưng mất phép đo nhiễu trong cùng task. Lời khuyên: kết hợp; kích thước tập con tính bằng mô phỏng.
+4. **[mô phỏng] Nhãn "thật" để chấm độ phủ.** Ô nào thật sự có ích hay có hại phải được ước trên dữ liệu tách rời với dữ liệu admit (Rinaldo et al., đã lưu: tách dữ liệu). Cần chốt cách tách trước khi đăng ký.
+
+## 5. Phân tích (sẽ khóa mã trước khi chạy)
+
+- Với mỗi ô: quyết định admit hay không, số trial đã dùng, và E_n cuối.
+- Harmful acceptance và clean-reuse coverage, kèm khoảng tin cậy chính xác (Clopper–Pearson; ⏳ cần nguồn).
+- So với plug-in trên cùng trial.
+- Phân tích độ nhạy: S-infra (dữ liệu thiếu do lỗi hạ tầng), và bỏ các trial có quá giờ khi chấm (như E1/E2).
