@@ -488,16 +488,18 @@ def main() -> int:
     test_timeout: dict[str, list[str]] = {}
     exit_status: dict[str, dict[str, str | None]] = {}  # intercurrent events (ICH E9(R1))
     spent = 0.0
-    if model is not None or a.prepull:
-        missing = prepull(rows)
-        if missing:
-            # never start agents without their image: the run would cost nothing useful and the
-            # task would look "done" to the batch driver. Exit 75 (EX_TEMPFAIL) = retry later.
-            if _NO_SPACE:
-                print(f"error: {len(missing)} images do not fit on the disk", flush=True)
-                return EX_NOSPACE
-            print(f"error: {len(missing)} images could not be pulled (registry limit?)", flush=True)
-            return EX_TEMPFAIL
+    # always, also for the scripted dry-run model: a dry run must exercise the same image path as a
+    # paid run (audit A58: without it, parallel arms raced to pull one image and docker run exited
+    # 125, which only the dry run's own check caught). --prepull is kept for old command lines.
+    missing = prepull(rows)
+    if missing:
+        # never start agents without their image: the run would cost nothing useful and the
+        # task would look "done" to the batch driver. Exit 75 (EX_TEMPFAIL) = retry later.
+        if _NO_SPACE:
+            print(f"error: {len(missing)} images do not fit on the disk", flush=True)
+            return EX_NOSPACE
+        print(f"error: {len(missing)} images could not be pulled (registry limit?)", flush=True)
+        return EX_TEMPFAIL
 
     import threading
 

@@ -217,3 +217,12 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - chạy thử trên 25 file của seed 41 hiện có: không đổi gì;
   - `bash -n run_e1_inter.sh`: không lỗi cú pháp;
   - file gộp của giai đoạn được dựng lại từ các lô ở mỗi lần gọi driver.
+
+## R-21. Luôn tải image trước trong `run_pilot.py` (2026-11-03, A58)
+
+- **Thay đổi:** bỏ điều kiện "chỉ khi có model thật".
+- **Ảnh hưởng tới chạy thật:** không, vì trước đây chạy thật cũng đã luôn tải trước.
+- **Kiểm:**
+  - ruff;
+  - test `test_prepull_reports_full_disk` không đổi;
+  - chạy lại bước kiểm giữ image với tên mới `kidry2-*`; tiêu chí đạt giữ nguyên như R-17.
