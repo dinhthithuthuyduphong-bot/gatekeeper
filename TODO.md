@@ -38,6 +38,11 @@ Bản 1 nhìn chung **đúng và kỹ**: mình tính lại mọi số trong bả
 
 ### 0.1b Kết quả G1 và hướng đi (03/11/2026)
 
+> **Tình trạng các giai đoạn (03/11/2026, @thuthuy hỏi):**
+> - **G1** (A, B1–B3, C) là thử nghiệm và thăm dò; kết quả của nó đã được dùng để chọn hướng đi.
+> - **Bước xác nhận của G1, E1 và E2** là **thí nghiệm xác nhận đã đăng ký trước**, không phải "pilot" theo nghĩa thử bỏ đi. Chúng là bằng chứng thực nghiệm chính của các khẳng định hiện tại.
+> - **Thí nghiệm chính** (Phase 6) chưa bắt đầu. Các ô của E1/E2 sẽ là đoạn đầu của nó, nối tiếp qua e-process (L27), **với điều kiện** bản đăng ký trước của thí nghiệm chính được commit **trước khi** phân tích E1/E2.
+
 - **G1 FAIL** (`docs/g1_verdict.md`). validation-error: sàng lọc C cho −0,062, xác nhận trên seed mới cho +0,031, CI 95% [−0,057; +0,120], p = 0,83. Tín hiệu **không lặp lại** ("lời nguyền người thắng"). Không có bug làm sai số liệu (rà soát §4). Trần 100 bước phạt nhánh skill (A22).
 - Theo quy tắc đăng ký trước (Bổ sung 4): **chứng nhận theo từng (skill, scope) với θ nhỏ là không khả thi**, vì δ = 0,02 cần ≥ 576 task cho mỗi ô, trong khi scope lớn nhất chỉ có 157.
 - **Hướng của paper** (@thuthuy: "làm điều tốt nhất cho paper, research đủ mạnh"):
