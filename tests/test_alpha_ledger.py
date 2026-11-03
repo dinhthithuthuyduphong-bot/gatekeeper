@@ -39,3 +39,14 @@ def test_invalid_configuration():
         AlphaLedger(0.05, {})
     with pytest.raises(ValueError):
         AlphaLedger(1.2, {"a": 1.0})
+
+
+def test_from_plan_equal_weights_and_total():
+    from gatekeeper.alpha_ledger import AlphaLedger
+
+    led = AlphaLedger.from_plan(0.05, [f"c{i}" for i in range(8)], n_composite=2, n_readmit=0)
+    assert all(abs(a - 0.05 / 10) < 1e-15 for a in led.cell_alpha.values())
+    for _ in range(1000):  # many more composites than planned: total still bounded
+        led.next_composite()
+    led.check()
+    assert led.committed <= 0.05 + 1e-12

@@ -50,6 +50,30 @@ class AlphaLedger:
         self.spent_composite = 0.0
         self.spent_readmit = 0.0
 
+    @classmethod
+    def from_plan(
+        cls,
+        total_alpha: float,
+        cells: list[str],
+        n_composite: int = 0,
+        n_readmit: int = 0,
+    ) -> AlphaLedger:
+        """Equal weight per PLANNED hypothesis (Bonferroni with no prior ranking): every cell gets
+        alpha / K with K = cells + planned composites + planned re-admissions, and the composite /
+        re-admission shares equal their planned counts / K (spent with 6/(pi^2 k^2), so requests
+        beyond the plan still keep the total <= alpha). Replaces the hand-picked 70/20/10 split
+        (docs/number_provenance.md); FWER holds for any split, only power changes."""
+        k = len(cells) + n_composite + n_readmit
+        if not cells or k <= 0:
+            raise ValueError("need at least one cell")
+        return cls(
+            total_alpha,
+            dict.fromkeys(cells, 1.0),
+            cell_frac=len(cells) / k,
+            composite_frac=n_composite / k,
+            readmit_frac=n_readmit / k,
+        )
+
     def cell(self, key: str) -> float:
         return self.cell_alpha[key]
 
