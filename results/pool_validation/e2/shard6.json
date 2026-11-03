@@ -1,0 +1,392 @@
+{
+  "SYSTRAN__faster-whisper-1345": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 17
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 17
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 17
+    },
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
+  },
+  "arviz-devs__arviz-2413": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 3767
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 3767
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 3767
+    },
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
+  },
+  "beetbox__beets-5803": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 1850
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 1850
+    },
+    "noop": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 1850
+    },
+    "usable": false,
+    "infra_error": false,
+    "reason": "noop arm not clean"
+  },
+  "celery__celery-9806": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 3336
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 3336
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 3336
+    },
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
+  },
+  "conan-io__conan-15946": {
+    "gold_a": {
+      "resolved": false,
+      "F": 0.0,
+      "R": 0.0013365410318096765,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 3741
+    },
+    "gold_b": {
+      "resolved": false,
+      "F": 0.0,
+      "R": 0.0013365410318096765,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 3741
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0013365410318096765,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 3741
+    },
+    "usable": false,
+    "infra_error": false,
+    "reason": "gold not resolved;noop arm not clean"
+  },
+  "conan-io__conan-18333": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 2,
+      "n_pass_to_pass": 1371
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 2,
+      "n_pass_to_pass": 1371
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 2,
+      "n_pass_to_pass": 1371
+    },
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
+  },
+  "falconry__falcon-2475": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 2,
+      "n_pass_to_pass": 3707
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 2,
+      "n_pass_to_pass": 3707
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 2,
+      "n_pass_to_pass": 3707
+    },
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
+  },
+  "huggingface__smolagents-285": {
+    "gold_a": {
+      "resolved": false,
+      "F": 0.0,
+      "R": 0.022556390977443608,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 133
+    },
+    "gold_b": {
+      "resolved": false,
+      "F": 0.0,
+      "R": 0.022556390977443608,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 133
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.022556390977443608,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 133
+    },
+    "usable": false,
+    "infra_error": false,
+    "reason": "gold not resolved;noop arm not clean"
+  },
+  "jlowin__fastmcp-1397": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 3,
+      "n_pass_to_pass": 2327
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 3,
+      "n_pass_to_pass": 2327
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 3,
+      "n_pass_to_pass": 2327
+    },
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
+  },
+  "koxudaxi__datamodel-code-generator-1999": {
+    "gold_a": {
+      "resolved": false,
+      "F": 0.0,
+      "R": 0.0018552875695732839,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 539
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 539
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0018552875695732839,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 539
+    },
+    "usable": false,
+    "infra_error": false,
+    "reason": "gold not resolved;unstable;noop arm not clean"
+  },
+  "llamastack__llama-stack-2686": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 3,
+      "n_pass_to_pass": 394
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 3,
+      "n_pass_to_pass": 394
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 3,
+      "n_pass_to_pass": 394
+    },
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
+  },
+  "projectmesa__mesa-2755": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 2,
+      "n_pass_to_pass": 255
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 2,
+      "n_pass_to_pass": 255
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 2,
+      "n_pass_to_pass": 255
+    },
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
+  },
+  "python-pillow__Pillow-9105": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 4548
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 4548
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 4548
+    },
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
+  },
+  "reflex-dev__reflex-4230": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 2738
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 2738
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 2738
+    },
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
+  },
+  "vacanza__holidays-2750": {
+    "gold_a": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 5130
+    },
+    "gold_b": {
+      "resolved": true,
+      "F": 0.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 5130
+    },
+    "noop": {
+      "resolved": false,
+      "F": 1.0,
+      "R": 0.0,
+      "n_fail_to_pass": 1,
+      "n_pass_to_pass": 5130
+    },
+    "usable": true,
+    "infra_error": false,
+    "reason": ""
+  }
+}
