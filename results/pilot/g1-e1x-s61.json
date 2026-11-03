@@ -9,7 +9,8 @@
     "g1-e1x-s61-p05",
     "g1-e1x-s61-p06",
     "g1-e1x-s61-p07",
-    "g1-e1x-s61-p08"
+    "g1-e1x-s61-p08",
+    "g1-e1x-s61-p09"
   ],
   "skills": {
     "null-guard": {
@@ -68,12 +69,22 @@
           "instance_id": "sympy__sympy-13678",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-18137",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-21849",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
       "mean_Z": 0.0,
-      "n": 11,
-      "solve_rate_with": 0.45454545454545453,
-      "solve_rate_without": 0.45454545454545453
+      "n": 13,
+      "solve_rate_with": 0.38461538461538464,
+      "solve_rate_without": 0.38461538461538464
     },
     "type-guard": {
       "pairs": [
@@ -136,12 +147,17 @@
           "instance_id": "sympy__sympy-16864",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-18137",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.00022045855379188942,
-      "n": 12,
-      "solve_rate_with": 0.08333333333333333,
-      "solve_rate_without": 0.08333333333333333
+      "mean_Z": 0.00020350020350020563,
+      "n": 13,
+      "solve_rate_with": 0.07692307692307693,
+      "solve_rate_without": 0.07692307692307693
     },
     "exception-handling": {
       "pairs": [
@@ -219,25 +235,25 @@
   },
   "usage": {
     "none": {
-      "runs": 35,
-      "usd": 1.657685825,
+      "runs": 37,
+      "usd": 1.75126895,
       "solved": 12,
-      "scored": 35,
-      "usd_per_run": 0.04736245214285714
+      "scored": 37,
+      "usd_per_run": 0.04733159324324324
     },
     "null-guard": {
-      "runs": 11,
-      "usd": 0.6080652249999999,
+      "runs": 13,
+      "usd": 0.6624637499999999,
       "solved": 5,
-      "scored": 11,
-      "usd_per_run": 0.05527865681818181
+      "scored": 13,
+      "usd_per_run": 0.05095874999999999
     },
     "type-guard": {
-      "runs": 12,
-      "usd": 0.509240975,
+      "runs": 13,
+      "usd": 0.5229119249999999,
       "solved": 1,
-      "scored": 12,
-      "usd_per_run": 0.04243674791666666
+      "scored": 13,
+      "usd_per_run": 0.04022399423076923
     },
     "exception-handling": {
       "runs": 13,
@@ -284,7 +300,9 @@
       "sympy__sympy-13441": "Submitted",
       "sympy__sympy-13678": "Submitted",
       "sympy__sympy-14085": "Submitted",
-      "sympy__sympy-16864": "Submitted"
+      "sympy__sympy-16864": "Submitted",
+      "sympy__sympy-18137": "Submitted",
+      "sympy__sympy-21849": "Submitted"
     },
     "null-guard": {
       "astropy__astropy-14590": "Submitted",
@@ -297,7 +315,9 @@
       "scikit-learn__scikit-learn-12462": "Submitted",
       "scikit-learn__scikit-learn-26634": "Submitted",
       "sympy__sympy-13441": "Submitted",
-      "sympy__sympy-13678": "Submitted"
+      "sympy__sympy-13678": "Submitted",
+      "sympy__sympy-18137": "Submitted",
+      "sympy__sympy-21849": "Submitted"
     },
     "type-guard": {
       "astropy__astropy-12880": "Submitted",
@@ -311,7 +331,8 @@
       "matplotlib__matplotlib-25430": "Submitted",
       "scikit-learn__scikit-learn-10508": "Submitted",
       "sympy__sympy-13364": "Submitted",
-      "sympy__sympy-16864": "Submitted"
+      "sympy__sympy-16864": "Submitted",
+      "sympy__sympy-18137": "Submitted"
     },
     "exception-handling": {
       "astropy__astropy-13838": "Submitted",
@@ -331,7 +352,7 @@
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 3.2905,
+  "spent_usd": 3.4522,
   "instances": [
     "astropy__astropy-12880",
     "astropy__astropy-13838",
@@ -367,7 +388,9 @@
     "sympy__sympy-13441",
     "sympy__sympy-13678",
     "sympy__sympy-14085",
-    "sympy__sympy-16864"
+    "sympy__sympy-16864",
+    "sympy__sympy-18137",
+    "sympy__sympy-21849"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
