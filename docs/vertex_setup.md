@@ -63,6 +63,6 @@ Tài khoản dịch vụ: `gatekeeper-pilot@gatekeeper-research.iam.gserviceacco
 | Mã khóa (8 ký tự đầu) | Dùng ở đâu | Nạp vào bằng | Thu hồi khi nào |
 | --- | --- | --- | --- |
 | `0cf3193a` | Máy chạy E1 (container của phiên làm việc) | file trong thư mục tạm của phiên, không vào git (preflight [secrets] chặn) | sau pilot (xoay vòng khóa) |
-| *(chờ @thuthuy tạo)* | GitHub Actions: `pilot.yml`, `e2-shards.yml` | secret `GCP_SA_KEY` (cùng với `VERTEXAI_PROJECT` = `gatekeeper-research`, `VERTEXAI_LOCATION` = `global`) | khi không còn chạy trên Actions |
+| `566b1f20` (tài khoản `gatekeeper-pilot-E2@…`; kiểm 2026-11-03 bằng `vertex-check.yml`, lần chạy 41637490392: đủ 3 secret, gọi `gemini-3.1-flash-lite` được, 7 token vào, 1 token ra) | GitHub Actions: `pilot.yml`, `e2-shards.yml` | secret `GCP_SA_KEY` (cùng với `VERTEXAI_PROJECT` = `gatekeeper-research`, `VERTEXAI_LOCATION` = `global`) | khi không còn chạy trên Actions |
 
 - **Trên GitHub, mỗi tên secret giữ đúng một giá trị.** Tạo lại một tên đã có thì giá trị mới thay hẳn giá trị cũ. Hai workflow dùng chung `GCP_SA_KEY` là chủ ý, vì cùng một project Vertex.
