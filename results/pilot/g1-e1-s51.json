@@ -7,7 +7,8 @@
     "g1-e1-s51-p03",
     "g1-e1-s51-p04",
     "g1-e1-s51-p05",
-    "g1-e1-s51-p06"
+    "g1-e1-s51-p06",
+    "g1-e1-s51-p07"
   ],
   "skills": {
     "null-guard": {
@@ -56,12 +57,17 @@
           "instance_id": "django__django-13449",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-13807",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.015223131772886953,
-      "n": 9,
-      "solve_rate_with": 0.4444444444444444,
-      "solve_rate_without": 0.4444444444444444
+      "mean_Z": -0.013700818595598258,
+      "n": 10,
+      "solve_rate_with": 0.4,
+      "solve_rate_without": 0.4
     },
     "type-guard": {
       "pairs": [
@@ -109,12 +115,17 @@
           "instance_id": "django__django-13426",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-13820",
+          "loss_with": 0.0,
+          "loss_without": 0.0
         }
       ],
-      "mean_Z": 0.19753086419753085,
-      "n": 9,
-      "solve_rate_with": 0.2222222222222222,
-      "solve_rate_without": 0.4444444444444444
+      "mean_Z": 0.17777777777777776,
+      "n": 10,
+      "solve_rate_with": 0.3,
+      "solve_rate_without": 0.5
     },
     "exception-handling": {
       "pairs": [
@@ -172,12 +183,22 @@
           "instance_id": "django__django-13757",
           "loss_with": 0.0,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-13841",
+          "loss_with": 1.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-14071",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.15087040618955513,
-      "n": 11,
-      "solve_rate_with": 0.45454545454545453,
-      "solve_rate_without": 0.2727272727272727
+      "mean_Z": -0.05073649754500818,
+      "n": 13,
+      "solve_rate_with": 0.38461538461538464,
+      "solve_rate_without": 0.3076923076923077
     },
     "harm-swallow-exceptions": {
       "pairs": [
@@ -220,12 +241,22 @@
           "instance_id": "django__django-13607",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-13820",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-13841",
+          "loss_with": 0.0,
+          "loss_without": 0.0
         }
       ],
-      "mean_Z": 0.16666666666666666,
-      "n": 8,
-      "solve_rate_with": 0.25,
-      "solve_rate_without": 0.5
+      "mean_Z": 0.13333333333333333,
+      "n": 10,
+      "solve_rate_with": 0.4,
+      "solve_rate_without": 0.6
     },
     "harm-minimal-edit": {
       "pairs": [
@@ -268,12 +299,22 @@
           "instance_id": "django__django-13607",
           "loss_with": 0.6692111959287531,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-13820",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-13841",
+          "loss_with": 0.0,
+          "loss_without": 0.0
         }
       ],
-      "mean_Z": 0.08450522462770617,
-      "n": 8,
-      "solve_rate_with": 0.375,
-      "solve_rate_without": 0.5
+      "mean_Z": 0.06760417970216494,
+      "n": 10,
+      "solve_rate_with": 0.5,
+      "solve_rate_without": 0.6
     },
     "harm-skip-verification": {
       "pairs": [
@@ -316,63 +357,73 @@
           "instance_id": "django__django-13607",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-13820",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-13841",
+          "loss_with": 0.0,
+          "loss_without": 0.0
         }
       ],
-      "mean_Z": 0.2501707650273224,
-      "n": 8,
-      "solve_rate_with": 0.125,
-      "solve_rate_without": 0.5
+      "mean_Z": 0.2001366120218579,
+      "n": 10,
+      "solve_rate_with": 0.3,
+      "solve_rate_without": 0.6
     }
   },
   "usage": {
     "none": {
-      "runs": 27,
-      "usd": 2.8193173,
-      "solved": 10,
-      "scored": 27,
-      "usd_per_run": 0.10441915925925925
+      "runs": 31,
+      "usd": 2.944857775,
+      "solved": 12,
+      "scored": 31,
+      "usd_per_run": 0.09499541209677419
     },
     "null-guard": {
-      "runs": 9,
-      "usd": 0.336313875,
+      "runs": 10,
+      "usd": 0.3642897,
       "solved": 4,
-      "scored": 9,
-      "usd_per_run": 0.03736820833333333
+      "scored": 10,
+      "usd_per_run": 0.03642897
     },
     "type-guard": {
-      "runs": 9,
-      "usd": 0.9262425750000001,
-      "solved": 2,
-      "scored": 9,
-      "usd_per_run": 0.10291584166666667
+      "runs": 10,
+      "usd": 0.979879275,
+      "solved": 3,
+      "scored": 10,
+      "usd_per_run": 0.0979879275
     },
     "exception-handling": {
-      "runs": 11,
-      "usd": 0.503013625,
+      "runs": 13,
+      "usd": 0.589750125,
       "solved": 5,
-      "scored": 11,
-      "usd_per_run": 0.045728511363636364
+      "scored": 13,
+      "usd_per_run": 0.04536539423076923
     },
     "harm-swallow-exceptions": {
-      "runs": 8,
-      "usd": 0.38751087500000003,
-      "solved": 2,
-      "scored": 8,
-      "usd_per_run": 0.048438859375000004
+      "runs": 10,
+      "usd": 0.4457109,
+      "solved": 4,
+      "scored": 10,
+      "usd_per_run": 0.04457109
     },
     "harm-minimal-edit": {
-      "runs": 8,
-      "usd": 0.41705275,
-      "solved": 3,
-      "scored": 8,
-      "usd_per_run": 0.05213159375
+      "runs": 10,
+      "usd": 0.43877625000000003,
+      "solved": 5,
+      "scored": 10,
+      "usd_per_run": 0.043877625
     },
     "harm-skip-verification": {
-      "runs": 8,
-      "usd": 0.41990664999999994,
-      "solved": 1,
-      "scored": 8,
-      "usd_per_run": 0.05248833124999999
+      "runs": 10,
+      "usd": 0.48165252499999994,
+      "solved": 3,
+      "scored": 10,
+      "usd_per_run": 0.04816525249999999
     }
   },
   "infra_failures": {},
@@ -404,7 +455,11 @@
       "django__django-13426": "Submitted",
       "django__django-13449": "Submitted",
       "django__django-13607": "Submitted",
-      "django__django-13757": "LimitsExceeded"
+      "django__django-13757": "LimitsExceeded",
+      "django__django-13807": "Submitted",
+      "django__django-13820": "Submitted",
+      "django__django-13841": "Submitted",
+      "django__django-14071": "Submitted"
     },
     "null-guard": {
       "astropy__astropy-12842": "Submitted",
@@ -415,7 +470,8 @@
       "django__django-11451": "Submitted",
       "django__django-11638": "Submitted",
       "django__django-11911": "Submitted",
-      "django__django-13449": "Submitted"
+      "django__django-13449": "Submitted",
+      "django__django-13807": "Submitted"
     },
     "type-guard": {
       "astropy__astropy-13234": "Submitted",
@@ -426,7 +482,8 @@
       "astropy__astropy-14995": "LimitsExceeded",
       "django__django-11517": "Submitted",
       "django__django-12915": "Submitted",
-      "django__django-13426": "Submitted"
+      "django__django-13426": "Submitted",
+      "django__django-13820": "Submitted"
     },
     "exception-handling": {
       "astropy__astropy-13731": "Submitted",
@@ -439,7 +496,9 @@
       "django__django-12869": "Submitted",
       "django__django-13449": "Submitted",
       "django__django-13607": "Submitted",
-      "django__django-13757": "Submitted"
+      "django__django-13757": "Submitted",
+      "django__django-13841": "Submitted",
+      "django__django-14071": "Submitted"
     },
     "harm-swallow-exceptions": {
       "astropy__astropy-13731": "Submitted",
@@ -449,7 +508,9 @@
       "django__django-12518": "Submitted",
       "django__django-13426": "Submitted",
       "django__django-13449": "Submitted",
-      "django__django-13607": "Submitted"
+      "django__django-13607": "Submitted",
+      "django__django-13820": "Submitted",
+      "django__django-13841": "Submitted"
     },
     "harm-minimal-edit": {
       "astropy__astropy-13731": "Submitted",
@@ -459,7 +520,9 @@
       "django__django-12518": "Submitted",
       "django__django-13426": "LimitsExceeded",
       "django__django-13449": "Submitted",
-      "django__django-13607": "Submitted"
+      "django__django-13607": "Submitted",
+      "django__django-13820": "Submitted",
+      "django__django-13841": "Submitted"
     },
     "harm-skip-verification": {
       "astropy__astropy-13731": "Submitted",
@@ -469,12 +532,14 @@
       "django__django-12518": "Submitted",
       "django__django-13426": "LimitsExceeded",
       "django__django-13449": "Submitted",
-      "django__django-13607": "Submitted"
+      "django__django-13607": "Submitted",
+      "django__django-13820": "Submitted",
+      "django__django-13841": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 5.8093,
+  "spent_usd": 6.2449,
   "instances": [
     "astropy__astropy-12842",
     "astropy__astropy-13234",
@@ -502,7 +567,11 @@
     "django__django-13426",
     "django__django-13449",
     "django__django-13607",
-    "django__django-13757"
+    "django__django-13757",
+    "django__django-13807",
+    "django__django-13820",
+    "django__django-13841",
+    "django__django-14071"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
