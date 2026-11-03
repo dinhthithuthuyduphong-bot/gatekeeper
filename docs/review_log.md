@@ -167,3 +167,17 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - test bắt được lỗi khi gộp lô chạy lại.
 - **Chưa làm** (chờ E1 nghỉ giữa hai lần khởi động, vì giữ image cần dùng Docker một mình): chạy thử miễn phí chế độ giữ image với 2 seed xen kẽ.
 - **Phần 2 (E2 trên Actions):** đã có dựng lại file hướng dẫn (trùng SHA-256) và thay khối rule kèm bước dò (đã thử). Workflow chưa viết xong; cần @thuthuy thêm 3 secret.
+
+## R-18. Chọn task E2 trên hai khối kiểm định (2026-11-03, trước khi chọn rule cho khối 2)
+
+- **Căn cứ:** bản đăng ký trước E2, mục 3 và ghi chú thực thi 3, 5: lấy 121 task đầu tiên vừa dùng được vừa được kích hoạt, theo đúng `random_order`.
+- **Mã:**
+  - `make_e2_selection.py`: thêm `--blocks` và `--n`, không có giá trị mặc định.
+    - Chặn khi các khối không phủ đúng một đoạn đầu của `random_order`, vì khi đó "121 task đầu" sẽ bỏ qua task chưa kiểm định.
+    - Chặn khi một task nằm trong hai khối.
+    - Chặn khi chưa đủ n task.
+  - `xreposkill_select.py`: `--ids` nhận nhiều file. Kết quả đã có trong `retrieval/` được XRepoSkill đọc lại (`resume=True`, đã đọc mã `retrieval.run_flow_batch`), không gọi lại mô hình. Số token đã ghi vẫn được cộng, nên `spent_usd` là tổng cộng dồn, đúng như `run_e2.sh` trừ vào ngân sách.
+- **Kiểm:**
+  - Đã kiểm trên dữ liệu thật: khối 1 = `random_order[0:120]` và khối 2 = `random_order[120:200]` (sau khi sắp xếp), cùng một `random_order`.
+  - Thêm 2 test.
+  - Preflight: PASS.

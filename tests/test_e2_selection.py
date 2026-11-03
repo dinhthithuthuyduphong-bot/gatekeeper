@@ -34,3 +34,17 @@ def test_stops_on_missing_or_errored_selection():
 def test_stops_when_an_activated_task_has_no_guidance_text():
     with pytest.raises(SystemExit):
         m.build(POOL, {"a"}, sel(a=["r1"]), {"a": "  "})
+
+
+def test_blocks_must_be_a_prefix_of_the_random_order():
+    assert m.validated_prefix(["c", "a", "b", "d"], [["a", "c"], ["b"]]) == 3
+    with pytest.raises(SystemExit):  # skips "b"
+        m.validated_prefix(["c", "a", "b", "d"], [["a", "c"], ["d"]])
+    with pytest.raises(SystemExit):  # duplicate
+        m.validated_prefix(["c", "a", "b", "d"], [["a", "c"], ["c"]])
+
+
+def test_first_n_keeps_order_and_stops_when_short():
+    assert m.first_n(["c", "a", "d"], 2) == ["c", "a"]
+    with pytest.raises(SystemExit):
+        m.first_n(["c"], 2)

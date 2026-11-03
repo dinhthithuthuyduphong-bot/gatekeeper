@@ -61,7 +61,15 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--clone", required=True, type=Path)
     ap.add_argument("--rows", required=True, type=Path, help="exported task rows (jsonl)")
-    ap.add_argument("--ids", required=True, type=Path, help="pool summary or pool file")
+    ap.add_argument(
+        "--ids",
+        required=True,
+        type=Path,
+        nargs="+",
+        help="pool summaries or pool files (several = validation blocks; results already in "
+        "<out>/retrieval are re-read by XRepoSkill's resume, not re-requested, and their recorded "
+        "token usage is kept, so spent_usd stays cumulative)",
+    )
     ap.add_argument("--out", required=True, type=Path)
     ap.add_argument("--model", default="vertex_ai/gemini-3.1-flash-lite")
     ap.add_argument("--workers", type=int, default=8)
@@ -93,8 +101,10 @@ def main() -> int:
     )
     if len(flow.rules) != 36:
         raise SystemExit(f"XRepoSkill parsed {len(flow.rules)} rules, expected 36")
-    pool = json.loads(a.ids.read_text())
-    ids = pool.get("usable") or pool["instances"]
+    ids: list[str] = []
+    for f in a.ids:
+        pool = json.loads(f.read_text())
+        ids += [i for i in (pool.get("usable") or pool["instances"]) if i not in ids]
     rows = {}
     for line in a.rows.read_text().splitlines():
         if line.strip():
