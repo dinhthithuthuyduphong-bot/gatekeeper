@@ -6,7 +6,8 @@
     "g1-e1x-s51-p02",
     "g1-e1x-s51-p03",
     "g1-e1x-s51-p04",
-    "g1-e1x-s51-p05"
+    "g1-e1x-s51-p05",
+    "g1-e1x-s51-p06"
   ],
   "skills": {
     "null-guard": {
@@ -45,12 +46,17 @@
           "instance_id": "matplotlib__matplotlib-24149",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-12462",
+          "loss_with": 0.6720430107526881,
+          "loss_without": 0.0
         }
       ],
-      "mean_Z": 0.0,
-      "n": 7,
-      "solve_rate_with": 0.5714285714285714,
-      "solve_rate_without": 0.5714285714285714
+      "mean_Z": 0.08400537634408602,
+      "n": 8,
+      "solve_rate_with": 0.5,
+      "solve_rate_without": 0.625
     },
     "type-guard": {
       "pairs": [
@@ -151,28 +157,43 @@
           "instance_id": "pytest-dev__pytest-5413",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-11281",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-14764",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-15084",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.03169800413776317,
-      "n": 8,
-      "solve_rate_with": 0.25,
-      "solve_rate_without": 0.25
+      "mean_Z": -0.023053093918373214,
+      "n": 11,
+      "solve_rate_with": 0.36363636363636365,
+      "solve_rate_without": 0.36363636363636365
     }
   },
   "usage": {
     "none": {
-      "runs": 24,
-      "usd": 0.8876234500000001,
-      "solved": 7,
-      "scored": 24,
-      "usd_per_run": 0.03698431041666667
+      "runs": 28,
+      "usd": 1.2179915000000001,
+      "solved": 10,
+      "scored": 28,
+      "usd_per_run": 0.04349969642857143
     },
     "null-guard": {
-      "runs": 7,
-      "usd": 0.23825245,
+      "runs": 8,
+      "usd": 0.301856625,
       "solved": 4,
-      "scored": 7,
-      "usd_per_run": 0.03403606428571428
+      "scored": 8,
+      "usd_per_run": 0.037732078125
     },
     "type-guard": {
       "runs": 10,
@@ -182,11 +203,11 @@
       "usd_per_run": 0.03717951
     },
     "exception-handling": {
-      "runs": 8,
-      "usd": 0.6242562999999999,
-      "solved": 2,
-      "scored": 8,
-      "usd_per_run": 0.07803203749999998
+      "runs": 11,
+      "usd": 0.6825751749999999,
+      "solved": 4,
+      "scored": 11,
+      "usd_per_run": 0.062052288636363626
     }
   },
   "infra_failures": {},
@@ -215,7 +236,11 @@
       "matplotlib__matplotlib-24149": "Submitted",
       "matplotlib__matplotlib-25430": "Submitted",
       "pytest-dev__pytest-5413": "Submitted",
-      "scikit-learn__scikit-learn-10508": "Submitted"
+      "scikit-learn__scikit-learn-10508": "Submitted",
+      "scikit-learn__scikit-learn-11281": "Submitted",
+      "scikit-learn__scikit-learn-12462": "Submitted",
+      "scikit-learn__scikit-learn-14764": "Submitted",
+      "scikit-learn__scikit-learn-15084": "LimitsExceeded"
     },
     "null-guard": {
       "astropy__astropy-14590": "Submitted",
@@ -224,7 +249,8 @@
       "django__django-12973": "Submitted",
       "django__django-13410": "Submitted",
       "django__django-13671": "Submitted",
-      "matplotlib__matplotlib-24149": "Submitted"
+      "matplotlib__matplotlib-24149": "Submitted",
+      "scikit-learn__scikit-learn-12462": "Submitted"
     },
     "type-guard": {
       "astropy__astropy-12880": "Submitted",
@@ -246,12 +272,15 @@
       "django__django-16560": "Submitted",
       "django__django-16802": "Submitted",
       "matplotlib__matplotlib-22835": "Submitted",
-      "pytest-dev__pytest-5413": "LimitsExceeded"
+      "pytest-dev__pytest-5413": "LimitsExceeded",
+      "scikit-learn__scikit-learn-11281": "Submitted",
+      "scikit-learn__scikit-learn-14764": "Submitted",
+      "scikit-learn__scikit-learn-15084": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 2.122,
+  "spent_usd": 2.5743,
   "instances": [
     "astropy__astropy-12880",
     "astropy__astropy-13838",
@@ -276,7 +305,11 @@
     "matplotlib__matplotlib-24149",
     "matplotlib__matplotlib-25430",
     "pytest-dev__pytest-5413",
-    "scikit-learn__scikit-learn-10508"
+    "scikit-learn__scikit-learn-10508",
+    "scikit-learn__scikit-learn-11281",
+    "scikit-learn__scikit-learn-12462",
+    "scikit-learn__scikit-learn-14764",
+    "scikit-learn__scikit-learn-15084"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
