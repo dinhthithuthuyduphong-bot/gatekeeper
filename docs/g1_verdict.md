@@ -81,3 +81,20 @@ Skill được xác nhận: `validation-error`, 32 task × 3 seed (11, 21, 31), 
 | **Tổng** | **756** | **~405M (~86%)** | **~4,4M** | |
 
 Ghi chú: USD chỉ dùng để kiểm soát ngân sách trong lúc chạy (`docs/budget_200.md`); báo cáo dùng token để so sánh được giữa các giai đoạn, nhánh và model, không phụ thuộc bảng giá.
+
+## 4. Rà soát bug sau phán quyết (03/11/2026)
+
+| Nghi vấn | Cách kiểm | Kết quả |
+| --- | --- | --- |
+| Harness dùng lại report cũ khi chạy lại lô cùng tên (A21) | So `patch.diff` mà harness đã chấm với patch của agent, trên mọi lần chạy | **657/657 khớp**, 108 patch rỗng; lỗi chưa từng xảy ra. Đã chặn cho tương lai bằng `run_id` riêng |
+| Nhánh skill không nhận được skill, hoặc nhánh `none` bị lẫn skill | Tìm `<skill id=…>` trong đề bài đầu tiên của mỗi trajectory | Skill có ở 100% lần chạy nhánh skill, 0% nhánh `none` |
+| Seed hoặc cấu hình lệch giữa hai nhánh | Đọc `overlay.yaml` của mọi lô xác nhận | Cùng seed (11/21/31), cùng model, step_limit 100, cost_limit 0,20 |
+| Lỗi hạ tầng, hoặc phần bỏ file test làm rỗng patch | Đọc `infra_failures`; áp `drop_files` lên mọi bản nộp | 0 lỗi hạ tầng; 0 bản nộp chạm file của test_patch |
+| Lỗi API, timeout, lỗi định dạng lệch về một nhánh | Đếm trong trajectory | Ít và không lệch về nhánh skill (none: 7 / 2 / 2; skill: 2 / 0 / 1) |
+| Bug trong pipeline phân tích | **Tính lại độc lập** từ trường `resolved` của report gốc | +0,0312, p = 0,8296: **khớp tuyệt đối** với pipeline |
+| **Trần bước tương tác với skill (A22)** | Phân loại các cặp hại/giúp theo trạng thái thoát | 6/9 cặp hại là do nhánh skill bị cắt ở 100 bước. Hậu kiểm bỏ các cặp bị cắt: **−0,011**, CI [−0,091; +0,069], p = 0,39 |
+
+**Kết luận rà soát:**
+- Số liệu **không do bug** gây ra.
+- Phán quyết **G1 FAIL đứng vững**, kể cả khi bỏ các cặp bị cắt bởi trần bước.
+- Chiều "hơi hại" (+0,031) **phần lớn là do trần 100 bước**, không phải do bản thân skill. Phân tích hậu kiểm này có thể lệch, vì việc bỏ cặp dựa trên một biến xảy ra sau khi áp skill (ICH E9(R1), chiến lược "hypothetical" cần giả định). Nó chỉ dùng để diễn giải, không thay phán quyết.

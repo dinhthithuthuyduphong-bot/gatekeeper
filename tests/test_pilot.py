@@ -351,3 +351,17 @@ def test_prepull_reports_full_disk(monkeypatch):
     monkeypatch.setattr(rp.subprocess, "run", fake)
     failed = rp.prepull([{"instance_id": "a__b-1"}], tries=3)
     assert failed and rp._NO_SPACE
+
+
+def test_scoring_run_id_is_unique_per_attempt():
+    import importlib.util
+    from pathlib import Path
+
+    pytest.importorskip("yaml")
+    spec = importlib.util.spec_from_file_location(
+        "run_pilot", Path(__file__).parents[1] / "scripts" / "run_pilot.py"
+    )
+    rp = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rp)
+    a = rp.scoring_run_id("g1-c-s31-p05", "none")
+    assert a.startswith("g1-c-s31-p05-none-") and a != "g1-c-s31-p05-none"

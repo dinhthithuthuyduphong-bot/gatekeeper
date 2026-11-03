@@ -185,6 +185,16 @@ def score_arm(
     return reports
 
 
+def scoring_run_id(name: str, arm: str) -> str:
+    """Unique harness run id per scoring attempt. The SWE-bench harness skips every instance that
+    already has a report under the same run id ("instances already run, skipping"), so re-using a
+    batch name after an interrupted attempt could score a NEW patch with an OLD report (audit A21;
+    verified not to have happened: 657/657 evaluated patches match the agents' submissions)."""
+    import time
+
+    return f"{name}-{arm}-{time.strftime('%Y%m%dT%H%M%S')}-{os.getpid()}"
+
+
 EX_TEMPFAIL = 75  # images could not be pulled: nothing was run, retry later
 EX_NOSPACE = 76  # images do not fit on the disk: nothing was run, retry with a smaller batch
 
@@ -421,7 +431,12 @@ def main() -> int:
         ids_arm = [r["instance_id"] for r in rows_arm]
         tfiles = {r["instance_id"]: touched_files(r.get("test_patch") or "") for r in rows_arm}
         reports = score_arm(
-            agent_dir, ids_arm, f"{a.name}-{arm}", a.workers, harness_dataset, test_files=tfiles
+            agent_dir,
+            ids_arm,
+            scoring_run_id(a.name, arm),
+            a.workers,
+            harness_dataset,
+            test_files=tfiles,
         )
         losses[arm], usage[arm], infra[arm] = {}, {}, {}
         for r in rows_arm:
