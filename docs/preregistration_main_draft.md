@@ -54,3 +54,20 @@ Nguồn: số task kích hoạt `data/activation.json` × 86/89 (`docs/g1_verdic
 - Harmful acceptance và clean-reuse coverage, kèm khoảng tin cậy chính xác (Clopper–Pearson; ⏳ cần nguồn).
 - So với plug-in trên cùng trial.
 - Phân tích độ nhạy: S-infra (dữ liệu thiếu do lỗi hạ tầng), và bỏ các trial có quá giờ khi chấm (như E1/E2).
+
+## 6. Kết quả mô phỏng thiết kế (`scripts/main_design_sim.py` → `results/main_design_sim.json`, 03/11/2026)
+
+- **Đầu vào:** q của nhánh `none`: E2 (Live, 109 task) cho ô xreposkill; giai đoạn mở rộng E1 (37 task × 3 seed) cho các ô E1.
+- **Thiết lập:** α_ô = 0,025/7 = 0,0036; θ = 0. Đoạn đầu là trial E1/E2 (trung bình 3 seed), đoạn sau là trial mới (1 seed). Mỗi ô 400 lần lặp (sai số Monte Carlo ≤ 0,025).
+- **Tính hợp lệ:** tỉ lệ admit ở δ ≤ 0 là 0–0,0025, không vượt α_ô.
+
+Xác suất admit theo số trial mới (chi phí ≈ 0,13 USD mỗi trial mới):
+
+| Ô | Trial mới tối đa | δ = 0,05 | δ = 0,109 | δ = 0,15 |
+| --- | --- | --- | --- | --- |
+| xreposkill (n0 = 109) | khoảng 990 | 100: 0,07; 300: 0,47; 800: 0,85 | **0: 0,10; 100: 0,88; 200: 0,99** | 0: 0,63; 50: 0,97 |
+| type-guard (n0 = 53) | 256 | 200: 0,06 | 100: 0,25; 200: 0,70 | 100: 0,63; 200: 0,97 |
+| exception-handling (n0 = 53) | 147 | 100: 0,005 | 100: 0,26 | 100: 0,68 |
+| null-guard (n0 = 53) | 69 | 50: 0 | 50: 0,04 | 50: 0,21 |
+
+**Giới hạn:** q của các ô E1 chỉ đo trên 37 task. Mô hình hiệu ứng như `docs/method_check.md`.
