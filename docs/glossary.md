@@ -72,7 +72,7 @@ Giới hạn của v2: ngưỡng −0,10 và CI 90% là **lựa chọn chưa có
 | **Power** | Xác suất phát hiện được khi skill thật sự giúp | Thí nghiệm power thấp thì "không thấy" không nói lên gì | Cohen 1988 |
 | **CI (khoảng tin cậy)** | Khoảng chứa giá trị thật với tần suất (ví dụ 95%) nếu lặp lại thí nghiệm nhiều lần | Cho thấy độ bất định, không chỉ một con số | Neyman 1937 |
 | **Bootstrap** | *(Không còn dùng từ Bổ sung 3: thay bằng kiểm định chính xác và khoảng t, `number_provenance.md` §1)* Lấy mẫu lại các task có hoàn lại để ước lượng CI | | Efron 1979 |
-| **Kiểm định hoán vị đổi dấu** | Nếu H₀ đúng (skill không có tác dụng với task nào) thì đổi dấu Z của mỗi task không làm đổi phân phối. Đổi dấu ngẫu nhiên nhiều lần cho ra phân phối khi H₀ đúng | Chính xác với mẫu nhỏ và dữ liệu rời rạc; không cần giả định phân phối chuẩn | Fisher 1935; Pitman 1937 |
+| **Kiểm định hoán vị đổi dấu** | Nếu H₀ đúng (skill không có tác dụng với task nào) thì đổi dấu Z của mỗi task không làm đổi phân phối. Đổi dấu ngẫu nhiên nhiều lần cho ra phân phối khi H₀ đúng | Chính xác với mọi n và với dữ liệu rời rạc (tính bằng tích chập, không dùng xấp xỉ); không cần giả định phân phối chuẩn | Fisher 1935; Pitman 1937 |
 | **FWER và Holm** | FWER = xác suất ít nhất một skill "đạt" sai. Holm: xếp p-value tăng dần, so lần lượt với α/k, α/(k − 1), … | Thử nhiều skill thì xác suất "đạt do may" tăng; phải kiểm soát cho cả nhóm | Holm 1979 |
 | **Tách dữ liệu** | Chọn skill trên C, kết luận chỉ trên dữ liệu xác nhận (seed mới) | Tránh "lời nguyền người thắng": chọn cái tốt nhất rồi kiểm trên cùng dữ liệu thì kết quả bị thổi phồng | Cox 1975 |
 | **TOST** | *(Không còn dùng: biên tương đương là con số tự đặt, đã thay bằng A/A chính xác)* Hai kiểm định một phía để khẳng định \|hiệu ứng\| < biên | | Schuirmann 1987; Lakens 2018 |
@@ -86,9 +86,9 @@ Giới hạn của v2: ngưỡng −0,10 và CI 90% là **lựa chọn chưa có
 | Khái niệm | Định nghĩa | Vì sao cần |
 | --- | --- | --- |
 | **G1** | Cổng pilot: có skill nào có hiệu ứng **phát hiện được** không, và thước đo có tốt không | Không tiêu hàng nghìn USD cho thí nghiệm chính nếu không có gì để đo |
-| **θ** (thí nghiệm chính) | Mức có ích tối thiểu để admit: Gatekeeper admit skill khi chứng minh được STR ≤ −θ | Quyết định quan trọng nhất còn mở. θ nhỏ thì cần nhiều trial; θ lớn thì ít skill đạt |
+| **θ** (thí nghiệm chính) | Mức có ích tối thiểu để admit: Gatekeeper admit skill khi chứng minh được STR ≤ −θ | Quyết định quan trọng nhất còn mở. Số trial cần thiết tăng khi θ tăng ở cùng STR (bảng `results/design_table_plasmode.json`); θ càng lớn thì càng ít skill có STR ≤ −θ |
 | **E-process** (thí nghiệm chính) | Thống kê cá cược, tăng khi dữ liệu cho thấy skill giúp; admit khi vượt 1/α | Cho phép quyết định **trong lúc** đang chạy mà vẫn giữ được α (Ville 1939) |
-| **Sổ α (alpha ledger)** | Chia tổng α cho các ô (skill, scope), các skill kết hợp, và các lần xét lại | Gatekeeper ra rất nhiều quyết định; tổng sai lầm vẫn phải ≤ α |
+| **Sổ α (alpha ledger)** | Chia tổng α cho các ô (skill, scope), các skill kết hợp, và các lần xét lại | Gatekeeper ra một quyết định cho mỗi ô, mỗi tổ hợp và mỗi lần xét lại; tổng sai lầm vẫn phải ≤ α |
 
 ## 7. Ký hiệu và thuật ngữ của E1, E2, RQ1 (03/11/2026, `docs/research_rules.md` R2)
 

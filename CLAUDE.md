@@ -30,12 +30,14 @@ Repo nghiên cứu Gatekeeper (ASE 2027). Người phụ trách: @thuthuy. File 
 4. CI chạy preflight ở mọi lần push.
 5. Mỗi lỗi mới có thể kiểm bằng máy phải được thêm vào preflight. Lỗi chỉ kiểm được bằng người thì thêm vào danh sách §4 và ghi vào `docs/review_log.md` khi review.
 
-## Quy tắc nghiên cứu R1–R5 (`docs/research_rules.md`)
+## Quy tắc nghiên cứu R1–R6 (`docs/research_rules.md`)
 1. **R1:** mọi đề xuất phải nêu: tại sao; dựa trên lý thuyết, công thức hay thực nghiệm **đã công bố** nào; câu trích từ **bản gốc đã đọc** (nhánh `sources-snapshots`, cấu hình ở `configs/sources.json`). Không suy đoán từ trí nhớ. Không tự đoán URL.
 2. **R2:** mọi con số và khái niệm phải thuộc một nhóm có điều kiện kiểm được: chuẩn công bố, suy ra, bên thứ ba, định nghĩa can thiệp, vận hành. Ghi vào `docs/number_provenance.md`. Số tự đặt thì thay thế, tìm nguồn, hoặc hỏi @thuthuy. Số phải thử nhiều lần mới chọn được: nêu vì sao phải thử, và chọn bằng một quy tắc đã công bố, trên dữ liệu không dùng để kết luận. Không ngưỡng hay từ ngữ mơ hồ: mỗi ký hiệu một nghĩa (`docs/glossary.md` §7), mọi đánh giá kèm con số.
 3. **R3:** mọi mã hay quy tắc mới phải **review trước khi chạy** theo danh sách `docs/research_rules.md` §4, chạy `python scripts/preflight.py`, và ghi vào `docs/review_log.md`.
 4. **R4:** mọi lỗi được ghi vào `docs/audit_pilot.md` (lỗi, ảnh hưởng, sửa, bằng chứng) **và** `docs/lessons_learned.md` (nguyên nhân gốc, phòng ngừa). Mỗi bài học thành một mục kiểm tra trong §4.
 5. **R5:** không đổi quy tắc sau khi thấy dữ liệu. Mọi thay đổi trước khi phân tích là một "Ghi chú thực thi" hoặc một "Sai lệch D#" có ngày và lý do, ghi trong bản đăng ký trước. Quy tắc cũ vẫn được tính và báo cáo.
+
+6. **R6:** thuật ngữ, ký hiệu và ngưỡng phải rõ nghĩa. Mỗi ký hiệu được định nghĩa trước khi dùng và chỉ có một nghĩa (`docs/glossary.md` §7). Mỗi ngưỡng ghi đủ giá trị, chiều (một phía hay hai phía), đại lượng áp dụng và nguồn. Không dùng từ đánh giá mơ hồ khi không kèm con số. Preflight [terms] kiểm tự động.
 
 ## Quy trình cho mỗi tác vụ (theo thứ tự)
 1. Đọc bản đăng ký trước liên quan (`docs/preregistration_*.md`), kể cả mọi ghi chú thực thi và sai lệch.

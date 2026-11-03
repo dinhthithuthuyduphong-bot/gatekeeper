@@ -45,6 +45,15 @@ Mỗi lỗi tìm thấy được ghi ở hai nơi:
 - Thay đổi chỉ được phép trước khi mở kết quả, phải ghi thành "Ghi chú thực thi" có ngày và lý do.
 - Thay đổi không được làm khi đã có lý do nghi ngờ rằng mình đã thấy kết quả. Nếu đã lỡ thấy một phần dữ liệu thì giữ quy tắc cũ và báo cáo giới hạn (ví dụ C7).
 
+## R6. Thuật ngữ, ký hiệu và ngưỡng phải rõ nghĩa (@thuthuy: "Tôi không chấp nhận những ngưỡng mơ hồ và tối nghĩa, mọi thứ phải thực sự rõ ràng để không bị reviewer bắt bẻ")
+
+1. **Định nghĩa trước khi dùng:** mọi ký hiệu và thuật ngữ được định nghĩa trong `docs/glossary.md` §7 trước khi xuất hiện trong bản đăng ký trước, báo cáo hay paper. Định nghĩa phải chính xác (công thức hoặc thủ tục) và kèm nguồn.
+2. **Một nghĩa duy nhất:** một ký hiệu không mang hai nghĩa (A43: R từng có 3 nghĩa). Viết tắt phải được giải nghĩa.
+3. **Ngưỡng đầy đủ:** mọi ngưỡng ghi đủ giá trị, chiều (một phía hay hai phía), đại lượng áp dụng, và nguồn hoặc nhóm R2.
+4. **Không từ đánh giá mơ hồ:** các từ "gần như", "rất", "khá", "hơi", "đáng kể", "mạnh", "yếu", "quy mô nhỏ/lớn" chỉ được dùng khi câu có con số. Phép so sánh có đối tượng ("nhỏ hơn δ", "ít nhất θ") được phép.
+5. **Phân loại mức độ bằng hậu quả đã định nghĩa** (K1/K2/K3), không bằng nhãn cảm tính.
+6. **Kiểm tự động:** preflight [terms] quét các tài liệu sẽ vào paper (`docs/method_check.md`, bản đăng ký trước E1/E2, `docs/glossary.md`). Phát hiện → FAIL → không commit, không chạy. Tài liệu mới sẽ vào paper phải được thêm vào danh sách `PAPER_DOCS` của `scripts/preflight.py`.
+
 ## §3b. Review song song: file nào, theo quy trình nào
 
 Trong khi một thí nghiệm chạy nền (E1, E2), tác vụ kế tiếp được chuẩn bị và review **song song**. Hai tác vụ không bao giờ chạy có chi phí cùng lúc nếu chúng dùng chung tài nguyên (L12, A32).

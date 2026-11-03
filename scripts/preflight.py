@@ -10,6 +10,7 @@ Checks (each comes from a past error, see docs/lessons_learned.md):
             the ones that do not are listed as UNVERIFIED (they may not support any conclusion) (R1)
   results   no committed run result has an unexplained endpoint mismatch, and no run result
             carries the removed per-batch admission fields (theta/alpha)                (A29, A42)
+  terms     no vague evaluative wording without a number in paper-bound documents      (R6)
   secrets   no tracked or staged file contains a private key                            (security)
   lint/test ruff check, ruff format --check, pytest (skipped with --ci: separate CI steps)
 Exit code 1 if any check fails; UNVERIFIED sources are reported, not failures (they are tracked
@@ -19,6 +20,7 @@ from __future__ import annotations
 
 import ast
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -113,6 +115,32 @@ def check_results() -> list[str]:
 SECRET_PATTERNS = ["-" * 5 + "BEGIN " + "PRIVATE KEY" + "-" * 5, '"private' + '_key":']
 
 
+# Rule R6 (docs/research_rules.md): no vague evaluative wording in documents that go into the
+# paper or the report. A sentence with one of these words must carry a number; comparisons
+# ("nho hon", "lon nhat", "it nhat") and verbatim quotes ("...") are exempt.
+VAGUE_TERMS = ["gần như", "rất", "khá", "hơi", "đáng kể", "mạnh", "yếu", "quy mô nhỏ", "quy mô lớn"]
+COMPARATIVE = re.compile(r"(nhỏ|lớn|cao|thấp|nhiều|ít|mạnh|yếu)\s+(hơn|nhất)|ít nhất|nhiều nhất")
+PAPER_DOCS = [
+    "docs/method_check.md",
+    "docs/preregistration_e1.md",
+    "docs/preregistration_e2.md",
+    "docs/glossary.md",
+]
+
+
+def check_terms(files: list[str] = PAPER_DOCS) -> list[str]:
+    bad = []
+    for f in files:
+        for i, line in enumerate(Path(f).read_text(encoding="utf-8").splitlines(), 1):
+            text = re.sub(r"\"[^\"]*\"|“[^”]*”", "", line)  # verbatim quotes are exempt
+            for sent in re.split(r"(?<=[.;])\s", text):
+                low = COMPARATIVE.sub("", sent.lower())
+                hits = [w for w in VAGUE_TERMS if re.search(rf"(?<!\w){re.escape(w)}(?!\w)", low)]
+                if hits and not re.search(r"\d", sent):
+                    bad.append(f"{f}:{i} vague {hits}: {sent.strip()[:100]}")
+    return bad
+
+
 def check_secrets() -> list[str]:
     bad = []
     staged = subprocess.run(["git", "diff", "--cached"], capture_output=True, text=True).stdout
@@ -139,6 +167,9 @@ def main() -> int:
     r = check_results()
     print(f"[results] {'ok' if not r else 'FAIL'}")
     failures += r
+    t = check_terms()
+    print(f"[terms] {'ok' if not t else 'FAIL'}")
+    failures += t
     s = check_secrets()
     print(f"[secrets] {'ok' if not s else 'FAIL'}")
     failures += s

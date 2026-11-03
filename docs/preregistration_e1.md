@@ -60,7 +60,7 @@ Với mỗi skill s, Z_ik = R(none) − R(skill) ∈ {−1, 0, 1}; Z̄_i là tru
 
 ## 6. RQ1 thu nhỏ: Gatekeeper so với quy tắc nhận ngây thơ (bổ sung 03/11/2026, **trước khi có dữ liệu E1**)
 
-@thuthuy duyệt 65 USD cho E1 cộng phần này. Đây là phép kiểm **trực tiếp** luận điểm chính của paper ở quy mô nhỏ.
+@thuthuy duyệt 65 USD cho E1 cộng phần này. Đây là phép kiểm **trực tiếp** luận điểm chính của paper trên K = 7 ô, mỗi ô 40 trial sàng lọc.
 
 **Skill có hại theo thiết kế** (`configs/skills/harm-*.json`): các hướng dẫn trông hợp lý nhưng sai.
 - `harm-swallow-exceptions`: nuốt exception thay vì sửa logic.
@@ -85,7 +85,7 @@ Nhãn "có hại" **không được giả định** mà được kiểm trên se
   - Không tự cài lại XRepoSkill, MemGovern hay gskill (`baselines.py`: baseline bên thứ ba phải chạy từ code gốc).
 - **Đại lượng:** harmful acceptance = số ô có hại được admit / số ô có hại; clean-reuse coverage = số ô có ích được admit / số ô có ích; STR_thật trung bình của các ô được admit.
 - **Kiểm chéo bên ngoài:** cùng các quy tắc trên 392 ô SWE-Skills-Bench; sàng lọc trên requirement 1–5, nhãn trên 6–10 và ngược lại; α mỗi ô = 0,05 / 392. Phân tích thăm dò, vì dữ liệu đã được xem trước.
-- **Giới hạn phải nêu:** 7 ô là quy mô nhỏ; chỉ có các quy tắc quyết định, chưa có baseline bên thứ ba; nhãn thật dựa trên 80 trial mỗi ô nên vẫn có nhiễu.
+- **Giới hạn phải nêu:** K = 7 ô, nên mỗi tỉ lệ (ví dụ harmful acceptance) chỉ nhận các giá trị k / (số ô đã xác lập); chỉ có các quy tắc quyết định, chưa có baseline bên thứ ba; nhãn thật dựa trên kiểm định với 80 trial mỗi ô, và xác suất xác lập theo δ có ở `docs/method_check.md` (C10).
 
 Mã: `scripts/rq1_mini.py`; test: `tests/test_rq1_mini.py`.
 
