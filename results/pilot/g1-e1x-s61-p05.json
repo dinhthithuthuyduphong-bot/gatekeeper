@@ -1,0 +1,123 @@
+{
+  "generated_utc": "2026-11-03T19:27:18+00:00",
+  "format_version": 2,
+  "name": "g1-e1x-s61-p05",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "matplotlib__matplotlib-24149",
+    "matplotlib__matplotlib-25430",
+    "pytest-dev__pytest-5413",
+    "scikit-learn__scikit-learn-10508"
+  ],
+  "spent_usd": 0.2215,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.01893465625,
+      "tokens_in_per_run": 193234.0,
+      "tokens_out_per_run": 2456.75,
+      "cached_share": 0.7603669644058499,
+      "api_calls_per_run": 29.75,
+      "solve_rate": 0.25,
+      "solved": 1,
+      "scored": 4
+    },
+    "null-guard": {
+      "runs": 1,
+      "usd_per_run": 0.022816275000000004,
+      "tokens_in_per_run": 200451.0,
+      "tokens_out_per_run": 3971.0,
+      "cached_share": 0.737292405625315,
+      "api_calls_per_run": 28.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "type-guard": {
+      "runs": 2,
+      "usd_per_run": 0.020127025000000003,
+      "tokens_in_per_run": 216775.0,
+      "tokens_out_per_run": 3137.0,
+      "cached_share": 0.7949302271940952,
+      "api_calls_per_run": 24.5,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "exception-handling": {
+      "runs": 1,
+      "usd_per_run": 0.08271152499999998,
+      "tokens_in_per_run": 1485004.0,
+      "tokens_out_per_run": 7223.0,
+      "cached_share": 0.8959915259487516,
+      "api_calls_per_run": 107.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "matplotlib__matplotlib-24149": "Submitted",
+      "matplotlib__matplotlib-25430": "Submitted",
+      "pytest-dev__pytest-5413": "Submitted",
+      "scikit-learn__scikit-learn-10508": "Submitted"
+    },
+    "null-guard": {
+      "matplotlib__matplotlib-24149": "Submitted"
+    },
+    "type-guard": {
+      "matplotlib__matplotlib-25430": "Submitted",
+      "scikit-learn__scikit-learn-10508": "Submitted"
+    },
+    "exception-handling": {
+      "pytest-dev__pytest-5413": "Submitted"
+    }
+  },
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "matplotlib__matplotlib-24149",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "matplotlib__matplotlib-25430",
+          "loss_with": 0.6693121693121693,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-10508",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0013227513227513366,
+      "variance_components": null
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "pytest-dev__pytest-5413",
+          "loss_with": 0.822463768115942,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.1557971014492754,
+      "variance_components": null
+    }
+  }
+}

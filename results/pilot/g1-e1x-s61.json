@@ -5,7 +5,8 @@
     "g1-e1x-s61-p01",
     "g1-e1x-s61-p02",
     "g1-e1x-s61-p03",
-    "g1-e1x-s61-p04"
+    "g1-e1x-s61-p04",
+    "g1-e1x-s61-p05"
   ],
   "skills": {
     "null-guard": {
@@ -39,12 +40,17 @@
           "instance_id": "django__django-13671",
           "loss_with": 0.45161290322580644,
           "loss_without": 0.45161290322580644
+        },
+        {
+          "instance_id": "matplotlib__matplotlib-24149",
+          "loss_with": 0.0,
+          "loss_without": 0.0
         }
       ],
       "mean_Z": 0.0,
-      "n": 6,
-      "solve_rate_with": 0.5,
-      "solve_rate_without": 0.5
+      "n": 7,
+      "solve_rate_with": 0.5714285714285714,
+      "solve_rate_without": 0.5714285714285714
     },
     "type-guard": {
       "pairs": [
@@ -87,12 +93,22 @@
           "instance_id": "matplotlib__matplotlib-23332",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "matplotlib__matplotlib-25430",
+          "loss_with": 0.6693121693121693,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-10508",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.0,
-      "n": 8,
-      "solve_rate_with": 0.125,
-      "solve_rate_without": 0.125
+      "mean_Z": 0.00026455026455026733,
+      "n": 10,
+      "solve_rate_with": 0.1,
+      "solve_rate_without": 0.1
     },
     "exception-handling": {
       "pairs": [
@@ -130,42 +146,47 @@
           "instance_id": "matplotlib__matplotlib-22835",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pytest-dev__pytest-5413",
+          "loss_with": 0.822463768115942,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.031148723771674595,
-      "n": 7,
-      "solve_rate_with": 0.2857142857142857,
-      "solve_rate_without": 0.2857142857142857
+      "mean_Z": -0.007780495619055847,
+      "n": 8,
+      "solve_rate_with": 0.25,
+      "solve_rate_without": 0.25
     }
   },
   "usage": {
     "none": {
-      "runs": 20,
-      "usd": 0.9058279,
-      "solved": 6,
-      "scored": 20,
-      "usd_per_run": 0.045291395
+      "runs": 24,
+      "usd": 0.9815665250000001,
+      "solved": 7,
+      "scored": 24,
+      "usd_per_run": 0.040898605208333334
     },
     "null-guard": {
-      "runs": 6,
-      "usd": 0.16505709999999998,
-      "solved": 3,
-      "scored": 6,
-      "usd_per_run": 0.027509516666666664
+      "runs": 7,
+      "usd": 0.18787337499999998,
+      "solved": 4,
+      "scored": 7,
+      "usd_per_run": 0.02683905357142857
     },
     "type-guard": {
-      "runs": 8,
-      "usd": 0.29213065,
+      "runs": 10,
+      "usd": 0.3323847,
       "solved": 1,
-      "scored": 8,
-      "usd_per_run": 0.03651633125
+      "scored": 10,
+      "usd_per_run": 0.03323847
     },
     "exception-handling": {
-      "runs": 7,
-      "usd": 0.21672160000000001,
+      "runs": 8,
+      "usd": 0.29943312499999997,
       "solved": 2,
-      "scored": 7,
-      "usd_per_run": 0.030960228571428574
+      "scored": 8,
+      "usd_per_run": 0.037429140624999996
     }
   },
   "infra_failures": {},
@@ -190,7 +211,11 @@
       "django__django-16802": "Submitted",
       "django__django-16948": "Submitted",
       "matplotlib__matplotlib-22835": "Submitted",
-      "matplotlib__matplotlib-23332": "Submitted"
+      "matplotlib__matplotlib-23332": "Submitted",
+      "matplotlib__matplotlib-24149": "Submitted",
+      "matplotlib__matplotlib-25430": "Submitted",
+      "pytest-dev__pytest-5413": "Submitted",
+      "scikit-learn__scikit-learn-10508": "Submitted"
     },
     "null-guard": {
       "astropy__astropy-14590": "Submitted",
@@ -198,7 +223,8 @@
       "django__django-12803": "Submitted",
       "django__django-12973": "Submitted",
       "django__django-13410": "Submitted",
-      "django__django-13671": "Submitted"
+      "django__django-13671": "Submitted",
+      "matplotlib__matplotlib-24149": "Submitted"
     },
     "type-guard": {
       "astropy__astropy-12880": "Submitted",
@@ -208,7 +234,9 @@
       "django__django-14267": "Submitted",
       "django__django-16693": "Submitted",
       "django__django-16948": "Submitted",
-      "matplotlib__matplotlib-23332": "Submitted"
+      "matplotlib__matplotlib-23332": "Submitted",
+      "matplotlib__matplotlib-25430": "Submitted",
+      "scikit-learn__scikit-learn-10508": "Submitted"
     },
     "exception-handling": {
       "astropy__astropy-13838": "Submitted",
@@ -217,12 +245,13 @@
       "django__django-16302": "Submitted",
       "django__django-16560": "Submitted",
       "django__django-16802": "Submitted",
-      "matplotlib__matplotlib-22835": "Submitted"
+      "matplotlib__matplotlib-22835": "Submitted",
+      "pytest-dev__pytest-5413": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 1.5797,
+  "spent_usd": 1.8012,
   "instances": [
     "astropy__astropy-12880",
     "astropy__astropy-13838",
@@ -243,7 +272,11 @@
     "django__django-16802",
     "django__django-16948",
     "matplotlib__matplotlib-22835",
-    "matplotlib__matplotlib-23332"
+    "matplotlib__matplotlib-23332",
+    "matplotlib__matplotlib-24149",
+    "matplotlib__matplotlib-25430",
+    "pytest-dev__pytest-5413",
+    "scikit-learn__scikit-learn-10508"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
