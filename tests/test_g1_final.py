@@ -152,3 +152,23 @@ def test_verdict_has_harm_verdict_and_label():
     assert out["harm_verdict"].startswith("harm established") is False  # 1 repo cluster: S2 fails
     assert out["skills"]["s"]["harm"]["p"] < 0.025
     assert "E2" in out["verdict"]
+
+
+def test_hypothetical_drops_pairs_not_tasks():
+    import analyze_g1_final as gf
+
+    def run(trunc_task):
+        pairs = [
+            {"instance_id": f"o__r{i}-1", "loss_with": 0.0, "loss_without": 1.0} for i in range(4)
+        ]
+        st = {f"o__r{i}-1": "Submitted" for i in range(4)}
+        sk = dict(st)
+        if trunc_task is not None:
+            sk[f"o__r{trunc_task}-1"] = "LimitsExceeded"
+        return {"skills": {"s": {"pairs": pairs}}, "exit_status": {"none": st, "s": sk}}
+
+    out = gf.intercurrent([run(0), run(None), run(1)], ["s"])
+    h = out["hypothetical"]["s"]
+    assert h["n_tasks"] == 4 and h["n_pairs"] == 10  # 12 pairs minus the 2 truncated ones
+    assert abs(out["truncation_rate"]["s"]["rate"] - 2 / 12) < 1e-12
+    assert gf._lattice([1 / 2, 1 / 3, 1.0])[1] == 6  # means of 1..3 seeds stay exact

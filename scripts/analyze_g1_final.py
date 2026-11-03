@@ -251,9 +251,13 @@ def intercurrent(confirm: list[dict], skills: list[str]) -> dict:
             ]
             for t, z in z_resolved(pairs).items():
                 acc[t].append(z)
-        x = [sum(v) / len(v) for v in acc.values() if len(v) == len(confirm)]
+        # preregistration_e1.md section 3: drop the PAIRS (task x seed) with a truncated arm, not
+        # whole tasks; a task keeps the mean of its remaining seeds (still symmetric under H0, so
+        # the exact sign-flip test applies; _lattice handles means of 1..3 values via m = 6)
+        x = [sum(v) / len(v) for v in acc.values() if v]
         out["hypothetical"][s] = {
             "n_tasks": len(x),
+            "n_pairs": sum(len(v) for v in acc.values()),
             "mean_z_resolved": float(np.mean(x)) if x else None,
             "ci": t_interval(x) if len(x) >= 2 else None,
             "p_help_one_sided": sign_flip_p(x) if x else None,

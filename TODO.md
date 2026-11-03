@@ -2,6 +2,13 @@
 
 > **Đây là kim chỉ nam của dự án.** Mỗi lần xong một việc: tick `[x]`, ghi ngày + link commit/log vào cột "Bằng chứng" của mục [Nhật ký tiến độ](#nhật-ký-tiến-độ), cập nhật `report/index.html`. Việc nào chưa có bằng chứng (file, log CI, số đo) thì chưa được tick.
 
+> **Quy tắc nghiên cứu bắt buộc (từ 03/11/2026): `docs/research_rules.md`.**
+> - R1: mọi đề xuất phải có lý do và nguồn công bố, đã đọc bản gốc.
+> - R2: mọi con số và khái niệm phải được chứng minh, nếu không thì thay thế.
+> - R3: review mã trước khi thực thi (`docs/review_log.md`).
+> - R4: mọi lỗi ghi vào `docs/audit_pilot.md` và `docs/lessons_learned.md`.
+> - R5: không đổi quy tắc sau khi thấy dữ liệu.
+
 Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions · 👤 = bạn phải tự làm (đọc, họp, quyết định) · 💰 = tốn tiền (API, GPU, máy CPU).
 
 ---
@@ -712,6 +719,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 03/11/2026 | @thuthuy duyệt thêm 10 USD: ngân sách E1 = **75 USD** (đo được khoảng 0,20 USD mỗi task mỗi seed ở 250 bước); trần driver 106,26 USD. Vai trò của E1: đối chứng dương cho claim an toàn, lặp lại G1 với thiết kế đã sửa, hiệu chỉnh cho E2 | `docs/preregistration_e1.md` |
 | 03/11/2026 | @thuthuy duyệt **45 USD cho E2**. Pool E2: 120 task SWE-bench-Live ngẫu nhiên (seed "2027-e2", loại 12 repo của SWE-bench). **Phát hiện khi đối chiếu bản gốc:** Live phải chấm bằng bản fork harness của chính họ (nhánh `python-only`, `--namespace starryzhang`), vì `swebench` 5.0.2 không đọc `test_cmds`. Đã thêm tùy chọn harness theo từng pool. Bản đăng ký trước E2 viết **trước mọi dữ liệu E2**: hệ XRepoSkill giữ nguyên (36 chiến lược, bước chọn 2 lần gọi LLM, top_n 3, khung `SKILL_FRAME`); chỉ commit mã rule (repo không có LICENSE) | `docs/preregistration_e2.md`, `scripts/xreposkill_select.py` |
 | 03/11/2026 | **Rà soát toàn bộ trước khi chạy tiếp** (yêu cầu của @thuthuy): sửa 12 lỗi (A24–A35), trong đó có 3 lỗi lẽ ra làm sai kết quả: ghi đè `g1_final.json`, thứ tự sàng lọc RQ1 lệch bản đăng ký trước, `RepeatedFormatError` bị coi là lỗi hạ tầng. Thêm 2 lỗi lẽ ra làm sai E2: trần ngân sách cố định, xuất dữ liệu Live bị hỏng. Đã kiểm: chưa có dữ liệu nào bị ảnh hưởng. Ghi nhận C7: S2 của E1 có power thấp (G = 8–9 repo) | `docs/audit_pilot.md` |
+| 03/11/2026 | @thuthuy đặt **quy tắc nghiên cứu R1–R5**. Áp dụng ngay: (1) sổ bài học L1–L10 và danh sách review §4; (2) review mã A24–A35 phát hiện thêm lỗi F1 do chính tôi viết, đã sửa; (3) bỏ ngưỡng tự đặt "≥ 10 task mỗi rule"; (4) mốc cắt dữ liệu huấn luyện của Gemini **chưa xác nhận được từ bản gốc**, nên phân tích nhiễm dữ liệu bị treo; (5) n của E2 = 121 theo ràng buộc nguồn lực (Lakens 2022, đã đọc bản gốc), thay cho số 120 tự đặt | `docs/research_rules.md`, `docs/lessons_learned.md`, `docs/review_log.md` |
 
 ---
 

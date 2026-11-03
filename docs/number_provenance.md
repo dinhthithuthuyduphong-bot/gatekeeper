@@ -68,3 +68,23 @@ Mọi con số khác bên dưới đều được **suy ra từ α**, **suy ra t
 | cost_limit 0,20 USD | Không bao giờ chạm (chi phí lớn nhất mỗi lần chạy 0,129 USD); nếu chạm sẽ được ghi là kết quả bị cắt |
 | Lô 4 task, 6 GB/task, dự phòng 4 GB, chờ 30 phút, 6 lần thử, 110 phút | Chỉ quyết định *khi nào* một lần chạy diễn ra, không quyết định *kết quả*. Lần chạy lỗi hạ tầng bị loại và chạy lại (A2, A3, A18) |
 | Model Flash-Lite, `reasoning_effort` low | Không ảnh hưởng tính hợp lệ của phép so sánh (hai nhánh dùng cùng model). Có ảnh hưởng đến **phạm vi** kết luận → nêu trong giới hạn |
+
+## 6. E1 và E2 (03/11/2026, áp dụng `docs/research_rules.md` R2)
+
+| Con số | Nhóm (R2) | Cơ sở (đã đọc bản gốc) |
+| --- | --- | --- |
+| α một phía 0,025 cho mỗi chiều (có ích, có hại) | Chuẩn công bố | ICH E9 (mục 0) |
+| α mỗi ô RQ1 = 0,05/K | Suy ra | Bonferroni đều (`AlphaLedger.from_plan`, mục 3) |
+| 40 trial sàng lọc mỗi ô | Suy ra | = n mỗi skill của E1 (`docs/g1_verdict.md` §2: công thức cỡ mẫu với δ, V đo được) |
+| `top_n = 3`, `issue_max_chars = 6000`, temperature 0, `reasoning_effort` low | Bên thứ ba | `configs/pipeline.yaml` và `retrieval.default_llm` của XRepoSkill tại `26fd703` |
+| 36 chiến lược | Bên thứ ba | `data/general_strategies_36.md` tại `26fd703` (parser của họ đọc lại đúng 36) |
+| `--split full`, `--namespace starryzhang` | Bên thứ ba | README nhánh `python-only` của SWE-bench-Live (`sources-snapshots`: `swebench_live_python_only`) |
+| step_limit 250 | Bên thứ ba | mặc định `swebench.yaml` của mini-swe-agent 2.4.6 |
+| cost_limit 1,00 USD | Vận hành | Không ràng buộc: lần chạy đắt nhất 0,53 USD (`docs/audit_pilot.md` B5) |
+| Seed 41, 51, 61 | Suy ra (không ảnh hưởng) | Khác mọi seed đã dùng và khác seed + 1 (mục 1) |
+| **n của E2 = 121 task** dùng được và được kích hoạt | Suy ra | **Ràng buộc nguồn lực** (Lakens 2022, Table 1: "resource constraints"): n = ⌊B / (2 nhánh × 3 seed × c̄)⌋ = ⌊45 / (6 × 0,0617)⌋ = 121. B = 45 USD (@thuthuy duyệt). c̄ = 0,0617 USD mỗi lần chạy, đo trên 62 lần chạy của E1. Kèm hiệu ứng tới hạn và CI (Lakens 2022: "sensitivity power analysis", "width of confidence interval") |
+| N_VALIDATE = 120 (khối kiểm định đầu) | ❌ Tự đặt → thay | Số task đem kiểm định chỉ là vận hành, **nếu** quy tắc lấy mẫu là "121 task dùng được và được kích hoạt đầu tiên theo thứ tự ngẫu nhiên cố định". Kiểm định thêm từng khối theo đúng thứ tự đó cho đến khi đủ. Kiểm định thừa không ảnh hưởng gì, vì chỉ 121 task đầu được dùng |
+| Ngưỡng "≥ 10 task mỗi rule" | ❌ Tự đặt → bỏ | `docs/research_rules.md` N1 |
+| Mốc cắt dữ liệu huấn luyện 01/2025 | ❌ Chưa xác nhận → treo | `docs/research_rules.md` N3 |
+| Thử lại 4 lần (chọn rule), 2 lần cách 90 s (kiểm định pool) | Vận hành | Còn lỗi thì dừng hoặc loại khỏi pool, không bao giờ âm thầm đổi dữ liệu (`docs/research_rules.md` N5) |
+| Lô 4 task | Vận hành | Chỉ quyết định khi nào chạy. Với E2, cùng lô được chạy cho cả 3 seed trước khi sang lô sau |

@@ -81,3 +81,13 @@ Z_ik = R(none) − R(xreposkill) ∈ {−1, 0, 1}; Z̄_i là trung bình qua 3 s
 - Bước chọn rule bị lỗi API thì được chạy lại; còn lỗi thì không lập tập task.
 - Trần = số đã chi ngoài E2 lúc bắt đầu + 45 USD. E2 chỉ chạy khi E1 xong.
 - **Lệnh phân tích:** `python scripts/analyze_g1_final.py verdict --label E2 --out results/e2_final.json --skills xreposkill --confirm g2-e2-s41 g2-e2-s51 g2-e2-s61` (giả thuyết có ích: `reject`/`robust`; có hại: `harm`/`harm_verdict`); `python scripts/rq1_mini.py --e2 g2-e2-s41 g2-e2-s51 g2-e2-s61`.
+
+**Ghi chú thực thi 2** (03/11/2026, chưa có dữ liệu E2; áp dụng `docs/research_rules.md` R1–R2):
+- **§5.6, phân tích theo rule:** bỏ ngưỡng "≥ 10 task", vì đó là con số tự đặt (N1). Báo cáo **mọi** rule được chọn, kèm số task và Z̄, chỉ để mô tả, không suy luận.
+- **§5.6, nhiễm dữ liệu:** mốc cắt dữ liệu huấn luyện "01/2025" **chưa được xác nhận từ bản gốc**. Trang của Google tải được (`sources-snapshots`, sha256 `2d12689d…`) nhưng không chứa thông tin này (N3). Phân tích này **treo** cho đến khi trích được câu gốc. Nếu không trích được thì không làm, và ghi là giới hạn.
+
+**Ghi chú thực thi 3** (03/11/2026, chưa có dữ liệu E2; R2): **cỡ mẫu theo ràng buộc nguồn lực** (Lakens 2022, Table 1).
+- n = ⌊45 / (2 × 3 × 0,0617)⌋ = **121** task dùng được và được kích hoạt, lấy **theo đúng thứ tự ngẫu nhiên đã cố định** (`random_order`, seed `"2027-e2"`).
+- Nếu khối 120 task đầu chưa đủ 121 task như vậy, kiểm định và chọn rule cho các khối tiếp theo, cũng theo thứ tự đó, đến khi đủ. Không bước nào nhìn vào kết quả của agent.
+- Trần 45 USD vẫn là giới hạn cứng. Nếu Live đắt hơn Verified, việc chạy dừng ở trần và phân tích dùng các task đã có đủ 3 seed (§4).
+- Thay cho câu "mọi task trong tập kích hoạt" ở §4.
