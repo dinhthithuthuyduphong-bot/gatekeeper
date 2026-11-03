@@ -134,3 +134,8 @@ Mã: `scripts/rq1_mini.py`; test: `tests/test_rq1_mini.py`.
 - θ của Gatekeeper = 0 (trước đây là 1e-9 để lách một ràng buộc không có cơ sở trong mã).
 - Quyết định ở α = 0,05 đã đăng ký vẫn được báo cáo (`Gatekeeper (registered alpha, D2)`).
 - **Ký hiệu:** "R(none) − R(skill)" ở §4 nghĩa là 1[resolved | none] − 1[resolved | skill] = Z_resolved (`docs/glossary.md` §7).
+
+**Ghi chú thực thi 6** (03/11/2026, chưa phân tích kết quả nào):
+- @thuthuy duyệt nâng ngân sách E1 lên **91 USD**. Trần cộng dồn trong driver = 31,26 + 91 = **122,26 USD**.
+- **Lý do:** chi phí đo được là 0,0706 USD mỗi lần chạy (277 lần chạy, khoảng 1,42M token input mỗi lần), cao hơn mức 0,0617 USD dùng để ước tính. Phần còn lại (khoảng 1.000 lần chạy) cần khoảng 71 USD.
+- **Thiết kế không đổi.** Nếu chi phí thực tế vượt ước tính và chạm trần, driver dừng, và tôi hỏi lại trước khi chạy tiếp.
