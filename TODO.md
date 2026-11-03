@@ -511,7 +511,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 
 - [ ] 👤💰 ≥ 30 cặp trial cho mỗi cặp skill/context
 - [x] 🤖 Ước lượng σ_S², σ_T² và hiệu ứng thật trung bình · ✅ 03/11: trên thang resolved, σ_S² của mỗi nhánh = 0,080 (A/A ở B3); phương sai Z trong task = 0,146; phương sai hiệu ứng thật giữa các task = 0,011 (phương pháp moment); hiệu ứng thật trung bình khoảng 0 (G1: +0,031; SWE-Skills-Bench: −0,003, SD 0,032) → `results/pilot_variance.json`. **Hệ quả:** nhiễu giữa các lần chạy chiếm phần lớn, nên thêm seed giúp nhiều
-- [ ] 🤖 Số trial cần mỗi ô với α đã phân bổ (Prop. 9 đã sửa + mô phỏng) · 🔧 công cụ sẵn: `analysis.trials_needed`; bảng thiết kế `results/design_table.json` (mục 0.4)
+- [x] 🤖 Số trial cần mỗi ô với α đã phân bổ · ✅ 03/11: **mô phỏng plasmode**, mọi đầu vào đều đo được hoặc đã công bố (p₊ = 0,04 / 0,08 đo ở pilot; δ ∈ {0,02; 0,05; 0,109} từ SWE-Skills-Bench; α/K chia đều). Với e-process: δ = 0,109, θ = 0, K = 1 cần 186–277 trial; θ = 0,05 cần 637–968 (K = 1) đến 1.263–1.930 (K = 100); δ = 0,05 cần ≥ 662; δ = 0,02 không đạt được trong 4.000 trial → `results/design_table_plasmode.json`. **Đây là cái giá của tính anytime-valid**, phải nêu trong paper
 - [x] 🤖 Đếm số task khác nhau có được mỗi scope → đủ cho số trial không (R2) · ✅ **không đủ** cho phương án (a), xem mục 0.4
 - [ ] 🤖 Power analysis: cần bao nhiêu cặp harmful để phát hiện margin 5 điểm với power 80% (R4) · 🔧 công cụ sẵn: `analysis.endpoint_power`; kết quả với số dự kiến của paper: `results/endpoint_power.json` → R14
 - [ ] 👤 Ước lượng lại tổng chi phí
