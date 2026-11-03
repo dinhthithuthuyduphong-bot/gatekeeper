@@ -8,7 +8,7 @@
   }
  ],
  "url": "https://github.com/anthropics/skills",
- "sha256": "b9edfac3e3e0a641270e208a741e5f554e81bef6ff1251a71dd4930a35579017",
+ "sha256": "490e9cac4fccdff5ba4ae1bd78ead6553264e5f972aa5ce44b45ab2e51b5d214",
  "n_chars": 12034,
  "head": " GitHub - anthropics/skills: Public repository for Agent Skills · GitHub Skip to content Navigation Menu Sign in Products Platform GitHub Repository hosting, code review, and collaboration Copilot AI coding agent for tasks, projects and automated work Build & Ship Actions CI/CD and automation Code Quality Quality analysis, fixes, and enforcement Codespaces Cloud development environments Secure Code Security Vulnerability detection",
  "excerpts": {
@@ -35,5 +35,5 @@
    ". For instance, if you install the document-skills plugin from the marketplace, you can ask Claude Code to do something like: \"Use the PDF skill to extract the form fields from path/to/some-file.pdf \" Claude.ai These example skills are all already available to paid plans in Claude.ai. To use any skill from this repository or upload custom skills, follow the instructions in Using skills in Claude . Claude API You can use Anthropic's pre-built skills, and upload custom skills, via the Claude API. See the Skills API Quickstart for more. Creating a Basic Skill Skills are simple to create - just a folder with a SKILL.md file containing YAML frontmatter and instructions. You can use the template-skill in this repository as a starting point: --- name : my-skill-name description : A clear description of what this skill does and when to use it --- # My Skill Name [ Add your instructions here that Claude will follow when this skill is active ] ## Examples - Example usage 1 - Example usage 2 ## Guidelines - Guideline 1 - Guideline 2 The frontmatter requires only two fields: name - A unique identifier for your skill (lowercase, hyphens for spaces) description - A complete description of what the ski"
   ]
  },
- "fetched_utc": "2026-11-03T07:23:42+00:00"
+ "fetched_utc": "2026-11-03T07:43:47+00:00"
 }
