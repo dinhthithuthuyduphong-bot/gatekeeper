@@ -1,7 +1,7 @@
 {
   "n_expected": 89,
   "n_checked": 89,
-  "n_usable": 85,
+  "n_usable": 86,
   "usable": [
     "astropy__astropy-13977",
     "astropy__astropy-14365",
@@ -78,6 +78,7 @@
     "sphinx-doc__sphinx-9229",
     "sphinx-doc__sphinx-9602",
     "sympy__sympy-12481",
+    "sympy__sympy-13091",
     "sympy__sympy-13877",
     "sympy__sympy-14711",
     "sympy__sympy-15599",
@@ -92,8 +93,7 @@
   "rejected": {
     "django__django-7530": "noop arm not clean",
     "django__django-10097": "noop arm not clean",
-    "django__django-14238": "noop arm not clean",
-    "sympy__sympy-13091": "gold not resolved;unstable"
+    "django__django-14238": "noop arm not clean"
   },
   "infra_error": [],
   "missing": []
