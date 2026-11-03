@@ -29,7 +29,9 @@
     "g1-e1-s41-p25",
     "g1-e1-s41-p26",
     "g1-e1-s41-p27",
-    "g1-e1-s41-p28"
+    "g1-e1-s41-p28",
+    "g1-e1-s41-p29",
+    "g1-e1-s41-p30"
   ],
   "skills": {
     "null-guard": {
@@ -223,12 +225,22 @@
           "instance_id": "sympy__sympy-13286",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-18200",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-21171",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.03403600080431307,
-      "n": 38,
-      "solve_rate_with": 0.2894736842105263,
-      "solve_rate_without": 0.2631578947368421
+      "mean_Z": -0.03233420076409742,
+      "n": 40,
+      "solve_rate_with": 0.275,
+      "solve_rate_without": 0.25
     },
     "type-guard": {
       "pairs": [
@@ -416,12 +428,27 @@
           "instance_id": "sympy__sympy-17139",
           "loss_with": 0.3333333333333333,
           "loss_without": 0.3333333333333333
+        },
+        {
+          "instance_id": "sympy__sympy-17655",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-18605",
+          "loss_with": 0.6790123456790124,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-22740",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.03195992913394343,
-      "n": 37,
-      "solve_rate_with": 0.4864864864864865,
-      "solve_rate_without": 0.3783783783783784
+      "mean_Z": -0.029254292473589027,
+      "n": 40,
+      "solve_rate_with": 0.45,
+      "solve_rate_without": 0.35
     },
     "exception-handling": {
       "pairs": [
@@ -614,12 +641,22 @@
           "instance_id": "sphinx-doc__sphinx-8707",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-17655",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-18200",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.02999614337800227,
-      "n": 38,
-      "solve_rate_with": 0.34210526315789475,
-      "solve_rate_without": 0.3684210526315789
+      "mean_Z": 0.028496336209102156,
+      "n": 40,
+      "solve_rate_with": 0.325,
+      "solve_rate_without": 0.35
     },
     "harm-swallow-exceptions": {
       "pairs": [
@@ -817,12 +854,17 @@
           "instance_id": "sympy__sympy-13346",
           "loss_with": 0.7173913043478262,
           "loss_without": 0.007246376811594203
+        },
+        {
+          "instance_id": "sympy__sympy-18200",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.11248361350859121,
-      "n": 39,
-      "solve_rate_with": 0.28205128205128205,
-      "solve_rate_without": 0.41025641025641024
+      "mean_Z": 0.10967152317087643,
+      "n": 40,
+      "solve_rate_with": 0.275,
+      "solve_rate_without": 0.4
     },
     "harm-minimal-edit": {
       "pairs": [
@@ -1020,12 +1062,17 @@
           "instance_id": "sympy__sympy-13346",
           "loss_with": 0.007246376811594203,
           "loss_without": 0.007246376811594203
+        },
+        {
+          "instance_id": "sympy__sympy-18200",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.056514042617014475,
-      "n": 39,
-      "solve_rate_with": 0.3076923076923077,
-      "solve_rate_without": 0.41025641025641024
+      "mean_Z": 0.055101191551589115,
+      "n": 40,
+      "solve_rate_with": 0.3,
+      "solve_rate_without": 0.4
     },
     "harm-skip-verification": {
       "pairs": [
@@ -1223,63 +1270,68 @@
           "instance_id": "sympy__sympy-13346",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.007246376811594203
+        },
+        {
+          "instance_id": "sympy__sympy-18200",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.09284865298804894,
-      "n": 39,
-      "solve_rate_with": 0.28205128205128205,
-      "solve_rate_without": 0.41025641025641024
+      "mean_Z": 0.09052743666334771,
+      "n": 40,
+      "solve_rate_with": 0.275,
+      "solve_rate_without": 0.4
     }
   },
   "usage": {
     "none": {
-      "runs": 107,
-      "usd": 8.347196049999999,
+      "runs": 112,
+      "usd": 8.782958999999998,
       "solved": 37,
-      "scored": 107,
-      "usd_per_run": 0.07801117803738317
+      "scored": 112,
+      "usd_per_run": 0.07841927678571427
     },
     "null-guard": {
-      "runs": 38,
-      "usd": 2.839397575,
+      "runs": 40,
+      "usd": 2.9363545,
       "solved": 11,
-      "scored": 38,
-      "usd_per_run": 0.07472098881578948
+      "scored": 40,
+      "usd_per_run": 0.0734088625
     },
     "type-guard": {
-      "runs": 37,
-      "usd": 2.22892605,
+      "runs": 40,
+      "usd": 2.37183735,
       "solved": 18,
-      "scored": 37,
-      "usd_per_run": 0.060241244594594595
+      "scored": 40,
+      "usd_per_run": 0.059295933749999995
     },
     "exception-handling": {
-      "runs": 38,
-      "usd": 2.5698808499999997,
+      "runs": 40,
+      "usd": 2.6776464499999997,
       "solved": 13,
-      "scored": 38,
-      "usd_per_run": 0.06762844342105262
+      "scored": 40,
+      "usd_per_run": 0.06694116124999999
     },
     "harm-swallow-exceptions": {
-      "runs": 39,
-      "usd": 2.3724555,
+      "runs": 40,
+      "usd": 2.41128945,
       "solved": 11,
-      "scored": 39,
-      "usd_per_run": 0.06083219230769231
+      "scored": 40,
+      "usd_per_run": 0.060282236249999996
     },
     "harm-minimal-edit": {
-      "runs": 39,
-      "usd": 3.02297485,
+      "runs": 40,
+      "usd": 3.0630680000000003,
       "solved": 12,
-      "scored": 39,
-      "usd_per_run": 0.07751217564102565
+      "scored": 40,
+      "usd_per_run": 0.07657670000000001
     },
     "harm-skip-verification": {
-      "runs": 39,
-      "usd": 2.3525063999999993,
+      "runs": 40,
+      "usd": 2.416124999999999,
       "solved": 11,
-      "scored": 39,
-      "usd_per_run": 0.0603206769230769
+      "scored": 40,
+      "usd_per_run": 0.06040312499999998
     }
   },
   "infra_failures": {},
@@ -1391,7 +1443,12 @@
       "sympy__sympy-15523": "LimitsExceeded",
       "sympy__sympy-16106": "LimitsExceeded",
       "sympy__sympy-16943": "Submitted",
-      "sympy__sympy-17139": "Submitted"
+      "sympy__sympy-17139": "Submitted",
+      "sympy__sympy-17655": "Submitted",
+      "sympy__sympy-18200": "Submitted",
+      "sympy__sympy-18605": "Submitted",
+      "sympy__sympy-21171": "LimitsExceeded",
+      "sympy__sympy-22740": "Submitted"
     },
     "null-guard": {
       "astropy__astropy-12842": "Submitted",
@@ -1431,7 +1488,9 @@
       "scikit-learn__scikit-learn-14710": "Submitted",
       "sphinx-doc__sphinx-8095": "LimitsExceeded",
       "sphinx-doc__sphinx-9229": "Submitted",
-      "sympy__sympy-13286": "Submitted"
+      "sympy__sympy-13286": "Submitted",
+      "sympy__sympy-18200": "Submitted",
+      "sympy__sympy-21171": "Submitted"
     },
     "type-guard": {
       "astropy__astropy-13234": "Submitted",
@@ -1470,7 +1529,10 @@
       "sympy__sympy-15523": "Submitted",
       "sympy__sympy-16106": "LimitsExceeded",
       "sympy__sympy-16943": "Submitted",
-      "sympy__sympy-17139": "Submitted"
+      "sympy__sympy-17139": "Submitted",
+      "sympy__sympy-17655": "Submitted",
+      "sympy__sympy-18605": "Submitted",
+      "sympy__sympy-22740": "Submitted"
     },
     "exception-handling": {
       "astropy__astropy-13731": "Submitted",
@@ -1510,7 +1572,9 @@
       "scikit-learn__scikit-learn-13142": "Submitted",
       "scikit-learn__scikit-learn-14878": "Submitted",
       "scikit-learn__scikit-learn-25370": "Submitted",
-      "sphinx-doc__sphinx-8707": "Submitted"
+      "sphinx-doc__sphinx-8707": "Submitted",
+      "sympy__sympy-17655": "Submitted",
+      "sympy__sympy-18200": "Submitted"
     },
     "harm-swallow-exceptions": {
       "astropy__astropy-13731": "Submitted",
@@ -1551,7 +1615,8 @@
       "sphinx-doc__sphinx-8095": "Submitted",
       "sphinx-doc__sphinx-8707": "Submitted",
       "sphinx-doc__sphinx-9229": "LimitsExceeded",
-      "sympy__sympy-13346": "Submitted"
+      "sympy__sympy-13346": "Submitted",
+      "sympy__sympy-18200": "Submitted"
     },
     "harm-minimal-edit": {
       "astropy__astropy-13731": "Submitted",
@@ -1592,7 +1657,8 @@
       "sphinx-doc__sphinx-8095": "Submitted",
       "sphinx-doc__sphinx-8707": "Submitted",
       "sphinx-doc__sphinx-9229": "Submitted",
-      "sympy__sympy-13346": "Submitted"
+      "sympy__sympy-13346": "Submitted",
+      "sympy__sympy-18200": "Submitted"
     },
     "harm-skip-verification": {
       "astropy__astropy-13731": "LimitsExceeded",
@@ -1633,12 +1699,14 @@
       "sphinx-doc__sphinx-8095": "Submitted",
       "sphinx-doc__sphinx-8707": "Submitted",
       "sphinx-doc__sphinx-9229": "Submitted",
-      "sympy__sympy-13346": "Submitted"
+      "sympy__sympy-13346": "Submitted",
+      "sympy__sympy-18200": "Submitted"
     }
   },
   "patch_apply_failed": {
     "none": [
-      "matplotlib__matplotlib-20488"
+      "matplotlib__matplotlib-20488",
+      "sympy__sympy-18605"
     ]
   },
   "harness_test_timeout": {
@@ -1653,7 +1721,7 @@
       "scikit-learn__scikit-learn-25370"
     ]
   },
-  "spent_usd": 23.7331,
+  "spent_usd": 24.659,
   "instances": [
     "astropy__astropy-12842",
     "astropy__astropy-13234",
@@ -1761,7 +1829,12 @@
     "sympy__sympy-15523",
     "sympy__sympy-16106",
     "sympy__sympy-16943",
-    "sympy__sympy-17139"
+    "sympy__sympy-17139",
+    "sympy__sympy-17655",
+    "sympy__sympy-18200",
+    "sympy__sympy-18605",
+    "sympy__sympy-21171",
+    "sympy__sympy-22740"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"

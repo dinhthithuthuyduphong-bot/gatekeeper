@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T14:26:40+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s41-p30",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "sympy__sympy-22740"
+  ],
+  "spent_usd": 0.0994,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.028870325000000006,
+      "tokens_in_per_run": 369455.0,
+      "tokens_out_per_run": 4125.0,
+      "cached_share": 0.8382428171225184,
+      "api_calls_per_run": 39.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "type-guard": {
+      "runs": 1,
+      "usd_per_run": 0.070543725,
+      "tokens_in_per_run": 1376340.0,
+      "tokens_out_per_run": 6861.0,
+      "cached_share": 0.9165460569336065,
+      "api_calls_per_run": 84.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "sympy__sympy-22740": "Submitted"
+    },
+    "type-guard": {
+      "sympy__sympy-22740": "Submitted"
+    }
+  },
+  "skills": {
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-22740",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}
