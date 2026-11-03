@@ -160,3 +160,13 @@ Z_ik = R(none) − R(xreposkill) ∈ {−1, 0, 1}; Z̄_i là trung bình qua 3 s
   - số và tỉ lệ lần chạy lỗi hạ tầng theo từng nhánh, lấy từ `infra_failures` của từng file lô (dữ liệu của lần đầu vẫn còn);
   - **phân tích độ nhạy S-infra:** với mỗi (task, seed), chỉ dùng **lần chạy đầu tiên**; nhánh nào lỗi hạ tầng ở lần đó thì tính là không giải được. Ước lượng, CI và kiểm định giống ước lượng chính. Đây là giới hạn bất lợi cho nhánh bị lỗi nhiều hơn.
 - Nếu không có lỗi hạ tầng nào thì S-infra trùng với ước lượng chính, và chỉ ghi như vậy.
+
+**Ghi chú thực thi 10** (03/11/2026, chỉ trường vận hành, chưa phân tích): **lượt dispatch 1** (run 41659629033) **và lượt nối tiếp.**
+- **Lượt 1:**
+  - 329 file lô, 658 lần chạy agent.
+  - Chi 40,0719 USD, khớp đúng sổ ngân sách.
+  - `runs == scored + infra` ở mọi nhánh; 0 lệch tiêu chí giải được; 0 quá giờ khi chấm; 4 bản vá không áp được (tính là không giải được).
+  - 8 lỗi hạ tầng (RateLimitError 429): 6 ở `none`, 2 ở `xreposkill`. Đây là dữ liệu thiếu; S-infra đã đăng ký ở ghi chú thực thi 9.
+  - 103 task có đủ 3 seed.
+- **Bước gom:** thất bại vì va chạm khi đẩy lên `raw-archive` (A68). Đã chạy lại bước gom; kết quả nay đã lên `e2-results`.
+- **Lượt nối tiếp:** cùng 20 shard, cùng ngân sách 45 USD, chạy bằng mã đã sửa (A61, A68). Lượt này lấy kết quả cũ từ `e2-results`, nên không chạy lại task đã xong. Nó dừng ở trần như §4.
