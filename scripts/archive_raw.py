@@ -130,6 +130,12 @@ def load_manifest() -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument(
+        "--redacted-ok",
+        action="store_true",
+        help="third-party text was already replaced by scripts/redact_third_party.py (which "
+        "exits 1 on any leak, and the caller then deletes the raw files): archive such batches",
+    )
     a = ap.parse_args()
     manifest = load_manifest()
     done = manifest["batches"]
@@ -160,7 +166,11 @@ def main() -> int:
             "result_status": status,
             "result_sha256": res_sha,
         }
-        if skills_of(part) & WITHHELD_SKILLS:
+        if skills_of(part) & WITHHELD_SKILLS and a.redacted_ok:
+            entry["redacted"] = "XRepoSkill text replaced by <<XREPOSKILL_...>> markers (A55)"
+            entry["path"] = f"archive/{stage_of(part)}/{part}.tar.gz"
+            new[entry["path"]] = blob
+        elif skills_of(part) & WITHHELD_SKILLS:
             entry["withheld"] = (
                 "third-party text without a licence: content kept off the public branch"
             )

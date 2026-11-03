@@ -1,0 +1,188 @@
+name: E2 shards (SWE-bench-Live, XRepoSkill)
+
+# E2 (docs/preregistration_e2.md) split over parallel jobs (GitHub-hosted runners: up to 20
+# concurrent jobs on the Free plan, 6 h per job; docs.github.com/en/actions/reference/limits,
+# snapshot in sources-snapshots/data/sources/github_actions_limits.json). Same pinned versions as
+# the local runs (mini-swe-agent 2.4.6, litellm 1.106.6, swebench 5.0.2, Live fork ad79b85,
+# docker 7.2.0, Python 3.11). Every shard runs the same pre-execution gate (scripts/preflight.py).
+#
+# mode=dryrun: scripted model + oracle skill on 2 tasks per shard, no credentials, 0 USD: checks
+#   Docker, the Live harness, disk and the plumbing on the runner (expected: oracle resolved,
+#   no-skill not, no run lost).
+# mode=paid: needs repository secrets GCP_SA_KEY, VERTEXAI_PROJECT, VERTEXAI_LOCATION; each shard
+#   has its own cap (spend recorded in the checkout + shard_budget_usd), so the total stays below
+#   shards x shard_budget_usd. Raw files are redacted (no XRepoSkill text: no LICENSE) before upload.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dryrun (0 USD) or paid"
+        required: true
+        default: "dryrun"
+        type: choice
+        options: ["dryrun", "paid"]
+      shards:
+        description: "Number of parallel jobs (<= 20)"
+        required: true
+        default: "2"
+      seeds:
+        description: "Seeds, interleaved on the same task batch"
+        required: true
+        default: "41 51 61"
+      shard_budget_usd:
+        description: "USD cap per shard (paid only)"
+        required: true
+        default: "0"
+      guidance_sha256:
+        description: "SHA-256 the rebuilt guidance file must have (paid only)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: e2-shards
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.p.outputs.shards }}
+    steps:
+      - id: p
+        run: |
+          n="${{ inputs.shards }}"
+          [ "$n" -ge 1 ] && [ "$n" -le 20 ] || { echo "shards must be 1..20"; exit 1; }
+          echo "shards=$(python3 -c "import json; print(json.dumps(list(range($n))))")" >> "$GITHUB_OUTPUT"
+
+  run:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.plan.outputs.shards) }}
+    env:
+      K: ${{ matrix.shard }}
+      N: ${{ inputs.shards }}
+      VERTEXAI_PROJECT: ${{ secrets.VERTEXAI_PROJECT }}
+      VERTEXAI_LOCATION: ${{ secrets.VERTEXAI_LOCATION }}
+      HF_DATASETS_OFFLINE: "1"
+    steps:
+      - name: Free disk space for Docker images
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          docker system prune -af || true
+          df -h /
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Install (pinned, same versions as the local runs)
+        run: |
+          pip install -e . "swebench==5.0.2" "mini-swe-agent==2.4.6" "litellm==1.106.6" "docker==7.2.0" "pyyaml==6.0.3" "google-auth==2.62.0" mcp
+          python -m venv livenv
+          livenv/bin/pip install "swebench @ git+https://github.com/microsoft/SWE-bench-Live@ad79b850f15e33992e96f03f6e97f05ddf9aa0be" "docker==7.2.0"
+      - name: Authenticate to Google Cloud (paid only)
+        if: inputs.mode == 'paid'
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - name: Task rows and shard
+        run: |
+          git fetch -q origin data-snapshots
+          git show origin/data-snapshots:data/instances/verified_pools.jsonl | grep '"test_cmds"' > e2_rows.jsonl
+          python - <<'EOF'
+          import json, os
+          k, n, mode = int(os.environ["K"]), int(os.environ["N"]), "${{ inputs.mode }}"
+          if mode == "paid":
+              ids = json.load(open("configs/pools/e2_selected.json"))["instances"]
+          else:  # dry run: 2 USABLE tasks of block 1 per shard (gold resolves on a runner)
+              p = json.load(open("configs/pools/e2.json"))
+              ok = set(json.load(open("results/pool_validation/e2/summary.json"))["usable"])
+              ids = [i for i in p["random_order"] if i in ok][: 2 * n]
+          mine = ids[k::n]
+          json.dump({"instances": mine}, open("shard_pool.json", "w"))
+          json.dump({"xreposkill": mine, "oracle-gold": mine}, open("shard_sets.json", "w"))
+          print(f"shard {k}/{n}: {len(mine)} tasks")
+          EOF
+      - name: XRepoSkill guidance (paid only; rebuilt from the recorded rule ids, no LLM call)
+        if: inputs.mode == 'paid'
+        run: |
+          git clone -q https://github.com/XREPOSKILL/XRepoSkill xrepo
+          git -C xrepo checkout -q 26fd70345698108c0fdce2d8904293a38b9cd42f
+          mkdir -p runs/e2_xreposkill
+          python scripts/build_e2_guidance.py --clone xrepo --out runs/e2_xreposkill/guidance_by_instance.json \
+            --expect-sha256 "${{ inputs.guidance_sha256 }}"
+      - name: Gate (preflight)
+        run: python scripts/preflight.py --ci
+      - name: Run (seeds interleaved on the same tasks, images kept between seeds)
+        run: |
+          if [ "${{ inputs.mode }}" = paid ]; then
+            MODEL=gemini-flash-lite; SKILLS=configs/skills/xreposkill-e2.json; PREFIX=g2-e2
+            CAP=$(python -c "import sys; sys.path.insert(0,'scripts'); import run_batched_pilot as r; print(round(r.pilot_spent_total() + float('${{ inputs.shard_budget_usd }}'), 4))")
+          else
+            MODEL=deterministic; SKILLS=configs/skills/oracle-gold.json; PREFIX=e2dry; CAP=1000
+          fi
+          echo "cap for this shard: $CAP"
+          left() { python scripts/missing_tasks.py "$1" shard_pool.json; }
+          while :; do
+            total=0; for s in ${{ inputs.seeds }}; do total=$((total + $(left $PREFIX-s$s-k$K))); done
+            [ "$total" -gt 0 ] || break
+            for s in ${{ inputs.seeds }}; do
+              [ "$(left $PREFIX-s$s-k$K)" -gt 0 ] || continue
+              python scripts/run_batched_pilot.py --name $PREFIX-s$s-k$K --model $MODEL --model-seed $s \
+                --skills $SKILLS --task-sets shard_sets.json --tasks-from shard_pool.json \
+                --dataset-file e2_rows.jsonl --batch 4 --max-batches 1 --cap-usd $CAP --cost-limit 1.0 \
+                --step-limit 250 --workers 4 --arm-parallel 2 --keep-images \
+                --stop-after-min 330 --batch-min 50 \
+                --harness-python livenv/bin/python --harness-namespace starryzhang
+            done
+            now=0; for s in ${{ inputs.seeds }}; do now=$((now + $(left $PREFIX-s$s-k$K))); done
+            [ "$now" -lt "$total" ] || { echo "no progress (time, cap or error)"; break; }
+          done
+          python scripts/preflight.py --ci
+      - name: Redact third-party text from raw files (paid only)
+        if: always() && inputs.mode == 'paid'
+        run: |
+          python scripts/redact_third_party.py --guidance runs/e2_xreposkill/guidance_by_instance.json \
+            --clone xrepo runs logs || { echo "LEAK: raw files will not be uploaded"; rm -rf runs logs; }
+          rm -rf runs/e2_xreposkill
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: e2-shard-${{ matrix.shard }}
+          path: |
+            results/pilot/*-k${{ matrix.shard }}*.json
+            runs/*-k${{ matrix.shard }}-p*/
+            logs/run_evaluation/*-k${{ matrix.shard }}-p*/
+          if-no-files-found: warn
+
+  collect:
+    needs: run
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - uses: actions/download-artifact@v6
+        with:
+          pattern: e2-shard-*
+          path: .
+          merge-multiple: true
+      - name: Raw evidence to raw-archive (redacted in the shards; dry runs too)
+        run: |
+          pip install -e .
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python scripts/archive_raw.py --redacted-ok
+      - name: Results to the e2-results branch
+        run: |
+          ls results/pilot/ | head -50
+          scripts/publish_snapshot.sh e2-results "E2 shards (${{ inputs.mode }}) run ${GITHUB_RUN_ID}" results/pilot
