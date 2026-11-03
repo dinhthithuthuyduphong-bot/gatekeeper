@@ -55,7 +55,11 @@ jobs:
         if: always() && matrix.python == '3.11'
         with:
           name: results-test
-          path: results/
+          # the confseq cross-check result comes ONLY from its own job: two artifacts holding the
+          # same file, downloaded with merge-multiple, can interleave and corrupt it (audit A48)
+          path: |
+            results/
+            !results/confseq_crosscheck.json
 
   confseq-crosscheck:
     runs-on: ubuntu-latest
