@@ -365,3 +365,38 @@ def test_scoring_run_id_is_unique_per_attempt():
     spec.loader.exec_module(rp)
     a = rp.scoring_run_id("g1-c-s31-p05", "none")
     assert a.startswith("g1-c-s31-p05-none-") and a != "g1-c-s31-p05-none"
+
+
+def test_per_instance_guidance_prepended(tmp_path):
+    import json as _json
+
+    from gatekeeper.skill import Skill as _Skill
+
+    gfile = tmp_path / "g.json"
+    gfile.write_text(_json.dumps({"a": "RULE A"}))
+    sk = _Skill.from_dict(
+        {
+            "schema_version": 1,
+            "id": "third-party",
+            "procedure": {
+                "kind": "guidance",
+                "guidance_by_instance_file": str(gfile),
+                "position": "prepend",
+            },
+            "fingerprints": {},
+            "input_predicates": [],
+            "postconditions": [],
+            "footprint": {"regions": [], "reads": [], "writes": [], "properties": []},
+            "capability_verdict": "approved",
+            "source": "test",
+        }
+    )
+    out = arm_rows(
+        [
+            {"instance_id": "a", "problem_statement": "Bug"},
+            {"instance_id": "b", "problem_statement": "Bug"},
+        ],
+        sk,
+    )
+    assert out[0]["problem_statement"].startswith('<skill id="third-party">\nRULE A')
+    assert out[0]["problem_statement"].endswith("Bug") and out[1]["problem_statement"] == "Bug"

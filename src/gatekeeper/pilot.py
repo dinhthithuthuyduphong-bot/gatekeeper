@@ -141,17 +141,33 @@ def fill_template(template: str, row: Mapping[str, Any], max_items: int = 5) -> 
 
 
 def arm_rows(rows: Iterable[Mapping[str, Any]], skill: Skill | None) -> list[dict]:
-    """Rows of the arm dataset: identical tasks, the skill's guidance appended to the issue."""
+    """Rows of the arm dataset: identical tasks plus the skill's guidance.
+
+    procedure keys: "guidance" (same text for every task), "guidance_template" (filled per task),
+    "guidance_by_instance_file" (JSON {instance_id: text}, e.g. rules selected per issue by a
+    third-party system; tasks without an entry get no guidance), "position": "append" (default,
+    after the issue) or "prepend" (above the issue, as XRepoSkill injects its rules)."""
     out = []
-    guidance = (skill.procedure.get("guidance") or "").strip() if skill else ""
-    template = (skill.procedure.get("guidance_template") or "").strip() if skill else ""
+    proc = skill.procedure if skill else {}
+    guidance = (proc.get("guidance") or "").strip()
+    template = (proc.get("guidance_template") or "").strip()
+    by_inst: dict[str, str] = {}
+    if proc.get("guidance_by_instance_file"):
+        by_inst = json.loads(Path(proc["guidance_by_instance_file"]).read_text())
+    prepend = proc.get("position", "append") == "prepend"
     for r in rows:
         row = dict(r)
+        g = guidance
         if template:  # per-instance guidance, e.g. the positive control leaking the gold patch
-            guidance = fill_template(template, r)
-        if guidance:
+            g = fill_template(template, r)
+        if by_inst:
+            g = (by_inst.get(r["instance_id"]) or "").strip()
+        if g:
+            block = f'<skill id="{skill.id}">\n{g}\n</skill>'
             row["problem_statement"] = (
-                f'{r["problem_statement"]}\n\n<skill id="{skill.id}">\n{guidance}\n</skill>'
+                f"{block}\n\n{r['problem_statement']}"
+                if prepend
+                else f"{r['problem_statement']}\n\n{block}"
             )
         out.append(row)
     return out
