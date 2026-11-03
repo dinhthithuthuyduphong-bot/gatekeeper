@@ -43,7 +43,7 @@ def main() -> int:
                     n = trials_needed(
                         eff,
                         a,
-                        theta=th if th > 0 else 1e-9,
+                        theta=th,  # theta = 0 is a valid null (audit A42)
                         power=POWER,
                         p_plus=pp,
                         max_budget=MAX_BUDGET,

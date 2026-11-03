@@ -138,3 +138,15 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Mỗi câu "theo chuẩn X" phải ghi rõ **một phía hay hai phía** và trích câu gốc.
   - Mỗi ký hiệu chỉ một nghĩa (`docs/glossary.md` §7).
   - Danh sách review có mục tương ứng.
+
+## L14. Rà tay bỏ sót; quy trình phải nằm trong file được tự động nạp và trong kiểm tra tự động (A44, A45, A46)
+
+- **Xảy ra:**
+  - Lượt rà tay bỏ sót 4 con số mặc định.
+  - Một công cụ lấy nguồn âm thầm làm mất bản tốt.
+  - 5 nguồn là Wikipedia mà không ai để ý.
+- **Nguyên nhân gốc:** quy trình nằm trong trí nhớ của người làm (hoặc của tôi, vốn không có trí nhớ giữa các phiên). Các kiểm tra lặp lại được làm bằng tay.
+- **Phòng ngừa:**
+  - **`CLAUDE.md`** ở gốc repo được nạp tự động ở mọi phiên. File tóm tắt R1–R5, quy trình 8 bước và các điều cấm.
+  - **`scripts/preflight.py`** tự động hóa phần kiểm được bằng máy của §4: mặc định khoa học, nguồn, kết quả, khóa bí mật, lint, test. File chạy ở **mọi lần push** (CI).
+  - Mỗi lỗi mới có thể kiểm bằng máy phải được thêm thành một kiểm tra trong preflight, không chỉ một dòng trong tài liệu.

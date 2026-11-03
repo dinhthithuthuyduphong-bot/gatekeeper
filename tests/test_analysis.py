@@ -37,10 +37,10 @@ def test_variance_components_recover_model():
 
 
 def test_trials_needed_monotone_in_effect():
-    strong = trials_needed(-0.25, 0.05, reps=200, max_budget=1000)
-    weak = trials_needed(-0.15, 0.05, reps=200, max_budget=1000)
+    strong = trials_needed(-0.25, 0.05, theta=0.05, reps=200, max_budget=1000)
+    weak = trials_needed(-0.15, 0.05, theta=0.05, reps=200, max_budget=1000)
     assert strong is not None and weak is not None and strong < weak
-    assert trials_needed(-0.05, 0.05, reps=100, max_budget=300) is None
+    assert trials_needed(-0.05, 0.05, theta=0.05, reps=100, max_budget=300) is None
 
 
 def test_endpoint_power_grows_with_pairs():

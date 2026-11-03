@@ -30,7 +30,9 @@ jobs:
           python-version: "3.11"
       - name: Install
         run: pip install "pypdf>=4"
-      - name: Fetch sources
-        run: python scripts/fetch_sources.py
+      - name: Fetch sources (keeps the last good snapshot when a re-fetch fails, audit A44)
+        run: |
+          git fetch --depth=200 origin sources-snapshots || true
+          python scripts/fetch_sources.py
       - name: Publish to sources-snapshots branch
         run: scripts/publish_snapshot.sh sources-snapshots "Sources from ${GITHUB_SHA::7} (run ${GITHUB_RUN_ID})" data/sources

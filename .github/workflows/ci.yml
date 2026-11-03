@@ -34,6 +34,8 @@ jobs:
         run: |
           ruff check .
           ruff format --check .
+      - name: Preflight (research_rules.md section 4, machine-checkable part)
+        run: python scripts/preflight.py --ci
       - name: Unit tests
         run: pytest --cov=gatekeeper --cov-report=term-missing --cov-fail-under=80 --junitxml=results/junit.xml
       - name: Feasibility simulation (full)

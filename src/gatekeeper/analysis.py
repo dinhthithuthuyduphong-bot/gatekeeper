@@ -62,7 +62,7 @@ def variance_components(
 def trials_needed(
     str_true: float,
     alpha: float,
-    theta: float = 0.05,
+    theta: float,
     power: float = 0.8,
     p_plus: float = 0.10,
     max_budget: int = 5000,

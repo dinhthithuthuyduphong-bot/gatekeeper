@@ -67,7 +67,7 @@ class Gatekeeper:
         ledger: AlphaLedger,
         runner: TrialRunner,
         sampler: TaskSampler,
-        theta: float = 0.05,
+        theta: float,
         budget_per_cell: int = 2000,
         min_trials_before_abandon: int = 30,
         seed: int = 0,

@@ -510,6 +510,8 @@ def main() -> int:
     today = date.today().isoformat()
     summary = {
         "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        # 2 = after audit A42 (no per-batch admission fields); checked by scripts/preflight.py
+        "format_version": 2,
         "name": a.name,
         "model": a.model if model is None else model.litellm_name,
         "dataset": a.dataset_file or DATASET,

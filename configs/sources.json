@@ -56,8 +56,9 @@
   },
   {
    "id": "holm",
-   "claim": "Holm controls FWER under arbitrary dependence; step-down rule",
+   "claim": "Holm (1979) step-down procedure controls the family-wise error rate (full text; official: JSTOR stable 4615733)",
    "urls": [
+    "https://www.ime.usp.br/~abe/lista/pdf4R8xPVzCnX.pdf",
     "https://en.wikipedia.org/wiki/Holm%E2%80%93Bonferroni_method"
    ],
    "keywords": [
@@ -67,7 +68,9 @@
     "assumption",
     "step-down",
     "Holm (1979)",
-    "Scandinavian"
+    "Scandinavian",
+    "sequentially rejective",
+    "multiple test"
    ]
   },
   {
@@ -174,7 +177,6 @@
     "prior",
     "PrPl",
     "Ville",
-    "aGRAPA",
     "(\u03bc\u0302",
     "mean - m",
     "\u03c3\u03022"
@@ -247,8 +249,9 @@
   },
   {
    "id": "ville_inequality",
-   "claim": "Ville: P(sup nonneg supermartingale >= 1/alpha) <= alpha",
+   "claim": "Ville's inequality for nonnegative supermartingales (Ramdas, Grunwald, Vovk & Shafer, Statistical Science)",
    "urls": [
+    "https://arxiv.org/pdf/2210.01948",
     "https://en.wikipedia.org/wiki/Ville%27s_inequality"
    ],
    "keywords": [
@@ -339,8 +342,10 @@
   },
   {
    "id": "icer",
-   "claim": "incremental cost-effectiveness ratio: delta cost / delta effect, compared with a willingness-to-pay threshold",
+   "claim": "Incremental cost-effectiveness ratio: difference in costs / difference in benefits (NICE PMG36; BMJ 2005)",
    "urls": [
+    "https://www.nice.org.uk/process/pmg36/resources/nice-health-technology-evaluations-themanual-pdf-72286779244741",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC543863",
     "https://en.wikipedia.org/wiki/Incremental_cost-effectiveness_ratio"
    ],
    "keywords": [
@@ -364,8 +369,10 @@
   },
   {
    "id": "mutation_survey",
-   "claim": "mutation testing: artificial faults to assess fault detection; competent programmer, coupling effect",
+   "claim": "Mutation testing: seeded faults (mutants) evaluate a test method (Jia & Harman, IEEE TSE)",
    "urls": [
+    "https://web.eecs.umich.edu/~weimerw/2020-481F/readings/mutation-testing.pdf",
+    "https://discovery.ucl.ac.uk/id/eprint/10056704/",
     "https://ieeexplore.ieee.org/document/5487526",
     "http://www0.cs.ucl.ac.uk/staff/mharman/tse-mutation.pdf",
     "https://www0.cs.ucl.ac.uk/staff/M.Harman/tse-mutation.pdf",
@@ -376,7 +383,8 @@
     "coupling effect",
     "competent programmer",
     "DeMillo",
-    "fault"
+    "fault",
+    "mutation score"
    ]
   },
   {

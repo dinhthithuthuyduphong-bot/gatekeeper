@@ -45,6 +45,24 @@ Mỗi lỗi tìm thấy được ghi ở hai nơi:
 - Thay đổi chỉ được phép trước khi mở kết quả, phải ghi thành "Ghi chú thực thi" có ngày và lý do.
 - Thay đổi không được làm khi đã có lý do nghi ngờ rằng mình đã thấy kết quả. Nếu đã lỡ thấy một phần dữ liệu thì giữ quy tắc cũ và báo cáo giới hạn (ví dụ C7).
 
+## §3b. Review song song: file nào, theo quy trình nào
+
+Trong khi một thí nghiệm chạy nền (E1, E2), tác vụ kế tiếp được chuẩn bị và review **song song**. Hai tác vụ không bao giờ chạy có chi phí cùng lúc nếu chúng dùng chung tài nguyên (L12, A32).
+
+| Bước | Làm gì | File |
+| --- | --- | --- |
+| 1. Đọc | Bản đăng ký trước của tác vụ, kể cả mọi ghi chú thực thi và sai lệch D# | `docs/preregistration_*.md` |
+| 2. Nguồn | Mỗi khẳng định → một mục trong cấu hình nguồn → workflow `sources` → đoạn trích chứa đúng câu cần dùng | `configs/sources.json`, nhánh `sources-snapshots` |
+| 3. Con số | Mỗi con số → một nhóm R2 | `docs/number_provenance.md` |
+| 4. Ký hiệu | Mỗi ký hiệu một nghĩa | `docs/glossary.md` §7 |
+| 5. Phương pháp | Mô phỏng quy tắc quyết định cuối cùng: tỉ lệ sai và power | `scripts/verify_methods.py` → `docs/method_check.md` |
+| 6. Mã | Đối chiếu từng mục §4 dưới đây; test cho từng chỗ sửa | `tests/` |
+| 7. Tự động | `python scripts/preflight.py` (cũng chạy trong CI ở mỗi lần push) | `scripts/preflight.py` |
+| 8. Chạy thử | Mô hình giả lập trên ≥ 1 task thật, 0 USD | `results/pilot/*dryrun*.json` |
+| 9. Ghi review | Mục R-# với từng kiểm tra đã làm và phát hiện | `docs/review_log.md` |
+| 10. Chạy, rồi kiểm | `infra_failures`, `endpoint_mismatch`, `patch_apply_failed`, trạng thái kết thúc | file kết quả của lô |
+| 11. Lỗi (nếu có) | Lỗi → A#; nguyên nhân gốc → L#; phòng ngừa → mục §4 hoặc kiểm tra trong preflight | `docs/audit_pilot.md`, `docs/lessons_learned.md` |
+
 ## §4. Danh sách kiểm tra review (trước khi thực thi)
 
 Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã lỗi ở `docs/audit_pilot.md`).
@@ -98,5 +116,6 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 | N1 | Ngưỡng "rule được chọn ở ≥ 10 task" (E2 §5.6, phân tích theo rule) | Tự đặt, không có nguồn | **Bỏ ngưỡng**: báo cáo mọi rule, kèm số task, chỉ mô tả (không suy luận) |
 | N2 | Lập luận "chi phí tăng gần bình phương theo số bước" (E1 §2) | Ngoại suy, không có nguồn | Đã thay bằng số đo (lần chạy đắt nhất 0,53 USD < 1,00 USD; `docs/audit_pilot.md` B5) |
 | N3 | Mốc cắt dữ liệu huấn luyện "01/2025" của Gemini 3.1 Flash-Lite (E2 §5.6) | Trang gốc tải được nhưng **không chứa** thông tin này; con số chỉ đến từ kết quả tìm kiếm | **Chưa dùng.** Phân tích nhiễm dữ liệu của E2 bị treo cho đến khi trích được câu gốc từ Google |
+| N6 | Wikipedia làm nguồn cho Holm, Wald, Ville, ICER, mutation testing | Nguồn thứ cấp | Đã thay bằng nguồn gốc hoặc bình duyệt (A45). Chờ workflow nguồn xác nhận đoạn trích |
 | N4 | Phân loại `ContextWindowExceededError` là hành vi của agent | Trước đây chỉ là lập luận của tôi | Cơ sở: ICH E9(R1) phân biệt biến cố xen giữa (thuộc estimand) với dữ liệu thiếu. Trích nguyên văn: "the addendum distinguishes discontinuation of randomised treatment from study withdrawal. The former represents an intercurrent event … The latter gives rise to missing data". Trajectory vượt context là hệ quả của chính chính sách (agent + skill), không phải lỗi bên ngoài. Kiểm lại khi tải đủ định nghĩa "treatment policy strategy" |
 | N5 | Số lần thử lại khi chọn rule (4) và khi kiểm định pool (2 lần, cách 90 s) | Nhóm vận hành | Chứng minh không ảnh hưởng kết quả: còn lỗi thì **dừng**, không ghi tập task (`xreposkill_select.py`) hoặc ghi "infra" và loại khỏi pool (`validate_pool.py`) |

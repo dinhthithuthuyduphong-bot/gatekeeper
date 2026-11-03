@@ -24,7 +24,7 @@ from pathlib import Path
 import numpy as np
 from scipy import stats
 
-ALPHA_FAMILY = 0.025  # one-sided, ICH E9 standard (= two-sided 0.05); a value input (Wald)
+ALPHA_FAMILY = 0.025  # one-sided, ICH E9 standard (= two-sided 0.05); a value input (Mudge 2012)
 CI_LEVEL = 1 - 2 * ALPHA_FAMILY  # derived: the two-sided interval matching the one-sided test
 SEED_STEP = 10  # derived: seeds must differ from every seed used before and from seed+1 controls
 RESULTS = Path("results/pilot")

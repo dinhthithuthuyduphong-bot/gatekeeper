@@ -4,7 +4,7 @@ Tiêu chuẩn của @thuthuy: mỗi con số phải **(1) suy ra từ lý thuy�
 
 ## 0. Giới hạn lý thuyết: những gì không thể suy ra
 
-**Lý thuyết quyết định thống kê** (Wald 1950; định lý lớp đầy đủ): một quy tắc quyết định chỉ "tốt nhất" **đối với một hàm thiệt hại** cho trước. Không có hàm thiệt hại thì không quy tắc nào tốt hơn quy tắc nào. Vì vậy, mọi kiểm định đều cần đúng hai đầu vào giá trị, và **không thể suy ra hai đầu vào này từ dữ liệu**:
+**Lý thuyết quyết định thống kê** (Mudge et al. 2012, *PLoS ONE*, đã đối chiếu bản gốc: α tối ưu là α làm nhỏ nhất tổng sai có trọng số theo chi phí của hai loại sai; nền tảng lịch sử là Wald 1950, bản gốc chưa đối chiếu nên không dùng làm căn cứ): một quy tắc quyết định chỉ "tốt nhất" **đối với một hàm thiệt hại** cho trước. Không có hàm thiệt hại thì không quy tắc nào tốt hơn quy tắc nào. Vì vậy, mọi kiểm định đều cần đúng hai đầu vào giá trị, và **không thể suy ra hai đầu vào này từ dữ liệu**:
 
 | Đầu vào giá trị | Ý nghĩa | Cách xác định có cơ sở |
 | --- | --- | --- |

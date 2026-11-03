@@ -34,7 +34,7 @@ class SimResult:
 def simulate(
     str_true: float,
     alpha: float,
-    theta: float = 0.05,
+    theta: float,
     p_plus: float = 0.10,
     budget: int = 2000,
     reps: int = 200,

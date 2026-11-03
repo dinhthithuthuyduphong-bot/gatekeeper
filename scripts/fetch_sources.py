@@ -47,6 +47,29 @@ def excerpts(text: str, keywords: list[str]) -> dict[str, list[str]]:
     return out
 
 
+def previous_good(sid: str) -> dict | None:
+    """Latest SUCCESSFUL snapshot of a source in the history of the sources-snapshots branch
+    (audit A44: a failed re-fetch used to overwrite a good snapshot, e.g. nosek_2018)."""
+    import subprocess
+
+    path = f"data/sources/{sid}.json"
+    try:
+        shas = subprocess.check_output(
+            ["git", "log", "--format=%H", "origin/sources-snapshots", "--", path], text=True
+        ).split()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
+    for sha in shas:
+        try:
+            d = json.loads(subprocess.check_output(["git", "show", f"{sha}:{path}"]))
+        except (subprocess.CalledProcessError, ValueError):
+            continue
+        if d.get("url") and any((d.get("excerpts") or {}).values()):
+            d["snapshot_commit"] = sha
+            return d
+    return None
+
+
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     cfg = json.loads(Path("configs/sources.json").read_text())
@@ -71,6 +94,11 @@ def main() -> int:
             except Exception as exc:  # noqa: BLE001 - record and try the next mirror
                 rec["attempts"].append({"url": url, "ok": False, "error": str(exc)[:200]})
         rec["fetched_utc"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        if "url" not in rec:  # keep the last good snapshot, and say that the re-fetch failed
+            old = previous_good(s["id"])
+            if old is not None:
+                old["refetch_failed"] = {"utc": rec["fetched_utc"], "attempts": rec["attempts"]}
+                rec = old
         (OUT / f"{s['id']}.json").write_text(json.dumps(rec, indent=1, ensure_ascii=False) + "\n")
         summary[s["id"]] = {
             "ok": "url" in rec,

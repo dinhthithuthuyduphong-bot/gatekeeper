@@ -12,19 +12,19 @@ def test_type_one_error_at_boundary_null():
     # STR = -theta is the least favourable null; false admission rate must be <= alpha.
     alpha = 0.05
     reps = 1000
-    res = simulate(str_true=-0.05, alpha=alpha, reps=reps, budget=2000, seed=123)
+    res = simulate(theta=0.05, str_true=-0.05, alpha=alpha, reps=reps, budget=2000, seed=123)
     # allow 3 binomial standard errors of Monte-Carlo noise above alpha
     assert res.admit_rate <= alpha + 3 * math.sqrt(alpha * (1 - alpha) / reps)
 
 
 def test_harmful_skill_never_admitted():
-    res = simulate(str_true=0.10, alpha=0.05, reps=300, budget=1000, seed=7)
+    res = simulate(theta=0.05, str_true=0.10, alpha=0.05, reps=300, budget=1000, seed=7)
     assert res.admit_rate == 0.0
 
 
 def test_power_increases_with_effect_size():
-    weak = simulate(str_true=-0.10, alpha=0.05, reps=200, budget=500, seed=3)
-    strong = simulate(str_true=-0.25, alpha=0.05, reps=200, budget=500, seed=3)
+    weak = simulate(theta=0.05, str_true=-0.10, alpha=0.05, reps=200, budget=500, seed=3)
+    strong = simulate(theta=0.05, str_true=-0.25, alpha=0.05, reps=200, budget=500, seed=3)
     assert strong.admit_rate >= weak.admit_rate
     assert strong.admit_rate == 1.0
 
@@ -44,7 +44,7 @@ def test_vectorised_simulation_matches_scalar_eprocess():
     orig = sim.np.random.default_rng
     sim.np.random.default_rng = lambda _seed: _FixedRng()
     try:
-        vec = sim.simulate(str_true=-0.20, alpha=0.01, reps=1, budget=400)
+        vec = sim.simulate(theta=0.05, str_true=-0.20, alpha=0.01, reps=1, budget=400)
     finally:
         sim.np.random.default_rng = orig
     assert bool(vec.admit_rate) == scalar.admitted
