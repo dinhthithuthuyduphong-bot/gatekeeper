@@ -161,3 +161,16 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 ## L16. Chạy song song cần rà mọi tài nguyên dùng chung (A49)
 
 - **Phòng ngừa:** trước khi cho hai việc chạy cùng lúc, liệt kê mọi file, thư mục, cổng, tên container và image mà chúng ghi hoặc đọc. Mỗi thứ phải riêng, hoặc chỉ đọc. Danh sách review §4 có mục này.
+
+## L17. Mỗi phiên tự kiểm tra và tự nhắc, thay vì dựa vào trí nhớ (A50, yêu cầu "tuân thủ ở mọi phiên")
+
+- **Cơ chế (do công cụ thực thi, không do tôi nhớ):**
+  - `.claude/hooks/session-start.sh` chạy ở **mọi** lần bắt đầu, tiếp tục, xóa và tóm tắt phiên. Hook:
+    - cài phụ thuộc;
+    - cài git hook `pre-commit` (preflight không đạt thì git từ chối commit);
+    - in quy tắc R1–R6 và mã lỗi, bài học, biên bản review mới nhất;
+    - báo Docker và các giai đoạn dở dang;
+    - chạy preflight.
+  - Các script chạy có chi phí có cổng preflight.
+  - CI chạy preflight ở mọi lần push.
+- **Khi dừng một tiến trình giữa chừng:** dừng sau cả bước dọn dẹp của nó, hoặc tự dọn trước khi chạy tiếp.

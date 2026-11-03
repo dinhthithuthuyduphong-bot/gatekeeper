@@ -1,0 +1,11 @@
+#!/bin/bash
+# Installed into .git/hooks/pre-commit by .claude/hooks/session-start.sh (CLAUDE.md, rule R3).
+# Blocks the commit when the automated pre-execution checks fail (lessons L14, L15).
+cd "$(git rev-parse --show-toplevel)" || exit 1
+PY=python3
+[ -x .venv/bin/python ] && PY=.venv/bin/python
+if ! "$PY" scripts/preflight.py --ci > /tmp/gatekeeper-precommit.log 2>&1; then
+  echo "pre-commit: preflight FAILED, commit blocked. Details:" >&2
+  grep -E "FAIL" /tmp/gatekeeper-precommit.log >&2
+  exit 1
+fi

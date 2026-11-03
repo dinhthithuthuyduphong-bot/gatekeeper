@@ -24,9 +24,9 @@ Repo nghiên cứu Gatekeeper (ASE 2027). Người phụ trách: @thuthuy. File 
 - Phán quyết phải "trong sáng, không khiên cưỡng".
 
 ## Cơ chế bảo đảm áp dụng (không phụ thuộc vào trí nhớ)
-1. File này được nạp tự động khi mở một phiên mới trong repo.
+1. File này được nạp tự động khi mở một phiên mới trong repo. Hook `.claude/hooks/session-start.sh` chạy ở mọi lần bắt đầu, tiếp tục, xóa và tóm tắt phiên. Hook cài git hook `pre-commit` (preflight không đạt thì **git từ chối commit**), in lại quy tắc và các mục mới nhất, báo Docker và các thí nghiệm dở dang, rồi chạy preflight. **Đọc kết quả của hook trước khi làm bất cứ việc gì.**
 2. Mọi script chạy có chi phí (`run_e1_par.sh`, `run_e2.sh`, và mọi script mới) **bắt đầu bằng cổng** `python scripts/preflight.py --ci || exit 7`: kiểm tra thất bại thì không chạy.
-3. Mọi commit: `python scripts/preflight.py --ci && git commit …`.
+3. Mọi commit đi qua git hook `pre-commit` (cài bởi hook khởi động phiên): preflight không đạt thì git từ chối commit. Không dùng `--no-verify`.
 4. CI chạy preflight ở mọi lần push.
 5. Mỗi lỗi mới có thể kiểm bằng máy phải được thêm vào preflight. Lỗi chỉ kiểm được bằng người thì thêm vào danh sách §4 và ghi vào `docs/review_log.md` khi review.
 
@@ -64,7 +64,7 @@ Repo nghiên cứu Gatekeeper (ASE 2027). Người phụ trách: @thuthuy. File 
 | Quy tắc, danh sách review §4, mục đang vi phạm §5 | `docs/research_rules.md` |
 | Sổ review trước khi chạy | `docs/review_log.md` |
 | Lỗi đã gặp (A#, B#, C#) | `docs/audit_pilot.md` |
-| Bài học L1–L13 | `docs/lessons_learned.md` |
+| Bài học L1–L17 | `docs/lessons_learned.md` |
 | Nguồn gốc mọi con số | `docs/number_provenance.md` |
 | Ký hiệu và thuật ngữ (một nghĩa duy nhất) | `docs/glossary.md` §7 |
 | Kiểm định phương pháp bằng số | `docs/method_check.md`, `scripts/verify_methods.py` |
