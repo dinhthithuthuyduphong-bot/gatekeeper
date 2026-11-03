@@ -119,6 +119,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Chạy song song (L16)**
 - [ ] Các việc chạy cùng lúc không ghi chung file, thư mục, tên container hay image. Phần tính kết quả vẫn tuần tự và giữ thứ tự cũ.
 
+**Bản sửa và tiến trình đang chạy (L22)**
+- [ ] Sau khi commit một bản sửa ảnh hưởng đến kết quả: liệt kê tiến trình đang chạy và thời điểm khởi động. Tiến trình nào khởi động trước bản sửa thì kết quả của nó phải được xử lý theo quy tắc mới trước lô kế tiếp.
+
 **Kiểm thử**
 - [ ] Mô phỏng hoặc phép toán mảng: assert kích thước kết quả, vì broadcasting âm thầm làm rộng mẫu (R-6).
 - [ ] Có test cho từng chỗ sửa; `ruff check`, `ruff format --check` và `pytest` đều qua.

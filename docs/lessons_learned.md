@@ -213,3 +213,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Trước mọi gợi ý cài đặt, tạo khóa hay cấu hình mà @thuthuy phải làm, **hỏi tình trạng hiện tại trước**. Chỉ gợi ý khi đã biết chắc là thiếu.
   - Không tự kết luận "chưa có" từ việc mình không nhìn thấy.
   - Chỉ đề xuất việc phục vụ trực tiếp mục tiêu đang làm (TODO.md).
+
+## L22. Một bản sửa chỉ có hiệu lực với tiến trình khởi động SAU nó (A57)
+
+- **Xảy ra:** bản sửa A56 được commit lúc 12:26, nhưng E1 đã khởi động lúc 11:48 và một lô bắt đầu lúc 11:51. Python đã nạp mã cũ, nên lô đó vẫn chạy theo quy tắc cũ. Tôi ghi trong A56 rằng "chỉ lô p25 (đã bị cắt) có quá giờ" mà không kiểm lô đang chạy.
+- **Phòng ngừa:**
+  - Mỗi lần commit một bản sửa ảnh hưởng đến kết quả: liệt kê các tiến trình đang chạy (`ps -eo lstart,cmd`), so thời điểm khởi động với thời điểm sửa.
+  - Kết quả của các tiến trình chạy mã cũ phải được xử lý theo quy tắc mới, bằng một script có test, trước lô kế tiếp.

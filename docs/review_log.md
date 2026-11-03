@@ -199,3 +199,21 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - C8: gộp kết quả không kiểm cùng model;
   - C9: preflight không nhận ra key dạng chuỗi;
   - D5: hóa đơn Google chưa được đối chiếu (mục C5 của audit vẫn mở).
+
+## R-20. `scripts/apply_timeout_rule.py` và bước gọi trong `run_e1_inter.sh` (2026-11-03, A57)
+
+- **Căn cứ:** ghi chú thực thi 7 (đã đăng ký trước khi phân tích). Không thêm quy tắc mới, chỉ áp quy tắc đã có lên file do mã cũ ghi.
+- **Đối chiếu với `run_pilot.score_arm` hiện tại:**
+  - quá giờ ở lần chấm đầu → `TEST_TIMED_OUT`;
+  - không có report thì đọc lần chấm lại (trường hợp hợp lệ, không phải quá giờ);
+  - bản vá không áp được → `PATCH_NOT_APPLIED`;
+  - loss tính bằng `loss_of` như mã chính.
+- **Dừng an toàn:**
+  - dừng khi một task bị gọi là lỗi hạ tầng vì lý do khác "no report" mà lại có log quá giờ;
+  - dừng khi không tìm đúng một thư mục log của lần chấm đầu;
+  - file có trường `harness_test_timeout` (mã mới) không bị đụng tới, nên chạy lại nhiều lần vẫn cho cùng kết quả.
+- **Kiểm:**
+  - 3 test;
+  - chạy thử trên 25 file của seed 41 hiện có: không đổi gì;
+  - `bash -n run_e1_inter.sh`: không lỗi cú pháp;
+  - file gộp của giai đoạn được dựng lại từ các lô ở mỗi lần gọi driver.
