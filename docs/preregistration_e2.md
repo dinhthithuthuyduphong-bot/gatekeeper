@@ -148,8 +148,13 @@ Z_ik = R(none) − R(xreposkill) ∈ {−1, 0, 1}; Z̄_i là trung bình qua 3 s
   - Task không xong chỉ phụ thuộc vào shard và thời gian. Task được chia vào shard theo thứ tự ngẫu nhiên đã cố định, nên tập có đủ 3 seed vẫn là một mẫu ngẫu nhiên, không phụ thuộc kết quả của chính task.
 - **Bằng chứng chạy thử trên Actions** (run 41656611463, `budget_usd` 3, 2 job): k1 giữ chỗ 2,00 → ghi số thật → giữ chỗ lại. k0 phải chờ, vì 2 + 2 > 3. Bất biến không bị vi phạm trong suốt lịch sử nhánh sổ.
 
-**Ghi chú thực thi 9** (03/11/2026, trước khi có kết quả E2 nào; A62): **lỗi hạ tầng có thể liên quan đến kết quả.**
-- **Lý do:** lỗi giới hạn tốc độ của Vertex (429) làm một lần chạy hỏng sau 10 lần thử. Lần chạy dài (nhiều lời gọi LLM, thường là không giải được) có nhiều cơ hội gặp lỗi hơn. Quy tắc hiện có chạy lại cả hai nhánh của task bị lỗi, nên lần chạy dài có thể bị thay bằng một mẫu mới nhiều hơn lần chạy ngắn. Theo ICH E9(R1), đây là biến cố xen giữa có thể liên quan đến kết quả, nên phải báo cáo và phân tích độ nhạy.
+**Ghi chú thực thi 9** (03/11/2026, trước khi có kết quả E2 nào; A62): **dữ liệu thiếu do lỗi hạ tầng.**
+- **Phân loại theo ICH E9(R1)** (bản gốc `sources-snapshots/data/sources/ich_e9_r1.json`, sha256 `f7471f41…`):
+  - Lỗi hạ tầng (ví dụ Vertex trả 429 sau 10 lần thử) là việc **không đo được** kết quả, không phải do can thiệp gây ra. ICH: "the addendum distinguishes discontinuation of randomised treatment from study withdrawal. The former represents an intercurrent event […]. The latter gives rise to missing data to be addressed in the statistical analysis". Lỗi hạ tầng thuộc loại thứ hai: **dữ liệu thiếu**.
+  - Cách chạy lại (§4) giả định việc thiếu không liên quan đến kết quả. ICH yêu cầu: "To explore the robustness of inferences from the main estimator to deviations from its underlying assumptions, a sensitivity analysis should be conducted".
+- **Bằng chứng hiện có:**
+  - Lần chạy dài giải được ít hơn: trên 1.037 lần chạy của pilot, tỉ lệ giải được là 0,729 khi có 0–29 lời gọi LLM và 0,065 khi có 120–250 (Mann–Whitney một phía, p = 6,8 × 10⁻⁴⁷). Nếu xác suất lỗi tăng theo số lời gọi, việc chạy lại sẽ thiên về lần chạy ngắn.
+  - Nhưng cả 2 lần lỗi 429 đã gặp (lô g1-e1x-s41-p03) đều xảy ra **ở lời gọi đầu tiên** (0 lời gọi hoàn tất), nên chúng không liên quan đến kết quả. Với n = 2 thì không kết luận được chiều nào. Vì vậy phân tích độ nhạy là cần, và nó là một kiểm tra, không phải giả định rằng có lệch.
 - **Ước lượng chính:** không đổi (chạy lại, như §4).
 - **Báo cáo thêm:**
   - số và tỉ lệ lần chạy lỗi hạ tầng theo từng nhánh, lấy từ `infra_failures` của từng file lô (dữ liệu của lần đầu vẫn còn);

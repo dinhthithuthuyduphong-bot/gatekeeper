@@ -228,3 +228,14 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Phòng ngừa:**
   - Mọi bộ đếm chi phí đọc từ bản ghi của từng yêu cầu: trajectory, file kết quả chọn rule, hóa đơn.
   - Sau mỗi lần chạy có chi phí: kiểm số mới = số cũ + phần mới.
+
+## L24. Một lập luận chưa đo không được viết như một sự thật (R-24)
+
+- **Xảy ra:**
+  - Tôi viết "lần chạy dài dễ gặp lỗi 429 hơn" như một khẳng định. Đo thật thì 2/2 lỗi xảy ra ở lời gọi đầu tiên.
+  - Tôi gọi lỗi hạ tầng là "biến cố xen giữa" theo trí nhớ. Câu gốc của ICH E9(R1) xếp nó vào **dữ liệu thiếu**.
+  - Lần đo đầu tiên của tôi cho tỉ lệ giải được 11,7%, sai vì log cũ không còn trong thư mục làm việc. Tôi phát hiện vì nó lệch xa con số đã biết (0,47–0,49).
+- **Phòng ngừa:**
+  - Mỗi lập luận trong tài liệu ghi rõ là **giả thuyết** hay **đã đo**, kèm số và nguồn.
+  - Mỗi phép đo mới được so với một con số đã biết trước khi dùng (sanity check, như L20).
+  - Mỗi thuật ngữ chuẩn được đối chiếu câu gốc trong `sources-snapshots`.
