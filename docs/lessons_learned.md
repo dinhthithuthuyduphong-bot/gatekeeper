@@ -14,6 +14,14 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Liệt kê trạng thái **từ mã nguồn** của công cụ (`minisweagent/agents/default.py`, `exceptions.py`) và có test cho từng trạng thái.
   - Một hàm duy nhất quyết định "đã xong" (`done_tasks`), dùng chung cho resume và cho bước kiểm (`missing_tasks.py`).
 
+**Bổ sung L1** (A36, A37, 03/11/2026):
+- **Xảy ra:** "không có report" bị coi là lỗi hạ tầng, trong khi nguyên nhân là **bản vá do agent viết** không áp được.
+- **Hậu quả:** chạy lại một lỗi do agent gây ra là cho agent **thử lại đến khi thành công**. Đó là chọn lọc, làm lệch kết quả về phía có lợi.
+- **Phòng ngừa:**
+  - Trước khi xếp một trường hợp vào "hạ tầng", đọc log của chính công cụ để biết *nguyên nhân*. Ở đây là `run_instance.log`, chuỗi `APPLY_PATCH_FAIL` của harness.
+  - Chỉ chạy lại những gì chắc chắn không do chính sách gây ra.
+  - Chạy thử trên **bộ dữ liệu mới** luôn có thể lộ ra khác biệt môi trường (A36: image Live có file chưa theo dõi).
+
 ## L2. Mã lệch khỏi bản đăng ký trước mà không ai phát hiện (A25, A26, họ Holm của E1)
 
 - **Xảy ra:**

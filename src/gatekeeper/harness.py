@@ -10,7 +10,15 @@ from pathlib import Path
 
 from gatekeeper.loss import functional_loss
 
-__all__ = ["DATASET", "NOOP_PATCH", "loss_of", "read_report", "run_harness"]
+__all__ = [
+    "APPLY_PATCH_FAIL",
+    "DATASET",
+    "NOOP_PATCH",
+    "loss_of",
+    "patch_apply_failed",
+    "read_report",
+    "run_harness",
+]
 
 # swebench>=5 needs the SWE-bench org copy (it carries image, eval_script, log_parser)
 DATASET = "SWE-bench/SWE-bench_Verified"
@@ -77,6 +85,20 @@ def read_report(run_id: str, model: str, iid: str, root: str | Path = "logs/run_
             return None
         p = hits[0]
     return json.loads(p.read_text())[iid]
+
+
+APPLY_PATCH_FAIL = ">>>>> Patch Apply Failed"  # swebench.harness.constants (5.0.2 and Live fork)
+
+
+def patch_apply_failed(run_id: str, iid: str, root: str | Path = "logs/run_evaluation") -> bool:
+    """True if the harness could not apply the submitted patch (its run_instance.log says so).
+    That is the AGENT's output, scored "not resolved" as in SWE-bench (Jimenez et al. 2024,
+    Table 5 reports % Resolved over all instances next to % Apply; the harness puts these
+    instances in error_ids, never in resolved_ids) - not an infrastructure failure (audit A37)."""
+    for log in sorted((Path(root) / run_id).glob(f"*/{iid}/run_instance.log")):
+        if APPLY_PATCH_FAIL in log.read_text(errors="replace"):
+            return True
+    return False
 
 
 def loss_of(rep: dict | None, w: float = 0.5) -> tuple[float, dict]:

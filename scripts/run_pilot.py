@@ -31,7 +31,7 @@ import yaml
 
 from gatekeeper.analysis import variance_components
 from gatekeeper.eprocess import run_admission
-from gatekeeper.harness import DATASET, loss_of, read_report, run_harness
+from gatekeeper.harness import DATASET, loss_of, patch_apply_failed, read_report, run_harness
 from gatekeeper.patches import drop_files, touched_files
 from gatekeeper.pilot import (
     arm_config,
@@ -151,6 +151,8 @@ def is_infra_failure(status: str | None) -> bool:
 
 
 HARNESS_INFRA = {"_harness_infra": True}
+# a report-less patch the harness could not apply (no tests_status: loss_of gives F = 1, R = 0)
+PATCH_NOT_APPLIED = {"resolved": False, "patch_successfully_applied": False, "_apply_failed": True}
 
 
 def score_arm(
@@ -196,7 +198,12 @@ def score_arm(
             reports[i] = read_report(rid, "", i)
     for i in ids:
         if reports[i] is None and patch[i]:
-            reports[i] = HARNESS_INFRA
+            rids = [run_id] + [f"{run_id}-r{k}" for k in range(1, retries + 1)]
+            if any(patch_apply_failed(r, i) for r in rids):
+                # the agent's patch does not apply: its own output, "not resolved" (A37)
+                reports[i] = dict(PATCH_NOT_APPLIED)
+            else:
+                reports[i] = HARNESS_INFRA
     return reports
 
 
@@ -447,6 +454,7 @@ def main() -> int:
     usage: dict[str, dict[str, dict]] = {}
     infra: dict[str, dict[str, str | None]] = {}
     mismatch: dict[str, list[str]] = {}
+    apply_failed: dict[str, list[str]] = {}
     exit_status: dict[str, dict[str, str | None]] = {}  # intercurrent events (ICH E9(R1))
     spent = 0.0
     if model is not None or a.prepull:
@@ -484,6 +492,8 @@ def main() -> int:
             elif reports[iid] == HARNESS_INFRA:
                 infra[arm][iid] = "harness: no report for a non-empty patch"
             else:
+                if (reports[iid] or {}).get("_apply_failed"):
+                    apply_failed.setdefault(arm, []).append(iid)
                 losses[arm][iid], info = loss_of(reports[iid])
                 # the endpoint is the harness's own "resolved" (get_resolution_status); loss 0
                 # must agree with it, otherwise the analysis would score a different endpoint
@@ -514,6 +524,7 @@ def main() -> int:
         "infra_failures": {arm: v for arm, v in infra.items() if v},
         "model_seed": a.model_seed,
         "endpoint_mismatch": mismatch,
+        "patch_apply_failed": apply_failed,
         "exit_status": exit_status,
         "skills": {},
     }

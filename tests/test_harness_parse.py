@@ -56,3 +56,15 @@ def test_empty_fail_to_pass_matches_harness_convention():
     assert loss_of(ran)[0] == 0.0  # harness: compute_fail_to_pass([]) == 1 -> resolved
     not_run = {"resolved": False}  # patch not applied: no tests_status
     assert loss_of(not_run)[0] > 0.0
+
+
+def test_patch_apply_failure_is_detected_and_scored_unresolved(tmp_path):
+    from gatekeeper.harness import APPLY_PATCH_FAIL, loss_of, patch_apply_failed
+
+    d = tmp_path / "rid" / "model" / "o__r-1"
+    d.mkdir(parents=True)
+    (d / "run_instance.log").write_text(f"INFO - {APPLY_PATCH_FAIL}:\nerror: patch failed\n")
+    assert patch_apply_failed("rid", "o__r-1", root=tmp_path)
+    assert not patch_apply_failed("rid", "o__r-2", root=tmp_path)
+    loss, info = loss_of({"resolved": False, "patch_successfully_applied": False})
+    assert loss > 0 and info["resolved"] is False  # F = 1: nothing fixed, consistent with harness

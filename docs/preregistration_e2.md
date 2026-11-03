@@ -91,3 +91,5 @@ Z_ik = R(none) − R(xreposkill) ∈ {−1, 0, 1}; Z̄_i là trung bình qua 3 s
 - Nếu khối 120 task đầu chưa đủ 121 task như vậy, kiểm định và chọn rule cho các khối tiếp theo, cũng theo thứ tự đó, đến khi đủ. Không bước nào nhìn vào kết quả của agent.
 - Trần 45 USD vẫn là giới hạn cứng. Nếu Live đắt hơn Verified, việc chạy dừng ở trần và phân tích dùng các task đã có đủ 3 seed (§4).
 - Thay cho câu "mọi task trong tập kích hoạt" ở §4.
+
+**Ghi chú thực thi 4** (03/11/2026, chưa có dữ liệu E2): như ghi chú thực thi 2 của E1 (A37). Bản vá không áp được tính là không resolved. Image Live có file chưa theo dõi (A36), nhưng chỉ ảnh hưởng tới mô hình giả lập.

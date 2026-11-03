@@ -38,8 +38,18 @@ __all__ = [
 # Same idea as scripts/harness_smoke.py: an empty patch is skipped by the harness, so every arm
 # adds one unrelated file; the harness then really evaluates the "no change" arm.
 NOOP_FILE_COMMAND = "cd /testbed && echo noop > .gatekeeper_noop"
+# Scripted (dry-run) model only: files that are UNTRACKED in the image before any edit (SWE-bench-
+# Live images ship build/test artefacts, e.g. trimesh-2126: models/sphere.obj) are recorded at
+# startup and unstaged at submission, otherwise `git add -A` puts them in the patch and the patch
+# cannot apply to a fresh container of the same image (audit A36). Real agents build their patch
+# with `git diff -- <files>` (mini-swe-agent swebench.yaml), which never includes untracked files.
+PREEXISTING_COMMAND = (
+    "cd /testbed && git ls-files -z --others --exclude-standard > /tmp/gk_preexisting"
+)
 SUBMIT_COMMAND = (
-    "cd /testbed && git add -A && git diff --cached > /tmp/gk_patch.txt && "
+    "cd /testbed && git add -A && "
+    "(xargs -0 -r -a /tmp/gk_preexisting git reset -q -- 2>/dev/null || true) && "
+    "git diff --cached > /tmp/gk_patch.txt && "
     "echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT && cat /tmp/gk_patch.txt"
 )
 
@@ -186,6 +196,8 @@ def arm_config(
 ) -> dict:
     """mini-swe-agent config overlay for one arm (merged on top of benchmarks/swebench.yaml)."""
     startup = [NOOP_FILE_COMMAND]
+    if outputs is not None:  # scripted dry-run model: real-agent environments stay unchanged
+        startup.insert(0, PREEXISTING_COMMAND)
     if skill and skill.procedure.get("startup"):
         startup.append(str(skill.procedure["startup"]))
     kwargs = dict(model_kwargs or {})

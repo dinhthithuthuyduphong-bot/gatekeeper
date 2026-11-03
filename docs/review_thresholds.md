@@ -121,7 +121,7 @@ Tính lại trên dữ liệu thật (`results/pilot/g1-b3.json`, `g1-c.json`). 
 | **Kiểm A/A bằng "CI chứa 0"** thay vì TOST | Đơn giản (đã đăng ký trước cho B3) | TOST trên resolved, n = 38: chỉ chứng minh tương đương với biên ±0,20 (p = 0,014). Với biên ±0,15 thì p = 0,071, chưa đạt | ⚠️ Với 38 task, dữ liệu **không loại trừ được** độ lệch của thước đo tới khoảng 0,15 |
 | **Ngưỡng −0,10 cho đối chứng dương ở B3** | ≈ 15 điểm % tỉ lệ giải | Đạt với mọi ngưỡng ≤ 0,125. Ngưỡng 0,15 thì trượt | Ổn định trong 0–0,125 |
 | **CI 90% cho đối chứng dương** | Như trên | 80% / 95%: đạt; 99%: trượt (cận trên +0,024) | Ổn định tới 95% |
-| Endpoint loss (w = 0,5) so với **resolved** | Theo paper | Đối chứng dương trên resolved: −0,211, hoán vị p = 0,0105 | Không đổi: đạt mạnh hơn |
+| Endpoint loss (w = 0,5) so với **resolved** | Theo paper | Đối chứng dương trên resolved (định nghĩa v2: oracle **so với đối chứng nhiễu seed + 1**, không phải so với `none`): −0,211, hoán vị p = 0,0105 (kiểm định chính xác: 0,0107) | Không đổi: đạt mạnh hơn |
 | **Chọn skill "Z < 0"** | Chỉ chọn skill có tín hiệu đúng hướng; Z = 0 là không có tín hiệu | "Z ≤ 0" thêm null-guard và exception-handling (Z = 0) → 3 skill, mỗi skill khoảng 1 seed, Holm chặt hơn | Có đổi thiết kế. Thêm hai skill không có tín hiệu làm **giảm** power cho ứng viên duy nhất |
 | Seed 11 / 21 / 31 (bước 10) | Tránh trùng seed + 1 của đối chứng nhiễu | Bất kỳ seed nào khác nhau | Không (tính hợp lệ không phụ thuộc giá trị seed) |
 | α một phía 0,025 | ≡ hai phía 0,05 (quy ước) | 0,05 một phía | Chỉ đổi nếu p nằm trong (0,025; 0,05) |

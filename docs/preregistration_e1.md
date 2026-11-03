@@ -102,3 +102,8 @@ Mã: `scripts/rq1_mini.py`; test: `tests/test_rq1_mini.py`.
 - **cost_limit (§2):** lập luận "chi phí tăng gần bình phương" là ngoại suy không có nguồn. Thay bằng số đo: lần chạy đắt nhất trong 80 lần đầu là 0,53 USD, không lần nào chạm 1,00 USD. Giới hạn này vẫn không ràng buộc.
 - **§3:** trạng thái kết thúc của từng lần chạy nay được lưu, gồm cả 7 lô đầu (bổ sung từ trajectory), nên tỉ lệ bị cắt và phân tích *hypothetical* làm được.
 - **Giới hạn đã biết trước khi phân tích:** S2 với G = 8–9 repo có p nhỏ nhất 2⁻ᴳ (0,0039 hoặc 0,0020). Con số này được báo cáo cạnh kết quả (`docs/audit_pilot.md` C7).
+
+**Ghi chú thực thi 2** (03/11/2026, chưa phân tích kết quả nào; `docs/audit_pilot.md` A37):
+- Bản vá của agent không áp được là **đầu ra của agent**, nên tính là không resolved (treatment policy, §3).
+- Trường hợp này **không** thuộc dòng "lỗi hạ tầng → chạy lại" của §3. Cơ sở: SWE-bench (Jimenez et al. 2024, Table 5) tính % Resolved trên mọi task, cạnh % Apply.
+- Các lô E1 tới nay có 0 ca như vậy.

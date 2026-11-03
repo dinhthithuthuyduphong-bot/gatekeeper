@@ -62,7 +62,10 @@ def test_arm_config_startup_and_model():
     none = arm_config(
         None, "deterministic", model_class="deterministic", outputs=deterministic_outputs()
     )
-    assert none["run"]["env_startup_command"] == NOOP_FILE_COMMAND
+    from gatekeeper.pilot import PREEXISTING_COMMAND
+
+    # dry run: record pre-existing untracked files first (audit A36), then the no-op file
+    assert none["run"]["env_startup_command"] == f"{PREEXISTING_COMMAND} && {NOOP_FILE_COMMAND}"
     assert none["model"]["outputs"][0]["extra"]["actions"][0]["command"] == SUBMIT_COMMAND
     assert "COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT" in SUBMIT_COMMAND
 
@@ -442,3 +445,12 @@ def test_repeated_format_error_is_agent_behaviour():
     assert not rp.is_infra_failure("RepeatedFormatError")
     assert not rp.is_infra_failure("LimitsExceeded")
     assert rp.is_infra_failure(None) and rp.is_infra_failure("APIError")
+
+
+def test_dry_run_records_preexisting_untracked_files_only():
+    from gatekeeper.pilot import PREEXISTING_COMMAND, arm_config, deterministic_outputs
+
+    dry = arm_config(None, "deterministic", outputs=deterministic_outputs())
+    real = arm_config(None, "vertex_ai/x", {"seed": 1})
+    assert dry["run"]["env_startup_command"].startswith(PREEXISTING_COMMAND)
+    assert PREEXISTING_COMMAND not in real["run"]["env_startup_command"]  # real agents unchanged
