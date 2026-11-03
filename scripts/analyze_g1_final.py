@@ -134,7 +134,12 @@ def holm(pvals: dict[str, float], alpha: float) -> dict[str, dict]:
         running = max(running, adj)
         reject = not stop and pvals[name] <= alpha / (k - i)
         stop = stop or not reject
-        out[name] = {"p": pvals[name], "p_holm": running, "reject": reject}
+        out[name] = {
+            "p": pvals[name],
+            "p_holm": running,
+            "reject": reject,
+            "p_holm_level": alpha / (k - i),
+        }
     return out
 
 
@@ -168,6 +173,36 @@ def critical_effect(x: list[float], n_tests: int) -> float:
     if cut is None:  # not even the most extreme outcome is significant
         return float("inf")
     return float(-cut / (m * len(x)))
+
+
+def repo_of(instance_id: str) -> str:
+    """SWE-bench ids are owner__repo-number; anything else is its own cluster."""
+    if "__" not in instance_id:
+        return instance_id
+    owner, rest = instance_id.split("__", 1)
+    return owner + "/" + rest.rsplit("-", 1)[0]
+
+
+def paired_t_p(x: list[float]) -> float:
+    """S1. One-sided paired t-test (Student 1908) on task means: H0 E[Z] >= 0 vs E[Z] < 0.
+    Needs no symmetry/exchangeability, only the CLT (Miller 2024, recommendation 1)."""
+    a = np.asarray(x, dtype=float)
+    n = a.size
+    if n < 2 or a.std(ddof=1) == 0:
+        return 1.0 if n < 2 or a.mean() >= 0 else 0.0
+    t_stat = a.mean() / (a.std(ddof=1) / math.sqrt(n))
+    return float(stats.t.cdf(t_stat, n - 1))
+
+
+def cluster_sign_flip_p(per_task: dict[str, float]) -> tuple[float, int]:
+    """S2. Exact sign-flip test on REPOSITORY sums (Canay, Romano & Shaikh 2017; wild cluster
+    with Rademacher weights, Cameron, Gelbach & Miller 2008): valid under within-repo dependence.
+    One-sided p for 'mean < 0'. Returns (p, number of clusters)."""
+    sums: dict[str, float] = defaultdict(float)
+    for t_id, z in per_task.items():
+        sums[repo_of(t_id)] += z
+    vals = list(sums.values())
+    return sign_flip_p(vals), len(vals)
 
 
 def per_task_mean(runs: list[dict], skill: str, endpoint: str = "resolved") -> dict[str, float]:
@@ -208,6 +243,18 @@ def verdict(c: dict, confirm: list[dict], skills: list[str]) -> dict:
         }
     for s, h in holm(pvals, ALPHA_FAMILY).items():
         out["skills"][s].update(h)
+    # sensitivity analyses (ICH E9 / E9(R1)): each removes one assumption of the primary test
+    for s in skills:
+        zt = per_task_mean(confirm, s)
+        p_t = paired_t_p(list(zt.values()))
+        p_c, g = cluster_sign_flip_p(zt)
+        v = out["skills"][s]
+        v["s1_paired_t_p"] = p_t
+        v["s2_cluster_sign_flip_p"] = p_c
+        v["s2_clusters"] = g
+        # same Holm level as the primary decision for this skill
+        lvl = v["p_holm_level"]
+        v["robust"] = bool(v.get("reject") and p_t <= lvl and p_c <= lvl)
     # A/A on fresh data: no-skill arms of two confirmation seeds; exact two-sided sign-flip test
     # at the two-sided level matching ALPHA_FAMILY (Kohavi et al.: an A/A must not reject)
     if len(confirm) >= 2:
@@ -224,13 +271,19 @@ def verdict(c: dict, confirm: list[dict], skills: list[str]) -> dict:
     else:
         out["aa"] = {"note": "one confirmation seed: A/A not testable"}
     aa_bad = bool(out["aa"].get("flag"))
-    passing = [s for s, v in out["skills"].items() if v.get("reject")]
+    passing = [s for s, v in out["skills"].items() if v.get("robust")]
+    fragile = [s for s, v in out["skills"].items() if v.get("reject") and not v.get("robust")]
     if not skills:
         out["verdict"] = "G1 FAIL: no skill points in the helpful direction on stage C"
     elif aa_bad:
         out["verdict"] = "INCONCLUSIVE: the A/A check rejects (pipeline suspect)"
     elif passing:
         out["verdict"] = "G1 PASS: " + ", ".join(passing)
+    elif fragile:
+        out["verdict"] = (
+            "INCONCLUSIVE: primary test rejects but a sensitivity analysis does not "
+            "(" + ", ".join(fragile) + ")"
+        )
     else:
         crit = max(v["critical_effect"] for v in out["skills"].values())
         out["verdict"] = (

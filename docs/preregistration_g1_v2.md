@@ -168,3 +168,28 @@ Theo `docs/source_verification.md` §2:
 - Chi phí chưa ghi có cận trên: B2-p05 là 1,2; s11-p01 là 0,4; s31-p05 là 1,6 (8 lần chạy × 0,20). Tổng 3,2 USD. Không còn trajectory của các lần chạy bị ngắt, vì file chỉ được ghi khi một lần chạy xong.
 - Trần ghi nhận mới = 35 − 3,2 = **31,8 USD**. `cost_limit` giữ 0,20 USD (không ràng buộc: chi phí lớn nhất là 0,129 trên 489 lần chạy).
 - Nếu trần không đủ để seed 31 xong cả 32 task, task thiếu seed bị loại khỏi phân tích (đơn vị là task có đủ m seed; quy tắc có sẵn trong `per_task_mean`). Số task n được báo cáo kèm kết quả.
+
+## Bổ sung 5 (03/11/2026; seed 31 đang chạy, **chưa mở bất kỳ kết quả xác nhận nào**): thay giả định bằng phương pháp đã công bố
+
+@thuthuy: điều gì không chứng minh được thì phải được thay bằng lý thuyết đã công bố. Hai giả định của kiểm định chính được **gỡ bỏ** bằng hai phân tích độ nhạy, mỗi phân tích không cần giả định tương ứng (ICH E9 và E9(R1): phân tích độ nhạy cho kết luận chính):
+
+| Giả định của kiểm định chính | Phân tích thay thế (không cần giả định đó) | Cơ sở |
+| --- | --- | --- |
+| Hai nhánh hoán đổi được dưới H₀, nên Z_i đối xứng | **S1: kiểm định t ghép cặp một phía** trên trung bình theo task, H₀: E[Z] ≥ 0. Chỉ cần định lý giới hạn trung tâm | Student 1908; Miller 2024 (khuyến nghị 1) |
+| Các task độc lập (32 task thuộc 10 repo, django chiếm 13) | **S2: kiểm định đổi dấu chính xác theo cụm repo** (2¹⁰ cách đổi dấu tổng của từng repo). Vững trước tương quan trong repo | Canay, Romano & Shaikh 2017 (*Econometrica*); Cameron, Gelbach & Miller 2008 (wild cluster, trọng số Rademacher) |
+
+**Phán quyết (thay mục 7 của Bổ sung 3):**
+- **G1 PASS** chỉ khi kiểm định chính **và** S1 **và** S2 cùng bác bỏ ở mức Holm của skill đó, **và** A/A không bác bỏ.
+- Nếu kiểm định chính bác bỏ nhưng S1 hoặc S2 không bác bỏ → **"chưa kết luận: kết quả không vững"**.
+- Còn lại → **G1 FAIL** (kèm hiệu ứng tới hạn).
+
+**Estimand** (khung của ICH E9(R1)):
+- Tổng thể: các task trong pool đã kiểm định mà I(x) của skill đúng (32 task).
+- Biến: resolved của SWE-bench.
+- Biến cố xen giữa: lỗi hạ tầng được chạy lại; task không đủ m seed vì trần bị loại.
+- Đại lượng tóm tắt: chênh lệch tỉ lệ resolved trung bình.
+- **Phạm vi:** kiểm định chính và S2 là suy luận có điều kiện trên các task đã kiểm. S1 giả định các task là mẫu từ một tổng thể. Báo cáo phải ghi rõ: kết luận áp dụng cho các task đã kiểm, Flash-Lite, step_limit 100.
+
+**Quy tắc chọn "Z < 0"** không cần lý giải riêng: tính hợp lệ của suy luận sau khi chọn được bảo đảm với **mọi** quy tắc chọn, nhờ tách dữ liệu (Cox 1975; Rinaldo et al. 2019). Quy tắc chỉ ảnh hưởng power.
+
+Code: `paired_t_p`, `cluster_sign_flip_p`, trường `robust` trong `scripts/analyze_g1_final.py`; test: `test_sensitivity_analyses`, `test_verdict_requires_robust_agreement`.

@@ -91,3 +91,35 @@ def test_budget_drops_weakest_skill():
     assert gf.plan_seeds(c, sel, spent=30.0, cap=34.0)[:2] == (["a", "b"], 1)
     assert gf.plan_seeds(c, sel, spent=31.5, cap=34.0)[:2] == (["a"], 1)
     assert gf.plan_seeds(c, sel, spent=33.0, cap=34.0)[:2] == ([], 0)
+
+
+def test_sensitivity_analyses():
+    # S1 paired t: strong negative mean -> small p; zero -> 0.5
+    assert gf.paired_t_p([-1.0] * 10 + [0.0] * 10) < 0.01
+    assert gf.paired_t_p([1.0, -1.0] * 10) == pytest.approx(0.5)
+    # S2 cluster sign-flip: one repo carrying every helped task cannot be significant on its own
+    one_repo = {f"django__django-{i}": -1.0 for i in range(12)}
+    one_repo.update({f"sympy__sympy-{i}": 0.0 for i in range(6)})
+    p, g = gf.cluster_sign_flip_p(one_repo)
+    assert g == 2 and p >= 0.25  # 2 clusters: smallest attainable p is 1/4
+    spread = {f"r{j}__r{j}-{i}": -1.0 for j in range(10) for i in range(2)}
+    assert gf.cluster_sign_flip_p(spread)[0] == pytest.approx(1 / 1024)
+
+
+def test_verdict_requires_robust_agreement():
+    U = 2 / 3
+    # 12 helped tasks, all in ONE repository: task-level test rejects, cluster test cannot
+    pairs = [(0.0, U)] * 12 + [(U, U)] * 20
+    run = {
+        "skills": {
+            "s": {
+                "pairs": [
+                    {"instance_id": f"django__django-{i}", "loss_with": w, "loss_without": o}
+                    for i, (w, o) in enumerate(pairs)
+                ]
+            }
+        }
+    }
+    v = gf.verdict(run, [run, run, run], ["s"])
+    assert v["skills"]["s"]["reject"] and not v["skills"]["s"]["robust"]
+    assert v["verdict"].startswith("INCONCLUSIVE")
