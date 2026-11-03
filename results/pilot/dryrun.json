@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-11-03T05:31:02+00:00",
+  "generated_utc": "2026-11-03T05:45:23+00:00",
   "name": "dryrun",
   "model": "deterministic",
   "dataset": "SWE-bench/SWE-bench_Verified",
@@ -35,6 +35,18 @@
     }
   },
   "infra_failures": {},
+  "model_seed": null,
+  "endpoint_mismatch": {},
+  "exit_status": {
+    "none": {
+      "psf__requests-1142": "Submitted",
+      "pallets__flask-5014": "Submitted"
+    },
+    "oracle-gold": {
+      "psf__requests-1142": "Submitted",
+      "pallets__flask-5014": "Submitted"
+    }
+  },
   "skills": {
     "oracle-gold": {
       "pairs": [
