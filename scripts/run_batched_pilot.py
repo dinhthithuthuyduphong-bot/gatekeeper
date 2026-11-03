@@ -28,6 +28,7 @@ RESULTS = Path("results/pilot")
 GB_PER_TASK = 6.0  # SWE-bench images are 3.8-7.6 GB (xarray); layers are partly shared
 DISK_RESERVE_GB = 4.0
 EX_TEMPFAIL = 75  # run_pilot.py: task images could not be pulled, nothing was run
+MIRROR = "mirror.gcr.io"  # same as run_pilot.MIRROR
 EX_NOSPACE = 76  # run_pilot.py: task images do not fit on the disk, nothing was run
 
 
@@ -130,6 +131,40 @@ def merge(name: str, parts: list[Path]) -> dict:
     return out
 
 
+def image_names(ids: list[str], dataset_file: str) -> set[str]:
+    """docker.io names of the task images of `ids` (same naming as run_pilot.image_name)."""
+    sys.path.insert(0, str(Path(__file__).parent))
+    from run_pilot import image_name  # noqa: PLC0415
+
+    want = set(ids)
+    out = set()
+    for line in Path(dataset_file).read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            r = json.loads(line)
+            if r["instance_id"] in want:
+                out.add(image_name(r).removesuffix(":latest") + ":latest")
+    return out
+
+
+def plan_images(local: set[str], needed: set[str], mirror: str) -> tuple[set[str], int]:
+    """Keep-images mode (audit A54): which local task images to delete before a batch (those the
+    batch does not need, including their mirror alias tags) and how many needed ones are missing
+    (only those need new disk). Pure function: tested in tests/test_batched_pilot.py."""
+    alias = {f"{mirror}/{n.removeprefix('docker.io/')}" for n in needed}
+    canon = {n.removeprefix("docker.io/") for n in needed}
+    keep = needed | alias | canon
+    remove = {i for i in local if i not in keep and ("sweb.eval." in i)}
+    missing = sum(1 for n in needed if n not in local and n.removeprefix("docker.io/") not in local)
+    return remove, missing
+
+
+def local_images() -> set[str]:
+    out = subprocess.run(
+        ["docker", "images", "--format", "{{.Repository}}:{{.Tag}}"], capture_output=True, text=True
+    ).stdout
+    return {x for x in out.split() if x and "<none>" not in x}
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--name", required=True)
@@ -146,6 +181,13 @@ def main() -> int:
     ap.add_argument("--model-seed", type=int, default=None, help="replicate seed (see run_pilot)")
     ap.add_argument("--task-sets", default="", help="per-skill task sets (see run_pilot)")
     ap.add_argument("--arm-parallel", type=int, default=1, help="see run_pilot")
+    ap.add_argument(
+        "--keep-images",
+        action="store_true",
+        help="do not prune after a batch; before a batch delete only images it does not need "
+        "(seeds interleaved on the same tasks reuse them; audit A54). REQUIRES EXCLUSIVE USE OF "
+        "DOCKER: it deletes every task image the batch does not need, also another job's",
+    )
     ap.add_argument("--harness-python", default="", help="see run_pilot (SWE-bench-Live)")
     ap.add_argument("--harness-namespace", default="", help="see run_pilot (SWE-bench-Live)")
     ap.add_argument("--pull-retries", type=int, default=6, help="waits on a registry limit")
@@ -187,10 +229,23 @@ def main() -> int:
             )
             break
         free_gb = shutil.disk_usage("/").free / 1e9
-        size = max(1, min(a.batch, max_size, int((free_gb - DISK_RESERVE_GB) // GB_PER_TASK)))
-        if free_gb < DISK_RESERVE_GB + GB_PER_TASK:
-            print(f"[stop] only {free_gb:.1f} GB free", flush=True)
-            break
+        if a.keep_images:  # images of the next tasks may already be local (previous seed)
+            cand = todo[: min(a.batch, max_size)]
+            remove, missing = plan_images(local_images(), image_names(cand, a.dataset_file), MIRROR)
+            if remove:
+                subprocess.run(["docker", "rmi", "-f", *sorted(remove)], capture_output=True)
+                subprocess.run(["docker", "image", "prune", "-f"], capture_output=True)
+            free_gb = shutil.disk_usage("/").free / 1e9
+            fits = int((free_gb - DISK_RESERVE_GB) // GB_PER_TASK)
+            size = len(cand) if missing <= fits else max(1, len(cand) - (missing - fits))
+            if missing and fits < 1:
+                print(f"[stop] only {free_gb:.1f} GB free", flush=True)
+                break
+        else:
+            size = max(1, min(a.batch, max_size, int((free_gb - DISK_RESERVE_GB) // GB_PER_TASK)))
+            if free_gb < DISK_RESERVE_GB + GB_PER_TASK:
+                print(f"[stop] only {free_gb:.1f} GB free", flush=True)
+                break
         spent = pilot_spent_total()
         # shrink the batch near the cap instead of stopping while a smaller batch still fits
         size = min(size, max(1, int((a.cap_usd - spent) // (arms * a.cost_limit))))
@@ -260,7 +315,8 @@ def main() -> int:
             time.sleep(a.pull_wait_min * 60)
             todo = ids + todo
             continue
-        subprocess.run(["docker", "image", "prune", "-af"], capture_output=True, check=False)
+        if not a.keep_images:  # keep-images: unneeded images are removed before the next batch
+            subprocess.run(["docker", "image", "prune", "-af"], capture_output=True, check=False)
         subprocess.run(["docker", "container", "prune", "-f"], capture_output=True, check=False)
         if rc != 0 or not f.exists():
             print(f"[error] {part} exited {rc}; stopping (rerun to resume)", flush=True)

@@ -252,3 +252,28 @@ def test_full_disk_halves_the_batch(tmp_path, monkeypatch):
     monkeypatch.setattr(sys, "argv", argv + ["--dataset-file", "d", "--batch", "4"])
     bp.main()
     assert sizes == [4, 2, 2] and len(list(res.glob("g-p*.json"))) == 2
+
+
+def test_keep_images_plan_removes_only_unneeded_task_images():
+    import importlib.util as _u
+    from pathlib import Path as _P
+
+    spec = _u.spec_from_file_location(
+        "rbp", _P(__file__).parents[1] / "scripts" / "run_batched_pilot.py"
+    )
+    rbp = _u.module_from_spec(spec)
+    spec.loader.exec_module(rbp)
+    m = "mirror.gcr.io"
+    a = "swebench/sweb.eval.x86_64.django_1776_django-1:latest"
+    b = "swebench/sweb.eval.x86_64.django_1776_django-2:latest"
+    live = "starryzhang/sweb.eval.x86_64.conan-io_1776_conan-3:latest"
+    local = {a, f"{m}/{a}", b, f"{m}/{b}", "python:3.11", live}
+    needed = {
+        f"docker.io/{a}",
+        f"docker.io/{live}",
+        "docker.io/swebench/sweb.eval.x86_64.new-4:latest",
+    }
+    remove, missing = rbp.plan_images(local, needed, m)
+    assert remove == {b, f"{m}/{b}"}  # unneeded task image and its mirror alias only
+    assert "python:3.11" not in remove and a not in remove and f"{m}/{a}" not in remove
+    assert missing == 1  # only new-4 has to be pulled
