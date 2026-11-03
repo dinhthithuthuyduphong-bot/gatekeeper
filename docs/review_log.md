@@ -296,3 +296,10 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   4. **Theorem 4′ cần giả thiết (iii):** composite được chọn dựa trên dữ liệu thì phải dùng dữ liệu mới để admit. Đã nêu rõ.
   5. Nguồn Holm trong bản lưu là Wikipedia (A64).
 - **Còn ⏳:** câu gốc cho TV (Levin & Peres), cho Ville với supermartingale, cho định nghĩa super-population (Miller), cho Holm. Workflow `sources` đang chờ, vì E2 dùng hết 20 job.
+
+## R-26. Chạy lại E1 với tải giảm (2026-11-03 17:05 UTC; A62)
+
+- **Lý do:** E2 còn 7 lần gọi song song (14 agent), so với 40 lúc xảy ra lỗi 429. E1 chạy một mình với 12 agent nhiều giờ liền mà không có lỗi.
+- **Thay đổi:** `--workers` 4 → 2 trong `run_e1_inter.sh`, tức 6 agent cho E1 và tổng khoảng 20 agent. Đây là tham số vận hành: chỉ đổi số task chạy cùng lúc trong một nhánh; mỗi cặp vẫn chạy trong cùng một lô. Cùng loại thay đổi như ghi chú thực thi 9 (chế độ M3, ít worker hơn).
+- **Theo dõi:** đếm dòng "Error processing instance" (lần chạy hỏng sau 10 lần thử) trong `e1.log`. Thấy lại thì dừng E1.
+- **Bộ đếm "Retrying" trước khi chạy lại:** 579 (để so sánh).
