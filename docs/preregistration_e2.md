@@ -147,3 +147,11 @@ Z_ik = R(none) − R(xreposkill) ∈ {−1, 0, 1}; Z̄_i là trung bình qua 3 s
   - Job nào không giữ được chỗ thì chờ, rồi dừng khi hết giờ. Lần dispatch sau chạy tiếp (cùng 20 shard).
   - Task không xong chỉ phụ thuộc vào shard và thời gian. Task được chia vào shard theo thứ tự ngẫu nhiên đã cố định, nên tập có đủ 3 seed vẫn là một mẫu ngẫu nhiên, không phụ thuộc kết quả của chính task.
 - **Bằng chứng chạy thử trên Actions** (run 41656611463, `budget_usd` 3, 2 job): k1 giữ chỗ 2,00 → ghi số thật → giữ chỗ lại. k0 phải chờ, vì 2 + 2 > 3. Bất biến không bị vi phạm trong suốt lịch sử nhánh sổ.
+
+**Ghi chú thực thi 9** (03/11/2026, trước khi có kết quả E2 nào; A62): **lỗi hạ tầng có thể liên quan đến kết quả.**
+- **Lý do:** lỗi giới hạn tốc độ của Vertex (429) làm một lần chạy hỏng sau 10 lần thử. Lần chạy dài (nhiều lời gọi LLM, thường là không giải được) có nhiều cơ hội gặp lỗi hơn. Quy tắc hiện có chạy lại cả hai nhánh của task bị lỗi, nên lần chạy dài có thể bị thay bằng một mẫu mới nhiều hơn lần chạy ngắn. Theo ICH E9(R1), đây là biến cố xen giữa có thể liên quan đến kết quả, nên phải báo cáo và phân tích độ nhạy.
+- **Ước lượng chính:** không đổi (chạy lại, như §4).
+- **Báo cáo thêm:**
+  - số và tỉ lệ lần chạy lỗi hạ tầng theo từng nhánh, lấy từ `infra_failures` của từng file lô (dữ liệu của lần đầu vẫn còn);
+  - **phân tích độ nhạy S-infra:** với mỗi (task, seed), chỉ dùng **lần chạy đầu tiên**; nhánh nào lỗi hạ tầng ở lần đó thì tính là không giải được. Ước lượng, CI và kiểm định giống ước lượng chính. Đây là giới hạn bất lợi cho nhánh bị lỗi nhiều hơn.
+- Nếu không có lỗi hạ tầng nào thì S-infra trùng với ước lượng chính, và chỉ ghi như vậy.

@@ -271,3 +271,17 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   5. **Đã đọc mã mini-swe-agent** (`models/utils/retry.py`): khi lỗi API, agent thử lại 10 lần, chờ theo cấp số mũ 4–60 s. Hết 10 lần thì là lỗi hạ tầng, task được chạy lại ở vòng sau, và quy tắc ở mục 3 chặn vòng lặp vô tận.
   6. **[secrets] chỉ quét file được git theo dõi** (`git grep`) và phần đã stage. File khóa tạm `gha-creds-*.json` do bước xác thực tạo không làm cổng preflight thất bại, và cũng không nằm trong danh sách artifact.
   7. **Giới hạn đã biết, cần người kiểm:** số tiền ghi trong sổ là số tính theo bảng giá của litellm. Hóa đơn Google **chưa từng được đối chiếu** (`docs/audit_pilot.md` C5).
+
+## R-24. Soát E2 đang chạy: ảnh hưởng tới tính hữu dụng của kết quả (2026-11-03, theo yêu cầu của @thuthuy)
+
+| # | Nguy cơ | Kết luận | Bằng chứng |
+| --- | --- | --- | --- |
+| 1 | Tập phân tích không còn ngẫu nhiên vì dừng theo tiền hoặc thời gian | Không lệch. Task được chia vào shard theo thứ tự ngẫu nhiên đã cố định; việc task có xong hay không phụ thuộc vào thời gian và chi phí của task khác, không phụ thuộc kết quả của chính nó. Dự kiến không bị cắt: chi phí đo được 0,107 USD mỗi lần gọi × 363 lần ≈ 39 < 44,55 | sổ ngân sách: 94 lần gọi, 10,09 USD |
+| 2 | Hai nhánh của một cặp chạy khác điều kiện | Không. Cùng lần gọi, cùng seed, cùng runner, chạy song song | `--arm-parallel 2`, `--batch 1` |
+| 3 | Runner khác nhau làm lệch phép chấm (quá giờ test) | Đối xứng trong cặp. Quá giờ tính là không giải được, và có phân tích độ nhạy bỏ các cặp đó (ghi chú thực thi 6). Kiểm định task (khối 1 và 2) chạy trên cùng loại runner | `validate-pool.yml` |
+| 4 | **Lỗi 429 liên quan đến độ dài lần chạy**, nên việc chạy lại thay mẫu có chọn lọc | **Nguy cơ thật.** Đã chốt trước khi có dữ liệu: báo cáo tỉ lệ lỗi hạ tầng theo nhánh và phân tích độ nhạy S-infra (ghi chú thực thi 9 của E2, 8 của E1). E1 đã tạm dừng để giảm tải lên Vertex | `merge()` thay cả hai nhánh; file lô giữ lần đầu |
+| 5 | Mô hình phía Vertex đổi giữa các lần chạy (nhiều giờ, có thể nhiều lần dispatch) | Kiểm khi phân tích: trường `model` mà API trả về phải giống nhau ở mọi lời gọi (`docs/model_switch_checklist.md` D4) | trajectory ghi `response.model` |
+| 6 | `cost_limit` cắt lần chạy | Không: chi phí mỗi agent khoảng 0,05 USD, so với giới hạn 1,00 | sổ ngân sách |
+| 7 | File hướng dẫn khác bản đã chốt | Không: SHA-256 được kiểm ở mọi job | `--expect-sha256` |
+| 8 | Lỗi chấm trên runner không bị phát hiện (chạy thật không có oracle) | Mỗi job chạy preflight [results] khi kết thúc (`runs == scored + infra`). Khi phân tích kiểm `endpoint_mismatch`, `patch_apply_failed`, `harness_test_timeout`. Chạy thử oracle trên runner đã đạt (run 41636185462 shard 1; lỗi A58 đã sửa) | workflow |
+| 9 | Chạy nối tiếp qua dispatch làm task chạy lại hoặc tiền bị tính hai lần | Không. Kết quả cũ được lấy theo đúng shard, 20 shard cố định, và chi phí của lần dispatch trước được trừ ra (`BASE`) | R-23 |
