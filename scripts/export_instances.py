@@ -1,10 +1,14 @@
-"""Export the SWE-bench Verified rows of every task pool (configs/pools/*.json) to
+"""Export the harness rows of every task pool (configs/pools/*.json) to
 data/instances/verified_pools.jsonl, so the pilot can run where HuggingFace is unreachable
-(the harness and run_pilot.py accept this file via --dataset-file). Runs in GitHub Actions."""
+(the harness and run_pilot.py accept this file via --dataset-file). Runs in GitHub Actions.
+
+Each pool may name its harness dataset ("dataset"; default SWE-bench Verified). Rows of the
+Verified dataset take precedence for tasks present in both, so existing pools keep their rows."""
 
 from __future__ import annotations
 
 import json
+from collections import defaultdict
 from pathlib import Path
 
 DATASET = "SWE-bench/SWE-bench_Verified"  # swebench>=5 format (image, eval_script, log_parser)
@@ -13,15 +17,21 @@ DATASET = "SWE-bench/SWE-bench_Verified"  # swebench>=5 format (image, eval_scri
 def main() -> int:
     from datasets import load_dataset
 
-    ids: set[str] = set()
+    wanted: dict[str, set[str]] = defaultdict(set)
     for p in Path("configs/pools").glob("*.json"):
-        ids |= set(json.loads(p.read_text())["instances"])
-    rows = [dict(r) for r in load_dataset(DATASET, split="test") if r["instance_id"] in ids]
+        pool = json.loads(p.read_text())
+        wanted[pool.get("dataset", DATASET)] |= set(pool["instances"])
+    rows: dict[str, dict] = {}
+    for ds in sorted(wanted, key=lambda d: d != DATASET):  # Verified first
+        for r in load_dataset(ds, split="test"):
+            if r["instance_id"] in wanted[ds] and r["instance_id"] not in rows:
+                rows[r["instance_id"]] = dict(r)
+    ids = set().union(*wanted.values())
     out = Path("data/instances/verified_pools.jsonl")
     out.parent.mkdir(parents=True, exist_ok=True)
     with out.open("w", encoding="utf-8") as fh:
-        for r in sorted(rows, key=lambda r: r["instance_id"]):
-            fh.write(json.dumps(r, default=str) + "\n")
+        for iid in sorted(rows):
+            fh.write(json.dumps(rows[iid], default=str) + "\n")
     print(f"exported {len(rows)}/{len(ids)} rows -> {out} ({out.stat().st_size // 1024} KiB)")
     return 0 if len(rows) == len(ids) else 1
 

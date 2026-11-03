@@ -26,6 +26,13 @@ def out_dir() -> Path:
     return OUT / TAG
 
 
+def pool_dataset() -> str:
+    """Harness dataset of the pool (default SWE-bench Verified; pools may name another one)."""
+    from gatekeeper.harness import DATASET
+
+    return json.loads(Path(f"configs/pools/{TAG}.json").read_text()).get("dataset", DATASET)
+
+
 def shard_ids(shard: int, shards: int) -> list[str]:
     ids = json.loads(Path(f"configs/pools/{TAG}.json").read_text())["instances"]
     return ids[shard::shards]
@@ -58,7 +65,7 @@ def _run_with_retries(
         rid = run_id if attempt == 0 else f"{run_id}-r{attempt}"
         preds = "gold" if arm == "gold" else _preds(rid, todo)
         try:
-            run_harness(preds, todo, rid, workers)
+            run_harness(preds, todo, rid, workers, dataset=pool_dataset())
         except SystemExit as exc:  # harness crash: keep going, missing reports are retried
             print(f"harness error in {rid}: {exc}", flush=True)
         model = "gold" if arm == "gold" else "noop"
