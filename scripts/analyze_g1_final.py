@@ -255,6 +255,20 @@ def verdict(c: dict, confirm: list[dict], skills: list[str]) -> dict:
         # same Holm level as the primary decision for this skill
         lvl = v["p_holm_level"]
         v["robust"] = bool(v.get("reject") and p_t <= lvl and p_c <= lvl)
+    # secondary (safety) hypothesis, reported only: the same tests in the HARM direction, Holm
+    hp = {s: sign_flip_p([-v for v in per_task_mean(confirm, s).values()]) for s in skills}
+    for s, h in holm(hp, ALPHA_FAMILY).items():
+        zt = per_task_mean(confirm, s)
+        x = [-v for v in zt.values()]
+        out["skills"][s]["harm"] = {
+            "p": h["p"],
+            "p_holm": h["p_holm"],
+            "reject": bool(
+                h["reject"]
+                and paired_t_p(x) <= h["p_holm_level"]
+                and cluster_sign_flip_p({k: -v for k, v in zt.items()})[0] <= h["p_holm_level"]
+            ),
+        }
     # A/A on fresh data: no-skill arms of two confirmation seeds; exact two-sided sign-flip test
     # at the two-sided level matching ALPHA_FAMILY (Kohavi et al.: an A/A must not reject)
     if len(confirm) >= 2:

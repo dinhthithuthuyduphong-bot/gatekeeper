@@ -123,3 +123,21 @@ def test_verdict_requires_robust_agreement():
     v = gf.verdict(run, [run, run, run], ["s"])
     assert v["skills"]["s"]["reject"] and not v["skills"]["s"]["robust"]
     assert v["verdict"].startswith("INCONCLUSIVE")
+
+
+def test_harm_direction_is_reported_separately():
+    U = 2 / 3
+    pairs = [(U, 0.0)] * 12 + [(U, U)] * 20  # skill breaks 12 tasks spread over 12 repos
+    run = {
+        "skills": {
+            "s": {
+                "pairs": [
+                    {"instance_id": f"r{i}__r{i}-1", "loss_with": w, "loss_without": o}
+                    for i, (w, o) in enumerate(pairs)
+                ]
+            }
+        }
+    }
+    v = gf.verdict(run, [run, run, run], ["s"])
+    assert not v["skills"]["s"]["reject"] and v["skills"]["s"]["harm"]["reject"]
+    assert v["verdict"].startswith("G1 FAIL")  # the primary (benefit) decision is unchanged
