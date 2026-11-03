@@ -122,6 +122,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Bản sửa và tiến trình đang chạy (L22)**
 - [ ] Sau khi commit một bản sửa ảnh hưởng đến kết quả: liệt kê tiến trình đang chạy và thời điểm khởi động. Tiến trình nào khởi động trước bản sửa thì kết quả của nó phải được xử lý theo quy tắc mới trước lô kế tiếp.
 
+**Chi phí (L23)**
+- [ ] Sau mỗi lần chạy có chi phí: tổng mới = tổng cũ + phần mới, tính từ bản ghi của từng yêu cầu, không từ danh sách đầu vào của lần gọi.
+
 **Kiểm thử**
 - [ ] Mô phỏng hoặc phép toán mảng: assert kích thước kết quả, vì broadcasting âm thầm làm rộng mẫu (R-6).
 - [ ] Có test cho từng chỗ sửa; `ruff check`, `ruff format --check` và `pytest` đều qua.

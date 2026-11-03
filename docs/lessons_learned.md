@@ -221,3 +221,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Mỗi lần commit một bản sửa ảnh hưởng đến kết quả: liệt kê các tiến trình đang chạy (`ps -eo lstart,cmd`), so thời điểm khởi động với thời điểm sửa.
   - Kết quả của các tiến trình chạy mã cũ phải được xử lý theo quy tắc mới, bằng một script có test, trước lô kế tiếp.
 - **Bổ sung L22 (A57):** một script sửa dữ liệu phải được kiểm bằng cách so **từng bản ghi trước và sau** với nguồn gốc (ở đây: task nào nhánh nào đã chạy), không chỉ bằng test trên dữ liệu giả. Test giả của tôi cho mọi nhánh chạy mọi task, nên không bắt được lỗi tạo cặp bịa.
+
+## L23. Số tiền đã chi phải được tính từ bằng chứng của **mọi** yêu cầu đã gửi, không từ tham số của lần gọi hiện tại (A59)
+
+- **Xảy ra:** tổng chi phí của bước chọn rule phụ thuộc vào danh sách task truyền vào lần gọi. Gọi với ít task hơn thì tổng nhỏ đi, dù không hoàn lại đồng nào.
+- **Phòng ngừa:**
+  - Mọi bộ đếm chi phí đọc từ bản ghi của từng yêu cầu: trajectory, file kết quả chọn rule, hóa đơn.
+  - Sau mỗi lần chạy có chi phí: kiểm số mới = số cũ + phần mới.

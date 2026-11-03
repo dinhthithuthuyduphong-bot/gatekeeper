@@ -230,3 +230,15 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Kiểm tay từng cặp của p25 trước và sau, so với danh sách task mỗi nhánh đã chạy (`exit_status`): chỉ các cặp có cả hai nhánh cùng chạy được tạo hoặc đổi.
   - Thay đổi duy nhất về kết quả: exception-handling/25370 từ "giải được ở lần chấm lại" thành "không giải được (quá giờ ở lần chấm đầu)".
   - Preflight `--ci`: PASS.
+
+## R-22. Chọn rule cho khối 2 và chốt tập E2 (2026-11-03)
+
+- **Kiểm trước khi chạy:**
+  - preflight `--ci` PASS;
+  - dữ liệu task mới (`data-snapshots`): 120/120 task của khối 1 giống hệt bản cũ.
+- **Kiểm sau khi chạy:**
+  - 120/120 mục của khối 1 không đổi;
+  - kế toán: 0,2946 + 0,1508 = 0,4454 (sau khi sửa A59);
+  - tập E2: 121 task, theo đúng thứ tự, khớp `e2_task_sets.json`;
+  - SHA-256 của file hướng dẫn dựng lại khớp file gốc.
+- **Code:** `spent_on_disk` có test.

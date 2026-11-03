@@ -57,6 +57,16 @@ def pack(strategies: list[dict], skills_root: Path) -> None:
     (d / "SKILL.md").write_text("# general\n\n" + "\n".join(lines) + "\n")
 
 
+def spent_on_disk(retrieval_dir: Path, spec) -> float:
+    """USD of every selection request recorded in retrieval_dir (one file per issue)."""
+    tin = tout = 0
+    for f in sorted(retrieval_dir.glob("*.json")):
+        for u in json.loads(f.read_text()).get("usage") or []:
+            tin += int(u.get("in_tokens", 0))
+            tout += int(u.get("out_tokens", 0))
+    return estimate_cost_usd(spec, tin, tout)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--clone", required=True, type=Path)
@@ -150,15 +160,10 @@ def main() -> int:
         "n_errors": sum(1 for v in sel.values() if v["error"]),
         "tokens_in": sum(v["tokens_in"] for v in sel.values()),
         "tokens_out": sum(v["tokens_out"] for v in sel.values()),
-        # part of E2's 45 USD (run_e2.sh subtracts it); priced from configs/models, no caching
-        "spent_usd": round(
-            estimate_cost_usd(
-                spec,
-                sum(v["tokens_in"] for v in sel.values()),
-                sum(v["tokens_out"] for v in sel.values()),
-            ),
-            4,
-        ),
+        # part of E2's 45 USD (run_e2.sh subtracts it); priced from configs/models, no caching.
+        # Counted over EVERY request on disk (<out>/retrieval), not only the --ids of this call:
+        # a call with fewer ids would otherwise under-report what was spent (audit A59).
+        "spent_usd": round(spent_on_disk(a.out / "retrieval", spec), 4),
         "per_task": sel,
     }
     Path("results/e2_selection.json").write_text(json.dumps(summary, indent=1) + "\n")

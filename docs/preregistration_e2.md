@@ -122,3 +122,11 @@ Z_ik = R(none) − R(xreposkill) ∈ {−1, 0, 1}; Z̄_i là trung bình qua 3 s
 - **Thứ tự chạy:** các seed **xen kẽ** trên cùng nhóm 4 task, để dùng lại image. Mỗi cặp (skill, không skill) vẫn chạy trong cùng một lô của cùng một seed. Ước lượng và kiểm định không đổi.
 - **Khâu chấm:** tuần tự giữa các nhánh (`--score-parallel 1`), để tránh tranh CPU ở khâu nặng CPU nhất.
 - **Quá giờ khi chấm** (harness dừng test ở 1.800 s) được tính là **không resolved**, như quy ước chính thức của SWE-bench (giống bản vá không áp được, A37). Phân tích độ nhạy *hypothetical* bỏ thêm các cặp có quá giờ (`harness_test_timeout`).
+
+**Ghi chú thực thi 7** (03/11/2026, chưa có lần chạy agent nào của E2):
+- **Kiểm định khối 2** (`random_order[120:200]`, run 41623378275): **59/80 task dùng được**, 0 lỗi hạ tầng (`results/pool_validation/e2b/summary.json`). Hai khối phủ đúng `random_order[0:200]`; tổng cộng 138 task dùng được.
+- **Bước chọn rule** cho khối 2: cùng commit, model và cấu hình như khối 1. Kết quả khối 1 được đọc lại từ file, không gọi lại mô hình; 120/120 mục giống hệt lần trước.
+  - Kích hoạt: 138/138 task dùng được; 178/179 trên tất cả task đã chọn rule.
+  - Chi phí cộng dồn của bước chọn: **0,4454 USD** (khối 1: 0,2946; khối 2: 0,1508). Số này được trừ vào 45 USD của E2.
+- **Tập E2:** 121 task kích hoạt đầu tiên theo `random_order` (vị trí cuối: 173), tạo bởi `scripts/make_e2_selection.py --blocks e2 e2b --n 121`, ghi vào `configs/pools/e2_selected.json` và `e2_task_sets.json`.
+- **File hướng dẫn:** SHA-256 `59360eb5cc6b45b0f9d5ca7975662aaeb65b863f77f45a99342934fd480e28e4` (178 task). Bản dựng lại chỉ từ mã rule (`scripts/build_e2_guidance.py`) cho cùng SHA.

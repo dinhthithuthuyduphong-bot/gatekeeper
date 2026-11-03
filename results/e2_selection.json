@@ -3,13 +3,28 @@
  "xreposkill_commit": "26fd70345698108c0fdce2d8904293a38b9cd42f",
  "model": "vertex_ai/gemini-3.1-flash-lite",
  "top_n": 3,
- "n_tasks": 120,
- "n_activated": 119,
+ "n_tasks": 179,
+ "n_activated": 178,
  "n_errors": 0,
- "tokens_in": 707717,
- "tokens_out": 78425,
- "spent_usd": 0.2946,
+ "tokens_in": 1064350,
+ "tokens_out": 119541,
+ "spent_usd": 0.4454,
  "per_task": {
+  "AgentOps-AI__agentops-1002": {
+   "rule_ids": [
+    "general/skill/8",
+    "general/skill/25",
+    "general/skill/4"
+   ],
+   "strategy_numbers": [
+    9,
+    26,
+    5
+   ],
+   "error": "",
+   "tokens_in": 4869,
+   "tokens_out": 514
+  },
   "AgentOps-AI__agentops-1005": {
    "rule_ids": [
     "general/skill/0",
@@ -70,6 +85,21 @@
    "tokens_in": 7178,
    "tokens_out": 723
   },
+  "IBM__mcp-context-forge-561": {
+   "rule_ids": [
+    "general/skill/0",
+    "general/skill/18",
+    "general/skill/25"
+   ],
+   "strategy_numbers": [
+    1,
+    19,
+    26
+   ],
+   "error": "",
+   "tokens_in": 5568,
+   "tokens_out": 473
+  },
   "IBM__mcp-context-forge-562": {
    "rule_ids": [
     "general/skill/5",
@@ -100,6 +130,21 @@
    "tokens_in": 4994,
    "tokens_out": 486
   },
+  "PriorLabs__TabPFN-263": {
+   "rule_ids": [
+    "general/skill/10",
+    "general/skill/23",
+    "general/skill/34"
+   ],
+   "strategy_numbers": [
+    11,
+    24,
+    35
+   ],
+   "error": "",
+   "tokens_in": 8832,
+   "tokens_out": 775
+  },
   "SYSTRAN__faster-whisper-1345": {
    "rule_ids": [
     "general/skill/0",
@@ -115,6 +160,21 @@
    "tokens_in": 5354,
    "tokens_out": 1042
   },
+  "Textualize__textual-5782": {
+   "rule_ids": [
+    "general/skill/10",
+    "general/skill/18",
+    "general/skill/34"
+   ],
+   "strategy_numbers": [
+    11,
+    19,
+    35
+   ],
+   "error": "",
+   "tokens_in": 5935,
+   "tokens_out": 501
+  },
   "a2aproject__a2a-python-226": {
    "rule_ids": [
     "general/skill/0",
@@ -129,6 +189,21 @@
    "error": "",
    "tokens_in": 7184,
    "tokens_out": 571
+  },
+  "a2aproject__a2a-python-279": {
+   "rule_ids": [
+    "general/skill/16",
+    "general/skill/18",
+    "general/skill/33"
+   ],
+   "strategy_numbers": [
+    17,
+    19,
+    34
+   ],
+   "error": "",
+   "tokens_in": 5274,
+   "tokens_out": 456
   },
   "ag2ai__faststream-1288": {
    "rule_ids": [
@@ -220,6 +295,21 @@
    "tokens_in": 4868,
    "tokens_out": 421
   },
+  "apify__crawlee-python-1186": {
+   "rule_ids": [
+    "general/skill/0",
+    "general/skill/18",
+    "general/skill/32"
+   ],
+   "strategy_numbers": [
+    1,
+    19,
+    33
+   ],
+   "error": "",
+   "tokens_in": 6418,
+   "tokens_out": 829
+  },
   "arviz-devs__arviz-2413": {
    "rule_ids": [
     "general/skill/0",
@@ -234,6 +324,66 @@
    "error": "",
    "tokens_in": 6929,
    "tokens_out": 975
+  },
+  "authlib__authlib-802": {
+   "rule_ids": [
+    "general/skill/16",
+    "general/skill/5",
+    "general/skill/25"
+   ],
+   "strategy_numbers": [
+    17,
+    6,
+    26
+   ],
+   "error": "",
+   "tokens_in": 5874,
+   "tokens_out": 1211
+  },
+  "aws-cloudformation__cfn-lint-3342": {
+   "rule_ids": [
+    "general/skill/10",
+    "general/skill/18",
+    "general/skill/34"
+   ],
+   "strategy_numbers": [
+    11,
+    19,
+    35
+   ],
+   "error": "",
+   "tokens_in": 5631,
+   "tokens_out": 840
+  },
+  "aws-cloudformation__cfn-lint-3508": {
+   "rule_ids": [
+    "general/skill/16",
+    "general/skill/18",
+    "general/skill/23"
+   ],
+   "strategy_numbers": [
+    17,
+    19,
+    24
+   ],
+   "error": "",
+   "tokens_in": 5667,
+   "tokens_out": 886
+  },
+  "aws-cloudformation__cfn-lint-3607": {
+   "rule_ids": [
+    "general/skill/10",
+    "general/skill/23",
+    "general/skill/18"
+   ],
+   "strategy_numbers": [
+    11,
+    24,
+    19
+   ],
+   "error": "",
+   "tokens_in": 5951,
+   "tokens_out": 969
   },
   "aws-cloudformation__cfn-lint-3650": {
    "rule_ids": [
@@ -264,6 +414,21 @@
    "error": "",
    "tokens_in": 5580,
    "tokens_out": 922
+  },
+  "aws-cloudformation__cfn-lint-3734": {
+   "rule_ids": [
+    "general/skill/25",
+    "general/skill/30",
+    "general/skill/0"
+   ],
+   "strategy_numbers": [
+    26,
+    31,
+    1
+   ],
+   "error": "",
+   "tokens_in": 5273,
+   "tokens_out": 515
   },
   "aws-cloudformation__cfn-lint-3770": {
    "rule_ids": [
@@ -369,6 +534,21 @@
    "error": "",
    "tokens_in": 5510,
    "tokens_out": 442
+  },
+  "beeware__briefcase-1811": {
+   "rule_ids": [
+    "general/skill/10",
+    "general/skill/25",
+    "general/skill/34"
+   ],
+   "strategy_numbers": [
+    11,
+    26,
+    35
+   ],
+   "error": "",
+   "tokens_in": 5480,
+   "tokens_out": 415
   },
   "beeware__briefcase-1867": {
    "rule_ids": [
@@ -647,6 +827,21 @@
    "tokens_in": 8203,
    "tokens_out": 915
   },
+  "conan-io__conan-17092": {
+   "rule_ids": [
+    "general/skill/25",
+    "general/skill/23",
+    "general/skill/13"
+   ],
+   "strategy_numbers": [
+    26,
+    24,
+    14
+   ],
+   "error": "",
+   "tokens_in": 4987,
+   "tokens_out": 964
+  },
   "conan-io__conan-17102": {
    "rule_ids": [
     "general/skill/23",
@@ -661,6 +856,81 @@
    "error": "",
    "tokens_in": 5199,
    "tokens_out": 412
+  },
+  "conan-io__conan-17514": {
+   "rule_ids": [
+    "general/skill/25",
+    "general/skill/12",
+    "general/skill/18"
+   ],
+   "strategy_numbers": [
+    26,
+    13,
+    19
+   ],
+   "error": "",
+   "tokens_in": 6673,
+   "tokens_out": 1175
+  },
+  "conan-io__conan-17591": {
+   "rule_ids": [
+    "general/skill/0",
+    "general/skill/28",
+    "general/skill/17"
+   ],
+   "strategy_numbers": [
+    1,
+    29,
+    18
+   ],
+   "error": "",
+   "tokens_in": 5264,
+   "tokens_out": 511
+  },
+  "conan-io__conan-17863": {
+   "rule_ids": [
+    "general/skill/10",
+    "general/skill/23",
+    "general/skill/18"
+   ],
+   "strategy_numbers": [
+    11,
+    24,
+    19
+   ],
+   "error": "",
+   "tokens_in": 5512,
+   "tokens_out": 871
+  },
+  "conan-io__conan-17877": {
+   "rule_ids": [
+    "general/skill/16",
+    "general/skill/18",
+    "general/skill/32"
+   ],
+   "strategy_numbers": [
+    17,
+    19,
+    33
+   ],
+   "error": "",
+   "tokens_in": 5956,
+   "tokens_out": 459
+  },
+  "conan-io__conan-17964": {
+   "rule_ids": [
+    "general/skill/26",
+    "general/skill/13",
+    "general/skill/28"
+   ],
+   "strategy_numbers": [
+    27,
+    14,
+    29
+   ],
+   "error": "",
+   "tokens_in": 6146,
+   "tokens_out": 1017
   },
   "conan-io__conan-18012": {
    "rule_ids": [
@@ -691,6 +961,21 @@
    "error": "",
    "tokens_in": 5380,
    "tokens_out": 469
+  },
+  "conan-io__conan-18244": {
+   "rule_ids": [
+    "general/skill/25",
+    "general/skill/24",
+    "general/skill/13"
+   ],
+   "strategy_numbers": [
+    26,
+    25,
+    14
+   ],
+   "error": "",
+   "tokens_in": 5425,
+   "tokens_out": 736
   },
   "conan-io__conan-18333": {
    "rule_ids": [
@@ -752,6 +1037,51 @@
    "tokens_in": 5121,
    "tokens_out": 463
   },
+  "deepset-ai__haystack-6713": {
+   "rule_ids": [
+    "general/skill/0",
+    "general/skill/23",
+    "general/skill/17"
+   ],
+   "strategy_numbers": [
+    1,
+    24,
+    18
+   ],
+   "error": "",
+   "tokens_in": 8991,
+   "tokens_out": 489
+  },
+  "deepset-ai__haystack-6973": {
+   "rule_ids": [
+    "general/skill/35",
+    "general/skill/12",
+    "general/skill/23"
+   ],
+   "strategy_numbers": [
+    36,
+    13,
+    24
+   ],
+   "error": "",
+   "tokens_in": 4850,
+   "tokens_out": 491
+  },
+  "deepset-ai__haystack-6987": {
+   "rule_ids": [
+    "general/skill/0",
+    "general/skill/18",
+    "general/skill/23"
+   ],
+   "strategy_numbers": [
+    1,
+    19,
+    24
+   ],
+   "error": "",
+   "tokens_in": 7284,
+   "tokens_out": 461
+  },
   "deepset-ai__haystack-7599": {
    "rule_ids": [
     "general/skill/25",
@@ -781,6 +1111,111 @@
    "error": "",
    "tokens_in": 4858,
    "tokens_out": 496
+  },
+  "deepset-ai__haystack-8969": {
+   "rule_ids": [
+    "general/skill/10",
+    "general/skill/9",
+    "general/skill/22"
+   ],
+   "strategy_numbers": [
+    11,
+    10,
+    23
+   ],
+   "error": "",
+   "tokens_in": 5146,
+   "tokens_out": 707
+  },
+  "deepset-ai__haystack-8992": {
+   "rule_ids": [
+    "general/skill/28",
+    "general/skill/30",
+    "general/skill/0"
+   ],
+   "strategy_numbers": [
+    29,
+    31,
+    1
+   ],
+   "error": "",
+   "tokens_in": 5258,
+   "tokens_out": 547
+  },
+  "deepset-ai__haystack-9227": {
+   "rule_ids": [
+    "general/skill/0",
+    "general/skill/23",
+    "general/skill/18"
+   ],
+   "strategy_numbers": [
+    1,
+    24,
+    19
+   ],
+   "error": "",
+   "tokens_in": 5334,
+   "tokens_out": 465
+  },
+  "deepset-ai__haystack-9251": {
+   "rule_ids": [
+    "general/skill/10",
+    "general/skill/23",
+    "general/skill/25"
+   ],
+   "strategy_numbers": [
+    11,
+    24,
+    26
+   ],
+   "error": "",
+   "tokens_in": 5141,
+   "tokens_out": 545
+  },
+  "deepset-ai__haystack-9679": {
+   "rule_ids": [
+    "general/skill/25",
+    "general/skill/33",
+    "general/skill/30"
+   ],
+   "strategy_numbers": [
+    26,
+    34,
+    31
+   ],
+   "error": "",
+   "tokens_in": 4987,
+   "tokens_out": 454
+  },
+  "deepset-ai__haystack-9712": {
+   "rule_ids": [
+    "general/skill/0",
+    "general/skill/18",
+    "general/skill/34"
+   ],
+   "strategy_numbers": [
+    1,
+    19,
+    35
+   ],
+   "error": "",
+   "tokens_in": 5942,
+   "tokens_out": 509
+  },
+  "delgan__loguru-1236": {
+   "rule_ids": [
+    "general/skill/10",
+    "general/skill/23",
+    "general/skill/34"
+   ],
+   "strategy_numbers": [
+    11,
+    24,
+    35
+   ],
+   "error": "",
+   "tokens_in": 5275,
+   "tokens_out": 570
   },
   "dottxt-ai__outlines-1679": {
    "rule_ids": [
@@ -812,6 +1247,21 @@
    "tokens_in": 5061,
    "tokens_out": 498
   },
+  "falconry__falcon-2426": {
+   "rule_ids": [
+    "general/skill/25",
+    "general/skill/17",
+    "general/skill/18"
+   ],
+   "strategy_numbers": [
+    26,
+    18,
+    19
+   ],
+   "error": "",
+   "tokens_in": 5125,
+   "tokens_out": 1158
+  },
   "falconry__falcon-2475": {
    "rule_ids": [
     "general/skill/22",
@@ -826,6 +1276,36 @@
    "error": "",
    "tokens_in": 5097,
    "tokens_out": 529
+  },
+  "flexget__flexget-4306": {
+   "rule_ids": [
+    "general/skill/0",
+    "general/skill/29",
+    "general/skill/9"
+   ],
+   "strategy_numbers": [
+    1,
+    30,
+    10
+   ],
+   "error": "",
+   "tokens_in": 9364,
+   "tokens_out": 1084
+  },
+  "fonttools__fonttools-3581": {
+   "rule_ids": [
+    "general/skill/10",
+    "general/skill/35",
+    "general/skill/18"
+   ],
+   "strategy_numbers": [
+    11,
+    36,
+    19
+   ],
+   "error": "",
+   "tokens_in": 5010,
+   "tokens_out": 460
   },
   "geopandas__geopandas-3202": {
    "rule_ids": [
@@ -977,6 +1457,21 @@
    "tokens_in": 4871,
    "tokens_out": 481
   },
+  "instructlab__instructlab-2119": {
+   "rule_ids": [
+    "general/skill/23",
+    "general/skill/18",
+    "general/skill/25"
+   ],
+   "strategy_numbers": [
+    24,
+    19,
+    26
+   ],
+   "error": "",
+   "tokens_in": 5232,
+   "tokens_out": 1192
+  },
   "instructlab__instructlab-2741": {
    "rule_ids": [
     "general/skill/2",
@@ -1052,6 +1547,21 @@
    "tokens_in": 7117,
    "tokens_out": 505
   },
+  "jarun__buku-778": {
+   "rule_ids": [
+    "general/skill/0",
+    "general/skill/23",
+    "general/skill/18"
+   ],
+   "strategy_numbers": [
+    1,
+    24,
+    19
+   ],
+   "error": "",
+   "tokens_in": 6069,
+   "tokens_out": 505
+  },
   "jlowin__fastmcp-1397": {
    "rule_ids": [
     "general/skill/10",
@@ -1082,6 +1592,21 @@
    "tokens_in": 6070,
    "tokens_out": 478
   },
+  "jlowin__fastmcp-279": {
+   "rule_ids": [
+    "general/skill/10",
+    "general/skill/18",
+    "general/skill/23"
+   ],
+   "strategy_numbers": [
+    11,
+    19,
+    24
+   ],
+   "error": "",
+   "tokens_in": 5184,
+   "tokens_out": 497
+  },
   "jupyterlab__jupyter-ai-711": {
    "rule_ids": [
     "general/skill/35",
@@ -1096,6 +1621,21 @@
    "error": "",
    "tokens_in": 5759,
    "tokens_out": 497
+  },
+  "jupyterlab__jupyter-ai-879": {
+   "rule_ids": [
+    "general/skill/0",
+    "general/skill/18",
+    "general/skill/19"
+   ],
+   "strategy_numbers": [
+    1,
+    19,
+    20
+   ],
+   "error": "",
+   "tokens_in": 5304,
+   "tokens_out": 502
   },
   "kedro-org__kedro-3680": {
    "rule_ids": [
@@ -1157,6 +1697,21 @@
    "tokens_in": 7067,
    "tokens_out": 549
   },
+  "keras-team__keras-19883": {
+   "rule_ids": [
+    "general/skill/0",
+    "general/skill/15",
+    "general/skill/34"
+   ],
+   "strategy_numbers": [
+    1,
+    16,
+    35
+   ],
+   "error": "",
+   "tokens_in": 5092,
+   "tokens_out": 473
+  },
   "keras-team__keras-19955": {
    "rule_ids": [
     "general/skill/10",
@@ -1171,6 +1726,21 @@
    "error": "",
    "tokens_in": 5120,
    "tokens_out": 1184
+  },
+  "keras-team__keras-20120": {
+   "rule_ids": [
+    "general/skill/10",
+    "general/skill/23",
+    "general/skill/18"
+   ],
+   "strategy_numbers": [
+    11,
+    24,
+    19
+   ],
+   "error": "",
+   "tokens_in": 5031,
+   "tokens_out": 463
   },
   "koxudaxi__datamodel-code-generator-1999": {
    "rule_ids": [
@@ -1307,6 +1877,21 @@
    "tokens_in": 5174,
    "tokens_out": 560
   },
+  "llamastack__llama-stack-3224": {
+   "rule_ids": [
+    "general/skill/0",
+    "general/skill/18",
+    "general/skill/13"
+   ],
+   "strategy_numbers": [
+    1,
+    19,
+    14
+   ],
+   "error": "",
+   "tokens_in": 8345,
+   "tokens_out": 464
+  },
   "mikedh__trimesh-2126": {
    "rule_ids": [
     "general/skill/0",
@@ -1321,6 +1906,36 @@
    "error": "",
    "tokens_in": 7772,
    "tokens_out": 881
+  },
+  "networktocode__ntc-templates-2118": {
+   "rule_ids": [
+    "general/skill/16",
+    "general/skill/9",
+    "general/skill/34"
+   ],
+   "strategy_numbers": [
+    17,
+    10,
+    35
+   ],
+   "error": "",
+   "tokens_in": 7766,
+   "tokens_out": 491
+  },
+  "openai__openai-agents-python-357": {
+   "rule_ids": [
+    "general/skill/8",
+    "general/skill/25",
+    "general/skill/32"
+   ],
+   "strategy_numbers": [
+    9,
+    26,
+    33
+   ],
+   "error": "",
+   "tokens_in": 5037,
+   "tokens_out": 551
   },
   "openai__openai-agents-python-998": {
    "rule_ids": [
@@ -1337,6 +1952,36 @@
    "tokens_in": 5135,
    "tokens_out": 457
   },
+  "patroni__patroni-3018": {
+   "rule_ids": [
+    "general/skill/0",
+    "general/skill/25",
+    "general/skill/1"
+   ],
+   "strategy_numbers": [
+    1,
+    26,
+    2
+   ],
+   "error": "",
+   "tokens_in": 7301,
+   "tokens_out": 1020
+  },
+  "patroni__patroni-3370": {
+   "rule_ids": [
+    "general/skill/0",
+    "general/skill/18",
+    "general/skill/17"
+   ],
+   "strategy_numbers": [
+    1,
+    19,
+    18
+   ],
+   "error": "",
+   "tokens_in": 7833,
+   "tokens_out": 565
+  },
   "pdm-project__pdm-2909": {
    "rule_ids": [
     "general/skill/10",
@@ -1351,6 +1996,21 @@
    "error": "",
    "tokens_in": 8785,
    "tokens_out": 521
+  },
+  "pdm-project__pdm-3250": {
+   "rule_ids": [
+    "general/skill/10",
+    "general/skill/23",
+    "general/skill/25"
+   ],
+   "strategy_numbers": [
+    11,
+    24,
+    26
+   ],
+   "error": "",
+   "tokens_in": 7807,
+   "tokens_out": 851
   },
   "pex-tool__pex-2888": {
    "rule_ids": [
@@ -1382,6 +2042,21 @@
    "tokens_in": 5898,
    "tokens_out": 905
   },
+  "piskvorky__smart_open-833": {
+   "rule_ids": [
+    "general/skill/0",
+    "general/skill/23",
+    "general/skill/18"
+   ],
+   "strategy_numbers": [
+    1,
+    24,
+    19
+   ],
+   "error": "",
+   "tokens_in": 5708,
+   "tokens_out": 1015
+  },
   "privacyidea__privacyidea-4251": {
    "rule_ids": [
     "general/skill/0",
@@ -1396,6 +2071,21 @@
    "error": "",
    "tokens_in": 4884,
    "tokens_out": 445
+  },
+  "projectmesa__mesa-2351": {
+   "rule_ids": [
+    "general/skill/25",
+    "general/skill/13",
+    "general/skill/12"
+   ],
+   "strategy_numbers": [
+    26,
+    14,
+    13
+   ],
+   "error": "",
+   "tokens_in": 5021,
+   "tokens_out": 405
   },
   "projectmesa__mesa-2418": {
    "rule_ids": [
@@ -1502,6 +2192,51 @@
    "tokens_in": 5508,
    "tokens_out": 448
   },
+  "python-attrs__attrs-1417": {
+   "rule_ids": [
+    "general/skill/0",
+    "general/skill/6",
+    "general/skill/35"
+   ],
+   "strategy_numbers": [
+    1,
+    7,
+    36
+   ],
+   "error": "",
+   "tokens_in": 5845,
+   "tokens_out": 837
+  },
+  "python-babel__babel-1104": {
+   "rule_ids": [
+    "general/skill/16",
+    "general/skill/18",
+    "general/skill/32"
+   ],
+   "strategy_numbers": [
+    17,
+    19,
+    33
+   ],
+   "error": "",
+   "tokens_in": 6577,
+   "tokens_out": 473
+  },
+  "python-babel__babel-1131": {
+   "rule_ids": [
+    "general/skill/25",
+    "general/skill/9",
+    "general/skill/17"
+   ],
+   "strategy_numbers": [
+    26,
+    10,
+    18
+   ],
+   "error": "",
+   "tokens_in": 5050,
+   "tokens_out": 1013
+  },
   "python-babel__babel-1163": {
    "rule_ids": [
     "general/skill/10",
@@ -1516,6 +2251,21 @@
    "error": "",
    "tokens_in": 5218,
    "tokens_out": 926
+  },
+  "python-control__python-control-1012": {
+   "rule_ids": [
+    "general/skill/25",
+    "general/skill/12",
+    "general/skill/35"
+   ],
+   "strategy_numbers": [
+    26,
+    13,
+    36
+   ],
+   "error": "",
+   "tokens_in": 5095,
+   "tokens_out": 934
   },
   "python-control__python-control-1145": {
    "rule_ids": [
@@ -1592,6 +2342,21 @@
    "tokens_in": 6011,
    "tokens_out": 1162
   },
+  "python__mypy-19216": {
+   "rule_ids": [
+    "general/skill/16",
+    "general/skill/23",
+    "general/skill/0"
+   ],
+   "strategy_numbers": [
+    17,
+    24,
+    1
+   ],
+   "error": "",
+   "tokens_in": 6889,
+   "tokens_out": 1353
+  },
   "python__mypy-19767": {
    "rule_ids": [
     "general/skill/10",
@@ -1621,6 +2386,21 @@
    "error": "",
    "tokens_in": 5107,
    "tokens_out": 522
+  },
+  "reata__sqllineage-582": {
+   "rule_ids": [
+    "general/skill/26",
+    "general/skill/23",
+    "general/skill/18"
+   ],
+   "strategy_numbers": [
+    27,
+    24,
+    19
+   ],
+   "error": "",
+   "tokens_in": 8000,
+   "tokens_out": 574
   },
   "reata__sqllineage-593": {
    "rule_ids": [
@@ -1667,6 +2447,51 @@
    "tokens_in": 8628,
    "tokens_out": 770
   },
+  "reflex-dev__reflex-4688": {
+   "rule_ids": [
+    "general/skill/16",
+    "general/skill/18",
+    "general/skill/23"
+   ],
+   "strategy_numbers": [
+    17,
+    19,
+    24
+   ],
+   "error": "",
+   "tokens_in": 5385,
+   "tokens_out": 925
+  },
+  "sdv-dev__SDV-2656": {
+   "rule_ids": [
+    "general/skill/8",
+    "general/skill/17",
+    "general/skill/14"
+   ],
+   "strategy_numbers": [
+    9,
+    18,
+    15
+   ],
+   "error": "",
+   "tokens_in": 5139,
+   "tokens_out": 467
+  },
+  "sdv-dev__SDV-2658": {
+   "rule_ids": [
+    "general/skill/12",
+    "general/skill/17",
+    "general/skill/0"
+   ],
+   "strategy_numbers": [
+    13,
+    18,
+    1
+   ],
+   "error": "",
+   "tokens_in": 5873,
+   "tokens_out": 990
+  },
   "shapely__shapely-2094": {
    "rule_ids": [
     "general/skill/0",
@@ -1696,6 +2521,21 @@
    "error": "",
    "tokens_in": 5751,
    "tokens_out": 1112
+  },
+  "sissbruecker__linkding-1014": {
+   "rule_ids": [
+    "general/skill/23",
+    "general/skill/29",
+    "general/skill/25"
+   ],
+   "strategy_numbers": [
+    24,
+    30,
+    26
+   ],
+   "error": "",
+   "tokens_in": 5107,
+   "tokens_out": 530
   },
   "sissbruecker__linkding-804": {
    "rule_ids": [
@@ -1727,6 +2567,36 @@
    "tokens_in": 4901,
    "tokens_out": 464
   },
+  "streamlink__streamlink-5890": {
+   "rule_ids": [
+    "general/skill/10",
+    "general/skill/23",
+    "general/skill/34"
+   ],
+   "strategy_numbers": [
+    11,
+    24,
+    35
+   ],
+   "error": "",
+   "tokens_in": 6347,
+   "tokens_out": 464
+  },
+  "streamlink__streamlink-5908": {
+   "rule_ids": [
+    "general/skill/0",
+    "general/skill/23",
+    "general/skill/4"
+   ],
+   "strategy_numbers": [
+    1,
+    24,
+    5
+   ],
+   "error": "",
+   "tokens_in": 6529,
+   "tokens_out": 415
+  },
   "streamlink__streamlink-6016": {
    "rule_ids": [
     "general/skill/10",
@@ -1756,6 +2626,21 @@
    "error": "",
    "tokens_in": 5918,
    "tokens_out": 1065
+  },
+  "tox-dev__tox-3246": {
+   "rule_ids": [
+    "general/skill/10",
+    "general/skill/22",
+    "general/skill/24"
+   ],
+   "strategy_numbers": [
+    11,
+    23,
+    25
+   ],
+   "error": "",
+   "tokens_in": 9625,
+   "tokens_out": 1090
   },
   "urllib3__urllib3-3273": {
    "rule_ids": [
