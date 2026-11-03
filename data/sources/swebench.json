@@ -45,5 +45,5 @@
    "We include our exploratory work here that demonstrates how software engineering metrics can re- liably capture characteristics of code quality, and how comparing these statistics across two patches can provide automatic observations about model capabilities. We use the Radon package, a library for computing different software engineering metrics directly from source code. We look specifically at successfully applied Claude 2 patch predictions in the “Oracle” retrieval set- ting for the psf/requests repository, which several models perform best at as reflected in Fig- ure 4. Per prediction, we apply the patch to the codebase, then calculate the Cyclomatic complexity and Halstead complexity scores for the modified functions. Cyclomatic complexity quantifies the control flow of a function, counting the number of independent execution paths through the source code (McCabe, 1976). A higher Cyclomatic complexity score suggests a more complex function that has higher likelihood of defects and usually suggests difficult maintainability. Halstead com- plexity counts the number of operators and operands in a program (Halstead, 1977). Per prediction, we also perform the same set of steps for the corre"
   ]
  },
- "fetched_utc": "2026-11-03T10:40:02+00:00"
+ "fetched_utc": "2026-11-03T16:18:36+00:00"
 }

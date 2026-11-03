@@ -39,5 +39,5 @@
    "ks, but with Claude Code. We installed Claude Code into the task environment, and evaluated the performance with and without the learned skills (as a .claude/skills/{repo_name}/SKILL.md file). Here are the results: Claude Code evaluation on Bleve. Skills learned on Mini-SWE-Agent (gpt-5-mini) transfer to Claude Code, boosting pass rates while also reducing average task duration. Please note that the Bleve repository is primarily in Go, so this shows our framework can create skills useful in languages beyond Python. Claude Code evaluation on Jinja. Skills learned on Mini-SWE-Agent (gpt-5-mini) transfer effectively to Claude Code, achieving near-perfect pass rates. Learned Skills ¶ Here, we showcase some of the learned skills for the Bleve repository. 4) Run tests early and iterate from failures (tests are the bug report) - Start broad when feasible: `cd /testbed && go test ./...` (or project equivalent). - Narrow quickly: - package: `go test ./path/to/pkg` - single test: `go test ./path/to/pkg -run TestName -count=1` (add -v only if needed) - For panics: follow the stack trace top frame in repo code first. - For mismatches: use “expected vs got” to locate the producing function and invarian"
   ]
  },
- "fetched_utc": "2026-11-03T10:41:56+00:00"
+ "fetched_utc": "2026-11-03T16:20:25+00:00"
 }
