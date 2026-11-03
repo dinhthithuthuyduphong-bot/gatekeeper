@@ -400,3 +400,33 @@ def test_per_instance_guidance_prepended(tmp_path):
     )
     assert out[0]["problem_statement"].startswith('<skill id="third-party">\nRULE A')
     assert out[0]["problem_statement"].endswith("Bug") and out[1]["problem_statement"] == "Bug"
+
+
+def test_unwrapped_guidance_is_verbatim(tmp_path):
+    import json as _json
+
+    from gatekeeper.skill import Skill as _Skill
+
+    gfile = tmp_path / "g.json"
+    gfile.write_text(_json.dumps({"a": "<relevant_skills>\nR\n</relevant_skills>\n"}))
+    sk = _Skill.from_dict(
+        {
+            "schema_version": 1,
+            "id": "xreposkill",
+            "procedure": {
+                "kind": "guidance",
+                "guidance_by_instance_file": str(gfile),
+                "position": "prepend",
+                "wrap": False,
+            },
+            "fingerprints": {},
+            "input_predicates": [],
+            "postconditions": [],
+            "footprint": {"regions": [], "reads": [], "writes": [], "properties": []},
+            "capability_verdict": "approved",
+            "source": "test",
+        }
+    )
+    out = arm_rows([{"instance_id": "a", "problem_statement": "Bug"}], sk)
+    assert out[0]["problem_statement"] == "<relevant_skills>\nR\n</relevant_skills>\n\nBug"
+    assert "<skill" not in out[0]["problem_statement"]

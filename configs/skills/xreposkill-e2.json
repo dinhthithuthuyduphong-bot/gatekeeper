@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "xreposkill",
+  "procedure": {
+    "kind": "guidance",
+    "guidance_by_instance_file": "runs/e2_xreposkill/guidance_by_instance.json",
+    "position": "prepend",
+    "wrap": false,
+    "_comment": "THIRD-PARTY SKILL SYSTEM (E2, docs/preregistration_e2.md): XRepoSkill at commit 26fd70345698108c0fdce2d8904293a38b9cd42f, its 36 general strategies, its own two-call rule selection (top_n 3) and its own framing (SKILL_FRAME), produced by scripts/xreposkill_select.py. The guidance file is generated locally and never committed (the repository has no LICENSE); results/e2_selection.json records the selected rule ids. Task set: configs/pools/e2_task_sets.json."
+  },
+  "fingerprints": {},
+  "input_predicates": [],
+  "postconditions": [],
+  "footprint": {
+    "regions": [],
+    "reads": [],
+    "writes": [],
+    "properties": []
+  },
+  "capability_verdict": "approved",
+  "source": "third-party:xreposkill"
+}

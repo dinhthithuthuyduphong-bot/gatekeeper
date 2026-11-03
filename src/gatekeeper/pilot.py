@@ -146,7 +146,8 @@ def arm_rows(rows: Iterable[Mapping[str, Any]], skill: Skill | None) -> list[dic
     procedure keys: "guidance" (same text for every task), "guidance_template" (filled per task),
     "guidance_by_instance_file" (JSON {instance_id: text}, e.g. rules selected per issue by a
     third-party system; tasks without an entry get no guidance), "position": "append" (default,
-    after the issue) or "prepend" (above the issue, as XRepoSkill injects its rules)."""
+    after the issue) or "prepend" (above the issue, as XRepoSkill injects its rules), "wrap": false
+    to insert the text verbatim (a third-party system's own framing) instead of in <skill> tags."""
     out = []
     proc = skill.procedure if skill else {}
     guidance = (proc.get("guidance") or "").strip()
@@ -155,6 +156,7 @@ def arm_rows(rows: Iterable[Mapping[str, Any]], skill: Skill | None) -> list[dic
     if proc.get("guidance_by_instance_file"):
         by_inst = json.loads(Path(proc["guidance_by_instance_file"]).read_text())
     prepend = proc.get("position", "append") == "prepend"
+    wrap = proc.get("wrap", True)
     for r in rows:
         row = dict(r)
         g = guidance
@@ -163,7 +165,7 @@ def arm_rows(rows: Iterable[Mapping[str, Any]], skill: Skill | None) -> list[dic
         if by_inst:
             g = (by_inst.get(r["instance_id"]) or "").strip()
         if g:
-            block = f'<skill id="{skill.id}">\n{g}\n</skill>'
+            block = f'<skill id="{skill.id}">\n{g}\n</skill>' if wrap else g
             row["problem_statement"] = (
                 f"{block}\n\n{r['problem_statement']}"
                 if prepend

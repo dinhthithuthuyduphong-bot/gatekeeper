@@ -169,9 +169,9 @@
     "PrPl",
     "Ville",
     "aGRAPA",
-    "(μ̂",
+    "(\u03bc\u0302",
     "mean - m",
-    "σ̂2"
+    "\u03c3\u03022"
    ]
   },
   {
@@ -522,6 +522,33 @@
     "swebench",
     "Lite",
     "verified"
+   ]
+  },
+  {
+   "id": "gemini_31_flash_lite_cutoff",
+   "claim": "Knowledge cutoff of gemini-3.1-flash-lite (E2 contamination sensitivity)",
+   "urls": [
+    "https://docs.cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/3-1-flash-lite",
+    "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite"
+   ],
+   "keywords": [
+    "Knowledge cutoff",
+    "cutoff",
+    "January 2025"
+   ]
+  },
+  {
+   "id": "swebench_live_python_only",
+   "claim": "SWE-bench-Live (Python) evaluation: its swebench fork, --split full, --namespace starryzhang",
+   "urls": [
+    "https://raw.githubusercontent.com/microsoft/SWE-bench-Live/python-only/README.md"
+   ],
+   "keywords": [
+    "namespace",
+    "starryzhang",
+    "run_evaluation",
+    "fork",
+    "full"
    ]
   }
  ]
