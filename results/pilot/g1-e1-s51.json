@@ -1,0 +1,87 @@
+{
+  "name": "g1-e1-s51",
+  "merged_from": [
+    "g1-e1-s51-p00"
+  ],
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "astropy__astropy-12842",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "n": 1,
+      "solve_rate_with": 0.0,
+      "solve_rate_without": 0.0
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "astropy__astropy-13234",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "astropy__astropy-13236",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "n": 2,
+      "solve_rate_with": 0.0,
+      "solve_rate_without": 0.0
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 3,
+      "usd": 0.077114425,
+      "solved": 0,
+      "scored": 3,
+      "usd_per_run": 0.025704808333333332
+    },
+    "null-guard": {
+      "runs": 1,
+      "usd": 0.05193305000000001,
+      "solved": 0,
+      "scored": 1,
+      "usd_per_run": 0.05193305000000001
+    },
+    "type-guard": {
+      "runs": 2,
+      "usd": 0.0785015,
+      "solved": 0,
+      "scored": 2,
+      "usd_per_run": 0.03925075
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "astropy__astropy-12842": "Submitted",
+      "astropy__astropy-13234": "Submitted",
+      "astropy__astropy-13236": "Submitted"
+    },
+    "null-guard": {
+      "astropy__astropy-12842": "Submitted"
+    },
+    "type-guard": {
+      "astropy__astropy-13234": "Submitted",
+      "astropy__astropy-13236": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.2075,
+  "instances": [
+    "astropy__astropy-12842",
+    "astropy__astropy-13234",
+    "astropy__astropy-13236"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
+}
