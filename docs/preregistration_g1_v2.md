@@ -163,3 +163,8 @@ Theo `docs/source_verification.md` §2:
 - A/A chính xác hai phía ở mức 0,05;
 - khoảng t 95%;
 - hiệu ứng tới hạn từ phân phối chính xác.
+
+**Ghi chú thực thi 3** (03/11/2026; container khởi động lại giữa lô s31-p05; **chưa mở kết quả xác nhận nào**):
+- Chi phí chưa ghi có cận trên: B2-p05 là 1,2; s11-p01 là 0,4; s31-p05 là 1,6 (8 lần chạy × 0,20). Tổng 3,2 USD. Không còn trajectory của các lần chạy bị ngắt, vì file chỉ được ghi khi một lần chạy xong.
+- Trần ghi nhận mới = 35 − 3,2 = **31,8 USD**. `cost_limit` giữ 0,20 USD (không ràng buộc: chi phí lớn nhất là 0,129 trên 489 lần chạy).
+- Nếu trần không đủ để seed 31 xong cả 32 task, task thiếu seed bị loại khỏi phân tích (đơn vị là task có đủ m seed; quy tắc có sẵn trong `per_task_mean`). Số task n được báo cáo kèm kết quả.
