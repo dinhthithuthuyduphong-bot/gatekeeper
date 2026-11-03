@@ -24,6 +24,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from gatekeeper.pilot import estimate_cost_usd, load_model_specs
+
 PINNED = "26fd70345698108c0fdce2d8904293a38b9cd42f"
 _STRATEGY = re.compile(
     r"^## (?P<n>\d+)\. (?P<title>.+?)\n+\*\*Trigger:\*\*\s*(?P<trigger>.+?)\n+"
@@ -64,6 +66,11 @@ def main() -> int:
     ap.add_argument("--model", default="vertex_ai/gemini-3.1-flash-lite")
     ap.add_argument("--workers", type=int, default=8)
     a = ap.parse_args()
+    spec = next(
+        m
+        for m in load_model_specs("configs/models/vertex_gemini.json").values()
+        if m.litellm_name == a.model
+    )
     head = subprocess.check_output(["git", "-C", str(a.clone), "rev-parse", "HEAD"], text=True)
     if head.strip() != PINNED:
         raise SystemExit(f"XRepoSkill clone at {head.strip()}, expected {PINNED}")
@@ -133,6 +140,15 @@ def main() -> int:
         "n_errors": sum(1 for v in sel.values() if v["error"]),
         "tokens_in": sum(v["tokens_in"] for v in sel.values()),
         "tokens_out": sum(v["tokens_out"] for v in sel.values()),
+        # part of E2's 45 USD (run_e2.sh subtracts it); priced from configs/models, no caching
+        "spent_usd": round(
+            estimate_cost_usd(
+                spec,
+                sum(v["tokens_in"] for v in sel.values()),
+                sum(v["tokens_out"] for v in sel.values()),
+            ),
+            4,
+        ),
         "per_task": sel,
     }
     Path("results/e2_selection.json").write_text(json.dumps(summary, indent=1) + "\n")
