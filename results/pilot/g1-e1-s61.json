@@ -1,0 +1,95 @@
+{
+  "name": "g1-e1-s61",
+  "merged_from": [
+    "g1-e1-s61-p00"
+  ],
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "astropy__astropy-12842",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "n": 1,
+      "solve_rate_with": 0.0,
+      "solve_rate_without": 0.0
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "astropy__astropy-13234",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.7605177993527508
+        },
+        {
+          "instance_id": "astropy__astropy-13236",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "astropy__astropy-13306",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.03128371089536138,
+      "n": 3,
+      "solve_rate_with": 0.0,
+      "solve_rate_without": 0.0
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd": 0.22698257500000005,
+      "solved": 0,
+      "scored": 4,
+      "usd_per_run": 0.05674564375000001
+    },
+    "null-guard": {
+      "runs": 1,
+      "usd": 0.08774417500000001,
+      "solved": 0,
+      "scored": 1,
+      "usd_per_run": 0.08774417500000001
+    },
+    "type-guard": {
+      "runs": 3,
+      "usd": 0.078584625,
+      "solved": 0,
+      "scored": 3,
+      "usd_per_run": 0.026194875000000003
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "astropy__astropy-12842": "Submitted",
+      "astropy__astropy-13234": "Submitted",
+      "astropy__astropy-13236": "Submitted",
+      "astropy__astropy-13306": "Submitted"
+    },
+    "null-guard": {
+      "astropy__astropy-12842": "Submitted"
+    },
+    "type-guard": {
+      "astropy__astropy-13234": "Submitted",
+      "astropy__astropy-13236": "Submitted",
+      "astropy__astropy-13306": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.3933,
+  "instances": [
+    "astropy__astropy-12842",
+    "astropy__astropy-13234",
+    "astropy__astropy-13236",
+    "astropy__astropy-13306"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
+}
