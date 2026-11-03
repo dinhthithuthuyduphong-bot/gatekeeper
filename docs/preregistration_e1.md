@@ -117,3 +117,14 @@ Mã: `scripts/rq1_mini.py`; test: `tests/test_rq1_mini.py`.
 - S1 và S2 được báo cáo như phân tích độ nhạy, kèm p nhỏ nhất đạt được của S2.
 - Quy tắc đã đăng ký (cả ba cùng bác bỏ) **vẫn được tính và báo cáo** cạnh kết quả (Nosek et al. 2018: sai lệch phải được công khai).
 - Lý do: mô phỏng trên dữ liệu G1 cho thấy điều kiện S2 làm power gần 0 với 8 repo, trong khi không làm tỉ lệ sai tốt hơn chuẩn.
+
+**Ghi chú thực thi 4** (03/11/2026; @thuthuy duyệt ngân sách E1 = 80 USD; chưa phân tích kết quả nào; A38, A40):
+- **Cỡ mẫu:** n = **53** task mỗi skill E1 = (z₁₋₀,₀₂₅/₃ + z₀,₈)² · 0,060 / 0,109² ≈ 52,9 (công thức §2, ở mức Holm đúng).
+- **Cách lấy task:** task 41–53 theo đúng thứ tự ngẫu nhiên đã cố định (`scripts/make_e1_extension.py`). Đã kiểm 40 task đầu trùng với tập đang chạy.
+- **Cách chạy:** giai đoạn riêng `g1-e1x-s41/51/61`, cùng seed, model, step_limit và cost_limit.
+- **Không đổi:** skill có hại và RQ1 thu nhỏ (§6) giữ 40 task đã đăng ký và chỉ dùng giai đoạn gốc.
+- **Trần:** 31,26 + 80 = 111,26 USD.
+- **Lệnh phân tích §4** thay cho ghi chú thực thi 1:
+  - `python scripts/combine_runs.py g1-e1all-s<seed> g1-e1-s<seed> g1-e1x-s<seed>` cho từng seed 41, 51, 61;
+  - rồi `python scripts/analyze_g1_final.py verdict --label E1 --out results/e1_final.json --skills null-guard,type-guard,exception-handling --confirm g1-e1all-s41 g1-e1all-s51 g1-e1all-s61`.
+  - Kết luận chính: `verdict_ich_e9_r1` (sai lệch D1). Quy tắc đã đăng ký: `verdict`.

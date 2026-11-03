@@ -144,7 +144,6 @@ def test_harm_direction_is_reported_separately():
 
 
 def test_verdict_has_harm_verdict_and_label():
-    import analyze_g1_final as gf
 
     pairs = [{"instance_id": f"o__r-{i}", "loss_with": 1.0, "loss_without": 0.0} for i in range(12)]
     run = {"skills": {"s": {"pairs": pairs}}}
@@ -155,7 +154,6 @@ def test_verdict_has_harm_verdict_and_label():
 
 
 def test_hypothetical_drops_pairs_not_tasks():
-    import analyze_g1_final as gf
 
     def run(trunc_task):
         pairs = [
@@ -175,7 +173,6 @@ def test_hypothetical_drops_pairs_not_tasks():
 
 
 def test_ich_verdict_uses_primary_test_and_reports_sensitivity():
-    import analyze_g1_final as gf
 
     # 30 helped tasks in ONE repository: primary rejects, S2 (1 cluster) cannot
     pairs = [{"instance_id": f"o__r-{i}", "loss_with": 0.0, "loss_without": 1.0} for i in range(30)]
@@ -185,3 +182,35 @@ def test_ich_verdict_uses_primary_test_and_reports_sensitivity():
     assert out["skills"]["s"]["sensitivity_agrees"]["s2"] is False
     assert out["skills"]["s"]["sensitivity_agrees"]["s2_min_attainable_p"] == 0.5
     assert "INCONCLUSIVE" in out["verdict"]  # the pre-registered conjunction, still reported
+
+
+def test_combined_stages_keep_pair_level_status_and_reject_duplicates():
+    import importlib.util as _u
+    from pathlib import Path as _P
+
+    import pytest as _pytest
+
+    spec = _u.spec_from_file_location("cr", _P(__file__).parents[1] / "scripts" / "combine_runs.py")
+    cr = _u.module_from_spec(spec)
+    spec.loader.exec_module(cr)
+    a = {
+        "name": "e1",
+        "skills": {
+            "s": {"pairs": [{"instance_id": "o__r-1", "loss_with": 0.0, "loss_without": 1.0}]}
+        },
+        "exit_status": {"none": {"o__r-1": "Submitted"}, "s": {"o__r-1": "Submitted"}},
+    }
+    b = {
+        "name": "e1x",
+        "skills": {
+            "t": {"pairs": [{"instance_id": "o__r-1", "loss_with": 1.0, "loss_without": 0.0}]}
+        },
+        "exit_status": {"none": {"o__r-1": "LimitsExceeded"}, "t": {"o__r-1": "Submitted"}},
+    }
+    c = cr.combine([a, b])
+    assert c["merged_from"] == ["e1", "e1x"]
+    assert gf._truncated(c, "none", "o__r-1", c["skills"]["t"]["pairs"][0]) is True
+    assert gf._truncated(c, "none", "o__r-1", c["skills"]["s"]["pairs"][0]) is False
+    assert gf.no_skill_unresolved(c)["o__r-1"] == 1.0  # first stage (registered E1) wins
+    with _pytest.raises(SystemExit):
+        cr.combine([a, a])

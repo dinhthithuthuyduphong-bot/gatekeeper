@@ -114,3 +114,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Trước khi đăng ký trước, chạy `scripts/verify_methods.py` cho **đúng quy tắc quyết định cuối cùng**, trên đúng cỡ mẫu, số cụm và mức α. Báo cả tỉ lệ sai lẫn power.
   - Quy tắc quyết định phải theo chuẩn công bố (ICH E9(R1): phép ước lượng chính quyết định, phân tích độ nhạy để báo cáo).
   - Danh sách review §4 có mục tương ứng.
+
+## L12. Thay đổi thiết kế giữa chừng tương tác với quy tắc gộp dữ liệu (A40)
+
+- **Xảy ra:** mở rộng cỡ mẫu tưởng chỉ là "thêm task". Nhưng task mới trùng với task cũ của skill khác, và quy tắc gộp sẽ xóa dữ liệu cũ.
+- **Phòng ngừa:**
+  - Mọi thay đổi thiết kế giữa chừng (thêm task, seed, nhánh) phải chạy thành giai đoạn riêng, có bước gộp với kiểm tra trùng.
+  - Trước khi chạy, kiểm chồng lấn giữa tập mới và tập cũ.

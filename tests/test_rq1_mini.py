@@ -40,7 +40,6 @@ def test_tested_labels_keep_undetermined():
 
 
 def test_rules_see_the_same_screening_trials():
-    import rq1_mini as rq
 
     screen = [0.0] * rq.BUDGET + [-1.0] * 10  # only trials beyond the budget look helpful
     d = rq.decide(screen, 0.05)

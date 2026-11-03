@@ -44,10 +44,12 @@ def z_resolved(pairs: list[dict]) -> dict[str, float]:
 
 
 def no_skill_unresolved(run: dict) -> dict[str, float]:
-    out = {}
+    """No-skill outcome per task. FIRST occurrence wins: in a combined run (E1 + extension, A40)
+    a task can carry no-skill runs from two stages; the registered stage comes first."""
+    out: dict[str, float] = {}
     for s in run.get("skills", {}).values():
         for p in s["pairs"]:
-            out[p["instance_id"]] = float(not resolved(p["loss_without"]))
+            out.setdefault(p["instance_id"], float(not resolved(p["loss_without"])))
     return out
 
 
@@ -222,7 +224,10 @@ def per_task_mean(runs: list[dict], skill: str, endpoint: str = "resolved") -> d
 TRUNCATED = {"LimitsExceeded", "TimeExceeded"}  # step or cost limit hit (mini-swe-agent 2.4.6)
 
 
-def _truncated(run: dict, arm: str, task: str) -> bool | None:
+def _truncated(run: dict, arm: str, task: str, pair: dict | None = None) -> bool | None:
+    if pair is not None and run.get("pair_level_exit_status"):  # combined stages (A40)
+        st = pair.get("status_without" if arm == "none" else "status_with")
+        return None if st is None else st in TRUNCATED
     st = (run.get("exit_status") or {}).get(arm, {})
     return None if task not in st else st[task] in TRUNCATED
 
@@ -232,11 +237,24 @@ def intercurrent(confirm: list[dict], skills: list[str]) -> dict:
     truncation rate per arm, and the hypothetical-strategy estimate that drops every seed-pair
     with a truncated arm (tasks then need all seeds). Primary = treatment policy (as is)."""
     out: dict = {"truncation_rate": {}, "hypothetical": {}}
-    if not all("exit_status" in r for r in confirm):
+    if not all("exit_status" in r or r.get("pair_level_exit_status") for r in confirm):
         out["note"] = "exit statuses not recorded for every run"
         return out
     for arm in ["none", *skills]:
-        st = [v for r in confirm for v in (r["exit_status"].get(arm) or {}).values()]
+        st: list = []
+        for r in confirm:
+            if r.get("pair_level_exit_status"):  # per pair; no-skill counted once per task
+                if arm == "none":
+                    first: dict = {}
+                    for v in r["skills"].values():
+                        for p in v["pairs"]:
+                            first.setdefault(p["instance_id"], p.get("status_without"))
+                    st += [x for x in first.values() if x is not None]
+                else:
+                    st += [p.get("status_with") for p in r["skills"].get(arm, {}).get("pairs", [])]
+            else:
+                st += list((r["exit_status"].get(arm) or {}).values())
+        st = [x for x in st if x is not None]
         out["truncation_rate"][arm] = (
             {"n": len(st), "rate": sum(x in TRUNCATED for x in st) / len(st)} if st else None
         )
@@ -246,8 +264,8 @@ def intercurrent(confirm: list[dict], skills: list[str]) -> dict:
             pairs = [
                 p
                 for p in r.get("skills", {}).get(s, {}).get("pairs", [])
-                if _truncated(r, s, p["instance_id"]) is False
-                and _truncated(r, "none", p["instance_id"]) is False
+                if _truncated(r, s, p["instance_id"], p) is False
+                and _truncated(r, "none", p["instance_id"], p) is False
             ]
             for t, z in z_resolved(pairs).items():
                 acc[t].append(z)
