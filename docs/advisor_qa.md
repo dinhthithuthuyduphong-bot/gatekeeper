@@ -90,3 +90,34 @@
 4. **Mở rộng đo lường ngoài test:** đọc tay một mẫu bản sửa (2 người, Cohen's κ ≥ 0,7, đã có trong TODO) để ước lượng tỉ lệ "qua test nhưng sai".
 
 Các tài liệu Voyager, mutation testing và OpenAI Verified được trích theo hiểu biết; chưa đối chiếu bản gốc trong phiên này.
+
+## 5. Đối chiếu bản gốc (03/11/2026) và hướng giải quyết từng điểm yếu
+
+Nguồn tải qua `.github/workflows/sources.yml`; trích đoạn ở nhánh `sources-snapshots`.
+
+### 5.1 Xác nhận các nguồn đã trích
+
+| Nguồn | Câu trích (bản gốc) | Kết luận |
+| --- | --- | --- |
+| Voyager (arXiv 2305.16291) | "an ever-growing skill library of executable code for storing and retrieving complex behaviors … reusable, interpretable, and generalizable to novel tasks" | ✅ khái niệm skill library |
+| Agent Skills (`anthropics/skills`) | "Skills are folders of instructions, scripts, and resources that Claude loads dynamically … Each skill is self-contained in its own folder with a SKILL.md file" | ✅ |
+| XRepoSkill (arXiv 2609.36807) | "a skill as a collection of rules, each specifying what action to take and when to take it"; rule giữ lại theo "resolution gain … the Mantel–Haenszel estimator" kèm "z score … (Sato et al., 1989)"; "we have released the source code, data, and skill corpus" | ✅ **có bộ skill công khai và quy tắc admit được mô tả bằng công thức** |
+| Repo XRepoSkill (README) | "Two calls to the backbone LLM select at most three rules per issue; the rules' title and body are placed above the issue description in the first message of an unchanged mini-SWE-agent" | ✅ **cùng harness với chúng tôi (mini-swe-agent)**, nên dùng được trực tiếp |
+| SWE-Skills-Bench (arXiv 2603.15401) | "We start from 98 public SWE skills"; "92 of 98 skills are Ineffective, and the mean pass ratio changes only from 76.6% without skills to 76.9%" | ✅ khớp kết quả G1 |
+| SWE-bench Verified (swebench.com) | "Human annotators reviewed each instance to ensure the problem descriptions are clear, the test patches are correct, and the tasks are solvable" | ✅ |
+| SWE-bench-Live (arXiv 2505.23419; repo) | "1,319 tasks derived from real GitHub issues created since 2024, spanning 93 repositories. Each task is accompanied by a dedicated Docker image"; "contamination-free"; bản Python dùng thư viện `swebench` để chấm | ✅ chống nhiễm dữ liệu, tương thích harness |
+| Mutation testing (Wikipedia; DeMillo, Lipton & Sayward 1978) | "Mutation testing involves making small changes to the program … A test detects, and therefore rejects, a mutant"; dựa trên giả thuyết "competent programmer" và "coupling effect" | ✅ là cơ sở của việc dùng lỗi nhân tạo để đánh giá khả năng phát hiện |
+| Cohen's κ (McHugh 2012, PMC3900052) | thang của Cohen "0.61–0.80 as substantial … this interpretation allows for very little agreement among raters to be described as 'substantial'" | ⚠️ **Ngưỡng κ ≥ 0,7 tôi đặt không có cơ sở.** Thay bằng báo cáo κ kèm CI, và theo khuyến nghị chặt hơn của McHugh (κ ≥ 0,80 mới là đồng thuận mạnh; cần đối chiếu đúng câu trong bài trước khi chốt) |
+| Jia & Harman 2011 (khảo sát mutation testing) | bản gốc chưa tải được | ⚠️ chỉ dùng DeMillo et al. qua nguồn thứ cấp |
+
+### 5.2 Hướng giải quyết
+
+| Điểm yếu | Hướng giải quyết (có cơ sở) | Làm khi nào |
+| --- | --- | --- |
+| **(a) Skill do chúng tôi tự viết, có bậc tự do của người nghiên cứu** | Thí nghiệm chính dùng **bộ skill công khai của XRepoSkill** (học tự động từ trajectory công khai của SWE-bench Verified, chọn rule theo issue bằng chính code của họ, chèn vào cùng mini-swe-agent). Chúng tôi không viết hay chọn skill nào | Thí nghiệm chính (E2) |
+| **(b) Rò rỉ và nhiễm dữ liệu** | XRepoSkill học từ repo của **Verified**, nên phải đánh giá trên **SWE-bench-Live** (93 repo, issue từ 2024, image riêng từng task, tương thích `swebench`). Repo trùng sẽ bị loại. Cách này loại cả rò rỉ skill lẫn nhiễm dữ liệu huấn luyện model | E2 |
+| **(c) Skill không đại diện** | Hai nguồn skill bên ngoài: XRepoSkill (cho SWE-bench) và 98 skill công khai của SWE-Skills-Bench (dữ liệu đã công bố) | E2 cùng phân tích ngoài đã có |
+| **(d) Skill có hại chỉ là "người rơm"** | Hại **thật**: skill của XRepoSkill áp sang repo mới có thể chuyển giao âm, và được đo trên Live. Skill có hại theo thiết kế chỉ là **đối chứng dương** (như mutant trong mutation testing), báo cáo riêng | E1 (đối chứng) và E2 (hại thật) |
+| **(e) Nhãn có hại / có ích không chắc chắn** | **Nhãn 3 lớp theo kiểm định trên dữ liệu độc lập** (có hại đã xác lập, có ích đã xác lập, chưa xác định), báo cáo cả lớp chưa xác định. Code: thêm vào `rq1_mini.py` **trước khi có kết quả E1** | Ngay bây giờ |
+| **(f) Test chỉ đo tính đúng chức năng** | Đọc tay một mẫu bản sửa (2 người, báo κ kèm CI, ngưỡng theo McHugh 2012), ước lượng tỉ lệ "qua test nhưng sai". Ghi rõ estimand là "đúng chức năng theo test của SWE-bench" | Thí nghiệm chính (👤) |
+| **(g) Quy tắc admit của baseline** | Cài **đúng công thức đã công bố** của XRepoSkill (gain Mantel–Haenszel + z Sato, trên trajectory) **chỉ để so sánh quy tắc quyết định**, và vẫn chạy code gốc của họ cho bước học và chọn skill | E2 |

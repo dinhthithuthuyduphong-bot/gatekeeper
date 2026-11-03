@@ -88,3 +88,7 @@ Nhãn "có hại" **không được giả định** mà được kiểm trên se
 - **Giới hạn phải nêu:** 7 ô là quy mô nhỏ; chỉ có các quy tắc quyết định, chưa có baseline bên thứ ba; nhãn thật dựa trên 80 trial mỗi ô nên vẫn có nhiễu.
 
 Mã: `scripts/rq1_mini.py`; test: `tests/test_rq1_mini.py`.
+
+**Bổ sung §6.1** (03/11/2026, E1 vừa chạy lô đầu, **chưa mở kết quả nào**; phản biện của thầy, `docs/advisor_qa.md` §5.2e):
+- **Nhãn chính là nhãn 3 lớp theo kiểm định** trên hai seed giữ lại: *có hại đã xác lập* hoặc *có ích đã xác lập* nếu kiểm định đổi dấu chính xác một phía bác bỏ ở α mỗi ô = 0,05/7; còn lại là *chưa xác định*, được báo cáo riêng (số ô chưa xác định mà mỗi quy tắc đã admit).
+- Nhãn theo dấu của ước lượng điểm chỉ là phân tích phụ.

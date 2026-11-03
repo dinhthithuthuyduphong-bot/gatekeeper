@@ -24,3 +24,16 @@ def test_rules_and_summary():
     assert s["Gatekeeper"]["harmful_acceptance"] == 0.0  # anytime-valid test does not
     assert s["Gatekeeper"]["clean_reuse_coverage"] == 1.0  # but admits the strong skill
     assert s["B2 always"]["harmful_acceptance"] == 1.0 and s["B1 never"]["admitted"] == 0
+
+
+def test_tested_labels_keep_undetermined():
+    assert rq.label_tested([1.0] * 20, 0.05) == "harmful"
+    assert rq.label_tested([-1.0] * 20, 0.05) == "beneficial"
+    assert rq.label_tested([1.0, -1.0] * 10, 0.05) == "undetermined"
+    cells = {
+        "h": {"decisions": {"G": False, "N": True}, "label_tested": "harmful"},
+        "u": {"decisions": {"G": False, "N": True}, "label_tested": "undetermined"},
+    }
+    s = rq.summarise_tested(cells)
+    assert s["N"]["harmful_acceptance"] == 1.0 and s["G"]["harmful_acceptance"] == 0.0
+    assert s["N"]["admitted_undetermined"] == 1 and s["N"]["clean_reuse_coverage"] is None

@@ -46,6 +46,42 @@ def label(truth: list[float]) -> str:
     return "harmful" if m > 0 else ("beneficial" if m < 0 else "neutral")
 
 
+def label_tested(truth: list[float], alpha_cell: float) -> str:
+    """Three classes from exact sign-flip tests on the INDEPENDENT held-out data (advisor_qa 5.2e):
+    harm / benefit established if the one-sided test rejects at alpha_cell, else undetermined."""
+    if gf.sign_flip_p([-v for v in truth]) <= alpha_cell:
+        return "harmful"
+    if gf.sign_flip_p(truth) <= alpha_cell:
+        return "beneficial"
+    return "undetermined"
+
+
+def summarise_tested(cells: dict[str, dict]) -> dict:
+    rules = next(iter(cells.values()))["decisions"].keys()
+    out = {}
+    for r in rules:
+        by = {
+            k: [c for c in cells.values() if c["label_tested"] == k]
+            for k in ("harmful", "beneficial", "undetermined")
+        }
+        out[r] = {
+            "harmful_established": len(by["harmful"]),
+            "harmful_acceptance": (
+                sum(c["decisions"][r] for c in by["harmful"]) / len(by["harmful"])
+            )
+            if by["harmful"]
+            else None,
+            "beneficial_established": len(by["beneficial"]),
+            "clean_reuse_coverage": (
+                sum(c["decisions"][r] for c in by["beneficial"]) / len(by["beneficial"])
+            )
+            if by["beneficial"]
+            else None,
+            "admitted_undetermined": sum(c["decisions"][r] for c in by["undetermined"]),
+        }
+    return out
+
+
 def summarise(cells: dict[str, dict]) -> dict:
     rules = next(iter(cells.values()))["decisions"].keys()
     out = {}
@@ -126,10 +162,16 @@ def main() -> int:
             "truth_p_benefit": gf.sign_flip_p(s["truth_task"]),
             "truth_p_harm": gf.sign_flip_p([-v for v in s["truth_task"]]),
             "screen_mean": float(np.mean(s["screen"])),
+            "label_tested": label_tested(s["truth_task"], ledger.cell(s["skill"])),
         }
-    out = {"alpha_cell": ALPHA / len(specs), "cells": cells, "summary": summarise(cells)}
+    out = {
+        "alpha_cell": ALPHA / len(specs),
+        "cells": cells,
+        "summary_tested_labels": summarise_tested(cells),  # primary (advisor_qa 5.2e)
+        "summary_point_labels": summarise(cells),  # secondary: sign of the held-out estimate
+    }
     Path("results/rq1_mini.json").write_text(json.dumps(out, indent=1) + "\n")
-    print(json.dumps(out["summary"], indent=1))
+    print(json.dumps(out["summary_tested_labels"], indent=1))
     return 0
 
 
