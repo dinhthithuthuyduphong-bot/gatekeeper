@@ -141,3 +141,9 @@ Z_ik = R(none) − R(xreposkill) ∈ {−1, 0, 1}; Z̄_i là trung bình qua 3 s
 
   Vì vậy tổng đã chi cộng tổng đang giữ chỗ luôn ≤ trần, và tổng chi không thể vượt trần.
 - **Dừng:** job dừng khi tổng đã chi cộng 2,00 USD vượt trần, hoặc khi hết thời gian. Lần gọi nào không ghi được kết quả thì giữ nguyên phần giữ chỗ, vì chi phí của nó chưa biết. Như §4: phân tích dùng các task đã có đủ 3 seed. Một task có thuộc tập phân tích hay không phụ thuộc vào thời gian và chi phí của các task khác, không phụ thuộc kết quả của chính nó.
+- **Hệ quả của sổ chung (bổ sung ghi chú thực thi 8, trước lần chạy có trả phí):**
+  - Số lần gọi chạy cùng lúc = min(20, ⌊(trần − đã chi) / 2,00⌋). Mỗi lần gọi giữ chỗ phần xấu nhất 2,00 USD, trong khi chi phí đo được khoảng 0,14 USD.
+  - Vì vậy về cuối, số job chạy cùng lúc giảm dần. Đây là cái giá của bảo đảm "không thể vượt trần".
+  - Job nào không giữ được chỗ thì chờ, rồi dừng khi hết giờ. Lần dispatch sau chạy tiếp (cùng 20 shard).
+  - Task không xong chỉ phụ thuộc vào shard và thời gian. Task được chia vào shard theo thứ tự ngẫu nhiên đã cố định, nên tập có đủ 3 seed vẫn là một mẫu ngẫu nhiên, không phụ thuộc kết quả của chính task.
+- **Bằng chứng chạy thử trên Actions** (run 41656611463, `budget_usd` 3, 2 job): k1 giữ chỗ 2,00 → ghi số thật → giữ chỗ lại. k0 phải chờ, vì 2 + 2 > 3. Bất biến không bị vi phạm trong suốt lịch sử nhánh sổ.
