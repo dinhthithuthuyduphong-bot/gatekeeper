@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T17:22:33+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k12-p01",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "reflex-dev__reflex-3982"
+  ],
+  "spent_usd": 0.0805,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.05894165000000001,
+      "tokens_in_per_run": 1139348.0,
+      "tokens_out_per_run": 7201.0,
+      "cached_share": 0.9233228126963843,
+      "api_calls_per_run": 53.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.021579075,
+      "tokens_in_per_run": 323997.0,
+      "tokens_out_per_run": 1307.0,
+      "cached_share": 0.8419923641268283,
+      "api_calls_per_run": 30.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "reflex-dev__reflex-3982": "Submitted"
+    },
+    "xreposkill": {
+      "reflex-dev__reflex-3982": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "reflex-dev__reflex-3982",
+          "loss_with": 0.004487658937920718,
+          "loss_without": 0.668785838942907
+        }
+      ],
+      "mean_Z": -0.6642981800049863,
+      "variance_components": null
+    }
+  }
+}

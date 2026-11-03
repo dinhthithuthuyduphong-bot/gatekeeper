@@ -1,0 +1,99 @@
+{
+  "name": "g2-e2-s41-k1",
+  "merged_from": [
+    "g2-e2-s41-k1-p00",
+    "g2-e2-s41-k1-p01",
+    "g2-e2-s41-k1-p02",
+    "g2-e2-s41-k1-p03",
+    "g2-e2-s41-k1-p04",
+    "g2-e2-s41-k1-p05"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "mikedh__trimesh-2126",
+          "loss_with": 0.4444444444444444,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "aiogram__aiogram-1469",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "ag2ai__faststream-1589",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "instructlab__instructlab-3045",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "falconry__falcon-2426",
+          "loss_with": 0.3333333333333333,
+          "loss_without": 0.6774674115456238
+        },
+        {
+          "instance_id": "conan-io__conan-17964",
+          "loss_with": 0.6667441680229405,
+          "loss_without": 1.0
+        }
+      ],
+      "mean_Z": -0.2610464665130398,
+      "n": 6,
+      "solve_rate_with": 0.16666666666666666,
+      "solve_rate_without": 0.0
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 6,
+      "usd": 0.6799443249999998,
+      "solved": 0,
+      "scored": 6,
+      "usd_per_run": 0.11332405416666663
+    },
+    "xreposkill": {
+      "runs": 6,
+      "usd": 0.235579925,
+      "solved": 1,
+      "scored": 6,
+      "usd_per_run": 0.03926332083333333
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "mikedh__trimesh-2126": "LimitsExceeded",
+      "aiogram__aiogram-1469": "Submitted",
+      "ag2ai__faststream-1589": "Submitted",
+      "instructlab__instructlab-3045": "LimitsExceeded",
+      "falconry__falcon-2426": "Submitted",
+      "conan-io__conan-17964": "Submitted"
+    },
+    "xreposkill": {
+      "mikedh__trimesh-2126": "Submitted",
+      "aiogram__aiogram-1469": "Submitted",
+      "ag2ai__faststream-1589": "Submitted",
+      "instructlab__instructlab-3045": "Submitted",
+      "falconry__falcon-2426": "Submitted",
+      "conan-io__conan-17964": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.9155,
+  "instances": [
+    "mikedh__trimesh-2126",
+    "aiogram__aiogram-1469",
+    "ag2ai__faststream-1589",
+    "instructlab__instructlab-3045",
+    "falconry__falcon-2426",
+    "conan-io__conan-17964"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

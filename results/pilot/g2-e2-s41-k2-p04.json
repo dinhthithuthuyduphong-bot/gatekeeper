@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T19:33:22+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s41-k2-p04",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "pdm-project__pdm-2909"
+  ],
+  "spent_usd": 0.1406,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.06497747500000003,
+      "tokens_in_per_run": 1281565.0,
+      "tokens_out_per_run": 6673.0,
+      "cached_share": 0.9204831592623082,
+      "api_calls_per_run": 64.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.07558202500000001,
+      "tokens_in_per_run": 1529449.0,
+      "tokens_out_per_run": 8717.0,
+      "cached_share": 0.9294726401468765,
+      "api_calls_per_run": 65.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "pdm-project__pdm-2909": "Submitted"
+    },
+    "xreposkill": {
+      "pdm-project__pdm-2909": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "pdm-project__pdm-2909",
+          "loss_with": 1.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.33333333333333337,
+      "variance_components": null
+    }
+  }
+}

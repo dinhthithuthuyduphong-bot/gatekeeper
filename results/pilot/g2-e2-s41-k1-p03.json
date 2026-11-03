@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T17:15:03+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s41-k1-p03",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "instructlab__instructlab-3045"
+  ],
+  "spent_usd": 0.2243,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.1835425749999999,
+      "tokens_in_per_run": 4579771.0,
+      "tokens_out_per_run": 7568.0,
+      "cached_share": 0.9440085541394974,
+      "api_calls_per_run": 250.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.040806749999999996,
+      "tokens_in_per_run": 523677.0,
+      "tokens_out_per_run": 5514.0,
+      "cached_share": 0.8349803409353476,
+      "api_calls_per_run": 46.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "instructlab__instructlab-3045": "LimitsExceeded"
+    },
+    "xreposkill": {
+      "instructlab__instructlab-3045": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "instructlab__instructlab-3045",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.6666666666666666,
+      "variance_components": null
+    }
+  }
+}

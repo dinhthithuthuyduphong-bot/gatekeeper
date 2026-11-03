@@ -1,0 +1,65 @@
+{
+  "generated_utc": "2026-11-03T19:33:02+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s51-k6-p05",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "sissbruecker__linkding-1014"
+  ],
+  "spent_usd": 0.1272,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.040320924999999994,
+      "tokens_in_per_run": 777226.0,
+      "tokens_out_per_run": 3484.0,
+      "cached_share": 0.9104263110086385,
+      "api_calls_per_run": 46.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.08690972500000001,
+      "tokens_in_per_run": 1329730.0,
+      "tokens_out_per_run": 15961.0,
+      "cached_share": 0.9006482519007618,
+      "api_calls_per_run": 62.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {
+    "none": [
+      "sissbruecker__linkding-1014"
+    ]
+  },
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "sissbruecker__linkding-1014": "Submitted"
+    },
+    "xreposkill": {
+      "sissbruecker__linkding-1014": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "sissbruecker__linkding-1014",
+          "loss_with": 0.6722365038560412,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.005569837189374538,
+      "variance_components": null
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T15:55:59+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s51-k1-p01",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "aiogram__aiogram-1469"
+  ],
+  "spent_usd": 0.0288,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.012778425000000001,
+      "tokens_in_per_run": 49914.0,
+      "tokens_out_per_run": 1932.0,
+      "cached_share": 0.23133790119004688,
+      "api_calls_per_run": 15.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.015992075,
+      "tokens_in_per_run": 196922.0,
+      "tokens_out_per_run": 2968.0,
+      "cached_share": 0.8506566051533094,
+      "api_calls_per_run": 24.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "aiogram__aiogram-1469": "Submitted"
+    },
+    "xreposkill": {
+      "aiogram__aiogram-1469": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "aiogram__aiogram-1469",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

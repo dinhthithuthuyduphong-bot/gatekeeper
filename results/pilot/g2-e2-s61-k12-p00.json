@@ -1,0 +1,62 @@
+{
+  "generated_utc": "2026-11-03T15:25:51+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k12-p00",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "reflex-dev__reflex-3982"
+  ],
+  "spent_usd": 0.0854,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.03815870000000001,
+      "tokens_in_per_run": 665804.0,
+      "tokens_out_per_run": 4911.0,
+      "cached_share": 0.9055637995566262,
+      "api_calls_per_run": 38.0,
+      "solve_rate": null,
+      "solved": 0,
+      "scored": 0
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.04727245000000001,
+      "tokens_in_per_run": 662446.0,
+      "tokens_out_per_run": 5332.0,
+      "cached_share": 0.8476132394187602,
+      "api_calls_per_run": 49.0,
+      "solve_rate": null,
+      "solved": 0,
+      "scored": 0
+    }
+  },
+  "infra_failures": {
+    "none": {
+      "reflex-dev__reflex-3982": "RateLimitError"
+    },
+    "xreposkill": {
+      "reflex-dev__reflex-3982": "RateLimitError"
+    }
+  },
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "reflex-dev__reflex-3982": "RateLimitError"
+    },
+    "xreposkill": {
+      "reflex-dev__reflex-3982": "RateLimitError"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [],
+      "mean_Z": null,
+      "variance_components": null
+    }
+  }
+}

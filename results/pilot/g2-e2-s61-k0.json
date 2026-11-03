@@ -1,0 +1,108 @@
+{
+  "name": "g2-e2-s61-k0",
+  "merged_from": [
+    "g2-e2-s61-k0-p00",
+    "g2-e2-s61-k0-p01",
+    "g2-e2-s61-k0-p02",
+    "g2-e2-s61-k0-p03",
+    "g2-e2-s61-k0-p04",
+    "g2-e2-s61-k0-p05",
+    "g2-e2-s61-k0-p06"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "conan-io__conan-18655",
+          "loss_with": 0.3334781035106768,
+          "loss_without": 7.238508867173363e-05
+        },
+        {
+          "instance_id": "aws-cloudformation__cfn-lint-3650",
+          "loss_with": 0.6680790960451978,
+          "loss_without": 0.6680790960451978
+        },
+        {
+          "instance_id": "projectmesa__mesa-2418",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "koxudaxi__datamodel-code-generator-2412",
+          "loss_with": 0.6681394207167403,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "python-babel__babel-1104",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "patroni__patroni-3370",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "flexget__flexget-4306",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.04783978178172553,
+      "n": 7,
+      "solve_rate_with": 0.2857142857142857,
+      "solve_rate_without": 0.2857142857142857
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 7,
+      "usd": 0.562368925,
+      "solved": 2,
+      "scored": 7,
+      "usd_per_run": 0.08033841785714287
+    },
+    "xreposkill": {
+      "runs": 7,
+      "usd": 0.447031375,
+      "solved": 2,
+      "scored": 7,
+      "usd_per_run": 0.063861625
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "conan-io__conan-18655": "Submitted",
+      "aws-cloudformation__cfn-lint-3650": "Submitted",
+      "projectmesa__mesa-2418": "Submitted",
+      "koxudaxi__datamodel-code-generator-2412": "Submitted",
+      "python-babel__babel-1104": "Submitted",
+      "patroni__patroni-3370": "Submitted",
+      "flexget__flexget-4306": "Submitted"
+    },
+    "xreposkill": {
+      "conan-io__conan-18655": "Submitted",
+      "aws-cloudformation__cfn-lint-3650": "Submitted",
+      "projectmesa__mesa-2418": "Submitted",
+      "koxudaxi__datamodel-code-generator-2412": "Submitted",
+      "python-babel__babel-1104": "Submitted",
+      "patroni__patroni-3370": "Submitted",
+      "flexget__flexget-4306": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 1.0092,
+  "instances": [
+    "conan-io__conan-18655",
+    "aws-cloudformation__cfn-lint-3650",
+    "projectmesa__mesa-2418",
+    "koxudaxi__datamodel-code-generator-2412",
+    "python-babel__babel-1104",
+    "patroni__patroni-3370",
+    "flexget__flexget-4306"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

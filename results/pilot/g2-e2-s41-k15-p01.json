@@ -1,0 +1,59 @@
+{
+  "generated_utc": "2026-11-03T15:31:35+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s41-k15-p01",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "SYSTRAN__faster-whisper-1345"
+  ],
+  "spent_usd": 0.3234,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.2771114499999998,
+      "tokens_in_per_run": 7670176.0,
+      "tokens_out_per_run": 10519.0,
+      "cached_share": 0.9596830633351829,
+      "api_calls_per_run": 250.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.046276899999999996,
+      "tokens_in_per_run": 808630.0,
+      "tokens_out_per_run": 3248.0,
+      "cached_share": 0.8835388249261096,
+      "api_calls_per_run": 49.0,
+      "solve_rate": null,
+      "solved": 0,
+      "scored": 0
+    }
+  },
+  "infra_failures": {
+    "xreposkill": {
+      "SYSTRAN__faster-whisper-1345": "RateLimitError"
+    }
+  },
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "SYSTRAN__faster-whisper-1345": "LimitsExceeded"
+    },
+    "xreposkill": {
+      "SYSTRAN__faster-whisper-1345": "RateLimitError"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [],
+      "mean_Z": null,
+      "variance_components": null
+    }
+  }
+}

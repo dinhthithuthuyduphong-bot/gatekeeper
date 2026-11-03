@@ -1,0 +1,90 @@
+{
+  "name": "g2-e2-s61-k1",
+  "merged_from": [
+    "g2-e2-s61-k1-p00",
+    "g2-e2-s61-k1-p01",
+    "g2-e2-s61-k1-p02",
+    "g2-e2-s61-k1-p03",
+    "g2-e2-s61-k1-p04"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "mikedh__trimesh-2126",
+          "loss_with": 0.4444444444444444,
+          "loss_without": 0.44500279173646007
+        },
+        {
+          "instance_id": "aiogram__aiogram-1469",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "ag2ai__faststream-1589",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "instructlab__instructlab-3045",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "falconry__falcon-2426",
+          "loss_with": 0.6774674115456238,
+          "loss_without": 0.5
+        }
+      ],
+      "mean_Z": 0.03538181285072164,
+      "n": 5,
+      "solve_rate_with": 0.2,
+      "solve_rate_without": 0.2
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 5,
+      "usd": 0.1870049,
+      "solved": 1,
+      "scored": 5,
+      "usd_per_run": 0.03740098
+    },
+    "xreposkill": {
+      "runs": 5,
+      "usd": 0.17261195000000001,
+      "solved": 1,
+      "scored": 5,
+      "usd_per_run": 0.03452239
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "mikedh__trimesh-2126": "Submitted",
+      "aiogram__aiogram-1469": "Submitted",
+      "ag2ai__faststream-1589": "Submitted",
+      "instructlab__instructlab-3045": "Submitted",
+      "falconry__falcon-2426": "Submitted"
+    },
+    "xreposkill": {
+      "mikedh__trimesh-2126": "Submitted",
+      "aiogram__aiogram-1469": "Submitted",
+      "ag2ai__faststream-1589": "Submitted",
+      "instructlab__instructlab-3045": "Submitted",
+      "falconry__falcon-2426": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.3597,
+  "instances": [
+    "mikedh__trimesh-2126",
+    "aiogram__aiogram-1469",
+    "ag2ai__faststream-1589",
+    "instructlab__instructlab-3045",
+    "falconry__falcon-2426"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

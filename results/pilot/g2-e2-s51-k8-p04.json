@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T16:12:25+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s51-k8-p04",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "authlib__authlib-802"
+  ],
+  "spent_usd": 0.0615,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.029246,
+      "tokens_in_per_run": 422354.0,
+      "tokens_out_per_run": 4155.0,
+      "cached_share": 0.868939325778849,
+      "api_calls_per_run": 33.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.032241874999999996,
+      "tokens_in_per_run": 514544.0,
+      "tokens_out_per_run": 3415.0,
+      "cached_share": 0.8768637861873815,
+      "api_calls_per_run": 38.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "authlib__authlib-802": "Submitted"
+    },
+    "xreposkill": {
+      "authlib__authlib-802": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "authlib__authlib-802",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6734052111410601
+        }
+      ],
+      "mean_Z": -0.006738544474393482,
+      "variance_components": null
+    }
+  }
+}

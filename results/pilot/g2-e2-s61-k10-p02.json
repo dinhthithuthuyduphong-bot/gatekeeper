@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T15:46:30+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k10-p02",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "beetbox__beets-5153"
+  ],
+  "spent_usd": 0.0847,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.04037144999999998,
+      "tokens_in_per_run": 800556.0,
+      "tokens_out_per_run": 3285.0,
+      "cached_share": 0.9143370357601467,
+      "api_calls_per_run": 50.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.0442967,
+      "tokens_in_per_run": 582308.0,
+      "tokens_out_per_run": 2285.0,
+      "cached_share": 0.7991784416494364,
+      "api_calls_per_run": 59.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "beetbox__beets-5153": "Submitted"
+    },
+    "xreposkill": {
+      "beetbox__beets-5153": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "beetbox__beets-5153",
+          "loss_with": 0.4437904649793996,
+          "loss_without": 0.3333333333333333
+        }
+      ],
+      "mean_Z": 0.1104571316460663,
+      "variance_components": null
+    }
+  }
+}

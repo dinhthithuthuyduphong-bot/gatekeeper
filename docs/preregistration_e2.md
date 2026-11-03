@@ -170,3 +170,13 @@ Z_ik = R(none) − R(xreposkill) ∈ {−1, 0, 1}; Z̄_i là trung bình qua 3 s
   - 103 task có đủ 3 seed.
 - **Bước gom:** thất bại vì va chạm khi đẩy lên `raw-archive` (A68). Đã chạy lại bước gom; kết quả nay đã lên `e2-results`.
 - **Lượt nối tiếp:** cùng 20 shard, cùng ngân sách 45 USD, chạy bằng mã đã sửa (A61, A68). Lượt này lấy kết quả cũ từ `e2-results`, nên không chạy lại task đã xong. Nó dừng ở trần như §4.
+
+**Ghi chú thực thi 11** (03/11/2026, khoảng 22:00 UTC, chỉ trường vận hành, **chưa phân tích**): **E2 kết thúc ở trần** (§4).
+- **Lượt nối tiếp:** run 41715903458.
+- **Tổng cộng hai lượt:**
+  - 344 file lô, 688 lần chạy agent, chi 42,5931 USD (khớp đúng sổ ngân sách, không còn khoản giữ chỗ). Cộng bước chọn rule là **43,04 / 45 USD**.
+  - `runs == scored + infra` ở mọi nhánh; 0 lệch tiêu chí giải được; 0 quá giờ khi chấm; 4 bản vá không áp được.
+  - 8 lỗi hạ tầng (429), đã được chạy lại.
+- **Tập phân tích:** **109 task có đủ 3 seed**, theo quy tắc của `per_task_mean`. Số task xong theo từng seed: 113 / 114 / 110.
+- **Power mô phỏng** ở n = 109: khoảng 0,89 ở δ = 0,109 (nội suy giữa 0,873 ở n = 105 và 0,936 ở n = 121, `results/e2_power_final.json`).
+- File kết quả được chép từ `e2-results` vào `results/pilot/` để phân tích. Phân tích chỉ chạy sau khi bản đăng ký trước của thí nghiệm chính được commit (L27).

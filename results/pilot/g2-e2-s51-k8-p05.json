@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T16:21:41+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s51-k8-p05",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "jarun__buku-778"
+  ],
+  "spent_usd": 0.0835,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.024075575,
+      "tokens_in_per_run": 308246.0,
+      "tokens_out_per_run": 3429.0,
+      "cached_share": 0.8381390188356054,
+      "api_calls_per_run": 23.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.05947142499999999,
+      "tokens_in_per_run": 870574.0,
+      "tokens_out_per_run": 11181.0,
+      "cached_share": 0.8931199415558011,
+      "api_calls_per_run": 44.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "jarun__buku-778": "Submitted"
+    },
+    "xreposkill": {
+      "jarun__buku-778": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "jarun__buku-778",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

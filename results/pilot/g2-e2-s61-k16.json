@@ -1,0 +1,102 @@
+{
+  "name": "g2-e2-s61-k16",
+  "merged_from": [
+    "g2-e2-s61-k16-p00",
+    "g2-e2-s61-k16-p01",
+    "g2-e2-s61-k16-p02",
+    "g2-e2-s61-k16-p03",
+    "g2-e2-s61-k16-p04",
+    "g2-e2-s61-k16-p05",
+    "g2-e2-s61-k16-p06"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "jlowin__fastmcp-1397",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "cyclotruc__gitingest-115",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "a2aproject__a2a-python-226",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "albumentations-team__albumentations-2521",
+          "loss_with": 0.4444444444444444,
+          "loss_without": 0.44459491655067773
+        },
+        {
+          "instance_id": "conan-io__conan-17877",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "reflex-dev__reflex-4688",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -2.5078684372218756e-05,
+      "n": 6,
+      "solve_rate_with": 0.3333333333333333,
+      "solve_rate_without": 0.3333333333333333
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 7,
+      "usd": 0.245234575,
+      "solved": 2,
+      "scored": 6,
+      "usd_per_run": 0.03503351071428572
+    },
+    "xreposkill": {
+      "runs": 7,
+      "usd": 0.251478775,
+      "solved": 2,
+      "scored": 7,
+      "usd_per_run": 0.035925539285714285
+    }
+  },
+  "infra_failures": {
+    "none": {}
+  },
+  "exit_status": {
+    "none": {
+      "jlowin__fastmcp-1397": "Submitted",
+      "cyclotruc__gitingest-115": "Submitted",
+      "a2aproject__a2a-python-226": "Submitted",
+      "albumentations-team__albumentations-2521": "Submitted",
+      "conan-io__conan-17877": "Submitted",
+      "reflex-dev__reflex-4688": "Submitted"
+    },
+    "xreposkill": {
+      "jlowin__fastmcp-1397": "Submitted",
+      "cyclotruc__gitingest-115": "Submitted",
+      "a2aproject__a2a-python-226": "Submitted",
+      "albumentations-team__albumentations-2521": "Submitted",
+      "conan-io__conan-17877": "Submitted",
+      "reflex-dev__reflex-4688": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.4967,
+  "instances": [
+    "jlowin__fastmcp-1397",
+    "cyclotruc__gitingest-115",
+    "a2aproject__a2a-python-226",
+    "albumentations-team__albumentations-2521",
+    "conan-io__conan-17877",
+    "reflex-dev__reflex-4688"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

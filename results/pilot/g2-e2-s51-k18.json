@@ -1,0 +1,99 @@
+{
+  "name": "g2-e2-s51-k18",
+  "merged_from": [
+    "g2-e2-s51-k18-p00",
+    "g2-e2-s51-k18-p01",
+    "g2-e2-s51-k18-p02",
+    "g2-e2-s51-k18-p03",
+    "g2-e2-s51-k18-p04",
+    "g2-e2-s51-k18-p05"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "conan-io__conan-18051",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "koxudaxi__datamodel-code-generator-2423",
+          "loss_with": 0.4468739876903142,
+          "loss_without": 0.4444444444444444
+        },
+        {
+          "instance_id": "kozea__weasyprint-2387",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "ipython__ipython-14872",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "piskvorky__smart_open-833",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "AgentOps-AI__agentops-1002",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 1.0
+        }
+      ],
+      "mean_Z": -0.05515063168124393,
+      "n": 6,
+      "solve_rate_with": 0.16666666666666666,
+      "solve_rate_without": 0.16666666666666666
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 6,
+      "usd": 0.18101409999999996,
+      "solved": 1,
+      "scored": 6,
+      "usd_per_run": 0.03016901666666666
+    },
+    "xreposkill": {
+      "runs": 6,
+      "usd": 0.460628075,
+      "solved": 1,
+      "scored": 6,
+      "usd_per_run": 0.07677134583333334
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "conan-io__conan-18051": "Submitted",
+      "koxudaxi__datamodel-code-generator-2423": "Submitted",
+      "kozea__weasyprint-2387": "Submitted",
+      "ipython__ipython-14872": "Submitted",
+      "piskvorky__smart_open-833": "Submitted",
+      "AgentOps-AI__agentops-1002": "Submitted"
+    },
+    "xreposkill": {
+      "conan-io__conan-18051": "Submitted",
+      "koxudaxi__datamodel-code-generator-2423": "Submitted",
+      "kozea__weasyprint-2387": "LimitsExceeded",
+      "ipython__ipython-14872": "Submitted",
+      "piskvorky__smart_open-833": "Submitted",
+      "AgentOps-AI__agentops-1002": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.6417,
+  "instances": [
+    "conan-io__conan-18051",
+    "koxudaxi__datamodel-code-generator-2423",
+    "kozea__weasyprint-2387",
+    "ipython__ipython-14872",
+    "piskvorky__smart_open-833",
+    "AgentOps-AI__agentops-1002"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

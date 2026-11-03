@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T17:04:56+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s51-k0-p02",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "projectmesa__mesa-2418"
+  ],
+  "spent_usd": 0.4062,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.137276225,
+      "tokens_in_per_run": 3006419.0,
+      "tokens_out_per_run": 11937.0,
+      "cached_share": 0.9346431751528979,
+      "api_calls_per_run": 143.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.26891487499999994,
+      "tokens_in_per_run": 7178144.0,
+      "tokens_out_per_run": 9079.0,
+      "cached_share": 0.9530409253422611,
+      "api_calls_per_run": 250.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "projectmesa__mesa-2418": "Submitted"
+    },
+    "xreposkill": {
+      "projectmesa__mesa-2418": "LimitsExceeded"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "projectmesa__mesa-2418",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6876750700280111
+        }
+      ],
+      "mean_Z": -0.021008403361344463,
+      "variance_components": null
+    }
+  }
+}

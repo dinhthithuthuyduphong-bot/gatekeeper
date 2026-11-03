@@ -1,0 +1,99 @@
+{
+  "name": "g2-e2-s51-k5",
+  "merged_from": [
+    "g2-e2-s51-k5-p00",
+    "g2-e2-s51-k5-p01",
+    "g2-e2-s51-k5-p02",
+    "g2-e2-s51-k5-p03",
+    "g2-e2-s51-k5-p04",
+    "g2-e2-s51-k5-p05"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "Archmonger__django-dbbackup-631",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "vacanza__holidays-2780",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "vacanza__holidays-2750",
+          "loss_with": 0.0003248862897985705,
+          "loss_without": 0.6669265756985056
+        },
+        {
+          "instance_id": "kozea__weasyprint-2231",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "streamlink__streamlink-5908",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "a2aproject__a2a-python-279",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.22221139267922893,
+      "n": 6,
+      "solve_rate_with": 0.5,
+      "solve_rate_without": 0.3333333333333333
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 6,
+      "usd": 0.3699804750000001,
+      "solved": 2,
+      "scored": 6,
+      "usd_per_run": 0.061663412500000014
+    },
+    "xreposkill": {
+      "runs": 6,
+      "usd": 0.25331755000000006,
+      "solved": 3,
+      "scored": 6,
+      "usd_per_run": 0.042219591666666674
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "Archmonger__django-dbbackup-631": "Submitted",
+      "vacanza__holidays-2780": "Submitted",
+      "vacanza__holidays-2750": "Submitted",
+      "kozea__weasyprint-2231": "LimitsExceeded",
+      "streamlink__streamlink-5908": "Submitted",
+      "a2aproject__a2a-python-279": "Submitted"
+    },
+    "xreposkill": {
+      "Archmonger__django-dbbackup-631": "Submitted",
+      "vacanza__holidays-2780": "Submitted",
+      "vacanza__holidays-2750": "Submitted",
+      "kozea__weasyprint-2231": "Submitted",
+      "streamlink__streamlink-5908": "Submitted",
+      "a2aproject__a2a-python-279": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.6234,
+  "instances": [
+    "Archmonger__django-dbbackup-631",
+    "vacanza__holidays-2780",
+    "vacanza__holidays-2750",
+    "kozea__weasyprint-2231",
+    "streamlink__streamlink-5908",
+    "a2aproject__a2a-python-279"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

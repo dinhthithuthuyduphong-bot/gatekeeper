@@ -1,0 +1,81 @@
+{
+  "name": "g2-e2-s51-k7",
+  "merged_from": [
+    "g2-e2-s51-k7-p00",
+    "g2-e2-s51-k7-p01",
+    "g2-e2-s51-k7-p02",
+    "g2-e2-s51-k7-p03"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "openai__openai-agents-python-998",
+          "loss_with": 0.5333333333333333,
+          "loss_without": 0.5333333333333333
+        },
+        {
+          "instance_id": "streamlink__streamlink-6361",
+          "loss_with": 0.6688793008076114,
+          "loss_without": 0.6667219825201903
+        },
+        {
+          "instance_id": "hgrecco__pint-2170",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "iterative__dvc-10822",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.1661273370948114,
+      "n": 4,
+      "solve_rate_with": 0.5,
+      "solve_rate_without": 0.25
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd": 0.2351278,
+      "solved": 1,
+      "scored": 4,
+      "usd_per_run": 0.05878195
+    },
+    "xreposkill": {
+      "runs": 4,
+      "usd": 0.2031963,
+      "solved": 2,
+      "scored": 4,
+      "usd_per_run": 0.050799075
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "openai__openai-agents-python-998": "Submitted",
+      "streamlink__streamlink-6361": "Submitted",
+      "hgrecco__pint-2170": "Submitted",
+      "iterative__dvc-10822": "Submitted"
+    },
+    "xreposkill": {
+      "openai__openai-agents-python-998": "Submitted",
+      "streamlink__streamlink-6361": "Submitted",
+      "hgrecco__pint-2170": "Submitted",
+      "iterative__dvc-10822": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.4383,
+  "instances": [
+    "openai__openai-agents-python-998",
+    "streamlink__streamlink-6361",
+    "hgrecco__pint-2170",
+    "iterative__dvc-10822"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

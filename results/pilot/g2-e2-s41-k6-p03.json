@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T17:32:48+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s41-k6-p03",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "reata__sqllineage-593"
+  ],
+  "spent_usd": 0.062,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.01404135,
+      "tokens_in_per_run": 198123.0,
+      "tokens_out_per_run": 1076.0,
+      "cached_share": 0.8323314304750079,
+      "api_calls_per_run": 21.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.047925075000000004,
+      "tokens_in_per_run": 755373.0,
+      "tokens_out_per_run": 4968.0,
+      "cached_share": 0.8729766618610938,
+      "api_calls_per_run": 39.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "reata__sqllineage-593": "Submitted"
+    },
+    "xreposkill": {
+      "reata__sqllineage-593": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "reata__sqllineage-593",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

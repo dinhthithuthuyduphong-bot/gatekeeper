@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T15:32:08+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k11-p00",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "geopandas__geopandas-3202"
+  ],
+  "spent_usd": 0.054,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.029227949999999992,
+      "tokens_in_per_run": 358524.0,
+      "tokens_out_per_run": 5757.0,
+      "cached_share": 0.8558367082817329,
+      "api_calls_per_run": 31.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.02478615,
+      "tokens_in_per_run": 201933.0,
+      "tokens_out_per_run": 3739.0,
+      "cached_share": 0.6890206157487879,
+      "api_calls_per_run": 40.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "geopandas__geopandas-3202": "Submitted"
+    },
+    "xreposkill": {
+      "geopandas__geopandas-3202": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "geopandas__geopandas-3202",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

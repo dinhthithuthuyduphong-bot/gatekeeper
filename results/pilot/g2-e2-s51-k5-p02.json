@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T15:37:28+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s51-k5-p02",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "vacanza__holidays-2750"
+  ],
+  "spent_usd": 0.0766,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.026850200000000008,
+      "tokens_in_per_run": 321527.0,
+      "tokens_out_per_run": 4956.0,
+      "cached_share": 0.8427223841232618,
+      "api_calls_per_run": 33.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.049765575000000006,
+      "tokens_in_per_run": 415887.0,
+      "tokens_out_per_run": 5935.0,
+      "cached_share": 0.6744211769062269,
+      "api_calls_per_run": 41.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "vacanza__holidays-2750": "Submitted"
+    },
+    "xreposkill": {
+      "vacanza__holidays-2750": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "vacanza__holidays-2750",
+          "loss_with": 0.0003248862897985705,
+          "loss_without": 0.6669265756985056
+        }
+      ],
+      "mean_Z": -0.666601689408707,
+      "variance_components": null
+    }
+  }
+}

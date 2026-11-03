@@ -1,0 +1,99 @@
+{
+  "name": "g2-e2-s51-k4",
+  "merged_from": [
+    "g2-e2-s51-k4-p00",
+    "g2-e2-s51-k4-p01",
+    "g2-e2-s51-k4-p02",
+    "g2-e2-s51-k4-p03",
+    "g2-e2-s51-k4-p04",
+    "g2-e2-s51-k4-p05"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "arviz-devs__arviz-2413",
+          "loss_with": 0.666755154411114,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "HypothesisWorks__hypothesis-4419",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pytorch__torchtune-1806",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "lastmile-ai__mcp-agent-282",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "aws-cloudformation__cfn-lint-3734",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "delgan__loguru-1236",
+          "loss_with": 0.4444444444444444,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.03702228907962914,
+      "n": 6,
+      "solve_rate_with": 0.16666666666666666,
+      "solve_rate_without": 0.16666666666666666
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 6,
+      "usd": 0.803619125,
+      "solved": 1,
+      "scored": 6,
+      "usd_per_run": 0.13393652083333332
+    },
+    "xreposkill": {
+      "runs": 6,
+      "usd": 0.42830550000000006,
+      "solved": 1,
+      "scored": 6,
+      "usd_per_run": 0.07138425000000001
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "arviz-devs__arviz-2413": "Submitted",
+      "HypothesisWorks__hypothesis-4419": "Submitted",
+      "pytorch__torchtune-1806": "Submitted",
+      "lastmile-ai__mcp-agent-282": "LimitsExceeded",
+      "aws-cloudformation__cfn-lint-3734": "LimitsExceeded",
+      "delgan__loguru-1236": "LimitsExceeded"
+    },
+    "xreposkill": {
+      "arviz-devs__arviz-2413": "Submitted",
+      "HypothesisWorks__hypothesis-4419": "LimitsExceeded",
+      "pytorch__torchtune-1806": "Submitted",
+      "lastmile-ai__mcp-agent-282": "Submitted",
+      "aws-cloudformation__cfn-lint-3734": "Submitted",
+      "delgan__loguru-1236": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 1.2319,
+  "instances": [
+    "arviz-devs__arviz-2413",
+    "HypothesisWorks__hypothesis-4419",
+    "pytorch__torchtune-1806",
+    "lastmile-ai__mcp-agent-282",
+    "aws-cloudformation__cfn-lint-3734",
+    "delgan__loguru-1236"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

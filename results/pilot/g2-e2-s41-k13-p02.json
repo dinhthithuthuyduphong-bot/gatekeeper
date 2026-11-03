@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T16:07:55+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s41-k13-p02",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "jupyterlab__jupyter-ai-711"
+  ],
+  "spent_usd": 0.3333,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.25287419999999994,
+      "tokens_in_per_run": 6324021.0,
+      "tokens_out_per_run": 11837.0,
+      "cached_share": 0.9458725706318812,
+      "api_calls_per_run": 250.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.08043555000000001,
+      "tokens_in_per_run": 1585077.0,
+      "tokens_out_per_run": 11140.0,
+      "cached_share": 0.9324291501296151,
+      "api_calls_per_run": 58.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "jupyterlab__jupyter-ai-711": "LimitsExceeded"
+    },
+    "xreposkill": {
+      "jupyterlab__jupyter-ai-711": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "jupyterlab__jupyter-ai-711",
+          "loss_with": 0.9259259259259259,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.2592592592592593,
+      "variance_components": null
+    }
+  }
+}

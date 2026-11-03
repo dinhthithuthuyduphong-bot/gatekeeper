@@ -1,0 +1,99 @@
+{
+  "name": "g2-e2-s41-k6",
+  "merged_from": [
+    "g2-e2-s41-k6-p00",
+    "g2-e2-s41-k6-p01",
+    "g2-e2-s41-k6-p02",
+    "g2-e2-s41-k6-p03",
+    "g2-e2-s41-k6-p04",
+    "g2-e2-s41-k6-p05"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "conan-io__conan-17102",
+          "loss_with": 0.667324940343948,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "celery__celery-9806",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "keras-team__keras-19863",
+          "loss_with": 0.6671858039548823,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "reata__sqllineage-593",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "tox-dev__tox-3246",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sissbruecker__linkding-1014",
+          "loss_with": 1.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.05575179071647172,
+      "n": 6,
+      "solve_rate_with": 0.0,
+      "solve_rate_without": 0.0
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 6,
+      "usd": 0.5875317,
+      "solved": 0,
+      "scored": 6,
+      "usd_per_run": 0.09792195
+    },
+    "xreposkill": {
+      "runs": 6,
+      "usd": 0.3862869499999999,
+      "solved": 0,
+      "scored": 6,
+      "usd_per_run": 0.06438115833333331
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "conan-io__conan-17102": "LimitsExceeded",
+      "celery__celery-9806": "Submitted",
+      "keras-team__keras-19863": "Submitted",
+      "reata__sqllineage-593": "Submitted",
+      "tox-dev__tox-3246": "Submitted",
+      "sissbruecker__linkding-1014": "Submitted"
+    },
+    "xreposkill": {
+      "conan-io__conan-17102": "Submitted",
+      "celery__celery-9806": "Submitted",
+      "keras-team__keras-19863": "Submitted",
+      "reata__sqllineage-593": "Submitted",
+      "tox-dev__tox-3246": "Submitted",
+      "sissbruecker__linkding-1014": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.9739,
+  "instances": [
+    "conan-io__conan-17102",
+    "celery__celery-9806",
+    "keras-team__keras-19863",
+    "reata__sqllineage-593",
+    "tox-dev__tox-3246",
+    "sissbruecker__linkding-1014"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T16:03:49+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k15-p02",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "beeware__briefcase-1867"
+  ],
+  "spent_usd": 0.0699,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.06105917499999999,
+      "tokens_in_per_run": 1430206.0,
+      "tokens_out_per_run": 4052.0,
+      "cached_share": 0.940254061303057,
+      "api_calls_per_run": 47.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.00879515,
+      "tokens_in_per_run": 96236.0,
+      "tokens_out_per_run": 469.0,
+      "cached_share": 0.7374163514693046,
+      "api_calls_per_run": 16.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "beeware__briefcase-1867": "Submitted"
+    },
+    "xreposkill": {
+      "beeware__briefcase-1867": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "beeware__briefcase-1867",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

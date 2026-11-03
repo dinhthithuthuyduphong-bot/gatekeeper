@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T16:08:45+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k18-p01",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "koxudaxi__datamodel-code-generator-2423"
+  ],
+  "spent_usd": 0.0491,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.027307974999999995,
+      "tokens_in_per_run": 377746.0,
+      "tokens_out_per_run": 2274.0,
+      "cached_share": 0.8299465778591963,
+      "api_calls_per_run": 44.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.021807700000000006,
+      "tokens_in_per_run": 265480.0,
+      "tokens_out_per_run": 2390.0,
+      "cached_share": 0.8060418863944553,
+      "api_calls_per_run": 26.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "koxudaxi__datamodel-code-generator-2423": "Submitted"
+    },
+    "xreposkill": {
+      "koxudaxi__datamodel-code-generator-2423": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "koxudaxi__datamodel-code-generator-2423",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.6666666666666666,
+      "variance_components": null
+    }
+  }
+}

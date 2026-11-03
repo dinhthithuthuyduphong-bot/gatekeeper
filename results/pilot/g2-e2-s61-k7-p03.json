@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T17:01:53+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s61-k7-p03",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "iterative__dvc-10822"
+  ],
+  "spent_usd": 0.1211,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.05311222499999999,
+      "tokens_in_per_run": 1003725.0,
+      "tokens_out_per_run": 6146.0,
+      "cached_share": 0.916754091010984,
+      "api_calls_per_run": 52.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.068024475,
+      "tokens_in_per_run": 1161294.0,
+      "tokens_out_per_run": 12164.0,
+      "cached_share": 0.9206015014285788,
+      "api_calls_per_run": 56.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "iterative__dvc-10822": "Submitted"
+    },
+    "xreposkill": {
+      "iterative__dvc-10822": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "iterative__dvc-10822",
+          "loss_with": 0.00011227124733355787,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.666554395419333,
+      "variance_components": null
+    }
+  }
+}

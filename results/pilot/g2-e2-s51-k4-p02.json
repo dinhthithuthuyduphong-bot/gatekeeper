@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T19:03:34+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s51-k4-p02",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "pytorch__torchtune-1806"
+  ],
+  "spent_usd": 0.1205,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.071633625,
+      "tokens_in_per_run": 1481013.0,
+      "tokens_out_per_run": 6610.0,
+      "cached_share": 0.9258966666734189,
+      "api_calls_per_run": 73.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.04883057500000001,
+      "tokens_in_per_run": 741250.0,
+      "tokens_out_per_run": 8020.0,
+      "cached_share": 0.8904593591905565,
+      "api_calls_per_run": 53.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "pytorch__torchtune-1806": "Submitted"
+    },
+    "xreposkill": {
+      "pytorch__torchtune-1806": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "pytorch__torchtune-1806",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

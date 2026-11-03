@@ -1,0 +1,99 @@
+{
+  "name": "g2-e2-s61-k3",
+  "merged_from": [
+    "g2-e2-s61-k3-p00",
+    "g2-e2-s61-k3-p01",
+    "g2-e2-s61-k3-p02",
+    "g2-e2-s61-k3-p03",
+    "g2-e2-s61-k3-p04",
+    "g2-e2-s61-k3-p05"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "pypa__twine-1249",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "python-babel__babel-1163",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "beeware__briefcase-1972",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "piskvorky__smart_open-815",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "python-control__python-control-1012",
+          "loss_with": 0.06666666666666667,
+          "loss_without": 0.06666666666666667
+        },
+        {
+          "instance_id": "instructlab__instructlab-2119",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "n": 6,
+      "solve_rate_with": 0.16666666666666666,
+      "solve_rate_without": 0.16666666666666666
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 6,
+      "usd": 0.21390762500000002,
+      "solved": 1,
+      "scored": 6,
+      "usd_per_run": 0.03565127083333334
+    },
+    "xreposkill": {
+      "runs": 6,
+      "usd": 0.247503875,
+      "solved": 1,
+      "scored": 6,
+      "usd_per_run": 0.041250645833333335
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "pypa__twine-1249": "Submitted",
+      "python-babel__babel-1163": "Submitted",
+      "beeware__briefcase-1972": "Submitted",
+      "piskvorky__smart_open-815": "Submitted",
+      "python-control__python-control-1012": "Submitted",
+      "instructlab__instructlab-2119": "Submitted"
+    },
+    "xreposkill": {
+      "pypa__twine-1249": "Submitted",
+      "python-babel__babel-1163": "Submitted",
+      "beeware__briefcase-1972": "Submitted",
+      "piskvorky__smart_open-815": "Submitted",
+      "python-control__python-control-1012": "Submitted",
+      "instructlab__instructlab-2119": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.4614,
+  "instances": [
+    "pypa__twine-1249",
+    "python-babel__babel-1163",
+    "beeware__briefcase-1972",
+    "piskvorky__smart_open-815",
+    "python-control__python-control-1012",
+    "instructlab__instructlab-2119"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}

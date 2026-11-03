@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T16:33:53+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s51-k3-p05",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "instructlab__instructlab-2119"
+  ],
+  "spent_usd": 0.1174,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.05359235000000001,
+      "tokens_in_per_run": 869768.0,
+      "tokens_out_per_run": 6053.0,
+      "cached_share": 0.8836540318797657,
+      "api_calls_per_run": 62.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.063853425,
+      "tokens_in_per_run": 1087479.0,
+      "tokens_out_per_run": 7854.0,
+      "cached_share": 0.8982950475365501,
+      "api_calls_per_run": 76.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "instructlab__instructlab-2119": "Submitted"
+    },
+    "xreposkill": {
+      "instructlab__instructlab-2119": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "instructlab__instructlab-2119",
+          "loss_with": 0.7085427135678392,
+          "loss_without": 0.6683417085427136
+        }
+      ],
+      "mean_Z": 0.04020100502512558,
+      "variance_components": null
+    }
+  }
+}

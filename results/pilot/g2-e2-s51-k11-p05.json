@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T21:06:35+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s51-k11-p05",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "deepset-ai__haystack-6713"
+  ],
+  "spent_usd": 0.1055,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.05949717500000003,
+      "tokens_in_per_run": 998198.0,
+      "tokens_out_per_run": 7815.0,
+      "cached_share": 0.8983959094287907,
+      "api_calls_per_run": 68.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.046041575,
+      "tokens_in_per_run": 598829.0,
+      "tokens_out_per_run": 9049.0,
+      "cached_share": 0.870136549833091,
+      "api_calls_per_run": 32.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "deepset-ai__haystack-6713": "Submitted"
+    },
+    "xreposkill": {
+      "deepset-ai__haystack-6713": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "deepset-ai__haystack-6713",
+          "loss_with": 0.4166666666666667,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.24999999999999994,
+      "variance_components": null
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-03T15:20:06+00:00",
+  "format_version": 2,
+  "name": "g2-e2-s51-k3-p00",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "pypa__twine-1249"
+  ],
+  "spent_usd": 0.116,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.048719225,
+      "tokens_in_per_run": 828077.0,
+      "tokens_out_per_run": 7379.0,
+      "cached_share": 0.9090326141168031,
+      "api_calls_per_run": 48.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "xreposkill": {
+      "runs": 1,
+      "usd_per_run": 0.06731154999999998,
+      "tokens_in_per_run": 1263814.0,
+      "tokens_out_per_run": 7165.0,
+      "cached_share": 0.9121927752026802,
+      "api_calls_per_run": 58.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "pypa__twine-1249": "Submitted"
+    },
+    "xreposkill": {
+      "pypa__twine-1249": "Submitted"
+    }
+  },
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "pypa__twine-1249",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6681818181818181
+        }
+      ],
+      "mean_Z": -0.0015151515151514694,
+      "variance_components": null
+    }
+  }
+}

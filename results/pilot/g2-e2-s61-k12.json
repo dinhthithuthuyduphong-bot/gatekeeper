@@ -1,0 +1,85 @@
+{
+  "name": "g2-e2-s61-k12",
+  "merged_from": [
+    "g2-e2-s61-k12-p00",
+    "g2-e2-s61-k12-p01",
+    "g2-e2-s61-k12-p02",
+    "g2-e2-s61-k12-p03",
+    "g2-e2-s61-k12-p04"
+  ],
+  "skills": {
+    "xreposkill": {
+      "pairs": [
+        {
+          "instance_id": "reflex-dev__reflex-3982",
+          "loss_with": 0.004487658937920718,
+          "loss_without": 0.668785838942907
+        },
+        {
+          "instance_id": "lastmile-ai__mcp-agent-367",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "streamlink__streamlink-6016",
+          "loss_with": 0.6667211328976035,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "dottxt-ai__outlines-1679",
+          "loss_with": 1.0,
+          "loss_without": 1.0
+        }
+      ],
+      "mean_Z": -0.16606092844351236,
+      "n": 4,
+      "solve_rate_with": 0.0,
+      "solve_rate_without": 0.0
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 5,
+      "usd": 0.2376444,
+      "solved": 0,
+      "scored": 4,
+      "usd_per_run": 0.04752888
+    },
+    "xreposkill": {
+      "runs": 5,
+      "usd": 0.7753561250000001,
+      "solved": 0,
+      "scored": 4,
+      "usd_per_run": 0.155071225
+    }
+  },
+  "infra_failures": {
+    "none": {},
+    "xreposkill": {}
+  },
+  "exit_status": {
+    "none": {
+      "reflex-dev__reflex-3982": "Submitted",
+      "lastmile-ai__mcp-agent-367": "Submitted",
+      "streamlink__streamlink-6016": "Submitted",
+      "dottxt-ai__outlines-1679": "Submitted"
+    },
+    "xreposkill": {
+      "reflex-dev__reflex-3982": "Submitted",
+      "lastmile-ai__mcp-agent-367": "Submitted",
+      "streamlink__streamlink-6016": "Submitted",
+      "dottxt-ai__outlines-1679": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 1.013,
+  "instances": [
+    "reflex-dev__reflex-3982",
+    "lastmile-ai__mcp-agent-367",
+    "streamlink__streamlink-6016",
+    "dottxt-ai__outlines-1679"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl"
+}
