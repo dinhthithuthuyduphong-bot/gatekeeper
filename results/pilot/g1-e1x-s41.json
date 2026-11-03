@@ -1,7 +1,8 @@
 {
   "name": "g1-e1x-s41",
   "merged_from": [
-    "g1-e1x-s41-p00"
+    "g1-e1x-s41-p00",
+    "g1-e1x-s41-p01"
   ],
   "skills": {
     "null-guard": {
@@ -10,12 +11,22 @@
           "instance_id": "astropy__astropy-14590",
           "loss_with": 0.6765432098765433,
           "loss_without": 0.6765432098765433
+        },
+        {
+          "instance_id": "django__django-11211",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-12803",
+          "loss_with": 0.0,
+          "loss_without": 0.0
         }
       ],
-      "mean_Z": 0.0,
-      "n": 1,
-      "solve_rate_with": 0.0,
-      "solve_rate_without": 0.0
+      "mean_Z": 0.2222222222222222,
+      "n": 3,
+      "solve_rate_with": 0.3333333333333333,
+      "solve_rate_without": 0.6666666666666666
     },
     "type-guard": {
       "pairs": [
@@ -46,28 +57,38 @@
           "instance_id": "astropy__astropy-13838",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-11551",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-12073",
+          "loss_with": 0.26666666666666666,
+          "loss_without": 0.2729559748427673
         }
       ],
-      "mean_Z": 0.0,
-      "n": 1,
-      "solve_rate_with": 0.0,
-      "solve_rate_without": 0.0
+      "mean_Z": -0.0020964360587002093,
+      "n": 3,
+      "solve_rate_with": 0.3333333333333333,
+      "solve_rate_without": 0.3333333333333333
     }
   },
   "usage": {
     "none": {
-      "runs": 4,
-      "usd": 0.253120475,
-      "solved": 1,
-      "scored": 4,
-      "usd_per_run": 0.06328011875
+      "runs": 8,
+      "usd": 0.414459075,
+      "solved": 4,
+      "scored": 8,
+      "usd_per_run": 0.051807384375
     },
     "null-guard": {
-      "runs": 1,
-      "usd": 0.02429145,
-      "solved": 0,
-      "scored": 1,
-      "usd_per_run": 0.02429145
+      "runs": 3,
+      "usd": 0.29980512499999984,
+      "solved": 1,
+      "scored": 3,
+      "usd_per_run": 0.09993504166666661
     },
     "type-guard": {
       "runs": 3,
@@ -77,11 +98,11 @@
       "usd_per_run": 0.057397058333333334
     },
     "exception-handling": {
-      "runs": 1,
-      "usd": 0.05453645,
-      "solved": 0,
-      "scored": 1,
-      "usd_per_run": 0.05453645
+      "runs": 3,
+      "usd": 0.126943525,
+      "solved": 1,
+      "scored": 3,
+      "usd_per_run": 0.042314508333333334
     }
   },
   "infra_failures": {},
@@ -90,10 +111,16 @@
       "astropy__astropy-12880": "Submitted",
       "astropy__astropy-13838": "Submitted",
       "astropy__astropy-14590": "Submitted",
-      "astropy__astropy-7671": "Submitted"
+      "astropy__astropy-7671": "Submitted",
+      "django__django-11211": "Submitted",
+      "django__django-11551": "Submitted",
+      "django__django-12073": "Submitted",
+      "django__django-12803": "Submitted"
     },
     "null-guard": {
-      "astropy__astropy-14590": "Submitted"
+      "astropy__astropy-14590": "Submitted",
+      "django__django-11211": "LimitsExceeded",
+      "django__django-12803": "Submitted"
     },
     "type-guard": {
       "astropy__astropy-12880": "Submitted",
@@ -101,17 +128,23 @@
       "astropy__astropy-7671": "Submitted"
     },
     "exception-handling": {
-      "astropy__astropy-13838": "Submitted"
+      "astropy__astropy-13838": "Submitted",
+      "django__django-11551": "Submitted",
+      "django__django-12073": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 0.5041,
+  "spent_usd": 1.0134,
   "instances": [
     "astropy__astropy-12880",
     "astropy__astropy-13838",
     "astropy__astropy-14590",
-    "astropy__astropy-7671"
+    "astropy__astropy-7671",
+    "django__django-11211",
+    "django__django-11551",
+    "django__django-12073",
+    "django__django-12803"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
