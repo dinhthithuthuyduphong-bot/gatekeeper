@@ -2,7 +2,8 @@
   "name": "g1-e1-s51",
   "merged_from": [
     "g1-e1-s51-p00",
-    "g1-e1-s51-p01"
+    "g1-e1-s51-p01",
+    "g1-e1-s51-p02"
   ],
   "skills": {
     "null-guard": {
@@ -16,12 +17,22 @@
           "instance_id": "astropy__astropy-13477",
           "loss_with": 0.6728395061728395,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "astropy__astropy-13838",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "astropy__astropy-8005",
+          "loss_with": 0.0,
+          "loss_without": 0.0
         }
       ],
-      "mean_Z": 0.0030864197530864335,
-      "n": 2,
-      "solve_rate_with": 0.0,
-      "solve_rate_without": 0.0
+      "mean_Z": 0.0015432098765432167,
+      "n": 4,
+      "solve_rate_with": 0.25,
+      "solve_rate_without": 0.25
     },
     "type-guard": {
       "pairs": [
@@ -44,12 +55,22 @@
           "instance_id": "astropy__astropy-13572",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "astropy__astropy-14566",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "astropy__astropy-14995",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.16666666666666666,
-      "n": 4,
-      "solve_rate_with": 0.25,
-      "solve_rate_without": 0.5
+      "mean_Z": 0.1111111111111111,
+      "n": 6,
+      "solve_rate_with": 0.16666666666666666,
+      "solve_rate_without": 0.3333333333333333
     },
     "exception-handling": {
       "pairs": [
@@ -106,25 +127,25 @@
   },
   "usage": {
     "none": {
-      "runs": 7,
-      "usd": 0.27925845,
-      "solved": 2,
-      "scored": 7,
-      "usd_per_run": 0.039894064285714285
+      "runs": 11,
+      "usd": 1.2541525999999998,
+      "solved": 3,
+      "scored": 11,
+      "usd_per_run": 0.11401387272727272
     },
     "null-guard": {
-      "runs": 2,
-      "usd": 0.09314005,
-      "solved": 0,
-      "scored": 2,
-      "usd_per_run": 0.046570025
-    },
-    "type-guard": {
       "runs": 4,
-      "usd": 0.3678824,
+      "usd": 0.138352225,
       "solved": 1,
       "scored": 4,
-      "usd_per_run": 0.0919706
+      "usd_per_run": 0.03458805625
+    },
+    "type-guard": {
+      "runs": 6,
+      "usd": 0.804466925,
+      "solved": 1,
+      "scored": 6,
+      "usd_per_run": 0.13407782083333333
     },
     "exception-handling": {
       "runs": 1,
@@ -164,17 +185,25 @@
       "astropy__astropy-13306": "Submitted",
       "astropy__astropy-13477": "Submitted",
       "astropy__astropy-13572": "Submitted",
-      "astropy__astropy-13731": "Submitted"
+      "astropy__astropy-13731": "Submitted",
+      "astropy__astropy-13838": "LimitsExceeded",
+      "astropy__astropy-14566": "Submitted",
+      "astropy__astropy-14995": "LimitsExceeded",
+      "astropy__astropy-8005": "Submitted"
     },
     "null-guard": {
       "astropy__astropy-12842": "Submitted",
-      "astropy__astropy-13477": "Submitted"
+      "astropy__astropy-13477": "Submitted",
+      "astropy__astropy-13838": "Submitted",
+      "astropy__astropy-8005": "Submitted"
     },
     "type-guard": {
       "astropy__astropy-13234": "Submitted",
       "astropy__astropy-13236": "Submitted",
       "astropy__astropy-13306": "LimitsExceeded",
-      "astropy__astropy-13572": "Submitted"
+      "astropy__astropy-13572": "Submitted",
+      "astropy__astropy-14566": "Submitted",
+      "astropy__astropy-14995": "LimitsExceeded"
     },
     "exception-handling": {
       "astropy__astropy-13731": "Submitted"
@@ -191,7 +220,7 @@
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 0.9159,
+  "spent_usd": 2.3726,
   "instances": [
     "astropy__astropy-12842",
     "astropy__astropy-13234",
@@ -199,7 +228,11 @@
     "astropy__astropy-13306",
     "astropy__astropy-13477",
     "astropy__astropy-13572",
-    "astropy__astropy-13731"
+    "astropy__astropy-13731",
+    "astropy__astropy-13838",
+    "astropy__astropy-14566",
+    "astropy__astropy-14995",
+    "astropy__astropy-8005"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
