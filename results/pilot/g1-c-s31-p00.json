@@ -1,0 +1,80 @@
+{
+  "generated_utc": "2026-11-03T00:39:58+00:00",
+  "name": "g1-c-s31-p00",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "astropy__astropy-13977",
+    "astropy__astropy-14365",
+    "django__django-11087",
+    "django__django-11734"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.4424,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.053419525,
+      "tokens_in_per_run": 987679.0,
+      "tokens_out_per_run": 7320.75,
+      "cached_share": 0.9201430829247155,
+      "api_calls_per_run": 53.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 4
+    },
+    "validation-error": {
+      "runs": 4,
+      "usd_per_run": 0.05718680625000001,
+      "tokens_in_per_run": 1060825.5,
+      "tokens_out_per_run": 7032.5,
+      "cached_share": 0.9157158740999345,
+      "api_calls_per_run": 55.5,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 4
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "validation-error": {
+      "pairs": [
+        {
+          "instance_id": "astropy__astropy-13977",
+          "loss_with": 0.3173913043478261,
+          "loss_without": 0.2708074534161491
+        },
+        {
+          "instance_id": "astropy__astropy-14365",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-11087",
+          "loss_with": 0.6747967479674797,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-11734",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.013678483058122512,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": 0.013678483058122512,
+        "sigma_S2": 0.0004959165981657186,
+        "sigma_T2": 0.034834164832781636,
+        "unpaired_over_paired": 141.48396428603198
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": 0.0
+      }
+    }
+  }
+}
