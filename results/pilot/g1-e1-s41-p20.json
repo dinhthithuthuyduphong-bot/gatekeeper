@@ -1,0 +1,254 @@
+{
+  "generated_utc": "2026-11-03T10:24:21+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s41-p20",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "pydata__xarray-6798",
+    "pylint-dev__pylint-4330",
+    "pylint-dev__pylint-5136",
+    "pytest-dev__pytest-9624"
+  ],
+  "spent_usd": 2.0154,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.16963768124999998,
+      "tokens_in_per_run": 4167024.0,
+      "tokens_out_per_run": 12807.5,
+      "cached_share": 0.9506700105398961,
+      "api_calls_per_run": 159.75,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 4
+    },
+    "null-guard": {
+      "runs": 1,
+      "usd_per_run": 0.1649955999999999,
+      "tokens_in_per_run": 3720823.0,
+      "tokens_out_per_run": 17310.0,
+      "cached_share": 0.9450419974290634,
+      "api_calls_per_run": 156.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "type-guard": {
+      "runs": 1,
+      "usd_per_run": 0.04641942500000001,
+      "tokens_in_per_run": 927092.0,
+      "tokens_out_per_run": 2342.0,
+      "cached_share": 0.9054193111363273,
+      "api_calls_per_run": 66.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "exception-handling": {
+      "runs": 2,
+      "usd_per_run": 0.06129558750000001,
+      "tokens_in_per_run": 973242.0,
+      "tokens_out_per_run": 10659.5,
+      "cached_share": 0.9042134433162564,
+      "api_calls_per_run": 59.5,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "harm-swallow-exceptions": {
+      "runs": 3,
+      "usd_per_run": 0.10857963333333333,
+      "tokens_in_per_run": 2187158.3333333335,
+      "tokens_out_per_run": 14136.333333333334,
+      "cached_share": 0.9335592987857151,
+      "api_calls_per_run": 96.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 3
+    },
+    "harm-minimal-edit": {
+      "runs": 3,
+      "usd_per_run": 0.07253619166666667,
+      "tokens_in_per_run": 1260165.6666666667,
+      "tokens_out_per_run": 9951.0,
+      "cached_share": 0.9079290368435684,
+      "api_calls_per_run": 81.33333333333333,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 3
+    },
+    "harm-skip-verification": {
+      "runs": 3,
+      "usd_per_run": 0.15316264999999998,
+      "tokens_in_per_run": 3711590.0,
+      "tokens_out_per_run": 11547.0,
+      "cached_share": 0.9484468920327945,
+      "api_calls_per_run": 141.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 3
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "exit_status": {
+    "none": {
+      "pydata__xarray-6798": "LimitsExceeded",
+      "pylint-dev__pylint-4330": "Submitted",
+      "pylint-dev__pylint-5136": "Submitted",
+      "pytest-dev__pytest-9624": "LimitsExceeded"
+    },
+    "null-guard": {
+      "pydata__xarray-6798": "Submitted"
+    },
+    "type-guard": {
+      "pytest-dev__pytest-9624": "Submitted"
+    },
+    "exception-handling": {
+      "pylint-dev__pylint-4330": "Submitted",
+      "pylint-dev__pylint-5136": "Submitted"
+    },
+    "harm-swallow-exceptions": {
+      "pydata__xarray-6798": "Submitted",
+      "pylint-dev__pylint-4330": "Submitted",
+      "pylint-dev__pylint-5136": "Submitted"
+    },
+    "harm-minimal-edit": {
+      "pydata__xarray-6798": "Submitted",
+      "pylint-dev__pylint-4330": "Submitted",
+      "pylint-dev__pylint-5136": "Submitted"
+    },
+    "harm-skip-verification": {
+      "pydata__xarray-6798": "Submitted",
+      "pylint-dev__pylint-4330": "LimitsExceeded",
+      "pylint-dev__pylint-5136": "Submitted"
+    }
+  },
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-6798",
+          "loss_with": 0.6670807453416149,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.00041407867494824835,
+      "variance_components": null
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "pytest-dev__pytest-9624",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "pylint-dev__pylint-4330",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-5136",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.05555555555555555
+        }
+      ],
+      "mean_Z": 0.3055555555555555,
+      "variance_components": null
+    },
+    "harm-swallow-exceptions": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-6798",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-4330",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-5136",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.05555555555555555
+        }
+      ],
+      "mean_Z": 0.2037037037037037,
+      "variance_components": {
+        "n": 3,
+        "n_tasks": 3,
+        "mean_Z": 0.2037037037037037,
+        "sigma_S2": 0.12448559670781889,
+        "sigma_T2": 0.0,
+        "unpaired_over_paired": 1.0
+      }
+    },
+    "harm-minimal-edit": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-6798",
+          "loss_with": 0.6674948240165631,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-4330",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-5136",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.05555555555555555
+        }
+      ],
+      "mean_Z": 0.20397975615366917,
+      "variance_components": {
+        "n": 3,
+        "n_tasks": 3,
+        "mean_Z": 0.20397975615366917,
+        "sigma_S2": 0.12431712660326096,
+        "sigma_T2": 8.434935971168022e-05,
+        "unpaired_over_paired": 1.00135700304562
+      }
+    },
+    "harm-skip-verification": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-6798",
+          "loss_with": 0.6695652173913044,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-4330",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-5136",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.05555555555555555
+        }
+      ],
+      "mean_Z": 0.20466988727858293,
+      "variance_components": {
+        "n": 3,
+        "n_tasks": 3,
+        "mean_Z": 0.20466988727858293,
+        "sigma_S2": 0.12389795172193824,
+        "sigma_T2": 0.00029522275899088077,
+        "unpaired_over_paired": 1.0047655793318269
+      }
+    }
+  }
+}
