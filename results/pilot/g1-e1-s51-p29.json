@@ -1,0 +1,96 @@
+{
+  "generated_utc": "2026-11-04T06:01:30+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s51-p29",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "scikit-learn__scikit-learn-14878",
+    "scikit-learn__scikit-learn-15084",
+    "scikit-learn__scikit-learn-25370"
+  ],
+  "spent_usd": 0.2927,
+  "usage": {
+    "none": {
+      "runs": 3,
+      "usd_per_run": 0.024970000000000003,
+      "tokens_in_per_run": 338629.0,
+      "tokens_out_per_run": 2543.0,
+      "cached_share": 0.8334489958036672,
+      "api_calls_per_run": 35.0,
+      "solve_rate": 0.3333333333333333,
+      "solved": 1,
+      "scored": 3
+    },
+    "type-guard": {
+      "runs": 1,
+      "usd_per_run": 0.0213754,
+      "tokens_in_per_run": 243829.0,
+      "tokens_out_per_run": 2659.0,
+      "cached_share": 0.7941877299254806,
+      "api_calls_per_run": 26.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "exception-handling": {
+      "runs": 2,
+      "usd_per_run": 0.09822358749999997,
+      "tokens_in_per_run": 2077001.5,
+      "tokens_out_per_run": 7680.5,
+      "cached_share": 0.9255811803698746,
+      "api_calls_per_run": 136.0,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "scikit-learn__scikit-learn-14878": "Submitted",
+      "scikit-learn__scikit-learn-15084": "Submitted",
+      "scikit-learn__scikit-learn-25370": "Submitted"
+    },
+    "type-guard": {
+      "scikit-learn__scikit-learn-15084": "Submitted"
+    },
+    "exception-handling": {
+      "scikit-learn__scikit-learn-14878": "LimitsExceeded",
+      "scikit-learn__scikit-learn-25370": "Submitted"
+    }
+  },
+  "skills": {
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-15084",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-14878",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-25370",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}
