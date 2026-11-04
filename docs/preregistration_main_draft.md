@@ -160,3 +160,24 @@ Xác suất admit theo số trial mới (chi phí ≈ 0,13 USD mỗi trial mới
 | (4) Không có nguồn thứ hai | 0 USD | — | Ghi vào phần giới hạn |
 
 Phương án (1) là phương án trội về chi phí: tự làm, đăng ký trước cách phân tích. Áp 5 quy tắc (Gatekeeper, B-X1, B-X2, B-G3, plug-in) lên 392 ô. Bỏ MemGovern là Sai lệch D# so với `docs/preregistration.md` §5, chờ @thuthuy xác nhận.
+
+### 11d. MemGovern dạng truy xuất cố định (B-M), phương án xác định được (04/11/2026)
+
+Đã kiểm (miễn phí):
+- Dữ liệu: `experience_data.json` tải qua LFS, sha256 `c5bcc6e2…f4ea` khớp con trỏ LFS ở `a845658`. 121.475 thẻ, 48 repo. Trường: `repo`, `issue_id`, `bug_description`, `fix_experience`, `content_preview`. **Không có ngày**, nên không cắt theo thời gian được.
+- Truy xuất của họ: model embedding `Qwen3-Embedding-0.6B` (SentenceTransformer, chạy CPU), `/search` mặc định `top_k` 5 (`tools/experience_server.py`). Agent tự gọi `exp_search`/`exp_read` nhiều lần (`tools/exp_search/config.yaml`). Câu gốc: snapshot `memgovern_server`, `memgovern_search_tool`.
+- Thẻ được viết để dùng **khác repo**: "Help retrieve semantically similar issues across different repositories" (`scripts/experience_process.py`, snapshot `memgovern_cards`).
+
+Thiết kế B-M:
+- Truy xuất **một lần cho mỗi task, ngoài vòng chạy**: truy vấn là nội dung issue, `top_k` = 5, dùng đúng model embedding và chỉ mục ChromaDB của họ. Ghép `bug_description` và `fix_experience` của 5 thẻ vào đầu prompt, cùng adapter với XRepoSkill.
+- **Loại mọi thẻ cùng repo với task.** Lý do: chống rò rỉ đáp án khi không có ngày; thẻ vốn được thiết kế để dùng khác repo.
+- Khác bản gốc: không có tìm kiếm lặp do agent tự gọi. Đây là biến thể, ghi rõ trong paper.
+- Tính truy xuất trên GitHub Actions (miễn phí): chỉ mục 220 + 515 MB và model, vì đĩa máy chạy E1 chỉ còn 4,7 GB.
+
+Thiết kế ô:
+- Pool SWE-bench-Live của E2 (các repo của SWE-bench đã bị loại).
+- **Dùng chung nhánh `none`**: 109 task của E2 (đã có 3 seed) cộng các task mới của ô xreposkill ở thí nghiệm chính. Ô B-M chỉ cần chạy nhánh có thẻ, tức 1 lần chạy mỗi trial, khoảng 0,064 USD.
+- FWER vẫn được giữ dù các ô tương quan, vì Holm đúng với mọi dạng phụ thuộc (Shaffer 1986, đã lưu).
+- ⏳ Cần nguồn cho thiết kế nhiều nhánh dùng chung nhóm đối chứng.
+
+Chi phí: khoảng (109 + 200) × 0,064 ≈ 20 USD, chưa tính phần prompt dài hơn (đo khi chạy thử miễn phí). Cần ngân sách mới [@thuthuy].
