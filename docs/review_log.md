@@ -315,3 +315,21 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Giả định: các lần chạy còn lại (seed 51 và 61 trên cùng task) có cùng phân phối chi phí với các lần đã chạy.
 - **Kết luận:** rút đề nghị nâng 5 USD cho E1.
 - **R-26 bổ sung (18:55 UTC):** E2 còn khoảng 3 lần gọi song song (6 agent), nên E1 trở lại `--workers 4` (12 agent; tổng khoảng 18, dưới mức 20 đã chạy không có lần chạy nào hỏng).
+
+## R-29. Ô MemGovern: mã lọc, hai cấu hình skill, workflow chạy thử miễn phí (2026-11-04; `docs/preregistration_main_draft.md` §11d–11e)
+
+- **Phạm vi:**
+  - `scripts/memgovern.py`, `tests/test_memgovern.py`;
+  - `arm_config` (`environment`, `dry_run_commands`), `expand_env`;
+  - `configs/skills/memgovern-orig.json`, `memgovern-bm.json`;
+  - `.github/workflows/memgovern-trial.yml`.
+- **Các điểm đã kiểm (§4):**
+  1. **Rò rỉ đáp án.** Loại mọi thẻ thuộc **bất kỳ** repo nào của ô (mạnh hơn "cùng repo với task"). Thẻ bị loại ở cả `/search` lẫn `/get_experience`, vì cả hai đọc biến toàn cục `collection` và `experience_data` mà lớp lọc thay thế. Id không có trong bảng thẻ cũng bị loại. Có test.
+  2. **Số kết quả không đổi.** `FilteredCollection.query` mở rộng yêu cầu cho tới khi đủ `n_results` thẻ giữ lại, hoặc hết chỉ mục. Có test cho cả hai trường hợp.
+  3. **Không sửa mã của MemGovern.** Server được import nguyên vẹn. Hai công cụ được gắn vào container ở chế độ chỉ đọc và gọi qua `bash` (file trong repo không có quyền thực thi).
+  4. **Sửa §11d về `top_k`:** server mặc định 5 khi không truyền giá trị, nhưng công cụ `exp_search` mà agent gọi gửi `top_k` = 10 (`topk_default = 10` trong `exp_search.py`; cấu hình agent không đặt `GRAPH_EXP_SEARCH_TOP_K`). Bản gốc dùng 10 như vậy. B-M giữ 5, giá trị mặc định của server, và ghi đây là một khác biệt của biến thể.
+  5. **Ghép cặp.** Hai nhánh dùng cùng seed và cùng model. Chỉ nhánh MemGovern có thêm `--add-host` và `-v` (đọc công cụ); nhánh `none` không đổi.
+  6. **Không phân phối lại.** Workflow chỉ tải lên tóm tắt kiểm tra và file kết quả. Các file kết quả chỉ chứa id, loss, trạng thái và token, không chứa văn bản prompt. Guidance và trajectory (có nội dung thẻ) không rời khỏi runner.
+  7. **Model embedding.** Lấy đúng tên trong server của họ (`Qwen3-Embedding-0.6B`); revision được ghi lúc chạy (`mg_versions.txt`). Nếu số chiều không khớp với chỉ mục, truy vấn báo lỗi và F1 không đạt (lỗi hiện ra, không âm thầm).
+  8. **Đường dữ liệu dự phòng trong `exp_search.py`** (`agentic_exp_data_1209`) chỉ được dùng khi server không trả `bug_description`. Server của họ có trả trường này, nên đường dự phòng không được dùng.
+- **Preflight:** PASS. **Chi phí:** 0 USD (model giả lập).

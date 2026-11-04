@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "id": "memgovern",
+  "procedure": {
+    "kind": "guidance",
+    "guidance_by_instance_file": "runs/memgovern/orig_guidance.json",
+    "position": "append",
+    "wrap": false,
+    "startup": "printf '#!/bin/bash\\nexec bash /mgtools/exp_search/bin/exp_search \"$@\"\\n' > /usr/local/bin/exp_search && chmod +x /usr/local/bin/exp_search && printf '#!/bin/bash\\nexec bash /mgtools/exp_read/bin/exp_read \"$@\"\\n' > /usr/local/bin/exp_read && chmod +x /usr/local/bin/exp_read",
+    "environment": {
+      "run_args": [
+        "--rm",
+        "--add-host=host.docker.internal:host-gateway",
+        "-v",
+        "${MEMGOVERN_TOOLS}:/mgtools:ro"
+      ],
+      "env": {
+        "GRAPH_EXP_SEARCH_URL": "http://host.docker.internal:9030/search",
+        "GRAPH_EXP_READ_URL": "http://host.docker.internal:9030/get_experience"
+      }
+    },
+    "dry_run_commands": [
+      "exp_search \"TypeError when calling a function with wrong arguments\" > /tmp/mg_s.txt; cat /tmp/mg_s.txt; ID=$(grep -o 'ID: [^ ]*' /tmp/mg_s.txt | head -1 | cut -d' ' -f2); exp_read \"$ID\""
+    ],
+    "_comment": "THIRD-PARTY SKILL SYSTEM, ORIGINAL ARM (main experiment, docs/preregistration_main_draft.md 11e): MemGovern at a8456580a4a6ea8de04755e958875cd549f43845, its exp_search / exp_read tools (mounted from the pinned clone, not copied: no LICENSE), its server (scripts/memgovern.py serve, cards of the cell's repositories removed) on port 9030 (its default) and its own retrieval step and tool docstrings appended after the issue, as its agent config places the steps after the PR description. The agent decides when and how often to search."
+  },
+  "fingerprints": {},
+  "input_predicates": [],
+  "postconditions": [],
+  "footprint": {
+    "regions": [],
+    "reads": [],
+    "writes": [],
+    "properties": []
+  },
+  "capability_verdict": "approved",
+  "source": "third-party:memgovern"
+}

@@ -15,6 +15,7 @@ Pure-Python helpers (no Docker, no LLM) used by scripts/run_pilot.py:
 from __future__ import annotations
 
 import json
+import os
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
 from pathlib import Path
@@ -214,11 +215,42 @@ def arm_config(
         model["model_class"] = model_class
     if outputs is not None:
         model["outputs"] = outputs
-    return {
+    overlay: dict[str, Any] = {
         "agent": {"step_limit": step_limit, "cost_limit": cost_limit},
         "run": {"env_startup_command": " && ".join(startup)},
         "model": model,
     }
+    if skill and skill.procedure.get("environment"):
+        # container settings a tool-based skill needs (e.g. MemGovern's retrieval server on the
+        # host): merged into benchmarks/swebench.yaml's `environment` by mini-swe-agent
+        overlay["environment"] = expand_env(skill.procedure["environment"])
+    if outputs is not None and skill and skill.procedure.get("dry_run_commands"):
+        # scripted dry run of a tool-based skill: run the tool commands, then submit as usual
+        steps = [
+            {
+                "role": "assistant",
+                "content": "THOUGHT: exercise the skill's tools.",
+                "extra": {"actions": [{"command": str(c)}], "cost": 0.0},
+            }
+            for c in skill.procedure["dry_run_commands"]
+        ]
+        model["outputs"] = steps + list(outputs)
+    return overlay
+
+
+def expand_env(value: Any) -> Any:
+    """Expand ${VAR} in every string of a nested config; an unset variable is an error (a mount
+    path silently left as '${X}' would make docker run fail inside the paid run)."""
+    if isinstance(value, str):
+        out = os.path.expandvars(value)
+        if "${" in out:
+            raise ValueError(f"unset environment variable in skill environment: {value!r}")
+        return out
+    if isinstance(value, list):
+        return [expand_env(v) for v in value]
+    if isinstance(value, dict):
+        return {k: expand_env(v) for k, v in value.items()}
+    return value
 
 
 def deterministic_outputs() -> list[dict]:

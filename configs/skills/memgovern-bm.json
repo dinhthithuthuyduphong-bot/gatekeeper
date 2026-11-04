@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "memgovern-bm",
+  "procedure": {
+    "kind": "guidance",
+    "guidance_by_instance_file": "runs/memgovern/bm_guidance.json",
+    "position": "prepend",
+    "wrap": false,
+    "_comment": "THIRD-PARTY SKILL SYSTEM, FIXED-RETRIEVAL VARIANT B-M (docs/preregistration_main_draft.md 11d): MemGovern's cards retrieved once per task by MemGovern's own index and embedding model with the issue text as query (scripts/memgovern.py static), cards of the cell's repositories removed; prepended as XRepoSkill's rules are. Fallback if the original arm fails F3-F6."
+  },
+  "fingerprints": {},
+  "input_predicates": [],
+  "postconditions": [],
+  "footprint": {
+    "regions": [],
+    "reads": [],
+    "writes": [],
+    "properties": []
+  },
+  "capability_verdict": "approved",
+  "source": "third-party:memgovern"
+}

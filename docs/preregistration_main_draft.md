@@ -165,7 +165,7 @@ Phương án (1) là phương án trội về chi phí: tự làm, đăng ký tr
 
 Đã kiểm (miễn phí):
 - Dữ liệu: `experience_data.json` tải qua LFS, sha256 `c5bcc6e2…f4ea` khớp con trỏ LFS ở `a845658`. 121.475 thẻ, 48 repo. Trường: `repo`, `issue_id`, `bug_description`, `fix_experience`, `content_preview`. **Không có ngày**, nên không cắt theo thời gian được.
-- Truy xuất của họ: model embedding `Qwen3-Embedding-0.6B` (SentenceTransformer, chạy CPU), `/search` mặc định `top_k` 5 (`tools/experience_server.py`). Agent tự gọi `exp_search`/`exp_read` nhiều lần (`config/dsv31t_agenticMemSearch_1220_13w.yaml`). Câu gốc: snapshot `memgovern_server`, `memgovern_search_tool`.
+- Truy xuất của họ: model embedding `Qwen3-Embedding-0.6B` (SentenceTransformer, chạy CPU), `/search` mặc định `top_k` 5 (`tools/experience_server.py`). **Sửa (R-29):** công cụ `exp_search` mà agent gọi gửi `top_k` = 10 (`exp_search.py`); bản gốc dùng 10, còn B-M giữ 5 (mặc định của server) và ghi đây là một khác biệt. Agent tự gọi `exp_search`/`exp_read` nhiều lần (`config/dsv31t_agenticMemSearch_1220_13w.yaml`). Câu gốc: snapshot `memgovern_server`, `memgovern_search_tool`.
 - Thẻ được viết để dùng **khác repo**: "Help retrieve semantically similar issues across different repositories" (`scripts/experience_process.py`, snapshot `memgovern_cards`).
 
 Thiết kế B-M:
