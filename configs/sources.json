@@ -719,6 +719,44 @@
     "default=600",
     "GEPAConfig("
    ]
+  },
+  {
+   "id": "memgovern_server",
+   "claim": "MemGovern retrieval: embedding model Qwen3-Embedding-0.6B (SentenceTransformer), /search default top_k 5; pinned a845658",
+   "urls": [
+    "https://raw.githubusercontent.com/QuantaAlpha/MemGovern/a8456580a4a6ea8de04755e958875cd549f43845/tools/experience_server.py"
+   ],
+   "keywords": [
+    "Qwen3-Embedding-0.6B",
+    "top_k', 5",
+    "SentenceTransformer",
+    "n_results"
+   ]
+  },
+  {
+   "id": "memgovern_cards",
+   "claim": "MemGovern card generation prompt: generalizable, cross-repository retrieval, no repo names; pinned a845658",
+   "urls": [
+    "https://raw.githubusercontent.com/QuantaAlpha/MemGovern/a8456580a4a6ea8de04755e958875cd549f43845/scripts/experience_process.py"
+   ],
+   "keywords": [
+    "across different repositories",
+    "Generalizable only",
+    "Patch Digest",
+    "Fix Strategy"
+   ]
+  },
+  {
+   "id": "memgovern_search_tool",
+   "claim": "MemGovern exp_search tool: agent-issued semantic search over the experience database; pinned a845658",
+   "urls": [
+    "https://raw.githubusercontent.com/QuantaAlpha/MemGovern/a8456580a4a6ea8de04755e958875cd549f43845/tools/exp_search/config.yaml"
+   ],
+   "keywords": [
+    "Semantic search client",
+    "exp_read",
+    "Use any concrete clues"
+   ]
   }
  ]
 }
