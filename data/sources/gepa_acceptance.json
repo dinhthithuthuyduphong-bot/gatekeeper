@@ -1,6 +1,6 @@
 {
  "id": "gepa_acceptance",
- "claim": "GEPA default acceptance criterion used by gskill: strict improvement of the subsample score sum; gskill reflection minibatch size 3; pinned 8c7b697a71977980afc7537dac0881e784eef99f",
+ "claim": "GEPA StrictImprovementAcceptance: accept only if subsample score sum strictly greater; pinned 8c7b697",
  "attempts": [
   {
    "url": "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/strategies/acceptance.py",
@@ -23,5 +23,5 @@
   "max_metric_calls": [],
   "acceptance_criterion": []
  },
- "fetched_utc": "2026-11-04T00:59:25+00:00"
+ "fetched_utc": "2026-11-04T01:02:48+00:00"
 }
