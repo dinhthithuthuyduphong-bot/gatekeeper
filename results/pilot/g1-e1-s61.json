@@ -26,7 +26,8 @@
     "g1-e1-s61-p22",
     "g1-e1-s61-p23",
     "g1-e1-s61-p24",
-    "g1-e1-s61-p25"
+    "g1-e1-s61-p25",
+    "g1-e1-s61-p26"
   ],
   "skills": {
     "null-guard": {
@@ -185,12 +186,17 @@
           "instance_id": "scikit-learn__scikit-learn-13135",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13618",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.016117612210885444,
-      "n": 31,
-      "solve_rate_with": 0.3548387096774194,
-      "solve_rate_without": 0.2903225806451613
+      "mean_Z": -0.015613936829295273,
+      "n": 32,
+      "solve_rate_with": 0.34375,
+      "solve_rate_without": 0.28125
     },
     "type-guard": {
       "pairs": [
@@ -323,12 +329,17 @@
           "instance_id": "scikit-learn__scikit-learn-13046",
           "loss_with": 0.13333333333333333,
           "loss_without": 0.13333333333333333
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13328",
+          "loss_with": 0.0,
+          "loss_without": 0.0
         }
       ],
-      "mean_Z": 0.0590684037285979,
-      "n": 26,
-      "solve_rate_with": 0.46153846153846156,
-      "solve_rate_without": 0.5
+      "mean_Z": 0.05688068507198317,
+      "n": 27,
+      "solve_rate_with": 0.48148148148148145,
+      "solve_rate_without": 0.5185185185185185
     },
     "exception-handling": {
       "pairs": [
@@ -501,12 +512,17 @@
           "instance_id": "scikit-learn__scikit-learn-12471",
           "loss_with": 0.0,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13142",
+          "loss_with": 0.0,
+          "loss_without": 0.0
         }
       ],
-      "mean_Z": 0.024497325333454327,
-      "n": 34,
-      "solve_rate_with": 0.23529411764705882,
-      "solve_rate_without": 0.29411764705882354
+      "mean_Z": 0.02379740175249849,
+      "n": 35,
+      "solve_rate_with": 0.2571428571428571,
+      "solve_rate_without": 0.3142857142857143
     },
     "harm-swallow-exceptions": {
       "pairs": [
@@ -664,12 +680,22 @@
           "instance_id": "scikit-learn__scikit-learn-11040",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13142",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13618",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.02032267854256301,
-      "n": 31,
-      "solve_rate_with": 0.45161290322580644,
-      "solve_rate_without": 0.45161290322580644
+      "mean_Z": 0.01909100105513495,
+      "n": 33,
+      "solve_rate_with": 0.45454545454545453,
+      "solve_rate_without": 0.45454545454545453
     },
     "harm-minimal-edit": {
       "pairs": [
@@ -827,12 +853,22 @@
           "instance_id": "scikit-learn__scikit-learn-11040",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13142",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13618",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.09166824995676,
-      "n": 31,
-      "solve_rate_with": 0.3548387096774194,
-      "solve_rate_without": 0.45161290322580644
+      "mean_Z": 0.08611259844422908,
+      "n": 33,
+      "solve_rate_with": 0.36363636363636365,
+      "solve_rate_without": 0.45454545454545453
     },
     "harm-skip-verification": {
       "pairs": [
@@ -990,63 +1026,73 @@
           "instance_id": "scikit-learn__scikit-learn-11040",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13142",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13618",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.038029482238512304,
-      "n": 31,
-      "solve_rate_with": 0.41935483870967744,
-      "solve_rate_without": 0.45161290322580644
+      "mean_Z": 0.03572466513314792,
+      "n": 33,
+      "solve_rate_with": 0.42424242424242425,
+      "solve_rate_without": 0.45454545454545453
     }
   },
   "usage": {
     "none": {
-      "runs": 86,
-      "usd": 3.7005009749999997,
-      "solved": 31,
-      "scored": 86,
-      "usd_per_run": 0.04302908110465116
+      "runs": 89,
+      "usd": 3.7883073749999996,
+      "solved": 33,
+      "scored": 89,
+      "usd_per_run": 0.04256525140449438
     },
     "null-guard": {
-      "runs": 31,
-      "usd": 1.4106049249999997,
+      "runs": 32,
+      "usd": 1.4315843499999996,
       "solved": 11,
-      "scored": 31,
-      "usd_per_run": 0.045503384677419344
+      "scored": 32,
+      "usd_per_run": 0.04473701093749999
     },
     "type-guard": {
-      "runs": 26,
-      "usd": 1.063409975,
-      "solved": 12,
-      "scored": 26,
-      "usd_per_run": 0.04090038365384615
+      "runs": 27,
+      "usd": 1.107298425,
+      "solved": 13,
+      "scored": 27,
+      "usd_per_run": 0.04101105277777778
     },
     "exception-handling": {
-      "runs": 34,
-      "usd": 1.5738924499999996,
-      "solved": 8,
-      "scored": 34,
-      "usd_per_run": 0.046290954411764694
+      "runs": 35,
+      "usd": 1.5954819749999996,
+      "solved": 9,
+      "scored": 35,
+      "usd_per_run": 0.04558519928571427
     },
     "harm-swallow-exceptions": {
-      "runs": 31,
-      "usd": 1.228762325,
-      "solved": 14,
-      "scored": 31,
-      "usd_per_run": 0.03963749435483871
+      "runs": 33,
+      "usd": 1.3002464999999999,
+      "solved": 15,
+      "scored": 33,
+      "usd_per_run": 0.039401409090909084
     },
     "harm-minimal-edit": {
-      "runs": 31,
-      "usd": 1.3539346,
-      "solved": 11,
-      "scored": 31,
-      "usd_per_run": 0.04367530967741936
+      "runs": 33,
+      "usd": 1.418395625,
+      "solved": 12,
+      "scored": 33,
+      "usd_per_run": 0.04298168560606061
     },
     "harm-skip-verification": {
-      "runs": 31,
-      "usd": 1.174859975,
-      "solved": 13,
-      "scored": 31,
-      "usd_per_run": 0.03789870887096774
+      "runs": 33,
+      "usd": 1.286936425,
+      "solved": 14,
+      "scored": 33,
+      "usd_per_run": 0.03899807348484848
     }
   },
   "infra_failures": {},
@@ -1137,7 +1183,10 @@
       "scikit-learn__scikit-learn-12471": "LimitsExceeded",
       "scikit-learn__scikit-learn-12758": "Submitted",
       "scikit-learn__scikit-learn-13046": "Submitted",
-      "scikit-learn__scikit-learn-13135": "Submitted"
+      "scikit-learn__scikit-learn-13135": "Submitted",
+      "scikit-learn__scikit-learn-13142": "Submitted",
+      "scikit-learn__scikit-learn-13328": "Submitted",
+      "scikit-learn__scikit-learn-13618": "Submitted"
     },
     "null-guard": {
       "astropy__astropy-12842": "Submitted",
@@ -1170,7 +1219,8 @@
       "pydata__xarray-6798": "Submitted",
       "scikit-learn__scikit-learn-11391": "Submitted",
       "scikit-learn__scikit-learn-12758": "Submitted",
-      "scikit-learn__scikit-learn-13135": "Submitted"
+      "scikit-learn__scikit-learn-13135": "Submitted",
+      "scikit-learn__scikit-learn-13618": "Submitted"
     },
     "type-guard": {
       "astropy__astropy-13234": "Submitted",
@@ -1198,7 +1248,8 @@
       "pytest-dev__pytest-9624": "Submitted",
       "scikit-learn__scikit-learn-11040": "Submitted",
       "scikit-learn__scikit-learn-11391": "Submitted",
-      "scikit-learn__scikit-learn-13046": "Submitted"
+      "scikit-learn__scikit-learn-13046": "Submitted",
+      "scikit-learn__scikit-learn-13328": "Submitted"
     },
     "exception-handling": {
       "astropy__astropy-13731": "Submitted",
@@ -1234,7 +1285,8 @@
       "scikit-learn__scikit-learn-11151": "Submitted",
       "scikit-learn__scikit-learn-11346": "Submitted",
       "scikit-learn__scikit-learn-12462": "Submitted",
-      "scikit-learn__scikit-learn-12471": "Submitted"
+      "scikit-learn__scikit-learn-12471": "Submitted",
+      "scikit-learn__scikit-learn-13142": "Submitted"
     },
     "harm-swallow-exceptions": {
       "astropy__astropy-13731": "Submitted",
@@ -1267,7 +1319,9 @@
       "pydata__xarray-6798": "Submitted",
       "pylint-dev__pylint-4330": "Submitted",
       "pylint-dev__pylint-5136": "Submitted",
-      "scikit-learn__scikit-learn-11040": "Submitted"
+      "scikit-learn__scikit-learn-11040": "Submitted",
+      "scikit-learn__scikit-learn-13142": "Submitted",
+      "scikit-learn__scikit-learn-13618": "Submitted"
     },
     "harm-minimal-edit": {
       "astropy__astropy-13731": "Submitted",
@@ -1300,7 +1354,9 @@
       "pydata__xarray-6798": "Submitted",
       "pylint-dev__pylint-4330": "Submitted",
       "pylint-dev__pylint-5136": "Submitted",
-      "scikit-learn__scikit-learn-11040": "Submitted"
+      "scikit-learn__scikit-learn-11040": "Submitted",
+      "scikit-learn__scikit-learn-13142": "Submitted",
+      "scikit-learn__scikit-learn-13618": "Submitted"
     },
     "harm-skip-verification": {
       "astropy__astropy-13731": "Submitted",
@@ -1333,7 +1389,9 @@
       "pydata__xarray-6798": "Submitted",
       "pylint-dev__pylint-4330": "Submitted",
       "pylint-dev__pylint-5136": "Submitted",
-      "scikit-learn__scikit-learn-11040": "Submitted"
+      "scikit-learn__scikit-learn-11040": "Submitted",
+      "scikit-learn__scikit-learn-13142": "Submitted",
+      "scikit-learn__scikit-learn-13618": "Submitted"
     }
   },
   "patch_apply_failed": {
@@ -1342,7 +1400,7 @@
     ]
   },
   "harness_test_timeout": {},
-  "spent_usd": 11.506,
+  "spent_usd": 11.9283,
   "instances": [
     "astropy__astropy-12842",
     "astropy__astropy-13234",
@@ -1429,7 +1487,10 @@
     "scikit-learn__scikit-learn-12471",
     "scikit-learn__scikit-learn-12758",
     "scikit-learn__scikit-learn-13046",
-    "scikit-learn__scikit-learn-13135"
+    "scikit-learn__scikit-learn-13135",
+    "scikit-learn__scikit-learn-13142",
+    "scikit-learn__scikit-learn-13328",
+    "scikit-learn__scikit-learn-13618"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
