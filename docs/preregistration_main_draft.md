@@ -130,3 +130,14 @@ Xác suất admit theo số trial mới (chi phí ≈ 0,13 USD mỗi trial mới
   - Nếu có bất kỳ khác biệt nào, không ghép: ô đối chứng dương chạy cả hai nhánh mới (2 lần chạy cho mỗi trial).
   - Báo động nhầm chỉ làm tăng chi phí, không ảnh hưởng tính hợp lệ.
 - **Chi phí:** dưới khoảng 0,5 USD (327 lời gọi đầu, mỗi lời gọi vài nghìn token), tính vào ngân sách thí nghiệm chính.
+
+## 11. Baseline XRepoSkill cho RQ1 (đọc từ mã đã ghim `26fd703`, 04/11/2026)
+
+- **XRepoSkill không có bước admit.** `src/xreposkill/score.py`, nguyên văn: "the gain is the Mantel-Haenszel risk difference across issues, with Sato's variance. The z score is gain / standard error. Scoring never removes a rule: a rule without a usable predicate or without a usable issue stratum gets a 'fallback' record and is ordered by support later." Thống kê chỉ dùng để xếp thứ tự và gắn nhãn bằng chứng cho LLM khi chọn rule (`pack.py`: `evidence_tag(support, z)`).
+- **Baseline B-X1 (đúng như XRepoSkill):** admit mọi skill mà bước chọn rule kích hoạt trên task. Ở E2: 138/138 task dùng được.
+- **Baseline B-X2 (dùng thống kê của XRepoSkill làm cổng; biến thể do ta tạo ra, ghi rõ trong paper):**
+  - Mỗi task là một stratum: hai nhánh, mỗi nhánh một lần chạy với cùng seed.
+  - Tính đúng hàm `mh_risk_difference` của họ (Mantel–Haenszel, phương sai Sato), chép từ mã đã ghim và có test so với mã gốc.
+  - Admit khi `ci_low` = rd − 1,959964·se > 0. Đây là hằng số `Z95` của họ, áp **một lần** khi hết ngân sách của ô, không hiệu chỉnh cho nhiều ô, giống cách thống kê này được dùng.
+  - Với trial là trung bình 3 seed: mỗi seed là một stratum riêng của task. Cần chốt trước khi đăng ký.
+- **So sánh:** harmful acceptance và clean-reuse coverage của Gatekeeper, B-X1, B-X2 và plug-in, trên cùng trial của 8 ô. Mọi khác biệt được báo cáo cùng tỉ lệ admit nhầm mong đợi (từ mô phỏng) của từng quy tắc.
