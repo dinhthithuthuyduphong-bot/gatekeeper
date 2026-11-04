@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "id": "pc-oracle-files",
+  "procedure": {
+    "kind": "guidance",
+    "guidance_by_instance_file": "runs/pc/guidance_by_instance.json",
+    "position": "prepend",
+    "wrap": false,
+    "_comment": "POSITIVE CONTROL (main experiment, docs/preregistration_main_draft.md section 8): the files the gold patch modifies, as in SWE-bench's Oracle retrieval setting; designed to help. Built by scripts/build_pc_guidance.py."
+  },
+  "fingerprints": {},
+  "input_predicates": [],
+  "postconditions": [],
+  "footprint": {"regions": [], "reads": [], "writes": [], "properties": []},
+  "capability_verdict": "approved",
+  "source": "designed-control:positive"
+}
