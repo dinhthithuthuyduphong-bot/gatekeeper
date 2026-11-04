@@ -181,3 +181,20 @@ Thiết kế ô:
 - ⏳ Cần nguồn cho thiết kế nhiều nhánh dùng chung nhóm đối chứng.
 
 Chi phí: khoảng (109 + 200) × 0,064 ≈ 20 USD, chưa tính phần prompt dài hơn (đo khi chạy thử miễn phí). Cần ngân sách mới [@thuthuy].
+
+### 11e. Quyết định của @thuthuy và trình tự thử (04/11/2026)
+
+> "Lúc thử thì thử phương án B-M, khả thi thì thử bản Megovern gốc chứ không dùng bản biến thể. Cho phép ngân sách"
+
+- **Ngân sách:** 20 USD cho ô MemGovern, ghi trong `CLAUDE.md`. Đây là số tôi đề xuất ở §11d. Chạm mức thì dừng và chờ @thuthuy.
+- **"Bản gốc" trong thiết kế ghép cặp (tự quyết, phương án trội):** dùng đúng thẻ, model embedding, mã server tìm kiếm, công cụ `exp_search`/`exp_read` và đoạn hướng dẫn trong cấu hình agent của MemGovern, cài vào container của mini-swe-agent. Agent tự gọi công cụ, lặp nhiều lần như bản gốc. Không chạy SWE-agent, vì làm vậy cần một nhánh `none` mới bằng SWE-agent: chi phí gấp đôi, khác harness với mọi ô khác, và mất nhánh `none` dùng chung. Thay đổi duy nhất so với mã của họ: server bỏ thẻ cùng repo với task (chống rò rỉ, §11d) nhưng vẫn trả đủ `top_k`.
+- **T1, B-M (miễn phí, GitHub Actions):**
+  - (F1) mỗi task trong 109 task E2 và 200 task kế tiếp nhận đủ 5 thẻ, mọi thẻ khác repo với task;
+  - (F2) chạy thử bằng model giả lập trên ≥ 1 task Live thật: hoàn tất, `infra_failures` = 0.
+- **T2, bản gốc (miễn phí, GitHub Actions):**
+  - (F3) server khởi động trong job, `/health` trả lời;
+  - (F4) bên trong container của task, model giả lập gọi `exp_search` nhận ≥ 1 kết quả, rồi `exp_read` nhận được nội dung thẻ, trên ≥ 1 task thật;
+  - (F5) có test chứng minh thẻ cùng repo bị loại;
+  - (F6) chạy thử hoàn tất với `infra_failures` = 0.
+- **Quy tắc chọn:** đạt đủ F3–F6 thì ô có chi phí dùng bản gốc. Thiếu bất kỳ mục nào thì dùng B-M, ghi rõ mục nào không đạt và vì sao.
+- **Khi chạy có chi phí:** sổ chi chung (như E2) với trần 20 USD. Sau 10 trial đầu, nếu chi phí dự kiến cho cả ô vượt 20 USD thì dừng và hỏi @thuthuy.
