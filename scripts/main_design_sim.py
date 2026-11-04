@@ -31,12 +31,14 @@ COST_PER_NEW_TRIAL = 0.13  # USD: 2 arms x 1 run x 0.064 measured (E1 0.0645, E2
 CELLS = {
     # name: (q source, n0 continuation trials, max tasks available in total for the cell)
     "xreposkill": ("e2", 109, 1100),
-    "type-guard": ("e1x", 53, 309),
-    "exception-handling": ("e1x", 53, 200),
-    "null-guard": ("e1x", 53, 122),
+    # E1 cells: activated tasks in the E1 frame (configs/pools/e1.json random_order: 221 / 118 / 89)
+    # x usable rate measured on the E1 pool (204/216); was taken from data/activation.json (A70)
+    "type-guard": ("e1x", 53, 209),
+    "exception-handling": ("e1x", 53, 111),
+    "null-guard": ("e1x", 53, 84),
 }
 DELTAS = [-0.05, 0.0, 0.05, 0.109, 0.15]
-BUDGETS = [0, 50, 100, 200, 300, 500, 800]
+BUDGETS = [0, 31, 50, 58, 100, 156, 200, 300, 500, 800]
 REPS = 400  # operational: MCSE <= sqrt(0.25/400) = 0.025 for an admission probability
 
 

@@ -71,3 +71,18 @@ Xác suất admit theo số trial mới (chi phí ≈ 0,13 USD mỗi trial mới
 | null-guard (n0 = 53) | 69 | 50: 0 | 50: 0,04 | 50: 0,21 |
 
 **Giới hạn:** q của các ô E1 chỉ đo trên 37 task. Mô hình hiệu ứng như `docs/method_check.md`.
+
+## 7. Rà soát (R-28, 04/11/2026): vấn đề tiềm ẩn và phương án chưa xét
+
+| # | Điểm | Ảnh hưởng | Xử lý |
+| --- | --- | --- | --- |
+| 1 | **Số task của các ô E1 bị ước cao (A70).** Bản nháp lấy số task kích hoạt từ `data/activation.json` (gồm cả Live và các bộ khác). Khung thật của E1 là SWE-bench full bỏ repo SWE-Gym: 221 / 118 / 89 task kích hoạt × 94,4% dùng được | Trial mới tối đa: type-guard 156 (không phải 256), exception-handling 58, null-guard 31. Mô phỏng lại: type-guard 0,52 ở δ = 0,109, 0,92 ở δ = 0,15; hai ô kia ≤ 0,33 ở δ = 0,15 | Đã sửa trong `scripts/main_design_sim.py`. **Không chi tiền cho exception-handling và null-guard**: chúng không đạt được admit vì thiếu task, không phải vì thiếu tiền |
+| 2 | **Thiếu baseline đã đăng ký cho RQ1:** quy tắc admit của XRepoSkill (`docs/preregistration.md`: "XRepoSkill (+ fingerprint screen)"). Câu gốc: resolution gain có trọng số Mantel–Haenszel, so trong từng issue | Reviewer sẽ hỏi: RQ1 là so với baseline nào? | Áp **đúng** công thức của họ lên cùng các trial, không tốn tiền. Cần đọc đủ quy tắc admit (ngưỡng, kiểm định) từ toàn văn: ⏳ thêm từ khóa nguồn |
+| 3 | **Model có thể bị đổi phía Vertex giữa đoạn E1/E2 và đoạn mới.** Khi đó STR không còn cố định, nên nối tiếp không hợp lệ | Có thể làm hỏng giả thiết của Bổ đề E | Kiểm đã đăng ký: trường `model` mà API trả về phải giống nhau ở mọi lời gọi của một ô. Nếu khác thì ô bắt đầu chuỗi mới (không nối tiếp), và báo cáo. Chạy thí nghiệm chính sớm |
+| 4 | **Holm từng bước trên p-value anytime-valid** (p_i = min(1, 1/max_t E_i,t)) thay cho Bonferroni α/K | Theo Ville, p_i hợp lệ ở mọi thời điểm dừng. Holm hợp lệ với mọi phụ thuộc, và tập bác bỏ chỉ lớn lên khi p giảm, nên quyết định admit sớm vẫn hợp lệ. **Mạnh hơn hoặc bằng Bonferroni** ở lần admit thứ hai trở đi; lần đầu vẫn ở α/K | Phương án trội: dùng. ⏳ cần câu gốc của Holm (A64) |
+| 5 | **Chỉ phân trial mới cho các ô có thể admit** (xreposkill, type-guard). Ô có hại và ô thiếu task không cần trial mới: vế an toàn ("không admit") không cần thêm trial | Tiết kiệm tiền, không làm yếu kết quả | Phương án trội: dùng |
+| 6 | **Dùng chung nhánh `none`** khi một task mới được kích hoạt cho nhiều ô | Ít tiền hơn cho mỗi trial. Bất đẳng thức hợp các biến cố không cần độc lập | Phương án trội: dùng (lợi nhỏ, vì chỉ type-guard nhận task mới trên SWE-bench) |
+| 7 | **Nhãn "thật" để chấm độ phủ.** Không có ô nào biết trước là có ích | Chưa đo được độ phủ thật | Hai cách: (a) báo cáo ô được admit kèm dãy tin cậy, không gọi là "độ phủ"; (b) thêm **ô đối chứng dương thiết kế sẵn** (skill biết chắc là có ích, ví dụ chỉ ra file cần sửa), giống đối chứng âm là các skill có hại. **[@thuthuy]**: (b) tốn thêm tiền và thêm một ô vào họ giả thuyết |
+| 8 | **Máy chạy:** đoạn E1 chạy trên máy cục bộ, đoạn mới có thể chạy trên Actions | Khác biệt về quá giờ khi chấm; hai nhánh của một cặp vẫn chung máy | Ghi thành giới hạn; phân tích độ nhạy theo máy |
+
+**Ngân sách khuyên (sửa từ 60 USD):** xreposkill +200 trial (khoảng 26 USD; 0,99 ở δ = 0,109) và type-guard +156 trial (khoảng 20 USD; 0,52 ở δ = 0,109, 0,92 ở δ = 0,15), tổng **khoảng 46 USD**. Cộng phần đối chứng dương nếu chọn mục 7(b).
