@@ -1,0 +1,171 @@
+{
+  "generated_utc": "2026-11-04T04:07:08+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s51-p23",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "pylint-dev__pylint-5136",
+    "pytest-dev__pytest-9624",
+    "scikit-learn__scikit-learn-10558"
+  ],
+  "spent_usd": 1.1265,
+  "usage": {
+    "none": {
+      "runs": 3,
+      "usd_per_run": 0.12644985,
+      "tokens_in_per_run": 2326594.0,
+      "tokens_out_per_run": 5474.333333333333,
+      "cached_share": 0.8852428342317855,
+      "api_calls_per_run": 113.33333333333333,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 3
+    },
+    "type-guard": {
+      "runs": 1,
+      "usd_per_run": 0.2511878250000001,
+      "tokens_in_per_run": 6581004.0,
+      "tokens_out_per_run": 8206.0,
+      "cached_share": 0.9497856254152102,
+      "api_calls_per_run": 250.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "exception-handling": {
+      "runs": 2,
+      "usd_per_run": 0.0517651125,
+      "tokens_in_per_run": 1012095.0,
+      "tokens_out_per_run": 5509.0,
+      "cached_share": 0.9200811188673,
+      "api_calls_per_run": 58.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "harm-swallow-exceptions": {
+      "runs": 1,
+      "usd_per_run": 0.04620024999999999,
+      "tokens_in_per_run": 667321.0,
+      "tokens_out_per_run": 3919.0,
+      "cached_share": 0.8425630243915597,
+      "api_calls_per_run": 38.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "harm-minimal-edit": {
+      "runs": 1,
+      "usd_per_run": 0.062906825,
+      "tokens_in_per_run": 1027712.0,
+      "tokens_out_per_run": 9973.0,
+      "cached_share": 0.9037580567318471,
+      "api_calls_per_run": 71.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "harm-skip-verification": {
+      "runs": 1,
+      "usd_per_run": 0.2833657749999999,
+      "tokens_in_per_run": 7445140.0,
+      "tokens_out_per_run": 14455.0,
+      "cached_share": 0.9548968857536594,
+      "api_calls_per_run": 250.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "pylint-dev__pylint-5136": "Submitted",
+      "pytest-dev__pytest-9624": "LimitsExceeded",
+      "scikit-learn__scikit-learn-10558": "Submitted"
+    },
+    "type-guard": {
+      "pytest-dev__pytest-9624": "LimitsExceeded"
+    },
+    "exception-handling": {
+      "pylint-dev__pylint-5136": "Submitted",
+      "scikit-learn__scikit-learn-10558": "Submitted"
+    },
+    "harm-swallow-exceptions": {
+      "pylint-dev__pylint-5136": "Submitted"
+    },
+    "harm-minimal-edit": {
+      "pylint-dev__pylint-5136": "Submitted"
+    },
+    "harm-skip-verification": {
+      "pylint-dev__pylint-5136": "LimitsExceeded"
+    }
+  },
+  "skills": {
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "pytest-dev__pytest-9624",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "pylint-dev__pylint-5136",
+          "loss_with": 0.3333333333333333,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-10558",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.16666666666666666,
+      "variance_components": null
+    },
+    "harm-swallow-exceptions": {
+      "pairs": [
+        {
+          "instance_id": "pylint-dev__pylint-5136",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-minimal-edit": {
+      "pairs": [
+        {
+          "instance_id": "pylint-dev__pylint-5136",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-skip-verification": {
+      "pairs": [
+        {
+          "instance_id": "pylint-dev__pylint-5136",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

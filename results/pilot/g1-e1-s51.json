@@ -22,7 +22,10 @@
     "g1-e1-s51-p18",
     "g1-e1-s51-p19",
     "g1-e1-s51-p20",
-    "g1-e1-s51-p21"
+    "g1-e1-s51-p21",
+    "g1-e1-s51-p22",
+    "g1-e1-s51-p23",
+    "g1-e1-s51-p24"
   ],
   "skills": {
     "null-guard": {
@@ -161,12 +164,17 @@
           "instance_id": "mwaskom__seaborn-3202",
           "loss_with": 0.3333333333333333,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-6798",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.018139115725606506,
-      "n": 27,
-      "solve_rate_with": 0.3333333333333333,
-      "solve_rate_without": 0.3333333333333333
+      "mean_Z": -0.017491290163977703,
+      "n": 28,
+      "solve_rate_with": 0.32142857142857145,
+      "solve_rate_without": 0.32142857142857145
     },
     "type-guard": {
       "pairs": [
@@ -274,12 +282,27 @@
           "instance_id": "pallets__flask-4992",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-6721",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pytest-dev__pytest-9624",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-11040",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.13218743605483935,
-      "n": 21,
-      "solve_rate_with": 0.38095238095238093,
-      "solve_rate_without": 0.5238095238095238
+      "mean_Z": 0.11566400654798444,
+      "n": 24,
+      "solve_rate_with": 0.3333333333333333,
+      "solve_rate_without": 0.4583333333333333
     },
     "exception-handling": {
       "pairs": [
@@ -417,12 +440,37 @@
           "instance_id": "pydata__xarray-3156",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-4330",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-5136",
+          "loss_with": 0.3333333333333333,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-10558",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-11151",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-11346",
+          "loss_with": 0.3333333333333333,
+          "loss_without": 0.3333333333333333
         }
       ],
-      "mean_Z": -0.04765805372374988,
-      "n": 27,
-      "solve_rate_with": 0.37037037037037035,
-      "solve_rate_without": 0.3333333333333333
+      "mean_Z": -0.050628149496080625,
+      "n": 32,
+      "solve_rate_with": 0.3125,
+      "solve_rate_without": 0.28125
     },
     "harm-swallow-exceptions": {
       "pairs": [
@@ -555,12 +603,37 @@
           "instance_id": "pydata__xarray-3156",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-6721",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-6798",
+          "loss_with": 0.6670807453416149,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-4330",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-5136",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-11040",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.09572542964250792,
-      "n": 26,
-      "solve_rate_with": 0.38461538461538464,
-      "solve_rate_without": 0.5
+      "mean_Z": 0.058793825248822186,
+      "n": 31,
+      "solve_rate_with": 0.3548387096774194,
+      "solve_rate_without": 0.41935483870967744
     },
     "harm-minimal-edit": {
       "pairs": [
@@ -693,12 +766,37 @@
           "instance_id": "pydata__xarray-3156",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-6721",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-6798",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-4330",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-5136",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-11040",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.04425371170772246,
-      "n": 26,
-      "solve_rate_with": 0.46153846153846156,
-      "solve_rate_without": 0.5
+      "mean_Z": 0.03711601627099303,
+      "n": 31,
+      "solve_rate_with": 0.3870967741935484,
+      "solve_rate_without": 0.41935483870967744
     },
     "harm-skip-verification": {
       "pairs": [
@@ -831,63 +929,88 @@
           "instance_id": "pydata__xarray-3156",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-6721",
+          "loss_with": 0.694661921708185,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-6798",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-4330",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-5136",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-11040",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.0952277241383736,
-      "n": 26,
-      "solve_rate_with": 0.38461538461538464,
-      "solve_rate_without": 0.5
+      "mean_Z": 0.08077148653674943,
+      "n": 31,
+      "solve_rate_with": 0.3225806451612903,
+      "solve_rate_without": 0.41935483870967744
     }
   },
   "usage": {
     "none": {
-      "runs": 71,
-      "usd": 5.361019650000001,
+      "runs": 80,
+      "usd": 6.348917075000001,
       "solved": 28,
-      "scored": 71,
-      "usd_per_run": 0.07550731901408453
+      "scored": 80,
+      "usd_per_run": 0.07936146343750002
     },
     "null-guard": {
-      "runs": 27,
-      "usd": 1.1920232,
+      "runs": 28,
+      "usd": 1.3402487,
       "solved": 9,
-      "scored": 27,
-      "usd_per_run": 0.044149007407407403
+      "scored": 28,
+      "usd_per_run": 0.047866025
     },
     "type-guard": {
-      "runs": 21,
-      "usd": 1.60487325,
+      "runs": 24,
+      "usd": 2.184417325,
       "solved": 8,
-      "scored": 21,
-      "usd_per_run": 0.07642253571428571
+      "scored": 24,
+      "usd_per_run": 0.09101738854166667
     },
     "exception-handling": {
-      "runs": 27,
-      "usd": 1.4529984249999999,
+      "runs": 32,
+      "usd": 1.649512325,
       "solved": 10,
-      "scored": 27,
-      "usd_per_run": 0.05381475648148148
+      "scored": 32,
+      "usd_per_run": 0.05154726015625
     },
     "harm-swallow-exceptions": {
-      "runs": 26,
-      "usd": 0.9276248000000002,
-      "solved": 10,
-      "scored": 26,
-      "usd_per_run": 0.03567787692307693
+      "runs": 31,
+      "usd": 1.2233923500000004,
+      "solved": 11,
+      "scored": 31,
+      "usd_per_run": 0.039464269354838724
     },
     "harm-minimal-edit": {
-      "runs": 26,
-      "usd": 1.5533886250000004,
+      "runs": 31,
+      "usd": 2.3378681250000004,
       "solved": 12,
-      "scored": 26,
-      "usd_per_run": 0.05974571634615386
+      "scored": 31,
+      "usd_per_run": 0.07541510080645163
     },
     "harm-skip-verification": {
-      "runs": 26,
-      "usd": 1.4077553499999997,
+      "runs": 31,
+      "usd": 1.9598353249999996,
       "solved": 10,
-      "scored": 26,
-      "usd_per_run": 0.05414443653846153
+      "scored": 31,
+      "usd_per_run": 0.0632204943548387
     }
   },
   "infra_failures": {},
@@ -963,7 +1086,16 @@
       "pallets__flask-4169": "Submitted",
       "pallets__flask-4992": "Submitted",
       "psf__requests-5087": "Submitted",
-      "pydata__xarray-3156": "Submitted"
+      "pydata__xarray-3156": "Submitted",
+      "pydata__xarray-6721": "Submitted",
+      "pydata__xarray-6798": "Submitted",
+      "pylint-dev__pylint-4330": "Submitted",
+      "pylint-dev__pylint-5136": "Submitted",
+      "pytest-dev__pytest-9624": "LimitsExceeded",
+      "scikit-learn__scikit-learn-10558": "Submitted",
+      "scikit-learn__scikit-learn-11040": "LimitsExceeded",
+      "scikit-learn__scikit-learn-11151": "Submitted",
+      "scikit-learn__scikit-learn-11346": "Submitted"
     },
     "null-guard": {
       "astropy__astropy-12842": "Submitted",
@@ -992,7 +1124,8 @@
       "matplotlib__matplotlib-25052": "Submitted",
       "matplotlib__matplotlib-25565": "Submitted",
       "matplotlib__matplotlib-26285": "Submitted",
-      "mwaskom__seaborn-3202": "Submitted"
+      "mwaskom__seaborn-3202": "Submitted",
+      "pydata__xarray-6798": "LimitsExceeded"
     },
     "type-guard": {
       "astropy__astropy-13234": "Submitted",
@@ -1015,7 +1148,10 @@
       "matplotlib__matplotlib-22991": "Submitted",
       "matplotlib__matplotlib-25332": "Submitted",
       "pallets__flask-4169": "Submitted",
-      "pallets__flask-4992": "Submitted"
+      "pallets__flask-4992": "Submitted",
+      "pydata__xarray-6721": "LimitsExceeded",
+      "pytest-dev__pytest-9624": "LimitsExceeded",
+      "scikit-learn__scikit-learn-11040": "Submitted"
     },
     "exception-handling": {
       "astropy__astropy-13731": "Submitted",
@@ -1044,7 +1180,12 @@
       "matplotlib__matplotlib-24149": "Submitted",
       "matplotlib__matplotlib-25515": "Submitted",
       "psf__requests-5087": "Submitted",
-      "pydata__xarray-3156": "Submitted"
+      "pydata__xarray-3156": "Submitted",
+      "pylint-dev__pylint-4330": "Submitted",
+      "pylint-dev__pylint-5136": "Submitted",
+      "scikit-learn__scikit-learn-10558": "Submitted",
+      "scikit-learn__scikit-learn-11151": "Submitted",
+      "scikit-learn__scikit-learn-11346": "Submitted"
     },
     "harm-swallow-exceptions": {
       "astropy__astropy-13731": "Submitted",
@@ -1072,7 +1213,12 @@
       "matplotlib__matplotlib-22929": "Submitted",
       "matplotlib__matplotlib-24149": "Submitted",
       "matplotlib__matplotlib-25515": "Submitted",
-      "pydata__xarray-3156": "Submitted"
+      "pydata__xarray-3156": "Submitted",
+      "pydata__xarray-6721": "Submitted",
+      "pydata__xarray-6798": "Submitted",
+      "pylint-dev__pylint-4330": "Submitted",
+      "pylint-dev__pylint-5136": "Submitted",
+      "scikit-learn__scikit-learn-11040": "Submitted"
     },
     "harm-minimal-edit": {
       "astropy__astropy-13731": "Submitted",
@@ -1100,7 +1246,12 @@
       "matplotlib__matplotlib-22929": "LimitsExceeded",
       "matplotlib__matplotlib-24149": "Submitted",
       "matplotlib__matplotlib-25515": "LimitsExceeded",
-      "pydata__xarray-3156": "Submitted"
+      "pydata__xarray-3156": "Submitted",
+      "pydata__xarray-6721": "Submitted",
+      "pydata__xarray-6798": "LimitsExceeded",
+      "pylint-dev__pylint-4330": "LimitsExceeded",
+      "pylint-dev__pylint-5136": "Submitted",
+      "scikit-learn__scikit-learn-11040": "LimitsExceeded"
     },
     "harm-skip-verification": {
       "astropy__astropy-13731": "Submitted",
@@ -1128,12 +1279,17 @@
       "matplotlib__matplotlib-22929": "Submitted",
       "matplotlib__matplotlib-24149": "Submitted",
       "matplotlib__matplotlib-25515": "Submitted",
-      "pydata__xarray-3156": "LimitsExceeded"
+      "pydata__xarray-3156": "LimitsExceeded",
+      "pydata__xarray-6721": "Submitted",
+      "pydata__xarray-6798": "LimitsExceeded",
+      "pylint-dev__pylint-4330": "Submitted",
+      "pylint-dev__pylint-5136": "LimitsExceeded",
+      "scikit-learn__scikit-learn-11040": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 13.4997,
+  "spent_usd": 17.0441,
   "instances": [
     "astropy__astropy-12842",
     "astropy__astropy-13234",
@@ -1205,7 +1361,16 @@
     "pallets__flask-4169",
     "pallets__flask-4992",
     "psf__requests-5087",
-    "pydata__xarray-3156"
+    "pydata__xarray-3156",
+    "pydata__xarray-6721",
+    "pydata__xarray-6798",
+    "pylint-dev__pylint-4330",
+    "pylint-dev__pylint-5136",
+    "pytest-dev__pytest-9624",
+    "scikit-learn__scikit-learn-10558",
+    "scikit-learn__scikit-learn-11040",
+    "scikit-learn__scikit-learn-11151",
+    "scikit-learn__scikit-learn-11346"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"

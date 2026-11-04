@@ -1,0 +1,247 @@
+{
+  "generated_utc": "2026-11-04T03:41:04+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s51-p22",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "pydata__xarray-6721",
+    "pydata__xarray-6798",
+    "pylint-dev__pylint-4330"
+  ],
+  "spent_usd": 1.6659,
+  "usage": {
+    "none": {
+      "runs": 3,
+      "usd_per_run": 0.10151950833333334,
+      "tokens_in_per_run": 2127489.3333333335,
+      "tokens_out_per_run": 12888.666666666666,
+      "cached_share": 0.9394188893700681,
+      "api_calls_per_run": 97.66666666666667,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 3
+    },
+    "null-guard": {
+      "runs": 1,
+      "usd_per_run": 0.1482255000000001,
+      "tokens_in_per_run": 3244362.0,
+      "tokens_out_per_run": 7745.0,
+      "cached_share": 0.9239721091542805,
+      "api_calls_per_run": 250.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "type-guard": {
+      "runs": 1,
+      "usd_per_run": 0.2444868,
+      "tokens_in_per_run": 5545287.0,
+      "tokens_out_per_run": 10530.0,
+      "cached_share": 0.9278188847574526,
+      "api_calls_per_run": 250.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "exception-handling": {
+      "runs": 1,
+      "usd_per_run": 0.03481782500000001,
+      "tokens_in_per_run": 454208.0,
+      "tokens_out_per_run": 6938.0,
+      "cached_share": 0.8722501585176835,
+      "api_calls_per_run": 40.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "harm-swallow-exceptions": {
+      "runs": 3,
+      "usd_per_run": 0.0710719666666667,
+      "tokens_in_per_run": 1171671.6666666667,
+      "tokens_out_per_run": 9089.0,
+      "cached_share": 0.893232603559302,
+      "api_calls_per_run": 73.66666666666667,
+      "solve_rate": 0.3333333333333333,
+      "solved": 1,
+      "scored": 3
+    },
+    "harm-minimal-edit": {
+      "runs": 3,
+      "usd_per_run": 0.1607571666666667,
+      "tokens_in_per_run": 3710508.6666666665,
+      "tokens_out_per_run": 12622.333333333334,
+      "cached_share": 0.9412348315945182,
+      "api_calls_per_run": 187.33333333333334,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 3
+    },
+    "harm-skip-verification": {
+      "runs": 3,
+      "usd_per_run": 0.07944979166666667,
+      "tokens_in_per_run": 1631816.6666666667,
+      "tokens_out_per_run": 6871.333333333333,
+      "cached_share": 0.9227925931221849,
+      "api_calls_per_run": 111.66666666666667,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 3
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "pydata__xarray-6721": "Submitted",
+      "pydata__xarray-6798": "Submitted",
+      "pylint-dev__pylint-4330": "Submitted"
+    },
+    "null-guard": {
+      "pydata__xarray-6798": "LimitsExceeded"
+    },
+    "type-guard": {
+      "pydata__xarray-6721": "LimitsExceeded"
+    },
+    "exception-handling": {
+      "pylint-dev__pylint-4330": "Submitted"
+    },
+    "harm-swallow-exceptions": {
+      "pydata__xarray-6721": "Submitted",
+      "pydata__xarray-6798": "Submitted",
+      "pylint-dev__pylint-4330": "Submitted"
+    },
+    "harm-minimal-edit": {
+      "pydata__xarray-6721": "Submitted",
+      "pydata__xarray-6798": "LimitsExceeded",
+      "pylint-dev__pylint-4330": "LimitsExceeded"
+    },
+    "harm-skip-verification": {
+      "pydata__xarray-6721": "Submitted",
+      "pydata__xarray-6798": "LimitsExceeded",
+      "pylint-dev__pylint-4330": "Submitted"
+    }
+  },
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-6798",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-6721",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "pylint-dev__pylint-4330",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-swallow-exceptions": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-6721",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-6798",
+          "loss_with": 0.6670807453416149,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-4330",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.22208419599723947,
+      "variance_components": {
+        "n": 3,
+        "n_tasks": 3,
+        "mean_Z": -0.22208419599723947,
+        "sigma_S2": 0.1482402227851863,
+        "sigma_T2": 0.0,
+        "unpaired_over_paired": 1.0
+      }
+    },
+    "harm-minimal-edit": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-6721",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-6798",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-4330",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": {
+        "n": 3,
+        "n_tasks": 3,
+        "mean_Z": 0.0,
+        "sigma_S2": 0.0,
+        "sigma_T2": 0.0,
+        "unpaired_over_paired": Infinity
+      }
+    },
+    "harm-skip-verification": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-6721",
+          "loss_with": 0.694661921708185,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-6798",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pylint-dev__pylint-4330",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.009331751680506114,
+      "variance_components": {
+        "n": 3,
+        "n_tasks": 3,
+        "mean_Z": 0.009331751680506114,
+        "sigma_S2": 0.000261244768279886,
+        "sigma_T2": 0.0,
+        "unpaired_over_paired": 1.0
+      }
+    }
+  }
+}

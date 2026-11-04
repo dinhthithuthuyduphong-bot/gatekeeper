@@ -1,0 +1,171 @@
+{
+  "generated_utc": "2026-11-04T04:29:55+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s51-p24",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "scikit-learn__scikit-learn-11040",
+    "scikit-learn__scikit-learn-11151",
+    "scikit-learn__scikit-learn-11346"
+  ],
+  "spent_usd": 0.752,
+  "usage": {
+    "none": {
+      "runs": 3,
+      "usd_per_run": 0.10132978333333338,
+      "tokens_in_per_run": 2525516.3333333335,
+      "tokens_out_per_run": 4979.0,
+      "cached_share": 0.9459325083227206,
+      "api_calls_per_run": 104.33333333333333,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 3
+    },
+    "type-guard": {
+      "runs": 1,
+      "usd_per_run": 0.08386945000000001,
+      "tokens_in_per_run": 1381819.0,
+      "tokens_out_per_run": 17254.0,
+      "cached_share": 0.9245986630665811,
+      "api_calls_per_run": 63.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "exception-handling": {
+      "runs": 2,
+      "usd_per_run": 0.02908292500000001,
+      "tokens_in_per_run": 531136.0,
+      "tokens_out_per_run": 1674.5,
+      "cached_share": 0.8887686016387517,
+      "api_calls_per_run": 35.5,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "harm-swallow-exceptions": {
+      "runs": 1,
+      "usd_per_run": 0.036351400000000006,
+      "tokens_in_per_run": 537190.0,
+      "tokens_out_per_run": 3294.0,
+      "cached_share": 0.8512369924979989,
+      "api_calls_per_run": 38.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "harm-minimal-edit": {
+      "runs": 1,
+      "usd_per_run": 0.23930117500000012,
+      "tokens_in_per_run": 5686006.0,
+      "tokens_out_per_run": 8438.0,
+      "cached_share": 0.9339555744401254,
+      "api_calls_per_run": 250.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "harm-skip-verification": {
+      "runs": 1,
+      "usd_per_run": 0.030364824999999998,
+      "tokens_in_per_run": 398695.0,
+      "tokens_out_per_run": 2156.0,
+      "cached_share": 0.8086707884473093,
+      "api_calls_per_run": 33.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "scikit-learn__scikit-learn-11040": "LimitsExceeded",
+      "scikit-learn__scikit-learn-11151": "Submitted",
+      "scikit-learn__scikit-learn-11346": "Submitted"
+    },
+    "type-guard": {
+      "scikit-learn__scikit-learn-11040": "Submitted"
+    },
+    "exception-handling": {
+      "scikit-learn__scikit-learn-11151": "Submitted",
+      "scikit-learn__scikit-learn-11346": "Submitted"
+    },
+    "harm-swallow-exceptions": {
+      "scikit-learn__scikit-learn-11040": "Submitted"
+    },
+    "harm-minimal-edit": {
+      "scikit-learn__scikit-learn-11040": "LimitsExceeded"
+    },
+    "harm-skip-verification": {
+      "scikit-learn__scikit-learn-11040": "Submitted"
+    }
+  },
+  "skills": {
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-11040",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-11151",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-11346",
+          "loss_with": 0.3333333333333333,
+          "loss_without": 0.3333333333333333
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-swallow-exceptions": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-11040",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-minimal-edit": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-11040",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-skip-verification": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-11040",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}
