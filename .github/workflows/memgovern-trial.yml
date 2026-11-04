@@ -10,9 +10,9 @@ on:
   workflow_dispatch:
     inputs:
       chromadb:
-        description: "chromadb version that opens MemGovern's index"
+        description: "chromadb version, or auto = last patch of every minor release, newest first"
         required: true
-        default: "0.5.23"
+        default: "auto"
 
 permissions:
   contents: read
@@ -45,9 +45,7 @@ jobs:
           # two commands: chromadb 0.5.x caps tokenizers <= 0.20.3, Qwen3 needs transformers >= 4.51
           # (tokenizers >= 0.21). chromadb uses tokenizers only for its default embedding, which
           # MemGovern's server replaces with its own; a broken index load fails F1 visibly.
-          mgenv/bin/pip install "chromadb==${{ inputs.chromadb }}" flask "pyyaml==6.0.3" huggingface_hub
-          mgenv/bin/pip install "sentence-transformers>=2.7" "transformers>=4.51" || true
-          mgenv/bin/python -c "import chromadb, sentence_transformers, transformers; print('imports ok')"
+          mgenv/bin/pip install flask "pyyaml==6.0.3" huggingface_hub
           mgenv/bin/pip freeze | grep -iE "^(chromadb|sentence-transformers|transformers|torch|flask)==" | tee mg_versions.txt
       - name: MemGovern at the pinned commit (code + LFS data by direct media URL)
         run: |
@@ -65,6 +63,21 @@ jobs:
           du -sh "$MG_DATA"
           # which chromadb schema built the index (migrations applied to the sqlite store)
           python -c "import sqlite3; c=sqlite3.connect('$MG_DATA/chroma_db_experience/chroma.sqlite3'); print(c.execute('select dir, max(version) from migrations group by dir').fetchall())" | tee -a mg_versions.txt
+      - name: chromadb version that opens MemGovern's index (tried on a COPY; first that opens wins)
+        run: |
+          [ "${{ inputs.chromadb }}" = auto ] && cands=$(mgenv/bin/pip index versions chromadb 2>/dev/null | sed -n 's/^Available versions: //p' | tr -d ',' | tr ' ' '\n' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -t. -k1,1n -k2,2n -k3,3n | awk -F. '{last[$1"."$2]=$0} END{for(k in last) print last[k]}' | sort -t. -k1,1rn -k2,2rn) || cands="${{ inputs.chromadb }}"
+          echo "candidates: $cands"
+          for v in $cands; do
+            mgenv/bin/pip install -q "chromadb==$v" >/dev/null 2>&1 || continue
+            rm -rf /tmp/dbcopy && cp -r "$MG_DATA/chroma_db_experience" /tmp/dbcopy
+            if mgenv/bin/python -c "import chromadb; c=chromadb.PersistentClient(path='/tmp/dbcopy').get_collection('experience_knowledge'); print('count', c.count())"; then
+              echo "chromadb==$v opens the index" | tee -a mg_versions.txt; echo "MG_CHROMA=$v" >> "$GITHUB_ENV"; break
+            fi
+          done
+          [ -n "$(grep 'opens the index' mg_versions.txt)" ] || { echo "no chromadb version opens the index"; exit 1; }
+          # Qwen3 needs transformers >= 4.51; separate command (chromadb may cap tokenizers)
+          mgenv/bin/pip install "sentence-transformers>=2.7" "transformers>=4.51" || true
+          mgenv/bin/python -c "import chromadb, sentence_transformers, transformers; print('imports ok', chromadb.__version__)"
       - name: Embedding model named by MemGovern's server (Qwen3-Embedding-0.6B)
         run: |
           mgenv/bin/python - <<'EOF'
