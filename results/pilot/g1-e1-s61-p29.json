@@ -1,0 +1,171 @@
+{
+  "generated_utc": "2026-11-04T08:35:16+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s61-p29",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "scikit-learn__scikit-learn-25973",
+    "sphinx-doc__sphinx-8095",
+    "sphinx-doc__sphinx-8264"
+  ],
+  "spent_usd": 0.6063,
+  "usage": {
+    "none": {
+      "runs": 3,
+      "usd_per_run": 0.054972158333333326,
+      "tokens_in_per_run": 1068174.3333333333,
+      "tokens_out_per_run": 6784.0,
+      "cached_share": 0.9247238980653283,
+      "api_calls_per_run": 57.333333333333336,
+      "solve_rate": 0.3333333333333333,
+      "solved": 1,
+      "scored": 3
+    },
+    "null-guard": {
+      "runs": 1,
+      "usd_per_run": 0.08040452499999998,
+      "tokens_in_per_run": 1252780.0,
+      "tokens_out_per_run": 15793.0,
+      "cached_share": 0.9099051708999186,
+      "api_calls_per_run": 71.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "type-guard": {
+      "runs": 2,
+      "usd_per_run": 0.04336523749999999,
+      "tokens_in_per_run": 610017.5,
+      "tokens_out_per_run": 5353.0,
+      "cached_share": 0.8536632145799096,
+      "api_calls_per_run": 47.5,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    },
+    "harm-swallow-exceptions": {
+      "runs": 1,
+      "usd_per_run": 0.101917475,
+      "tokens_in_per_run": 1504235.0,
+      "tokens_out_per_run": 15614.0,
+      "cached_share": 0.8791837711527787,
+      "api_calls_per_run": 97.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "harm-minimal-edit": {
+      "runs": 1,
+      "usd_per_run": 0.0654881,
+      "tokens_in_per_run": 914498.0,
+      "tokens_out_per_run": 5366.0,
+      "cached_share": 0.8319580797333619,
+      "api_calls_per_run": 46.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "harm-skip-verification": {
+      "runs": 1,
+      "usd_per_run": 0.1068461,
+      "tokens_in_per_run": 1413959.0,
+      "tokens_out_per_run": 13191.0,
+      "cached_share": 0.8374599263486423,
+      "api_calls_per_run": 76.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "scikit-learn__scikit-learn-25973": "Submitted",
+      "sphinx-doc__sphinx-8095": "Submitted",
+      "sphinx-doc__sphinx-8264": "Submitted"
+    },
+    "null-guard": {
+      "sphinx-doc__sphinx-8095": "Submitted"
+    },
+    "type-guard": {
+      "scikit-learn__scikit-learn-25973": "Submitted",
+      "sphinx-doc__sphinx-8264": "Submitted"
+    },
+    "harm-swallow-exceptions": {
+      "sphinx-doc__sphinx-8095": "Submitted"
+    },
+    "harm-minimal-edit": {
+      "sphinx-doc__sphinx-8095": "Submitted"
+    },
+    "harm-skip-verification": {
+      "sphinx-doc__sphinx-8095": "Submitted"
+    }
+  },
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "sphinx-doc__sphinx-8095",
+          "loss_with": 0.6761904761904761,
+          "loss_without": 0.6857142857142856
+        }
+      ],
+      "mean_Z": -0.00952380952380949,
+      "variance_components": null
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-25973",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-8264",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-swallow-exceptions": {
+      "pairs": [
+        {
+          "instance_id": "sphinx-doc__sphinx-8095",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6857142857142856
+        }
+      ],
+      "mean_Z": -0.01904761904761898,
+      "variance_components": null
+    },
+    "harm-minimal-edit": {
+      "pairs": [
+        {
+          "instance_id": "sphinx-doc__sphinx-8095",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6857142857142856
+        }
+      ],
+      "mean_Z": -0.01904761904761898,
+      "variance_components": null
+    },
+    "harm-skip-verification": {
+      "pairs": [
+        {
+          "instance_id": "sphinx-doc__sphinx-8095",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6857142857142856
+        }
+      ],
+      "mean_Z": -0.01904761904761898,
+      "variance_components": null
+    }
+  }
+}
