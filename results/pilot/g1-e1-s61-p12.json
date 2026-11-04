@@ -1,0 +1,255 @@
+{
+  "generated_utc": "2026-11-04T00:29:00+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s61-p12",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "django__django-16693",
+    "django__django-16810",
+    "django__django-16824",
+    "matplotlib__matplotlib-13913"
+  ],
+  "spent_usd": 0.4535,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.02691366875,
+      "tokens_in_per_run": 300799.25,
+      "tokens_out_per_run": 4566.25,
+      "cached_share": 0.8146521309477999,
+      "api_calls_per_run": 30.5,
+      "solve_rate": 0.5,
+      "solved": 2,
+      "scored": 4
+    },
+    "null-guard": {
+      "runs": 1,
+      "usd_per_run": 0.03207847499999999,
+      "tokens_in_per_run": 473985.0,
+      "tokens_out_per_run": 4356.0,
+      "cached_share": 0.8715866535860839,
+      "api_calls_per_run": 44.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "type-guard": {
+      "runs": 1,
+      "usd_per_run": 0.017403324999999997,
+      "tokens_in_per_run": 118366.0,
+      "tokens_out_per_run": 2273.0,
+      "cached_share": 0.5856664920669787,
+      "api_calls_per_run": 28.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "exception-handling": {
+      "runs": 2,
+      "usd_per_run": 0.023300849999999998,
+      "tokens_in_per_run": 283060.5,
+      "tokens_out_per_run": 3479.5,
+      "cached_share": 0.8272047848428163,
+      "api_calls_per_run": 35.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "harm-swallow-exceptions": {
+      "runs": 3,
+      "usd_per_run": 0.028259016666666668,
+      "tokens_in_per_run": 319986.6666666667,
+      "tokens_out_per_run": 5025.333333333333,
+      "cached_share": 0.823307221134214,
+      "api_calls_per_run": 34.0,
+      "solve_rate": 0.3333333333333333,
+      "solved": 1,
+      "scored": 3
+    },
+    "harm-minimal-edit": {
+      "runs": 3,
+      "usd_per_run": 0.020407816666666672,
+      "tokens_in_per_run": 225554.66666666666,
+      "tokens_out_per_run": 3393.6666666666665,
+      "cached_share": 0.8092908740527056,
+      "api_calls_per_run": 26.0,
+      "solve_rate": 0.3333333333333333,
+      "solved": 1,
+      "scored": 3
+    },
+    "harm-skip-verification": {
+      "runs": 3,
+      "usd_per_run": 0.03460291666666666,
+      "tokens_in_per_run": 472063.6666666667,
+      "tokens_out_per_run": 5229.333333333333,
+      "cached_share": 0.8591778933773764,
+      "api_calls_per_run": 41.333333333333336,
+      "solve_rate": 0.3333333333333333,
+      "solved": 1,
+      "scored": 3
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "django__django-16693": "Submitted",
+      "django__django-16810": "Submitted",
+      "django__django-16824": "Submitted",
+      "matplotlib__matplotlib-13913": "Submitted"
+    },
+    "null-guard": {
+      "django__django-16810": "Submitted"
+    },
+    "type-guard": {
+      "django__django-16824": "Submitted"
+    },
+    "exception-handling": {
+      "django__django-16693": "Submitted",
+      "matplotlib__matplotlib-13913": "Submitted"
+    },
+    "harm-swallow-exceptions": {
+      "django__django-16693": "Submitted",
+      "django__django-16810": "Submitted",
+      "django__django-16824": "Submitted"
+    },
+    "harm-minimal-edit": {
+      "django__django-16693": "Submitted",
+      "django__django-16810": "Submitted",
+      "django__django-16824": "Submitted"
+    },
+    "harm-skip-verification": {
+      "django__django-16693": "Submitted",
+      "django__django-16810": "Submitted",
+      "django__django-16824": "Submitted"
+    }
+  },
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "django__django-16810",
+          "loss_with": 1.0,
+          "loss_without": 0.1692111959287532
+        }
+      ],
+      "mean_Z": 0.8307888040712468,
+      "variance_components": null
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "django__django-16824",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "django__django-16693",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "matplotlib__matplotlib-13913",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.3333333333333333,
+      "variance_components": null
+    },
+    "harm-swallow-exceptions": {
+      "pairs": [
+        {
+          "instance_id": "django__django-16693",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-16810",
+          "loss_with": 0.1692111959287532,
+          "loss_without": 0.1692111959287532
+        },
+        {
+          "instance_id": "django__django-16824",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": {
+        "n": 3,
+        "n_tasks": 3,
+        "mean_Z": 0.0,
+        "sigma_S2": 0.0,
+        "sigma_T2": 0.12008980310652706,
+        "unpaired_over_paired": Infinity
+      }
+    },
+    "harm-minimal-edit": {
+      "pairs": [
+        {
+          "instance_id": "django__django-16693",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-16810",
+          "loss_with": 0.6717557251908396,
+          "loss_without": 0.1692111959287532
+        },
+        {
+          "instance_id": "django__django-16824",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.16751484308736211,
+      "variance_components": {
+        "n": 3,
+        "n_tasks": 3,
+        "mean_Z": 0.16751484308736211,
+        "sigma_S2": 0.08418366796375068,
+        "sigma_T2": 0.09259690901203634,
+        "unpaired_over_paired": 3.1998782246434874
+      }
+    },
+    "harm-skip-verification": {
+      "pairs": [
+        {
+          "instance_id": "django__django-16693",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-16810",
+          "loss_with": 0.6717557251908396,
+          "loss_without": 0.1692111959287532
+        },
+        {
+          "instance_id": "django__django-16824",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.16751484308736211,
+      "variance_components": {
+        "n": 3,
+        "n_tasks": 3,
+        "mean_Z": 0.16751484308736211,
+        "sigma_S2": 0.08418366796375068,
+        "sigma_T2": 0.09259690901203634,
+        "unpaired_over_paired": 3.1998782246434874
+      }
+    }
+  }
+}
