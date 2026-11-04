@@ -100,3 +100,20 @@ Xác suất admit theo số trial mới (chi phí ≈ 0,13 USD mỗi trial mới
   - Căn cứ: ràng buộc nguồn lực (Lakens 2022), kèm đường cong power theo δ.
   - Chi phí tối đa ≈ 109 × 0,063 + 91 × 0,126 ≈ 18 USD. Ô dừng ngay khi admit, nên chi phí thật có thể thấp hơn.
 - **Ngân sách thí nghiệm chính khuyên:** xreposkill 26 + type-guard 20 + đối chứng dương 18 ≈ **64 USD**.
+
+## 9. Cơ sở của phương pháp: câu gốc đã lưu (04/11/2026)
+
+| Thành phần | Nguồn (`sources-snapshots`, sha256) | Câu gốc |
+| --- | --- | --- |
+| Đối chứng có hiệu ứng biết trước | `franklin_2014_plasmode` (95f05f73) | "A plasmode is a real dataset … has some aspect of the data-generating model known, for example, a 'spike-in' experiment … where a known amount of genome transcript is added to each sample." |
+| | `mutation_survey` (056ac9b9) | "Such faults are deliberately seeded into the original program … To assess the quality of a given test set, these mutants are executed against the input test set." |
+| Gợi ý đúng file | `swebench` (f7e8e1df) | "we evaluate models under two relevant context settings: 1) sparse retrieval and 2) an oracle retrieval"; Hình 4. ⏳ câu định nghĩa (đoạn trích bị cắt) |
+| Ville | `ville_inequality` (19dfc4e9) | "any gambler's wealth is a nonnegative supermartingale"; "P(sup_t M_t ≥ α) ≤ 1/α" |
+| Nối tiếp, dừng tùy ý | `ville_inequality` | "optional stopping or continuation for any reason" |
+| Holm | `holm`: Shaffer 1986 (ac9312c7) | "Holm (1979) introduced a modified Bonferroni procedure with greater power than the B procedure …" |
+| Superpopulation | `miller_2024` (22570aaf) | "sampling questions from the super-population" |
+| Tổng biến phân | `levin_peres_2017` (9ef39f94) | Proposition 4.5 |
+
+**Không có nguồn (nêu rõ):**
+- Ghép với nhánh `none` đã chạy của E2 là **giả định** model và harness không đổi; được kiểm bằng `response.model`.
+- Câu chèn vào đề bài là **định nghĩa can thiệp** (R2); được đăng ký nguyên văn.
