@@ -284,3 +284,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Phòng ngừa:**
   - Mỗi thí nghiệm có thư mục kết quả riêng.
   - Trước khi thêm file vào một thư mục, `grep` các chỗ đọc thư mục đó (`glob`, `rglob`), rồi chạy lại các phép tính phụ thuộc (ở đây là `pilot_spent_total()`) trước và sau.
+
+## L31. Không tải dữ liệu lớn lên máy đang chạy thí nghiệm có chi phí (A71)
+
+- **Xảy ra:** tôi tải dữ liệu MemGovern và ba bản clone vào scratchpad khi E1 đang chạy. Đĩa của phiên dùng chung với image Docker của E1, nên một lô bị bỏ qua.
+- **Phòng ngừa:**
+  - Tải và xử lý dữ liệu ngoài trên GitHub Actions (miễn phí, đĩa riêng).
+  - Trên máy chạy E1, kiểm `df -h /` trước khi tải. Chỉ tải khi chỗ trống sau khi tải vẫn ≥ dung lượng của lô kế tiếp.
