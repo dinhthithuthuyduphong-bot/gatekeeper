@@ -1,0 +1,84 @@
+{
+  "generated_utc": "2026-11-04T09:13:35+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s61-p32",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "sympy__sympy-16106",
+    "sympy__sympy-16943",
+    "sympy__sympy-17139"
+  ],
+  "spent_usd": 0.378,
+  "usage": {
+    "none": {
+      "runs": 3,
+      "usd_per_run": 0.04999155833333335,
+      "tokens_in_per_run": 753369.3333333334,
+      "tokens_out_per_run": 7013.0,
+      "cached_share": 0.8782487385558566,
+      "api_calls_per_run": 62.333333333333336,
+      "solve_rate": 0.3333333333333333,
+      "solved": 1,
+      "scored": 3
+    },
+    "type-guard": {
+      "runs": 3,
+      "usd_per_run": 0.076001975,
+      "tokens_in_per_run": 1308901.0,
+      "tokens_out_per_run": 9410.666666666666,
+      "cached_share": 0.9009739213788259,
+      "api_calls_per_run": 90.33333333333333,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 3
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "sympy__sympy-16106": "Submitted",
+      "sympy__sympy-16943": "Submitted",
+      "sympy__sympy-17139": "Submitted"
+    },
+    "type-guard": {
+      "sympy__sympy-16106": "Submitted",
+      "sympy__sympy-16943": "Submitted",
+      "sympy__sympy-17139": "Submitted"
+    }
+  },
+  "skills": {
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-16106",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-16943",
+          "loss_with": 0.6675116180819604,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-17139",
+          "loss_with": 0.3333333333333333,
+          "loss_without": 0.3333333333333333
+        }
+      ],
+      "mean_Z": 0.22250387269398678,
+      "variance_components": {
+        "n": 3,
+        "n_tasks": 3,
+        "mean_Z": 0.22250387269398678,
+        "sigma_S2": 0.14852392009146564,
+        "sigma_T2": 0.0,
+        "unpaired_over_paired": 1.0
+      }
+    }
+  }
+}
