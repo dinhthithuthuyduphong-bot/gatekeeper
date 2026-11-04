@@ -668,11 +668,9 @@
   },
   {
    "id": "gepa_acceptance",
-   "claim": "GEPA default acceptance criterion used by gskill: strict improvement of the subsample score sum; gskill reflection minibatch size 3; pinned 8c7b697a71977980afc7537dac0881e784eef99f",
+   "claim": "GEPA StrictImprovementAcceptance: accept only if subsample score sum strictly greater; pinned 8c7b697",
    "urls": [
-    "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/strategies/acceptance.py",
-    "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/core/engine.py",
-    "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/gskill/gskill/train_optimize_anything.py"
+    "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/strategies/acceptance.py"
    ],
    "keywords": [
     "strictly greater",
@@ -696,6 +694,30 @@
     "embedding model",
     "License",
     "SWE-agent"
+   ]
+  },
+  {
+   "id": "gepa_engine_default",
+   "claim": "GEPA engine falls back to StrictImprovementAcceptance when no criterion is given; pinned 8c7b697",
+   "urls": [
+    "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/core/engine.py"
+   ],
+   "keywords": [
+    "acceptance_criterion or StrictImprovementAcceptance()",
+    "acceptance_criterion"
+   ]
+  },
+  {
+   "id": "gskill_train_config",
+   "claim": "gskill training config: reflection_minibatch_size=3, max_metric_calls default 600, no acceptance_criterion override; pinned 8c7b697",
+   "urls": [
+    "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/gskill/gskill/train_optimize_anything.py"
+   ],
+   "keywords": [
+    "reflection_minibatch_size=3",
+    "max_metric_calls",
+    "default=600",
+    "GEPAConfig("
    ]
   }
  ]
