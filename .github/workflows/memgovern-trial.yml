@@ -42,7 +42,12 @@ jobs:
           livenv/bin/pip install "swebench @ git+https://github.com/microsoft/SWE-bench-Live@ad79b850f15e33992e96f03f6e97f05ddf9aa0be" "docker==7.2.0"
           python -m venv mgenv
           mgenv/bin/pip install torch --index-url https://download.pytorch.org/whl/cpu
-          mgenv/bin/pip install "chromadb==${{ inputs.chromadb }}" "sentence-transformers>=2.7" "transformers>=4.51" flask "pyyaml==6.0.3" huggingface_hub
+          # two commands: chromadb 0.5.x caps tokenizers <= 0.20.3, Qwen3 needs transformers >= 4.51
+          # (tokenizers >= 0.21). chromadb uses tokenizers only for its default embedding, which
+          # MemGovern's server replaces with its own; a broken index load fails F1 visibly.
+          mgenv/bin/pip install "chromadb==${{ inputs.chromadb }}" flask "pyyaml==6.0.3" huggingface_hub
+          mgenv/bin/pip install "sentence-transformers>=2.7" "transformers>=4.51" || true
+          mgenv/bin/python -c "import chromadb, sentence_transformers, transformers; print('imports ok')"
           mgenv/bin/pip freeze | grep -iE "^(chromadb|sentence-transformers|transformers|torch|flask)==" | tee mg_versions.txt
       - name: MemGovern at the pinned commit (code + LFS data by direct media URL)
         run: |
@@ -58,6 +63,8 @@ jobs:
             fi
           done
           du -sh "$MG_DATA"
+          # which chromadb schema built the index (migrations applied to the sqlite store)
+          python -c "import sqlite3; c=sqlite3.connect('$MG_DATA/chroma_db_experience/chroma.sqlite3'); print(c.execute('select dir, max(version) from migrations group by dir').fetchall())" | tee -a mg_versions.txt
       - name: Embedding model named by MemGovern's server (Qwen3-Embedding-0.6B)
         run: |
           mgenv/bin/python - <<'EOF'
