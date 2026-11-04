@@ -35,7 +35,8 @@
     "g1-e1-s51-p31",
     "g1-e1-s51-p32",
     "g1-e1-s51-p33",
-    "g1-e1-s51-p34"
+    "g1-e1-s51-p34",
+    "g1-e1-s51-p35"
   ],
   "skills": {
     "null-guard": {
@@ -234,12 +235,17 @@
           "instance_id": "sympy__sympy-18200",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-21171",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.020967002918940707,
-      "n": 39,
-      "solve_rate_with": 0.3076923076923077,
-      "solve_rate_without": 0.3076923076923077
+      "mean_Z": -0.02044282784596719,
+      "n": 40,
+      "solve_rate_with": 0.3,
+      "solve_rate_without": 0.3
     },
     "type-guard": {
       "pairs": [
@@ -437,12 +443,17 @@
           "instance_id": "sympy__sympy-18605",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.6790123456790124
+        },
+        {
+          "instance_id": "sympy__sympy-22740",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.07922249832464154,
-      "n": 39,
-      "solve_rate_with": 0.3076923076923077,
-      "solve_rate_without": 0.38461538461538464
+      "mean_Z": 0.0772419358665255,
+      "n": 40,
+      "solve_rate_with": 0.3,
+      "solve_rate_without": 0.375
     },
     "exception-handling": {
       "pairs": [
@@ -1279,25 +1290,25 @@
   },
   "usage": {
     "none": {
-      "runs": 110,
-      "usd": 8.680014675,
+      "runs": 112,
+      "usd": 8.9292817,
       "solved": 36,
-      "scored": 110,
-      "usd_per_run": 0.07890922431818183
+      "scored": 112,
+      "usd_per_run": 0.07972572946428572
     },
     "null-guard": {
-      "runs": 39,
-      "usd": 1.77604,
+      "runs": 40,
+      "usd": 1.80399875,
       "solved": 12,
-      "scored": 39,
-      "usd_per_run": 0.04553948717948718
+      "scored": 40,
+      "usd_per_run": 0.045099968750000004
     },
     "type-guard": {
-      "runs": 39,
-      "usd": 3.9665705250000003,
+      "runs": 40,
+      "usd": 4.0014669750000005,
       "solved": 12,
-      "scored": 39,
-      "usd_per_run": 0.10170693653846155
+      "scored": 40,
+      "usd_per_run": 0.10003667437500001
     },
     "exception-handling": {
       "runs": 40,
@@ -1440,7 +1451,9 @@
       "sympy__sympy-17139": "Submitted",
       "sympy__sympy-17655": "Submitted",
       "sympy__sympy-18200": "Submitted",
-      "sympy__sympy-18605": "Submitted"
+      "sympy__sympy-18605": "Submitted",
+      "sympy__sympy-21171": "Submitted",
+      "sympy__sympy-22740": "LimitsExceeded"
     },
     "null-guard": {
       "astropy__astropy-12842": "Submitted",
@@ -1481,7 +1494,8 @@
       "sphinx-doc__sphinx-8095": "Submitted",
       "sphinx-doc__sphinx-9229": "Submitted",
       "sympy__sympy-13286": "Submitted",
-      "sympy__sympy-18200": "Submitted"
+      "sympy__sympy-18200": "Submitted",
+      "sympy__sympy-21171": "Submitted"
     },
     "type-guard": {
       "astropy__astropy-13234": "Submitted",
@@ -1522,7 +1536,8 @@
       "sympy__sympy-16943": "Submitted",
       "sympy__sympy-17139": "Submitted",
       "sympy__sympy-17655": "Submitted",
-      "sympy__sympy-18605": "LimitsExceeded"
+      "sympy__sympy-18605": "LimitsExceeded",
+      "sympy__sympy-22740": "Submitted"
     },
     "exception-handling": {
       "astropy__astropy-13731": "Submitted",
@@ -1695,7 +1710,7 @@
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 24.5986,
+  "spent_usd": 24.9107,
   "instances": [
     "astropy__astropy-12842",
     "astropy__astropy-13234",
@@ -1806,7 +1821,9 @@
     "sympy__sympy-17139",
     "sympy__sympy-17655",
     "sympy__sympy-18200",
-    "sympy__sympy-18605"
+    "sympy__sympy-18605",
+    "sympy__sympy-21171",
+    "sympy__sympy-22740"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
