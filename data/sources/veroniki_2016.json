@@ -26,5 +26,21 @@
   ],
   "between-study variance": []
  },
- "fetched_utc": "2026-11-04T00:33:51+00:00"
+ "fetched_utc": "2026-11-04T00:33:51+00:00",
+ "snapshot_commit": "c9bfedacfb99aaebe65badcb43191eeb5540e289",
+ "refetch_failed": {
+  "utc": "2026-11-04T00:55:16+00:00",
+  "attempts": [
+   {
+    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4950030/",
+    "ok": false,
+    "error": "only 227 characters: not the document"
+   },
+   {
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4950030/",
+    "ok": false,
+    "error": "only 227 characters: not the document"
+   }
+  ]
+ }
 }
