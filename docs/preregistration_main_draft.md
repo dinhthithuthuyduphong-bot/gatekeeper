@@ -107,7 +107,7 @@ Xác suất admit theo số trial mới (chi phí ≈ 0,13 USD mỗi trial mới
 | --- | --- | --- |
 | Đối chứng có hiệu ứng biết trước | `franklin_2014_plasmode` (95f05f73) | "A plasmode is a real dataset … has some aspect of the data-generating model known, for example, a 'spike-in' experiment … where a known amount of genome transcript is added to each sample." |
 | | `mutation_survey` (056ac9b9) | "Such faults are deliberately seeded into the original program … To assess the quality of a given test set, these mutants are executed against the input test set." |
-| Gợi ý đúng file | `swebench` (f7e8e1df) | "we evaluate models under two relevant context settings: 1) sparse retrieval and 2) an oracle retrieval"; Hình 4. ⏳ câu định nghĩa (đoạn trích bị cắt) |
+| Gợi ý đúng file | `swebench` (f7e8e1df) | "'Oracle' retrieval. For analysis purposes we also consider a setting where we 'retrieve' the files edited by the reference patch that solved the issue on GitHub. This 'oracle' setting is less realistic …". Bài gốc tự gọi thiết lập này là kém thực tế, nên ở đây nó chỉ là **đối chứng**, không phải skill |
 | Ville | `ville_inequality` (19dfc4e9) | "any gambler's wealth is a nonnegative supermartingale"; "P(sup_t M_t ≥ α) ≤ 1/α" |
 | Nối tiếp, dừng tùy ý | `ville_inequality` | "optional stopping or continuation for any reason" |
 | Holm | `holm`: Shaffer 1986 (ac9312c7) | "Holm (1979) introduced a modified Bonferroni procedure with greater power than the B procedure …" |
