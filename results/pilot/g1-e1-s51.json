@@ -12,7 +12,8 @@
     "g1-e1-s51-p08",
     "g1-e1-s51-p09",
     "g1-e1-s51-p10",
-    "g1-e1-s51-p11"
+    "g1-e1-s51-p11",
+    "g1-e1-s51-p12"
   ],
   "skills": {
     "null-guard": {
@@ -96,12 +97,22 @@
           "instance_id": "django__django-15613",
           "loss_with": 0.0045662100456621,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-15651",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6906474820143885
+        },
+        {
+          "instance_id": "django__django-16255",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.00827762349439503,
-      "n": 16,
-      "solve_rate_with": 0.375,
-      "solve_rate_without": 0.4375
+      "mean_Z": -0.04572719210692828,
+      "n": 18,
+      "solve_rate_with": 0.3888888888888889,
+      "solve_rate_without": 0.3888888888888889
     },
     "type-guard": {
       "pairs": [
@@ -174,12 +185,17 @@
           "instance_id": "django__django-15368",
           "loss_with": 0.6666666666666666,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-15648",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.3333333333333333
         }
       ],
-      "mean_Z": 0.1746031746031746,
-      "n": 14,
-      "solve_rate_with": 0.2857142857142857,
-      "solve_rate_without": 0.5
+      "mean_Z": 0.18518518518518517,
+      "n": 15,
+      "solve_rate_with": 0.26666666666666666,
+      "solve_rate_without": 0.4666666666666667
     },
     "exception-handling": {
       "pairs": [
@@ -350,12 +366,17 @@
           "instance_id": "django__django-15526",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-15648",
+          "loss_with": 0.345679012345679,
+          "loss_without": 0.3333333333333333
         }
       ],
-      "mean_Z": 0.09523809523809523,
-      "n": 14,
-      "solve_rate_with": 0.5,
-      "solve_rate_without": 0.6428571428571429
+      "mean_Z": 0.0897119341563786,
+      "n": 15,
+      "solve_rate_with": 0.4666666666666667,
+      "solve_rate_without": 0.6
     },
     "harm-minimal-edit": {
       "pairs": [
@@ -428,12 +449,17 @@
           "instance_id": "django__django-15526",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-15648",
+          "loss_with": 0.3333333333333333,
+          "loss_without": 0.3333333333333333
         }
       ],
-      "mean_Z": 0.04828869978726067,
-      "n": 14,
-      "solve_rate_with": 0.5714285714285714,
-      "solve_rate_without": 0.6428571428571429
+      "mean_Z": 0.04506945313477662,
+      "n": 15,
+      "solve_rate_with": 0.5333333333333333,
+      "solve_rate_without": 0.6
     },
     "harm-skip-verification": {
       "pairs": [
@@ -506,35 +532,40 @@
           "instance_id": "django__django-15526",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-15648",
+          "loss_with": 0.3333333333333333,
+          "loss_without": 0.3333333333333333
         }
       ],
-      "mean_Z": 0.14295472287275565,
-      "n": 14,
-      "solve_rate_with": 0.42857142857142855,
-      "solve_rate_without": 0.6428571428571429
+      "mean_Z": 0.13342440801457195,
+      "n": 15,
+      "solve_rate_with": 0.4,
+      "solve_rate_without": 0.6
     }
   },
   "usage": {
     "none": {
-      "runs": 44,
-      "usd": 3.64763445,
+      "runs": 47,
+      "usd": 4.02249435,
       "solved": 19,
-      "scored": 44,
-      "usd_per_run": 0.08290078295454545
+      "scored": 47,
+      "usd_per_run": 0.08558498617021276
     },
     "null-guard": {
-      "runs": 16,
-      "usd": 0.730546625,
-      "solved": 6,
-      "scored": 16,
-      "usd_per_run": 0.0456591640625
+      "runs": 18,
+      "usd": 0.7665376,
+      "solved": 7,
+      "scored": 18,
+      "usd_per_run": 0.042585422222222225
     },
     "type-guard": {
-      "runs": 14,
-      "usd": 1.234840925,
+      "runs": 15,
+      "usd": 1.4898780500000002,
       "solved": 4,
-      "scored": 14,
-      "usd_per_run": 0.08820292321428572
+      "scored": 15,
+      "usd_per_run": 0.09932520333333335
     },
     "exception-handling": {
       "runs": 18,
@@ -544,25 +575,25 @@
       "usd_per_run": 0.047708570833333325
     },
     "harm-swallow-exceptions": {
-      "runs": 14,
-      "usd": 0.5525115250000001,
+      "runs": 15,
+      "usd": 0.6030217500000001,
       "solved": 7,
-      "scored": 14,
-      "usd_per_run": 0.039465108928571434
+      "scored": 15,
+      "usd_per_run": 0.04020145000000001
     },
     "harm-minimal-edit": {
-      "runs": 14,
-      "usd": 0.661981575,
+      "runs": 15,
+      "usd": 0.687817875,
       "solved": 8,
-      "scored": 14,
-      "usd_per_run": 0.04728439821428571
+      "scored": 15,
+      "usd_per_run": 0.045854525
     },
     "harm-skip-verification": {
-      "runs": 14,
-      "usd": 0.68092045,
+      "runs": 15,
+      "usd": 0.7382924,
       "solved": 6,
-      "scored": 14,
-      "usd_per_run": 0.048637175
+      "scored": 15,
+      "usd_per_run": 0.04921949333333333
     }
   },
   "infra_failures": {},
@@ -611,7 +642,10 @@
       "django__django-15347": "Submitted",
       "django__django-15368": "Submitted",
       "django__django-15526": "Submitted",
-      "django__django-15613": "Submitted"
+      "django__django-15613": "Submitted",
+      "django__django-15648": "Submitted",
+      "django__django-15651": "Submitted",
+      "django__django-16255": "LimitsExceeded"
     },
     "null-guard": {
       "astropy__astropy-12842": "Submitted",
@@ -629,7 +663,9 @@
       "django__django-14762": "Submitted",
       "django__django-15180": "Submitted",
       "django__django-15347": "Submitted",
-      "django__django-15613": "Submitted"
+      "django__django-15613": "Submitted",
+      "django__django-15651": "Submitted",
+      "django__django-16255": "Submitted"
     },
     "type-guard": {
       "astropy__astropy-13234": "Submitted",
@@ -645,7 +681,8 @@
       "django__django-14140": "Submitted",
       "django__django-14291": "Submitted",
       "django__django-14785": "Submitted",
-      "django__django-15368": "LimitsExceeded"
+      "django__django-15368": "LimitsExceeded",
+      "django__django-15648": "LimitsExceeded"
     },
     "exception-handling": {
       "astropy__astropy-13731": "Submitted",
@@ -681,7 +718,8 @@
       "django__django-14291": "Submitted",
       "django__django-14558": "Submitted",
       "django__django-14785": "Submitted",
-      "django__django-15526": "Submitted"
+      "django__django-15526": "Submitted",
+      "django__django-15648": "Submitted"
     },
     "harm-minimal-edit": {
       "astropy__astropy-13731": "Submitted",
@@ -697,7 +735,8 @@
       "django__django-14291": "Submitted",
       "django__django-14558": "Submitted",
       "django__django-14785": "LimitsExceeded",
-      "django__django-15526": "Submitted"
+      "django__django-15526": "Submitted",
+      "django__django-15648": "Submitted"
     },
     "harm-skip-verification": {
       "astropy__astropy-13731": "Submitted",
@@ -713,12 +752,13 @@
       "django__django-14291": "Submitted",
       "django__django-14558": "Submitted",
       "django__django-14785": "LimitsExceeded",
-      "django__django-15526": "Submitted"
+      "django__django-15526": "Submitted",
+      "django__django-15648": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 8.3672,
+  "spent_usd": 9.1668,
   "instances": [
     "astropy__astropy-12842",
     "astropy__astropy-13234",
@@ -763,7 +803,10 @@
     "django__django-15347",
     "django__django-15368",
     "django__django-15526",
-    "django__django-15613"
+    "django__django-15613",
+    "django__django-15648",
+    "django__django-15651",
+    "django__django-16255"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
