@@ -1,0 +1,61 @@
+{
+  "generated_utc": "2026-11-04T01:53:25+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s51-p18",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "matplotlib__matplotlib-25052"
+  ],
+  "spent_usd": 0.0353,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.018679199999999997,
+      "tokens_in_per_run": 261342.0,
+      "tokens_out_per_run": 1816.0,
+      "cached_share": 0.8397731707877034,
+      "api_calls_per_run": 33.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "null-guard": {
+      "runs": 1,
+      "usd_per_run": 0.01661685,
+      "tokens_in_per_run": 252363.0,
+      "tokens_out_per_run": 1790.0,
+      "cached_share": 0.8657529035555925,
+      "api_calls_per_run": 24.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "matplotlib__matplotlib-25052": "Submitted"
+    },
+    "null-guard": {
+      "matplotlib__matplotlib-25052": "Submitted"
+    }
+  },
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "matplotlib__matplotlib-25052",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}
