@@ -86,3 +86,17 @@ Xác suất admit theo số trial mới (chi phí ≈ 0,13 USD mỗi trial mới
 | 8 | **Máy chạy:** đoạn E1 chạy trên máy cục bộ, đoạn mới có thể chạy trên Actions | Khác biệt về quá giờ khi chấm; hai nhánh của một cặp vẫn chung máy | Ghi thành giới hạn; phân tích độ nhạy theo máy |
 
 **Ngân sách khuyên (sửa từ 60 USD):** xreposkill +200 trial (khoảng 26 USD; 0,99 ở δ = 0,109) và type-guard +156 trial (khoảng 20 USD; 0,52 ở δ = 0,109, 0,92 ở δ = 0,15), tổng **khoảng 46 USD**. Cộng phần đối chứng dương nếu chọn mục 7(b).
+
+## 8. Ô đối chứng dương (@thuthuy chọn phương án 7(b), 04/11/2026)
+
+- **Skill `pc-oracle-files`:** chèn trước đề bài danh sách **các file mà bản vá đúng sửa**. Câu chèn sẽ được đăng ký nguyên văn trước khi chạy.
+  - **Cơ sở:** thiết lập "Oracle" retrieval của SWE-bench (Jimenez et al. 2024, `swebench`, Hình 4: tỉ lệ giải khi biết đúng file), và nguyên lý đối chứng gieo sẵn của mutation testing (Jia & Harman, `mutation_survey`: lỗi "deliberately seeded" để đo khả năng phát hiện).
+  - **Hướng hiệu ứng được thiết kế là có ích**, nên ô này cho "đáp án đúng" để đo độ phủ. Hiệu ứng thật vẫn được ước lượng và báo cáo kèm dãy tin cậy. Nếu sau khi hết trial ô này không được admit và dãy tin cậy vẫn chứa 0, báo cáo là "đối chứng dương không được xác lập", không kết luận về Gatekeeper.
+- **Họ giả thuyết:** K = 8 (7 ô cũ cộng ô này), α_ô = 0,025/8, Holm trên p-value anytime-valid (§7 mục 4).
+- **Trial (phương án trội về chi phí):**
+  - Đoạn 1: 109 task của E2. Chạy nhánh `pc-oracle-files` với seed 41, ghép với nhánh `none` seed 41 **đã chạy** trong E2. Mỗi trial là 1 lần chạy mới (≈ 0,063 USD), không phải 2. Điều kiện: kiểm tên model trả về (§7 mục 3) và cùng harness, cùng image.
+  - Đoạn 2, nếu chưa admit: task Live mới theo `random_order`, 1 seed, dùng chung nhánh `none` với ô xreposkill khi cùng task (§7 mục 6).
+- **Số trial tối đa:** 200 (`results/pc_design_sim.json`). Xác suất admit: 0,88 nếu hiệu ứng là 0,15; 0,93 nếu là 0,20 (đạt ở 150 trial); 0,54 nếu là 0,109.
+  - Căn cứ: ràng buộc nguồn lực (Lakens 2022), kèm đường cong power theo δ.
+  - Chi phí tối đa ≈ 109 × 0,063 + 91 × 0,126 ≈ 18 USD. Ô dừng ngay khi admit, nên chi phí thật có thể thấp hơn.
+- **Ngân sách thí nghiệm chính khuyên:** xreposkill 26 + type-guard 20 + đối chứng dương 18 ≈ **64 USD**.
