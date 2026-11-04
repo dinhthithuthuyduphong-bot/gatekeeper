@@ -19,7 +19,9 @@
     "g1-e1-s51-p15",
     "g1-e1-s51-p16",
     "g1-e1-s51-p17",
-    "g1-e1-s51-p18"
+    "g1-e1-s51-p18",
+    "g1-e1-s51-p19",
+    "g1-e1-s51-p20"
   ],
   "skills": {
     "null-guard": {
@@ -143,12 +145,27 @@
           "instance_id": "matplotlib__matplotlib-25052",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "matplotlib__matplotlib-25565",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "matplotlib__matplotlib-26285",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "mwaskom__seaborn-3202",
+          "loss_with": 0.3333333333333333,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.006517616302418432,
-      "n": 24,
-      "solve_rate_with": 0.375,
-      "solve_rate_without": 0.375
+      "mean_Z": -0.018139115725606506,
+      "n": 27,
+      "solve_rate_with": 0.3333333333333333,
+      "solve_rate_without": 0.3333333333333333
     },
     "type-guard": {
       "pairs": [
@@ -241,12 +258,22 @@
           "instance_id": "matplotlib__matplotlib-22991",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "matplotlib__matplotlib-25332",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6685082872928176
+        },
+        {
+          "instance_id": "pallets__flask-4169",
+          "loss_with": 0.0,
+          "loss_without": 0.0
         }
       ],
-      "mean_Z": 0.15432098765432098,
-      "n": 18,
-      "solve_rate_with": 0.3888888888888889,
-      "solve_rate_without": 0.5555555555555556
+      "mean_Z": 0.13879680785758133,
+      "n": 20,
+      "solve_rate_with": 0.4,
+      "solve_rate_without": 0.55
     },
     "exception-handling": {
       "pairs": [
@@ -369,12 +396,17 @@
           "instance_id": "matplotlib__matplotlib-24149",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "matplotlib__matplotlib-25515",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.02583753266144084,
-      "n": 24,
-      "solve_rate_with": 0.375,
-      "solve_rate_without": 0.375
+      "mean_Z": -0.024804031354983203,
+      "n": 25,
+      "solve_rate_with": 0.36,
+      "solve_rate_without": 0.36
     },
     "harm-swallow-exceptions": {
       "pairs": [
@@ -497,12 +529,17 @@
           "instance_id": "matplotlib__matplotlib-24149",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "matplotlib__matplotlib-25515",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.10370254877938358,
-      "n": 24,
-      "solve_rate_with": 0.4166666666666667,
-      "solve_rate_without": 0.5416666666666666
+      "mean_Z": 0.09955444682820824,
+      "n": 25,
+      "solve_rate_with": 0.4,
+      "solve_rate_without": 0.52
     },
     "harm-minimal-edit": {
       "pairs": [
@@ -625,12 +662,17 @@
           "instance_id": "matplotlib__matplotlib-24149",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "matplotlib__matplotlib-25515",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.04794152101669933,
-      "n": 24,
-      "solve_rate_with": 0.5,
-      "solve_rate_without": 0.5416666666666666
+      "mean_Z": 0.046023860176031356,
+      "n": 25,
+      "solve_rate_with": 0.48,
+      "solve_rate_without": 0.52
     },
     "harm-skip-verification": {
       "pairs": [
@@ -753,63 +795,68 @@
           "instance_id": "matplotlib__matplotlib-24149",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "matplotlib__matplotlib-25515",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": 0.10316336781657141,
-      "n": 24,
-      "solve_rate_with": 0.4166666666666667,
-      "solve_rate_without": 0.5416666666666666
+      "mean_Z": 0.09903683310390855,
+      "n": 25,
+      "solve_rate_with": 0.4,
+      "solve_rate_without": 0.52
     }
   },
   "usage": {
     "none": {
-      "runs": 62,
-      "usd": 4.741548725,
-      "solved": 27,
-      "scored": 62,
-      "usd_per_run": 0.07647659233870968
+      "runs": 68,
+      "usd": 5.193668725000001,
+      "solved": 28,
+      "scored": 68,
+      "usd_per_run": 0.07637748125000002
     },
     "null-guard": {
-      "runs": 24,
-      "usd": 1.0140861,
+      "runs": 27,
+      "usd": 1.1920232,
       "solved": 9,
-      "scored": 24,
-      "usd_per_run": 0.0422535875
+      "scored": 27,
+      "usd_per_run": 0.044149007407407403
     },
     "type-guard": {
-      "runs": 18,
-      "usd": 1.5336238000000002,
-      "solved": 7,
-      "scored": 18,
-      "usd_per_run": 0.08520132222222224
+      "runs": 20,
+      "usd": 1.5889956250000001,
+      "solved": 8,
+      "scored": 20,
+      "usd_per_run": 0.07944978125
     },
     "exception-handling": {
-      "runs": 24,
-      "usd": 1.287540425,
+      "runs": 25,
+      "usd": 1.3753494,
       "solved": 9,
-      "scored": 24,
-      "usd_per_run": 0.053647517708333335
+      "scored": 25,
+      "usd_per_run": 0.055013976
     },
     "harm-swallow-exceptions": {
-      "runs": 24,
-      "usd": 0.8614879750000002,
+      "runs": 25,
+      "usd": 0.8797631250000002,
       "solved": 10,
-      "scored": 24,
-      "usd_per_run": 0.03589533229166667
+      "scored": 25,
+      "usd_per_run": 0.03519052500000001
     },
     "harm-minimal-edit": {
-      "runs": 24,
-      "usd": 1.3208488750000003,
+      "runs": 25,
+      "usd": 1.5089752250000004,
       "solved": 12,
-      "scored": 24,
-      "usd_per_run": 0.05503536979166668
+      "scored": 25,
+      "usd_per_run": 0.06035900900000001
     },
     "harm-skip-verification": {
-      "runs": 24,
-      "usd": 1.091102775,
+      "runs": 25,
+      "usd": 1.166301275,
       "solved": 10,
-      "scored": 24,
-      "usd_per_run": 0.045462615625
+      "scored": 25,
+      "usd_per_run": 0.046652051
     }
   },
   "infra_failures": {},
@@ -876,7 +923,13 @@
       "matplotlib__matplotlib-22929": "Submitted",
       "matplotlib__matplotlib-22991": "Submitted",
       "matplotlib__matplotlib-24149": "Submitted",
-      "matplotlib__matplotlib-25052": "Submitted"
+      "matplotlib__matplotlib-25052": "Submitted",
+      "matplotlib__matplotlib-25332": "Submitted",
+      "matplotlib__matplotlib-25515": "Submitted",
+      "matplotlib__matplotlib-25565": "Submitted",
+      "matplotlib__matplotlib-26285": "Submitted",
+      "mwaskom__seaborn-3202": "LimitsExceeded",
+      "pallets__flask-4169": "Submitted"
     },
     "null-guard": {
       "astropy__astropy-12842": "Submitted",
@@ -902,7 +955,10 @@
       "matplotlib__matplotlib-13983": "Submitted",
       "matplotlib__matplotlib-20488": "Submitted",
       "matplotlib__matplotlib-21559": "Submitted",
-      "matplotlib__matplotlib-25052": "Submitted"
+      "matplotlib__matplotlib-25052": "Submitted",
+      "matplotlib__matplotlib-25565": "Submitted",
+      "matplotlib__matplotlib-26285": "Submitted",
+      "mwaskom__seaborn-3202": "Submitted"
     },
     "type-guard": {
       "astropy__astropy-13234": "Submitted",
@@ -922,7 +978,9 @@
       "django__django-15648": "LimitsExceeded",
       "django__django-16824": "Submitted",
       "matplotlib__matplotlib-20859": "Submitted",
-      "matplotlib__matplotlib-22991": "Submitted"
+      "matplotlib__matplotlib-22991": "Submitted",
+      "matplotlib__matplotlib-25332": "Submitted",
+      "pallets__flask-4169": "Submitted"
     },
     "exception-handling": {
       "astropy__astropy-13731": "Submitted",
@@ -948,7 +1006,8 @@
       "matplotlib__matplotlib-21550": "Submitted",
       "matplotlib__matplotlib-22719": "LimitsExceeded",
       "matplotlib__matplotlib-22929": "Submitted",
-      "matplotlib__matplotlib-24149": "Submitted"
+      "matplotlib__matplotlib-24149": "Submitted",
+      "matplotlib__matplotlib-25515": "Submitted"
     },
     "harm-swallow-exceptions": {
       "astropy__astropy-13731": "Submitted",
@@ -974,7 +1033,8 @@
       "matplotlib__matplotlib-21550": "Submitted",
       "matplotlib__matplotlib-21559": "Submitted",
       "matplotlib__matplotlib-22929": "Submitted",
-      "matplotlib__matplotlib-24149": "Submitted"
+      "matplotlib__matplotlib-24149": "Submitted",
+      "matplotlib__matplotlib-25515": "Submitted"
     },
     "harm-minimal-edit": {
       "astropy__astropy-13731": "Submitted",
@@ -1000,7 +1060,8 @@
       "matplotlib__matplotlib-21550": "LimitsExceeded",
       "matplotlib__matplotlib-21559": "Submitted",
       "matplotlib__matplotlib-22929": "LimitsExceeded",
-      "matplotlib__matplotlib-24149": "Submitted"
+      "matplotlib__matplotlib-24149": "Submitted",
+      "matplotlib__matplotlib-25515": "LimitsExceeded"
     },
     "harm-skip-verification": {
       "astropy__astropy-13731": "Submitted",
@@ -1026,12 +1087,13 @@
       "matplotlib__matplotlib-21550": "Submitted",
       "matplotlib__matplotlib-21559": "Submitted",
       "matplotlib__matplotlib-22929": "Submitted",
-      "matplotlib__matplotlib-24149": "Submitted"
+      "matplotlib__matplotlib-24149": "Submitted",
+      "matplotlib__matplotlib-25515": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 11.8502,
+  "spent_usd": 12.9051,
   "instances": [
     "astropy__astropy-12842",
     "astropy__astropy-13234",
@@ -1094,7 +1156,13 @@
     "matplotlib__matplotlib-22929",
     "matplotlib__matplotlib-22991",
     "matplotlib__matplotlib-24149",
-    "matplotlib__matplotlib-25052"
+    "matplotlib__matplotlib-25052",
+    "matplotlib__matplotlib-25332",
+    "matplotlib__matplotlib-25515",
+    "matplotlib__matplotlib-25565",
+    "matplotlib__matplotlib-26285",
+    "mwaskom__seaborn-3202",
+    "pallets__flask-4169"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
