@@ -1,0 +1,202 @@
+{
+  "generated_utc": "2026-11-04T09:28:11+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s61-p33",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "sympy__sympy-17655",
+    "sympy__sympy-18200",
+    "sympy__sympy-18605"
+  ],
+  "spent_usd": 0.7467,
+  "usage": {
+    "none": {
+      "runs": 3,
+      "usd_per_run": 0.04641463333333334,
+      "tokens_in_per_run": 573317.3333333334,
+      "tokens_out_per_run": 7679.0,
+      "cached_share": 0.8405909002111687,
+      "api_calls_per_run": 58.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 3
+    },
+    "null-guard": {
+      "runs": 1,
+      "usd_per_run": 0.03406194999999999,
+      "tokens_in_per_run": 340627.0,
+      "tokens_out_per_run": 7884.0,
+      "cached_share": 0.8209801336946279,
+      "api_calls_per_run": 41.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "type-guard": {
+      "runs": 2,
+      "usd_per_run": 0.038275937499999996,
+      "tokens_in_per_run": 609268.0,
+      "tokens_out_per_run": 5439.5,
+      "cached_share": 0.8914180623305343,
+      "api_calls_per_run": 56.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "exception-handling": {
+      "runs": 2,
+      "usd_per_run": 0.16061180000000005,
+      "tokens_in_per_run": 2879963.0,
+      "tokens_out_per_run": 15618.5,
+      "cached_share": 0.8994046104064531,
+      "api_calls_per_run": 177.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "harm-swallow-exceptions": {
+      "runs": 1,
+      "usd_per_run": 0.028423749999999998,
+      "tokens_in_per_run": 302050.0,
+      "tokens_out_per_run": 4096.0,
+      "cached_share": 0.7832809137560006,
+      "api_calls_per_run": 49.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "harm-minimal-edit": {
+      "runs": 1,
+      "usd_per_run": 0.07588367500000003,
+      "tokens_in_per_run": 1159123.0,
+      "tokens_out_per_run": 10310.0,
+      "cached_share": 0.8794467886496946,
+      "api_calls_per_run": 104.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "harm-skip-verification": {
+      "runs": 1,
+      "usd_per_run": 0.071261725,
+      "tokens_in_per_run": 1006801.0,
+      "tokens_out_per_run": 10371.0,
+      "cached_share": 0.865204742545945,
+      "api_calls_per_run": 103.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "sympy__sympy-17655": "Submitted",
+      "sympy__sympy-18200": "Submitted",
+      "sympy__sympy-18605": "Submitted"
+    },
+    "null-guard": {
+      "sympy__sympy-18200": "Submitted"
+    },
+    "type-guard": {
+      "sympy__sympy-17655": "Submitted",
+      "sympy__sympy-18605": "Submitted"
+    },
+    "exception-handling": {
+      "sympy__sympy-17655": "LimitsExceeded",
+      "sympy__sympy-18200": "Submitted"
+    },
+    "harm-swallow-exceptions": {
+      "sympy__sympy-18200": "Submitted"
+    },
+    "harm-minimal-edit": {
+      "sympy__sympy-18200": "Submitted"
+    },
+    "harm-skip-verification": {
+      "sympy__sympy-18200": "Submitted"
+    }
+  },
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-18200",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-17655",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-18605",
+          "loss_with": 0.6790123456790124,
+          "loss_without": 0.6790123456790124
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-17655",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-18200",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-swallow-exceptions": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-18200",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-minimal-edit": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-18200",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-skip-verification": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-18200",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}
