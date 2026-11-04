@@ -28,5 +28,5 @@
    "{ \"repo\": args.repo, \"model\": args.model, \"reflection_model\": reflection_model, \"train_size\": len(train_data), \"val_size\": len(val_data), }, } if args.wandb else None ) # Configure LiteLLM for reflection model (OpenAI regional endpoint) if \"openai\" in reflection_model.lower() or reflection_model.startswith(\"gpt-\"): os.environ[\"OPENAI_API_BASE\"] = \"https://us.api.openai.com/v1\" # Create proposer based on command line choice if args.proposer == \"loop\": proposer = LoopProposer(run_dir, reflection_model) elif args.proposer == \"batch\": proposer = LoggingProposer(run_dir, reflection_model) config = GEPAConfig( engine=EngineConfig( run_dir=str(run_dir), seed=args.seed, display_progress_bar=True, max_metric_calls=args.max_metric_calls, candidate_selection_strategy=\"pareto\", parallel=True, max_workers=args.workers, ), reflection=ReflectionConfig( reflection_lm=reflection_model, reflection_minibatch_size=3, skip_perfect_score=True, perfect_score=1.0, custom_candidate_proposer=proposer, ), tracking=TrackingConfig( use_wandb=args.wandb, wandb_init_kwargs=wandb_kwargs, ), stop_callbacks=stop_callbacks, ) # 6. Baseline evaluations (before optimization) original_config_results = None baseline_test_results ="
   ]
  },
- "fetched_utc": "2026-11-04T01:02:49+00:00"
+ "fetched_utc": "2026-11-04T01:05:36+00:00"
 }
