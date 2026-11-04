@@ -117,3 +117,16 @@ Xác suất admit theo số trial mới (chi phí ≈ 0,13 USD mỗi trial mới
 **Không có nguồn (nêu rõ):**
 - Ghép với nhánh `none` đã chạy của E2 là **giả định** model và harness không đổi; được kiểm bằng `response.model`.
 - Câu chèn vào đề bài là **định nghĩa can thiệp** (R2); được đăng ký nguyên văn.
+
+## 10. Kiểm giả định "model không đổi" trước khi ghép với nhánh `none` của E2 (đăng ký trước)
+
+- **Cơ sở:**
+  - A/A test kiểm chính hệ thống đo (Kohavi et al. 2020, `kohavi_aa`).
+  - Tính tất định theo seed của Vertex, đã đo ngày 02/11 (`configs/models/vertex_gemini.json`: hai lời gọi seed 1 cho cùng kết quả).
+- **Bước 1, tính tất định:** với mỗi task trong 109 task E2, gửi **lời gọi đầu tiên** của agent (đúng system prompt và đề bài như trajectory E2, seed 41) **hai lần**.
+- **Bước 2, có đổi không:** so câu trả lời mới với câu trả lời đầu tiên trong trajectory E2 seed 41. Đồng thời, trường `model` trả về phải trùng.
+- **Quy tắc:**
+  - Chỉ ghép khi bước 1 cho hai câu trả lời giống hệt **và** bước 2 khớp, trên **mọi** task.
+  - Nếu có bất kỳ khác biệt nào, không ghép: ô đối chứng dương chạy cả hai nhánh mới (2 lần chạy cho mỗi trial).
+  - Báo động nhầm chỉ làm tăng chi phí, không ảnh hưởng tính hợp lệ.
+- **Chi phí:** dưới khoảng 0,5 USD (327 lời gọi đầu, mỗi lời gọi vài nghìn token), tính vào ngân sách thí nghiệm chính.
