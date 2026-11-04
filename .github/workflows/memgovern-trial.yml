@@ -133,11 +133,18 @@ jobs:
           print("[F2/F6] exit status:", json.dumps(r.get("exit_status")))
           print("[F2/F6] infra failures:", json.dumps(r.get("infra_failures")))
           trajs = glob.glob("runs/mgdry/memgovern/**/*.traj.json", recursive=True)
-          text = " ".join(open(t).read() for t in trajs)
-          print("[F4] trajectories:", len(trajs), "| search results:", "Found" in text and "relevant items" in text,
-                "| exp_read card:", "FIX EXPERIENCE" in text)
+          for t in trajs:
+              msgs = json.load(open(t)).get("messages", [])
+              # only what the agent OBSERVED after its first action (not the prompt, which
+              # contains MemGovern's tool docs): messages after the first assistant message
+              first = next(i for i, m in enumerate(msgs) if m.get("role") == "assistant")
+              obs = " ".join(str(m.get("content", "")) for m in msgs[first + 1:] if m.get("role") != "assistant")
+              print("[F4] observation chars:", len(obs), "| search result lines:", obs.count("] ID: "),
+                    "| exp_read card printed:", "Content:" in obs and "Repo:" in obs,
+                    "| errors:", obs.count("Connection Error") + obs.count("Search failed"))
+          print("[F4] trajectories:", len(trajs))
           EOF
-          grep -c "\[TOOL\]" mg_server.log | sed 's/^/[F4] server tool calls: /' | tee -a checks.txt
+          echo "[F4] server /search calls: $(grep -c 'TOOL\] /search' mg_server.log), /get_experience calls: $(grep -c 'TOOL\] /get_experience' mg_server.log)" | tee -a checks.txt
       - name: Summary (no MemGovern text)
         if: always()
         run: |
