@@ -20,7 +20,7 @@ Repo nghiên cứu Gatekeeper (ASE 2027). Người phụ trách: @thuthuy. File 
 - "Làm điều tốt nhất cho paper, nó phải là 1 research đủ mạnh"
 - "Usd dùng để kiểm soát budget trong đoạn chat, khi report thì đổi qua thành token để so sánh"
 - "đổi qua xuất tiếng việt trên màn hình"
-- Ngân sách: chạy không cần hỏi trong mức đã duyệt; **chạm mức đã duyệt thì dừng, chờ @thuthuy quyết** ("nếu khi tổng chi phí lên 30 đô thì chờ tôi quyết định"). Mức hiện tại: E1 91 USD (trần cộng dồn 122,26), E2 45 USD.
+- Ngân sách: chạy không cần hỏi trong mức đã duyệt; **chạm mức đã duyệt thì dừng, chờ @thuthuy quyết** ("nếu khi tổng chi phí lên 30 đô thì chờ tôi quyết định"). Mức hiện tại: E1 91 USD (trần cộng dồn 122,26), E2 45 USD (đã chi 43,04, xong), **thí nghiệm chính 64 USD** (@thuthuy duyệt 04/11/2026: "Oke", gồm cả phép kiểm "model không đổi" ở `docs/preregistration_main_draft.md` §10). Chỉ chi sau khi bản đăng ký trước được commit, review và chạy thử miễn phí.
 - Phán quyết phải "trong sáng, không khiên cưỡng".
 
 ## Cơ chế bảo đảm áp dụng (không phụ thuộc vào trí nhớ)
