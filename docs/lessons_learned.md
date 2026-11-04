@@ -291,3 +291,8 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Phòng ngừa:**
   - Tải và xử lý dữ liệu ngoài trên GitHub Actions (miễn phí, đĩa riêng).
   - Trên máy chạy E1, kiểm `df -h /` trước khi tải. Chỉ tải khi chỗ trống sau khi tải vẫn ≥ dung lượng của lô kế tiếp.
+
+## L32. Mã bọc ngoài một script phải giữ đúng các giả định về tiến trình của script đó (A72)
+
+- **Xảy ra:** driver đo thời gian theo session. Vòng lặp bọc ngoài của tôi chạy mọi lần trong cùng một session, nên đồng hồ không được đặt lại.
+- **Phòng ngừa:** trước khi bọc một script, `grep` các chỗ nó đọc trạng thái tiến trình (`getsid`, `/proc`, biến môi trường). Lần chạy lại đầu tiên phải được xem log để chắc nó làm được ít nhất một lô.
