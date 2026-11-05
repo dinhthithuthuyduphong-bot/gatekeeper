@@ -651,3 +651,8 @@ Trong mô hình của D1, tính tỉ lệ dương tính giả và độ nhạy c
 - **Bước 1, kiểm việc làm theo:** 3 task của seed 41, chi phí đo được. Nếu < 2/3 task có bản vá rỗng thì dừng và báo cáo (skill không được làm theo).
 - **Bước 2:** đủ 40 × 3.
 - **Đại lượng:** R (dự đoán < 0,5); D2 (dự đoán bác bỏ); audit (i) với Flash và Pro (dự đoán tỉ lệ đổ lỗi đúng > tỉ lệ ở (ii)).
+
+**Ghi chú thực thi 20-1** (trước khi tính S2–S4):
+- **S3:** mỗi task có 1 cặp phía skill và 3 cặp phía placebo. Vì vậy D2 dùng kiểm định nhị thức một phía với xác suất **1/4** (phía skill chiếm 1/4 số cặp khi không có hiệu ứng), thay cho 1/2 ở §19.
+- **S2:** đơn vị bootstrap là (skill, task) của E1, 10.000 lần. Ứng viên placebo được đếm theo từng skill như §18: cùng các lần chạy không skill được đếm lại cho mỗi skill có task đó.
+- **Phát biểu chính xác của Mệnh đề P(a):** tổng lấy trên **mọi cặp**, tức có hệ số k (`docs/theory/proofs.md`). Câu ở S1 là phát biểu rút gọn.

@@ -142,3 +142,40 @@ Nếu hai repo cho **cùng một đầu vào** cho thủ tục admission, thì p
 | Theorem 7′ | Cơ chế chạy được | test |
 
 **Thí nghiệm không chứng minh được định lý.** Một định lý đúng nhờ chứng minh. Thí nghiệm chỉ (a) kiểm rằng giả định của định lý hợp lý trên dữ liệu thật, và (b) đo các đại lượng mà định lý dùng (σ², tỉ lệ phương sai, tỉ lệ admit nhầm).
+
+---
+
+## Mệnh đề P (phép trừ placebo cho việc quy lỗi; §20 S1)
+
+**Thiết lập:**
+- Task i = 1..n. Mỗi task có k lần chạy không skill N_{i,1..k} và k lần chạy có skill A_{i,1..k}. Mọi lần chạy **độc lập** với nhau và nhận giá trị trong {0, 1} (1 = giải được).
+- P(N_{i,s} = 1) = p₀ᵢ; P(A_{i,s} = 1) = pₛᵢ.
+- **Ứng viên có skill:** c_{i,s} = 1[A_{i,s} = 0, N_{i,s} = 1], với s = 1..k.
+- **Ứng viên placebo:** d_{i,(a,b)} = 1[N_{i,a} = 0, N_{i,b} = 1], với k cặp có thứ tự (a, b), a ≠ b, cố định trước. Với k = 3: (2, 1), (3, 2), (1, 3).
+- S = Σ c, P = Σ d.
+
+**(a) E[S − P] = Σᵢ k · p₀ᵢ (p₀ᵢ − pₛᵢ).**
+- **Chứng minh:**
+  - Do độc lập, E[c_{i,s}] = (1 − pₛᵢ) p₀ᵢ [TĐ].
+  - Vì a ≠ b nên N_{i,a} và N_{i,b} độc lập; do đó E[d_{i,(a,b)}] = (1 − p₀ᵢ) p₀ᵢ [TĐ].
+  - Lấy hiệu, mỗi số hạng bằng p₀ᵢ (p₀ᵢ − pₛᵢ). Cộng k cặp và n task theo tính tuyến tính của kỳ vọng [TĐ]. ∎
+- **Hệ quả:** nếu pₛᵢ = p₀ᵢ với mọi i thì E[S − P] = 0.
+
+**(b) Mô hình "chỉ gây hại".**
+- **Giả thiết:** A_{i,s} = N'_{i,s} · (1 − H_{i,s}), trong đó N'_{i,s} là một lần chạy không skill độc lập (phân phối Bernoulli(p₀ᵢ)) và H_{i,s} ~ Bernoulli(hᵢ) độc lập. H = 1 nghĩa là skill làm mất lời giải.
+- **Định nghĩa:** ứng viên **thật sự do skill** là c_{i,s} = 1 và N'_{i,s} = 1, tức là không có skill thì lần chạy đó đã giải được.
+- **Kết luận:** E[S − P] = E[số ứng viên thật sự do skill].
+- **Chứng minh:**
+  - pₛᵢ = p₀ᵢ (1 − hᵢ), nên theo (a): E[S − P] = Σ k p₀ᵢ² hᵢ.
+  - Mặt khác, P(c = 1, N' = 1) = P(N' = 1, H = 1, N = 1) = p₀ᵢ · hᵢ · p₀ᵢ, do ba biến độc lập [TĐ].
+  - Cộng lại cho cùng tổng. ∎
+- **Hệ quả cho S2:** (S − P)/S là ước lượng (theo tỉ số) của tỉ lệ ứng viên do skill. Nếu U là cận trên tin cậy của tỉ lệ đó và auditor đổ lỗi cho tỉ lệ a ứng viên, thì ít nhất a − U ứng viên bị đổ lỗi sai (theo kỳ vọng, ở mức tin cậy của U).
+- **Giới hạn:** cần giả thiết "chỉ gây hại". Nếu skill vừa giúp vừa hại, (S − P) chỉ là hiệu ròng và tỉ lệ ở trên là một **cận dưới** của tỉ lệ do skill.
+
+**(c) Kiểm định D2.**
+- Khi pₛᵢ = p₀ᵢ, mỗi c_{i,s} và mỗi d_{i,(a,b)} có cùng phân phối Bernoulli(p₀ᵢ(1 − p₀ᵢ)) theo (a).
+- Nếu các chỉ báo **độc lập**, thì có điều kiện trên S + P = m, S ~ Bin(m, 1/2), nên kiểm định nhị thức có mức đúng α [TĐ].
+- **Nhưng trong thiết kế này, chúng không độc lập:** N_{i,s} xuất hiện ở cả c_{i,s} lẫn hai chỉ báo d. Vì vậy D2 chỉ là **xấp xỉ**. Mức thực tế được đo bằng mô phỏng ở §19 D: 0,006 ≤ 0,05 ở q = 0.
+- **Không tuyên bố mức chính xác.**
+
+**Kiểm bằng số:** `tests/test_placebo_suite.py::test_proposition_P_expectations` mô phỏng (a) và (b), so với công thức trong phạm vi 3 sai số chuẩn.

@@ -85,3 +85,35 @@ def test_sham_audit_collect_matches_section_18_counts():
         v["attribution"]["functional"]["skill_candidates"] for v in att.values()
     )
     assert len({(p["iid"], p["target"], p["ref"]) for p in placebo}) == len(placebo)
+
+
+def test_proposition_P_expectations():
+    """docs/theory/proofs.md, Proposition P (a) and (b), by simulation."""
+    rng = np.random.default_rng(5)
+    n, k, reps = 60, 3, 4000
+    p0 = rng.uniform(0.1, 0.9, n)
+    h = rng.uniform(0.0, 0.5, n)
+    diffs, causal = [], []
+    for _ in range(reps):
+        none = rng.random((n, k)) < p0[:, None]
+        n2 = rng.random((n, k)) < p0[:, None]  # N' (the run without the skill)
+        hit = rng.random((n, k)) < h[:, None]
+        skill = n2 & ~hit
+        sk, pl = ps.candidates(none, skill)
+        diffs.append(sk.sum() - pl.sum())
+        causal.append((sk & n2).sum())
+    target = (k * p0 * (p0 - p0 * (1 - h))).sum()
+    se = np.std(diffs) / np.sqrt(reps)
+    assert abs(np.mean(diffs) - target) < 3 * se  # (a)
+    assert abs(np.mean(diffs) - np.mean(causal)) < 3 * se + 3 * np.std(causal) / np.sqrt(
+        reps
+    )  # (b)
+
+
+def test_section20_test_command_pattern():
+    import section20 as s20
+
+    assert s20.TEST_CMD.search("cd /testbed && python -m pytest tests/test_x.py")
+    assert s20.TEST_CMD.search("./runtests.py admin_views")
+    assert s20.TEST_CMD.search("python manage.py test app")
+    assert not s20.TEST_CMD.search("grep -rn foo src/")
