@@ -7,7 +7,8 @@
     "t4-s41-p03",
     "t4-s41-p04",
     "t4-s41-p05",
-    "t4-s41-p06"
+    "t4-s41-p06",
+    "t4-s41-p07"
   ],
   "skills": {
     "control-oracle-patch": {
@@ -46,28 +47,33 @@
           "instance_id": "conan-io__conan-17102",
           "loss_with": 0.6675717929729285,
           "loss_without": 0.6667489508763268
+        },
+        {
+          "instance_id": "openai__openai-agents-python-998",
+          "loss_with": 1.0,
+          "loss_without": 1.0
         }
       ],
-      "mean_Z": -0.5713213632845814,
-      "n": 7,
-      "solve_rate_with": 0.7142857142857143,
+      "mean_Z": -0.4999061928740087,
+      "n": 8,
+      "solve_rate_with": 0.625,
       "solve_rate_without": 0.0
     }
   },
   "usage": {
     "none": {
-      "runs": 7,
-      "usd": 0.7655382999999999,
+      "runs": 8,
+      "usd": 0.7796363499999999,
       "solved": 0,
-      "scored": 7,
-      "usd_per_run": 0.10936261428571427
+      "scored": 8,
+      "usd_per_run": 0.09745454374999998
     },
     "control-oracle-patch": {
-      "runs": 7,
-      "usd": 0.21974415000000003,
+      "runs": 8,
+      "usd": 0.2547166,
       "solved": 5,
-      "scored": 7,
-      "usd_per_run": 0.031392021428571434
+      "scored": 8,
+      "usd_per_run": 0.031839575
     }
   },
   "infra_failures": {},
@@ -79,7 +85,8 @@
       "pypa__twine-1249": "Submitted",
       "arviz-devs__arviz-2413": "Submitted",
       "Archmonger__django-dbbackup-631": "Submitted",
-      "conan-io__conan-17102": "Submitted"
+      "conan-io__conan-17102": "Submitted",
+      "openai__openai-agents-python-998": "Submitted"
     },
     "control-oracle-patch": {
       "conan-io__conan-18655": "Submitted",
@@ -88,12 +95,13 @@
       "pypa__twine-1249": "Submitted",
       "arviz-devs__arviz-2413": "Submitted",
       "Archmonger__django-dbbackup-631": "Submitted",
-      "conan-io__conan-17102": "Submitted"
+      "conan-io__conan-17102": "Submitted",
+      "openai__openai-agents-python-998": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 0.9853,
+  "spent_usd": 1.0344,
   "instances": [
     "conan-io__conan-18655",
     "mikedh__trimesh-2126",
@@ -101,7 +109,8 @@
     "pypa__twine-1249",
     "arviz-devs__arviz-2413",
     "Archmonger__django-dbbackup-631",
-    "conan-io__conan-17102"
+    "conan-io__conan-17102",
+    "openai__openai-agents-python-998"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/pd/rows.jsonl"
