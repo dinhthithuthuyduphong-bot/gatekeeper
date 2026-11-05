@@ -99,5 +99,5 @@
    " of the surrounding conditions. Each cell has three layers behind it. A public agent benchmark is a shared, published task suite used to score agents:SWE-benchpresents real issues from software repositories, and tests decide whether a proposed change passes or fails, with SWE-bench Verified as a human-screened subset of those tasks. Theevaluation harnessis the execution and scoring apparatus that checks out the repository, supplies the task, invokes the agent, applies its change, runs the tests, and produces the reported number. The published comparison is the third layer, assembled from many harness executions. Repeated attempts need their own vocabulary.pass@1is the fraction of tasks solved in one attempt. pass@k is the probability that at least one ofk attempts succeeds, while passk is the probability that allkattempts succeed. One opportunity, retries available, and consistency across every attempt are three different questions. A run-level record keeps them separable by storing each attempt’s outcome next to its task identity, and an item-level record joins those attempts back to the task. An aggregate is the summary computed from those records; a distribution is the set of outcomes "
   ]
  },
- "fetched_utc": "2026-11-05T11:47:36+00:00"
+ "fetched_utc": "2026-11-05T12:03:19+00:00"
 }
