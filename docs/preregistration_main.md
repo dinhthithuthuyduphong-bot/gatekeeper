@@ -90,3 +90,21 @@ Như draft §10.
 | D-M2 | MemGovern chạy trên mini-swe-agent bằng công cụ và server của chính họ, thay vì SWE-agent; bỏ thẻ của các repo thuộc ô | Giữ ghép cặp với nhánh `none` chung; chống rò rỉ đáp án (draft §11e) |
 | D-M3 | K = 9 (thêm đối chứng dương và memgovern) | Quyết định của @thuthuy ngày 04/11 |
 | D-M4 | Không chạy B8, B9, ASI ở thí nghiệm chính | Chúng phục vụ câu hỏi về chi phí (RQ4), không thuộc RQ1 |
+
+## 8. Phân tích plasmode trên dữ liệu thật của E1/E2 (đăng ký 05/11/2026, trước khi chạy; 0 USD)
+
+- **Cơ sở:** plasmode là "a real dataset … has some aspect of the data-generating model known … 'spike-in'" (`franklin_2014_plasmode`). Ở đây phần biết trước là hiệu ứng δ được cấy vào.
+- **Nền có hiệu ứng thật bằng 0 chính xác:** với mỗi task có ≥ 2 lần chạy **không skill** (E1, phần mở rộng E1 và E2, 3 seed), ghép hai lần chạy khác seed thành một cặp A/A: một lần đóng vai "có skill", lần kia làm đối chứng. Hai lần chạy cùng nhánh nên STR = 0 đúng theo định nghĩa (hoán đổi được); nhiễu và độ khác nhau giữa các task là nhiễu thật.
+- **Cấy hiệu ứng:**
+  - Có ích: mỗi lần chạy "có skill" chưa giải được thì được đổi thành giải được với xác suất π.
+  - Có hại: mỗi lần chạy "có skill" đã giải được thì đổi thành không giải được với xác suất π.
+  - δ đúng của ô bằng π nhân trung bình phần có thể đổi trên pool, tính chính xác.
+- **Một lần lặp:** một họ K = 9 ô, gồm 3 ô có hại (δ = −0,05; −0,10; −0,20), 3 ô trung tính (δ = 0) và 3 ô có ích (δ = +0,10; +0,20; +0,30). Mỗi ô rút n task có hoàn lại từ pool (giả định SP), n ∈ {25; 50; 109; 200}. Chạy 1.000 lần lặp, seed của bộ sinh số 20271105.
+- **Quy tắc so sánh** (`scripts/gates.py`): Gatekeeper (α_ô = 0,025/9, Holm trên p anytime-valid ở mức 0,025), plug-in, B-X1, B-X2, B-G3, B-Gall.
+- **Đại lượng báo cáo:**
+  - tỉ lệ admit nhầm = số ô có hại hoặc trung tính được admit / 6;
+  - độ phủ = số ô có ích được admit / 3;
+  - FWER = tỉ lệ lần lặp có ít nhất 1 ô có hại hoặc trung tính được admit;
+  - mỗi đại lượng kèm sai số Monte Carlo.
+- **Độ nhạy:** π khác nhau giữa các task (π_i ~ Beta với cùng trung bình, độ tập trung 2), để mô phỏng hiệu ứng không đều.
+- **Giới hạn ghi sẵn:** cơ chế hiệu ứng được cấy là đổi kết quả ngẫu nhiên; skill thật có thể tác động theo cách khác. Phân tích này bổ sung, không thay thế, kết quả trên các ô thật (E1/E2: 0/7 ô được Gatekeeper admit).
