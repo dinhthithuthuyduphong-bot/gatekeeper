@@ -33,7 +33,7 @@ TEST_CMD = re.compile(r"pytest|python -m pytest|runtests|\btox\b|manage\.py test
 def s2(rng, boot: int) -> dict:
     rec = ra.load("e1")
     units = []  # (skill, task): (S_count, P_count)
-    for skill, tasks in sorted(rec.items()):
+    for _skill, tasks in sorted(rec.items()):
         _, ids = ra.zmatrix(tasks)
         for row in ra.attribution(tasks, ids):
             units.append((sum(bool(x) for x in row[0]), sum(bool(x) for x in row[1])))

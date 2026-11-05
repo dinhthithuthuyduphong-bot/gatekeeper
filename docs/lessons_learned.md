@@ -344,3 +344,8 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 
 - **Xảy ra:** tôi cấy hiệu ứng quanh trung bình mẫu của 3 lần chạy, rồi so CI với phương sai của chính các hiệu ứng đã cấy. Bộ ước lượng thì nhắm tới phương sai của hiệu số xác suất thật.
 - **Phòng ngừa:** trước khi chạy mọi kiểm power hay độ phủ, viết rõ một dòng "đại lượng thật = …" theo tham số của mô hình sinh dữ liệu, và kiểm bằng một test: khi τ = 0, độ phủ phải gần 0,95.
+
+## L40. Chuỗi lệnh "kiểm rồi commit" phải dừng khi kiểm thất bại (A82)
+
+- **Xảy ra:** `preflight; git commit` vẫn commit dù preflight báo FAIL.
+- **Phòng ngừa:** luôn viết `python scripts/preflight.py && git commit …`. Không dựa vào hook, vì hook chỉ chạy `--ci`, không có lint.

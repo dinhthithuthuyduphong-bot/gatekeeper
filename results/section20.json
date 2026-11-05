@@ -1,0 +1,103 @@
+{
+ "S2": {
+  "S": 52,
+  "P": 47,
+  "share_hat": 0.09615384615384616,
+  "upper95": 0.343762807377049,
+  "auditors": {
+   "flash-lite": {
+    "attributed_real": 0.9807692307692307,
+    "misattribution_lower_bound": 0.6370064233921817
+   },
+   "flash": {
+    "attributed_real": 0.38461538461538464,
+    "misattribution_lower_bound": 0.04085257723833563
+   },
+   "pro": {
+    "attributed_real": 0.5576923076923077,
+    "misattribution_lower_bound": 0.2139295003152587
+   }
+  }
+ },
+ "S3": {
+  "tasks": 20,
+  "S_help": 11,
+  "P_help": 3,
+  "R_help": 0.09090909090909091,
+  "D2_p": 3.982335329055786e-05
+ },
+ "S4": {
+  "flash-lite": {
+   "real": {
+    "feature_present": [
+     25,
+     0
+    ],
+    "feature_absent": [
+     26,
+     1
+    ],
+    "fisher_p": 1.0
+   },
+   "sham": {
+    "feature_present": [
+     4,
+     0
+    ],
+    "feature_absent": [
+     21,
+     0
+    ],
+    "fisher_p": 1.0
+   }
+  },
+  "flash": {
+   "real": {
+    "feature_present": [
+     13,
+     12
+    ],
+    "feature_absent": [
+     7,
+     20
+    ],
+    "fisher_p": 0.0865295657055351
+   },
+   "sham": {
+    "feature_present": [
+     2,
+     2
+    ],
+    "feature_absent": [
+     1,
+     20
+    ],
+    "fisher_p": 0.05652173913043479
+   }
+  },
+  "pro": {
+   "real": {
+    "feature_present": [
+     18,
+     7
+    ],
+    "feature_absent": [
+     11,
+     16
+    ],
+    "fisher_p": 0.02895416426432808
+   },
+   "sham": {
+    "feature_present": [
+     2,
+     2
+    ],
+    "feature_absent": [
+     3,
+     18
+    ],
+    "fisher_p": 0.16640316205533598
+   }
+  }
+ }
+}
