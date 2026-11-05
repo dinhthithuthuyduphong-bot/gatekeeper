@@ -403,3 +403,9 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Tiêu chí ghi trước:** thu hồi nhầm ≤ 0,025 **và** độ trễ < 221 trial. **Đạt:** thu hồi nhầm 0/1.000 (cận trên khoảng 0,003); độ trễ 75 trial.
 - **Cái giá:** skill có ích bị cách ly nhầm 13% thời gian.
 - **Còn phải làm:** viết mệnh đề và chứng minh trong `docs/theory/proofs.md`; rà tài liệu về "báo động rồi xác nhận" trong phát hiện thay đổi.
+
+## R-36. Đường cong nhận nhầm theo độ phủ (§16 và ghi chú 16-1; 2026-11-05)
+
+- **Kết quả** (1.000 lần lặp): khi ngưỡng được chỉnh cho khớp độ phủ 0,5 / 0,7 / 0,8, Gatekeeper, B-X2 và e-BH đều có tỉ lệ nhận nhầm ≤ 0,0003. Plug-in nhìn liên tục: 0,003 / 0,011 / 0,038.
+- **Diễn giải đúng:** so tại cùng độ phủ đòi hỏi chỉnh ngưỡng **khi đã biết đáp án**, nên đây là trường hợp tốt nhất cho các baseline. Gatekeeper **không** có lợi thế trên đường cong. Giá trị của nó là bảo đảm có được **mà không cần chỉnh ngưỡng** (ngưỡng = 1/α cố định trước) và vẫn đúng khi bị theo dõi (T1, P1, §13).
+- **Hệ quả cho paper:** **không** được tuyên bố "Gatekeeper giảm nhận nhầm tại cùng độ phủ". Endpoint RQ1 gốc **không** ủng hộ tuyên bố đó, và phải báo cáo như vậy.

@@ -309,3 +309,8 @@ Như draft §10.
   - Lưới được chọn để bao trùm độ phủ từ khoảng 0 tới khoảng 1. Đây là lựa chọn vận hành, không ảnh hưởng kết luận vì so sánh dùng nội suy.
 - **Đại lượng:** với mỗi giá trị ngưỡng, tính tỉ lệ nhận nhầm (số ô δ ≤ 0 được admit / 6) và độ phủ (số ô δ > 0 được admit / 3). Tỉ lệ nhận nhầm tại độ phủ 0,5; 0,7 và 0,8 được nội suy bằng `analysis.harm_at_coverage`.
 - **Kết luận chính ghi trước:** ở **chế độ nhìn liên tục**, tại cùng độ phủ, quy tắc nào có tỉ lệ nhận nhầm thấp nhất. Chế độ nhìn 1 lần được báo cáo bên cạnh, **kể cả khi B-X2 ngang hoặc hơn Gatekeeper**.
+- **Ghi chú thực thi 16-1** (sau lần chạy thử 20 lần lặp, trước lần chạy chính): lưới đã đăng ký không bao trùm được độ phủ < 0,67. Lý do: các ô δ = 0,2 và 0,3 được admit ở mọi ngưỡng đã chọn. Theo đúng nguyên tắc "bao trùm từ khoảng 0 tới khoảng 1" đã ghi, mở rộng lưới về phía chặt hơn:
+  - Gatekeeper thêm α = 10⁻¹², 10⁻¹⁰, 10⁻⁸, 10⁻⁶;
+  - B-X2 thêm c = 4, 5, 6, 7;
+  - plug-in thêm t = 0,35; 0,4; 0,5; 0,6.
+  - Các giá trị cũ giữ nguyên. Mọi giá trị đều được báo cáo.
