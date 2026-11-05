@@ -46,5 +46,5 @@
    "reduction The standard error of ˆµ quantifies the uncertainty associated with our estimate of the overall eval score. Reducing this quantity (which is the square root of the estimate variance) improves the precision of the estimate. The variance associated with ˆµ may be decomposed into two components: the variance of the conditional mean, that is, the variance associated with choosing questions from the super- population, and the mean conditional variance, which is the mean variance of scores associated with the questions that were chosen. This decomposition is additive, and follows from the law of total variance. Mathematically, Var(ˆµ) = Var(s)/n = (Var(x) + E[σ2i ])/n This equation has a few implications: the simplest way to reduce the variance of ˆ µ is to increase n, the number of sampled questions. The variance of the conditional mean, Var( x), is a property of the super-population and therefore immutable; but we have a couple of strategies available for reducing the overall variance via the expected conditional variance, E[σ2i ]. 3.1 Resampling The first strategy for reducing the expected conditional variance is to resample the model a number of times, and to compute the standard error using th"
   ]
  },
- "fetched_utc": "2026-11-05T12:00:37+00:00"
+ "fetched_utc": "2026-11-05T12:09:15+00:00"
 }
