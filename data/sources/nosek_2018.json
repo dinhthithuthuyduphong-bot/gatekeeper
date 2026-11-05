@@ -4,11 +4,16 @@
  "attempts": [
   {
    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5856500/",
+   "ok": false,
+   "error": "only 227 characters: not the document"
+  },
+  {
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5856500/",
    "ok": true
   }
  ],
- "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5856500/",
- "sha256": "bd2ee60129a9fcd5cf25790db244d8317762e1cc089b98ed3ab38d2274768aca",
+ "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5856500/",
+ "sha256": "f232e3afc55a14d218268eb674d16f84a92fa86640a30af468d3a3aedcfeea86",
  "n_chars": 78224,
  "head": " The preregistration revolution - PMC Skip to main content An official website of the United States government Here's how you know Here's how you know Official websites use .gov A .gov website belongs to an official government organization in the United States. ",
  "excerpts": {
@@ -31,26 +36,5 @@
    "s with full reporting. Achieving this benefit requires that preregistrations and the results of the analysis plans are permanently preserved and accessible for review. Challenge 7: Few a Priori Expectations. Matt does not perceive that preregistration is of use to him because he considers his research to be discovery science. In most cases, his group wades into new problems with very little idea of what direction it will go and the outcomes they observe send them in new directions. It is common to begin a research program with few predictions. It is less common for research to remain entirely exploratory through a sequence of studies and authoring of a paper. If the data are used to generate hypotheses rather than claiming evidence for those hypotheses, then the paper may be appropriately embracing post hoc explanation to open and test new areas of inquiry. However, there are reasons to believe that sometimes postdiction is recast—wittingly or unwittingly—as prediction. Indeed, the ubiquity of NHST in some fields implies either that researchers are mostly testing predictions or that they are misusing NHST to develop support for postdictions. In exploratory or discovery research, P values have"
   ]
  },
- "fetched_utc": "2026-11-05T12:00:38+00:00",
- "snapshot_commit": "6ce80dd431238e54cdbdf3c21dd0b94e8c47a0f9",
- "refetch_failed": {
-  "utc": "2026-11-05T12:09:16+00:00",
-  "attempts": [
-   {
-    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5856500/",
-    "ok": false,
-    "error": "only 227 characters: not the document"
-   },
-   {
-    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5856500/",
-    "ok": false,
-    "error": "only 227 characters: not the document"
-   },
-   {
-    "url": "https://www.pnas.org/doi/pdf/10.1073/pnas.1708274114",
-    "ok": false,
-    "error": "HTTP Error 403: Forbidden"
-   }
-  ]
- }
+ "fetched_utc": "2026-11-05T12:14:18+00:00"
 }

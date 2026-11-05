@@ -67,5 +67,5 @@
    " and let {Ft}t≥0 describe the information available up to time t. A nonnegative process {Kt}t≥0 is called an e-processfor H0 if K0 = 1 , each Kt can be computed using only the information in Ft, and EP [Kt | Ft−1]≤ Kt−1,∀P∈ H0,∀1≤t≤N . Consequently, for any α∈(0,1) , it satisfies the anytime-valid control PP \u0012 sup t≥0 Kt ≥ 1α \u0013 ≤α,∀P∈ H 0. Thus, rejecting H0 whenever Kt ≥1/α gives an anytime- valid test: if H0 is true, the probability of falsely rejecting it at any time during the sequential procedure is at mostα. To turn e-processes into CIs, we use test inversion for the 4More discussion of related work is provided in App. A.1. data-pool risk RN = 1N PNj=1 ℓ(f(x j), yj)5. For each can- didate value υ, we test H0(υ) :R N =υ by construct- ing an e-process {Kt(υ)}t≥0. Intuitively, Kt(υ) measures how strongly the information collected up to round t con- tradicts the candidate value υ. If Kt(υ)≥1/α , then υ is rejected. Therefore, the CI at round t is formed by keeping all candidate values that have not been rejected: CIt ={υ:K t(υ)<1/α}. The CIt covers the true value RN with probability at least 1−α , since RN corresponds to the true null hypothesis H0(RN ). Thus, non-coverage can occur only if "
   ]
  },
- "fetched_utc": "2026-11-05T12:11:55+00:00"
+ "fetched_utc": "2026-11-05T12:15:58+00:00"
 }

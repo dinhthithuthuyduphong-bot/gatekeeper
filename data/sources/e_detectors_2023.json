@@ -52,5 +52,5 @@
    " to choose any pa rametric model to ﬁt the data. Instead, 1The R code to reproduce all the plots and simulation results o f the paper is available at https://github.com/shinjaehyeok/e_detector_paper. 4 2012 2014 2016 2018 −40 −20 0 20 40 Plus−Minus of the Cavaliers Game Date +/− 2012 2014 2016 2018 5 10 15 CP detected at 2015−03−10 Game Date log e−detectors Figure 1: Left: Plus-Minus of the Cavaliers from 2010-11 to 2017-18 se asons. Each horizontal red line corresponds to the seasonal average. Right: The sample path of (the logarithm of) one of our e-detectors. The horizontal red line is the threshold equal to log(1/α) controlling the ARL by 1/α = 1000 . In this example, the procedure detects the changepoint in the Plus- Minus of the Cavaliers at the end of 2014-15 season. we simply assume the absolute value of each Plus-Minus stat i s bounded by a large number — in this exam- ple, we set 80 as the boundary. Though we set a conservatively large bounda ry, our detection procedure is variance-adaptive so that we can detect the changepoint efﬁ ciently without specifying the variance of obser- vations. Second, the nonasymptotic analysis of the new fram ework makes it possible to choose an expl"
   ]
  },
- "fetched_utc": "2026-11-05T12:12:16+00:00"
+ "fetched_utc": "2026-11-05T12:16:20+00:00"
 }
