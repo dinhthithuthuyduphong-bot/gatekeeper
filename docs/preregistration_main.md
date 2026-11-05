@@ -262,12 +262,14 @@ Như draft §10.
   - `cost_limit` = 0,5 USD mỗi lần chạy, cho **cả hai** nhánh. Lý do vận hành: bộ chặn cứng của driver (đã chi + trường hợp xấu nhất ≤ trần) phải cho phép đủ trial trong 6 USD. Chi phí trung bình đo ở E2 là 0,063 USD mỗi lần chạy.
   - Lô 1 task; seed 41; `step_limit` 250 như E2.
   - Task theo `random_order` của E2, bắt đầu từ 109 task E2.
-- **Dự đoán đăng ký trước** (mô phỏng 05/11, K = 1, α = 0,025, cặp mới, q của E2):
+- **Dự đoán đăng ký trước** (mô phỏng 05/11, K = 1, α = 0,025, cặp mới, q của E2, 2.000 lần lặp, seed 20271108). Đã sửa trước khi có dữ liệu: bảng ghi lần đầu lấy nhầm số của mô phỏng 60 trial với α = 0,025/9.
 
   | δ thật | P(admit trong 40 trial) | Trung vị số trial khi admit |
   | --- | --- | --- |
-  | 0,6 | 1,00 | 32 |
-  | 0,4 | khoảng 0,87 | 45 |
-  | 0,3 | khoảng 0,47 | 52 |
+  | 0,7 | 1,00 | 19 |
+  | 0,6 | 0,998 | 21 |
+  | 0,5 | 0,98 | 25 |
+  | 0,4 | 0,835 | 30 |
+  | 0,3 | 0,442 | 34 |
 
 - **Kết luận chính:** ô có được admit trong trần 6 USD hay không. Số trial khi admit được so với bảng trên. Hiệu ứng đo được báo cáo kèm CI.
