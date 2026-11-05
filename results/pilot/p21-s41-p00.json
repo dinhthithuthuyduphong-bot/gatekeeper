@@ -1,0 +1,62 @@
+{
+  "generated_utc": "2026-11-05T10:11:10+00:00",
+  "format_version": 2,
+  "name": "p21-s41-p00",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/live_rows.jsonl",
+  "instances": [
+    "pvlib__pvlib-python-2133"
+  ],
+  "spent_usd": 0.0779,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.035744075,
+      "tokens_in_per_run": 404078.0,
+      "tokens_out_per_run": 6447.0,
+      "cached_share": 0.8243284712357515,
+      "api_calls_per_run": 32.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "repo-test-guide": {
+      "runs": 1,
+      "usd_per_run": 0.042204624999999996,
+      "tokens_in_per_run": 586705.0,
+      "tokens_out_per_run": 9547.0,
+      "cached_share": 0.8998815418310735,
+      "api_calls_per_run": 41.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "pvlib__pvlib-python-2133": "Submitted"
+    },
+    "repo-test-guide": {
+      "pvlib__pvlib-python-2133": "Submitted"
+    }
+  },
+  "skills": {
+    "repo-test-guide": {
+      "pairs": [
+        {
+          "instance_id": "pvlib__pvlib-python-2133",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  },
+  "reused_none": null
+}
