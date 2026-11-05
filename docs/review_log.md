@@ -379,3 +379,16 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Giới hạn đã thấy:**
   - Không cài e-detector của Qu et al. (chỉ có một e-process duy nhất từ lúc nhận skill), nên chưa so được với cơ chế thu hồi của họ.
   - Kết quả T3 là điều dễ đoán, vì quy tắc ngây thơ không hề xem dữ liệu của skill ghép.
+
+## R-34. T4 (2026-11-05; §14 và D-M6, commit aabb910 / 055e638 trước khi viết mã)
+
+- **Skill:** `control-oracle-patch` = gợi ý của `control-oracle-tests` cộng thêm bản vá gốc (`{gold_patch}` lấy từ trường `patch`, không bao giờ từ `test_patch`). Test: dòng của bản vá xuất hiện đúng 1 lần, không còn placeholder.
+- **Chạy:** `run_t4.sh`:
+  - cổng preflight;
+  - trần = số đã chi trước T4 (không tính các phần T4) + 6 USD; driver tự chặn khi đã chi + trường hợp xấu nhất vượt trần (`cost_limit` 0,5 × 2 nhánh × 1 task);
+  - lô 1 task, seed 41, 250 bước;
+  - harness SWE-bench-Live tại máy, cùng commit `ad79b85` như E2;
+  - lưu dữ liệu gốc sau mỗi lô;
+  - dừng khi `t4_check.py` báo ADMIT (Gatekeeper, K = 1, α = 0,025, theo thứ tự task cố định).
+- **Chạy thử miễn phí** (model giả lập, `conan-io__conan-18655`): 2 nhánh đều `Submitted`; 0 lỗi hạ tầng, 0 sai endpoint, 0 bản vá không áp được; đề bài chứa bản vá gốc (7.154 ký tự).
+- **Preflight:** PASS.
