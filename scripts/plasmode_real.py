@@ -20,6 +20,7 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent))
+import analyze_g1_final as gf  # noqa: E402
 import gates  # noqa: E402
 
 RUNS = [f"g1-e1all-s{s}" for s in (41, 51, 61)] + [f"g2-e2-s{s}" for s in (41, 51, 61)]
@@ -30,8 +31,9 @@ SEED = 20271105
 
 
 def no_skill_runs() -> list[list[int]]:
-    """Per task: resolved (0/1) of every no-skill run (one per seed). loss < 0.5 <=> resolved:
-    loss = (F + w R)/(1 + w), w = 0.5, so F = 1 gives >= 2/3 and F = 0 gives <= 1/3."""
+    """Per task: resolved (0/1) of every no-skill run (one per seed), with the REGISTERED endpoint:
+    resolved <=> loss == 0 (F = 0 and R = 0, SWE-bench "resolved"; analyze_g1_final.resolved).
+    An earlier version used loss < 0.5, which also counted runs that broke PASS_TO_PASS (A76)."""
     by_task: dict[str, dict[str, int]] = {}
     for name in RUNS:
         d = json.loads(Path(f"results/pilot/{name}.json").read_text())
@@ -39,7 +41,7 @@ def no_skill_runs() -> list[list[int]]:
         for sk in d["skills"].values():
             for p in sk["pairs"]:
                 key = f"{stage}:{p['instance_id']}"
-                by_task.setdefault(key, {})[name] = int(p["loss_without"] < 0.5)
+                by_task.setdefault(key, {})[name] = int(gf.resolved(p["loss_without"]))
     return [list(v.values()) for v in by_task.values() if len(v) >= 2]
 
 

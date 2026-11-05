@@ -1,9 +1,10 @@
 {
  "n_tasks_noise_pool": 257,
+ "base_solve_rate": 0.2697795071335927,
  "F_pp": {
-  "113": 7.965,
-  "200": 6.0,
-  "500": 3.8
+  "113": 7.08,
+  "200": 5.5,
+  "500": 3.4
  },
  "claims": [
   {
@@ -11,7 +12,7 @@
    "setting": "Pro/DeepSeek",
    "n": 200,
    "gain_pp": 4.0,
-   "F_pp": 6.0,
+   "F_pp": 5.5,
    "beyond_rerun_noise": false
   },
   {
@@ -19,7 +20,7 @@
    "setting": "Pro/GPT",
    "n": 200,
    "gain_pp": 5.5,
-   "F_pp": 6.0,
+   "F_pp": 5.5,
    "beyond_rerun_noise": false
   },
   {
@@ -27,7 +28,7 @@
    "setting": "Pro/MiMo",
    "n": 200,
    "gain_pp": 8.5,
-   "F_pp": 6.0,
+   "F_pp": 5.5,
    "beyond_rerun_noise": true
   },
   {
@@ -35,7 +36,7 @@
    "setting": "DeepSWE/DeepSeek",
    "n": 113,
    "gain_pp": 12.4,
-   "F_pp": 7.96,
+   "F_pp": 7.08,
    "beyond_rerun_noise": true
   },
   {
@@ -43,7 +44,7 @@
    "setting": "DeepSWE/GPT",
    "n": 113,
    "gain_pp": 12.4,
-   "F_pp": 7.96,
+   "F_pp": 7.08,
    "beyond_rerun_noise": true
   },
   {
@@ -51,7 +52,7 @@
    "setting": "DeepSWE/MiMo",
    "n": 113,
    "gain_pp": 6.2,
-   "F_pp": 7.96,
+   "F_pp": 7.08,
    "beyond_rerun_noise": false
   },
   {
@@ -59,7 +60,7 @@
    "setting": "Claude-4-Sonnet",
    "n": 500,
    "gain_pp": 3.2,
-   "F_pp": 3.8,
+   "F_pp": 3.4,
    "beyond_rerun_noise": false
   },
   {
@@ -67,7 +68,7 @@
    "setting": "GPT5-Medium",
    "n": 500,
    "gain_pp": 2.4,
-   "F_pp": 3.8,
+   "F_pp": 3.4,
    "beyond_rerun_noise": false
   },
   {
@@ -75,7 +76,7 @@
    "setting": "DeepSeek-V3.1T",
    "n": 500,
    "gain_pp": 3.0,
-   "F_pp": 3.8,
+   "F_pp": 3.4,
    "beyond_rerun_noise": false
   },
   {
@@ -83,7 +84,7 @@
    "setting": "Qwen3-235B",
    "n": 500,
    "gain_pp": 8.2,
-   "F_pp": 3.8,
+   "F_pp": 3.4,
    "beyond_rerun_noise": true
   },
   {
@@ -91,7 +92,7 @@
    "setting": "Kimi-K2-Instruct",
    "n": 500,
    "gain_pp": 8.0,
-   "F_pp": 3.8,
+   "F_pp": 3.4,
    "beyond_rerun_noise": true
   },
   {
@@ -99,7 +100,7 @@
    "setting": "GPT-4o",
    "n": 500,
    "gain_pp": 9.4,
-   "F_pp": 3.8,
+   "F_pp": 3.4,
    "beyond_rerun_noise": true
   },
   {
@@ -107,8 +108,9 @@
    "setting": "GPT-4o-Mini",
    "n": 500,
    "gain_pp": 3.2,
-   "F_pp": 3.8,
+   "F_pp": 3.4,
    "beyond_rerun_noise": false
   }
- ]
+ ],
+ "beyond": 6
 }

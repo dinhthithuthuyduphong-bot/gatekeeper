@@ -28,3 +28,14 @@
 - **6/13 vượt mức nhiễu:** XRepoSkill +8,5 / +12,4 / +12,4; MemGovern +8,0 / +8,2 / +9,4.
 - **Bằng chứng từ chính bài XRepoSkill:** Pass@4 89,4% và All@4 32,7%, tức 56,7% số task cho kết quả khác nhau giữa 4 lần chạy của họ.
 - **Giới hạn:** nhiễu đo trên một model với tỉ lệ nền 0,37. Ở tỉ lệ gần 0,5 phương sai lớn hơn, nên F(n) của mình có thể thấp hơn nhiễu thật của họ. Quy tắc này vì vậy **có lợi cho các tuyên bố**. "Nằm trong nhiễu" không có nghĩa là "không có tác dụng": nó chỉ có nghĩa là một lần chạy không đủ để phân biệt với việc chạy lại.
+
+## Sửa theo A76 (05/11/2026): chạy lại với định nghĩa đã đăng ký (loss = 0); tỉ lệ giải nền 0,27
+
+| | Trước | Sau |
+| --- | --- | --- |
+| C4, 109 trial | Gatekeeper FWER 0,000, độ phủ 0,58 | FWER 0,000, độ phủ 0,59; δ = 0,3 được admit 99% |
+| C4, 200 trial | FWER 0,000, độ phủ 0,78 | FWER 0,002, độ phủ 0,80 |
+| C4, B-X2 ở một lần nhìn | 0,065–0,075 | 0,082–0,089 |
+| C5 | B-X2 0,343; Gatekeeper 0,000 | B-X2 **0,303**; Gatekeeper **0,002** |
+| C6, 109 trial, trên 100 ô (có hại hoặc trung tính / có ích) | plug-in 11,6 / 36,4; Gatekeeper 0 / 0,2 | plug-in **10,5 / 38,6**; Gatekeeper **0 / 0,1** |
+| C8 | F = 8,0 / 6,0 / 3,8 điểm; 6/13 vượt mức nhiễu | F = **7,1 / 5,5 / 3,4** điểm; **6/13** vượt mức nhiễu (Pro/GPT +5,5 đúng bằng F) |

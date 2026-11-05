@@ -310,3 +310,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Phòng ngừa:**
   - Mọi giả định về hành vi của API phải có cỡ mẫu và khoảng tin cậy ghi trong `docs/number_provenance.md`.
   - Thiết kế nào dựa vào giả định đó phải có phép kiểm đăng ký trước, như §5 đã có.
+
+## L35. Mọi script phân tích mới phải dùng đúng hàm endpoint đã đăng ký, không tự viết lại ngưỡng (A76)
+
+- **Xảy ra:** tôi tự viết `loss < 0.5` cho "giải được", trong khi định nghĩa đã đăng ký là loss = 0 (`analyze_g1_final.resolved`).
+- **Phòng ngừa:**
+  - Import hàm endpoint đã đăng ký; không viết lại.
+  - Đề xuất thêm một mục vào preflight: tìm `loss_without < ` / `loss_with < ` trong `scripts/` và báo lỗi.
