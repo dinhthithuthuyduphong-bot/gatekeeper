@@ -319,6 +319,21 @@ def image_digest(row: dict) -> str:
     return out.split("@", 1)[1] if "@sha256:" in out else "sha256:unknown"
 
 
+def load_reused_none(path: str, model_seed: int | None) -> dict[str, float]:
+    """No-skill losses of an earlier run (pairs' loss_without). Refuses a file whose model seed
+    differs: a pair must share the seed (docs/preregistration_main.md section 11)."""
+    d = json.loads(Path(path).read_text())
+    if d.get("model_seed") is not None and d.get("model_seed") != model_seed:
+        raise SystemExit(f"--reuse-none {path}: model_seed {d.get('model_seed')} != {model_seed}")
+    out: dict[str, float] = {}
+    for sk in d["skills"].values():
+        for p in sk["pairs"]:
+            prev = out.setdefault(p["instance_id"], p["loss_without"])
+            if prev != p["loss_without"]:
+                raise SystemExit(f"--reuse-none {path}: two no-skill losses for {p['instance_id']}")
+    return out
+
+
 def run_arm(arm: str, skill: Skill | None, rows: list[dict], args, out_dir: Path, model) -> Path:
     arm_dir = out_dir / arm
     ds_dir = arm_dir / "dataset"
@@ -438,6 +453,13 @@ def main() -> int:
     ap.add_argument("--step-limit", type=int, default=60)
     ap.add_argument("--cost-limit", type=float, default=1.0, help="USD per instance per arm")
     ap.add_argument("--budget-usd", type=float, default=0.0)
+    ap.add_argument(
+        "--reuse-none",
+        default="",
+        help="result JSON of an EARLIER run of the same tasks, model and seed: its no-skill losses "
+        "are paired with the new skill arm instead of running the no-skill arm again "
+        "(docs/preregistration_main.md section 11; valid only after the section 5 check)",
+    )
     a = ap.parse_args()
 
     skills = [Skill.load(p) for p in a.skills.split(",") if p]
@@ -470,6 +492,9 @@ def main() -> int:
     for sid, rs in arm_rows_map.items():
         print(f"arm {sid}: {len(rs)} tasks", flush=True)
     arms = [(sid, sk) for sid, sk in arms if arm_rows_map[sid]]
+    reused_none = load_reused_none(a.reuse_none, a.model_seed) if a.reuse_none else None
+    if reused_none is not None:
+        arms = [(sid, sk) for sid, sk in arms if sid != "none"]  # the no-skill arm is not re-run
     worst = sum(len(arm_rows_map[sid]) for sid, _ in arms) * (a.cost_limit if model else 0.0)
     if model is not None and worst > a.budget_usd:
         raise SystemExit(
@@ -533,6 +558,11 @@ def main() -> int:
             stage1 = {arm: f.result() for arm, f in futures.items()}  # re-raises any failure
     else:
         stage1 = {arm: agent_and_score(arm, skill) for arm, skill in arms}
+    if reused_none is not None:
+        losses["none"] = {
+            i: v for i, v in reused_none.items() if i in {r["instance_id"] for r in rows}
+        }
+        usage["none"], infra["none"] = {}, {}
     for arm, _skill in arms:
         rows_arm = arm_rows_map[arm]
         agent_dir, reports = stage1[arm]
@@ -584,12 +614,13 @@ def main() -> int:
         "harness_test_timeout": test_timeout,
         "exit_status": exit_status,
         "skills": {},
+        "reused_none": a.reuse_none or None,
     }
     # the replicate's sampling seed (a.seed only orders a random task sample)
     seed_used = a.model_seed if a.model_seed is not None else a.seed
     bench = "live" if any("starryzhang/" in str(r.get("image", "")) for r in rows) else "verified"
-    for arm, _skill in arms[1:]:
-        if arm not in losses:
+    for arm, _skill in arms:
+        if arm == "none" or arm not in losses:
             continue
         pairs = pair_losses(losses["none"], losses[arm])
         for iid, lw, lo in pairs:

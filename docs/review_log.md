@@ -353,3 +353,17 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - P3 tách batch1–5 / batch6–10, và các quy tắc chỉ thấy phần sàng lọc.
   - Sai lệch về ước lượng τ² ghi ở Ghi chú thực thi 1.
 - **Chạy:** 20 lần lặp thử, rồi 1.000 lần lặp. Kết quả ở `results/plasmode_extra.json`.
+
+## R-32. B3: `--reuse-none` và phép kiểm "model không đổi" (2026-11-05; `docs/preregistration_main.md` §5 và §11)
+
+- **`--reuse-none` (run_pilot, run_batched_pilot):**
+  - Nhánh `none` không chạy lại. Loss được lấy từ file kết quả E2 cùng seed.
+  - Từ chối file có `model_seed` khác, và từ chối file có hai loss khác nhau cho cùng một task.
+  - Có test cho cả hai trường hợp.
+  - Bộ chặn chi phí của driver trừ đi một nhánh mỗi task, nên tính đúng số lần chạy thật.
+- **`stationarity_check.py`:**
+  - Gửi lại đúng lời gọi đầu tiên qua `LitellmModel` của mini-swe-agent, với cấu hình model lấy từ chính trajectory: cùng seed, cùng tham số, cùng công cụ bash.
+  - So sánh nội dung, hành động và tên model.
+  - Có cổng preflight và trần chi phí.
+- **Chạy thử miễn phí (`--dry`):** dựng lại được 344 lời gọi (seed 41: 116, seed 51: 116, seed 61: 112). Mọi lời gọi đều ghi model `gemini-3.1-flash-lite`.
+- **Chi phí ước:** khoảng 1.400 token vào và 30 token ra mỗi lời gọi × 688 lời gọi ≈ 0,27 USD; trần 1,0 USD.

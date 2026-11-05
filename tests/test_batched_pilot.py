@@ -326,3 +326,28 @@ def test_arms_per_task_counts_only_skills_whose_set_holds_the_task(tmp_path):
     sets.write_text(json.dumps({"s1": ["a", "b"], "s2": ["a"]}))  # s3 has no set: all tasks
     assert bp.arms_per_task(["a", "b", "c"], sk, str(sets)) == {"a": 4, "b": 3, "c": 2}
     assert bp.arms_per_task(["a"], sk, None) == {"a": 4}
+
+
+def test_reuse_none_loader_checks_seed_and_consistency(tmp_path):
+    import importlib.util
+    import json as _json
+
+    spec = importlib.util.spec_from_file_location("rp", "scripts/run_pilot.py")
+    rp = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rp)
+    f = tmp_path / "e2.json"
+    pairs = [{"instance_id": "a__b-1", "loss_with": 0.0, "loss_without": 1.0}]
+    f.write_text(
+        _json.dumps({"model_seed": 41, "skills": {"x": {"pairs": pairs}, "y": {"pairs": pairs}}})
+    )
+    assert rp.load_reused_none(str(f), 41) == {"a__b-1": 1.0}
+    import pytest
+
+    with pytest.raises(SystemExit):
+        rp.load_reused_none(str(f), 51)  # seed mismatch
+    bad = [{"instance_id": "a__b-1", "loss_with": 0.0, "loss_without": 0.0}]
+    f.write_text(
+        _json.dumps({"model_seed": 41, "skills": {"x": {"pairs": pairs}, "y": {"pairs": bad}}})
+    )
+    with pytest.raises(SystemExit):
+        rp.load_reused_none(str(f), 41)  # two different no-skill losses for one task

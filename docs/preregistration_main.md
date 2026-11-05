@@ -165,3 +165,15 @@ Như draft §10.
   - Sau Holm ở mức 0,025 trên 6 tổ hợp, **4/6 bị bác bỏ**: DeepSWE/DeepSeek +12,4; DeepSWE/GPT +12,4; Pro/MiMo +8,5; DeepSWE/MiMo +6,2 (mọi p ≤ 0,0052).
   - Pro/GPT +5,5: p = 0,017, không qua mức Holm 0,0125.
   - Kết luận đúng: trên thiết lập này, mức tăng của XRepoSkill **nhỏ hơn 4/6 mức họ công bố**, và không loại trừ được các mức tăng từ khoảng 4–5,5 điểm trở xuống.
+
+## 11. Sai lệch D-M5: ô đối chứng dương chạy 3 seed (@thuthuy chọn 05/11/2026: "chọn phương án xác suất cao nhất và mang lại lợi thế mạnh nhất cho paper"; ghi trước khi chạy)
+
+- **Thay cho §3 (1 seed):** nhánh `pc-oracle-files` chạy seed 41, 51 và 61 trên **109 task E2**. Mỗi seed ghép với nhánh `none` cùng seed đã chạy ở E2. Trial = Z̄ của 3 seed của một task, như E1/E2.
+- **Lý do:** mô phỏng trên q đo được (05/11): P(admit) là 0,97 ở δ = 0,20 và 0,55 ở δ = 0,15, so với 0,67 và 0,27 khi dùng 1 seed. Giới hạn trên ước được của δ là 0,235 (`docs/preregistration_main.md` §9 bên dưới).
+- **Ngân sách:** trần cứng 21,5 USD, gồm phép kiểm "model không đổi" (§5) và 327 lần chạy. Mức này nằm trong 64 USD đã duyệt.
+- **§5 mở rộng cho 3 seed:**
+  - Gửi lại lời gọi đầu tiên của agent cho từng (task, seed) của E2.
+  - Chỉ ghép những seed mà **mọi** task của seed đó cho câu trả lời giống hệt và trường `model` trùng.
+  - Seed không đạt thì **không** chạy nhánh pc cho seed đó, và giảm số seed của ô.
+- **Quyết định:** Gatekeeper với α_ô = 0,025/9, Holm trên p anytime-valid ở mức 0,025 trong họ K = 9 ô, theo thứ tự task đã cố định của E2. Ô dừng ngay khi admit; khi đó các task còn lại không được chạy.
+- **Không thêm trial nào ngoài 109 task này.** Không admit được thì báo cáo "đối chứng dương không được xác lập với 109 task" và dừng chi.

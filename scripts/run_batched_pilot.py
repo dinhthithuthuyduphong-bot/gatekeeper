@@ -230,6 +230,7 @@ def main() -> int:
     )
     ap.add_argument("--harness-python", default="", help="see run_pilot (SWE-bench-Live)")
     ap.add_argument("--harness-namespace", default="", help="see run_pilot (SWE-bench-Live)")
+    ap.add_argument("--reuse-none", default="", help="see run_pilot: no-skill arm not re-run")
     ap.add_argument("--pull-retries", type=int, default=6, help="waits on a registry limit")
     ap.add_argument("--pull-wait-min", type=float, default=30.0)
     ap.add_argument(
@@ -245,6 +246,8 @@ def main() -> int:
     skills = [s for s in a.skills.split(",") if s]
     tasks = task_list(a.tasks_from, skills)
     arms_of = arms_per_task(tasks, skills, a.task_sets)
+    if a.reuse_none:  # the no-skill arm is taken from an earlier run: one agent run fewer per task
+        arms_of = {i: n - 1 for i, n in arms_of.items()}
     # resume by TASK, not by part number: parts already written cover these instances
     parts = sorted(RESULTS.glob(f"{a.name}-p[0-9][0-9].json"))
     done = done_tasks(parts)
@@ -335,6 +338,8 @@ def main() -> int:
             cmd += ["--harness-python", a.harness_python]
         if a.harness_namespace:
             cmd += ["--harness-namespace", a.harness_namespace]
+        if a.reuse_none:
+            cmd += ["--reuse-none", a.reuse_none]
         rc = subprocess.run(cmd, check=False).returncode
         if rc == EX_NOSPACE and len(ids) > 1:  # large images (e.g. matplotlib ~10 GB): halve
             subprocess.run(["docker", "image", "prune", "-af"], capture_output=True, check=False)
