@@ -25,6 +25,12 @@
     "median_delay_after_change": null,
     "retired_before_change_share": 0.0
    },
+   "e_sr_qu": {
+    "retired_share": 1.0,
+    "median_retire_trial": 111.0,
+    "median_delay_after_change": 12.0,
+    "retired_before_change_share": 0.09
+   },
    "gk_outcome_monitor": {
     "retired_share": 0.928,
     "median_retire_trial": 321.0,
@@ -51,6 +57,44 @@
     "median_delay_after_change": null,
     "retired_before_change_share": 0.0
    },
+   "e_sr_qu": {
+    "retired_share": 0.352,
+    "median_retire_trial": 202.5,
+    "median_delay_after_change": null,
+    "retired_before_change_share": 0.085
+   },
+   "gk_outcome_monitor": {
+    "retired_share": 0.0,
+    "median_retire_trial": null,
+    "median_delay_after_change": null,
+    "retired_before_change_share": 0.0
+   }
+  },
+  "to_neutral": {
+   "library_drift": {
+    "retired_share": 0.0,
+    "median_retire_trial": null,
+    "median_delay_after_change": null,
+    "retired_before_change_share": 0.0
+   },
+   "gk_fingerprint_visible": {
+    "retired_share": 1.0,
+    "median_retire_trial": 100.0,
+    "median_delay_after_change": 0.0,
+    "retired_before_change_share": 0.0
+   },
+   "gk_fingerprint_hidden": {
+    "retired_share": 0.0,
+    "median_retire_trial": null,
+    "median_delay_after_change": null,
+    "retired_before_change_share": 0.0
+   },
+   "e_sr_qu": {
+    "retired_share": 1.0,
+    "median_retire_trial": 130.0,
+    "median_delay_after_change": 32.0,
+    "retired_before_change_share": 0.083
+   },
    "gk_outcome_monitor": {
     "retired_share": 0.0,
     "median_retire_trial": null,
@@ -61,38 +105,38 @@
  },
  "T1": {
   "gatekeeper": {
-   "fwer": 0.0,
-   "fdr": 0.0,
-   "coverage": 0.8053333333333333
+   "fwer": 0.001,
+   "fdr": 0.00025,
+   "coverage": 0.8036666666666666
   },
   "e_bh_fdr": {
-   "fwer": 0.0,
-   "fdr": 0.0,
-   "coverage": 0.815
+   "fwer": 0.002,
+   "fdr": 0.0006666666666666666,
+   "coverage": 0.8143333333333334
   },
   "b_x2_once": {
-   "fwer": 0.065,
-   "fdr": 0.016583333333333332,
-   "coverage": 0.9716666666666667
+   "fwer": 0.096,
+   "fdr": 0.025116666666666666,
+   "coverage": 0.974
   },
   "b_x2_monitored": {
-   "fwer": 0.291,
-   "fdr": 0.0774,
-   "coverage": 0.9843333333333333
+   "fwer": 0.321,
+   "fdr": 0.08801666666666665,
+   "coverage": 0.986
   },
   "b_g3": {
-   "fwer": 0.473,
-   "fdr": 0.2326666666666667,
-   "coverage": 0.517
+   "fwer": 0.498,
+   "fdr": 0.24398333333333333,
+   "coverage": 0.512
   },
   "b_gall_monitored": {
-   "fwer": 0.994,
-   "fdr": 0.47992380952380953,
+   "fwer": 0.997,
+   "fdr": 0.4832738095238095,
    "coverage": 1.0
   },
   "plug_in_monitored": {
-   "fwer": 0.994,
-   "fdr": 0.47992380952380953,
+   "fwer": 0.997,
+   "fdr": 0.4832738095238095,
    "coverage": 1.0
   },
   "b_x1": {

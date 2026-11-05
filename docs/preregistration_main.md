@@ -273,3 +273,11 @@ Như draft §10.
   | 0,3 | 0,442 | 34 |
 
 - **Kết luận chính:** ô có được admit trong trần 6 USD hay không. Số trial khi admit được so với bảng trên. Hiệu ứng đo được báo cáo kèm CI.
+
+**Ghi chú thực thi T2-1 (05/11/2026; thêm sau khi đã thấy kết quả T2 của 4 quy tắc kia; quy tắc của chúng không đổi):**
+- Thêm **e-SR** (Shin, Ramdas & Rinaldo, `e_detectors_2023`, Định nghĩa 2.12: "N*_SR := inf{n ≥ 1 : M^SR_n ≥ 1/α}").
+- Cách cài: M_n = (1 + λZ_n)(M_{n−1} + 1), tức tổng của các e-process Π(1 + λZ_i) bắt đầu ở mọi thời điểm j. λ = 0,5, bằng hệ số c của bettor Gatekeeper (`results/gro_c.json`). α = 0,025.
+- **Bảo đảm khác nhau:**
+  - e-SR kiểm soát ARL ≥ 1/α = 40 trial (thời gian chạy trung bình trước khi báo động nhầm);
+  - bộ theo dõi của Gatekeeper kiểm soát **xác suất** báo động nhầm ≤ 0,025 trên toàn bộ thời gian.
+  - Báo cáo cả hai, cùng kịch bản. Thêm kịch bản "trung tính": hiệu ứng đổi từ +0,20 sang 0 ở trial 100, để đo báo động nhầm khi skill trở nên vô dụng.

@@ -26,6 +26,7 @@ SEED = 20271108
 LOOK = 10
 # Library Drift section 5.1 (snapshot `library_drift_2026`): N_min = 100, tau = 0.10
 LD_NMIN, LD_TAU = 100, 0.10
+E_SR_LAMBDA = 0.5  # = Gatekeeper bettor c (results/gro_c.json); execution note T2-1
 
 
 def e_bh(e: list[float], alpha: float) -> list[bool]:
@@ -105,11 +106,12 @@ def drift_stream(rng, tasks, base, n, d_before, d_after, change_at):
 def t2(rng, tasks, base, reps):
     n, change = 400, 100
     out = {}
-    for scen, d_after in (("drift", -0.20), ("no_drift", 0.20)):
+    for scen, d_after in (("drift", -0.20), ("no_drift", 0.20), ("to_neutral", 0.0)):
         res = {
             "library_drift": [],
             "gk_fingerprint_visible": [],
             "gk_fingerprint_hidden": [],
+            "e_sr_qu": [],
             "gk_outcome_monitor": [],
         }
         for _ in range(reps):
@@ -118,7 +120,7 @@ def t2(rng, tasks, base, reps):
             # Library Drift: retired at the first t >= N_min with mean gain <= -tau
             ld = next((t for t in range(LD_NMIN, n + 1) if gain[:t].mean() <= -LD_TAU), None)
             res["library_drift"].append(ld)
-            res["gk_fingerprint_visible"].append(change if scen == "drift" else None)
+            res["gk_fingerprint_visible"].append(change if scen != "no_drift" else None)
             res["gk_fingerprint_hidden"].append(None)
             ep = BettingEProcess(theta=0.0, alpha=ALPHA)  # harm monitor: certifies E[Z] > 0
             mon = None
@@ -128,6 +130,14 @@ def t2(rng, tasks, base, reps):
                     mon = t
                     break
             res["gk_outcome_monitor"].append(mon)
+            # e-SR (Shin et al. Def. 2.12; Qu et al. retirement): M_n = (1 + lam Z_n)(M_{n-1} + 1)
+            m, esr = 0.0, None
+            for t, v in enumerate(z, 1):
+                m = (1 + E_SR_LAMBDA * v) * (m + 1)
+                if m >= 1 / ALPHA:
+                    esr = t
+                    break
+            res["e_sr_qu"].append(esr)
         summ = {}
         for r, v in res.items():
             hits = [t for t in v if t is not None]
@@ -137,7 +147,7 @@ def t2(rng, tasks, base, reps):
                 "median_delay_after_change": float(
                     np.median([t - change for t in hits if t >= change])
                 )
-                if scen == "drift" and any(t >= change for t in hits)
+                if scen != "no_drift" and any(t >= change for t in hits)
                 else None,
                 "retired_before_change_share": sum(1 for t in hits if t < change) / reps,
             }
