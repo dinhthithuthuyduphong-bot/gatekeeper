@@ -1,0 +1,24 @@
+{
+ "alpha": 0.025,
+ "lambda": 0.5,
+ "W": 200,
+ "reps": 1000,
+ "drift": {
+  "retired_share": 1.0,
+  "median_delay_after_change": 75.0,
+  "retired_before_change_share": 0.0,
+  "mean_quarantine_share_of_trials": 0.18011
+ },
+ "no_drift": {
+  "retired_share": 0.0,
+  "median_delay_after_change": null,
+  "retired_before_change_share": 0.0,
+  "mean_quarantine_share_of_trials": 0.1304575
+ },
+ "to_neutral": {
+  "retired_share": 0.0,
+  "median_delay_after_change": null,
+  "retired_before_change_share": 0.0,
+  "mean_quarantine_share_of_trials": 0.5748075
+ }
+}

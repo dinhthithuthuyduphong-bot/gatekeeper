@@ -392,3 +392,14 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - dừng khi `t4_check.py` báo ADMIT (Gatekeeper, K = 1, α = 0,025, theo thứ tự task cố định).
 - **Chạy thử miễn phí** (model giả lập, `conan-io__conan-18655`): 2 nhánh đều `Submitted`; 0 lỗi hạ tầng, 0 sai endpoint, 0 bản vá không áp được; đề bài chứa bản vá gốc (7.154 ký tự).
 - **Preflight:** PASS.
+
+## R-35. T2b, thu hồi hai bước (2026-11-05; §15, commit fd37f42 trước khi viết mã)
+
+- **Kiểm trước khi chạy:**
+  - Σ_k α·6/(π²k²) = 0,02499985 (cộng 99.999 số hạng), tức bằng α.
+  - Chuỗi toàn trial có hại (Z = +1) bị thu hồi ở trial 19. Chuỗi toàn trial có ích (Z = −1) không bao giờ bị thu hồi.
+  - Bước xác nhận chỉ dùng các trial **sau** lúc báo động.
+- **Chạy:** 20 lần lặp thử, rồi 1.000 lần lặp, seed 20271109. Kết quả ở `results/two_stage_retirement.json`.
+- **Tiêu chí ghi trước:** thu hồi nhầm ≤ 0,025 **và** độ trễ < 221 trial. **Đạt:** thu hồi nhầm 0/1.000 (cận trên khoảng 0,003); độ trễ 75 trial.
+- **Cái giá:** skill có ích bị cách ly nhầm 13% thời gian.
+- **Còn phải làm:** viết mệnh đề và chứng minh trong `docs/theory/proofs.md`; rà tài liệu về "báo động rồi xác nhận" trong phát hiện thay đổi.

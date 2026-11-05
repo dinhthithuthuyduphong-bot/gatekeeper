@@ -11,7 +11,8 @@
     "t4-s41-p07",
     "t4-s41-p08",
     "t4-s41-p09",
-    "t4-s41-p10"
+    "t4-s41-p10",
+    "t4-s41-p11"
   ],
   "skills": {
     "control-oracle-patch": {
@@ -70,28 +71,33 @@
           "instance_id": "beeware__briefcase-1640",
           "loss_with": 0.00276789244760775,
           "loss_without": 0.6694345591142744
+        },
+        {
+          "instance_id": "geopandas__geopandas-3202",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.3332981558035486,
-      "n": 11,
-      "solve_rate_with": 0.5454545454545454,
-      "solve_rate_without": 0.09090909090909091
+      "mean_Z": -0.36107886504214176,
+      "n": 12,
+      "solve_rate_with": 0.5833333333333334,
+      "solve_rate_without": 0.08333333333333333
     }
   },
   "usage": {
     "none": {
-      "runs": 11,
-      "usd": 0.9097788749999999,
+      "runs": 12,
+      "usd": 0.9520965999999998,
       "solved": 1,
-      "scored": 11,
-      "usd_per_run": 0.08270717045454544
+      "scored": 12,
+      "usd_per_run": 0.07934138333333332
     },
     "control-oracle-patch": {
-      "runs": 11,
-      "usd": 0.3348332,
-      "solved": 6,
-      "scored": 11,
-      "usd_per_run": 0.03043938181818182
+      "runs": 12,
+      "usd": 0.376377225,
+      "solved": 7,
+      "scored": 12,
+      "usd_per_run": 0.03136476875
     }
   },
   "infra_failures": {},
@@ -107,7 +113,8 @@
       "openai__openai-agents-python-998": "Submitted",
       "falconry__falcon-2475": "Submitted",
       "ansible__ansible-lint-4662": "Submitted",
-      "beeware__briefcase-1640": "Submitted"
+      "beeware__briefcase-1640": "Submitted",
+      "geopandas__geopandas-3202": "Submitted"
     },
     "control-oracle-patch": {
       "conan-io__conan-18655": "Submitted",
@@ -120,12 +127,13 @@
       "openai__openai-agents-python-998": "Submitted",
       "falconry__falcon-2475": "Submitted",
       "ansible__ansible-lint-4662": "Submitted",
-      "beeware__briefcase-1640": "Submitted"
+      "beeware__briefcase-1640": "Submitted",
+      "geopandas__geopandas-3202": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 1.2447,
+  "spent_usd": 1.3286,
   "instances": [
     "conan-io__conan-18655",
     "mikedh__trimesh-2126",
@@ -137,7 +145,8 @@
     "openai__openai-agents-python-998",
     "falconry__falcon-2475",
     "ansible__ansible-lint-4662",
-    "beeware__briefcase-1640"
+    "beeware__briefcase-1640",
+    "geopandas__geopandas-3202"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/pd/rows.jsonl"
