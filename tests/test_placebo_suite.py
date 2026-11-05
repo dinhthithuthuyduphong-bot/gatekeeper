@@ -117,3 +117,18 @@ def test_section20_test_command_pattern():
     assert s20.TEST_CMD.search("./runtests.py admin_views")
     assert s20.TEST_CMD.search("python manage.py test app")
     assert not s20.TEST_CMD.search("grep -rn foo src/")
+
+
+def test_preflight_run_counts_accept_reused_none_only():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    import preflight
+
+    reused = {
+        "reused_none": "x.json",
+        "usage": {"none": {"runs": 0, "scored": 3}, "s": {"runs": 3, "scored": 3}},
+    }
+    assert preflight.run_count_problems(reused) == []
+    not_reused = {"usage": {"none": {"runs": 0, "scored": 3}}}
+    assert preflight.run_count_problems(not_reused)
+    lost = {"reused_none": "x.json", "usage": {"s": {"runs": 3, "scored": 2}}}
+    assert preflight.run_count_problems(lost)

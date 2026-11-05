@@ -94,6 +94,24 @@ def check_sources() -> tuple[list[str], list[str]]:
     return ok, unverified
 
 
+def run_count_problems(d: dict) -> list[str]:
+    """Every agent run of an arm is scored or an infrastructure failure. A no-skill arm taken
+    from an earlier run (--reuse-none, section 20 S5) has no runs here: its losses come from that
+    run."""
+    out = []
+    for arm, u in (d.get("usage") or {}).items():
+        if u.get("scored") is None:  # files older than the "scored" field (audit A16)
+            continue
+        if arm == "none" and d.get("reused_none") and not u.get("runs"):
+            continue
+        n_infra = len((d.get("infra_failures") or {}).get(arm, {}))
+        if (u.get("runs") or 0) != (u.get("scored") or 0) + n_infra:
+            out.append(
+                f"arm {arm} runs {u.get('runs')} != scored {u.get('scored')} + infra {n_infra}"
+            )
+    return out
+
+
 def check_results() -> list[str]:
     bad = []
     # E2 lives in results/e2: outside the E1 driver's cumulative spend (A69), checked here too
@@ -103,15 +121,7 @@ def check_results() -> list[str]:
             continue
         # every agent run of an arm is either scored or listed as an infrastructure failure: a run
         # that is neither was lost silently (e.g. a harness crash after scoring, audit A51)
-        for arm, u in (d.get("usage") or {}).items():
-            if u.get("scored") is None:  # files older than the "scored" field (audit A16)
-                continue
-            n_infra = len((d.get("infra_failures") or {}).get(arm, {}))
-            if (u.get("runs") or 0) != (u.get("scored") or 0) + n_infra:
-                bad.append(
-                    f"{f.name}: arm {arm} runs {u.get('runs')} != scored {u.get('scored')}"
-                    f" + infra {n_infra}"
-                )
+        bad += [f"{f.name}: {m}" for m in run_count_problems(d)]
         if d.get("endpoint_mismatch"):
             bad.append(f"{f.name}: endpoint mismatch {d['endpoint_mismatch']}")
         # files written before A42 keep their (unused) fields: raw results are never rewritten

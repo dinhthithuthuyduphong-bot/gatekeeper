@@ -468,3 +468,16 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Không lưu văn bản trajectory** vào file kết quả; chỉ lưu quyết định, số token và chi phí.
 - **Test:** `parse`; prompt có đủ chỗ điền; `collect` cho đúng 52 cặp có skill thật như §18 (bỏ qua trên CI vì `runs/` chỉ có trên máy làm việc).
 - **Chạy thử offline:** dựng đủ 102 prompt, không gọi model. Trung bình 15.274 ký tự, lớn nhất 53.709.
+
+## R-41. §20 S5, đối chứng dương phía "hại" (2026-11-05, trước khi chạy có chi phí)
+
+- **Skill** `configs/skills/control-harm-submit-unchanged.json`, văn bản đúng nguyên văn §20.
+- **Task:** 40 task của `harm-minimal-edit` (`configs/pools/s5_pool.json`). Bước 1 dùng 3 task đầu, seed 41 (`s5_probe_pool.json`).
+- **Nhánh không skill:** dùng lại từ E1 (`e1none_s{41,51,61}.json`, dựng từ các lô E1; kiểm đủ 40 task ở mỗi seed và không trùng).
+- **Cấu hình:** giống `COMMON` của E1 (flash-lite, 250 bước, cost-limit 1,0, batch 4, workers 4). Chỉ khác `--arm-parallel 1`, vì chỉ chạy một nhánh.
+- **Trần:** tổng chi pilot trước S5 cộng 7,0 USD; driver dừng khi "đã chi + lô xấu nhất > trần".
+- **Chạy thử theo L37** (model giả lập, script thật):
+  - `reused_none` trỏ đúng file;
+  - `loss_without` khớp E1;
+  - văn bản skill có trong trajectory;
+  - `infra_failures`, `endpoint_mismatch`, `patch_apply_failed` đều rỗng.
