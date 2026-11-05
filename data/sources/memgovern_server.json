@@ -26,5 +26,5 @@
    "rch', methods=['POST']) def search(): \"\"\" Tool 1 endpoint: Semantic search Input: {\"query\": \"...\", \"top_k\": 5} \"\"\" try: data = request.get_json() query = data.get('query', '') top_k = data.get('top_k', 5) if not query: return jsonify({\"success\": False, \"error\": \"Missing query\"}), 400 if collection is None: return jsonify({\"success\": False, \"error\": \"Server not initialized\"}), 500 # Trace tool calls in the server logs (useful for reproducing runs) try: logger.info(f\"[TOOL] /search top_k={top_k} query={str(query)[:200]!r}\") except Exception: pass results = collection.query( query_texts=[query], n_results=top_k ) formatted = [] if results['ids']: for i, doc_id in enumerate(results['ids'][0]): meta = results['metadatas'][0][i] score = results['distances'][0][i] exp_item = experience_data.get(doc_id, {}) if isinstance(experience_data, dict) else {} formatted.append({ \"id\": doc_id, # repo + issue_id \"score\": score, \"content_preview\": meta.get('content_preview', 'No preview available'), \"bug_description\": exp_item.get(\"bug_description\"), }) return jsonify({ \"success\": True, \"results\": formatted }) except Exception as e: logger.error(f\"Search Error: {e}\") return jsonify({\"success\": False, \"error\": "
   ]
  },
- "fetched_utc": "2026-11-05T01:46:00+00:00"
+ "fetched_utc": "2026-11-05T01:49:30+00:00"
 }
