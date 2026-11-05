@@ -13,7 +13,8 @@
     "t4-s41-p09",
     "t4-s41-p10",
     "t4-s41-p11",
-    "t4-s41-p12"
+    "t4-s41-p12",
+    "t4-s41-p13"
   ],
   "skills": {
     "control-oracle-patch": {
@@ -82,28 +83,33 @@
           "instance_id": "reflex-dev__reflex-3982",
           "loss_with": 0.0,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pvlib__pvlib-python-1947",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.3845856190132591,
-      "n": 13,
-      "solve_rate_with": 0.6153846153846154,
-      "solve_rate_without": 0.07692307692307693
+      "mean_Z": -0.4047342652742168,
+      "n": 14,
+      "solve_rate_with": 0.6428571428571429,
+      "solve_rate_without": 0.07142857142857142
     }
   },
   "usage": {
     "none": {
-      "runs": 13,
-      "usd": 1.22154015,
+      "runs": 14,
+      "usd": 1.252628375,
       "solved": 1,
-      "scored": 13,
-      "usd_per_run": 0.09396462692307693
+      "scored": 14,
+      "usd_per_run": 0.08947345535714286
     },
     "control-oracle-patch": {
-      "runs": 13,
-      "usd": 0.39563082499999996,
-      "solved": 8,
-      "scored": 13,
-      "usd_per_run": 0.030433140384615382
+      "runs": 14,
+      "usd": 0.42285107499999997,
+      "solved": 9,
+      "scored": 14,
+      "usd_per_run": 0.03020364821428571
     }
   },
   "infra_failures": {},
@@ -121,7 +127,8 @@
       "ansible__ansible-lint-4662": "Submitted",
       "beeware__briefcase-1640": "Submitted",
       "geopandas__geopandas-3202": "Submitted",
-      "reflex-dev__reflex-3982": "LimitsExceeded"
+      "reflex-dev__reflex-3982": "LimitsExceeded",
+      "pvlib__pvlib-python-1947": "Submitted"
     },
     "control-oracle-patch": {
       "conan-io__conan-18655": "Submitted",
@@ -136,12 +143,13 @@
       "ansible__ansible-lint-4662": "Submitted",
       "beeware__briefcase-1640": "Submitted",
       "geopandas__geopandas-3202": "Submitted",
-      "reflex-dev__reflex-3982": "Submitted"
+      "reflex-dev__reflex-3982": "Submitted",
+      "pvlib__pvlib-python-1947": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 1.6173,
+  "spent_usd": 1.6756,
   "instances": [
     "conan-io__conan-18655",
     "mikedh__trimesh-2126",
@@ -155,7 +163,8 @@
     "ansible__ansible-lint-4662",
     "beeware__briefcase-1640",
     "geopandas__geopandas-3202",
-    "reflex-dev__reflex-3982"
+    "reflex-dev__reflex-3982",
+    "pvlib__pvlib-python-1947"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/pd/rows.jsonl"
