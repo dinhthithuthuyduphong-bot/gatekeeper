@@ -1,0 +1,152 @@
+{
+ "base_solve_rate": 0.3683527885862516,
+ "sskb_mu_z": -0.003433163265306122,
+ "sskb_tau2": 0.0009989938814946257,
+ "P3": {
+  "cells": 392,
+  "gatekeeper": {
+   "admitted": 0,
+   "held_out_mean_z": null,
+   "ci95": null,
+   "admitted_with_held_out_harm": 0
+  },
+  "plug_in": {
+   "admitted": 152,
+   "held_out_mean_z": -0.004153947368421052,
+   "ci95": [
+    -0.018960690789473683,
+    0.010756414473684183
+   ],
+   "admitted_with_held_out_harm": 66
+  },
+  "b_g3": {
+   "admitted": 123,
+   "held_out_mean_z": 0.0034032520325203252,
+   "ci95": [
+    -0.01373886178861789,
+    0.022106707317073163
+   ],
+   "admitted_with_held_out_harm": 54
+  },
+  "b_gall": {
+   "admitted": 152,
+   "held_out_mean_z": -0.004153947368421052,
+   "ci95": [
+    -0.01823799342105263,
+    0.01024180921052631
+   ],
+   "admitted_with_held_out_harm": 66
+  },
+  "b_x1": {
+   "admitted": 392,
+   "held_out_mean_z": -0.0012443877551020417,
+   "ci95": [
+    -0.009243163265306121,
+    0.006717895408163266
+   ],
+   "admitted_with_held_out_harm": 151
+  }
+ },
+ "P2": {
+  "109": {
+   "share_cells_delta_le_0": 0.4598888888888889,
+   "gatekeeper": {
+    "bad_admitted_per_100_cells": 0.0,
+    "good_admitted_per_100_cells": 0.16666666666666666,
+    "share_of_beneficial_admitted": 0.0030857848179386958,
+    "mean_delta_of_admitted": 0.0714108316954025
+   },
+   "plug_in": {
+    "bad_admitted_per_100_cells": 11.588888888888889,
+    "good_admitted_per_100_cells": 36.44444444444444,
+    "share_of_beneficial_admitted": 0.6747582801892614,
+    "mean_delta_of_admitted": 0.01931325155721459
+   },
+   "b_x1": {
+    "bad_admitted_per_100_cells": 45.98888888888889,
+    "good_admitted_per_100_cells": 54.01111111111111,
+    "share_of_beneficial_admitted": 1.0,
+    "mean_delta_of_admitted": 0.002973909954580452
+   },
+   "b_x2": {
+    "bad_admitted_per_100_cells": 0.5,
+    "good_admitted_per_100_cells": 6.977777777777778,
+    "share_of_beneficial_admitted": 0.12919152437770007,
+    "mean_delta_of_admitted": 0.04022885810702515
+   },
+   "b_g3": {
+    "bad_admitted_per_100_cells": 7.277777777777778,
+    "good_admitted_per_100_cells": 12.38888888888889,
+    "share_of_beneficial_admitted": 0.22937667146677637,
+    "mean_delta_of_admitted": 0.01053242775082846
+   },
+   "b_gall": {
+    "bad_admitted_per_100_cells": 11.588888888888889,
+    "good_admitted_per_100_cells": 36.44444444444444,
+    "share_of_beneficial_admitted": 0.6747582801892614,
+    "mean_delta_of_admitted": 0.01931325155721459
+   }
+  },
+  "200": {
+   "share_cells_delta_le_0": 0.45966666666666667,
+   "gatekeeper": {
+    "bad_admitted_per_100_cells": 0.0,
+    "good_admitted_per_100_cells": 0.8333333333333334,
+    "share_of_beneficial_admitted": 0.015422578655151141,
+    "mean_delta_of_admitted": 0.065379844295309
+   },
+   "plug_in": {
+    "bad_admitted_per_100_cells": 9.722222222222221,
+    "good_admitted_per_100_cells": 40.4,
+    "share_of_beneficial_admitted": 0.7476866132017274,
+    "mean_delta_of_admitted": 0.021910159006842005
+   },
+   "b_x1": {
+    "bad_admitted_per_100_cells": 45.96666666666667,
+    "good_admitted_per_100_cells": 54.03333333333333,
+    "share_of_beneficial_admitted": 1.0,
+    "mean_delta_of_admitted": 0.00336371457253383
+   },
+   "b_x2": {
+    "bad_admitted_per_100_cells": 0.3333333333333333,
+    "good_admitted_per_100_cells": 10.3,
+    "share_of_beneficial_admitted": 0.1906230721776681,
+    "mean_delta_of_admitted": 0.042821241018074836
+   },
+   "b_g3": {
+    "bad_admitted_per_100_cells": 6.766666666666667,
+    "good_admitted_per_100_cells": 12.466666666666667,
+    "share_of_beneficial_admitted": 0.23072177668106109,
+    "mean_delta_of_admitted": 0.011621954316344415
+   },
+   "b_gall": {
+    "bad_admitted_per_100_cells": 9.722222222222221,
+    "good_admitted_per_100_cells": 40.4,
+    "share_of_beneficial_admitted": 0.7476866132017274,
+    "mean_delta_of_admitted": 0.021910159006842005
+   }
+  }
+ },
+ "P1": {
+  "gatekeeper": {
+   "fwer": 0.0,
+   "false_admit_rate": 0.0,
+   "coverage": 0.776
+  },
+  "plug_in": {
+   "fwer": 0.997,
+   "false_admit_rate": 0.522,
+   "coverage": 1.0
+  },
+  "b_x2": {
+   "fwer": 0.343,
+   "false_admit_rate": 0.06483333333333334,
+   "coverage": 0.978
+  },
+  "b_gall": {
+   "fwer": 0.997,
+   "false_admit_rate": 0.522,
+   "coverage": 1.0
+  }
+ }
+}

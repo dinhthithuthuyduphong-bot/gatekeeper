@@ -139,3 +139,5 @@ Như draft §10.
 - Báo cáo: số ô được admit; Z̄ trên phần xác nhận của các ô được admit, kèm CI bootstrap 95% (2.000 lần lặp); số ô được admit có Z̄ xác nhận > 0 (tức có hại trên phần xác nhận).
 - B-X2 không áp được, vì kết quả là tỉ lệ liên tục chứ không phải nhị phân.
 - Đây là phân tích **thăm dò**: dữ liệu đã được xem ở pilot.
+
+**Ghi chú thực thi 1 (05/11/2026, trước khi đọc kết quả P2):** §9 P2 ghi "DerSimonian–Laird". Trọng số 1/v của DL không xác định ở các ô có phương sai trong ô bằng 0; nhiều ô của SWE-Skills-Bench có mọi Δ = 0. Vì vậy dùng ước lượng moment trọng số đều cùng họ (Veroniki et al. 2016): τ² = Var(ȳ_i) − trung bình(s_i²/m_i). Kết quả: μ = −0,0034 trên thang Z, tức tỉ lệ qua tăng 0,0034; τ = 0,0316.

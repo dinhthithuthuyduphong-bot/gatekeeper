@@ -344,3 +344,12 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Mọi quy tắc thấy cùng các trial.
 - **Chạy thử:** 20 lần lặp mất 1,6 giây. Bản chính 1.000 lần lặp mất 72 giây. Sai số Monte Carlo ≤ 0,016.
 - **Pool:** 257 task (E1 và E2), tỉ lệ giải nền 0,368.
+
+## R-31. P1–P3 (2026-11-05; `docs/preregistration_main.md` §9, commit 418280a trước khi chạy)
+
+- **Kiểm:**
+  - P1 dùng cùng các ô như §8.
+  - Mỗi baseline được kiểm ở 20 lần nhìn (10, 20, …, 200 trial).
+  - P3 tách batch1–5 / batch6–10, và các quy tắc chỉ thấy phần sàng lọc.
+  - Sai lệch về ước lượng τ² ghi ở Ghi chú thực thi 1.
+- **Chạy:** 20 lần lặp thử, rồi 1.000 lần lặp. Kết quả ở `results/plasmode_extra.json`.
