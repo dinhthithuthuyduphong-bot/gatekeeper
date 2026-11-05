@@ -52,5 +52,5 @@
    "esults 4.3 Skill Delivery 4.4 Noisy Feedback 5 Discussion 6 Conclusion References A Curator Prompt and Output Schemas B Representative Approved Skills License: arXiv.org perpetual non-exclusive license arXiv:2606.22330v1 [cs.AI] 21 Jun 2026 Yehui Yang, Contact: yangyehuisw@126.com Hypothesis-Driven Skill Optimization for LLM Agents Shang Fangxin Affiliation: AI Lab, Qifu Technology, Beijing, China Yehui Yang Corresponding author: = Affiliation: AI Lab, Qifu Technology, Beijing, China Abstract External skills can improve action-oriented LLM agents without changing model weights, but persistent skill updates are risky when they are distilled from sparse or noisy trajectories. A plausible reflection may encode a useful procedure, a spurious shortcut, or a rule that the target executor cannot reliably follow. We propose Hypothesis-Driven Skill Optimization ( HDSO ), a train-free framework in which both the skill curator and the agent executor are frozen inference endpoints. The curator observes executor traces, proposes a falsifiable hypothesis with an explicit validation plan, instantiates the hypothesis as a candidate skill package, validates the package through paired control/treatment e"
   ]
  },
- "fetched_utc": "2026-11-05T08:19:44+00:00"
+ "fetched_utc": "2026-11-05T08:23:47+00:00"
 }
