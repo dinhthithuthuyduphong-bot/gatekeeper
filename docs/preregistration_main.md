@@ -160,3 +160,8 @@ Như draft §10.
   - Lấy **mọi** mức tăng so với "cùng agent không có skill" trong bảng kết quả của họ (6 tổ hợp benchmark × LLM).
   - Báo cáo phép kiểm cho từng mức tăng. Kết luận chính dùng mức tăng **nhỏ nhất**.
   - Nếu mức nhỏ nhất ≤ 0,053 (cận trên CI của E2) thì ghi rõ là không bác bỏ được mức đó.
+- **Kết quả theo quy tắc công bằng** (05/11/2026; `results/xreposkill_replication.json`; mức tăng lấy từ Table 1 của họ, câu gốc trong snapshot `xreposkill`):
+  - **Kết luận chính** (mức tăng nhỏ nhất, SWE-bench Pro/DeepSeek, +4,0 điểm): **không bác bỏ được**, p = 0,12 (theo cụm repo: 0,093).
+  - Sau Holm ở mức 0,025 trên 6 tổ hợp, **4/6 bị bác bỏ**: DeepSWE/DeepSeek +12,4; DeepSWE/GPT +12,4; Pro/MiMo +8,5; DeepSWE/MiMo +6,2 (mọi p ≤ 0,0052).
+  - Pro/GPT +5,5: p = 0,017, không qua mức Holm 0,0125.
+  - Kết luận đúng: trên thiết lập này, mức tăng của XRepoSkill **nhỏ hơn 4/6 mức họ công bố**, và không loại trừ được các mức tăng từ khoảng 4–5,5 điểm trở xuống.
