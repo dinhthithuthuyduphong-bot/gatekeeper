@@ -141,3 +141,18 @@ Như draft §10.
 - Đây là phân tích **thăm dò**: dữ liệu đã được xem ở pilot.
 
 **Ghi chú thực thi 1 (05/11/2026, trước khi đọc kết quả P2):** §9 P2 ghi "DerSimonian–Laird". Trọng số 1/v của DL không xác định ở các ô có phương sai trong ô bằng 0; nhiều ô của SWE-Skills-Bench có mọi Δ = 0. Vì vậy dùng ước lượng moment trọng số đều cùng họ (Veroniki et al. 2016): τ² = Var(ȳ_i) − trung bình(s_i²/m_i). Kết quả: μ = −0,0034 trên thang Z, tức tỉ lệ qua tăng 0,0034; τ = 0,0316.
+
+## 10. Kiểm định lặp lại tuyên bố đã công bố của XRepoSkill (05/11/2026; **phân tích thêm sau khi đã có kết quả E2**, ghi rõ trong paper)
+
+- **Tuyên bố gốc** (`xreposkill`, arXiv 2609.36807):
+  - "XRepoSkill improves issue resolution by 10.3 percentage points over the same agent without learned skills" (DeepSWE);
+  - "strong transfer to previously unseen repositories".
+- **Phép kiểm:** kiểm tương đương một phía, bác bỏ một hiệu ứng tối thiểu đáng quan tâm (SESOI) (`lakens_2018_tost`: "reject the presence of a smallest effect size of interest (SESOI)").
+  - SESOI = 0,103, chính con số họ công bố.
+  - H0: mức tăng tỉ lệ giải ≥ 0,103.
+  - Kiểm đổi dấu chính xác trên 109 task E2 (Z̄ của 3 seed), 200.000 lần đổi dấu, seed 20271105.
+- **Kết quả:** Z̄ = −0,0214, tức mức tăng tỉ lệ giải 0,021, CI 95% [−0,010; +0,053]; p < 5·10⁻⁶. Bác bỏ H0.
+- **Phạm vi kết luận:**
+  - Áp cho SWE-bench-Live (repo không có trong pool học của họ), một model (Gemini 3.1 Flash-Lite), mini-swe-agent, bộ skill đã công bố và bước chọn rule của chính họ.
+  - Không bác bỏ kết quả của họ trên DeepSWE với các model của họ.
+  - Theo câu gốc của Lakens: "when a meaningful effect can be rejected, it does not imply there is no effect at all".
