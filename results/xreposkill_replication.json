@@ -1,0 +1,65 @@
+{
+ "n_tasks": 109,
+ "gain_hat": 0.02140672782874618,
+ "tests": {
+  "Pro/DeepSeek": {
+   "sesoi": 0.04,
+   "p_one_sided": 0.1224,
+   "rejected_at_0.025": false,
+   "p_cluster_sign_flip": 0.09273,
+   "holm_rejected": false
+  },
+  "Pro/GPT": {
+   "sesoi": 0.055,
+   "p_one_sided": 0.01713,
+   "rejected_at_0.025": true,
+   "p_cluster_sign_flip": 0.00999,
+   "holm_rejected": false
+  },
+  "Pro/MiMo": {
+   "sesoi": 0.085,
+   "p_one_sided": 5.5e-05,
+   "rejected_at_0.025": true,
+   "p_cluster_sign_flip": 3.5e-05,
+   "holm_rejected": true
+  },
+  "Pro/Avg": {
+   "sesoi": 0.06,
+   "p_one_sided": 0.007645,
+   "rejected_at_0.025": true,
+   "p_cluster_sign_flip": 0.003955,
+   "holm_rejected": null
+  },
+  "DeepSWE/DeepSeek": {
+   "sesoi": 0.124,
+   "p_one_sided": 0.0,
+   "rejected_at_0.025": true,
+   "p_cluster_sign_flip": 0.0,
+   "holm_rejected": true
+  },
+  "DeepSWE/GPT": {
+   "sesoi": 0.124,
+   "p_one_sided": 0.0,
+   "rejected_at_0.025": true,
+   "p_cluster_sign_flip": 0.0,
+   "holm_rejected": true
+  },
+  "DeepSWE/MiMo": {
+   "sesoi": 0.062,
+   "p_one_sided": 0.005145,
+   "rejected_at_0.025": true,
+   "p_cluster_sign_flip": 0.002815,
+   "holm_rejected": true
+  },
+  "DeepSWE/Avg": {
+   "sesoi": 0.103,
+   "p_one_sided": 0.0,
+   "rejected_at_0.025": true,
+   "p_cluster_sign_flip": 0.0,
+   "holm_rejected": null
+  }
+ },
+ "primary_smallest_sesoi": 0.04,
+ "primary_rejected": false,
+ "n_repos": 59
+}
