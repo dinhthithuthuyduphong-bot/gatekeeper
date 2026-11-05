@@ -414,3 +414,10 @@ Dự đoán sai thì báo cáo nguyên trạng.
 - **Thêm, không đổi quy tắc:**
   - CI bootstrap dùng `nanpercentile`, vì một mẫu bootstrap không có ứng viên nào thì tỉ số R không xác định. Báo cáo nguyên trạng.
   - H18-5 tính đúng theo câu đã đăng ký: 3 × số task có ứng viên ở cả 3 seed / tổng số ứng viên.
+
+**Sai lệch D-M8** (05/11/2026, sau khi thấy kết quả của phép kiểm power 18-2, **trước khi** diễn giải H18-2):
+- **Vấn đề:** phép kiểm 18-2 đặt giá trị thật sai (A80).
+- **Thay bằng:** mô phỏng cả hai nhánh từ p_i ~ Beta(a, b), với (a, b) khớp theo moment với số lần giải của nhánh không skill ở E2; p_with_i = clip(p_i + δ_i, 0, 1); giá trị thật = Var(p_with − p).
+- **Giữ nguyên:** bộ ước lượng, CI và kiểm định của H18. Lặp 1.000 lần; 1.000 lần đổi dấu; 1.000 lần bootstrap.
+- **Thêm:** tỉ lệ mô phỏng có cận trên CI của τ² nhỏ hơn 0,15², để biết kết luận "τ < 0,15" có đáng tin không.
+- Kết quả bản cũ vẫn được báo cáo.

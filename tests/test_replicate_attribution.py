@@ -110,3 +110,17 @@ def test_end_to_end_on_synthetic_records():
     assert a["tasks"] == 30 and a["functional"]["skill_candidates"] >= 0
     pc = ra.power_check(tasks, ids, 5, 50, 50, rng)
     assert set(pc) == {str(t) for t in ra.POWER_TAUS}
+
+
+def test_power_v2_beta_fit_and_truth():
+    import heterogeneity_power_v2 as hp
+
+    rng = np.random.default_rng(4)
+    p = rng.beta(0.5, 1.0, 20000)
+    k = rng.binomial(3, p).astype(float)
+    a, b = hp.beta_mom(k, 3)
+    assert a == pytest.approx(0.5, rel=0.15) and b == pytest.approx(1.0, rel=0.15)
+    M, truth = hp.simulate(rng, a, b, 500, 0.0)
+    assert M.shape == (500, 3) and truth == 0.0
+    _, t2 = hp.simulate(rng, a, b, 5000, 0.2)
+    assert 0 < t2 < 0.2**2  # clipping at 0 and 1 shrinks the planted variance

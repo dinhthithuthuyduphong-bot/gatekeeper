@@ -1,0 +1,455 @@
+{
+ "T": 2.0,
+ "seed": 20271111,
+ "args": {
+  "null_reps": 10000,
+  "boot": 10000,
+  "power_reps": 1000,
+  "power_null_reps": 1000,
+  "power_boot": 1000
+ },
+ "stages": {
+  "e1": {
+   "exception-handling": {
+    "heterogeneity": {
+     "tasks": 40,
+     "mean_gain": -0.016666666666666666,
+     "C": 0.0,
+     "C_null_mean": 0.0,
+     "p_one_sided": 1.0,
+     "tau2": 0.0007122507122507005,
+     "tau2_ci95_task": [
+      -0.024572649572649582,
+      0.022863247863247855
+     ],
+     "tau2_ci95_repo": [
+      -0.02666666666666668,
+      0.025162707997852893
+     ]
+    },
+    "attribution": {
+     "tasks": 40,
+     "functional": {
+      "skill_candidates": 8,
+      "placebo_candidates": 10,
+      "R": 1.25,
+      "R_ci95": [
+       0.5714285714285714,
+       3.25
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     },
+     "efficiency": {
+      "skill_candidates": 7,
+      "placebo_candidates": 6,
+      "R": 0.8571428571428571,
+      "R_ci95": [
+       0.3333333333333333,
+       2.3333333333333335
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     },
+     "efficiency_token_only": {
+      "skill_candidates": 8,
+      "placebo_candidates": 6,
+      "R": 0.75,
+      "R_ci95": [
+       0.3333333333333333,
+       1.6666666666666667
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     }
+    }
+   },
+   "harm-minimal-edit": {
+    "heterogeneity": {
+     "tasks": 40,
+     "mean_gain": -0.05,
+     "C": 0.0,
+     "C_null_mean": 0.0,
+     "p_one_sided": 1.0,
+     "tau2": 0.006908831908831903,
+     "tau2_ci95_task": [
+      -0.021794871794871808,
+      0.03504273504273503
+     ],
+     "tau2_ci95_repo": [
+      -0.0021960896055098983,
+      0.009757834757834732
+     ]
+    },
+    "attribution": {
+     "tasks": 40,
+     "functional": {
+      "skill_candidates": 10,
+      "placebo_candidates": 7,
+      "R": 0.7,
+      "R_ci95": [
+       0.3,
+       1.4
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     },
+     "efficiency": {
+      "skill_candidates": 5,
+      "placebo_candidates": 9,
+      "R": 1.8,
+      "R_ci95": [
+       0.6666666666666666,
+       6.5
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     },
+     "efficiency_token_only": {
+      "skill_candidates": 6,
+      "placebo_candidates": 9,
+      "R": 1.5,
+      "R_ci95": [
+       0.5714285714285714,
+       4.5
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     }
+    }
+   },
+   "harm-skip-verification": {
+    "heterogeneity": {
+     "tasks": 40,
+     "mean_gain": -0.058333333333333334,
+     "C": 0.0,
+     "C_null_mean": 0.0,
+     "p_one_sided": 1.0,
+     "tau2": 0.014387464387464376,
+     "tau2_ci95_task": [
+      -0.017094017094017103,
+      0.04786680911680906
+     ],
+     "tau2_ci95_repo": [
+      -0.002178649237472765,
+      0.019224305975667128
+     ]
+    },
+    "attribution": {
+     "tasks": 40,
+     "functional": {
+      "skill_candidates": 10,
+      "placebo_candidates": 7,
+      "R": 0.7,
+      "R_ci95": [
+       0.2727272727272727,
+       1.6666666666666667
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     },
+     "efficiency": {
+      "skill_candidates": 1,
+      "placebo_candidates": 9,
+      "R": 9.0,
+      "R_ci95": [
+       1.6666666666666667,
+       15.0
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     },
+     "efficiency_token_only": {
+      "skill_candidates": 1,
+      "placebo_candidates": 9,
+      "R": 9.0,
+      "R_ci95": [
+       1.6666666666666667,
+       14.0
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     }
+    }
+   },
+   "harm-swallow-exceptions": {
+    "heterogeneity": {
+     "tasks": 40,
+     "mean_gain": -0.058333333333333334,
+     "C": 0.025,
+     "C_null_mean": 0.006275,
+     "p_one_sided": 0.251,
+     "tau2": 0.006339031339031326,
+     "tau2_ci95_task": [
+      -0.04195156695156695,
+      0.062394943019942965
+     ],
+     "tau2_ci95_repo": [
+      -0.03231162196679438,
+      0.02005125885722899
+     ]
+    },
+    "attribution": {
+     "tasks": 40,
+     "functional": {
+      "skill_candidates": 13,
+      "placebo_candidates": 7,
+      "R": 0.5384615384615384,
+      "R_ci95": [
+       0.19047619047619047,
+       1.2727272727272727
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.23076923076923078,
+      "recurrence_placebo": 0.0
+     },
+     "efficiency": {
+      "skill_candidates": 5,
+      "placebo_candidates": 9,
+      "R": 1.8,
+      "R_ci95": [
+       0.6666666666666666,
+       6.5
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     },
+     "efficiency_token_only": {
+      "skill_candidates": 4,
+      "placebo_candidates": 9,
+      "R": 2.25,
+      "R_ci95": [
+       0.8333333333333334,
+       9.0
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     }
+    }
+   },
+   "null-guard": {
+    "heterogeneity": {
+     "tasks": 40,
+     "mean_gain": 0.03333333333333333,
+     "C": 0.0,
+     "C_null_mean": 0.0,
+     "p_one_sided": 1.0,
+     "tau2": 0.01638176638176637,
+     "tau2_ci95_task": [
+      -0.002136752136752136,
+      0.0428062678062678
+     ],
+     "tau2_ci95_repo": [
+      -0.002415458937198068,
+      0.0327503429355281
+     ]
+    },
+    "attribution": {
+     "tasks": 40,
+     "functional": {
+      "skill_candidates": 2,
+      "placebo_candidates": 5,
+      "R": 2.5,
+      "R_ci95": [
+       0.6666666666666666,
+       4.0
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     },
+     "efficiency": {
+      "skill_candidates": 5,
+      "placebo_candidates": 6,
+      "R": 1.2,
+      "R_ci95": [
+       0.5,
+       3.5
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     },
+     "efficiency_token_only": {
+      "skill_candidates": 5,
+      "placebo_candidates": 6,
+      "R": 1.2,
+      "R_ci95": [
+       0.5,
+       3.5
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     }
+    }
+   },
+   "type-guard": {
+    "heterogeneity": {
+     "tasks": 40,
+     "mean_gain": -0.016666666666666666,
+     "C": 0.0,
+     "C_null_mean": 0.0,
+     "p_one_sided": 1.0,
+     "tau2": -0.007621082621082624,
+     "tau2_ci95_task": [
+      -0.03996438746438748,
+      0.018091168091168064
+     ],
+     "tau2_ci95_repo": [
+      -0.046560846560846546,
+      0.023346366894753966
+     ]
+    },
+    "attribution": {
+     "tasks": 40,
+     "functional": {
+      "skill_candidates": 9,
+      "placebo_candidates": 11,
+      "R": 1.2222222222222223,
+      "R_ci95": [
+       0.6666666666666666,
+       2.4
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     },
+     "efficiency": {
+      "skill_candidates": 11,
+      "placebo_candidates": 9,
+      "R": 0.8181818181818182,
+      "R_ci95": [
+       0.3912439613526571,
+       1.5
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     },
+     "efficiency_token_only": {
+      "skill_candidates": 13,
+      "placebo_candidates": 9,
+      "R": 0.6923076923076923,
+      "R_ci95": [
+       0.3333333333333333,
+       1.2727272727272727
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     }
+    }
+   }
+  },
+  "e2": {
+   "xreposkill": {
+    "heterogeneity": {
+     "tasks": 109,
+     "mean_gain": 0.021406727828746176,
+     "C": 0.0,
+     "C_null_mean": 0.0,
+     "p_one_sided": 1.0,
+     "tau2": -0.00938196096198136,
+     "tau2_ci95_task": [
+      -0.02937006833540981,
+      0.009419715332049671
+     ],
+     "tau2_ci95_repo": [
+      -0.02537634233584114,
+      0.005203936155797247
+     ]
+    },
+    "attribution": {
+     "tasks": 109,
+     "functional": {
+      "skill_candidates": 13,
+      "placebo_candidates": 14,
+      "R": 1.0769230769230769,
+      "R_ci95": [
+       0.6842105263157895,
+       1.75
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     },
+     "efficiency": {
+      "skill_candidates": 15,
+      "placebo_candidates": 14,
+      "R": 0.9333333333333333,
+      "R_ci95": [
+       0.5555555555555556,
+       1.7
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     },
+     "efficiency_token_only": {
+      "skill_candidates": 11,
+      "placebo_candidates": 9,
+      "R": 0.8181818181818182,
+      "R_ci95": [
+       0.26614035087719307,
+       2.5
+      ],
+      "unmeasured_skill": 0,
+      "unmeasured_placebo": 0,
+      "recurrence_skill": 0.0,
+      "recurrence_placebo": 0.0
+     }
+    }
+   }
+  }
+ },
+ "power_check_e2": {
+  "0.0": {
+   "H18_1_rejection_rate": 0.0,
+   "tau2_ci_coverage": 0.365
+  },
+  "0.1": {
+   "H18_1_rejection_rate": 0.0,
+   "tau2_ci_coverage": 0.48
+  },
+  "0.15": {
+   "H18_1_rejection_rate": 0.0,
+   "tau2_ci_coverage": 0.559
+  },
+  "0.2": {
+   "H18_1_rejection_rate": 0.015,
+   "tau2_ci_coverage": 0.659
+  }
+ }
+}

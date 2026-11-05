@@ -338,3 +338,8 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   1. **Cận trên của δ** tính từ dữ liệu đã có: tỉ lệ các lần chạy thuộc loại thất bại mà can thiệp có thể sửa.
   2. **Xác suất qua cổng** ở cận trên đó, bằng mô phỏng.
   - Nếu cận trên thấp hơn cổng, không đề xuất. Nếu không tính được cận trên, ghi rõ vì sao, và để @thuthuy quyết với thông tin đó.
+
+## L39. Trong plasmode, "giá trị thật" phải là đúng đại lượng mà bộ ước lượng nhắm tới, định nghĩa trên tham số chứ không trên mẫu (A80)
+
+- **Xảy ra:** tôi cấy hiệu ứng quanh trung bình mẫu của 3 lần chạy, rồi so CI với phương sai của chính các hiệu ứng đã cấy. Bộ ước lượng thì nhắm tới phương sai của hiệu số xác suất thật.
+- **Phòng ngừa:** trước khi chạy mọi kiểm power hay độ phủ, viết rõ một dòng "đại lượng thật = …" theo tham số của mô hình sinh dữ liệu, và kiểm bằng một test: khi τ = 0, độ phủ phải gần 0,95.

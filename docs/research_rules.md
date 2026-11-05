@@ -134,6 +134,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Đề xuất có chi phí (L38)**
 - [ ] Mỗi pilot hay thí nghiệm có chi phí phải kèm cận trên của mức tăng δ tính từ dữ liệu đã có, và xác suất qua cổng ở cận trên đó. Cận trên thấp hơn cổng thì không đề xuất.
 
+**Plasmode và độ phủ (L39)**
+- [ ] "Giá trị thật" trong mô phỏng được định nghĩa trên tham số của mô hình sinh dữ liệu, đúng đại lượng mà bộ ước lượng nhắm tới. Ở trường hợp không có hiệu ứng, độ phủ phải gần mức danh nghĩa.
+
 **Kiểm thử**
 - [ ] Mô phỏng hoặc phép toán mảng: assert kích thước kết quả, vì broadcasting âm thầm làm rộng mẫu (R-6).
 - [ ] Có test cho từng chỗ sửa; `ruff check`, `ruff format --check` và `pytest` đều qua.
