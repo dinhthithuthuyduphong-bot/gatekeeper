@@ -14,7 +14,8 @@
     "t4-s41-p10",
     "t4-s41-p11",
     "t4-s41-p12",
-    "t4-s41-p13"
+    "t4-s41-p13",
+    "t4-s41-p14"
   ],
   "skills": {
     "control-oracle-patch": {
@@ -88,28 +89,33 @@
           "instance_id": "pvlib__pvlib-python-1947",
           "loss_with": 0.0,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "python-pillow__Pillow-9105",
+          "loss_with": 7.32922896511287e-05,
+          "loss_without": 7.32922896511287e-05
         }
       ],
-      "mean_Z": -0.4047342652742168,
-      "n": 14,
-      "solve_rate_with": 0.6428571428571429,
-      "solve_rate_without": 0.07142857142857142
+      "mean_Z": -0.37775198092260237,
+      "n": 15,
+      "solve_rate_with": 0.6,
+      "solve_rate_without": 0.06666666666666667
     }
   },
   "usage": {
     "none": {
-      "runs": 14,
-      "usd": 1.252628375,
+      "runs": 15,
+      "usd": 1.2887579,
       "solved": 1,
-      "scored": 14,
-      "usd_per_run": 0.08947345535714286
+      "scored": 15,
+      "usd_per_run": 0.08591719333333334
     },
     "control-oracle-patch": {
-      "runs": 14,
-      "usd": 0.42285107499999997,
+      "runs": 15,
+      "usd": 0.4396211,
       "solved": 9,
-      "scored": 14,
-      "usd_per_run": 0.03020364821428571
+      "scored": 15,
+      "usd_per_run": 0.029308073333333334
     }
   },
   "infra_failures": {},
@@ -128,7 +134,8 @@
       "beeware__briefcase-1640": "Submitted",
       "geopandas__geopandas-3202": "Submitted",
       "reflex-dev__reflex-3982": "LimitsExceeded",
-      "pvlib__pvlib-python-1947": "Submitted"
+      "pvlib__pvlib-python-1947": "Submitted",
+      "python-pillow__Pillow-9105": "Submitted"
     },
     "control-oracle-patch": {
       "conan-io__conan-18655": "Submitted",
@@ -144,12 +151,13 @@
       "beeware__briefcase-1640": "Submitted",
       "geopandas__geopandas-3202": "Submitted",
       "reflex-dev__reflex-3982": "Submitted",
-      "pvlib__pvlib-python-1947": "Submitted"
+      "pvlib__pvlib-python-1947": "Submitted",
+      "python-pillow__Pillow-9105": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 1.6756,
+  "spent_usd": 1.7285,
   "instances": [
     "conan-io__conan-18655",
     "mikedh__trimesh-2126",
@@ -164,7 +172,8 @@
     "beeware__briefcase-1640",
     "geopandas__geopandas-3202",
     "reflex-dev__reflex-3982",
-    "pvlib__pvlib-python-1947"
+    "pvlib__pvlib-python-1947",
+    "python-pillow__Pillow-9105"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/pd/rows.jsonl"
