@@ -356,3 +356,41 @@ Như draft §10.
   - **Không** dùng kết quả này để nói "skill không có tác dụng".
 - **Hệ quả:** 2.2 không chạy. Cổng §17 được ghi là "không đánh giá" (dừng trước khi đủ n), không ghi là "trượt".
 - **Chi và token:** 0,97 USD, gồm 0,88 USD có trong file kết quả và 0,09 USD của task 5 bị ngắt, tính từ quỹ đạo. Token: 23.558.569 token vào, 64.103 token ra.
+
+## 18. Tác dụng của skill: ngữ cảnh hay nhiễu? Phép placebo A/A cho việc quy lỗi (đăng ký 05/11/2026, trước khi tính bất kỳ đại lượng nào dưới đây trên dữ liệu đã nêu; 0 USD)
+
+**Công bố trước (R5):** ngày 05/11 tôi đã tính **thăm dò trên E1** hai đại lượng sau:
+- (a) tỉ lệ task có Z cùng dấu khác 0 ở cả 3 seed: 0/40 ở 5 skill, 1/40 ở `harm-swallow-exceptions`;
+- (b) τ̂², ước lượng phương sai thật của tác dụng skill theo task: từ −0,008 tới +0,016.
+
+Hai đại lượng này **chưa** được tính trên E2. Hai đại lượng quy lỗi (H18-3, H18-4) **chưa** được tính trên E1 lẫn E2.
+
+**Dữ liệu:**
+- **E2:** `results/pilot/g2-e2-s{41,51,61}.json`, skill `xreposkill`, 109 task có đủ 3 seed.
+- **E1:** `results/pilot/g1-e1-s{41,51,61}-p*.json`, 6 skill × 40 task.
+- **Endpoint:** resolved ⇔ loss == 0 (`analyze_g1_final.resolved`).
+- **Token và thời gian của từng lần chạy:** lấy từ quỹ đạo trong `raw-archive`. Lần chạy nào thiếu thì báo số lượng và loại khỏi H18-4. Không thay thế bằng giá trị khác.
+
+**Câu hỏi và đại lượng (đều mô tả, kèm khoảng tin cậy):**
+
+| Mã | Câu hỏi | Đại lượng | Tham chiếu "chỉ có nhiễu" | Dữ liệu |
+| --- | --- | --- | --- | --- |
+| H18-1 | Có task nào mà skill giúp hay hại **nhất quán** không? | C = tỉ lệ task có Z cùng dấu khác 0 ở cả 3 seed | Phân phối của C khi đổi ngẫu nhiên hai nhánh trong từng cặp (sign-flip), 10.000 lần; p một phía = P(C_null ≥ C) | E2 (xác nhận); E1 (thăm dò, đã thấy) |
+| H18-2 | Phương sai thật của tác dụng skill theo task | τ̂² = Var(trung bình theo task) − trung bình(phương sai trong task)/3. CI 95% bootstrap theo task, 10.000 lần. Độ nhạy: bootstrap theo repo | τ² = 0 | E2 (xác nhận); E1 (thăm dò) |
+| H18-3 | Bước tạo ứng viên "lỗi chức năng do skill" của Dong et al. (`skill_induced_failures_2026`): bao nhiêu ứng viên cũng xuất hiện khi **không có skill**? | F_skill = số cặp (skill seed s thất bại, none seed s giải được). F_placebo = số cặp (none seed a thất bại, none seed b giải được), với (a, b) ∈ {(51, 41), (61, 51), (41, 61)} để số cặp bằng phía skill. Báo cáo R = F_placebo / F_skill, CI bootstrap theo task | R = 1 | E1 và E2 (xác nhận cả hai) |
+| H18-4 | Như H18-3, cho "hồi quy hiệu năng" | Cặp mà cả hai lần chạy đều qua, với min(r_tok, r_time) > 1 và max > 2,0 (đúng định nghĩa của họ). Báo cáo R_eff tương tự | R_eff = 1 | E1 và E2 |
+| H18-5 | Ứng viên có lặp lại không? | Trong các task có ứng viên lỗi chức năng ở seed s, tỉ lệ task cũng có ứng viên ở cả hai seed còn lại; so với cùng tỉ lệ ở phía placebo | Bằng nhau | E1 và E2 |
+
+**Dự đoán đăng ký** (từ thăm dò E1 và từ SWE-Skills-Bench: split-half 0,16, tương quan giữa cấu hình 0,07):
+- C không lớn hơn tham chiếu nhiễu (p > 0,05);
+- cận trên 95% của τ̂ dưới 0,15;
+- R ≥ 0,5, tức ít nhất một nửa số ứng viên có thể giải thích bằng nhiễu giữa các lần chạy.
+
+Dự đoán sai thì báo cáo nguyên trạng.
+
+**Giới hạn phải nêu:**
+1. Dong et al. còn có **bước audit thủ công** sau khi tạo ứng viên. Phép placebo chỉ kiểm bước tạo ứng viên tự động, **không** kiểm audit. Không được viết "307 ca của họ là nhiễu".
+2. Một model; bài toán sửa lỗi trên SWE-bench. Dữ liệu của họ là SkillsBench và SWE-Skills-Bench.
+3. XRepoSkill trong E2 là rule rút từ repo khác. Đây đúng là bối cảnh chuyển skill sang repo mới mà paper gốc hỏi.
+
+**Mã:** `scripts/replicate_attribution.py`, viết sau mục này. Review R-38, chạy thử trên dữ liệu giả, rồi mới chạy trên dữ liệu thật.
