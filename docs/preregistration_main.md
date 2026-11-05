@@ -209,3 +209,48 @@ Như draft §10.
 
 - **Ý nghĩa:** loại được mọi phản biện về hiệu ứng giả lập và về việc thiếu hiệu chỉnh đa giả thuyết. Ở một lần nhìn, B-X2 đúng mức danh nghĩa; chỉ riêng việc theo dõi liên tục đã làm tỉ lệ admit nhầm tăng khoảng 4 lần.
 - Kết quả: `results/null_monitoring_real.json`.
+
+## 14. Thí nghiệm chính đã định vị lại: T1–T4 (@thuthuy 05/11/2026: "Làm T1–T4 trước"; đăng ký trước khi viết mã và chạy)
+
+**Bối cảnh:** `docs/novelty_review.md`. Ý tưởng lõi (nhận và thu hồi anytime-valid) đã có ở Qu et al. 2026. Paper so sánh trực tiếp với các quy tắc đã công bố trên nhiễu thật của coding agent.
+
+**Nền chung:** plasmode trên các cặp A/A thật (§8, `plasmode_real.make_cell`, định nghĩa "giải được" là loss = 0); 1.000 lần lặp; seed 20271108; α = 0,025.
+
+**T1. Quy tắc nhận skill**
+- **Thiết kế:** K = 9 ô như §8 (3 có hại, 3 trung tính, 3 có ích); n tối đa 200; nhìn sau mỗi 10 trial.
+- **Quy tắc so sánh:**
+  - Gatekeeper (Holm trên p anytime-valid; FWER);
+  - **e-BH** (Wang & Ramdas 2022; Qu et al. dùng dạng online): FDR 0,025 trên e-value cuối của K ô;
+  - B-X2 (thống kê của XRepoSkill), cả nhìn 1 lần lẫn nhìn liên tục;
+  - B-G3 và B-Gall (GEPA);
+  - plug-in;
+  - B-X1.
+- **Loại trừ có lý do:**
+  - HDSO: bản gốc đã lưu không ghi quy tắc nhận thành công thức cụ thể; không tự đoán.
+  - EvoUndo: cổng của họ dành cho khả năng hoàn tác của đột biến, không phải tác dụng của skill.
+  - Library Drift: không có quy tắc nhận skill.
+- **Báo cáo:** FWER, FDR, độ phủ.
+
+**T2. Quy tắc thu hồi**
+- **Kịch bản:** một skill có ích (δ = +0,20) được dùng tiếp; tại trial τ_c = 100, hiệu ứng đổi thành −0,20 (ví dụ: repo đổi phiên bản).
+- **Hai trường hợp:** (a) dấu vân tay môi trường **có** đổi khi hiệu ứng đổi; (b) dấu vân tay **không** đổi.
+- **Quy tắc so sánh:**
+  - **Library Drift**, nguyên văn: "retired once n(s) ≥ N_min … and the empirical contribution ĉ(s) ≤ −τ", với N_min = 100 và τ = 0,10; ĉ là hiệu tỉ lệ giải trên toàn bộ trial đã có;
+  - **Gatekeeper, thu hồi theo dấu vân tay** (`admission.on_environment_change`);
+  - **Gatekeeper cộng theo dõi kết quả:** một e-process một phía cho giả thuyết "có hại", bắt đầu từ lúc skill được nhận, với α_ret = 0,025. Đây là cùng ý tưởng e-detector của Qu et al., không phải đóng góp mới.
+- **Báo cáo:**
+  - độ trễ phát hiện, tính bằng số trial sau τ_c;
+  - tỉ lệ thu hồi nhầm khi hiệu ứng **không** đổi (giữ +0,20 suốt 400 trial).
+
+**T3. Skill ghép**
+- **Kịch bản:** hai skill A và B, mỗi skill có ích (δ = +0,20) và đã được nhận. Skill ghép A∘B có tương tác âm, nên hiệu ứng thật là −0,05 (có hại).
+- **Quy tắc so sánh:**
+  - "nhận skill ghép khi cả hai thành phần đã được nhận";
+  - Gatekeeper: skill ghép là một ô riêng, phải có trial riêng (Định lý 4′, giả thiết (iii)).
+- **Báo cáo:** tỉ lệ nhận nhầm skill ghép.
+
+**T4. Kiểm chứng trên agent thật**
+- **Ô:** `control-oracle-tests` (đối chứng dương đã đạt ở G1). Cả hai nhánh chạy mới trong cùng lô, 1 seed (41), trên task Live theo `random_order` (109 task E2 trước).
+- **Quyết định:** Gatekeeper, K = 1, α = 0,025. Dừng ngay khi admit.
+- **Trần:** 6 USD (`CLAUDE.md`). Hết trần mà chưa admit thì báo cáo đúng như vậy và dừng.
+- **Dự đoán đăng ký trước:** sẽ tính từ hiệu ứng của ô này đo được ở G1, trước khi chạy, và ghi vào đây.
