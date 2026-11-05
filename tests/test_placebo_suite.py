@@ -57,3 +57,31 @@ def test_gk_harm_detects_clear_harm_and_keeps_level_under_noise():
     assert ps.gk_harm([1.0] * 60, 0.025)
     false = sum(ps.gk_harm(list(rng.choice([-1.0, 0.0, 1.0], 300)), 0.025) for _ in range(400))
     assert false / 400 <= 0.025 + 2 * (0.025 * 0.975 / 400) ** 0.5  # Ville: P(cross) <= alpha
+
+
+def test_sham_audit_parse_and_prompt_conditions():
+    import sham_audit as sa
+
+    assert sa.parse('noise {"attributed": true, "confidence": 0.8, "category": "x"} tail')[
+        "attributed"
+    ]
+    assert sa.parse('{"attributed": "yes"}') is None
+    assert sa.parse("no json") is None
+    tpl = sa.PROMPT.read_text()
+    assert "{setup_sentence}" in tpl and "{skill_block}" in tpl and "{target_tail}" in tpl
+
+
+@pytest.mark.skipif(
+    not Path("runs/g1-e1-s41-p00").exists(), reason="E1 runs only on the work machine"
+)
+def test_sham_audit_collect_matches_section_18_counts():
+    import json
+
+    import sham_audit as sa
+
+    real, placebo = sa.collect()
+    att = json.loads(Path("results/replicate_attribution.json").read_text())["stages"]["e1"]
+    assert len(real) == sum(
+        v["attribution"]["functional"]["skill_candidates"] for v in att.values()
+    )
+    assert len({(p["iid"], p["target"], p["ref"]) for p in placebo}) == len(placebo)

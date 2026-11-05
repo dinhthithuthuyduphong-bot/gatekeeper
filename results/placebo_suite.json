@@ -1,0 +1,127 @@
+{
+ "seed": 20271113,
+ "args": {
+  "xrepo": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/xrepo",
+  "reps": "10000",
+  "d_reps": "1000"
+ },
+ "aa_tasks": 221,
+ "A": {
+  "plug_in_once": 0.4586,
+  "plug_in_monitored": 0.8017,
+  "b_x2_once": 0.025,
+  "b_x2_monitored": 0.111,
+  "sskb_cell": 0.0,
+  "library_drift": 0.003,
+  "e_sr": 1.0,
+  "gatekeeper_admit": 0.0032,
+  "gatekeeper_two_stage_retire": 0.0018,
+  "gepa_accept_per_proposal": 0.1404,
+  "gepa_P_accept_any_K100": 0.9999997310691144,
+  "gepa_expected_accepted_K100": 14.04,
+  "gepa_P_accept_any_K200": 0.9999999999999277,
+  "gepa_expected_accepted_K200": 28.08,
+  "sskb_expected_false_cells_of_392": 0.0,
+  "mc_halfwidth_95": {
+   "plug_in_once": 0.009766348607662947,
+   "plug_in_monitored": 0.007814899012629658,
+   "b_x2_once": 0.003060049019215215,
+   "b_x2_monitored": 0.006156989900917493,
+   "library_drift": 0.001071924698847825,
+   "gatekeeper_admit": 0.0011069680219410135,
+   "gatekeeper_two_stage_retire": 0.0008308088357739102,
+   "gepa_accept_per_proposal": 0.006809070466253084,
+   "gepa_P_accept_any_K100": 1.0164273767127421e-05,
+   "gepa_P_accept_any_K200": 5.269284898523897e-09
+  }
+ },
+ "B": {
+  "cells": 392,
+  "cells_p_below_0.05": 6,
+  "expected_under_null": 19.6,
+  "binomial_two_sided_p": 0.0004583821964749757,
+  "p_histogram_10_bins": [
+   13,
+   13,
+   46,
+   17,
+   4,
+   57,
+   25,
+   20,
+   13,
+   184
+  ],
+  "pooled_per_skill_golden_harmful_ineffective": [
+   4,
+   4,
+   90
+  ],
+  "paper_reports": [
+   4,
+   2,
+   92
+  ]
+ },
+ "beta": [
+  0.07305502846299804,
+  0.28889943074003765
+ ],
+ "D": {
+  "0.0": {
+   "D1_mean_attributed_tasks": 2.117,
+   "D1_P_any_attribution": 0.88,
+   "D2_rejection_rate": 0.006,
+   "D3_rejection_rate": 0.001
+  },
+  "0.1": {
+   "D1_mean_attributed_tasks": 3.121,
+   "D1_P_any_attribution": 0.96,
+   "D2_rejection_rate": 0.104,
+   "D3_rejection_rate": 0.013
+  },
+  "0.2": {
+   "D1_mean_attributed_tasks": 4.629,
+   "D1_P_any_attribution": 0.989,
+   "D2_rejection_rate": 0.414,
+   "D3_rejection_rate": 0.087
+  },
+  "0.3": {
+   "D1_mean_attributed_tasks": 6.701,
+   "D1_P_any_attribution": 1.0,
+   "D2_rejection_rate": 0.767,
+   "D3_rejection_rate": 0.294
+  }
+ },
+ "F": {
+  "k1_r1": {
+   "attributed_share_q0.0": 0.043192660550458714,
+   "attributed_share_q0.2": 0.07433027522935802
+  },
+  "k2_r2": {
+   "attributed_share_q0.0": 0.0076972477064220024,
+   "attributed_share_q0.2": 0.017522935779816406
+  },
+  "k3_r2": {
+   "attributed_share_q0.0": 0.018926605504587066,
+   "attributed_share_q0.2": 0.04350458715596337
+  },
+  "k5_r3": {
+   "attributed_share_q0.0": 0.010752293577981586,
+   "attributed_share_q0.2": 0.02860550458715594
+  },
+  "k10_r6": {
+   "attributed_share_q0.0": 0.0012385321100917392,
+   "attributed_share_q0.2": 0.005807339449541272
+  }
+ },
+ "D2_on_real_data": {
+  "e1/exception-handling": 0.7596588134765625,
+  "e1/harm-minimal-edit": 0.3145294189453125,
+  "e1/harm-skip-verification": 0.3145294189453125,
+  "e1/harm-swallow-exceptions": 0.13158798217773438,
+  "e1/null-guard": 0.9375,
+  "e1/type-guard": 0.7482776641845703,
+  "e2/xreposkill": 0.6494459807872772
+ }
+}

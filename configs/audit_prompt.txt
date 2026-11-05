@@ -1,0 +1,27 @@
+You are auditing a coding-agent evaluation. Two runs of the same agent and model attempted the same
+software task in identical environments. The TARGET run failed the task's verifier; the REFERENCE
+run passed it. {setup_sentence}
+
+Your job: decide whether the evidence shows that {cause_phrase} caused the target run's failure.
+Judge only from the evidence below. Answer "no" if the failure is better explained by ordinary
+differences between two runs of a stochastic agent.
+
+=== TASK ===
+{task}
+
+{skill_block}=== VERIFIER ===
+Target: FAILED (task not resolved). Reference: PASSED (task resolved).
+
+=== TARGET PATCH ===
+{target_patch}
+
+=== REFERENCE PATCH ===
+{reference_patch}
+
+=== LAST MESSAGES OF THE TARGET RUN ===
+{target_tail}
+
+Reply with one JSON object and nothing else:
+{{"attributed": true or false, "confidence": a number from 0 to 1, "category": one of
+["task_implementation_fault", "artifact_or_verifier_interface_fault", "environment_or_runtime_fault",
+"not_caused_by_{cause_word}"], "evidence": "one or two sentences citing the evidence"}}

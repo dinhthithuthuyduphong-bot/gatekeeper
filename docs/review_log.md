@@ -456,3 +456,15 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Lưu ý diễn giải: e-SR báo động ở 100% luồng placebo dài 400. Điều này khớp lý thuyết, vì e-SR chỉ bảo đảm thời gian chạy trung bình tới báo động nhầm (ARL) ≥ 1/α = 40, không bảo đảm xác suất báo động trên cả luồng. Không phải lỗi mã.
 - **Công bố:** kết quả B đã xem trong lần chạy thử (ghi chú 19-1).
 - 7 test đạt; ruff đạt.
+
+## R-40. §19 phần C, audit bằng skill giả (`scripts/sham_audit.py`, `configs/audit_prompt.txt`; 2026-11-05, trước khi chạy có chi phí)
+
+- **Đối chiếu:**
+  - Ba điều kiện đúng §19.
+  - Prompt cố định và đã commit trước lời gọi đầu tiên.
+  - Cắt 30 message cuối, tối đa 80.000 ký tự (khoảng 20.000 token); bản vá tối đa 8.000 ký tự.
+  - Model và tham số lấy từ `configs/models/vertex_gemini.json` (gemini-flash-lite, seed 1), giống agent.
+- **Trần chi:** trước mỗi lời gọi, kiểm "đã chi + chi phí xấu nhất của lời gọi tới > trần" thì dừng. Chi phí xấu nhất tính theo số ký tự / 2 token vào, cộng 2.000 token ra.
+- **Không lưu văn bản trajectory** vào file kết quả; chỉ lưu quyết định, số token và chi phí.
+- **Test:** `parse`; prompt có đủ chỗ điền; `collect` cho đúng 52 cặp có skill thật như §18 (bỏ qua trên CI vì `runs/` chỉ có trên máy làm việc).
+- **Chạy thử offline:** dựng đủ 102 prompt, không gọi model. Trung bình 15.274 ký tự, lớn nhất 53.709.

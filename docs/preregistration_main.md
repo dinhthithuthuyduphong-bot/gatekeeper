@@ -518,3 +518,11 @@ Trong mô hình của D1, tính tỉ lệ dương tính giả và độ nhạy c
    - p gộp theo skill ở phần B dùng **200.000 lần đổi dấu Monte Carlo**, vì 2^40 cách đổi dấu là quá nhiều để liệt kê.
 2. **Quy tắc "đa số" của F:** r = số nhỏ nhất lớn hơn k/2, tức k = 1, 2, 3, 5, 10 → r = 1, 2, 2, 3, 6. Riêng k = 2 thì r = 2 (cả hai seed).
 3. **Công bố:** lần chạy thử theo L37 (50 lần lặp) dùng dữ liệu thật. Phần B là tất định nên kết quả của B **đã được xem** trước lần chạy đầy đủ: 6/392 ô có p < 0,05, so với kỳ vọng 19,6. Quy tắc của B không đổi.
+
+**Sai lệch D-M9** (05/11/2026, trước khi gọi auditor lần nào):
+- **Thay đổi:** phần C chỉ dùng **E1**.
+- **Lý do:** văn bản XRepoSkill trong các trajectory E2 đã được che bằng marker trong kho lưu trữ (A55), còn bản trên máy (`rebuilt_guidance.json`, `guidance_block1.json`) chỉ phủ 78/115 task E2 và không xác minh được là đúng văn bản đã chèn.
+- **Mẫu E1:** 52 cặp có skill thật; 25 cặp placebo không trùng nhau. Tổng 102 lời gọi: 52 (i) + 25 (ii) + 25 (iii).
+- **Ước chi phí offline:** khoảng 390.000 token vào, tương đương khoảng 0,10 USD ở giá 0,25 USD cho mỗi triệu token. Đo thật trên 3 lời gọi trước khi chạy hết. Trần cứng 1 USD.
+- **Diễn đạt câu hỏi ở (iii):** "something specific to the target run's setup". Prompt nguyên văn ở `configs/audit_prompt.txt`.
+- **Nhãn loại lỗi:** rút gọn từ các câu của Dong et al. đã trích ("Task-Implementation Fault", "verifier-facing artifact", "environment"). Đây không phải taxonomy đầy đủ của họ.
