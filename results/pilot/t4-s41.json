@@ -4,7 +4,8 @@
     "t4-s41-p00",
     "t4-s41-p01",
     "t4-s41-p02",
-    "t4-s41-p03"
+    "t4-s41-p03",
+    "t4-s41-p04"
   ],
   "skills": {
     "control-oracle-patch": {
@@ -28,28 +29,33 @@
           "instance_id": "pypa__twine-1249",
           "loss_with": 0.0,
           "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "arviz-devs__arviz-2413",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.6666847629388345,
-      "n": 4,
-      "solve_rate_with": 0.75,
+      "mean_Z": -0.6666811436844009,
+      "n": 5,
+      "solve_rate_with": 0.8,
       "solve_rate_without": 0.0
     }
   },
   "usage": {
     "none": {
-      "runs": 4,
-      "usd": 0.5594847,
+      "runs": 5,
+      "usd": 0.5818106249999999,
       "solved": 0,
-      "scored": 4,
-      "usd_per_run": 0.139871175
+      "scored": 5,
+      "usd_per_run": 0.11636212499999998
     },
     "control-oracle-patch": {
-      "runs": 4,
-      "usd": 0.1321516,
-      "solved": 3,
-      "scored": 4,
-      "usd_per_run": 0.0330379
+      "runs": 5,
+      "usd": 0.1607744,
+      "solved": 4,
+      "scored": 5,
+      "usd_per_run": 0.032154880000000004
     }
   },
   "infra_failures": {},
@@ -58,23 +64,26 @@
       "conan-io__conan-18655": "Submitted",
       "mikedh__trimesh-2126": "LimitsExceeded",
       "conan-io__conan-15705": "Submitted",
-      "pypa__twine-1249": "Submitted"
+      "pypa__twine-1249": "Submitted",
+      "arviz-devs__arviz-2413": "Submitted"
     },
     "control-oracle-patch": {
       "conan-io__conan-18655": "Submitted",
       "mikedh__trimesh-2126": "Submitted",
       "conan-io__conan-15705": "Submitted",
-      "pypa__twine-1249": "Submitted"
+      "pypa__twine-1249": "Submitted",
+      "arviz-devs__arviz-2413": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 0.6917,
+  "spent_usd": 0.7426,
   "instances": [
     "conan-io__conan-18655",
     "mikedh__trimesh-2126",
     "conan-io__conan-15705",
-    "pypa__twine-1249"
+    "pypa__twine-1249",
+    "arviz-devs__arviz-2413"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/pd/rows.jsonl"
