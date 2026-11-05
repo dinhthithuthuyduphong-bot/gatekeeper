@@ -108,3 +108,34 @@ Như draft §10.
   - mỗi đại lượng kèm sai số Monte Carlo.
 - **Độ nhạy:** π khác nhau giữa các task (π_i ~ Beta với cùng trung bình, độ tập trung 2), để mô phỏng hiệu ứng không đều.
 - **Giới hạn ghi sẵn:** cơ chế hiệu ứng được cấy là đổi kết quả ngẫu nhiên; skill thật có thể tác động theo cách khác. Phân tích này bổ sung, không thay thế, kết quả trên các ô thật (E1/E2: 0/7 ô được Gatekeeper admit).
+
+## 9. Ba phân tích bổ sung, 0 USD (đăng ký 05/11/2026, trước khi chạy)
+
+**P1. Theo dõi liên tục.**
+- Dùng cùng các ô plasmode như §8 (cách cấy đều), n tối đa = 200.
+- Plug-in, B-X2 và B-Gall được kiểm sau **mỗi 10 trial**, và admit ngay khi tiêu chí đúng ở bất kỳ lần kiểm nào. B-G3 chỉ dùng 3 trial đầu, nên không đổi.
+- Gatekeeper giữ nguyên, vì p anytime-valid đã là cực tiểu trên toàn đường đi.
+- Báo cáo FWER và độ phủ. 1.000 lần lặp, seed 20271105.
+
+**P2. Plasmode hỗn hợp thực tế.**
+- δ của mỗi ô được rút từ N(μ, τ²), với μ và τ² ước lượng bằng DerSimonian–Laird (`veroniki_2016`) trên 392 ô của SWE-Skills-Bench. Mỗi ô dùng 10 yêu cầu; hiệu ứng = −(none − one)/100.
+- δ được cấy vào nền A/A như §8, đổi dấu thành "tỉ lệ giải tăng" (δ > 0 là có ích); giữ δ trong khoảng sao cho π ≤ 1.
+- K = 9 ô mỗi lần lặp, n ∈ {109; 200}, 1.000 lần lặp.
+- Báo cáo trên 100 ô:
+  - số ô có δ ≤ 0 bị admit;
+  - số ô có δ > 0 được admit;
+  - δ trung bình của các ô được admit.
+- **Giới hạn:** SWE-Skills-Bench đo tỉ lệ test qua, không đo "resolved"; thang đo khác nhau.
+
+**P3. Lặp lại trên dữ liệu SWE-Skills-Bench** (`ControllableModel/SWE-Skills-Bench@4d3450d`, MIT).
+- 392 ô (cấu hình × skill). Trial = một yêu cầu, Z = (none − one)/100, nằm trong [−1, 1].
+- **Sàng lọc** trên yêu cầu batch1–5, **xác nhận** trên batch6–10, tức tách dữ liệu (`rinaldo_splitting`).
+- Các quy tắc chỉ thấy phần sàng lọc:
+  - Gatekeeper: Holm trên 392 ô ở mức 0,025, trial tối đa 5;
+  - plug-in;
+  - B-G3;
+  - B-Gall;
+  - B-X1.
+- Báo cáo: số ô được admit; Z̄ trên phần xác nhận của các ô được admit, kèm CI bootstrap 95% (2.000 lần lặp); số ô được admit có Z̄ xác nhận > 0 (tức có hại trên phần xác nhận).
+- B-X2 không áp được, vì kết quả là tỉ lệ liên tục chứ không phải nhị phân.
+- Đây là phân tích **thăm dò**: dữ liệu đã được xem ở pilot.
