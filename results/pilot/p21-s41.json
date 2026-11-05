@@ -2,7 +2,8 @@
   "name": "p21-s41",
   "merged_from": [
     "p21-s41-p00",
-    "p21-s41-p01"
+    "p21-s41-p01",
+    "p21-s41-p02"
   ],
   "skills": {
     "repo-test-guide": {
@@ -16,47 +17,55 @@
           "instance_id": "beeware__briefcase-1785",
           "loss_with": 0.0025298156848572464,
           "loss_without": 0.0025298156848572464
+        },
+        {
+          "instance_id": "sissbruecker__linkding-863",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
         }
       ],
       "mean_Z": 0.0,
-      "n": 2,
-      "solve_rate_with": 0.5,
-      "solve_rate_without": 0.5
+      "n": 3,
+      "solve_rate_with": 0.3333333333333333,
+      "solve_rate_without": 0.3333333333333333
     }
   },
   "usage": {
     "none": {
-      "runs": 2,
-      "usd": 0.0677024,
+      "runs": 3,
+      "usd": 0.078733,
       "solved": 1,
-      "scored": 2,
-      "usd_per_run": 0.0338512
+      "scored": 3,
+      "usd_per_run": 0.02624433333333333
     },
     "repo-test-guide": {
-      "runs": 2,
-      "usd": 0.06209137499999999,
+      "runs": 3,
+      "usd": 0.07143212499999999,
       "solved": 1,
-      "scored": 2,
-      "usd_per_run": 0.031045687499999995
+      "scored": 3,
+      "usd_per_run": 0.02381070833333333
     }
   },
   "infra_failures": {},
   "exit_status": {
     "none": {
       "pvlib__pvlib-python-2133": "Submitted",
-      "beeware__briefcase-1785": "Submitted"
+      "beeware__briefcase-1785": "Submitted",
+      "sissbruecker__linkding-863": "Submitted"
     },
     "repo-test-guide": {
       "pvlib__pvlib-python-2133": "Submitted",
-      "beeware__briefcase-1785": "Submitted"
+      "beeware__briefcase-1785": "Submitted",
+      "sissbruecker__linkding-863": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 0.1297,
+  "spent_usd": 0.1501,
   "instances": [
     "pvlib__pvlib-python-2133",
-    "beeware__briefcase-1785"
+    "beeware__briefcase-1785",
+    "sissbruecker__linkding-863"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/live_rows.jsonl"
