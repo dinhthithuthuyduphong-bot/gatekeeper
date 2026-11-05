@@ -297,3 +297,15 @@ Như draft §10.
   - tỉ lệ thu hồi nhầm;
   - **tỉ lệ thời gian một skill có ích bị cách ly nhầm.**
 - **Tiêu chí "tốt hơn" ghi trước:** tỉ lệ thu hồi nhầm ≤ 0,025 trong `no_drift`, **và** độ trễ trung vị ở `drift` nhỏ hơn bộ theo dõi một e-process (221 trial).
+
+## 16. Đường cong nhận nhầm theo độ phủ, so tại cùng độ phủ (endpoint RQ1 gốc; đăng ký 05/11/2026, trước khi chạy; 0 USD)
+
+- **Thiết kế:** 9 ô plasmode như §8 (3 có hại, 3 trung tính, 3 có ích); n = 200; 1.000 lần lặp; seed 20271110. Hai chế độ: **nhìn 1 lần** (ở n = 200) và **nhìn liên tục** (sau mỗi 10 trial; admit ngay khi tiêu chí đúng).
+- **Mỗi quy tắc có một ngưỡng được quét qua một lưới:**
+  - Gatekeeper: α_ô trong {10⁻⁴; 3·10⁻⁴; 10⁻³; 0,003; 0,01; 0,03; 0,1; 0,3};
+  - B-X2: rd − c·se > 0, với c trong {0; 0,5; 1; 1,5; 1,96; 2,5; 3; 3,5};
+  - plug-in: Z̄ < −t, với t trong {0; 0,02; 0,05; 0,1; 0,15; 0,2; 0,25; 0,3};
+  - e-BH: α trong lưới của Gatekeeper.
+  - Lưới được chọn để bao trùm độ phủ từ khoảng 0 tới khoảng 1. Đây là lựa chọn vận hành, không ảnh hưởng kết luận vì so sánh dùng nội suy.
+- **Đại lượng:** với mỗi giá trị ngưỡng, tính tỉ lệ nhận nhầm (số ô δ ≤ 0 được admit / 6) và độ phủ (số ô δ > 0 được admit / 3). Tỉ lệ nhận nhầm tại độ phủ 0,5; 0,7 và 0,8 được nội suy bằng `analysis.harm_at_coverage`.
+- **Kết luận chính ghi trước:** ở **chế độ nhìn liên tục**, tại cùng độ phủ, quy tắc nào có tỉ lệ nhận nhầm thấp nhất. Chế độ nhìn 1 lần được báo cáo bên cạnh, **kể cả khi B-X2 ngang hoặc hơn Gatekeeper**.
