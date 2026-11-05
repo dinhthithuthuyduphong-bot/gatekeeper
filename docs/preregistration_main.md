@@ -594,3 +594,19 @@ Trong mô hình của D1, tính tỉ lệ dương tính giả và độ nhạy c
   - Trần cứng: Flash 1 USD, Pro 2 USD.
   - Ước tính: Flash khoảng 0,5 USD (0,75 USD mỗi triệu token vào); Pro khoảng 1,5 USD (2 USD mỗi triệu token vào, 12 USD mỗi triệu token ra).
 - **Nằm trong** 64 USD đã duyệt cho thí nghiệm chính; tổng chi tới nay 3,61 USD.
+
+### Kết quả ghi chú 19-2: độ vững của C (05/11/2026; `results/sham_audit_flash.json`, `results/sham_audit_pro.json`)
+
+| Auditor | (i) Có skill thật | (ii) Skill giả | (iii) Không nhắc skill | Chi phí, token (vào / ra) |
+| --- | --- | --- | --- | --- |
+| Flash-Lite | 51/52 = 0,98 [0,90; 1,00] | **25/25 = 1,00** [0,87; 1,00] | 20/25 = 0,80 | 0,130 USD; 469.302 / 8.722 |
+| Flash | 20/52 = 0,38 [0,27; 0,52] | **3/25 = 0,12** [0,04; 0,30] | 0/25 = 0,00 | 0,388 USD; 469.302 / 9.737 |
+| Pro | 29/52 = 0,56 [0,42; 0,68] | **5/25 = 0,20** [0,09; 0,39] | 0/25 = 0,00 | 1,461 USD; 469.302 / 43.509 |
+
+- **Dự đoán (ii) ≥ 0,5 × (i): đúng với Flash-Lite, sai với Flash (0,12 < 0,19) và sai với Pro (0,20 < 0,28).**
+- **Diễn giải đúng:**
+  1. Auditor yếu quy lỗi cho skill giả ở mọi cặp. Auditor mạnh hơn làm vậy ở 12–20% số cặp, tức là **thấp nhưng khác 0**.
+  2. Auditor mạnh vẫn quy lỗi cho skill ở 38–56% ứng viên có skill thật. Trong khi đó, §18 cho thấy số ứng viên có skill thật bằng số ứng viên placebo (R = 1,08 ở E2; mọi CI của R ở E1 chứa 1). Tức là ở mức kết quả, không có bằng chứng skill gây thêm lỗi.
+  3. Từ đó, auditor có vẻ quy lỗi dựa trên **dấu vết của skill trong trajectory** (agent nhắc tới hoặc làm theo skill), không dựa trên việc skill có **cần thiết** cho lỗi hay không. Đây là giả thuyết, **chưa kiểm**.
+- **Hệ quả cho paper:** không được viết "auditor LLM bịa nguyên nhân cho skill giả" như một kết quả chung. Viết là: "mức quy lỗi cho skill giả phụ thuộc mạnh vào auditor: 100% ở Flash-Lite, 12–20% ở Flash/Pro; quy lỗi cho ứng viên thật thì cao hơn nhiều so với mức mà đối chứng placebo ở mức kết quả cho phép".
+- **Chi tiêu của thí nghiệm chính tới nay:** 3,61 + 0,064 (đo thử) + 0,388 + 1,461 = **5,52 USD** trên trần 64 USD.

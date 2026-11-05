@@ -1,0 +1,2152 @@
+{
+ "model": "gemini-pro",
+ "jobs": 102,
+ "done": 102,
+ "spent_usd": 1.460712,
+ "tokens_in": 469302,
+ "tokens_out": 43509,
+ "rows": [
+  {
+   "condition": "real",
+   "skill": "exception-handling",
+   "iid": "astropy__astropy-13731",
+   "target": [
+    "g1-e1-s61-p01",
+    "exception-handling"
+   ],
+   "ref": [
+    "g1-e1-s61-p01",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 8232,
+   "tokens_out": 459,
+   "usd": 0.021972
+  },
+  {
+   "condition": "real",
+   "skill": "exception-handling",
+   "iid": "django__django-10853",
+   "target": [
+    "g1-e1-s41-p03",
+    "exception-handling"
+   ],
+   "ref": [
+    "g1-e1-s41-p03",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 4511,
+   "tokens_out": 483,
+   "usd": 0.014818
+  },
+  {
+   "condition": "real",
+   "skill": "exception-handling",
+   "iid": "django__django-11618",
+   "target": [
+    "g1-e1-s41-p04",
+    "exception-handling"
+   ],
+   "ref": [
+    "g1-e1-s41-p04",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 2759,
+   "tokens_out": 710,
+   "usd": 0.014038
+  },
+  {
+   "condition": "real",
+   "skill": "exception-handling",
+   "iid": "django__django-13841",
+   "target": [
+    "g1-e1-s51-p07",
+    "exception-handling"
+   ],
+   "ref": [
+    "g1-e1-s51-p07",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 16001,
+   "tokens_out": 316,
+   "usd": 0.035794
+  },
+  {
+   "condition": "real",
+   "skill": "exception-handling",
+   "iid": "matplotlib__matplotlib-13913",
+   "target": [
+    "g1-e1-s61-p12",
+    "exception-handling"
+   ],
+   "ref": [
+    "g1-e1-s61-p12",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.5,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 3691,
+   "tokens_out": 1087,
+   "usd": 0.020426
+  },
+  {
+   "condition": "real",
+   "skill": "exception-handling",
+   "iid": "matplotlib__matplotlib-22719",
+   "target": [
+    "g1-e1-s51-p16",
+    "exception-handling"
+   ],
+   "ref": [
+    "g1-e1-s51-p16",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 4876,
+   "tokens_out": 178,
+   "usd": 0.011888
+  },
+  {
+   "condition": "real",
+   "skill": "exception-handling",
+   "iid": "matplotlib__matplotlib-22719",
+   "target": [
+    "g1-e1-s61-p15",
+    "exception-handling"
+   ],
+   "ref": [
+    "g1-e1-s61-p15",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 3746,
+   "tokens_out": 431,
+   "usd": 0.012664
+  },
+  {
+   "condition": "real",
+   "skill": "exception-handling",
+   "iid": "scikit-learn__scikit-learn-11346",
+   "target": [
+    "g1-e1-s61-p23",
+    "exception-handling"
+   ],
+   "ref": [
+    "g1-e1-s61-p23",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 5434,
+   "tokens_out": 350,
+   "usd": 0.015068
+  },
+  {
+   "condition": "real",
+   "skill": "harm-minimal-edit",
+   "iid": "astropy__astropy-13731",
+   "target": [
+    "g1-e1-s61-p01",
+    "harm-minimal-edit"
+   ],
+   "ref": [
+    "g1-e1-s61-p01",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.95,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 2183,
+   "tokens_out": 317,
+   "usd": 0.00817
+  },
+  {
+   "condition": "real",
+   "skill": "harm-minimal-edit",
+   "iid": "django__django-10853",
+   "target": [
+    "g1-e1-s41-p03",
+    "harm-minimal-edit"
+   ],
+   "ref": [
+    "g1-e1-s41-p03",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 1.0,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 3635,
+   "tokens_out": 408,
+   "usd": 0.012166
+  },
+  {
+   "condition": "real",
+   "skill": "harm-minimal-edit",
+   "iid": "django__django-12518",
+   "target": [
+    "g1-e1-s41-p05",
+    "harm-minimal-edit"
+   ],
+   "ref": [
+    "g1-e1-s41-p05",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.95,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 3841,
+   "tokens_out": 337,
+   "usd": 0.011726
+  },
+  {
+   "condition": "real",
+   "skill": "harm-minimal-edit",
+   "iid": "django__django-13426",
+   "target": [
+    "g1-e1-s41-p06",
+    "harm-minimal-edit"
+   ],
+   "ref": [
+    "g1-e1-s41-p06",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 1.0,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 9139,
+   "tokens_out": 371,
+   "usd": 0.02273
+  },
+  {
+   "condition": "real",
+   "skill": "harm-minimal-edit",
+   "iid": "django__django-13426",
+   "target": [
+    "g1-e1-s51-p06",
+    "harm-minimal-edit"
+   ],
+   "ref": [
+    "g1-e1-s51-p06",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 1.0,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 2552,
+   "tokens_out": 351,
+   "usd": 0.009316
+  },
+  {
+   "condition": "real",
+   "skill": "harm-minimal-edit",
+   "iid": "django__django-13449",
+   "target": [
+    "g1-e1-s41-p06",
+    "harm-minimal-edit"
+   ],
+   "ref": [
+    "g1-e1-s41-p06",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.95,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 7601,
+   "tokens_out": 403,
+   "usd": 0.020038
+  },
+  {
+   "condition": "real",
+   "skill": "harm-minimal-edit",
+   "iid": "django__django-13841",
+   "target": [
+    "g1-e1-s61-p07",
+    "harm-minimal-edit"
+   ],
+   "ref": [
+    "g1-e1-s61-p07",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 1.0,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 4231,
+   "tokens_out": 227,
+   "usd": 0.011186
+  },
+  {
+   "condition": "real",
+   "skill": "harm-minimal-edit",
+   "iid": "matplotlib__matplotlib-24149",
+   "target": [
+    "g1-e1-s41-p16",
+    "harm-minimal-edit"
+   ],
+   "ref": [
+    "g1-e1-s41-p16",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.85,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 3778,
+   "tokens_out": 567,
+   "usd": 0.01436
+  },
+  {
+   "condition": "real",
+   "skill": "harm-minimal-edit",
+   "iid": "pydata__xarray-6721",
+   "target": [
+    "g1-e1-s61-p21",
+    "harm-minimal-edit"
+   ],
+   "ref": [
+    "g1-e1-s61-p21",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 1.0,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 3930,
+   "tokens_out": 353,
+   "usd": 0.012096
+  },
+  {
+   "condition": "real",
+   "skill": "harm-minimal-edit",
+   "iid": "scikit-learn__scikit-learn-13142",
+   "target": [
+    "g1-e1-s41-p23",
+    "harm-minimal-edit"
+   ],
+   "ref": [
+    "g1-e1-s41-p23",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.7,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 4757,
+   "tokens_out": 673,
+   "usd": 0.01759
+  },
+  {
+   "condition": "real",
+   "skill": "harm-skip-verification",
+   "iid": "astropy__astropy-13731",
+   "target": [
+    "g1-e1-s61-p01",
+    "harm-skip-verification"
+   ],
+   "ref": [
+    "g1-e1-s61-p01",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 4501,
+   "tokens_out": 508,
+   "usd": 0.015098
+  },
+  {
+   "condition": "real",
+   "skill": "harm-skip-verification",
+   "iid": "django__django-11451",
+   "target": [
+    "g1-e1-s41-p03",
+    "harm-skip-verification"
+   ],
+   "ref": [
+    "g1-e1-s41-p03",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.8,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 5840,
+   "tokens_out": 806,
+   "usd": 0.021352
+  },
+  {
+   "condition": "real",
+   "skill": "harm-skip-verification",
+   "iid": "django__django-11911",
+   "target": [
+    "g1-e1-s51-p05",
+    "harm-skip-verification"
+   ],
+   "ref": [
+    "g1-e1-s51-p05",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.9,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 6030,
+   "tokens_out": 310,
+   "usd": 0.01578
+  },
+  {
+   "condition": "real",
+   "skill": "harm-skip-verification",
+   "iid": "django__django-12518",
+   "target": [
+    "g1-e1-s41-p05",
+    "harm-skip-verification"
+   ],
+   "ref": [
+    "g1-e1-s41-p05",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.9,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 7256,
+   "tokens_out": 188,
+   "usd": 0.016768
+  },
+  {
+   "condition": "real",
+   "skill": "harm-skip-verification",
+   "iid": "django__django-13426",
+   "target": [
+    "g1-e1-s41-p06",
+    "harm-skip-verification"
+   ],
+   "ref": [
+    "g1-e1-s41-p06",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.95,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 5520,
+   "tokens_out": 334,
+   "usd": 0.015048
+  },
+  {
+   "condition": "real",
+   "skill": "harm-skip-verification",
+   "iid": "django__django-13426",
+   "target": [
+    "g1-e1-s51-p06",
+    "harm-skip-verification"
+   ],
+   "ref": [
+    "g1-e1-s51-p06",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.8,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 4065,
+   "tokens_out": 558,
+   "usd": 0.014826
+  },
+  {
+   "condition": "real",
+   "skill": "harm-skip-verification",
+   "iid": "django__django-13449",
+   "target": [
+    "g1-e1-s41-p06",
+    "harm-skip-verification"
+   ],
+   "ref": [
+    "g1-e1-s41-p06",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.9,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 6376,
+   "tokens_out": 557,
+   "usd": 0.019436
+  },
+  {
+   "condition": "real",
+   "skill": "harm-skip-verification",
+   "iid": "django__django-13449",
+   "target": [
+    "g1-e1-s51-p06",
+    "harm-skip-verification"
+   ],
+   "ref": [
+    "g1-e1-s51-p06",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.8,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 6552,
+   "tokens_out": 517,
+   "usd": 0.019308
+  },
+  {
+   "condition": "real",
+   "skill": "harm-skip-verification",
+   "iid": "django__django-14558",
+   "target": [
+    "g1-e1-s41-p09",
+    "harm-skip-verification"
+   ],
+   "ref": [
+    "g1-e1-s41-p09",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 1928,
+   "tokens_out": 374,
+   "usd": 0.008344
+  },
+  {
+   "condition": "real",
+   "skill": "harm-skip-verification",
+   "iid": "scikit-learn__scikit-learn-13142",
+   "target": [
+    "g1-e1-s41-p23",
+    "harm-skip-verification"
+   ],
+   "ref": [
+    "g1-e1-s41-p23",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.7,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 4751,
+   "tokens_out": 493,
+   "usd": 0.015418
+  },
+  {
+   "condition": "real",
+   "skill": "harm-swallow-exceptions",
+   "iid": "django__django-10853",
+   "target": [
+    "g1-e1-s41-p03",
+    "harm-swallow-exceptions"
+   ],
+   "ref": [
+    "g1-e1-s41-p03",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.95,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 2040,
+   "tokens_out": 259,
+   "usd": 0.007188
+  },
+  {
+   "condition": "real",
+   "skill": "harm-swallow-exceptions",
+   "iid": "django__django-11911",
+   "target": [
+    "g1-e1-s51-p05",
+    "harm-swallow-exceptions"
+   ],
+   "ref": [
+    "g1-e1-s51-p05",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 3908,
+   "tokens_out": 715,
+   "usd": 0.016396
+  },
+  {
+   "condition": "real",
+   "skill": "harm-swallow-exceptions",
+   "iid": "django__django-12518",
+   "target": [
+    "g1-e1-s41-p05",
+    "harm-swallow-exceptions"
+   ],
+   "ref": [
+    "g1-e1-s41-p05",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.95,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 3247,
+   "tokens_out": 338,
+   "usd": 0.01055
+  },
+  {
+   "condition": "real",
+   "skill": "harm-swallow-exceptions",
+   "iid": "django__django-13426",
+   "target": [
+    "g1-e1-s41-p06",
+    "harm-swallow-exceptions"
+   ],
+   "ref": [
+    "g1-e1-s41-p06",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 1.0,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 6171,
+   "tokens_out": 457,
+   "usd": 0.017826
+  },
+  {
+   "condition": "real",
+   "skill": "harm-swallow-exceptions",
+   "iid": "django__django-13426",
+   "target": [
+    "g1-e1-s51-p06",
+    "harm-swallow-exceptions"
+   ],
+   "ref": [
+    "g1-e1-s51-p06",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.9,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 7219,
+   "tokens_out": 473,
+   "usd": 0.020114
+  },
+  {
+   "condition": "real",
+   "skill": "harm-swallow-exceptions",
+   "iid": "django__django-13426",
+   "target": [
+    "g1-e1-s61-p05",
+    "harm-swallow-exceptions"
+   ],
+   "ref": [
+    "g1-e1-s61-p05",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 1.0,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 4549,
+   "tokens_out": 270,
+   "usd": 0.012338
+  },
+  {
+   "condition": "real",
+   "skill": "harm-swallow-exceptions",
+   "iid": "django__django-13841",
+   "target": [
+    "g1-e1-s41-p07",
+    "harm-swallow-exceptions"
+   ],
+   "ref": [
+    "g1-e1-s41-p07",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 16307,
+   "tokens_out": 930,
+   "usd": 0.043774
+  },
+  {
+   "condition": "real",
+   "skill": "harm-swallow-exceptions",
+   "iid": "django__django-14291",
+   "target": [
+    "g1-e1-s61-p08",
+    "harm-swallow-exceptions"
+   ],
+   "ref": [
+    "g1-e1-s61-p08",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 1.0,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 3454,
+   "tokens_out": 300,
+   "usd": 0.010508
+  },
+  {
+   "condition": "real",
+   "skill": "harm-swallow-exceptions",
+   "iid": "django__django-14558",
+   "target": [
+    "g1-e1-s41-p09",
+    "harm-swallow-exceptions"
+   ],
+   "ref": [
+    "g1-e1-s41-p09",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 1.0,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 2115,
+   "tokens_out": 314,
+   "usd": 0.007998
+  },
+  {
+   "condition": "real",
+   "skill": "harm-swallow-exceptions",
+   "iid": "django__django-14558",
+   "target": [
+    "g1-e1-s61-p08",
+    "harm-swallow-exceptions"
+   ],
+   "ref": [
+    "g1-e1-s61-p08",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 1.0,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 2089,
+   "tokens_out": 342,
+   "usd": 0.008282
+  },
+  {
+   "condition": "real",
+   "skill": "harm-swallow-exceptions",
+   "iid": "matplotlib__matplotlib-20859",
+   "target": [
+    "g1-e1-s51-p15",
+    "harm-swallow-exceptions"
+   ],
+   "ref": [
+    "g1-e1-s51-p15",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 1.0,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 3350,
+   "tokens_out": 401,
+   "usd": 0.011512
+  },
+  {
+   "condition": "real",
+   "skill": "harm-swallow-exceptions",
+   "iid": "scikit-learn__scikit-learn-13142",
+   "target": [
+    "g1-e1-s41-p23",
+    "harm-swallow-exceptions"
+   ],
+   "ref": [
+    "g1-e1-s41-p23",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 5328,
+   "tokens_out": 668,
+   "usd": 0.018672
+  },
+  {
+   "condition": "real",
+   "skill": "harm-swallow-exceptions",
+   "iid": "scikit-learn__scikit-learn-13779",
+   "target": [
+    "g1-e1-s61-p27",
+    "harm-swallow-exceptions"
+   ],
+   "ref": [
+    "g1-e1-s61-p27",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 1.0,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 5878,
+   "tokens_out": 374,
+   "usd": 0.016244
+  },
+  {
+   "condition": "real",
+   "skill": "null-guard",
+   "iid": "django__django-15613",
+   "target": [
+    "g1-e1-s41-p11",
+    "null-guard"
+   ],
+   "ref": [
+    "g1-e1-s41-p11",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.8,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 7601,
+   "tokens_out": 627,
+   "usd": 0.022726
+  },
+  {
+   "condition": "real",
+   "skill": "null-guard",
+   "iid": "django__django-15613",
+   "target": [
+    "g1-e1-s51-p11",
+    "null-guard"
+   ],
+   "ref": [
+    "g1-e1-s51-p11",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.8,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 8246,
+   "tokens_out": 590,
+   "usd": 0.023572
+  },
+  {
+   "condition": "real",
+   "skill": "type-guard",
+   "iid": "astropy__astropy-13306",
+   "target": [
+    "g1-e1-s51-p01",
+    "type-guard"
+   ],
+   "ref": [
+    "g1-e1-s51-p01",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 1937,
+   "tokens_out": 324,
+   "usd": 0.007762
+  },
+  {
+   "condition": "real",
+   "skill": "type-guard",
+   "iid": "django__django-13426",
+   "target": [
+    "g1-e1-s51-p06",
+    "type-guard"
+   ],
+   "ref": [
+    "g1-e1-s51-p06",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.85,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 5311,
+   "tokens_out": 562,
+   "usd": 0.017366
+  },
+  {
+   "condition": "real",
+   "skill": "type-guard",
+   "iid": "django__django-15368",
+   "target": [
+    "g1-e1-s51-p11",
+    "type-guard"
+   ],
+   "ref": [
+    "g1-e1-s51-p11",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.7,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 1925,
+   "tokens_out": 530,
+   "usd": 0.01021
+  },
+  {
+   "condition": "real",
+   "skill": "type-guard",
+   "iid": "matplotlib__matplotlib-20859",
+   "target": [
+    "g1-e1-s61-p13",
+    "type-guard"
+   ],
+   "ref": [
+    "g1-e1-s61-p13",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.6,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 3568,
+   "tokens_out": 583,
+   "usd": 0.014132
+  },
+  {
+   "condition": "real",
+   "skill": "type-guard",
+   "iid": "pytest-dev__pytest-9624",
+   "target": [
+    "g1-e1-s61-p22",
+    "type-guard"
+   ],
+   "ref": [
+    "g1-e1-s61-p22",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 5881,
+   "tokens_out": 443,
+   "usd": 0.017078
+  },
+  {
+   "condition": "real",
+   "skill": "type-guard",
+   "iid": "sphinx-doc__sphinx-8264",
+   "target": [
+    "g1-e1-s41-p26",
+    "type-guard"
+   ],
+   "ref": [
+    "g1-e1-s41-p26",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 5912,
+   "tokens_out": 885,
+   "usd": 0.022444
+  },
+  {
+   "condition": "real",
+   "skill": "type-guard",
+   "iid": "sympy__sympy-11831",
+   "target": [
+    "g1-e1-s61-p30",
+    "type-guard"
+   ],
+   "ref": [
+    "g1-e1-s61-p30",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 3298,
+   "tokens_out": 410,
+   "usd": 0.011516
+  },
+  {
+   "condition": "real",
+   "skill": "type-guard",
+   "iid": "sympy__sympy-16943",
+   "target": [
+    "g1-e1-s61-p32",
+    "type-guard"
+   ],
+   "ref": [
+    "g1-e1-s61-p32",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.95,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 6080,
+   "tokens_out": 275,
+   "usd": 0.01546
+  },
+  {
+   "condition": "real",
+   "skill": "type-guard",
+   "iid": "sympy__sympy-17139",
+   "target": [
+    "g1-e1-s51-p33",
+    "type-guard"
+   ],
+   "ref": [
+    "g1-e1-s51-p33",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 2691,
+   "tokens_out": 509,
+   "usd": 0.01149
+  },
+  {
+   "condition": "sham",
+   "skill": "exception-handling",
+   "iid": "astropy__astropy-13731",
+   "target": [
+    "g1-e1-s41-p01",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s61-p01",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 3602,
+   "tokens_out": 696,
+   "usd": 0.015556
+  },
+  {
+   "condition": "plain",
+   "skill": "exception-handling",
+   "iid": "astropy__astropy-13731",
+   "target": [
+    "g1-e1-s41-p01",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s61-p01",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 3496,
+   "tokens_out": 536,
+   "usd": 0.013424
+  },
+  {
+   "condition": "sham",
+   "skill": "exception-handling",
+   "iid": "django__django-10853",
+   "target": [
+    "g1-e1-s51-p03",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s41-p03",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 6888,
+   "tokens_out": 391,
+   "usd": 0.018468
+  },
+  {
+   "condition": "plain",
+   "skill": "exception-handling",
+   "iid": "django__django-10853",
+   "target": [
+    "g1-e1-s51-p03",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s41-p03",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 1.0,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 6782,
+   "tokens_out": 276,
+   "usd": 0.016876
+  },
+  {
+   "condition": "sham",
+   "skill": "exception-handling",
+   "iid": "django__django-11618",
+   "target": [
+    "g1-e1-s61-p04",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p04",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.8,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 2676,
+   "tokens_out": 125,
+   "usd": 0.006852
+  },
+  {
+   "condition": "plain",
+   "skill": "exception-handling",
+   "iid": "django__django-11618",
+   "target": [
+    "g1-e1-s61-p04",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p04",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 2570,
+   "tokens_out": 393,
+   "usd": 0.009856
+  },
+  {
+   "condition": "sham",
+   "skill": "exception-handling",
+   "iid": "django__django-12518",
+   "target": [
+    "g1-e1-s51-p05",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s41-p05",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.7,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 6571,
+   "tokens_out": 672,
+   "usd": 0.021206
+  },
+  {
+   "condition": "plain",
+   "skill": "exception-handling",
+   "iid": "django__django-12518",
+   "target": [
+    "g1-e1-s51-p05",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s41-p05",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 1.0,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 6465,
+   "tokens_out": 384,
+   "usd": 0.017538
+  },
+  {
+   "condition": "sham",
+   "skill": "exception-handling",
+   "iid": "django__django-13757",
+   "target": [
+    "g1-e1-s51-p06",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s41-p06",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 4701,
+   "tokens_out": 253,
+   "usd": 0.012438
+  },
+  {
+   "condition": "plain",
+   "skill": "exception-handling",
+   "iid": "django__django-13757",
+   "target": [
+    "g1-e1-s51-p06",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s41-p06",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 1.0,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 4595,
+   "tokens_out": 166,
+   "usd": 0.011182
+  },
+  {
+   "condition": "sham",
+   "skill": "exception-handling",
+   "iid": "django__django-14787",
+   "target": [
+    "g1-e1-s61-p09",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p10",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 4984,
+   "tokens_out": 263,
+   "usd": 0.013124
+  },
+  {
+   "condition": "plain",
+   "skill": "exception-handling",
+   "iid": "django__django-14787",
+   "target": [
+    "g1-e1-s61-p09",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p10",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 1.0,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 4878,
+   "tokens_out": 239,
+   "usd": 0.012624
+  },
+  {
+   "condition": "sham",
+   "skill": "exception-handling",
+   "iid": "scikit-learn__scikit-learn-11346",
+   "target": [
+    "g1-e1-s41-p21",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s61-p23",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 3118,
+   "tokens_out": 184,
+   "usd": 0.008444
+  },
+  {
+   "condition": "plain",
+   "skill": "exception-handling",
+   "iid": "scikit-learn__scikit-learn-11346",
+   "target": [
+    "g1-e1-s41-p21",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s61-p23",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 1.0,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 3012,
+   "tokens_out": 166,
+   "usd": 0.008016
+  },
+  {
+   "condition": "sham",
+   "skill": "exception-handling",
+   "iid": "scikit-learn__scikit-learn-12471",
+   "target": [
+    "g1-e1-s61-p24",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p25",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 1812,
+   "tokens_out": 216,
+   "usd": 0.006216
+  },
+  {
+   "condition": "plain",
+   "skill": "exception-handling",
+   "iid": "scikit-learn__scikit-learn-12471",
+   "target": [
+    "g1-e1-s61-p24",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p25",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 1.0,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 1706,
+   "tokens_out": 145,
+   "usd": 0.005152
+  },
+  {
+   "condition": "sham",
+   "skill": "exception-handling",
+   "iid": "scikit-learn__scikit-learn-13142",
+   "target": [
+    "g1-e1-s51-p27",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s41-p23",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 4801,
+   "tokens_out": 311,
+   "usd": 0.013334
+  },
+  {
+   "condition": "plain",
+   "skill": "exception-handling",
+   "iid": "scikit-learn__scikit-learn-13142",
+   "target": [
+    "g1-e1-s51-p27",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s41-p23",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.95,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 4695,
+   "tokens_out": 181,
+   "usd": 0.011562
+  },
+  {
+   "condition": "sham",
+   "skill": "exception-handling",
+   "iid": "scikit-learn__scikit-learn-25370",
+   "target": [
+    "g1-e1-s41-p25",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s61-p28",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.95,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 6981,
+   "tokens_out": 745,
+   "usd": 0.022902
+  },
+  {
+   "condition": "plain",
+   "skill": "exception-handling",
+   "iid": "scikit-learn__scikit-learn-25370",
+   "target": [
+    "g1-e1-s41-p25",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s61-p28",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 6875,
+   "tokens_out": 800,
+   "usd": 0.02335
+  },
+  {
+   "condition": "sham",
+   "skill": "harm-minimal-edit",
+   "iid": "django__django-11911",
+   "target": [
+    "g1-e1-s61-p04",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p05",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.9,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 3958,
+   "tokens_out": 716,
+   "usd": 0.016508
+  },
+  {
+   "condition": "plain",
+   "skill": "harm-minimal-edit",
+   "iid": "django__django-11911",
+   "target": [
+    "g1-e1-s61-p04",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p05",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.95,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 3896,
+   "tokens_out": 527,
+   "usd": 0.014116
+  },
+  {
+   "condition": "sham",
+   "skill": "harm-minimal-edit",
+   "iid": "pydata__xarray-6721",
+   "target": [
+    "g1-e1-s41-p19",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s61-p21",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.95,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 3696,
+   "tokens_out": 242,
+   "usd": 0.010296
+  },
+  {
+   "condition": "plain",
+   "skill": "harm-minimal-edit",
+   "iid": "pydata__xarray-6721",
+   "target": [
+    "g1-e1-s41-p19",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s61-p21",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 1.0,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 3634,
+   "tokens_out": 140,
+   "usd": 0.008948
+  },
+  {
+   "condition": "sham",
+   "skill": "harm-minimal-edit",
+   "iid": "scikit-learn__scikit-learn-14710",
+   "target": [
+    "g1-e1-s61-p27",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p28",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 6150,
+   "tokens_out": 677,
+   "usd": 0.020424
+  },
+  {
+   "condition": "plain",
+   "skill": "harm-minimal-edit",
+   "iid": "scikit-learn__scikit-learn-14710",
+   "target": [
+    "g1-e1-s61-p27",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p28",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 6088,
+   "tokens_out": 305,
+   "usd": 0.015836
+  },
+  {
+   "condition": "sham",
+   "skill": "null-guard",
+   "iid": "astropy__astropy-8005",
+   "target": [
+    "g1-e1-s41-p02",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s61-p02",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.6,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 5323,
+   "tokens_out": 680,
+   "usd": 0.018806
+  },
+  {
+   "condition": "plain",
+   "skill": "null-guard",
+   "iid": "astropy__astropy-8005",
+   "target": [
+    "g1-e1-s41-p02",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s61-p02",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 1.0,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 5212,
+   "tokens_out": 185,
+   "usd": 0.012644
+  },
+  {
+   "condition": "sham",
+   "skill": "null-guard",
+   "iid": "django__django-15613",
+   "target": [
+    "g1-e1-s61-p10",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p11",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 6597,
+   "tokens_out": 789,
+   "usd": 0.022662
+  },
+  {
+   "condition": "plain",
+   "skill": "null-guard",
+   "iid": "django__django-15613",
+   "target": [
+    "g1-e1-s61-p10",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p11",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.95,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 6486,
+   "tokens_out": 385,
+   "usd": 0.017592
+  },
+  {
+   "condition": "sham",
+   "skill": "null-guard",
+   "iid": "django__django-16255",
+   "target": [
+    "g1-e1-s51-p12",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s41-p12",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 1496,
+   "tokens_out": 322,
+   "usd": 0.006856
+  },
+  {
+   "condition": "plain",
+   "skill": "null-guard",
+   "iid": "django__django-16255",
+   "target": [
+    "g1-e1-s51-p12",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s41-p12",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 1385,
+   "tokens_out": 149,
+   "usd": 0.004558
+  },
+  {
+   "condition": "sham",
+   "skill": "type-guard",
+   "iid": "astropy__astropy-13306",
+   "target": [
+    "g1-e1-s61-p00",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p01",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 3487,
+   "tokens_out": 392,
+   "usd": 0.011678
+  },
+  {
+   "condition": "plain",
+   "skill": "type-guard",
+   "iid": "astropy__astropy-13306",
+   "target": [
+    "g1-e1-s61-p00",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p01",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 1.0,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 3399,
+   "tokens_out": 292,
+   "usd": 0.010302
+  },
+  {
+   "condition": "sham",
+   "skill": "type-guard",
+   "iid": "astropy__astropy-14995",
+   "target": [
+    "g1-e1-s51-p02",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s41-p02",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 3687,
+   "tokens_out": 366,
+   "usd": 0.011766
+  },
+  {
+   "condition": "plain",
+   "skill": "type-guard",
+   "iid": "astropy__astropy-14995",
+   "target": [
+    "g1-e1-s51-p02",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s41-p02",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 1.0,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 3599,
+   "tokens_out": 167,
+   "usd": 0.009202
+  },
+  {
+   "condition": "sham",
+   "skill": "type-guard",
+   "iid": "matplotlib__matplotlib-22991",
+   "target": [
+    "g1-e1-s61-p15",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p16",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.6,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 2739,
+   "tokens_out": 1121,
+   "usd": 0.01893
+  },
+  {
+   "condition": "plain",
+   "skill": "type-guard",
+   "iid": "matplotlib__matplotlib-22991",
+   "target": [
+    "g1-e1-s61-p15",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p16",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 1.0,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 2651,
+   "tokens_out": 360,
+   "usd": 0.009622
+  },
+  {
+   "condition": "sham",
+   "skill": "type-guard",
+   "iid": "matplotlib__matplotlib-25332",
+   "target": [
+    "g1-e1-s51-p19",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s41-p17",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 1.0,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 2976,
+   "tokens_out": 245,
+   "usd": 0.008892
+  },
+  {
+   "condition": "plain",
+   "skill": "type-guard",
+   "iid": "matplotlib__matplotlib-25332",
+   "target": [
+    "g1-e1-s51-p19",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s41-p17",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.95,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 2888,
+   "tokens_out": 297,
+   "usd": 0.00934
+  },
+  {
+   "condition": "sham",
+   "skill": "type-guard",
+   "iid": "pytest-dev__pytest-9624",
+   "target": [
+    "g1-e1-s41-p20",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s61-p22",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 4030,
+   "tokens_out": 302,
+   "usd": 0.011684
+  },
+  {
+   "condition": "plain",
+   "skill": "type-guard",
+   "iid": "pytest-dev__pytest-9624",
+   "target": [
+    "g1-e1-s41-p20",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s61-p22",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 1.0,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 3942,
+   "tokens_out": 181,
+   "usd": 0.010056
+  },
+  {
+   "condition": "sham",
+   "skill": "type-guard",
+   "iid": "sphinx-doc__sphinx-8264",
+   "target": [
+    "g1-e1-s51-p30",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s41-p26",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.7,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 3367,
+   "tokens_out": 434,
+   "usd": 0.011942
+  },
+  {
+   "condition": "plain",
+   "skill": "type-guard",
+   "iid": "sphinx-doc__sphinx-8264",
+   "target": [
+    "g1-e1-s51-p30",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s41-p26",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 1.0,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 3279,
+   "tokens_out": 200,
+   "usd": 0.008958
+  },
+  {
+   "condition": "sham",
+   "skill": "type-guard",
+   "iid": "sympy__sympy-11831",
+   "target": [
+    "g1-e1-s41-p27",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s61-p30",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 1782,
+   "tokens_out": 203,
+   "usd": 0.006
+  },
+  {
+   "condition": "plain",
+   "skill": "type-guard",
+   "iid": "sympy__sympy-11831",
+   "target": [
+    "g1-e1-s41-p27",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s61-p30",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 1.0,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 1694,
+   "tokens_out": 231,
+   "usd": 0.00616
+  },
+  {
+   "condition": "sham",
+   "skill": "type-guard",
+   "iid": "sympy__sympy-16943",
+   "target": [
+    "g1-e1-s41-p28",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s61-p32",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.8,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 4423,
+   "tokens_out": 439,
+   "usd": 0.014114
+  },
+  {
+   "condition": "plain",
+   "skill": "type-guard",
+   "iid": "sympy__sympy-16943",
+   "target": [
+    "g1-e1-s41-p28",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s61-p32",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 4335,
+   "tokens_out": 156,
+   "usd": 0.010542
+  },
+  {
+   "condition": "sham",
+   "skill": "type-guard",
+   "iid": "sympy__sympy-17139",
+   "target": [
+    "g1-e1-s61-p32",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p33",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 0.9,
+    "category": "not_caused_by_skill"
+   },
+   "tokens_in": 3081,
+   "tokens_out": 1171,
+   "usd": 0.020214
+  },
+  {
+   "condition": "plain",
+   "skill": "type-guard",
+   "iid": "sympy__sympy-17139",
+   "target": [
+    "g1-e1-s61-p32",
+    "none"
+   ],
+   "ref": [
+    "g1-e1-s51-p33",
+    "none"
+   ],
+   "decision": {
+    "attributed": false,
+    "confidence": 1.0,
+    "category": "not_caused_by_setup"
+   },
+   "tokens_in": 2993,
+   "tokens_out": 448,
+   "usd": 0.011362
+  }
+ ]
+}
