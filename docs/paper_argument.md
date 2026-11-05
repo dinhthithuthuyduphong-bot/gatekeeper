@@ -39,3 +39,11 @@
 | C5 | B-X2 0,343; Gatekeeper 0,000 | B-X2 **0,303**; Gatekeeper **0,002** |
 | C6, 109 trial, trên 100 ô (có hại hoặc trung tính / có ích) | plug-in 11,6 / 36,4; Gatekeeper 0 / 0,2 | plug-in **10,5 / 38,6**; Gatekeeper **0 / 0,1** |
 | C8 | F = 8,0 / 6,0 / 3,8 điểm; 6/13 vượt mức nhiễu | F = **7,1 / 5,5 / 3,4** điểm; **6/13** vượt mức nhiễu (Pro/GPT +5,5 đúng bằng F) |
+
+## Rà tính trung thực của luận điểm bác bỏ (05/11/2026)
+
+1. **B-X2 là cổng do ta dựng.** XRepoSkill không dùng thống kê của họ làm cổng; câu gốc: "The gain and z score are not used as thresholds for retaining rules". Bác bỏ B-X2 **không** bác bỏ thực hành của XRepoSkill. Thực hành thật của họ là không có cổng (B-X1), và họ không tuyên bố kiểm soát sai số.
+2. **Tiêu chí của GEPA không được thiết kế để kiểm soát sai số.** Nó dùng để nhận ứng viên trong vòng tối ưu, trên minibatch 3 task. Việc nó nhận nhầm ở ô trung tính là điều dễ đoán, nên chỉ được trình bày như vậy. Điểm có nguồn: vòng tối ưu của gskill áp tiêu chí này **lặp lại nhiều lần** (`max_metric_calls` mặc định 600, minibatch 3). Đó là một trường hợp đã công bố của việc áp một tiêu chí nhiều lần.
+3. **"Kiểm định một lần nhìn sai khi bị nhìn nhiều lần" là kiến thức thống kê đã biết,** không phải phát hiện của paper. Đóng góp chỉ là đo mức độ trên lần chạy agent thật (0,026 tăng lên 0,103).
+4. **Câu "người dùng theo dõi kết quả, như cách vẫn làm trong thực tế" không có nguồn.** Bỏ câu này, hoặc tìm nguồn trước khi dùng.
+5. **Kết luận:** các con số của luận điểm bác bỏ là đúng, nhưng giá trị của nó là **động cơ và minh họa**, không phải đóng góp chính.
