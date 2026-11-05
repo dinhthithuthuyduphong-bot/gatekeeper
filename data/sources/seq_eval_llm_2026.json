@@ -69,5 +69,5 @@
    "formation. Therefore, their proposed sampling approach cannot be applied to our problem. Other related work on online and adaptive experiments studies anytime-valid inference under bandit- style treatment allocation [13], adaptive average-treatment-effect inference [14], contextual-bandit off-policy inference [15], and best-model identification for LLMs [16]. These works ensure validity under adaptive sampling, but do not focus on designing active queries to shrink a CS for the average correctness of a single LLM over a fixed benchmark. Prediction-assisted active statistical inference.[3] and related work on prediction-powered inference [17] (see [3, Section 3] for more references) consider a stream of test samples with their unobserved labels, and the goal is to estimate “a parameter of the expected loss” of a supervised learning model by using model predictions together with a limited number of queried labels and provide a CI for their estimator with an asymptotic width. Moreover, their estimator can also be translated to a CS by the betting approach [15, Theorem 3]. They also utilize the AIPW estimator, but the key difference with our paper is in the notion of activeness. In their setting, "
   ]
  },
- "fetched_utc": "2026-11-05T11:16:53+00:00"
+ "fetched_utc": "2026-11-05T11:29:44+00:00"
 }

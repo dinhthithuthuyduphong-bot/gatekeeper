@@ -8,7 +8,7 @@
   }
  ],
  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3935334/",
- "sha256": "72a81110be7b4444f24221a41567b6ececf9f4e10a108b4b9acc6c1b4c191b53",
+ "sha256": "7595abc91dc51b64d11bca0e5374a71e4795606cead1fbdcb03af82b424a7149",
  "n_chars": 58650,
  "head": " Plasmode simulation for the evaluation of pharmacoepidemiologic methods in complex healthcare databases - PMC Skip to main content An official website of the United States government Here's how you know Here's how you know Official websites use .gov A .gov website belongs to an official government organizatio",
  "excerpts": {
@@ -39,16 +39,5 @@
    "a, we use the fitted models from the previous step to predict each patient's expected survival and censoring time given his C 1 values. We extractthe Breslow estimates ( Breslow, 1975 ) ofthe baseline event-free survival function, S Y ( t ), and the baseline censor-free survival function, S 1– Y ( t ). In addition, we extract the vector of estimated coefficients from each model ( β ^ Y and β ^ 1 − Y for the event and censoring models, respectively). The desired true effects are specified by selectively replacing the values in β ^ Y with desired values at this step. For example, an alternative true effect of exposure can be inserted by replacing the estimated coefficient on X with another value. In addition, one may increase the overall amount of confounding by replacing the covariate coefficients in β ^ Y with larger values. We denote the coefficient vector used for event time simulation as β Y ∗ . This vector will define the true causal effects of X and C 1 on the simulated outcomes. A predicted event-free survival curve for each individual is then calculated as: S Y ( t ∣ X i , C 1 i ) = S Y ( t ) exp { D i β Y ∗ } where D i is the row for patient i in the design matrix from the estimated t"
   ]
  },
- "fetched_utc": "2026-11-05T04:25:38+00:00",
- "snapshot_commit": "1199187ecd718943ddf7ca6a16c99c6b45f89d81",
- "refetch_failed": {
-  "utc": "2026-11-05T11:16:22+00:00",
-  "attempts": [
-   {
-    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3935334/",
-    "ok": false,
-    "error": "only 227 characters: not the document"
-   }
-  ]
- }
+ "fetched_utc": "2026-11-05T11:29:20+00:00"
 }
