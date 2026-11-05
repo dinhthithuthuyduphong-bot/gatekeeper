@@ -1,0 +1,67 @@
+{
+ "P_A": {
+  "tasks": 112,
+  "share_hat": 0.09615384615384616,
+  "upper95_task_cluster": 0.46836431962025304,
+  "upper95_old_unit_bootstrap": 0.343762807377049,
+  "auditors": {
+   "flash-lite": {
+    "attributed_real": 0.9807692307692307,
+    "lower_bound_new": 0.5124049111489777,
+    "lower_bound_old": 0.6370064233921817
+   },
+   "flash": {
+    "attributed_real": 0.38461538461538464,
+    "lower_bound_new": 0.0,
+    "lower_bound_old": 0.04085257723833563
+   },
+   "pro": {
+    "attributed_real": 0.5576923076923077,
+    "lower_bound_new": 0.08932798807205466,
+    "lower_bound_old": 0.2139295003152587
+   }
+  }
+ },
+ "P_B": {
+  "real": {
+   "e1/exception-handling": {
+    "T": -2.0,
+    "p": 0.776022397760224
+   },
+   "e1/harm-minimal-edit": {
+    "T": 3.0,
+    "p": 0.1725827417258274
+   },
+   "e1/harm-skip-verification": {
+    "T": 3.0,
+    "p": 0.1865813418658134
+   },
+   "e1/harm-swallow-exceptions": {
+    "T": 6.0,
+    "p": 0.045295470452954706
+   },
+   "e1/null-guard": {
+    "T": -3.0,
+    "p": 0.9625037496250375
+   },
+   "e1/type-guard": {
+    "T": -2.0,
+    "p": 0.7896210378962104
+   },
+   "e2/xreposkill": {
+    "T": -1.0,
+    "p": 0.642035796420358
+   }
+  },
+  "S3_help": {
+   "tasks": 20,
+   "T": 10.0,
+   "p": 9.999000099990002e-05
+  },
+  "level_power": {
+   "0.0": 0.042,
+   "0.2": 0.715,
+   "0.3": 0.931
+  }
+ }
+}

@@ -698,3 +698,34 @@ Trong mô hình của D1, tính tỉ lệ dương tính giả và độ nhạy c
 **P-D:** đã kiểm, **chưa có dữ liệu ngoài dùng được**.
 - Repo SkillJuror (`zhiyuchen-ai/skill-juror`, clone ngày 05/11) ghi: "Evaluation, judging, aggregate reporting, and result-viewer components are outside the current release scope".
 - Bài ACES (`continuous_skill_eval_2026`): không có link dữ liệu trong các đoạn trích.
+
+### Kết quả §21 (05/11/2026; `results/section21.json`)
+
+**P-A (D-M10), bootstrap theo task:**
+- Cận trên 95% của tỉ lệ ứng viên do skill là **0,468**, thay cho 0,344 ở bản bootstrap theo đơn vị (bản cũ đánh giá thấp vì đếm lặp).
+- Cận dưới tỉ lệ đổ lỗi sai sau khi sửa:
+
+  | Auditor | Bản mới | Bản cũ |
+  | --- | --- | --- |
+  | Flash-Lite | **0,51** | 0,64 |
+  | Flash | **0,00** | 0,04 |
+  | Pro | **0,09** | 0,21 |
+
+- **Câu "Pro đổ lỗi sai ít nhất 21%" ở §20 bị bác bỏ; dùng 9%.**
+
+**P-B, kiểm định hoán vị chính xác:**
+- **Kiểm mức** (plasmode, q = 0): 0,042 ≤ 0,05. **Độ nhạy:** 0,715 (q = 0,2) và 0,931 (q = 0,3), cao hơn D2 nhị thức (0,41 và 0,77).
+- **Trên dữ liệu thật** (một phía, chiều hại; 10.000 hoán vị):
+
+  | Skill | p |
+  | --- | --- |
+  | E1 exception-handling | 0,78 |
+  | E1 harm-minimal-edit | 0,17 |
+  | E1 harm-skip-verification | 0,19 |
+  | E1 harm-swallow-exceptions | **0,045** |
+  | E1 null-guard | 0,96 |
+  | E1 type-guard | 0,79 |
+  | E2 xreposkill | 0,64 |
+
+- **Hiệu chỉnh nhiều phép kiểm:** với Holm trên 7 phép kiểm, p nhỏ nhất (0,045) không đạt mức 0,05/7, nên **không có skill nào bị kết luận gây hại**. Riêng `harm-swallow-exceptions`, skill được dựng để gây hại, có tín hiệu danh nghĩa.
+- **S3 (chiều giúp):** T = 10, p = 1,0·10⁻⁴, tức số nhỏ nhất có thể với 10.000 hoán vị.
