@@ -147,6 +147,8 @@ def fill_template(template: str, row: Mapping[str, Any], max_items: int = 5) -> 
         "{test_patch}": _truncate(row.get("test_patch") or "", 4000) or "(no test patch)",
         # gold-patch hint (control-oracle-patch, D-M6): the reference fix itself, never test_patch
         "{gold_patch}": _truncate(row.get("patch") or "", 8000) or "(no patch)",
+        # repo-test-guide (section 17): the repository's own test command(s), no test names
+        "{test_cmds}": "\n".join(str(c) for c in (row.get("test_cmds") or [])) or "(not available)",
     }
     for k, v in vals.items():
         template = template.replace(k, v)

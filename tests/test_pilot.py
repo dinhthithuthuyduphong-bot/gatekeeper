@@ -505,3 +505,18 @@ def test_oracle_patch_control_leaks_patch_not_test_patch():
     ps = arm_rows([row], sk)[0]["problem_statement"]
     assert "GOLDLINE" in ps and ps.count("GOLDLINE") == 1
     assert "{gold_patch}" not in ps and "Bug X" in ps
+
+
+def test_repo_test_guide_fills_commands_only():
+    sk = Skill.load("configs/skills/repo-test-guide.json")
+    row = {
+        "instance_id": "a__b-2",
+        "problem_statement": "Bug Y",
+        "patch": "diff --git a/src/m.py b/src/m.py\n+SECRETFIX\n",
+        "test_patch": "diff --git a/tests/t.py b/tests/t.py\n+SECRETTEST\n",
+        "FAIL_TO_PASS": '["tests/t.py::test_secret_name"]',
+        "test_cmds": ["pytest -rA"],
+    }
+    ps = arm_rows([row], sk)[0]["problem_statement"]
+    assert "pytest -rA" in ps and "Bug Y" in ps
+    assert "SECRETFIX" not in ps and "SECRETTEST" not in ps and "test_secret_name" not in ps

@@ -314,3 +314,22 @@ Như draft §10.
   - B-X2 thêm c = 4, 5, 6, 7;
   - plug-in thêm t = 0,35; 0,4; 0,5; 0,6.
   - Các giá trị cũ giữ nguyên. Mọi giá trị đều được báo cáo.
+
+## 17. 2.1: pilot skill thật "cách chạy test của repo" (đăng ký 05/11/2026, trước khi viết mã và chạy; trần 3 USD)
+
+- **Động cơ:** phân tích thăm dò mục 1.4 trên E2: chỉ 29/277 lần chạy thất bại (10%) có chạy test của repo; 9% số lần chạy sửa được lỗi nhưng làm hỏng test khác.
+- **Skill `repo-test-guide`** (định nghĩa can thiệp, R2). Văn bản nguyên văn, chèn sau đề bài:
+  > "Repository testing guide. This repository's test suite is run with:
+  > {test_cmds}
+  > Before you submit, run the existing tests that cover the files you changed with this command, fix any test you broke, and check that the behaviour described in the issue is fixed."
+  - `{test_cmds}` lấy từ trường `test_cmds` của task. Đã kiểm trên toàn pool rằng trường này **không** chứa tên file hay tên test của FAIL_TO_PASS (xem ghi chú bên dưới). Nếu có task nào chứa thì task đó bị loại.
+- **Task:** 20 task dùng được đầu tiên của khối `e2c` theo `random_order`. Đây là task **mới**, chưa dùng ở E2 hay T4.
+- **Cấu hình:** chạy mới cả hai nhánh (`none` và skill) trong cùng lô; seed 41; 250 bước; `cost_limit` 0,5; lô 1 task; trần 3 USD.
+- **Đại lượng chính:** mức tăng tỉ lệ giải δ̂ = −Z̄ (endpoint loss = 0), kèm CI 95% bằng kiểm đổi dấu.
+  - Phân tích độ nhạy: endpoint chỉ xét FAIL_TO_PASS, do nghi có test PASS_TO_PASS chập chờn (mục 1.4).
+- **Đây là pilot ước lượng, không phải chứng nhận.** e-value được báo cáo để mô tả, không dùng để quyết định.
+- **Cổng (ghi trước):**
+  - δ̂ ≥ 0,15: đề xuất 2.2 (chứng nhận trên task mới của `e2c` còn lại và `e2d`), kèm trần tính từ δ̂;
+  - δ̂ < 0,15: dừng phần skill thật;
+  - nếu CI chứa cả 0,05 lẫn 0,25 thì ghi là "chưa rõ" và để @thuthuy quyết có thêm 10 task không.
+- **Dữ liệu pilot không được dùng lại cho 2.2** (tránh lời nguyền người thắng).

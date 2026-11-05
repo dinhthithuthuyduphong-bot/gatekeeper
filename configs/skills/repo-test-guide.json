@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "id": "repo-test-guide",
+  "procedure": {
+    "kind": "guidance",
+    "guidance_template": "Repository testing guide. This repository's test suite is run with:\n{test_cmds}\nBefore you submit, run the existing tests that cover the files you changed with this command, fix any test you broke, and check that the behaviour described in the issue is fixed.",
+    "_comment": "REAL (non-oracle) SKILL for pilot 2.1 (docs/preregistration_main.md section 17): the repository's own test command(s) from field test_cmds; contains no FAIL_TO_PASS file or test names (checked over the pool)."
+  },
+  "fingerprints": {},
+  "input_predicates": [],
+  "postconditions": [],
+  "footprint": {
+    "regions": [],
+    "reads": [],
+    "writes": [],
+    "properties": []
+  },
+  "capability_verdict": "approved",
+  "source": "designed:real-skill"
+}
