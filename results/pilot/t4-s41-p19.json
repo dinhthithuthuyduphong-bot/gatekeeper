@@ -1,0 +1,62 @@
+{
+  "generated_utc": "2026-11-05T09:21:22+00:00",
+  "format_version": 2,
+  "name": "t4-s41-p19",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/pd/rows.jsonl",
+  "instances": [
+    "reflex-dev__reflex-4230"
+  ],
+  "spent_usd": 0.2703,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.25093277500000005,
+      "tokens_in_per_run": 6924424.0,
+      "tokens_out_per_run": 8225.0,
+      "cached_share": 0.9579686339253634,
+      "api_calls_per_run": 250.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "control-oracle-patch": {
+      "runs": 1,
+      "usd_per_run": 0.019360125000000002,
+      "tokens_in_per_run": 171609.0,
+      "tokens_out_per_run": 2072.0,
+      "cached_share": 0.6902027282951361,
+      "api_calls_per_run": 15.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "reflex-dev__reflex-4230": "LimitsExceeded"
+    },
+    "control-oracle-patch": {
+      "reflex-dev__reflex-4230": "Submitted"
+    }
+  },
+  "skills": {
+    "control-oracle-patch": {
+      "pairs": [
+        {
+          "instance_id": "reflex-dev__reflex-4230",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.6666666666666666,
+      "variance_components": null
+    }
+  },
+  "reused_none": null
+}

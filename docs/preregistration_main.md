@@ -333,3 +333,12 @@ Như draft §10.
   - δ̂ < 0,15: dừng phần skill thật;
   - nếu CI chứa cả 0,05 lẫn 0,25 thì ghi là "chưa rõ" và để @thuthuy quyết có thêm 10 task không.
 - **Dữ liệu pilot không được dùng lại cho 2.2** (tránh lời nguyền người thắng).
+
+### Kết quả T4 (05/11/2026)
+
+- **Gatekeeper admit `control-oracle-patch` ở trial 20.** e-value 57,7 ≥ 40; K = 1; α = 0,025.
+- **Mức tăng tỉ lệ giải:** 0,55, CI bootstrap 95% [0,35; 0,75]; 11/20 task được giúp; 0 task bị hại.
+- **So với dự đoán đăng ký ở D-M6:** ở δ = 0,5–0,6, trung vị dự đoán là 21–25 trial. Thực tế admit ở trial 20, **nằm trong vùng dự đoán**.
+- **Kiểm sau khi chạy:** `infra_failures`, `endpoint_mismatch`, `patch_apply_failed` đều rỗng.
+- **Token:** 40 lần chạy agent; 42.231.936 token vào, 230.118 token ra. Chi 2,16 USD (trần 6 USD).
+- **Ghi chú (mục 1.4):** 4/9 trường hợp nhánh có gợi ý không giải được có loss trong (0; 0,01), nghi do test PASS_TO_PASS chập chờn. Việc kiểm điều này ghi ở `docs/paper_argument.md`.
