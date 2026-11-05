@@ -13,3 +13,10 @@
 1. FWER (không phải FDR) cho cả thư viện skill, theo từng (skill, scope).
 2. Bảo đảm cho skill ghép (Định lý 4′, hệ số TV).
 3. Đo trên khoảng 2.000 lần chạy ghép cặp của coding agent thật, kèm so sánh trực tiếp với các quy tắc đã công bố ở trên.
+
+## Thu hồi hai bước (§15): rà tính mới (05/11/2026)
+
+- **Universality of e-detectors** (`universality_edetectors_2026`): bài lý thuyết. Có các phụ lục "Residual criteria and restartable detector fields", "Repeated alarms and counting e-detectors", "Local-window control". Cách hai bước của mình (báo động, cách ly, xác nhận với α chia nhỏ, dùng lại) rất có thể là **một trường hợp riêng** của khung này.
+  → **Không** tuyên bố tính mới về lý thuyết.
+  → Đóng góp, nếu có, là **cách xây dựng cụ thể cho việc thu hồi skill**, cùng phép đo đánh đổi trên lần chạy agent thật, so với e-SR (Qu et al.) và Library Drift.
+- **Sequential Control of False Positives in Online CPD** (`seq_fp_cpd_2026`): hiệu chỉnh ngưỡng bằng mô phỏng, FWER theo cửa sổ thời gian, dữ liệu điện thoại. Khác lĩnh vực; không có bước xác nhận.
