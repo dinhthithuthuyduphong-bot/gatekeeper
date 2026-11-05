@@ -511,3 +511,10 @@ Hiệu ứng thật dùng để kiểm độ nhạy trên dữ liệu thật: T4
 Trong mô hình của D1, tính tỉ lệ dương tính giả và độ nhạy của quy tắc "≥ r trong k seed" với k ∈ {1, 2, 3, 5, 10}.
 
 **Mã:** `scripts/placebo_suite.py` (A, B, D, F) và `scripts/sham_audit.py` (C). Review R-39 và chạy thử trên dữ liệu giả trước khi chạy thật.
+
+**Ghi chú thực thi 19-1** (05/11/2026, trước lần chạy đầy đủ):
+1. **Số lần lặp chưa ghi trong bản đăng ký:**
+   - phần D và F dùng **1.000 lần lặp** mỗi mức q (vận hành; sai số Monte Carlo của một tỉ lệ ≤ 0,016);
+   - p gộp theo skill ở phần B dùng **200.000 lần đổi dấu Monte Carlo**, vì 2^40 cách đổi dấu là quá nhiều để liệt kê.
+2. **Quy tắc "đa số" của F:** r = số nhỏ nhất lớn hơn k/2, tức k = 1, 2, 3, 5, 10 → r = 1, 2, 2, 3, 6. Riêng k = 2 thì r = 2 (cả hai seed).
+3. **Công bố:** lần chạy thử theo L37 (50 lần lặp) dùng dữ liệu thật. Phần B là tất định nên kết quả của B **đã được xem** trước lần chạy đầy đủ: 6/392 ô có p < 0,05, so với kỳ vọng 19,6. Quy tắc của B không đổi.

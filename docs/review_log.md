@@ -440,3 +440,19 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - 0 lần chạy thiếu dấu thời gian.
   - Hàm `load` dừng nếu gặp cặp trùng.
 - **Chạy thử theo L37:** test đầu-cuối trên dữ liệu giả đi qua `heterogeneity`, `summarise` và `power_check`. Tổng cộng 10 test đạt; ruff đạt.
+
+## R-39. §19 phần A, B, D, F (`scripts/placebo_suite.py`; 2026-11-05)
+
+- **Đối chiếu với bản đăng ký:**
+  - Luồng A/A dùng `plasmode_real.make_cell` với δ = 0: rút task có hoàn lại, chọn ngẫu nhiên 2 trong 3 lần chạy không skill.
+  - B-X2 lấy từ bản XRepoSkill ghim ở `26fd703`.
+  - SWE-Skills-Bench: kiểm định đổi dấu chính xác hai phía trên 10 phần tử.
+  - Library Drift: N_min = 100, τ = 0,10.
+  - e-SR: λ = 0,5, ngưỡng 1/α.
+  - Thu hồi hai bước gọi đúng `two_stage_retirement.two_stage`.
+  - Thứ tự cặp placebo của D trùng §18; có test kiểm.
+- **Lỗi bắt được khi review:** một test ban đầu có `or True`, tức là không kiểm gì. Đã thay bằng phép kiểm tỉ lệ báo động nhầm của e-process dưới nhiễu, với ngưỡng Ville cộng 2 sai số chuẩn.
+- **Chạy thử theo L37:** 50 lần lặp, khoảng 4 giây, đi hết A, B, D, F.
+  - Lưu ý diễn giải: e-SR báo động ở 100% luồng placebo dài 400. Điều này khớp lý thuyết, vì e-SR chỉ bảo đảm thời gian chạy trung bình tới báo động nhầm (ARL) ≥ 1/α = 40, không bảo đảm xác suất báo động trên cả luồng. Không phải lỗi mã.
+- **Công bố:** kết quả B đã xem trong lần chạy thử (ghi chú 19-1).
+- 7 test đạt; ruff đạt.

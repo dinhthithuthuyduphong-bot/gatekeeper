@@ -1,0 +1,59 @@
+import sys
+from pathlib import Path
+
+import numpy as np
+import pytest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+import placebo_suite as ps  # noqa: E402
+
+
+def test_signflip_exact_extremes_and_zeros():
+    assert ps.signflip_p_exact([1.0] * 10) == pytest.approx(2 / 1024)
+    assert ps.signflip_p_exact([0.0] * 10) == 1.0
+    assert ps.signflip_p_exact([1.0, -1.0]) == 1.0
+    assert ps.signflip_p_exact([2.0, 0.0, 0.0]) == 1.0  # one nonzero entry: p = 1
+
+
+def test_signflip_mc_close_to_exact():
+    rng = np.random.default_rng(0)
+    d = np.array([3.0, 1.0, 2.0, 0.0, -1.0, 4.0, 2.0, 1.0])
+    assert ps.signflip_p_mc(d, 200_000, rng) == pytest.approx(
+        ps.signflip_p_exact(list(d)), abs=0.01
+    )
+
+
+def test_library_drift_and_esr_on_extreme_streams():
+    assert ps.library_drift_retires([1.0] * 120)  # always harmful: mean gain -1 <= -0.10 at t = 100
+    assert not ps.library_drift_retires([-1.0] * 400)  # always helpful
+    assert not ps.library_drift_retires([1.0] * 99)  # below the evidence floor
+    assert ps.esr_alarms([1.0] * 50)
+    assert not ps.esr_alarms([-1.0] * 400)
+
+
+def test_binom_count_p():
+    assert ps.binom_count_p(10, 0) == pytest.approx(2**-10)
+    assert ps.binom_count_p(0, 0) == 1.0
+    assert ps.binom_count_p(5, 5) > 0.5
+
+
+def test_candidates_order_matches_section_18():
+    none = np.array([[True, False, True]])  # seeds 41, 51, 61
+    skill = np.array([[False, False, False]])
+    sk, pl = ps.candidates(none, skill)
+    assert sk.tolist() == [[True, False, True]]
+    # placebo pairs (target, reference): (41, 61), (51, 41), (61, 51)
+    assert pl.tolist() == [[False, True, False]]
+
+
+def test_simulate_cell_q1_never_resolves_with_skill():
+    rng = np.random.default_rng(1)
+    none, skill = ps.simulate_cell(rng, 0.5, 1.0, 200, 3, 1.0)
+    assert not skill.any() and none.shape == (200, 3)
+
+
+def test_gk_harm_detects_clear_harm_and_keeps_level_under_noise():
+    rng = np.random.default_rng(2)
+    assert ps.gk_harm([1.0] * 60, 0.025)
+    false = sum(ps.gk_harm(list(rng.choice([-1.0, 0.0, 1.0], 300)), 0.025) for _ in range(400))
+    assert false / 400 <= 0.025 + 2 * (0.025 * 0.975 / 400) ** 0.5  # Ville: P(cross) <= alpha
