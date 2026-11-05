@@ -156,3 +156,7 @@ Như draft §10.
   - Áp cho SWE-bench-Live (repo không có trong pool học của họ), một model (Gemini 3.1 Flash-Lite), mini-swe-agent, bộ skill đã công bố và bước chọn rule của chính họ.
   - Không bác bỏ kết quả của họ trên DeepSWE với các model của họ.
   - Theo câu gốc của Lakens: "when a meaningful effect can be rejected, it does not imply there is no effect at all".
+- **Quy tắc chọn SESOI công bằng (ghi 05/11/2026, trước khi đọc bảng kết quả đầy đủ của XRepoSkill):** 10,3 điểm là con số **lớn nhất** họ nêu (DeepSWE), nên dùng một mình nó là chọn lọc có lợi cho mình. Quy tắc thay thế:
+  - Lấy **mọi** mức tăng so với "cùng agent không có skill" trong bảng kết quả của họ (6 tổ hợp benchmark × LLM).
+  - Báo cáo phép kiểm cho từng mức tăng. Kết luận chính dùng mức tăng **nhỏ nhất**.
+  - Nếu mức nhỏ nhất ≤ 0,053 (cận trên CI của E2) thì ghi rõ là không bác bỏ được mức đó.
