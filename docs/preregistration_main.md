@@ -195,3 +195,17 @@ Như draft §10.
 - **Giới hạn ghi sẵn:**
   - Nhiễu đo trên một model với tỉ lệ giải nền 0,27–0,47. Phương sai nhị thức lớn nhất ở tỉ lệ 0,5, mà các bài kia có tỉ lệ nền 0,12–0,69. Do đó F(n) của mình có thể **thấp hơn** nhiễu thật của họ, nghĩa là quy tắc này **có lợi cho các tuyên bố**.
   - Không biết họ có cố định seed hay không.
+
+## 13. Phân tích con của P1, chỉ trên ô trung tính thật (05/11/2026; **phân tích thêm sau khi chạy P1**, ghi rõ trong paper)
+
+- **Thiết lập:** một ô, mọi trial là cặp A/A thật (hai lần chạy không skill của cùng task), nên hiệu ứng thật bằng 0 chính xác và **không có hiệu ứng nào được cấy**. n = 200, nhìn sau mỗi 10 trial, 1.000 lần lặp, seed 20271106.
+- **Tỉ lệ admit nhầm:**
+
+  | Quy tắc | Nhìn 1 lần | Nhìn sau mỗi 10 trial |
+  | --- | --- | --- |
+  | Gatekeeper (α_ô = 0,0028) | — | 0/1.000 |
+  | B-X2 | 0,026 ± 0,010 (đúng mức danh nghĩa 0,025) | **0,103 ± 0,019** |
+  | Plug-in | 0,44 | 0,80 |
+
+- **Ý nghĩa:** loại được mọi phản biện về hiệu ứng giả lập và về việc thiếu hiệu chỉnh đa giả thuyết. Ở một lần nhìn, B-X2 đúng mức danh nghĩa; chỉ riêng việc theo dõi liên tục đã làm tỉ lệ admit nhầm tăng khoảng 4 lần.
+- Kết quả: `results/null_monitoring_real.json`.
