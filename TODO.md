@@ -18,6 +18,8 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 **Định vị:** quản lý vòng đời thư viện skill cho coding agent, với FWER theo từng (skill, scope), bảo đảm cho skill ghép, và so sánh trực tiếp các quy tắc nhận/thu hồi đã công bố trên lần chạy agent thật (`docs/novelty_review.md`, `docs/paper_argument.md`). Ý tưởng lõi anytime-valid đã có ở Qu et al. 2026, nên **không** tuyên bố là "đầu tiên".
 
 ### Ưu tiên 1: tăng sức mạnh, miễn phí
+- [ ] 🤖 **Thu hồi hai bước** (e-SR báo động nhanh → cách ly → e-process xác nhận trên dữ liệu mới, α chia theo 6/(π²k²)): đăng ký §15, kiểm trên nhiễu thật, rà tài liệu tính mới, viết mệnh đề. Có thể là đóng góp phương pháp mới so với Qu et al.
+- [ ] 🤖 Vì sao agent thất bại cả khi có bản vá đúng (T4: 5/11 task).
 - [ ] 🤖 **Đóng T4:** so với dự đoán đăng ký ở D-M6; CI của hiệu ứng; token; lưu dữ liệu gốc.
 - [ ] 🤖 **Phân tích "agent thất bại vì sao"** trên 344 trajectory nhánh không skill của E2 (thăm dò): tìm kiểu thất bại phổ biến mà một skill **thật** (không phải đối chứng) có thể sửa, kèm δ ước tính. Đây là đòn bẩy lớn nhất về ý nghĩa thực tế.
 - [ ] 🤖 **T2:** cài e-detector của Qu et al. để so sánh cách thu hồi một cách công bằng.

@@ -281,3 +281,19 @@ Như draft §10.
   - e-SR kiểm soát ARL ≥ 1/α = 40 trial (thời gian chạy trung bình trước khi báo động nhầm);
   - bộ theo dõi của Gatekeeper kiểm soát **xác suất** báo động nhầm ≤ 0,025 trên toàn bộ thời gian.
   - Báo cáo cả hai, cùng kịch bản. Thêm kịch bản "trung tính": hiệu ứng đổi từ +0,20 sang 0 ở trial 100, để đo báo động nhầm khi skill trở nên vô dụng.
+
+## 15. T2b: thu hồi hai bước (đăng ký 05/11/2026, trước khi viết mã; 0 USD)
+
+- **Động cơ:** T2 (ghi chú T2-1) cho thấy e-SR phát hiện nhanh (trễ 12 trial) nhưng thu hồi nhầm 35% số skill có ích trong 400 trial; bộ theo dõi một e-process thì không thu hồi nhầm nhưng trễ 221 trial.
+- **Quy tắc:**
+  - **Bước 1, báo động:** e-SR như T2-1 (λ = 0,5; ngưỡng 1/α với α = 0,025).
+  - **Bước 2:** khi có báo động thứ k, skill bị **cách ly**. Một e-process **mới** cho giả thuyết "có hại" (đầu vào −Z, như bộ theo dõi ở T2) chạy trên các trial **sau** lúc báo động, với α_k = α · 6/(π²k²). Đây là chuỗi chia α đang dùng trong `AlphaLedger`; tổng các α_k bằng α.
+  - Thu hồi nếu e-process đó đạt 1/α_k trong W = 200 trial (bằng số trial tối đa của mỗi ô ở §14).
+  - Nếu không đạt, skill được dùng lại và e-SR bắt đầu lại từ 0.
+- **Bảo đảm cần chứng minh:** xác suất thu hồi nhầm một skill không có hại ≤ Σ_k α_k = α. Lý do: mỗi bước xác nhận dùng dữ liệu mới, và theo Ville mỗi bước có xác suất sai ≤ α_k; cộng lại bằng bất đẳng thức hợp. Phải viết thành mệnh đề trong `docs/theory/proofs.md` trước khi đưa vào paper.
+- **Kịch bản:** như T2 (`drift`, `no_drift`, `to_neutral`; thay đổi tại trial 100; theo dõi 400 trial; 1.000 lần lặp).
+- **Báo cáo:**
+  - tỉ lệ phát hiện và độ trễ (tới lúc **thu hồi**);
+  - tỉ lệ thu hồi nhầm;
+  - **tỉ lệ thời gian một skill có ích bị cách ly nhầm.**
+- **Tiêu chí "tốt hơn" ghi trước:** tỉ lệ thu hồi nhầm ≤ 0,025 trong `no_drift`, **và** độ trễ trung vị ở `drift` nhỏ hơn bộ theo dõi một e-process (221 trial).
