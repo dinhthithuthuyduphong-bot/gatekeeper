@@ -317,3 +317,11 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Phòng ngừa:**
   - Import hàm endpoint đã đăng ký; không viết lại.
   - Đề xuất thêm một mục vào preflight: tìm `loss_without < ` / `loss_with < ` trong `scripts/` và báo lỗi.
+
+## L36. Pilot dùng để kiểm phương pháp, không dùng để kiểm giả thuyết khoa học (`docs/pilot_postmortem.md`)
+
+- **Xảy ra:** khoảng 153 USD được chi để hỏi "skill có tác dụng không" bằng các thiết kế xác nhận, trong khi dữ liệu ngày đầu (R14, R15) đã cho thấy hiệu ứng quá nhỏ để đo.
+- **Phòng ngừa:**
+  1. Pilot trước hết chạy đối chứng dương mạnh, đối chứng âm và A/A, với chi phí vài USD.
+  2. Trước mỗi lần nâng ngân sách, trả lời bằng số: "nếu kết quả lại là FAIL, ta học được gì mà chưa biết?" Câu trả lời là "không có gì" thì không nâng.
+  3. Một tín hiệu cảnh báo về power hay cỡ hiệu ứng phải dẫn tới **đổi thiết kế**, không dẫn tới chạy lớn hơn.
