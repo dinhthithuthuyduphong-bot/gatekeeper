@@ -656,3 +656,25 @@ Trong mô hình của D1, tính tỉ lệ dương tính giả và độ nhạy c
 - **S3:** mỗi task có 1 cặp phía skill và 3 cặp phía placebo. Vì vậy D2 dùng kiểm định nhị thức một phía với xác suất **1/4** (phía skill chiếm 1/4 số cặp khi không có hiệu ứng), thay cho 1/2 ở §19.
 - **S2:** đơn vị bootstrap là (skill, task) của E1, 10.000 lần. Ứng viên placebo được đếm theo từng skill như §18: cùng các lần chạy không skill được đếm lại cho mỗi skill có task đó.
 - **Phát biểu chính xác của Mệnh đề P(a):** tổng lấy trên **mọi cặp**, tức có hệ số k (`docs/theory/proofs.md`). Câu ở S1 là phát biểu rút gọn.
+
+### Kết quả §20 (05/11/2026; `results/section20.json`, `results/pilot/g5h-probe-s41-p00.json`)
+
+- **S1:** Mệnh đề P đã chứng minh (`docs/theory/proofs.md`); test mô phỏng đạt.
+- **S2:** E1 gộp có S = 52, P = 47; tỉ lệ ứng viên do skill ước lượng 0,096, cận trên 95% là 0,344. Cận dưới của tỉ lệ đổ lỗi sai:
+
+  | Auditor | Tỉ lệ đổ lỗi | Cận dưới đổ lỗi sai |
+  | --- | --- | --- |
+  | Flash-Lite | 0,98 | **0,64** |
+  | Flash | 0,38 | **0,04** |
+  | Pro | 0,56 | **0,21** |
+
+- **S3 (đối chứng dương phía "giúp", T4 × placebo E2):** 20 task; 11 ứng viên có skill so với 3 ứng viên placebo (trên 3 cặp); R_help = 0,09; D2 (p₀ = 1/4) cho p = 4,0·10⁻⁵. **Khớp dự đoán.**
+- **S4 (thăm dò, cơ chế):** khi có đặc trưng của skill trong bản vá đích:
+  - Pro đổ lỗi 18/25 khi có đặc trưng, so với 11/27 khi không có (Fisher p = 0,029);
+  - Flash 13/25 so với 7/27 (p = 0,087).
+  - Ở điều kiện skill giả, mẫu quá nhỏ (4 ca có đặc trưng).
+- **S5 (đối chứng dương phía "hại"): DỪNG theo quy tắc đăng ký.**
+  - Bước 1: 0/3 task có bản vá rỗng (bản vá dài 611, 1.273, 1.472 ký tự); 2/3 task vẫn giải được.
+  - Agent không làm theo chỉ dẫn "do not modify any file".
+  - Chi 0,1305 USD; 1.925.522 token vào, 17.876 token ra.
+- **Chi tiêu của thí nghiệm chính tới nay:** 5,52 + 0,13 = **5,65 USD**.
