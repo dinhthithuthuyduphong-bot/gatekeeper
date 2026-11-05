@@ -163,3 +163,39 @@ Mỗi việc ghi theo L38: kết quả gì, xác suất cho ra kết quả dùng
 - regime A/B/C;
 - 8 hệ thống × 2 backend;
 - mọi pilot skill thật mới không có cận trên ≥ cổng (L38).
+
+---
+
+## 5. Kiểm lại trước khi duyệt (05/11/2026): hai tuyên bố ở trên bị yếu đi
+
+### 5a. Bậc thang skill của H6: chỉ hai đầu là rẻ
+
+Hiệu ứng đã đo của các skill đối chứng:
+
+| Skill | Dữ liệu | n | Mức tăng tỉ lệ giải |
+| --- | --- | --- | --- |
+| Bản vá gốc (`control-oracle-patch`) | T4 | 20 | +0,550 |
+| Test FAIL_TO_PASS (`control-oracle-tests`) | G1 B3 | 38 | +0,158 |
+| File cần sửa (`control-oracle-files`) | G1 B2 | 38 | +0,026 |
+| 3 skill có hại dạng chỉ dẫn (`harm-*`) | E1, 3 seed × 40 | 120 mỗi skill | −0,05 tới −0,06 (từng seed: 0 tới −0,125) |
+
+**Hệ quả:**
+- Các cổng chỉ khác nhau ở **vùng giữa**, tức hiệu ứng khoảng ±0,05–0,15. Gán nhãn thật cho vùng này cần khoảng 100 trial trở lên mỗi skill. Đây chính là bài toán quá đắt của RQ1 gốc.
+- Vậy bậc thang H6 **không** cứu được RQ1 với giá rẻ. Vùng giữa phải dùng plasmode.
+- Lần chạy thật chỉ dùng được để **kiểm xem mô phỏng có dự đoán đúng chi phí không**. Ví dụ đăng ký trước số trial cho `control-oracle-tests` rồi chạy, tương tự T4.
+
+### 5b. Tính mới của K1: phần lớn đã có người công bố
+
+Các công trình tìm được:
+- **"On Randomness in Agentic Evals"** (arXiv 2602.07150): khoảng 60.000 quỹ đạo trên SWE-bench Verified. Pass@1 của một lần chạy dao động 2,2–6,0 điểm, kể cả ở nhiệt độ 0. Khuyên chạy nhiều lần và phân tích power.
+- **"Coding Agents Have Converged"** (arXiv 2609.17394): chỉ những task "lúc giải được, lúc không" mới mang thông tin cho phép so sánh ghép cặp.
+- **"Engineering Reliable Coding Agents"** (arXiv 2608.13867) và **"Same Model, Different Harness"** (arXiv 2608.26218).
+
+**Hệ quả:**
+- "Đo nhiễu đánh giá coding agent" **không thể** là đóng góp chính. F(n), tính không tất định và khuyến nghị chạy nhiều lần đều đã có.
+- Phần có thể còn khác (phải đọc bản gốc mới khẳng định được, theo R1):
+  1. nhiễu của **phép so sánh có và không có skill** trên cùng task (A/A ghép cặp);
+  2. tác hại của **việc theo dõi liên tục** lên các quy tắc nhận skill;
+  3. đối chiếu với các mức tăng của các **hệ thống skill** đã công bố.
+
+**Việc phải làm trước khi chốt hướng:** đọc bản gốc của 4 bài trên và của Qu et al., đưa vào `configs/sources.json`, rồi lập bảng "đã có hay chưa có" cho từng đóng góp dự định. Chưa có bảng đó thì chưa chốt định vị.
