@@ -330,6 +330,7 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 
 - **Xảy ra:** tôi chỉ chạy thử driver một lần, không chạy `run_t4.sh`. Lỗi môi trường của câu kiểm dừng sớm chỉ lộ ra ở lần chạy có chi phí.
 - **Phòng ngừa:** chạy thử bằng chính script thật, với model giả lập, cho tới ít nhất một vòng ra quyết định trọn vẹn.
+- **Bổ sung (A81):** chạy thử bằng **đúng trình thông dịch** sẽ chạy thật. Script nào cần cả gói của repo lẫn litellm thì tách thành hai bước.
 
 ## L38. Trước khi đề xuất một pilot có chi phí, tính cận trên của mức tăng từ dữ liệu sẵn có và xác suất qua cổng (A79)
 
