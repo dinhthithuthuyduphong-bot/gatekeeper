@@ -31,5 +31,5 @@
    " Optional[Dict[str, Any]]: if not isinstance(parsed, dict): return None canonical_to_key = {_canonicalize_key_name(k): k for k in EXPERIENCE_CARD_KEYS} mapped: Dict[str, Any] = {} for k, v in parsed.items(): if not isinstance(k, str): continue ck = _canonicalize_key_name(k) std_key = canonical_to_key.get(ck) if std_key: mapped[std_key] = v if mapped: out = {'Problem Summary': _normalize_text_field(mapped.get('Problem Summary')), 'Signals': _normalize_signals(mapped.get('Signals')), 'Root Cause': _normalize_text_field(mapped.get('Root Cause')), 'Fix Strategy': _normalize_text_field(mapped.get('Fix Strategy')), 'Patch Digest': _normalize_text_field(mapped.get('Patch Digest')), 'Verification': _normalize_text_field(mapped.get('Verification'))} if out['Problem Summary'] is None: out['Problem Summary'] = out.get('Root Cause') or out.get('Fix Strategy') or out.get('Patch Digest') or out.get('Verification') if out['Root Cause'] is None and out.get('Problem Summary') is not None: out['Root Cause'] = out.get('Problem Summary') if any((out.get(k) is not None for k in EXPERIENCE_CARD_KEYS)) and out.get('Problem Summary') is not None: return out return None if all((k in parsed for k in LEGACY_OUTPUT_KEYS)"
   ]
  },
- "fetched_utc": "2026-11-05T04:46:11+00:00"
+ "fetched_utc": "2026-11-05T04:49:37+00:00"
 }
