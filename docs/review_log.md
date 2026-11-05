@@ -333,3 +333,14 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   7. **Model embedding.** Lấy đúng tên trong server của họ (`Qwen3-Embedding-0.6B`); revision được ghi lúc chạy (`mg_versions.txt`). Nếu số chiều không khớp với chỉ mục, truy vấn báo lỗi và F1 không đạt (lỗi hiện ra, không âm thầm).
   8. **Đường dữ liệu dự phòng trong `exp_search.py`** (`agentic_exp_data_1209`) chỉ được dùng khi server không trả `bug_description`. Server của họ có trả trường này, nên đường dự phòng không được dùng.
 - **Preflight:** PASS. **Chi phí:** 0 USD (model giả lập).
+
+## R-30. Plasmode trên dữ liệu thật E1/E2 (2026-11-05; `docs/preregistration_main.md` §8, đăng ký ở commit 6a8b30d trước khi chạy)
+
+- **Kiểm trước khi chạy:**
+  - Nền A/A ghép hai lần chạy không skill khác seed của cùng task, nên STR = 0 đúng theo định nghĩa.
+  - δ được cấy có kiểm π ≤ 1 (assert).
+  - B-X2 gọi đúng `mh_risk_difference` và `Z95` của XRepoSkill tại `26fd703` (import, không chép). Đã thử tay: 3 stratum cho (0,333; 0,272).
+  - Holm dùng p anytime-valid.
+  - Mọi quy tắc thấy cùng các trial.
+- **Chạy thử:** 20 lần lặp mất 1,6 giây. Bản chính 1.000 lần lặp mất 72 giây. Sai số Monte Carlo ≤ 0,016.
+- **Pool:** 257 task (E1 và E2), tỉ lệ giải nền 0,368.
