@@ -394,3 +394,15 @@ Dự đoán sai thì báo cáo nguyên trạng.
 3. XRepoSkill trong E2 là rule rút từ repo khác. Đây đúng là bối cảnh chuyển skill sang repo mới mà paper gốc hỏi.
 
 **Mã:** `scripts/replicate_attribution.py`, viết sau mục này. Review R-38, chạy thử trên dữ liệu giả, rồi mới chạy trên dữ liệu thật.
+
+**Ghi chú thực thi 18-1** (05/11/2026; trước khi tính bất kỳ đại lượng H18 nào):
+- **Đo từng lần chạy:**
+  - token = tổng `prompt_tokens` + `completion_tokens` trong mọi `usage` của quỹ đạo;
+  - thời gian = `timestamp` của message cuối trừ message đầu có `timestamp`.
+  - `trials.jsonl` ghi `wall_seconds = 0.0` nên **không** dùng.
+- **Giới hạn:** hai nhánh chạy song song trên cùng máy (`--arm-parallel`), nên thời gian chịu ảnh hưởng của tải máy. H18-4 báo cáo thêm bản chỉ dùng token (r_tok > 2,0) làm độ nhạy.
+
+**Ghi chú thực thi 18-2, kiểm power** (trước khi tính):
+- **Thiết kế plasmode:** dùng nhiễu thật E2 (các cặp none–none giữa các seed), cấy tác dụng theo task δ_i ~ N(μ, τ²) với τ ∈ {0; 0,10; 0,15; 0,20} và μ = 0, theo cách `plasmode_real.make_cell`.
+- **Đại lượng:** tỉ lệ bác bỏ của H18-1 (α = 0,05) và độ phủ của CI H18-2; 1.000 lần lặp.
+- **Mục đích:** nếu không tìm thấy độ không đồng nhất ở E2, đây là cơ sở để nói phép đo **có khả năng** phát hiện nó ở mức τ nào.
