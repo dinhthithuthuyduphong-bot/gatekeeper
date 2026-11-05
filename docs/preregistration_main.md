@@ -526,3 +526,57 @@ Trong mô hình của D1, tính tỉ lệ dương tính giả và độ nhạy c
 - **Ước chi phí offline:** khoảng 390.000 token vào, tương đương khoảng 0,10 USD ở giá 0,25 USD cho mỗi triệu token. Đo thật trên 3 lời gọi trước khi chạy hết. Trần cứng 1 USD.
 - **Diễn đạt câu hỏi ở (iii):** "something specific to the target run's setup". Prompt nguyên văn ở `configs/audit_prompt.txt`.
 - **Nhãn loại lỗi:** rút gọn từ các câu của Dong et al. đã trích ("Task-Implementation Fault", "verifier-facing artifact", "environment"). Đây không phải taxonomy đầy đủ của họ.
+
+### Kết quả §19 (05/11/2026; `results/placebo_suite.json`, `results/sham_audit.json`)
+
+**A. Bảng placebo trên nhiễu A/A thật** (221 task, 10.000 luồng; tỉ lệ nhận hoặc thu hồi trong khi không có hiệu ứng nào):
+
+| Quy tắc | Kết quả | So với dự đoán |
+| --- | --- | --- |
+| So một lần (plug-in), n = 200 | 0,459; nhìn mỗi 10 trial: 0,802 | Đúng (lớn) |
+| MH của XRepoSkill (B-X2), n = 200 | 0,025; nhìn mỗi 10 trial: 0,111 | Đúng |
+| GEPA, minibatch 3 | Nhận 0,140 đề xuất no-op mỗi lần. Trong 100 hoặc 200 đề xuất: P(nhận ≥ 1) = 1,00; trung bình 14 hoặc 28 no-op được nhận | Đúng (lớn) |
+| Đổi dấu kiểu SWE-Skills-Bench, 10 task, kết quả nhị phân | 0,000 (rất thận trọng với kết quả 0/1) | Đúng (≤ α) |
+| Library Drift (N_min = 100, τ = 0,10), luồng 400 | 0,003 | **Sai dự đoán:** thấp, tức là quy tắc này thận trọng dưới placebo |
+| e-SR (λ = 0,5), luồng 400 | 1,000 | Đúng: e-SR chỉ bảo đảm ARL ≥ 1/α |
+| Gatekeeper: admission; thu hồi hai bước | 0,0032; 0,0018 | Đúng (≤ 0,025) |
+
+**B. SWE-Skills-Bench:**
+- 6/392 ô có p < 0,05, so với kỳ vọng 19,6 nếu không có hiệu ứng (nhị thức p = 0,0005): kiểm định theo ô **thận trọng hơn mức danh nghĩa**, vì 69% hiệu số bằng 0.
+- **Thăm dò, chưa đăng ký:** gộp theo skill thì được 4 Golden, 4 Harmful, 90 Ineffective (bài báo: 4/2/92). Tổng 8/98 ô có ý nghĩa, trong khi riêng may rủi đã cho khoảng 4,9 (nhị thức p = 0,16). Tức là số skill có ý nghĩa **không khác mức may rủi**.
+
+**C. Audit bằng skill giả** (E1, gemini-flash-lite, 102 lời gọi; 469.302 token vào, 8.722 token ra; 0,130 USD):
+
+| Điều kiện | Tỉ lệ "lỗi do skill" (hoặc do "setup") | Wilson 95% | Độ tin cậy trung bình khi quy lỗi |
+| --- | --- | --- | --- |
+| (i) Có skill thật | 51/52 = 0,98 | [0,90; 1,00] | 0,93 |
+| (ii) **Skill giả, chưa từng được nạp** | **25/25 = 1,00** | [0,87; 1,00] | 0,87 |
+| (iii) Không nhắc tới skill (hỏi "do setup") | 20/25 = 0,80 | [0,61; 0,91] | 0,98 |
+
+- **Khớp dự đoán** (ii) ≥ 0,5 × (i): auditor quy lỗi cho một skill **không hề có trong lần chạy** ở mọi cặp placebo, hầu hết vào loại "task_implementation_fault".
+- Có 2 ca ở (i) trả `attributed = true` nhưng loại lỗi lại là "not_caused_by_skill". Báo cáo nguyên trạng.
+- **Giới hạn:** auditor là Flash-Lite. Không kết luận về audit thủ công, cũng không kết luận về auditor mạnh hơn.
+
+**D. Quy tắc có hiệu chỉnh placebo** (mô hình D-M8, 109 task, 1.000 lần lặp):
+
+| Quy tắc | Dương tính giả (q = 0) | Độ nhạy q = 0,1 / 0,2 / 0,3 |
+| --- | --- | --- |
+| D1: lặp ở ≥ 2/3 seed | Trung bình 2,1 task bị quy lỗi nhầm; P(≥ 1) = 0,88 | — |
+| D2: so số ứng viên với placebo | 0,006 | 0,10 / 0,41 / 0,77 |
+| D3: Gatekeeper trên chuỗi ứng viên | 0,001 | 0,01 / 0,09 / 0,29 |
+
+- D2 trên dữ liệu thật: mọi skill E1/E2 có p từ 0,13 tới 0,94; không skill nào bị quy lỗi.
+
+**F. Quy lỗi theo từng task** (tỉ lệ task bị quy lỗi khi q = 0 so với q = 0,2):
+
+| k seed (r) | q = 0 | q = 0,2 |
+| --- | --- | --- |
+| 1 (1) | 0,043 | 0,074 |
+| 2 (2) | 0,0077 | 0,018 |
+| 3 (2) | 0,019 | 0,044 |
+| 5 (3) | 0,011 | 0,029 |
+| 10 (6) | 0,0012 | 0,0058 |
+
+Ở mọi k ≤ 10, quy lỗi theo từng task có độ phân biệt kém: tỉ lệ khi có hiệu ứng chỉ gấp 1,7–4,8 lần tỉ lệ khi không có.
+
+**Chi tiêu của thí nghiệm chính tới nay:** 0,35 (kiểm model) + 2,16 (T4) + 0,97 (2.1) + 0,134 (C, gồm cả 3 lời gọi đo thử) = **3,61 USD** trên trần 64 USD.

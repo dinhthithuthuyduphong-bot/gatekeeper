@@ -5,7 +5,9 @@ An LLM auditor sees a failed/passed pair of runs and decides whether a skill cau
   (iii) plain: the same placebo pairs, no skill mentioned.
 Writes results/sham_audit.json (no trajectory text). Paid: one auditor call per pair, hard cap.
 
-  python scripts/sham_audit.py --model gemini-flash-lite --cap-usd 1.0 [--limit 3]
+  .venv/bin/python scripts/sham_audit.py build                    # prompts -> scratchpad, no calls
+  <agent env>/python scripts/sham_audit.py call --model gemini-flash-lite --cap-usd 1.0 [--limit 3]
+The build step needs the repo's environment (numpy, scipy); the call step needs only litellm.
 """
 
 from __future__ import annotations
@@ -18,8 +20,6 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-import analyze_g1_final as gf  # noqa: E402
-import replicate_attribution as ra  # noqa: E402
 
 PROMPT = Path("configs/audit_prompt.txt")
 MODELS = Path("configs/models/vertex_gemini.json")
@@ -40,6 +40,9 @@ def skill_text(skill: str) -> str:
 
 def collect() -> tuple[list[dict], list[dict]]:
     """Real skill candidate pairs and A/A placebo pairs of E1, with paths to their trajectories."""
+    import analyze_g1_final as gf
+    import replicate_attribution as ra
+
     where: dict = {}  # (iid, seed) -> part
     rec: dict = {}
     for f in sorted(glob.glob(ra.STAGE_FILES["e1"])):
@@ -147,29 +150,37 @@ def parse(text: str) -> dict | None:
     }
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--model", required=True)
-    ap.add_argument("--cap-usd", type=float, required=True)
-    ap.add_argument("--limit", type=int, default=None, help="first N jobs only (cost measurement)")
-    a = ap.parse_args()
-    import litellm  # agent environment
+JOBS = ROWS.parent / "sham_audit_jobs.jsonl"  # scratchpad: contains trajectory text, not committed
 
-    spec = json.loads(MODELS.read_text())["models"][a.model]
+
+def build() -> None:
     rows = [json.loads(line) for line in ROWS.open()]
     tasks = {r["instance_id"]: r["problem_statement"] for r in rows}
     real, placebo = collect()
     jobs = [("real", p) for p in real] + [(c, p) for p in placebo for c in ("sham", "plain")]
-    if a.limit:
-        jobs = jobs[: a.limit]
+    with JOBS.open("w") as f:
+        for cond, p in jobs:
+            f.write(
+                json.dumps({"condition": cond, **p, "prompt": build_prompt(p, cond, tasks)}) + "\n"
+            )
+    print(f"{len(jobs)} jobs ({len(real)} real, {len(placebo)} placebo pairs) -> {JOBS}")
+
+
+def call(model: str, cap_usd: float, limit: int | None) -> None:
+    import litellm  # agent environment
+
+    spec = json.loads(MODELS.read_text())["models"][model]
+    jobs = [json.loads(line) for line in JOBS.open()]
+    if limit:
+        jobs = jobs[:limit]
     spent, out = 0.0, []
-    for cond, p in jobs:
-        prompt = build_prompt(p, cond, tasks)
+    for j in jobs:
+        prompt = j["prompt"]
         worst = (
             len(prompt) / 2 / 1e6 * spec["usd_per_mtok_in"] + 2000 / 1e6 * spec["usd_per_mtok_out"]
         )
-        if spent + worst > a.cap_usd:
-            print(f"[stop] cap: spent {spent:.4f} + worst {worst:.4f} > {a.cap_usd}")
+        if spent + worst > cap_usd:
+            print(f"[stop] cap: spent {spent:.4f} + worst {worst:.4f} > {cap_usd}")
             break
         r = litellm.completion(
             model=spec["litellm_name"],
@@ -183,23 +194,17 @@ def main() -> int:
         ) / 1e6
         spent += cost
         out.append(
-            {
-                "condition": cond,
-                "skill": p["skill"],
-                "iid": p["iid"],
-                "target": p["target"],
-                "ref": p["ref"],
+            {k: j[k] for k in ("condition", "skill", "iid", "target", "ref")}
+            | {
                 "decision": parse(r.choices[0].message.content),
                 "tokens_in": u.prompt_tokens,
                 "tokens_out": u.completion_tokens,
                 "usd": cost,
             }
         )
-        print(cond, p["skill"], p["iid"], out[-1]["decision"], f"{spent:.4f}", flush=True)
+        print(j["condition"], j["skill"], j["iid"], out[-1]["decision"], f"{spent:.4f}", flush=True)
     res = {
-        "model": a.model,
-        "n_real": len(real),
-        "n_placebo": len(placebo),
+        "model": model,
         "jobs": len(jobs),
         "done": len(out),
         "spent_usd": spent,
@@ -207,8 +212,23 @@ def main() -> int:
         "tokens_out": sum(x["tokens_out"] for x in out),
         "rows": out,
     }
-    name = "sham_audit_cost_probe" if a.limit else "sham_audit"
+    name = "sham_audit_cost_probe" if limit else "sham_audit"
     Path(f"results/{name}.json").write_text(json.dumps(res, indent=1) + "\n")
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("step", choices=["build", "call"])
+    ap.add_argument("--model")
+    ap.add_argument("--cap-usd", type=float)
+    ap.add_argument("--limit", type=int, default=None, help="first N jobs only (cost measurement)")
+    a = ap.parse_args()
+    if a.step == "build":
+        build()
+    else:
+        if not a.model or a.cap_usd is None:
+            ap.error("call needs --model and --cap-usd")
+        call(a.model, a.cap_usd, a.limit)
     return 0
 
 

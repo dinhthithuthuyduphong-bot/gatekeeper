@@ -1,0 +1,73 @@
+{
+ "model": "gemini-flash-lite",
+ "jobs": 3,
+ "done": 3,
+ "spent_usd": 0.0042775,
+ "tokens_in": 15502,
+ "tokens_out": 268,
+ "rows": [
+  {
+   "condition": "real",
+   "skill": "exception-handling",
+   "iid": "astropy__astropy-13731",
+   "target": [
+    "g1-e1-s61-p01",
+    "exception-handling"
+   ],
+   "ref": [
+    "g1-e1-s61-p01",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.9,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 8232,
+   "tokens_out": 83,
+   "usd": 0.0021825
+  },
+  {
+   "condition": "real",
+   "skill": "exception-handling",
+   "iid": "django__django-10853",
+   "target": [
+    "g1-e1-s41-p03",
+    "exception-handling"
+   ],
+   "ref": [
+    "g1-e1-s41-p03",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.8,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 4511,
+   "tokens_out": 87,
+   "usd": 0.00125825
+  },
+  {
+   "condition": "real",
+   "skill": "exception-handling",
+   "iid": "django__django-11618",
+   "target": [
+    "g1-e1-s41-p04",
+    "exception-handling"
+   ],
+   "ref": [
+    "g1-e1-s41-p04",
+    "none"
+   ],
+   "decision": {
+    "attributed": true,
+    "confidence": 0.9,
+    "category": "task_implementation_fault"
+   },
+   "tokens_in": 2759,
+   "tokens_out": 98,
+   "usd": 0.00083675
+  }
+ ]
+}
