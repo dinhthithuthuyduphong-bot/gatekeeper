@@ -10,7 +10,8 @@
     "t4-s41-p06",
     "t4-s41-p07",
     "t4-s41-p08",
-    "t4-s41-p09"
+    "t4-s41-p09",
+    "t4-s41-p10"
   ],
   "skills": {
     "control-oracle-patch": {
@@ -64,28 +65,33 @@
           "instance_id": "ansible__ansible-lint-4662",
           "loss_with": 1.0,
           "loss_without": 0.00036350418029807346
+        },
+        {
+          "instance_id": "beeware__briefcase-1640",
+          "loss_with": 0.00276789244760775,
+          "loss_without": 0.6694345591142744
         }
       ],
-      "mean_Z": -0.2999613047172368,
-      "n": 10,
-      "solve_rate_with": 0.6,
-      "solve_rate_without": 0.1
+      "mean_Z": -0.3332981558035486,
+      "n": 11,
+      "solve_rate_with": 0.5454545454545454,
+      "solve_rate_without": 0.09090909090909091
     }
   },
   "usage": {
     "none": {
-      "runs": 10,
-      "usd": 0.8824887749999999,
+      "runs": 11,
+      "usd": 0.9097788749999999,
       "solved": 1,
-      "scored": 10,
-      "usd_per_run": 0.08824887749999999
+      "scored": 11,
+      "usd_per_run": 0.08270717045454544
     },
     "control-oracle-patch": {
-      "runs": 10,
-      "usd": 0.321272775,
+      "runs": 11,
+      "usd": 0.3348332,
       "solved": 6,
-      "scored": 10,
-      "usd_per_run": 0.0321272775
+      "scored": 11,
+      "usd_per_run": 0.03043938181818182
     }
   },
   "infra_failures": {},
@@ -100,7 +106,8 @@
       "conan-io__conan-17102": "Submitted",
       "openai__openai-agents-python-998": "Submitted",
       "falconry__falcon-2475": "Submitted",
-      "ansible__ansible-lint-4662": "Submitted"
+      "ansible__ansible-lint-4662": "Submitted",
+      "beeware__briefcase-1640": "Submitted"
     },
     "control-oracle-patch": {
       "conan-io__conan-18655": "Submitted",
@@ -112,12 +119,13 @@
       "conan-io__conan-17102": "Submitted",
       "openai__openai-agents-python-998": "Submitted",
       "falconry__falcon-2475": "Submitted",
-      "ansible__ansible-lint-4662": "Submitted"
+      "ansible__ansible-lint-4662": "Submitted",
+      "beeware__briefcase-1640": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 1.2038,
+  "spent_usd": 1.2447,
   "instances": [
     "conan-io__conan-18655",
     "mikedh__trimesh-2126",
@@ -128,7 +136,8 @@
     "conan-io__conan-17102",
     "openai__openai-agents-python-998",
     "falconry__falcon-2475",
-    "ansible__ansible-lint-4662"
+    "ansible__ansible-lint-4662",
+    "beeware__briefcase-1640"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/pd/rows.jsonl"
