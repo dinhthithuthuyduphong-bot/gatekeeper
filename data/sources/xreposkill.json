@@ -80,5 +80,5 @@
    "ue to budget constraints, we randomly sample 200 tasks for evaluation, comprising 69 Python, 73 Go, 52 JavaScript, and 6 TypeScript tasks. •DeepSWEcontains 113 long-horizon issue resolution tasks specifically designed for the bench- mark rather than mined from public issue trackers, including 34 Python, 34 Go, 5 JavaScript, 35 TypeScript, and 5 Rust tasks. We evaluate on all 113 tasks. We have confirmed that none of the repositories in either benchmark appears in our trajectory pool, ensuring that the evaluation measures transfer to previously unseen repositories. Evaluation Metric.We use the resolution rate (%Resolved) as the evaluation metric, defined as the proportion of benchmark issues resolved by an agent. 3.3 BASELINES ANDLLMS Besides the raw mini-SWE-agent without any skills, we compare XRepoSkill with three represen- tative trajectory-based skill-learning methods: 6 Table 1: (RQ1) Issue resolution rates (%) of different methods across LLMs on SWE-bench Pro and DeepSWE. Avg. denotes the mean over the three LLMs for each benchmark. The highest rate in each column is shown in bold. SWE-bench Pro DeepSWE Method DeepSeek GPT MiMo Avg. DeepSeek GPT MiMo Avg. mini-SWE-agent 51.5 50.5 41.5 47.8 "
   ]
  },
- "fetched_utc": "2026-11-05T01:41:27+00:00"
+ "fetched_utc": "2026-11-05T01:45:15+00:00"
 }
