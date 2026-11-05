@@ -325,3 +325,8 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   1. Pilot trước hết chạy đối chứng dương mạnh, đối chứng âm và A/A, với chi phí vài USD.
   2. Trước mỗi lần nâng ngân sách, trả lời bằng số: "nếu kết quả lại là FAIL, ta học được gì mà chưa biết?" Câu trả lời là "không có gì" thì không nâng.
   3. Một tín hiệu cảnh báo về power hay cỡ hiệu ứng phải dẫn tới **đổi thiết kế**, không dẫn tới chạy lớn hơn.
+
+## L37. Chạy thử miễn phí phải chạy đúng script sẽ chạy thật, cả vòng lặp, không chỉ thành phần bên trong (A78)
+
+- **Xảy ra:** tôi chỉ chạy thử driver một lần, không chạy `run_t4.sh`. Lỗi môi trường của câu kiểm dừng sớm chỉ lộ ra ở lần chạy có chi phí.
+- **Phòng ngừa:** chạy thử bằng chính script thật, với model giả lập, cho tới ít nhất một vòng ra quyết định trọn vẹn.
