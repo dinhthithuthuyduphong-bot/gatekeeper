@@ -85,3 +85,21 @@ def test_skill_environment_and_dry_run_commands(monkeypatch):
     # paid arm: no scripted steps, same container settings
     paid = arm_config(sk, "vertex_ai/x", {"seed": 1})
     assert "outputs" not in paid["model"] and paid["environment"] == env
+
+
+def test_filter_keeps_non_result_fields_with_more_results_than_field_chars():
+    class Inc(FakeCollection):
+        def query(self, query_texts, n_results):
+            r = super().query(query_texts, n_results)
+            r["included"] = ["metadatas", "distances"]  # chromadb 1.x
+            return r
+
+    many = {f"z/{i}": {"repo": "z/z"} for i in range(12)}
+    global ORDER
+    old = list(ORDER)
+    ORDER[:] = [f"z/{i}" for i in range(12)]
+    try:
+        r = mg.FilteredCollection(Inc(), many).query(query_texts=["q"], n_results=10)
+        assert len(r["ids"][0]) == 10 and r["included"] == ["metadatas", "distances"]
+    finally:
+        ORDER[:] = old

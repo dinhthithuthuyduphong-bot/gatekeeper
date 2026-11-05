@@ -69,9 +69,11 @@ class FilteredCollection:
             keep = [i for i, d in enumerate(r["ids"][0]) if d in self.kept]
             if len(keep) >= n_results or ask >= total:
                 keep = keep[:n_results]
+                # only per-query result lists are filtered; other fields (e.g. chromadb 1.x
+                # "included": ["metadatas", ...]) pass unchanged (A73)
                 return {
                     k: [[v[0][i] for i in keep]]
-                    if isinstance(v, list) and v and v[0] is not None
+                    if isinstance(v, list) and v and isinstance(v[0], list)
                     else v
                     for k, v in r.items()
                 }
