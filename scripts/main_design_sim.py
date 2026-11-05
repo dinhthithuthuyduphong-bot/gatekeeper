@@ -26,7 +26,7 @@ import e2_power_live_q as live  # noqa: E402
 from gatekeeper.eprocess import run_admission  # noqa: E402
 
 ALPHA_FAMILY = 0.025  # one-sided (ICH E9; preregistration D2)
-K = 7  # cells registered: 3 E1 skills, 3 harmful controls, xreposkill
+K = 9  # cells registered: 3 E1 skills, 3 harmful controls, xreposkill, positive control, memgovern
 COST_PER_NEW_TRIAL = 0.13  # USD: 2 arms x 1 run x 0.064 measured (E1 0.0645, E2 0.063)
 CELLS = {
     # name: (q source, n0 continuation trials, max tasks available in total for the cell)
