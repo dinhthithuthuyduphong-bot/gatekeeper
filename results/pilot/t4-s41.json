@@ -16,7 +16,8 @@
     "t4-s41-p12",
     "t4-s41-p13",
     "t4-s41-p14",
-    "t4-s41-p15"
+    "t4-s41-p15",
+    "t4-s41-p16"
   ],
   "skills": {
     "control-oracle-patch": {
@@ -100,28 +101,33 @@
           "instance_id": "conan-io__conan-18333",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "jlowin__fastmcp-1397",
+          "loss_with": 0.0004297378599054577,
+          "loss_without": 0.6670964045265722
         }
       ],
-      "mean_Z": -0.3541424821149397,
-      "n": 16,
-      "solve_rate_with": 0.625,
-      "solve_rate_without": 0.125
+      "mean_Z": -0.372526257676806,
+      "n": 17,
+      "solve_rate_with": 0.5882352941176471,
+      "solve_rate_without": 0.11764705882352941
     }
   },
   "usage": {
     "none": {
-      "runs": 16,
-      "usd": 1.3142113,
+      "runs": 17,
+      "usd": 1.3667776999999999,
       "solved": 2,
-      "scored": 16,
-      "usd_per_run": 0.08213820625
+      "scored": 17,
+      "usd_per_run": 0.08039868823529411
     },
     "control-oracle-patch": {
-      "runs": 16,
-      "usd": 0.4607804,
+      "runs": 17,
+      "usd": 0.471474,
       "solved": 10,
-      "scored": 16,
-      "usd_per_run": 0.028798775
+      "scored": 17,
+      "usd_per_run": 0.027733764705882354
     }
   },
   "infra_failures": {},
@@ -142,7 +148,8 @@
       "reflex-dev__reflex-3982": "LimitsExceeded",
       "pvlib__pvlib-python-1947": "Submitted",
       "python-pillow__Pillow-9105": "Submitted",
-      "conan-io__conan-18333": "Submitted"
+      "conan-io__conan-18333": "Submitted",
+      "jlowin__fastmcp-1397": "Submitted"
     },
     "control-oracle-patch": {
       "conan-io__conan-18655": "Submitted",
@@ -160,12 +167,13 @@
       "reflex-dev__reflex-3982": "Submitted",
       "pvlib__pvlib-python-1947": "Submitted",
       "python-pillow__Pillow-9105": "Submitted",
-      "conan-io__conan-18333": "Submitted"
+      "conan-io__conan-18333": "Submitted",
+      "jlowin__fastmcp-1397": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 1.7751,
+  "spent_usd": 1.8384,
   "instances": [
     "conan-io__conan-18655",
     "mikedh__trimesh-2126",
@@ -182,7 +190,8 @@
     "reflex-dev__reflex-3982",
     "pvlib__pvlib-python-1947",
     "python-pillow__Pillow-9105",
-    "conan-io__conan-18333"
+    "conan-io__conan-18333",
+    "jlowin__fastmcp-1397"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/pd/rows.jsonl"

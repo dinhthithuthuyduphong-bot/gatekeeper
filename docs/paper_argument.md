@@ -47,3 +47,11 @@
 3. **"Kiểm định một lần nhìn sai khi bị nhìn nhiều lần" là kiến thức thống kê đã biết,** không phải phát hiện của paper. Đóng góp chỉ là đo mức độ trên lần chạy agent thật (0,026 tăng lên 0,103).
 4. **Câu "người dùng theo dõi kết quả, như cách vẫn làm trong thực tế" không có nguồn.** Bỏ câu này, hoặc tìm nguồn trước khi dùng.
 5. **Kết luận:** các con số của luận điểm bác bỏ là đúng, nhưng giá trị của nó là **động cơ và minh họa**, không phải đóng góp chính.
+
+## Phát hiện từ T4, mục 1.4 (05/11/2026; thăm dò)
+
+- Ở nhánh có gợi ý bản vá, 7/17 task không được tính là giải được. Trong đó **4/7 có loss trong (0; 0,01)**.
+- Ví dụ conan-15705: bản agent nộp **giống hệt** bản vá gốc mà vẫn không được tính là giải được.
+- Giả thuyết: một số test PASS_TO_PASS chập chờn hoặc nhạy với môi trường, nên endpoint "resolved" (đòi mọi PASS_TO_PASS phải qua) có nhiễu đo.
+- **Cần kiểm (miễn phí):** chấm lại bản vá gốc của các task này nhiều lần; tính lại với endpoint chỉ xét FAIL_TO_PASS làm phân tích độ nhạy.
+- Đưa vào phần threats to validity.
