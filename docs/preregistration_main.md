@@ -421,3 +421,31 @@ Dự đoán sai thì báo cáo nguyên trạng.
 - **Giữ nguyên:** bộ ước lượng, CI và kiểm định của H18. Lặp 1.000 lần; 1.000 lần đổi dấu; 1.000 lần bootstrap.
 - **Thêm:** tỉ lệ mô phỏng có cận trên CI của τ² nhỏ hơn 0,15², để biết kết luận "τ < 0,15" có đáng tin không.
 - Kết quả bản cũ vẫn được báo cáo.
+
+### Kết quả §18 (05/11/2026; `results/replicate_attribution.json`, `results/heterogeneity_power_v2.json`)
+
+**H18-3 và H18-4: placebo A/A cho bước tạo ứng viên (kết quả chính)**
+
+| Dữ liệu | Loại | Ứng viên có skill | Ứng viên placebo | R, CI 95% |
+| --- | --- | --- | --- | --- |
+| E2 (XRepoSkill, 109 task) | Lỗi chức năng | 13 | 14 | 1,08 [0,68; 1,75] |
+| E2 | Hồi quy hiệu năng (T = 2,0) | 15 | 14 | 0,93 [0,56; 1,70] |
+| E2 | Hồi quy, chỉ xét token | 11 | 9 | 0,82 [0,27; 2,50] |
+| E1, 6 skill | Lỗi chức năng | 2–13 | 5–11 | 0,54–2,50; mọi CI chứa 1 |
+| E1 | Hồi quy hiệu năng | 1–11 | 6–9 | 0,82–9,0. `harm-skip-verification` có 1 so với 9: skill này làm agent **bớt** kiểm tra nên rẻ hơn |
+
+- **Khớp dự đoán đăng ký** (R ≥ 0,5): bước tạo ứng viên tự động sinh ra gần như cùng số "lỗi do skill" khi không có skill nào.
+- **H18-5:** tỉ lệ ứng viên lặp lại ở cả 3 seed là 0 ở mọi skill, trừ `harm-swallow-exceptions` (0,23); phía placebo là 0.
+- **Giới hạn:** không kiểm bước audit thủ công của Dong et al.
+
+**H18-1 và H18-2: độ không đồng nhất theo task**
+- **E2:** C = 0/109; τ̂² = −0,009, CI 95% [−0,029; +0,009] (theo repo: [−0,025; +0,005]).
+- **Kiểm power đã sửa** (D-M8; độ phủ CI là 0,92–0,94):
+  - **H18-1 không có power:** tỉ lệ bác bỏ chỉ 0,004–0,087 ngay cả khi τ = 0,20. Kết quả C = 0 **không mang thông tin**.
+  - **H18-2:** cận trên CI của τ² nhỏ hơn 0,15² trong 66% số mô phỏng khi τ = 0; 46% khi τ = 0,10; 24% khi τ = 0,15; 8% khi τ = 0,20.
+- **Diễn giải đúng:**
+  - Dữ liệu E2 **trái với** độ lệch chuẩn thật τ ≥ 0,20, vì trường hợp đó chỉ cho kết quả như vậy trong 8% số mô phỏng.
+  - Bằng chứng chống τ = 0,15 thì yếu (24%), và **không** loại trừ được τ = 0,10.
+  - **Không** được viết "τ < 0,10".
+- **E1** (thăm dò): mọi CI của τ² đều chứa 0.
+- Bản kiểm power cũ (A80) vẫn được báo cáo trong `power_check_e2`: độ phủ 0,37–0,66 do đặt giá trị thật sai.

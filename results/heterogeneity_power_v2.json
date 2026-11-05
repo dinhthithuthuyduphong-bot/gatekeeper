@@ -1,0 +1,34 @@
+{
+ "beta": [
+  0.07305502846299804,
+  0.28889943074003765
+ ],
+ "n_tasks": 109,
+ "args": {
+  "reps": 1000,
+  "null_reps": 1000,
+  "boot": 1000
+ },
+ "taus": {
+  "0.0": {
+   "H18_1_rejection_rate": 0.004,
+   "tau2_ci_coverage": 0.916,
+   "share_upper_bound_below_0.15sq": 0.665
+  },
+  "0.1": {
+   "H18_1_rejection_rate": 0.011,
+   "tau2_ci_coverage": 0.927,
+   "share_upper_bound_below_0.15sq": 0.455
+  },
+  "0.15": {
+   "H18_1_rejection_rate": 0.022,
+   "tau2_ci_coverage": 0.924,
+   "share_upper_bound_below_0.15sq": 0.242
+  },
+  "0.2": {
+   "H18_1_rejection_rate": 0.087,
+   "tau2_ci_coverage": 0.939,
+   "share_upper_bound_below_0.15sq": 0.081
+  }
+ }
+}
