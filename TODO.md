@@ -13,6 +13,34 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 ---
 
+## ★ Kế hoạch sau tái định vị (@thuthuy chọn 05/11/2026: "chọn hướng sửa to do list làm tăng sức mạnh paper")
+
+**Định vị:** quản lý vòng đời thư viện skill cho coding agent, với FWER theo từng (skill, scope), bảo đảm cho skill ghép, và so sánh trực tiếp các quy tắc nhận/thu hồi đã công bố trên lần chạy agent thật (`docs/novelty_review.md`, `docs/paper_argument.md`). Ý tưởng lõi anytime-valid đã có ở Qu et al. 2026, nên **không** tuyên bố là "đầu tiên".
+
+### Ưu tiên 1: tăng sức mạnh, miễn phí
+- [ ] 🤖 **Đóng T4:** so với dự đoán đăng ký ở D-M6; CI của hiệu ứng; token; lưu dữ liệu gốc.
+- [ ] 🤖 **Phân tích "agent thất bại vì sao"** trên 344 trajectory nhánh không skill của E2 (thăm dò): tìm kiểu thất bại phổ biến mà một skill **thật** (không phải đối chứng) có thể sửa, kèm δ ước tính. Đây là đòn bẩy lớn nhất về ý nghĩa thực tế.
+- [ ] 🤖 **T2:** cài e-detector của Qu et al. để so sánh cách thu hồi một cách công bằng.
+
+### Ưu tiên 2: tăng sức mạnh, tốn tiền (@thuthuy quyết, mỗi mục có ước tính đo được trước)
+- [ ] 👤💰 **Model thứ hai:** lặp lại cấu trúc nhiễu, T4 và phép kiểm kiểu E2 (`docs/model_switch_checklist.md`).
+- [ ] 👤💰 **Skill thật có δ lớn** (nếu phân tích ở ưu tiên 1 tìm được): đăng ký trước, rồi chứng nhận trên task mới.
+- [ ] 👤💰 (tùy chọn) Ô MemGovern bản gốc (khoảng 20 USD, đã duyệt); xreposkill thêm 200 task (khoảng 26 USD).
+
+### Ưu tiên 3: bắt buộc để nộp, miễn phí
+- [ ] 🤖 Viết lại paper theo định vị mới: related work dựa trên 15 nguồn đã lưu; threats to validity; thay mọi số "dự kiến" bằng số đo.
+- [ ] 🤖 Sửa `refs.bib`, kiểm từng trích dẫn; bảng và hình sinh tự động (`build_report.py`).
+- [ ] 🤖 Cập nhật `docs/number_provenance.md` và `docs/glossary.md` cho các số mới.
+- [ ] 👤 Nhờ một người biết thống kê đọc phần chứng minh.
+- [ ] 🤖 Đóng gói artifact, ẩn danh. 👤 Thu hồi khóa `0cf3193a`.
+
+### Bỏ, kèm lý do (không làm nữa; các mục tương ứng ở §7 coi như đã đóng)
+- **Phase 4** (benchmark SkillShift-SE: 25 repo, 52 skill lỗi thời, sinh skill, fault-injection, mutation score): không kham nổi, không cần cho định vị mới.
+- **Phase 6** (8 hệ thống trên mọi cặp, B8/B9, phân vùng A/B/C, 6 ablation, đường harm–coverage trên cặp thật): không kham nổi (hơn 540–1.180 USD ở δ = 0,109; bất khả thi ở δ khoảng 0,03; `docs/pilot_postmortem.md`). Thay bằng T1–T3 trên nhiễu thật.
+- **Phase 2/3** (tái hiện số của XRepoSkill, MemGovern, gskill trên tập task của họ; email tác giả GSE; port ASI): ngoài phạm vi; phần đối chiếu XRepoSkill đã có (C2).
+- **Phase 5b** (mô hình định tuyến GBT): không có dữ liệu skill có tác dụng để huấn luyện.
+- **Phase 1, "Chốt FWER hay FDR":** đã giải quyết: giữ FWER, so với FDR (e-BH) ở T1.
+
 ## 0. Kết quả review bản 1 (đọc trước)
 
 Bản 1 nhìn chung **đúng và kỹ**: mình tính lại mọi số trong bảng kiểm tra, các lỗi toán, mô phỏng và link GitHub. Phần lớn đúng. Nhưng có **1 vấn đề chặn**, các chỗ sai/thiếu R1–R14 cần sửa, và todo list thiếu phần hạ tầng code.
