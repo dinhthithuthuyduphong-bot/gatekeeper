@@ -342,3 +342,17 @@ Như draft §10.
 - **Kiểm sau khi chạy:** `infra_failures`, `endpoint_mismatch`, `patch_apply_failed` đều rỗng.
 - **Token:** 40 lần chạy agent; 42.231.936 token vào, 230.118 token ra. Chi 2,16 USD (trần 6 USD).
 - **Ghi chú (mục 1.4):** 4/9 trường hợp nhánh có gợi ý không giải được có loss trong (0; 0,01), nghi do test PASS_TO_PASS chập chờn. Việc kiểm điều này ghi ở `docs/paper_argument.md`.
+
+### Sai lệch D-M7: dừng 2.1 sau 4 task (05/11/2026)
+
+- **Quyết định:** dừng 2.1 sau 4/20 task. Task thứ 5 (`joke2k__faker-2155`) bị ngắt khi đang chấm điểm, nên không có kết quả.
+- **Lý do:** đây là dừng vì vô vọng, dựa trên dữ liệu có **trước** 2.1.
+  - Phân tích mục 1.4 trên E2 cho thấy chỉ khoảng 9% số lần chạy sửa được lỗi nhưng làm hỏng test khác. Đó là loại thất bại duy nhất mà skill này nhắm tới.
+  - Vì vậy, kể cả khi skill cứu được mọi lần chạy loại đó, mức tăng δ cũng khoảng 0,09, thấp hơn ngưỡng cổng 0,15.
+  - Mô phỏng minh họa (tỉ lệ giúp và hại là giả định, không phải số đo): ở δ = 0,05, xác suất qua cổng với 20 task khoảng 11%.
+- **Phải nêu rõ:** quyết định dừng được đưa ra **sau khi** đã thấy 4 kết quả, cả 4 đều hòa. Kết quả của 4 task đó tự nó không đủ để dừng: ở δ = 0,15, xác suất 4 task đầu không có task nào được giúp vẫn khoảng 45%.
+- **Kết quả của 4 task được báo cáo nguyên trạng:** cả 4 hòa (1 cặp cùng giải được, 3 cặp cùng không giải được); δ̂ = 0.
+  - **Không** kết luận gì về hiệu ứng của skill, vì n = 4.
+  - **Không** dùng kết quả này để nói "skill không có tác dụng".
+- **Hệ quả:** 2.2 không chạy. Cổng §17 được ghi là "không đánh giá" (dừng trước khi đủ n), không ghi là "trượt".
+- **Chi và token:** 0,97 USD, gồm 0,88 USD có trong file kết quả và 0,09 USD của task 5 bị ngắt, tính từ quỹ đạo. Token: 23.558.569 token vào, 64.103 token ra.

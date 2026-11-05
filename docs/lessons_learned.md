@@ -330,3 +330,11 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 
 - **Xảy ra:** tôi chỉ chạy thử driver một lần, không chạy `run_t4.sh`. Lỗi môi trường của câu kiểm dừng sớm chỉ lộ ra ở lần chạy có chi phí.
 - **Phòng ngừa:** chạy thử bằng chính script thật, với model giả lập, cho tới ít nhất một vòng ra quyết định trọn vẹn.
+
+## L38. Trước khi đề xuất một pilot có chi phí, tính cận trên của mức tăng từ dữ liệu sẵn có và xác suất qua cổng (A79)
+
+- **Xảy ra:** tôi đề xuất 2.1 với xác suất thành công ghi là "chưa đo". Nhưng dữ liệu E2 ở mục 1.4 đã đủ để tính rằng mức tăng tối đa khoảng 0,09, thấp hơn cổng 0,15.
+- **Phòng ngừa:** mỗi đề xuất có chi phí phải kèm hai thứ.
+  1. **Cận trên của δ** tính từ dữ liệu đã có: tỉ lệ các lần chạy thuộc loại thất bại mà can thiệp có thể sửa.
+  2. **Xác suất qua cổng** ở cận trên đó, bằng mô phỏng.
+  - Nếu cận trên thấp hơn cổng, không đề xuất. Nếu không tính được cận trên, ghi rõ vì sao, và để @thuthuy quyết với thông tin đó.

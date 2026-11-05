@@ -17,8 +17,8 @@
 
 | # | Việc | Vá điểm yếu | Chi phí | Cổng dừng / làm tiếp |
 | --- | --- | --- | --- | --- |
-| 2.1 | **Pilot skill thật "cách chạy test của repo"**, khoảng 20 task, chạy mới cả hai nhánh | **Ý nghĩa thực tế** (điểm yếu lớn nhất) | khoảng 2,5 USD | Làm tiếp 2.2 chỉ khi δ̂ ≥ 0,15. Không đạt thì dừng và ghi "không có skill thật nào đủ lớn để chứng nhận rẻ" |
-| 2.2 | **Chứng nhận skill đó** trên task mới, đăng ký trước | Ý nghĩa thực tế | Tính từ δ đo được ở 2.1 (ví dụ δ = 0,2 cần khoảng 100–130 trial, tức khoảng 13–17 USD) | Trần đặt theo số đo, @thuthuy duyệt |
+| 2.1 | **Pilot skill thật "cách chạy test của repo"**, khoảng 20 task, chạy mới cả hai nhánh | **Ý nghĩa thực tế** (điểm yếu lớn nhất) | khoảng 2,5 USD | **DỪNG sau 4 task** (D-M7, A79): cận trên δ ≈ 0,09 tính từ dữ liệu mục 1.4 thấp hơn cổng 0,15; chi 0,97 USD |
+| 2.2 | **Chứng nhận skill đó** trên task mới, đăng ký trước | Ý nghĩa thực tế | — | **Hủy** (2.1 dừng) |
 | 2.3 | **Đo chi phí của model thứ hai** trên 5 task | **Tính tổng quát** | khoảng 1 USD (ước, chưa đo) | Cần khóa/tài khoản (quyền @thuthuy, L21: hỏi tình trạng trước) |
 | 2.4 | **Lặp lại phần cốt lõi trên model thứ hai:** nhiễu A/A trên khoảng 100 task; T4; phép kiểm kiểu E2 | Tính tổng quát | Tính từ 2.3 | @thuthuy duyệt sau 2.3 |
 | 2.5 | (tùy chọn) Ô MemGovern bản gốc | Thêm một hệ thống đã công bố | khoảng 20 USD (đã duyệt) | Chỉ nếu 2.1–2.4 xong mà còn ngân sách |

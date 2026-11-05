@@ -131,6 +131,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Không xem kết quả trước khi phân tích (L28)**
 - [ ] Lệnh đọc file kết quả trong lúc thí nghiệm đang chạy chỉ in trường vận hành (chi phí, token, lỗi, trạng thái), không in `solved` hay `solve_rate` của nhánh skill, không in Z.
 
+**Đề xuất có chi phí (L38)**
+- [ ] Mỗi pilot hay thí nghiệm có chi phí phải kèm cận trên của mức tăng δ tính từ dữ liệu đã có, và xác suất qua cổng ở cận trên đó. Cận trên thấp hơn cổng thì không đề xuất.
+
 **Kiểm thử**
 - [ ] Mô phỏng hoặc phép toán mảng: assert kích thước kết quả, vì broadcasting âm thầm làm rộng mẫu (R-6).
 - [ ] Có test cho từng chỗ sửa; `ruff check`, `ruff format --check` và `pytest` đều qua.
