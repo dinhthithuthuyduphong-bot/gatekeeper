@@ -1,0 +1,104 @@
+{
+ "base_solve_rate": 0.2697795071335927,
+ "reps": 1000,
+ "T3": {
+  "naive_both_components_admitted": 0.988,
+  "gatekeeper_composite_cell": 0.0
+ },
+ "T2": {
+  "drift": {
+   "library_drift": {
+    "retired_share": 0.534,
+    "median_retire_trial": 346.0,
+    "median_delay_after_change": 246.0,
+    "retired_before_change_share": 0.0
+   },
+   "gk_fingerprint_visible": {
+    "retired_share": 1.0,
+    "median_retire_trial": 100.0,
+    "median_delay_after_change": 0.0,
+    "retired_before_change_share": 0.0
+   },
+   "gk_fingerprint_hidden": {
+    "retired_share": 0.0,
+    "median_retire_trial": null,
+    "median_delay_after_change": null,
+    "retired_before_change_share": 0.0
+   },
+   "gk_outcome_monitor": {
+    "retired_share": 0.928,
+    "median_retire_trial": 321.0,
+    "median_delay_after_change": 221.0,
+    "retired_before_change_share": 0.0
+   }
+  },
+  "no_drift": {
+   "library_drift": {
+    "retired_share": 0.0,
+    "median_retire_trial": null,
+    "median_delay_after_change": null,
+    "retired_before_change_share": 0.0
+   },
+   "gk_fingerprint_visible": {
+    "retired_share": 0.0,
+    "median_retire_trial": null,
+    "median_delay_after_change": null,
+    "retired_before_change_share": 0.0
+   },
+   "gk_fingerprint_hidden": {
+    "retired_share": 0.0,
+    "median_retire_trial": null,
+    "median_delay_after_change": null,
+    "retired_before_change_share": 0.0
+   },
+   "gk_outcome_monitor": {
+    "retired_share": 0.0,
+    "median_retire_trial": null,
+    "median_delay_after_change": null,
+    "retired_before_change_share": 0.0
+   }
+  }
+ },
+ "T1": {
+  "gatekeeper": {
+   "fwer": 0.0,
+   "fdr": 0.0,
+   "coverage": 0.8053333333333333
+  },
+  "e_bh_fdr": {
+   "fwer": 0.0,
+   "fdr": 0.0,
+   "coverage": 0.815
+  },
+  "b_x2_once": {
+   "fwer": 0.065,
+   "fdr": 0.016583333333333332,
+   "coverage": 0.9716666666666667
+  },
+  "b_x2_monitored": {
+   "fwer": 0.291,
+   "fdr": 0.0774,
+   "coverage": 0.9843333333333333
+  },
+  "b_g3": {
+   "fwer": 0.473,
+   "fdr": 0.2326666666666667,
+   "coverage": 0.517
+  },
+  "b_gall_monitored": {
+   "fwer": 0.994,
+   "fdr": 0.47992380952380953,
+   "coverage": 1.0
+  },
+  "plug_in_monitored": {
+   "fwer": 0.994,
+   "fdr": 0.47992380952380953,
+   "coverage": 1.0
+  },
+  "b_x1": {
+   "fwer": 1.0,
+   "fdr": 0.6666666666666665,
+   "coverage": 1.0
+  }
+ }
+}

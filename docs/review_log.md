@@ -367,3 +367,15 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Có cổng preflight và trần chi phí.
 - **Chạy thử miễn phí (`--dry`):** dựng lại được 344 lời gọi (seed 41: 116, seed 51: 116, seed 61: 112). Mọi lời gọi đều ghi model `gemini-3.1-flash-lite`.
 - **Chi phí ước:** khoảng 1.400 token vào và 30 token ra mỗi lời gọi × 688 lời gọi ≈ 0,27 USD; trần 1,0 USD.
+
+## R-33. T1–T3 (2026-11-05; `docs/preregistration_main.md` §14, commit 9596dcb trước khi viết mã)
+
+- **Kiểm trước khi chạy:**
+  - e-BH: test tay với K = 4, e = (100; 1; 50; 0,5), α = 0,1, cho đúng 2 bác bỏ (e = 100 và e = 50).
+  - e-value của từng ô là E tại n cố định (200), nên hợp lệ cho e-BH.
+  - Quy tắc của Library Drift lấy nguyên văn (N_min = 100, τ = 0,10, so trên trung bình toàn bộ trial đã có).
+  - Bộ theo dõi kết quả cho giả thuyết "có hại" nhận đầu vào −Z, nên chứng nhận E[Z] > 0.
+- **Chạy:** 20 lần lặp thử, rồi 1.000 lần lặp. Kết quả ở `results/lifecycle_plasmode.json`.
+- **Giới hạn đã thấy:**
+  - Không cài e-detector của Qu et al. (chỉ có một e-process duy nhất từ lúc nhận skill), nên chưa so được với cơ chế thu hồi của họ.
+  - Kết quả T3 là điều dễ đoán, vì quy tắc ngây thơ không hề xem dữ liệu của skill ghép.
