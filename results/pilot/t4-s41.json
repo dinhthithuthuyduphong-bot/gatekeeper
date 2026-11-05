@@ -17,7 +17,8 @@
     "t4-s41-p13",
     "t4-s41-p14",
     "t4-s41-p15",
-    "t4-s41-p16"
+    "t4-s41-p16",
+    "t4-s41-p17"
   ],
   "skills": {
     "control-oracle-patch": {
@@ -106,28 +107,33 @@
           "instance_id": "jlowin__fastmcp-1397",
           "loss_with": 0.0004297378599054577,
           "loss_without": 0.6670964045265722
+        },
+        {
+          "instance_id": "projectmesa__mesa-2755",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
         }
       ],
-      "mean_Z": -0.372526257676806,
-      "n": 17,
-      "solve_rate_with": 0.5882352941176471,
-      "solve_rate_without": 0.11764705882352941
+      "mean_Z": -0.38886739150957605,
+      "n": 18,
+      "solve_rate_with": 0.6111111111111112,
+      "solve_rate_without": 0.1111111111111111
     }
   },
   "usage": {
     "none": {
-      "runs": 17,
-      "usd": 1.3667776999999999,
+      "runs": 18,
+      "usd": 1.378076825,
       "solved": 2,
-      "scored": 17,
-      "usd_per_run": 0.08039868823529411
+      "scored": 18,
+      "usd_per_run": 0.0765598236111111
     },
     "control-oracle-patch": {
-      "runs": 17,
-      "usd": 0.471474,
-      "solved": 10,
-      "scored": 17,
-      "usd_per_run": 0.027733764705882354
+      "runs": 18,
+      "usd": 0.48202215,
+      "solved": 11,
+      "scored": 18,
+      "usd_per_run": 0.026779008333333333
     }
   },
   "infra_failures": {},
@@ -149,7 +155,8 @@
       "pvlib__pvlib-python-1947": "Submitted",
       "python-pillow__Pillow-9105": "Submitted",
       "conan-io__conan-18333": "Submitted",
-      "jlowin__fastmcp-1397": "Submitted"
+      "jlowin__fastmcp-1397": "Submitted",
+      "projectmesa__mesa-2755": "Submitted"
     },
     "control-oracle-patch": {
       "conan-io__conan-18655": "Submitted",
@@ -168,12 +175,13 @@
       "pvlib__pvlib-python-1947": "Submitted",
       "python-pillow__Pillow-9105": "Submitted",
       "conan-io__conan-18333": "Submitted",
-      "jlowin__fastmcp-1397": "Submitted"
+      "jlowin__fastmcp-1397": "Submitted",
+      "projectmesa__mesa-2755": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 1.8384,
+  "spent_usd": 1.8602,
   "instances": [
     "conan-io__conan-18655",
     "mikedh__trimesh-2126",
@@ -191,7 +199,8 @@
     "pvlib__pvlib-python-1947",
     "python-pillow__Pillow-9105",
     "conan-io__conan-18333",
-    "jlowin__fastmcp-1397"
+    "jlowin__fastmcp-1397",
+    "projectmesa__mesa-2755"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/pd/rows.jsonl"
