@@ -22,5 +22,5 @@
    ": CandidateProposal, iteration: int, state: GEPAState[RolloutOutput, DataId], dropped_by_selection: bool = False, reason_override: str | None = None, ) -> None: \"\"\"Log and fire ``on_candidate_rejected`` for a non-selected proposal. ``dropped_by_selection=True`` means the proposal PASSED the acceptance criterion but was not picked by the selection strategy (e.g. BestImprovement/TopK) — the reason must say so rather than falsely claiming a score regression. \"\"\" old_sum = sum(proposal.subsample_scores_before or []) new_sum = sum(proposal.subsample_scores_after or []) custom_reason = getattr(self.acceptance_criterion, \"reject_reason\", None) if reason_override is not None: reject_reason = reason_override reject_msg = f\"Iteration {iteration}: {reject_reason}, skipping\" elif dropped_by_selection: reject_reason = ( f\"Passed acceptance (score {old_sum} -> {new_sum}) but was not selected \" f\"by the selection strategy ({type(self.selection_strategy).__name__})\" ) reject_msg = f\"Iteration {iteration}: {reject_reason}, skipping\" elif custom_reason is not None: reject_reason = custom_reason(proposal, state) reject_msg = f\"Iteration {iteration}: {reject_reason}\" elif isinstance(self.acceptance_criterion, StrictImpro"
   ]
  },
- "fetched_utc": "2026-11-05T11:29:20+00:00"
+ "fetched_utc": "2026-11-05T11:46:39+00:00"
 }

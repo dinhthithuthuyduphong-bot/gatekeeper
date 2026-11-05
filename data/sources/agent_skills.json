@@ -8,7 +8,7 @@
   }
  ],
  "url": "https://github.com/anthropics/skills",
- "sha256": "0ce90e5149fa2f2e4bc06be9d474b7abec386840eb1c0e83466ecffcd67cea90",
+ "sha256": "fecbb1615e40a1dec4d18879e5d5300465fc467fd8bef6e4d4dcc43bfcebe7ce",
  "n_chars": 12050,
  "head": " GitHub - anthropics/skills: Public repository for Agent Skills · GitHub Skip to content Navigation Menu Sign in Products Platform GitHub Repository hosting, code review, and collaboration Copilot AI coding agent for tasks, projects and automated work Build & Ship Actions CI/CD and automation Code Quality Quality analysis, fixes, and enforcement Codespaces Cloud development environments Secure Code Security Vulnerability detecti",
  "excerpts": {
@@ -35,5 +35,5 @@
    ". For instance, if you install the document-skills plugin from the marketplace, you can ask Claude Code to do something like: \"Use the PDF skill to extract the form fields from path/to/some-file.pdf \" Claude.ai These example skills are all already available to paid plans in Claude.ai. To use any skill from this repository or upload custom skills, follow the instructions in Using skills in Claude . Claude API You can use Anthropic's pre-built skills, and upload custom skills, via the Claude API. See the Skills API Quickstart for more. Creating a Basic Skill Skills are simple to create - just a folder with a SKILL.md file containing YAML frontmatter and instructions. You can use the template-skill in this repository as a starting point: --- name : my-skill-name description : A clear description of what this skill does and when to use it --- # My Skill Name [ Add your instructions here that Claude will follow when this skill is active ] ## Examples - Example usage 1 - Example usage 2 ## Guidelines - Guideline 1 - Guideline 2 The frontmatter requires only two fields: name - A unique identifier for your skill (lowercase, hyphens for spaces) description - A complete description of what the ski"
   ]
  },
- "fetched_utc": "2026-11-05T11:28:48+00:00"
+ "fetched_utc": "2026-11-05T11:45:55+00:00"
 }
