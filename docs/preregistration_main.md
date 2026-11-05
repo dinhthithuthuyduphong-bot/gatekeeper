@@ -254,3 +254,20 @@ Như draft §10.
 - **Quyết định:** Gatekeeper, K = 1, α = 0,025. Dừng ngay khi admit.
 - **Trần:** 6 USD (`CLAUDE.md`). Hết trần mà chưa admit thì báo cáo đúng như vậy và dừng.
 - **Dự đoán đăng ký trước:** sẽ tính từ hiệu ứng của ô này đo được ở G1, trước khi chạy, và ghi vào đây.
+
+**Sai lệch D-M6 (05/11/2026, trước khi viết mã T4; phương án trội: cùng trần, xác suất cao hơn):**
+- **Lý do:** T4 đặt `control-oracle-tests` (hiệu ứng đo được ở G1: −0,158 trên thang resolved, 38 cặp). Với trần 6 USD chỉ chạy được khoảng 40 trial, và mô phỏng (định nghĩa loss = 0, q của E2) cho P(admit) dưới 0,01 ở δ = 0,15. Chạy như vậy là chi tiền cho một thất bại biết trước.
+- **Ô thay thế:** `control-oracle-patch`. Chèn **bản vá gốc** (trường `patch` của task; không bao giờ dùng `test_patch`) vào đề bài, ngay sau phần gợi ý của `control-oracle-tests`. Cơ sở: lỗi gieo sẵn ("deliberately seeded", `mutation_survey`) và phương pháp spike-in (`franklin_2014_plasmode`). Đây là **đối chứng**, không phải skill được đánh giá.
+- **Cấu hình:**
+  - `cost_limit` = 0,5 USD mỗi lần chạy, cho **cả hai** nhánh. Lý do vận hành: bộ chặn cứng của driver (đã chi + trường hợp xấu nhất ≤ trần) phải cho phép đủ trial trong 6 USD. Chi phí trung bình đo ở E2 là 0,063 USD mỗi lần chạy.
+  - Lô 1 task; seed 41; `step_limit` 250 như E2.
+  - Task theo `random_order` của E2, bắt đầu từ 109 task E2.
+- **Dự đoán đăng ký trước** (mô phỏng 05/11, K = 1, α = 0,025, cặp mới, q của E2):
+
+  | δ thật | P(admit trong 40 trial) | Trung vị số trial khi admit |
+  | --- | --- | --- |
+  | 0,6 | 1,00 | 32 |
+  | 0,4 | khoảng 0,87 | 45 |
+  | 0,3 | khoảng 0,47 | 52 |
+
+- **Kết luận chính:** ô có được admit trong trần 6 USD hay không. Số trial khi admit được so với bảng trên. Hiệu ứng đo được báo cáo kèm CI.
