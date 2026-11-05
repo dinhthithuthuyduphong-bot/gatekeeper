@@ -140,7 +140,7 @@ Như draft §10.
 - B-X2 không áp được, vì kết quả là tỉ lệ liên tục chứ không phải nhị phân.
 - Đây là phân tích **thăm dò**: dữ liệu đã được xem ở pilot.
 
-**Ghi chú thực thi 1 (05/11/2026, trước khi đọc kết quả P2):** §9 P2 ghi "DerSimonian–Laird". Trọng số 1/v của DL không xác định ở các ô có phương sai trong ô bằng 0; nhiều ô của SWE-Skills-Bench có mọi Δ = 0. Vì vậy dùng ước lượng moment trọng số đều cùng họ (Veroniki et al. 2016): τ² = Var(ȳ_i) − trung bình(s_i²/m_i). Kết quả: μ = −0,0034 trên thang Z, tức tỉ lệ qua tăng 0,0034; τ = 0,0316.
+**Ghi chú thực thi 1 (05/11/2026; sửa lời ghi: cách ước lượng được chọn khi viết mã, trước khi chạy, nhưng chỉ được **ghi lại sau khi** đã chạy và thấy kết quả P2):** §9 P2 ghi "DerSimonian–Laird". Trọng số 1/v của DL không xác định ở các ô có phương sai trong ô bằng 0; nhiều ô của SWE-Skills-Bench có mọi Δ = 0. Vì vậy dùng ước lượng moment trọng số đều cùng họ (Veroniki et al. 2016): τ² = Var(ȳ_i) − trung bình(s_i²/m_i). Kết quả: μ = −0,0034 trên thang Z, tức tỉ lệ qua tăng 0,0034; τ = 0,0316.
 
 ## 10. Kiểm định lặp lại tuyên bố đã công bố của XRepoSkill (05/11/2026; **phân tích thêm sau khi đã có kết quả E2**, ghi rõ trong paper)
 
