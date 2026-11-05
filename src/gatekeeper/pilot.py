@@ -133,7 +133,7 @@ def _truncate(s: str, n: int) -> str:
 
 
 def fill_template(template: str, row: Mapping[str, Any], max_items: int = 5) -> str:
-    """Fill {files}, {functions}, {tests}, {test_patch} from the gold patch and FAIL_TO_PASS.
+    """Fill {files}, {functions}, {tests}, {test_patch}, {gold_patch} from the gold patch and tests.
     Only for controls: these placeholders leak the answer's location (never an evaluated skill)."""
     from gatekeeper.patches import parse_patch
 
@@ -145,6 +145,8 @@ def fill_template(template: str, row: Mapping[str, Any], max_items: int = 5) -> 
         "{functions}": ", ".join(fns[:max_items]) or "(not identifiable from the patch)",
         "{tests}": "\n".join("- " + x for x in tests[:max_items]) or "(none listed)",
         "{test_patch}": _truncate(row.get("test_patch") or "", 4000) or "(no test patch)",
+        # gold-patch hint (control-oracle-patch, D-M6): the reference fix itself, never test_patch
+        "{gold_patch}": _truncate(row.get("patch") or "", 8000) or "(no patch)",
     }
     for k, v in vals.items():
         template = template.replace(k, v)

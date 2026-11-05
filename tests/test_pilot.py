@@ -488,3 +488,20 @@ def test_score_arm_classifies_timeouts_and_apply_failures_without_rescoring(tmp_
     assert rep["o__r-1"].get("_test_timeout") and rep["o__r-2"].get("_apply_failed")
     assert rep["o__r-3"] == rp.HARNESS_INFRA
     assert calls == [("rid", ids), ("rid-r1", ["o__r-3"])]  # only the unexplained one re-scored
+
+
+def test_oracle_patch_control_leaks_patch_not_test_patch():
+    sk = Skill.load("configs/skills/control-oracle-patch.json")
+    row = {
+        "instance_id": "a__b-1",
+        "problem_statement": "Bug X",
+        "patch": (
+            "diff --git a/src/m.py b/src/m.py\n--- a/src/m.py\n+++ b/src/m.py\n"
+            "@@ -1 +1 @@ def f():\n-x\n+GOLDLINE\n"
+        ),
+        "test_patch": "diff --git a/tests/t.py b/tests/t.py\n+TESTONLYLINE\n",
+        "FAIL_TO_PASS": '["tests/t.py::test_a"]',
+    }
+    ps = arm_rows([row], sk)[0]["problem_statement"]
+    assert "GOLDLINE" in ps and ps.count("GOLDLINE") == 1
+    assert "{gold_patch}" not in ps and "Bug X" in ps

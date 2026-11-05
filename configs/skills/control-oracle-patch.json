@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "id": "control-oracle-patch",
+  "procedure": {
+    "kind": "control",
+    "guidance_template": "Hint from the maintainers. The fix belongs in: {files}. Functions to change: {functions}.\nAfter your fix, these tests must pass:\n{tests}\nThey are added by the following test diff, which is NOT applied to the repository yet. You may apply it locally to check your fix, but your final submission must only change source files (test files are replaced during evaluation):\n```diff\n{test_patch}\n```\nThe reference fix written by the maintainers is below. Apply it (for example with `git apply`), then run the tests above to check it:\n```diff\n{gold_patch}\n```",
+    "_comment": "STRONG POSITIVE CONTROL for T4 (docs/preregistration_main.md D-M6, 05/11/2026): control-oracle-tests plus the gold patch (field `patch`, never `test_patch`). A designed control with a known large benefit, never an evaluated skill."
+  },
+  "fingerprints": {},
+  "input_predicates": [],
+  "postconditions": [],
+  "footprint": {
+    "regions": [],
+    "reads": [],
+    "writes": [],
+    "properties": []
+  },
+  "capability_verdict": "approved",
+  "source": "control"
+}
