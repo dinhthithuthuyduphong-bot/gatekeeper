@@ -177,3 +177,21 @@ Như draft §10.
   - Seed không đạt thì **không** chạy nhánh pc cho seed đó, và giảm số seed của ô.
 - **Quyết định:** Gatekeeper với α_ô = 0,025/9, Holm trên p anytime-valid ở mức 0,025 trong họ K = 9 ô, theo thứ tự task đã cố định của E2. Ô dừng ngay khi admit; khi đó các task còn lại không được chạy.
 - **Không thêm trial nào ngoài 109 task này.** Không admit được thì báo cáo "đối chứng dương không được xác lập với 109 task" và dừng chi.
+
+## 12. Mức nhiễu nền khi đánh giá coding agent, và đối chiếu các mức tăng đã công bố (đăng ký 05/11/2026, trước khi đối chiếu)
+
+- **Đã biết trước khi đăng ký:** độ chênh tỉ lệ giải giữa các seed của cùng một nhánh trong E1/E2 (đã tính ở bước khảo sát): tối đa 6,4 điểm trên 109 task (E2, nhánh `none`) và 7,6 điểm trên 144 task (E1, nhánh `none`). Chưa đối chiếu với bất kỳ tuyên bố nào.
+- **Phân phối nhiễu A/A:** với mỗi n trong các bài được đối chiếu:
+  - lấy 2 seed khác nhau của **nhánh `none`** (E1 và E2 gộp lại; một task chỉ dùng khi có đủ 2 lần chạy);
+  - rút n task có hoàn lại;
+  - tính hiệu tỉ lệ giải giữa hai seed;
+  - 20.000 lần lặp, seed 20271105.
+  - "Ngưỡng nhiễu" F(n) = phân vị 97,5% của |hiệu|. Đây là mức chênh mà **chỉ việc chạy lại** đã tạo ra với xác suất 5%.
+- **Quy tắc đối chiếu:** một mức tăng đã công bố, đo bằng 1 lần chạy mỗi cấu hình trên n task, được tính là **phân biệt được với nhiễu chạy lại** khi lớn hơn F(n).
+- **Tuyên bố được đối chiếu** (lấy toàn bộ, không chọn lọc):
+  - XRepoSkill Table 1, 6 tổ hợp: SWE-bench Pro n = 200, theo tổng số task ở Table 2 của họ; DeepSWE n = 113, theo câu "We evaluate on all 113 tasks";
+  - MemGovern README, 7 model: SWE-bench Verified n = 500.
+- **Bằng chứng thứ hai, lấy từ chính bài XRepoSkill:** Pass@4 89,4% và All@4 32,7%. Như vậy 56,7% số task cho kết quả khác nhau giữa 4 lần chạy của chính họ.
+- **Giới hạn ghi sẵn:**
+  - Nhiễu đo trên một model với tỉ lệ giải nền 0,27–0,47. Phương sai nhị thức lớn nhất ở tỉ lệ 0,5, mà các bài kia có tỉ lệ nền 0,12–0,69. Do đó F(n) của mình có thể **thấp hơn** nhiễu thật của họ, nghĩa là quy tắc này **có lợi cho các tuyên bố**.
+  - Không biết họ có cố định seed hay không.
