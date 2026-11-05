@@ -424,3 +424,19 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Lưu ý vận hành:**
   - Lần kéo image đầu tiên thất bại tạm thời (registry). Kéo thủ công ngay sau đó thì được. Script tự thử lại sau 30 phút, nên không mất tiền.
   - Cổng chi tiêu của script dừng khi "đã chi + lô xấu nhất (2 × 0,5 USD) > trần". Vì vậy chi thực tế không vượt 3 USD, nhưng script có thể dừng trước khi đủ 20 task nếu chi tới khoảng 2 USD. Nếu xảy ra, báo cáo đúng n đã chạy; không nới trần.
+
+## R-38. §18: phép placebo A/A cho việc quy lỗi, độ không đồng nhất (2026-11-05, trước khi chạy)
+
+- **Đối chiếu với bản đăng ký:**
+  - Các cặp placebo đúng (51→41, 61→51, 41→61).
+  - Quy tắc lỗi chức năng và hồi quy hiệu năng đúng câu gốc của Dong et al.: T = 2,0, min > 1.
+  - Có thêm độ nhạy chỉ dùng token.
+- **Hai lỗi bắt được khi review, trước khi chạy:**
+  1. H18-5 ban đầu tính "tỉ lệ task có ứng viên ở cả 3 seed trên số task có ứng viên", **lệch** câu đăng ký; đã sửa và có test.
+  2. CI bootstrap có thể ra nan khi mẫu bootstrap không có ứng viên; đã dùng `nanpercentile`.
+- **Dữ liệu:**
+  - `run_metrics_e1`: 1.056 lần chạy (720 lần có skill + 336 lần không skill).
+  - `run_metrics_e2`: 688 lần chạy (344 lô × 2).
+  - 0 lần chạy thiếu dấu thời gian.
+  - Hàm `load` dừng nếu gặp cặp trùng.
+- **Chạy thử theo L37:** test đầu-cuối trên dữ liệu giả đi qua `heterogeneity`, `summarise` và `power_check`. Tổng cộng 10 test đạt; ruff đạt.

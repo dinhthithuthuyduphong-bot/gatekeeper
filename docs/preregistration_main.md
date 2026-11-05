@@ -406,3 +406,11 @@ Dự đoán sai thì báo cáo nguyên trạng.
 - **Thiết kế plasmode:** dùng nhiễu thật E2 (các cặp none–none giữa các seed), cấy tác dụng theo task δ_i ~ N(μ, τ²) với τ ∈ {0; 0,10; 0,15; 0,20} và μ = 0, theo cách `plasmode_real.make_cell`.
 - **Đại lượng:** tỉ lệ bác bỏ của H18-1 (α = 0,05) và độ phủ của CI H18-2; 1.000 lần lặp.
 - **Mục đích:** nếu không tìm thấy độ không đồng nhất ở E2, đây là cơ sở để nói phép đo **có khả năng** phát hiện nó ở mức τ nào.
+
+**Ghi chú thực thi 18-3** (trước khi chạy):
+- Bản đăng ký chỉ ghi 1.000 lần lặp cho phép kiểm power (18-2), chưa ghi số lần lặp bên trong. Chọn **1.000 lần đổi dấu và 1.000 lần bootstrap** cho mỗi lần lặp power.
+- **Lý do** (vận hành, R2): sai số Monte Carlo của một p-value quanh 0,05 với 1.000 lần lặp là √(0,05·0,95/1000) ≈ 0,007, đủ nhỏ để phân loại bác bỏ hay không. Tổng chi phí tính toán ≈ 4 mức τ × 1.000 × 2.000.
+- Phân tích chính H18-1 và H18-2 vẫn dùng 10.000 lần như đã đăng ký.
+- **Thêm, không đổi quy tắc:**
+  - CI bootstrap dùng `nanpercentile`, vì một mẫu bootstrap không có ứng viên nào thì tỉ số R không xác định. Báo cáo nguyên trạng.
+  - H18-5 tính đúng theo câu đã đăng ký: 3 × số task có ứng viên ở cả 3 seed / tổng số ứng viên.

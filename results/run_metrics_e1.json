@@ -1,0 +1,7604 @@
+{
+"stage": "e1",
+"n_parts": 102,
+"n_runs": 1056,
+"runs_without_time": 0,
+"runs": {
+"g1-e1-s41-p00": {
+"none/astropy__astropy-12842": {
+"tokens_in": 7497044,
+"tokens_out": 10056,
+"tokens": 7507100,
+"seconds": 236.052396774292,
+"n_timestamps": 500
+},
+"none/astropy__astropy-13306": {
+"tokens_in": 4032254,
+"tokens_out": 17182,
+"tokens": 4049436,
+"seconds": 191.51122188568115,
+"n_timestamps": 285
+},
+"none/astropy__astropy-13234": {
+"tokens_in": 1687947,
+"tokens_out": 14749,
+"tokens": 1702696,
+"seconds": 140.78956055641174,
+"n_timestamps": 219
+},
+"none/astropy__astropy-13236": {
+"tokens_in": 94710,
+"tokens_out": 1667,
+"tokens": 96377,
+"seconds": 23.66531252861023,
+"n_timestamps": 43
+},
+"null-guard/astropy__astropy-12842": {
+"tokens_in": 782150,
+"tokens_out": 3520,
+"tokens": 785670,
+"seconds": 54.11985945701599,
+"n_timestamps": 101
+},
+"type-guard/astropy__astropy-13306": {
+"tokens_in": 2461032,
+"tokens_out": 17769,
+"tokens": 2478801,
+"seconds": 155.23484873771667,
+"n_timestamps": 255
+},
+"type-guard/astropy__astropy-13234": {
+"tokens_in": 1266484,
+"tokens_out": 15851,
+"tokens": 1282335,
+"seconds": 101.69755101203918,
+"n_timestamps": 135
+},
+"type-guard/astropy__astropy-13236": {
+"tokens_in": 87022,
+"tokens_out": 1753,
+"tokens": 88775,
+"seconds": 21.306333303451538,
+"n_timestamps": 39
+}
+},
+"g1-e1-s41-p01": {
+"harm-skip-verification/astropy__astropy-13731": {
+"tokens_in": 4163213,
+"tokens_out": 7983,
+"tokens": 4171196,
+"seconds": 231.0689160823822,
+"n_timestamps": 500
+},
+"none/astropy__astropy-13731": {
+"tokens_in": 590961,
+"tokens_out": 8966,
+"tokens": 599927,
+"seconds": 76.52814722061157,
+"n_timestamps": 113
+},
+"none/astropy__astropy-13477": {
+"tokens_in": 610046,
+"tokens_out": 7224,
+"tokens": 617270,
+"seconds": 73.47284388542175,
+"n_timestamps": 125
+},
+"none/astropy__astropy-13572": {
+"tokens_in": 118980,
+"tokens_out": 474,
+"tokens": 119454,
+"seconds": 11.92918610572815,
+"n_timestamps": 25
+},
+"none/astropy__astropy-13838": {
+"tokens_in": 998442,
+"tokens_out": 5813,
+"tokens": 1004255,
+"seconds": 70.08717203140259,
+"n_timestamps": 111
+},
+"exception-handling/astropy__astropy-13731": {
+"tokens_in": 914979,
+"tokens_out": 10899,
+"tokens": 925878,
+"seconds": 81.9457950592041,
+"n_timestamps": 121
+},
+"null-guard/astropy__astropy-13477": {
+"tokens_in": 1849978,
+"tokens_out": 14537,
+"tokens": 1864515,
+"seconds": 147.2057707309723,
+"n_timestamps": 233
+},
+"null-guard/astropy__astropy-13838": {
+"tokens_in": 1777077,
+"tokens_out": 12990,
+"tokens": 1790067,
+"seconds": 123.42542934417725,
+"n_timestamps": 169
+},
+"harm-swallow-exceptions/astropy__astropy-13731": {
+"tokens_in": 411664,
+"tokens_out": 8005,
+"tokens": 419669,
+"seconds": 61.68397402763367,
+"n_timestamps": 71
+},
+"type-guard/astropy__astropy-13572": {
+"tokens_in": 104915,
+"tokens_out": 637,
+"tokens": 105552,
+"seconds": 12.62061095237732,
+"n_timestamps": 25
+},
+"harm-minimal-edit/astropy__astropy-13731": {
+"tokens_in": 1282653,
+"tokens_out": 11721,
+"tokens": 1294374,
+"seconds": 104.03338718414307,
+"n_timestamps": 167
+}
+},
+"g1-e1-s41-p02": {
+"none/astropy__astropy-14566": {
+"tokens_in": 1404262,
+"tokens_out": 10502,
+"tokens": 1414764,
+"seconds": 95.5369279384613,
+"n_timestamps": 145
+},
+"none/astropy__astropy-14995": {
+"tokens_in": 887547,
+"tokens_out": 12039,
+"tokens": 899586,
+"seconds": 73.65547466278076,
+"n_timestamps": 113
+},
+"none/astropy__astropy-8005": {
+"tokens_in": 9897783,
+"tokens_out": 11616,
+"tokens": 9909399,
+"seconds": 271.6825108528137,
+"n_timestamps": 500
+},
+"null-guard/astropy__astropy-8005": {
+"tokens_in": 152184,
+"tokens_out": 1938,
+"tokens": 154122,
+"seconds": 23.384392261505127,
+"n_timestamps": 37
+},
+"type-guard/astropy__astropy-14566": {
+"tokens_in": 1044355,
+"tokens_out": 8923,
+"tokens": 1053278,
+"seconds": 91.40277600288391,
+"n_timestamps": 121
+},
+"type-guard/astropy__astropy-14995": {
+"tokens_in": 371430,
+"tokens_out": 3189,
+"tokens": 374619,
+"seconds": 33.538915157318115,
+"n_timestamps": 57
+}
+},
+"g1-e1-s41-p03": {
+"harm-skip-verification/django__django-10853": {
+"tokens_in": 458798,
+"tokens_out": 2838,
+"tokens": 461636,
+"seconds": 47.55211591720581,
+"n_timestamps": 101
+},
+"harm-skip-verification/django__django-11451": {
+"tokens_in": 198275,
+"tokens_out": 2463,
+"tokens": 200738,
+"seconds": 20.354164361953735,
+"n_timestamps": 37
+},
+"none/django__django-10730": {
+"tokens_in": 83203,
+"tokens_out": 2135,
+"tokens": 85338,
+"seconds": 23.885777235031128,
+"n_timestamps": 33
+},
+"none/django__django-11030": {
+"tokens_in": 1577223,
+"tokens_out": 7480,
+"tokens": 1584703,
+"seconds": 103.49498295783997,
+"n_timestamps": 133
+},
+"none/django__django-10853": {
+"tokens_in": 1019322,
+"tokens_out": 9270,
+"tokens": 1028592,
+"seconds": 82.67261624336243,
+"n_timestamps": 123
+},
+"none/django__django-11451": {
+"tokens_in": 110813,
+"tokens_out": 2951,
+"tokens": 113764,
+"seconds": 20.269439935684204,
+"n_timestamps": 27
+},
+"exception-handling/django__django-10730": {
+"tokens_in": 234704,
+"tokens_out": 3836,
+"tokens": 238540,
+"seconds": 90.66566491127014,
+"n_timestamps": 51
+},
+"exception-handling/django__django-11030": {
+"tokens_in": 809762,
+"tokens_out": 4905,
+"tokens": 814667,
+"seconds": 58.234633922576904,
+"n_timestamps": 99
+},
+"exception-handling/django__django-10853": {
+"tokens_in": 1104959,
+"tokens_out": 5328,
+"tokens": 1110287,
+"seconds": 78.21321725845337,
+"n_timestamps": 145
+},
+"null-guard/django__django-11030": {
+"tokens_in": 704402,
+"tokens_out": 8373,
+"tokens": 712775,
+"seconds": 57.22384071350098,
+"n_timestamps": 75
+},
+"null-guard/django__django-11451": {
+"tokens_in": 193633,
+"tokens_out": 2420,
+"tokens": 196053,
+"seconds": 26.47503900527954,
+"n_timestamps": 37
+},
+"harm-swallow-exceptions/django__django-10853": {
+"tokens_in": 7909956,
+"tokens_out": 10922,
+"tokens": 7920878,
+"seconds": 264.6170599460602,
+"n_timestamps": 500
+},
+"harm-swallow-exceptions/django__django-11451": {
+"tokens_in": 144463,
+"tokens_out": 3208,
+"tokens": 147671,
+"seconds": 24.747066736221313,
+"n_timestamps": 33
+},
+"harm-minimal-edit/django__django-10853": {
+"tokens_in": 1215184,
+"tokens_out": 9169,
+"tokens": 1224353,
+"seconds": 79.32655692100525,
+"n_timestamps": 121
+},
+"harm-minimal-edit/django__django-11451": {
+"tokens_in": 492637,
+"tokens_out": 2480,
+"tokens": 495117,
+"seconds": 39.632293462753296,
+"n_timestamps": 85
+}
+},
+"g1-e1-s41-p04": {
+"none/django__django-11457": {
+"tokens_in": 280761,
+"tokens_out": 5513,
+"tokens": 286274,
+"seconds": 40.37121033668518,
+"n_timestamps": 71
+},
+"none/django__django-11618": {
+"tokens_in": 129786,
+"tokens_out": 4493,
+"tokens": 134279,
+"seconds": 29.697336435317993,
+"n_timestamps": 55
+},
+"none/django__django-11517": {
+"tokens_in": 1116734,
+"tokens_out": 15045,
+"tokens": 1131779,
+"seconds": 88.58731412887573,
+"n_timestamps": 133
+},
+"none/django__django-11638": {
+"tokens_in": 104613,
+"tokens_out": 1569,
+"tokens": 106182,
+"seconds": 23.26997709274292,
+"n_timestamps": 51
+},
+"exception-handling/django__django-11457": {
+"tokens_in": 241015,
+"tokens_out": 4917,
+"tokens": 245932,
+"seconds": 33.8403046131134,
+"n_timestamps": 51
+},
+"exception-handling/django__django-11618": {
+"tokens_in": 203423,
+"tokens_out": 2445,
+"tokens": 205868,
+"seconds": 46.285991191864014,
+"n_timestamps": 81
+},
+"null-guard/django__django-11638": {
+"tokens_in": 552403,
+"tokens_out": 3678,
+"tokens": 556081,
+"seconds": 51.69878959655762,
+"n_timestamps": 103
+},
+"type-guard/django__django-11517": {
+"tokens_in": 456887,
+"tokens_out": 11542,
+"tokens": 468429,
+"seconds": 66.40106558799744,
+"n_timestamps": 75
+}
+},
+"g1-e1-s41-p05": {
+"harm-skip-verification/django__django-12518": {
+"tokens_in": 426895,
+"tokens_out": 2436,
+"tokens": 429331,
+"seconds": 36.364177227020264,
+"n_timestamps": 75
+},
+"harm-skip-verification/django__django-11911": {
+"tokens_in": 46993,
+"tokens_out": 1014,
+"tokens": 48007,
+"seconds": 12.002663612365723,
+"n_timestamps": 25
+},
+"none/django__django-12915": {
+"tokens_in": 104250,
+"tokens_out": 3291,
+"tokens": 107541,
+"seconds": 27.450538158416748,
+"n_timestamps": 43
+},
+"none/django__django-12518": {
+"tokens_in": 770780,
+"tokens_out": 6740,
+"tokens": 777520,
+"seconds": 58.756566286087036,
+"n_timestamps": 99
+},
+"none/django__django-11911": {
+"tokens_in": 182458,
+"tokens_out": 5094,
+"tokens": 187552,
+"seconds": 44.227933406829834,
+"n_timestamps": 67
+},
+"none/django__django-12869": {
+"tokens_in": 363902,
+"tokens_out": 2540,
+"tokens": 366442,
+"seconds": 31.809279918670654,
+"n_timestamps": 51
+},
+"exception-handling/django__django-12518": {
+"tokens_in": 1389926,
+"tokens_out": 10889,
+"tokens": 1400815,
+"seconds": 78.45735764503479,
+"n_timestamps": 129
+},
+"exception-handling/django__django-12869": {
+"tokens_in": 459142,
+"tokens_out": 3785,
+"tokens": 462927,
+"seconds": 37.77409744262695,
+"n_timestamps": 63
+},
+"null-guard/django__django-11911": {
+"tokens_in": 421361,
+"tokens_out": 6745,
+"tokens": 428106,
+"seconds": 63.1451416015625,
+"n_timestamps": 107
+},
+"harm-swallow-exceptions/django__django-12518": {
+"tokens_in": 251628,
+"tokens_out": 6007,
+"tokens": 257635,
+"seconds": 33.18766117095947,
+"n_timestamps": 45
+},
+"harm-swallow-exceptions/django__django-11911": {
+"tokens_in": 348918,
+"tokens_out": 5223,
+"tokens": 354141,
+"seconds": 47.170162200927734,
+"n_timestamps": 89
+},
+"type-guard/django__django-12915": {
+"tokens_in": 340237,
+"tokens_out": 3388,
+"tokens": 343625,
+"seconds": 26.591452836990356,
+"n_timestamps": 47
+},
+"harm-minimal-edit/django__django-12518": {
+"tokens_in": 646089,
+"tokens_out": 3808,
+"tokens": 649897,
+"seconds": 66.17484021186829,
+"n_timestamps": 129
+},
+"harm-minimal-edit/django__django-11911": {
+"tokens_in": 577472,
+"tokens_out": 4894,
+"tokens": 582366,
+"seconds": 67.19534182548523,
+"n_timestamps": 135
+}
+},
+"g1-e1-s41-p06": {
+"harm-skip-verification/django__django-13607": {
+"tokens_in": 348258,
+"tokens_out": 5525,
+"tokens": 353783,
+"seconds": 37.24450325965881,
+"n_timestamps": 63
+},
+"harm-skip-verification/django__django-13426": {
+"tokens_in": 2441190,
+"tokens_out": 4801,
+"tokens": 2445991,
+"seconds": 100.56441521644592,
+"n_timestamps": 213
+},
+"harm-skip-verification/django__django-13449": {
+"tokens_in": 912599,
+"tokens_out": 5759,
+"tokens": 918358,
+"seconds": 64.82879972457886,
+"n_timestamps": 113
+},
+"none/django__django-13607": {
+"tokens_in": 1092251,
+"tokens_out": 11770,
+"tokens": 1104021,
+"seconds": 81.56757521629333,
+"n_timestamps": 129
+},
+"none/django__django-13757": {
+"tokens_in": 2019711,
+"tokens_out": 19736,
+"tokens": 2039447,
+"seconds": 123.94604563713074,
+"n_timestamps": 163
+},
+"none/django__django-13426": {
+"tokens_in": 418277,
+"tokens_out": 6191,
+"tokens": 424468,
+"seconds": 49.109107971191406,
+"n_timestamps": 77
+},
+"none/django__django-13449": {
+"tokens_in": 2113957,
+"tokens_out": 12314,
+"tokens": 2126271,
+"seconds": 113.5010621547699,
+"n_timestamps": 179
+},
+"exception-handling/django__django-13607": {
+"tokens_in": 2021220,
+"tokens_out": 21869,
+"tokens": 2043089,
+"seconds": 144.64499640464783,
+"n_timestamps": 197
+},
+"exception-handling/django__django-13757": {
+"tokens_in": 704145,
+"tokens_out": 10768,
+"tokens": 714913,
+"seconds": 69.88689351081848,
+"n_timestamps": 103
+},
+"exception-handling/django__django-13449": {
+"tokens_in": 1314612,
+"tokens_out": 6486,
+"tokens": 1321098,
+"seconds": 76.42259359359741,
+"n_timestamps": 145
+},
+"null-guard/django__django-13449": {
+"tokens_in": 856906,
+"tokens_out": 8167,
+"tokens": 865073,
+"seconds": 55.69941687583923,
+"n_timestamps": 91
+},
+"harm-swallow-exceptions/django__django-13607": {
+"tokens_in": 489212,
+"tokens_out": 7013,
+"tokens": 496225,
+"seconds": 60.62347722053528,
+"n_timestamps": 89
+},
+"harm-swallow-exceptions/django__django-13426": {
+"tokens_in": 704405,
+"tokens_out": 11644,
+"tokens": 716049,
+"seconds": 62.94447660446167,
+"n_timestamps": 83
+},
+"harm-swallow-exceptions/django__django-13449": {
+"tokens_in": 1757460,
+"tokens_out": 10747,
+"tokens": 1768207,
+"seconds": 97.39648246765137,
+"n_timestamps": 135
+},
+"type-guard/django__django-13426": {
+"tokens_in": 1098808,
+"tokens_out": 6755,
+"tokens": 1105563,
+"seconds": 74.99741649627686,
+"n_timestamps": 135
+},
+"harm-minimal-edit/django__django-13607": {
+"tokens_in": 444137,
+"tokens_out": 8080,
+"tokens": 452217,
+"seconds": 54.41339373588562,
+"n_timestamps": 85
+},
+"harm-minimal-edit/django__django-13426": {
+"tokens_in": 16029278,
+"tokens_out": 10674,
+"tokens": 16039952,
+"seconds": 274.65736508369446,
+"n_timestamps": 500
+},
+"harm-minimal-edit/django__django-13449": {
+"tokens_in": 2041960,
+"tokens_out": 21304,
+"tokens": 2063264,
+"seconds": 130.54583835601807,
+"n_timestamps": 173
+}
+},
+"g1-e1-s41-p07": {
+"harm-skip-verification/django__django-13820": {
+"tokens_in": 43567,
+"tokens_out": 406,
+"tokens": 43973,
+"seconds": 8.576650619506836,
+"n_timestamps": 21
+},
+"harm-skip-verification/django__django-13841": {
+"tokens_in": 242757,
+"tokens_out": 3506,
+"tokens": 246263,
+"seconds": 26.703688383102417,
+"n_timestamps": 47
+},
+"none/django__django-13807": {
+"tokens_in": 189894,
+"tokens_out": 2693,
+"tokens": 192587,
+"seconds": 26.798563718795776,
+"n_timestamps": 43
+},
+"none/django__django-13820": {
+"tokens_in": 114390,
+"tokens_out": 3175,
+"tokens": 117565,
+"seconds": 24.83402442932129,
+"n_timestamps": 45
+},
+"none/django__django-14071": {
+"tokens_in": 2624737,
+"tokens_out": 23111,
+"tokens": 2647848,
+"seconds": 140.31270098686218,
+"n_timestamps": 205
+},
+"none/django__django-13841": {
+"tokens_in": 365199,
+"tokens_out": 3961,
+"tokens": 369160,
+"seconds": 29.689850091934204,
+"n_timestamps": 43
+},
+"exception-handling/django__django-14071": {
+"tokens_in": 218312,
+"tokens_out": 3122,
+"tokens": 221434,
+"seconds": 25.691529273986816,
+"n_timestamps": 41
+},
+"exception-handling/django__django-13841": {
+"tokens_in": 812517,
+"tokens_out": 11038,
+"tokens": 823555,
+"seconds": 61.00227093696594,
+"n_timestamps": 89
+},
+"null-guard/django__django-13807": {
+"tokens_in": 103085,
+"tokens_out": 1933,
+"tokens": 105018,
+"seconds": 22.268023014068604,
+"n_timestamps": 47
+},
+"harm-swallow-exceptions/django__django-13820": {
+"tokens_in": 90484,
+"tokens_out": 3041,
+"tokens": 93525,
+"seconds": 24.26384210586548,
+"n_timestamps": 31
+},
+"harm-swallow-exceptions/django__django-13841": {
+"tokens_in": 935669,
+"tokens_out": 11305,
+"tokens": 946974,
+"seconds": 62.91210126876831,
+"n_timestamps": 95
+},
+"type-guard/django__django-13820": {
+"tokens_in": 60305,
+"tokens_out": 2185,
+"tokens": 62490,
+"seconds": 16.825711727142334,
+"n_timestamps": 31
+},
+"harm-minimal-edit/django__django-13820": {
+"tokens_in": 31798,
+"tokens_out": 1256,
+"tokens": 33054,
+"seconds": 11.109868288040161,
+"n_timestamps": 23
+},
+"harm-minimal-edit/django__django-13841": {
+"tokens_in": 552951,
+"tokens_out": 6321,
+"tokens": 559272,
+"seconds": 42.197614669799805,
+"n_timestamps": 67
+}
+},
+"g1-e1-s41-p08": {
+"harm-skip-verification/django__django-14291": {
+"tokens_in": 86615,
+"tokens_out": 2654,
+"tokens": 89269,
+"seconds": 27.801000118255615,
+"n_timestamps": 37
+},
+"none/django__django-14430": {
+"tokens_in": 1598288,
+"tokens_out": 11253,
+"tokens": 1609541,
+"seconds": 101.97591352462769,
+"n_timestamps": 159
+},
+"none/django__django-14170": {
+"tokens_in": 15199194,
+"tokens_out": 10126,
+"tokens": 15209320,
+"seconds": 253.67611646652222,
+"n_timestamps": 500
+},
+"none/django__django-14291": {
+"tokens_in": 61270,
+"tokens_out": 2289,
+"tokens": 63559,
+"seconds": 18.96845316886902,
+"n_timestamps": 31
+},
+"none/django__django-14140": {
+"tokens_in": 296384,
+"tokens_out": 3828,
+"tokens": 300212,
+"seconds": 35.90928554534912,
+"n_timestamps": 61
+},
+"exception-handling/django__django-14430": {
+"tokens_in": 12755907,
+"tokens_out": 10570,
+"tokens": 12766477,
+"seconds": 280.84871912002563,
+"n_timestamps": 500
+},
+"exception-handling/django__django-14170": {
+"tokens_in": 3902919,
+"tokens_out": 8484,
+"tokens": 3911403,
+"seconds": 298.9856550693512,
+"n_timestamps": 500
+},
+"null-guard/django__django-14430": {
+"tokens_in": 6656727,
+"tokens_out": 27265,
+"tokens": 6683992,
+"seconds": 305.4098446369171,
+"n_timestamps": 500
+},
+"harm-swallow-exceptions/django__django-14291": {
+"tokens_in": 96858,
+"tokens_out": 4018,
+"tokens": 100876,
+"seconds": 30.43481183052063,
+"n_timestamps": 43
+},
+"type-guard/django__django-14291": {
+"tokens_in": 80517,
+"tokens_out": 2602,
+"tokens": 83119,
+"seconds": 20.464781284332275,
+"n_timestamps": 37
+},
+"type-guard/django__django-14140": {
+"tokens_in": 211357,
+"tokens_out": 2124,
+"tokens": 213481,
+"seconds": 26.417680740356445,
+"n_timestamps": 49
+},
+"harm-minimal-edit/django__django-14291": {
+"tokens_in": 57584,
+"tokens_out": 2369,
+"tokens": 59953,
+"seconds": 21.649045705795288,
+"n_timestamps": 33
+}
+},
+"g1-e1-s41-p09": {
+"harm-skip-verification/django__django-14785": {
+"tokens_in": 437518,
+"tokens_out": 7760,
+"tokens": 445278,
+"seconds": 59.60515642166138,
+"n_timestamps": 101
+},
+"harm-skip-verification/django__django-14558": {
+"tokens_in": 4668934,
+"tokens_out": 10424,
+"tokens": 4679358,
+"seconds": 281.78818345069885,
+"n_timestamps": 500
+},
+"none/django__django-14762": {
+"tokens_in": 469232,
+"tokens_out": 6171,
+"tokens": 475403,
+"seconds": 40.16036367416382,
+"n_timestamps": 61
+},
+"none/django__django-14785": {
+"tokens_in": 501063,
+"tokens_out": 5943,
+"tokens": 507006,
+"seconds": 56.23029589653015,
+"n_timestamps": 101
+},
+"none/django__django-14558": {
+"tokens_in": 246138,
+"tokens_out": 3176,
+"tokens": 249314,
+"seconds": 29.18999147415161,
+"n_timestamps": 49
+},
+"null-guard/django__django-14762": {
+"tokens_in": 1405626,
+"tokens_out": 13063,
+"tokens": 1418689,
+"seconds": 85.21469807624817,
+"n_timestamps": 137
+},
+"null-guard/django__django-14558": {
+"tokens_in": 96393,
+"tokens_out": 1749,
+"tokens": 98142,
+"seconds": 17.990378618240356,
+"n_timestamps": 33
+},
+"harm-swallow-exceptions/django__django-14785": {
+"tokens_in": 246409,
+"tokens_out": 2801,
+"tokens": 249210,
+"seconds": 26.862608432769775,
+"n_timestamps": 49
+},
+"harm-swallow-exceptions/django__django-14558": {
+"tokens_in": 180821,
+"tokens_out": 1258,
+"tokens": 182079,
+"seconds": 21.09258460998535,
+"n_timestamps": 51
+},
+"type-guard/django__django-14785": {
+"tokens_in": 555531,
+"tokens_out": 6969,
+"tokens": 562500,
+"seconds": 58.04730248451233,
+"n_timestamps": 93
+},
+"harm-minimal-edit/django__django-14785": {
+"tokens_in": 3353321,
+"tokens_out": 13958,
+"tokens": 3367279,
+"seconds": 233.55325436592102,
+"n_timestamps": 500
+},
+"harm-minimal-edit/django__django-14558": {
+"tokens_in": 63320,
+"tokens_out": 550,
+"tokens": 63870,
+"seconds": 10.731472730636597,
+"n_timestamps": 21
+}
+},
+"g1-e1-s41-p10": {
+"none/django__django-15368": {
+"tokens_in": 162075,
+"tokens_out": 2912,
+"tokens": 164987,
+"seconds": 26.583212852478027,
+"n_timestamps": 41
+},
+"none/django__django-14787": {
+"tokens_in": 264536,
+"tokens_out": 4091,
+"tokens": 268627,
+"seconds": 32.94471311569214,
+"n_timestamps": 61
+},
+"none/django__django-15347": {
+"tokens_in": 304161,
+"tokens_out": 2719,
+"tokens": 306880,
+"seconds": 32.47606921195984,
+"n_timestamps": 53
+},
+"none/django__django-15180": {
+"tokens_in": 187939,
+"tokens_out": 2516,
+"tokens": 190455,
+"seconds": 26.140812873840332,
+"n_timestamps": 49
+},
+"exception-handling/django__django-14787": {
+"tokens_in": 520795,
+"tokens_out": 10585,
+"tokens": 531380,
+"seconds": 53.36082696914673,
+"n_timestamps": 73
+},
+"exception-handling/django__django-15180": {
+"tokens_in": 151241,
+"tokens_out": 2254,
+"tokens": 153495,
+"seconds": 21.44653058052063,
+"n_timestamps": 43
+},
+"null-guard/django__django-15347": {
+"tokens_in": 71393,
+"tokens_out": 880,
+"tokens": 72273,
+"seconds": 13.476285457611084,
+"n_timestamps": 29
+},
+"null-guard/django__django-15180": {
+"tokens_in": 230853,
+"tokens_out": 2069,
+"tokens": 232922,
+"seconds": 31.178205251693726,
+"n_timestamps": 53
+},
+"type-guard/django__django-15368": {
+"tokens_in": 201812,
+"tokens_out": 3089,
+"tokens": 204901,
+"seconds": 34.67402410507202,
+"n_timestamps": 53
+}
+},
+"g1-e1-s41-p11": {
+"harm-skip-verification/django__django-15648": {
+"tokens_in": 756470,
+"tokens_out": 14770,
+"tokens": 771240,
+"seconds": 87.22971296310425,
+"n_timestamps": 135
+},
+"harm-skip-verification/django__django-15526": {
+"tokens_in": 42535,
+"tokens_out": 1142,
+"tokens": 43677,
+"seconds": 13.401005268096924,
+"n_timestamps": 31
+},
+"none/django__django-15651": {
+"tokens_in": 1015957,
+"tokens_out": 4832,
+"tokens": 1020789,
+"seconds": 63.88374853134155,
+"n_timestamps": 129
+},
+"none/django__django-15613": {
+"tokens_in": 1964949,
+"tokens_out": 12169,
+"tokens": 1977118,
+"seconds": 101.9253761768341,
+"n_timestamps": 179
+},
+"none/django__django-15648": {
+"tokens_in": 2037336,
+"tokens_out": 19152,
+"tokens": 2056488,
+"seconds": 131.57132959365845,
+"n_timestamps": 211
+},
+"none/django__django-15526": {
+"tokens_in": 292979,
+"tokens_out": 7204,
+"tokens": 300183,
+"seconds": 48.78065538406372,
+"n_timestamps": 73
+},
+"exception-handling/django__django-15526": {
+"tokens_in": 218452,
+"tokens_out": 5605,
+"tokens": 224057,
+"seconds": 36.902416706085205,
+"n_timestamps": 47
+},
+"null-guard/django__django-15651": {
+"tokens_in": 934519,
+"tokens_out": 6428,
+"tokens": 940947,
+"seconds": 63.027851581573486,
+"n_timestamps": 121
+},
+"null-guard/django__django-15613": {
+"tokens_in": 1153149,
+"tokens_out": 9086,
+"tokens": 1162235,
+"seconds": 79.79013538360596,
+"n_timestamps": 131
+},
+"harm-swallow-exceptions/django__django-15648": {
+"tokens_in": 1025060,
+"tokens_out": 7220,
+"tokens": 1032280,
+"seconds": 72.57761645317078,
+"n_timestamps": 139
+},
+"harm-swallow-exceptions/django__django-15526": {
+"tokens_in": 690493,
+"tokens_out": 12802,
+"tokens": 703295,
+"seconds": 75.58664131164551,
+"n_timestamps": 103
+},
+"type-guard/django__django-15648": {
+"tokens_in": 3265685,
+"tokens_out": 30858,
+"tokens": 3296543,
+"seconds": 211.63579177856445,
+"n_timestamps": 269
+},
+"harm-minimal-edit/django__django-15648": {
+"tokens_in": 331245,
+"tokens_out": 4000,
+"tokens": 335245,
+"seconds": 37.44193935394287,
+"n_timestamps": 77
+},
+"harm-minimal-edit/django__django-15526": {
+"tokens_in": 120342,
+"tokens_out": 5370,
+"tokens": 125712,
+"seconds": 30.55047059059143,
+"n_timestamps": 47
+}
+},
+"g1-e1-s41-p12": {
+"harm-skip-verification/django__django-16810": {
+"tokens_in": 180688,
+"tokens_out": 2102,
+"tokens": 182790,
+"seconds": 27.246315717697144,
+"n_timestamps": 65
+},
+"harm-skip-verification/django__django-16491": {
+"tokens_in": 131938,
+"tokens_out": 801,
+"tokens": 132739,
+"seconds": 15.395597696304321,
+"n_timestamps": 43
+},
+"harm-skip-verification/django__django-16693": {
+"tokens_in": 75402,
+"tokens_out": 1862,
+"tokens": 77264,
+"seconds": 18.605844736099243,
+"n_timestamps": 39
+},
+"none/django__django-16810": {
+"tokens_in": 517707,
+"tokens_out": 7846,
+"tokens": 525553,
+"seconds": 56.7927827835083,
+"n_timestamps": 85
+},
+"none/django__django-16491": {
+"tokens_in": 109964,
+"tokens_out": 1758,
+"tokens": 111722,
+"seconds": 16.960926294326782,
+"n_timestamps": 33
+},
+"none/django__django-16693": {
+"tokens_in": 188622,
+"tokens_out": 6748,
+"tokens": 195370,
+"seconds": 29.030030488967896,
+"n_timestamps": 35
+},
+"none/django__django-16255": {
+"tokens_in": 64064,
+"tokens_out": 824,
+"tokens": 64888,
+"seconds": 10.119603633880615,
+"n_timestamps": 21
+},
+"exception-handling/django__django-16693": {
+"tokens_in": 102217,
+"tokens_out": 2633,
+"tokens": 104850,
+"seconds": 21.35343885421753,
+"n_timestamps": 37
+},
+"null-guard/django__django-16810": {
+"tokens_in": 1310681,
+"tokens_out": 15559,
+"tokens": 1326240,
+"seconds": 101.28255343437195,
+"n_timestamps": 121
+},
+"null-guard/django__django-16491": {
+"tokens_in": 133152,
+"tokens_out": 1799,
+"tokens": 134951,
+"seconds": 23.45559573173523,
+"n_timestamps": 41
+},
+"null-guard/django__django-16255": {
+"tokens_in": 66072,
+"tokens_out": 999,
+"tokens": 67071,
+"seconds": 11.820712327957153,
+"n_timestamps": 21
+},
+"harm-swallow-exceptions/django__django-16810": {
+"tokens_in": 309512,
+"tokens_out": 3834,
+"tokens": 313346,
+"seconds": 33.180259466171265,
+"n_timestamps": 59
+},
+"harm-swallow-exceptions/django__django-16491": {
+"tokens_in": 1626354,
+"tokens_out": 12720,
+"tokens": 1639074,
+"seconds": 110.35272336006165,
+"n_timestamps": 169
+},
+"harm-swallow-exceptions/django__django-16693": {
+"tokens_in": 520721,
+"tokens_out": 4777,
+"tokens": 525498,
+"seconds": 50.469277143478394,
+"n_timestamps": 87
+},
+"harm-minimal-edit/django__django-16810": {
+"tokens_in": 835929,
+"tokens_out": 10650,
+"tokens": 846579,
+"seconds": 76.78010535240173,
+"n_timestamps": 135
+},
+"harm-minimal-edit/django__django-16491": {
+"tokens_in": 124256,
+"tokens_out": 1484,
+"tokens": 125740,
+"seconds": 19.460735321044922,
+"n_timestamps": 41
+},
+"harm-minimal-edit/django__django-16693": {
+"tokens_in": 800716,
+"tokens_out": 9364,
+"tokens": 810080,
+"seconds": 72.10376143455505,
+"n_timestamps": 109
+}
+},
+"g1-e1-s41-p13": {
+"harm-skip-verification/django__django-16824": {
+"tokens_in": 26616,
+"tokens_out": 671,
+"tokens": 27287,
+"seconds": 9.39016580581665,
+"n_timestamps": 19
+},
+"none/django__django-16824": {
+"tokens_in": 59300,
+"tokens_out": 854,
+"tokens": 60154,
+"seconds": 12.067103147506714,
+"n_timestamps": 23
+},
+"none/matplotlib__matplotlib-13983": {
+"tokens_in": 231364,
+"tokens_out": 3881,
+"tokens": 235245,
+"seconds": 33.97609758377075,
+"n_timestamps": 51
+},
+"none/matplotlib__matplotlib-20488": {
+"tokens_in": 3022082,
+"tokens_out": 28183,
+"tokens": 3050265,
+"seconds": 191.45077252388,
+"n_timestamps": 267
+},
+"none/matplotlib__matplotlib-13913": {
+"tokens_in": 188173,
+"tokens_out": 2469,
+"tokens": 190642,
+"seconds": 42.481688022613525,
+"n_timestamps": 57
+},
+"exception-handling/matplotlib__matplotlib-13913": {
+"tokens_in": 144768,
+"tokens_out": 1797,
+"tokens": 146565,
+"seconds": 31.90616774559021,
+"n_timestamps": 55
+},
+"null-guard/matplotlib__matplotlib-13983": {
+"tokens_in": 111254,
+"tokens_out": 2065,
+"tokens": 113319,
+"seconds": 20.831600666046143,
+"n_timestamps": 37
+},
+"null-guard/matplotlib__matplotlib-20488": {
+"tokens_in": 1521808,
+"tokens_out": 16840,
+"tokens": 1538648,
+"seconds": 156.80946516990662,
+"n_timestamps": 173
+},
+"harm-swallow-exceptions/django__django-16824": {
+"tokens_in": 38202,
+"tokens_out": 1342,
+"tokens": 39544,
+"seconds": 12.557539939880371,
+"n_timestamps": 23
+},
+"type-guard/django__django-16824": {
+"tokens_in": 59870,
+"tokens_out": 1585,
+"tokens": 61455,
+"seconds": 15.920620679855347,
+"n_timestamps": 29
+},
+"harm-minimal-edit/django__django-16824": {
+"tokens_in": 71010,
+"tokens_out": 826,
+"tokens": 71836,
+"seconds": 10.537610054016113,
+"n_timestamps": 21
+}
+},
+"g1-e1-s41-p14": {
+"harm-skip-verification/matplotlib__matplotlib-21559": {
+"tokens_in": 621869,
+"tokens_out": 6219,
+"tokens": 628088,
+"seconds": 62.97810125350952,
+"n_timestamps": 97
+},
+"harm-skip-verification/matplotlib__matplotlib-21550": {
+"tokens_in": 2225146,
+"tokens_out": 2764,
+"tokens": 2227910,
+"seconds": 82.17675733566284,
+"n_timestamps": 163
+},
+"harm-skip-verification/matplotlib__matplotlib-20859": {
+"tokens_in": 104983,
+"tokens_out": 1020,
+"tokens": 106003,
+"seconds": 32.563663721084595,
+"n_timestamps": 57
+},
+"none/matplotlib__matplotlib-21559": {
+"tokens_in": 1334750,
+"tokens_out": 10075,
+"tokens": 1344825,
+"seconds": 99.18900465965271,
+"n_timestamps": 165
+},
+"none/matplotlib__matplotlib-22719": {
+"tokens_in": 227071,
+"tokens_out": 3269,
+"tokens": 230340,
+"seconds": 33.07762312889099,
+"n_timestamps": 51
+},
+"none/matplotlib__matplotlib-21550": {
+"tokens_in": 1765646,
+"tokens_out": 2631,
+"tokens": 1768277,
+"seconds": 70.46221017837524,
+"n_timestamps": 127
+},
+"none/matplotlib__matplotlib-20859": {
+"tokens_in": 195013,
+"tokens_out": 3463,
+"tokens": 198476,
+"seconds": 51.84316921234131,
+"n_timestamps": 77
+},
+"exception-handling/matplotlib__matplotlib-22719": {
+"tokens_in": 2362103,
+"tokens_out": 22080,
+"tokens": 2384183,
+"seconds": 204.9194712638855,
+"n_timestamps": 249
+},
+"exception-handling/matplotlib__matplotlib-21550": {
+"tokens_in": 801381,
+"tokens_out": 2070,
+"tokens": 803451,
+"seconds": 64.86466813087463,
+"n_timestamps": 105
+},
+"null-guard/matplotlib__matplotlib-21559": {
+"tokens_in": 669600,
+"tokens_out": 6898,
+"tokens": 676498,
+"seconds": 68.7672848701477,
+"n_timestamps": 101
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-21559": {
+"tokens_in": 270814,
+"tokens_out": 3735,
+"tokens": 274549,
+"seconds": 37.95407962799072,
+"n_timestamps": 67
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-21550": {
+"tokens_in": 518193,
+"tokens_out": 1322,
+"tokens": 519515,
+"seconds": 43.03746008872986,
+"n_timestamps": 65
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-20859": {
+"tokens_in": 132416,
+"tokens_out": 1466,
+"tokens": 133882,
+"seconds": 30.785499811172485,
+"n_timestamps": 55
+},
+"type-guard/matplotlib__matplotlib-20859": {
+"tokens_in": 103904,
+"tokens_out": 1296,
+"tokens": 105200,
+"seconds": 29.339580535888672,
+"n_timestamps": 55
+},
+"harm-minimal-edit/matplotlib__matplotlib-21559": {
+"tokens_in": 6025133,
+"tokens_out": 10062,
+"tokens": 6035195,
+"seconds": 249.27395677566528,
+"n_timestamps": 500
+},
+"harm-minimal-edit/matplotlib__matplotlib-21550": {
+"tokens_in": 7426189,
+"tokens_out": 9482,
+"tokens": 7435671,
+"seconds": 261.63862705230713,
+"n_timestamps": 500
+},
+"harm-minimal-edit/matplotlib__matplotlib-20859": {
+"tokens_in": 365532,
+"tokens_out": 6349,
+"tokens": 371881,
+"seconds": 74.34374237060547,
+"n_timestamps": 111
+}
+},
+"g1-e1-s41-p15": {
+"harm-skip-verification/matplotlib__matplotlib-22929": {
+"tokens_in": 234756,
+"tokens_out": 5150,
+"tokens": 239906,
+"seconds": 46.18160915374756,
+"n_timestamps": 65
+},
+"none/matplotlib__matplotlib-22929": {
+"tokens_in": 774353,
+"tokens_out": 6835,
+"tokens": 781188,
+"seconds": 84.85067701339722,
+"n_timestamps": 133
+},
+"none/matplotlib__matplotlib-22991": {
+"tokens_in": 4749249,
+"tokens_out": 9792,
+"tokens": 4759041,
+"seconds": 237.6217806339264,
+"n_timestamps": 500
+},
+"exception-handling/matplotlib__matplotlib-22929": {
+"tokens_in": 585238,
+"tokens_out": 8461,
+"tokens": 593699,
+"seconds": 81.1925265789032,
+"n_timestamps": 103
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-22929": {
+"tokens_in": 562033,
+"tokens_out": 6131,
+"tokens": 568164,
+"seconds": 57.36704087257385,
+"n_timestamps": 81
+},
+"type-guard/matplotlib__matplotlib-22991": {
+"tokens_in": 210886,
+"tokens_out": 2689,
+"tokens": 213575,
+"seconds": 44.076943159103394,
+"n_timestamps": 71
+},
+"harm-minimal-edit/matplotlib__matplotlib-22929": {
+"tokens_in": 75811,
+"tokens_out": 1889,
+"tokens": 77700,
+"seconds": 23.157251596450806,
+"n_timestamps": 35
+}
+},
+"g1-e1-s41-p16": {
+"harm-skip-verification/matplotlib__matplotlib-24149": {
+"tokens_in": 378250,
+"tokens_out": 9222,
+"tokens": 387472,
+"seconds": 66.33597779273987,
+"n_timestamps": 83
+},
+"none/matplotlib__matplotlib-24149": {
+"tokens_in": 161130,
+"tokens_out": 2943,
+"tokens": 164073,
+"seconds": 33.37215709686279,
+"n_timestamps": 57
+},
+"none/matplotlib__matplotlib-25052": {
+"tokens_in": 357890,
+"tokens_out": 2291,
+"tokens": 360181,
+"seconds": 47.667826652526855,
+"n_timestamps": 75
+},
+"exception-handling/matplotlib__matplotlib-24149": {
+"tokens_in": 285115,
+"tokens_out": 3380,
+"tokens": 288495,
+"seconds": 38.21762490272522,
+"n_timestamps": 57
+},
+"null-guard/matplotlib__matplotlib-25052": {
+"tokens_in": 496984,
+"tokens_out": 2266,
+"tokens": 499250,
+"seconds": 44.199854135513306,
+"n_timestamps": 71
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-24149": {
+"tokens_in": 125862,
+"tokens_out": 1852,
+"tokens": 127714,
+"seconds": 26.805867910385132,
+"n_timestamps": 45
+},
+"harm-minimal-edit/matplotlib__matplotlib-24149": {
+"tokens_in": 347936,
+"tokens_out": 3054,
+"tokens": 350990,
+"seconds": 54.654141902923584,
+"n_timestamps": 107
+}
+},
+"g1-e1-s41-p17": {
+"harm-skip-verification/matplotlib__matplotlib-25515": {
+"tokens_in": 290743,
+"tokens_out": 2950,
+"tokens": 293693,
+"seconds": 31.377461194992065,
+"n_timestamps": 53
+},
+"none/matplotlib__matplotlib-25332": {
+"tokens_in": 3710122,
+"tokens_out": 9414,
+"tokens": 3719536,
+"seconds": 194.97614979743958,
+"n_timestamps": 351
+},
+"none/matplotlib__matplotlib-25515": {
+"tokens_in": 839665,
+"tokens_out": 6713,
+"tokens": 846378,
+"seconds": 65.48548102378845,
+"n_timestamps": 99
+},
+"exception-handling/matplotlib__matplotlib-25515": {
+"tokens_in": 1180554,
+"tokens_out": 12164,
+"tokens": 1192718,
+"seconds": 87.72385597229004,
+"n_timestamps": 121
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-25515": {
+"tokens_in": 662235,
+"tokens_out": 7042,
+"tokens": 669277,
+"seconds": 55.70223307609558,
+"n_timestamps": 85
+},
+"type-guard/matplotlib__matplotlib-25332": {
+"tokens_in": 409002,
+"tokens_out": 6227,
+"tokens": 415229,
+"seconds": 49.69171166419983,
+"n_timestamps": 75
+},
+"harm-minimal-edit/matplotlib__matplotlib-25515": {
+"tokens_in": 107134,
+"tokens_out": 482,
+"tokens": 107616,
+"seconds": 12.612958669662476,
+"n_timestamps": 29
+}
+},
+"g1-e1-s41-p18": {
+"none/mwaskom__seaborn-3202": {
+"tokens_in": 10307500,
+"tokens_out": 9175,
+"tokens": 10316675,
+"seconds": 283.369530916214,
+"n_timestamps": 500
+},
+"none/matplotlib__matplotlib-26285": {
+"tokens_in": 198230,
+"tokens_out": 3479,
+"tokens": 201709,
+"seconds": 41.229520320892334,
+"n_timestamps": 67
+},
+"none/matplotlib__matplotlib-25565": {
+"tokens_in": 307836,
+"tokens_out": 4145,
+"tokens": 311981,
+"seconds": 38.75544333457947,
+"n_timestamps": 55
+},
+"none/pallets__flask-4169": {
+"tokens_in": 93633,
+"tokens_out": 2124,
+"tokens": 95757,
+"seconds": 22.232510328292847,
+"n_timestamps": 37
+},
+"null-guard/mwaskom__seaborn-3202": {
+"tokens_in": 8258573,
+"tokens_out": 9805,
+"tokens": 8268378,
+"seconds": 277.73545026779175,
+"n_timestamps": 500
+},
+"null-guard/matplotlib__matplotlib-26285": {
+"tokens_in": 8674333,
+"tokens_out": 10532,
+"tokens": 8684865,
+"seconds": 297.81563115119934,
+"n_timestamps": 500
+},
+"null-guard/matplotlib__matplotlib-25565": {
+"tokens_in": 1182187,
+"tokens_out": 8594,
+"tokens": 1190781,
+"seconds": 127.96079444885254,
+"n_timestamps": 155
+},
+"type-guard/pallets__flask-4169": {
+"tokens_in": 153924,
+"tokens_out": 1991,
+"tokens": 155915,
+"seconds": 27.512304306030273,
+"n_timestamps": 53
+}
+},
+"g1-e1-s41-p19": {
+"harm-skip-verification/pydata__xarray-6721": {
+"tokens_in": 504076,
+"tokens_out": 5715,
+"tokens": 509791,
+"seconds": 74.92532277107239,
+"n_timestamps": 99
+},
+"harm-skip-verification/pydata__xarray-3156": {
+"tokens_in": 495425,
+"tokens_out": 3733,
+"tokens": 499158,
+"seconds": 53.30692791938782,
+"n_timestamps": 89
+},
+"none/psf__requests-5087": {
+"tokens_in": 1217222,
+"tokens_out": 17053,
+"tokens": 1234275,
+"seconds": 158.7417185306549,
+"n_timestamps": 167
+},
+"none/pydata__xarray-6721": {
+"tokens_in": 5752609,
+"tokens_out": 11002,
+"tokens": 5763611,
+"seconds": 309.4851632118225,
+"n_timestamps": 500
+},
+"none/pydata__xarray-3156": {
+"tokens_in": 3566764,
+"tokens_out": 8506,
+"tokens": 3575270,
+"seconds": 311.3790669441223,
+"n_timestamps": 500
+},
+"none/pallets__flask-4992": {
+"tokens_in": 102947,
+"tokens_out": 2278,
+"tokens": 105225,
+"seconds": 19.57668113708496,
+"n_timestamps": 31
+},
+"exception-handling/psf__requests-5087": {
+"tokens_in": 2183440,
+"tokens_out": 20092,
+"tokens": 2203532,
+"seconds": 166.15688610076904,
+"n_timestamps": 207
+},
+"exception-handling/pydata__xarray-3156": {
+"tokens_in": 949477,
+"tokens_out": 3979,
+"tokens": 953456,
+"seconds": 135.58871793746948,
+"n_timestamps": 147
+},
+"harm-swallow-exceptions/pydata__xarray-6721": {
+"tokens_in": 5991677,
+"tokens_out": 11199,
+"tokens": 6002876,
+"seconds": 295.5245418548584,
+"n_timestamps": 500
+},
+"harm-swallow-exceptions/pydata__xarray-3156": {
+"tokens_in": 623506,
+"tokens_out": 4218,
+"tokens": 627724,
+"seconds": 80.34669828414917,
+"n_timestamps": 143
+},
+"type-guard/pydata__xarray-6721": {
+"tokens_in": 2030610,
+"tokens_out": 14919,
+"tokens": 2045529,
+"seconds": 222.51239013671875,
+"n_timestamps": 211
+},
+"type-guard/pallets__flask-4992": {
+"tokens_in": 328899,
+"tokens_out": 5687,
+"tokens": 334586,
+"seconds": 48.583831787109375,
+"n_timestamps": 79
+},
+"harm-minimal-edit/pydata__xarray-6721": {
+"tokens_in": 711083,
+"tokens_out": 8195,
+"tokens": 719278,
+"seconds": 113.47698712348938,
+"n_timestamps": 117
+},
+"harm-minimal-edit/pydata__xarray-3156": {
+"tokens_in": 769255,
+"tokens_out": 5986,
+"tokens": 775241,
+"seconds": 83.01852011680603,
+"n_timestamps": 129
+}
+},
+"g1-e1-s41-p20": {
+"harm-skip-verification/pylint-dev__pylint-4330": {
+"tokens_in": 7924723,
+"tokens_out": 10901,
+"tokens": 7935624,
+"seconds": 243.81513333320618,
+"n_timestamps": 500
+},
+"harm-skip-verification/pydata__xarray-6798": {
+"tokens_in": 2059262,
+"tokens_out": 16113,
+"tokens": 2075375,
+"seconds": 184.85312414169312,
+"n_timestamps": 229
+},
+"harm-skip-verification/pylint-dev__pylint-5136": {
+"tokens_in": 1150785,
+"tokens_out": 7627,
+"tokens": 1158412,
+"seconds": 68.40368390083313,
+"n_timestamps": 115
+},
+"none/pylint-dev__pylint-4330": {
+"tokens_in": 993944,
+"tokens_out": 11878,
+"tokens": 1005822,
+"seconds": 103.94283270835876,
+"n_timestamps": 121
+},
+"none/pytest-dev__pytest-9624": {
+"tokens_in": 5737440,
+"tokens_out": 14906,
+"tokens": 5752346,
+"seconds": 285.0413885116577,
+"n_timestamps": 500
+},
+"none/pydata__xarray-6798": {
+"tokens_in": 8314147,
+"tokens_out": 15741,
+"tokens": 8329888,
+"seconds": 365.8224129676819,
+"n_timestamps": 500
+},
+"none/pylint-dev__pylint-5136": {
+"tokens_in": 1622565,
+"tokens_out": 8705,
+"tokens": 1631270,
+"seconds": 116.07835102081299,
+"n_timestamps": 155
+},
+"exception-handling/pylint-dev__pylint-4330": {
+"tokens_in": 1107528,
+"tokens_out": 15189,
+"tokens": 1122717,
+"seconds": 100.17503833770752,
+"n_timestamps": 127
+},
+"exception-handling/pylint-dev__pylint-5136": {
+"tokens_in": 838956,
+"tokens_out": 6130,
+"tokens": 845086,
+"seconds": 62.33548712730408,
+"n_timestamps": 109
+},
+"null-guard/pydata__xarray-6798": {
+"tokens_in": 3720823,
+"tokens_out": 17310,
+"tokens": 3738133,
+"seconds": 296.2543566226959,
+"n_timestamps": 311
+},
+"harm-swallow-exceptions/pylint-dev__pylint-4330": {
+"tokens_in": 1947477,
+"tokens_out": 16417,
+"tokens": 1963894,
+"seconds": 125.22083902359009,
+"n_timestamps": 167
+},
+"harm-swallow-exceptions/pydata__xarray-6798": {
+"tokens_in": 1349279,
+"tokens_out": 7349,
+"tokens": 1356628,
+"seconds": 133.03323793411255,
+"n_timestamps": 187
+},
+"harm-swallow-exceptions/pylint-dev__pylint-5136": {
+"tokens_in": 3264719,
+"tokens_out": 18643,
+"tokens": 3283362,
+"seconds": 142.05190706253052,
+"n_timestamps": 219
+},
+"type-guard/pytest-dev__pytest-9624": {
+"tokens_in": 927092,
+"tokens_out": 2342,
+"tokens": 929434,
+"seconds": 66.57081723213196,
+"n_timestamps": 131
+},
+"harm-minimal-edit/pylint-dev__pylint-4330": {
+"tokens_in": 1802811,
+"tokens_out": 15288,
+"tokens": 1818099,
+"seconds": 194.2996368408203,
+"n_timestamps": 183
+},
+"harm-minimal-edit/pydata__xarray-6798": {
+"tokens_in": 1453260,
+"tokens_out": 4368,
+"tokens": 1457628,
+"seconds": 117.67132520675659,
+"n_timestamps": 225
+},
+"harm-minimal-edit/pylint-dev__pylint-5136": {
+"tokens_in": 524426,
+"tokens_out": 10197,
+"tokens": 534623,
+"seconds": 65.55410742759705,
+"n_timestamps": 77
+}
+},
+"g1-e1-s41-p21": {
+"harm-skip-verification/scikit-learn__scikit-learn-11040": {
+"tokens_in": 258396,
+"tokens_out": 2251,
+"tokens": 260647,
+"seconds": 32.465354919433594,
+"n_timestamps": 61
+},
+"none/scikit-learn__scikit-learn-11346": {
+"tokens_in": 8493785,
+"tokens_out": 7990,
+"tokens": 8501775,
+"seconds": 322.43159675598145,
+"n_timestamps": 500
+},
+"none/scikit-learn__scikit-learn-10558": {
+"tokens_in": 174225,
+"tokens_out": 1996,
+"tokens": 176221,
+"seconds": 26.172542095184326,
+"n_timestamps": 49
+},
+"none/scikit-learn__scikit-learn-11040": {
+"tokens_in": 1591203,
+"tokens_out": 14874,
+"tokens": 1606077,
+"seconds": 139.7695870399475,
+"n_timestamps": 163
+},
+"none/scikit-learn__scikit-learn-11151": {
+"tokens_in": 338448,
+"tokens_out": 939,
+"tokens": 339387,
+"seconds": 27.76676893234253,
+"n_timestamps": 53
+},
+"exception-handling/scikit-learn__scikit-learn-11346": {
+"tokens_in": 3326407,
+"tokens_out": 4885,
+"tokens": 3331292,
+"seconds": 130.1156029701233,
+"n_timestamps": 189
+},
+"exception-handling/scikit-learn__scikit-learn-10558": {
+"tokens_in": 82745,
+"tokens_out": 1531,
+"tokens": 84276,
+"seconds": 16.04005718231201,
+"n_timestamps": 27
+},
+"exception-handling/scikit-learn__scikit-learn-11151": {
+"tokens_in": 2634185,
+"tokens_out": 13858,
+"tokens": 2648043,
+"seconds": 199.966215133667,
+"n_timestamps": 237
+},
+"harm-swallow-exceptions/scikit-learn__scikit-learn-11040": {
+"tokens_in": 171576,
+"tokens_out": 1376,
+"tokens": 172952,
+"seconds": 29.13284158706665,
+"n_timestamps": 65
+},
+"type-guard/scikit-learn__scikit-learn-11040": {
+"tokens_in": 440152,
+"tokens_out": 2956,
+"tokens": 443108,
+"seconds": 84.82430291175842,
+"n_timestamps": 101
+},
+"harm-minimal-edit/scikit-learn__scikit-learn-11040": {
+"tokens_in": 400485,
+"tokens_out": 5473,
+"tokens": 405958,
+"seconds": 57.03820562362671,
+"n_timestamps": 87
+}
+},
+"g1-e1-s41-p22": {
+"none/scikit-learn__scikit-learn-12758": {
+"tokens_in": 1217044,
+"tokens_out": 14875,
+"tokens": 1231919,
+"seconds": 119.04236507415771,
+"n_timestamps": 139
+},
+"none/scikit-learn__scikit-learn-12462": {
+"tokens_in": 1275987,
+"tokens_out": 11952,
+"tokens": 1287939,
+"seconds": 117.93445563316345,
+"n_timestamps": 143
+},
+"none/scikit-learn__scikit-learn-12471": {
+"tokens_in": 441699,
+"tokens_out": 2931,
+"tokens": 444630,
+"seconds": 40.210622787475586,
+"n_timestamps": 75
+},
+"none/scikit-learn__scikit-learn-11391": {
+"tokens_in": 447435,
+"tokens_out": 6988,
+"tokens": 454423,
+"seconds": 53.71698307991028,
+"n_timestamps": 77
+},
+"exception-handling/scikit-learn__scikit-learn-12462": {
+"tokens_in": 469671,
+"tokens_out": 7353,
+"tokens": 477024,
+"seconds": 55.04443669319153,
+"n_timestamps": 75
+},
+"exception-handling/scikit-learn__scikit-learn-12471": {
+"tokens_in": 363771,
+"tokens_out": 3932,
+"tokens": 367703,
+"seconds": 44.300405979156494,
+"n_timestamps": 63
+},
+"null-guard/scikit-learn__scikit-learn-12758": {
+"tokens_in": 3797974,
+"tokens_out": 20614,
+"tokens": 3818588,
+"seconds": 224.49470567703247,
+"n_timestamps": 263
+},
+"null-guard/scikit-learn__scikit-learn-11391": {
+"tokens_in": 555889,
+"tokens_out": 7252,
+"tokens": 563141,
+"seconds": 46.57887077331543,
+"n_timestamps": 67
+},
+"type-guard/scikit-learn__scikit-learn-11391": {
+"tokens_in": 824616,
+"tokens_out": 10166,
+"tokens": 834782,
+"seconds": 87.36767935752869,
+"n_timestamps": 105
+}
+},
+"g1-e1-s41-p23": {
+"harm-skip-verification/scikit-learn__scikit-learn-13142": {
+"tokens_in": 9471938,
+"tokens_out": 8216,
+"tokens": 9480154,
+"seconds": 285.2598156929016,
+"n_timestamps": 500
+},
+"none/scikit-learn__scikit-learn-13046": {
+"tokens_in": 1186280,
+"tokens_out": 7712,
+"tokens": 1193992,
+"seconds": 93.5727264881134,
+"n_timestamps": 159
+},
+"none/scikit-learn__scikit-learn-13142": {
+"tokens_in": 331236,
+"tokens_out": 974,
+"tokens": 332210,
+"seconds": 31.425466299057007,
+"n_timestamps": 51
+},
+"none/scikit-learn__scikit-learn-13328": {
+"tokens_in": 126984,
+"tokens_out": 1154,
+"tokens": 128138,
+"seconds": 18.805630207061768,
+"n_timestamps": 29
+},
+"none/scikit-learn__scikit-learn-13135": {
+"tokens_in": 136792,
+"tokens_out": 1315,
+"tokens": 138107,
+"seconds": 15.329333782196045,
+"n_timestamps": 27
+},
+"exception-handling/scikit-learn__scikit-learn-13142": {
+"tokens_in": 672528,
+"tokens_out": 2337,
+"tokens": 674865,
+"seconds": 42.824095010757446,
+"n_timestamps": 79
+},
+"null-guard/scikit-learn__scikit-learn-13135": {
+"tokens_in": 136698,
+"tokens_out": 1416,
+"tokens": 138114,
+"seconds": 18.60041856765747,
+"n_timestamps": 27
+},
+"harm-swallow-exceptions/scikit-learn__scikit-learn-13142": {
+"tokens_in": 605992,
+"tokens_out": 5092,
+"tokens": 611084,
+"seconds": 61.14947295188904,
+"n_timestamps": 113
+},
+"type-guard/scikit-learn__scikit-learn-13046": {
+"tokens_in": 7479421,
+"tokens_out": 9125,
+"tokens": 7488546,
+"seconds": 221.65509271621704,
+"n_timestamps": 500
+},
+"type-guard/scikit-learn__scikit-learn-13328": {
+"tokens_in": 135801,
+"tokens_out": 1339,
+"tokens": 137140,
+"seconds": 22.37538480758667,
+"n_timestamps": 39
+},
+"harm-minimal-edit/scikit-learn__scikit-learn-13142": {
+"tokens_in": 9116409,
+"tokens_out": 8446,
+"tokens": 9124855,
+"seconds": 296.2284023761749,
+"n_timestamps": 500
+}
+},
+"g1-e1-s41-p24": {
+"harm-skip-verification/scikit-learn__scikit-learn-13779": {
+"tokens_in": 79319,
+"tokens_out": 1470,
+"tokens": 80789,
+"seconds": 19.251923084259033,
+"n_timestamps": 41
+},
+"harm-skip-verification/scikit-learn__scikit-learn-13618": {
+"tokens_in": 445119,
+"tokens_out": 3390,
+"tokens": 448509,
+"seconds": 35.472259759902954,
+"n_timestamps": 69
+},
+"none/scikit-learn__scikit-learn-13960": {
+"tokens_in": 294641,
+"tokens_out": 1810,
+"tokens": 296451,
+"seconds": 35.22516632080078,
+"n_timestamps": 69
+},
+"none/scikit-learn__scikit-learn-13779": {
+"tokens_in": 122959,
+"tokens_out": 1958,
+"tokens": 124917,
+"seconds": 20.713532209396362,
+"n_timestamps": 37
+},
+"none/scikit-learn__scikit-learn-13618": {
+"tokens_in": 598372,
+"tokens_out": 5129,
+"tokens": 603501,
+"seconds": 55.87621450424194,
+"n_timestamps": 81
+},
+"null-guard/scikit-learn__scikit-learn-13960": {
+"tokens_in": 290964,
+"tokens_out": 3886,
+"tokens": 294850,
+"seconds": 28.282466173171997,
+"n_timestamps": 43
+},
+"null-guard/scikit-learn__scikit-learn-13779": {
+"tokens_in": 343702,
+"tokens_out": 2698,
+"tokens": 346400,
+"seconds": 32.13985729217529,
+"n_timestamps": 67
+},
+"null-guard/scikit-learn__scikit-learn-13618": {
+"tokens_in": 665872,
+"tokens_out": 3316,
+"tokens": 669188,
+"seconds": 54.73769807815552,
+"n_timestamps": 103
+},
+"harm-swallow-exceptions/scikit-learn__scikit-learn-13779": {
+"tokens_in": 109955,
+"tokens_out": 1352,
+"tokens": 111307,
+"seconds": 22.31205940246582,
+"n_timestamps": 33
+},
+"harm-swallow-exceptions/scikit-learn__scikit-learn-13618": {
+"tokens_in": 360802,
+"tokens_out": 4782,
+"tokens": 365584,
+"seconds": 45.04543876647949,
+"n_timestamps": 67
+},
+"harm-minimal-edit/scikit-learn__scikit-learn-13779": {
+"tokens_in": 216742,
+"tokens_out": 3885,
+"tokens": 220627,
+"seconds": 34.61422634124756,
+"n_timestamps": 53
+},
+"harm-minimal-edit/scikit-learn__scikit-learn-13618": {
+"tokens_in": 374531,
+"tokens_out": 4653,
+"tokens": 379184,
+"seconds": 46.14251661300659,
+"n_timestamps": 73
+}
+},
+"g1-e1-s41-p25": {
+"harm-skip-verification/scikit-learn__scikit-learn-14710": {
+"tokens_in": 45386,
+"tokens_out": 808,
+"tokens": 46194,
+"seconds": 19.832444667816162,
+"n_timestamps": 19
+},
+"none/scikit-learn__scikit-learn-14710": {
+"tokens_in": 79167,
+"tokens_out": 941,
+"tokens": 80108,
+"seconds": 18.610283374786377,
+"n_timestamps": 29
+},
+"none/scikit-learn__scikit-learn-25370": {
+"tokens_in": 197725,
+"tokens_out": 3498,
+"tokens": 201223,
+"seconds": 49.529825925827026,
+"n_timestamps": 53
+},
+"none/scikit-learn__scikit-learn-14878": {
+"tokens_in": 8119118,
+"tokens_out": 12375,
+"tokens": 8131493,
+"seconds": 320.91207480430603,
+"n_timestamps": 500
+},
+"none/scikit-learn__scikit-learn-15084": {
+"tokens_in": 831828,
+"tokens_out": 9724,
+"tokens": 841552,
+"seconds": 111.78952074050903,
+"n_timestamps": 121
+},
+"exception-handling/scikit-learn__scikit-learn-25370": {
+"tokens_in": 191335,
+"tokens_out": 2190,
+"tokens": 193525,
+"seconds": 489.6334722042084,
+"n_timestamps": 55
+},
+"exception-handling/scikit-learn__scikit-learn-14878": {
+"tokens_in": 460930,
+"tokens_out": 3460,
+"tokens": 464390,
+"seconds": 57.509682178497314,
+"n_timestamps": 81
+},
+"null-guard/scikit-learn__scikit-learn-14710": {
+"tokens_in": 167338,
+"tokens_out": 1434,
+"tokens": 168772,
+"seconds": 93.77309679985046,
+"n_timestamps": 37
+},
+"harm-swallow-exceptions/scikit-learn__scikit-learn-14710": {
+"tokens_in": 333143,
+"tokens_out": 4967,
+"tokens": 338110,
+"seconds": 115.81546974182129,
+"n_timestamps": 57
+},
+"type-guard/scikit-learn__scikit-learn-14710": {
+"tokens_in": 303535,
+"tokens_out": 3601,
+"tokens": 307136,
+"seconds": 71.65225505828857,
+"n_timestamps": 69
+},
+"type-guard/scikit-learn__scikit-learn-15084": {
+"tokens_in": 425327,
+"tokens_out": 6343,
+"tokens": 431670,
+"seconds": 54.037437438964844,
+"n_timestamps": 83
+},
+"harm-minimal-edit/scikit-learn__scikit-learn-14710": {
+"tokens_in": 578111,
+"tokens_out": 7182,
+"tokens": 585293,
+"seconds": 131.06472635269165,
+"n_timestamps": 97
+}
+},
+"g1-e1-s41-p26": {
+"harm-skip-verification/sphinx-doc__sphinx-8707": {
+"tokens_in": 440553,
+"tokens_out": 4842,
+"tokens": 445395,
+"seconds": 47.552138328552246,
+"n_timestamps": 73
+},
+"harm-skip-verification/sphinx-doc__sphinx-8095": {
+"tokens_in": 621013,
+"tokens_out": 2583,
+"tokens": 623596,
+"seconds": 43.671656131744385,
+"n_timestamps": 91
+},
+"none/sphinx-doc__sphinx-8707": {
+"tokens_in": 1028362,
+"tokens_out": 11901,
+"tokens": 1040263,
+"seconds": 99.17603611946106,
+"n_timestamps": 65
+},
+"none/sphinx-doc__sphinx-8264": {
+"tokens_in": 243332,
+"tokens_out": 6468,
+"tokens": 249800,
+"seconds": 36.300623178482056,
+"n_timestamps": 43
+},
+"none/scikit-learn__scikit-learn-25973": {
+"tokens_in": 588469,
+"tokens_out": 4002,
+"tokens": 592471,
+"seconds": 57.33156418800354,
+"n_timestamps": 93
+},
+"none/sphinx-doc__sphinx-8095": {
+"tokens_in": 1415247,
+"tokens_out": 11455,
+"tokens": 1426702,
+"seconds": 146.68273448944092,
+"n_timestamps": 165
+},
+"exception-handling/sphinx-doc__sphinx-8707": {
+"tokens_in": 2537977,
+"tokens_out": 16267,
+"tokens": 2554244,
+"seconds": 194.62129020690918,
+"n_timestamps": 193
+},
+"null-guard/sphinx-doc__sphinx-8095": {
+"tokens_in": 4491344,
+"tokens_out": 10294,
+"tokens": 4501638,
+"seconds": 354.3578543663025,
+"n_timestamps": 500
+},
+"harm-swallow-exceptions/sphinx-doc__sphinx-8707": {
+"tokens_in": 464250,
+"tokens_out": 14365,
+"tokens": 478615,
+"seconds": 81.38305115699768,
+"n_timestamps": 57
+},
+"harm-swallow-exceptions/sphinx-doc__sphinx-8095": {
+"tokens_in": 561719,
+"tokens_out": 5613,
+"tokens": 567332,
+"seconds": 56.6007821559906,
+"n_timestamps": 95
+},
+"type-guard/sphinx-doc__sphinx-8264": {
+"tokens_in": 1363060,
+"tokens_out": 5207,
+"tokens": 1368267,
+"seconds": 102.7655975818634,
+"n_timestamps": 155
+},
+"type-guard/scikit-learn__scikit-learn-25973": {
+"tokens_in": 637913,
+"tokens_out": 4405,
+"tokens": 642318,
+"seconds": 65.49621915817261,
+"n_timestamps": 91
+},
+"harm-minimal-edit/sphinx-doc__sphinx-8707": {
+"tokens_in": 1682155,
+"tokens_out": 13375,
+"tokens": 1695530,
+"seconds": 108.08611607551575,
+"n_timestamps": 151
+},
+"harm-minimal-edit/sphinx-doc__sphinx-8095": {
+"tokens_in": 1077865,
+"tokens_out": 5033,
+"tokens": 1082898,
+"seconds": 72.97211933135986,
+"n_timestamps": 147
+}
+},
+"g1-e1-s41-p27": {
+"harm-skip-verification/sympy__sympy-13346": {
+"tokens_in": 2432148,
+"tokens_out": 6087,
+"tokens": 2438235,
+"seconds": 114.7087996006012,
+"n_timestamps": 223
+},
+"harm-skip-verification/sphinx-doc__sphinx-9229": {
+"tokens_in": 423045,
+"tokens_out": 3836,
+"tokens": 426881,
+"seconds": 41.401811599731445,
+"n_timestamps": 77
+},
+"none/sympy__sympy-13346": {
+"tokens_in": 1312338,
+"tokens_out": 12053,
+"tokens": 1324391,
+"seconds": 131.38748693466187,
+"n_timestamps": 141
+},
+"none/sympy__sympy-13286": {
+"tokens_in": 1005649,
+"tokens_out": 6873,
+"tokens": 1012522,
+"seconds": 115.23662328720093,
+"n_timestamps": 137
+},
+"none/sympy__sympy-11831": {
+"tokens_in": 5007719,
+"tokens_out": 10407,
+"tokens": 5018126,
+"seconds": 284.779846906662,
+"n_timestamps": 500
+},
+"none/sphinx-doc__sphinx-9229": {
+"tokens_in": 2833411,
+"tokens_out": 18626,
+"tokens": 2852037,
+"seconds": 206.392165184021,
+"n_timestamps": 203
+},
+"null-guard/sympy__sympy-13286": {
+"tokens_in": 926342,
+"tokens_out": 4707,
+"tokens": 931049,
+"seconds": 113.04456686973572,
+"n_timestamps": 113
+},
+"null-guard/sphinx-doc__sphinx-9229": {
+"tokens_in": 1679303,
+"tokens_out": 9672,
+"tokens": 1688975,
+"seconds": 159.360342502594,
+"n_timestamps": 181
+},
+"harm-swallow-exceptions/sympy__sympy-13346": {
+"tokens_in": 1063972,
+"tokens_out": 6350,
+"tokens": 1070322,
+"seconds": 82.03277850151062,
+"n_timestamps": 149
+},
+"harm-swallow-exceptions/sphinx-doc__sphinx-9229": {
+"tokens_in": 7897326,
+"tokens_out": 9850,
+"tokens": 7907176,
+"seconds": 295.50636434555054,
+"n_timestamps": 500
+},
+"type-guard/sympy__sympy-13346": {
+"tokens_in": 7034390,
+"tokens_out": 15597,
+"tokens": 7049987,
+"seconds": 290.1588807106018,
+"n_timestamps": 500
+},
+"type-guard/sympy__sympy-11831": {
+"tokens_in": 550567,
+"tokens_out": 3052,
+"tokens": 553619,
+"seconds": 106.19194793701172,
+"n_timestamps": 143
+},
+"harm-minimal-edit/sympy__sympy-13346": {
+"tokens_in": 1434018,
+"tokens_out": 12265,
+"tokens": 1446283,
+"seconds": 145.08441472053528,
+"n_timestamps": 167
+},
+"harm-minimal-edit/sphinx-doc__sphinx-9229": {
+"tokens_in": 295598,
+"tokens_out": 1105,
+"tokens": 296703,
+"seconds": 25.35499143600464,
+"n_timestamps": 57
+}
+},
+"g1-e1-s41-p28": {
+"none/sympy__sympy-15523": {
+"tokens_in": 3410451,
+"tokens_out": 10907,
+"tokens": 3421358,
+"seconds": 415.84023094177246,
+"n_timestamps": 500
+},
+"none/sympy__sympy-16943": {
+"tokens_in": 891543,
+"tokens_out": 9876,
+"tokens": 901419,
+"seconds": 104.52792596817017,
+"n_timestamps": 125
+},
+"none/sympy__sympy-17139": {
+"tokens_in": 498599,
+"tokens_out": 5602,
+"tokens": 504201,
+"seconds": 109.11121821403503,
+"n_timestamps": 135
+},
+"none/sympy__sympy-16106": {
+"tokens_in": 5010442,
+"tokens_out": 9746,
+"tokens": 5020188,
+"seconds": 229.48573541641235,
+"n_timestamps": 500
+},
+"type-guard/sympy__sympy-15523": {
+"tokens_in": 797625,
+"tokens_out": 8902,
+"tokens": 806527,
+"seconds": 103.56010222434998,
+"n_timestamps": 117
+},
+"type-guard/sympy__sympy-16943": {
+"tokens_in": 957205,
+"tokens_out": 9000,
+"tokens": 966205,
+"seconds": 138.89565420150757,
+"n_timestamps": 177
+},
+"type-guard/sympy__sympy-17139": {
+"tokens_in": 118168,
+"tokens_out": 3300,
+"tokens": 121468,
+"seconds": 39.43205666542053,
+"n_timestamps": 45
+},
+"type-guard/sympy__sympy-16106": {
+"tokens_in": 4666281,
+"tokens_out": 9620,
+"tokens": 4675901,
+"seconds": 341.05550622940063,
+"n_timestamps": 500
+}
+},
+"g1-e1-s41-p29": {
+"harm-skip-verification/sympy__sympy-18200": {
+"tokens_in": 840648,
+"tokens_out": 11214,
+"tokens": 851862,
+"seconds": 128.9250636100769,
+"n_timestamps": 163
+},
+"none/sympy__sympy-18605": {
+"tokens_in": 224753,
+"tokens_out": 5601,
+"tokens": 230354,
+"seconds": 59.14510154724121,
+"n_timestamps": 77
+},
+"none/sympy__sympy-17655": {
+"tokens_in": 832802,
+"tokens_out": 10510,
+"tokens": 843312,
+"seconds": 138.28098940849304,
+"n_timestamps": 153
+},
+"none/sympy__sympy-18200": {
+"tokens_in": 757508,
+"tokens_out": 11313,
+"tokens": 768821,
+"seconds": 144.28077149391174,
+"n_timestamps": 141
+},
+"none/sympy__sympy-21171": {
+"tokens_in": 7079874,
+"tokens_out": 9892,
+"tokens": 7089766,
+"seconds": 277.0497725009918,
+"n_timestamps": 500
+},
+"exception-handling/sympy__sympy-17655": {
+"tokens_in": 765377,
+"tokens_out": 11880,
+"tokens": 777257,
+"seconds": 97.65292429924011,
+"n_timestamps": 137
+},
+"exception-handling/sympy__sympy-18200": {
+"tokens_in": 558876,
+"tokens_out": 11259,
+"tokens": 570135,
+"seconds": 85.49711227416992,
+"n_timestamps": 115
+},
+"null-guard/sympy__sympy-18200": {
+"tokens_in": 794662,
+"tokens_out": 11574,
+"tokens": 806236,
+"seconds": 160.08901262283325,
+"n_timestamps": 143
+},
+"null-guard/sympy__sympy-21171": {
+"tokens_in": 390455,
+"tokens_out": 3936,
+"tokens": 394391,
+"seconds": 78.61155939102173,
+"n_timestamps": 85
+},
+"harm-swallow-exceptions/sympy__sympy-18200": {
+"tokens_in": 527169,
+"tokens_out": 7395,
+"tokens": 534564,
+"seconds": 75.1746916770935,
+"n_timestamps": 95
+},
+"type-guard/sympy__sympy-18605": {
+"tokens_in": 446759,
+"tokens_out": 4406,
+"tokens": 451165,
+"seconds": 91.32362818717957,
+"n_timestamps": 79
+},
+"type-guard/sympy__sympy-17655": {
+"tokens_in": 545587,
+"tokens_out": 7348,
+"tokens": 552935,
+"seconds": 102.71890187263489,
+"n_timestamps": 99
+},
+"harm-minimal-edit/sympy__sympy-18200": {
+"tokens_in": 349042,
+"tokens_out": 8666,
+"tokens": 357708,
+"seconds": 70.56195497512817,
+"n_timestamps": 81
+}
+},
+"g1-e1-s41-p30": {
+"none/sympy__sympy-22740": {
+"tokens_in": 369455,
+"tokens_out": 4125,
+"tokens": 373580,
+"seconds": 51.82170343399048,
+"n_timestamps": 77
+},
+"type-guard/sympy__sympy-22740": {
+"tokens_in": 1376340,
+"tokens_out": 6861,
+"tokens": 1383201,
+"seconds": 92.18001127243042,
+"n_timestamps": 167
+}
+},
+"g1-e1-s51-p00": {
+"none/astropy__astropy-12842": {
+"tokens_in": 366996,
+"tokens_out": 3623,
+"tokens": 370619,
+"seconds": 44.93991446495056,
+"n_timestamps": 75
+},
+"none/astropy__astropy-13234": {
+"tokens_in": 598286,
+"tokens_out": 4788,
+"tokens": 603074,
+"seconds": 66.34231066703796,
+"n_timestamps": 103
+},
+"none/astropy__astropy-13236": {
+"tokens_in": 30914,
+"tokens_out": 636,
+"tokens": 31550,
+"seconds": 10.444681167602539,
+"n_timestamps": 21
+},
+"null-guard/astropy__astropy-12842": {
+"tokens_in": 1031348,
+"tokens_out": 3095,
+"tokens": 1034443,
+"seconds": 63.17417120933533,
+"n_timestamps": 125
+},
+"type-guard/astropy__astropy-13234": {
+"tokens_in": 838756,
+"tokens_out": 13475,
+"tokens": 852231,
+"seconds": 86.47878384590149,
+"n_timestamps": 107
+},
+"type-guard/astropy__astropy-13236": {
+"tokens_in": 151579,
+"tokens_out": 2877,
+"tokens": 154456,
+"seconds": 31.098095417022705,
+"n_timestamps": 53
+}
+},
+"g1-e1-s51-p01": {
+"harm-skip-verification/astropy__astropy-13731": {
+"tokens_in": 236046,
+"tokens_out": 8002,
+"tokens": 244048,
+"seconds": 40.465208768844604,
+"n_timestamps": 55
+},
+"none/astropy__astropy-13306": {
+"tokens_in": 1818801,
+"tokens_out": 16472,
+"tokens": 1835273,
+"seconds": 195.14856910705566,
+"n_timestamps": 191
+},
+"none/astropy__astropy-13731": {
+"tokens_in": 712381,
+"tokens_out": 11490,
+"tokens": 723871,
+"seconds": 117.07806372642517,
+"n_timestamps": 117
+},
+"none/astropy__astropy-13477": {
+"tokens_in": 502254,
+"tokens_out": 4412,
+"tokens": 506666,
+"seconds": 105.46174025535583,
+"n_timestamps": 103
+},
+"none/astropy__astropy-13572": {
+"tokens_in": 45766,
+"tokens_out": 541,
+"tokens": 46307,
+"seconds": 11.912274360656738,
+"n_timestamps": 25
+},
+"exception-handling/astropy__astropy-13731": {
+"tokens_in": 1470155,
+"tokens_out": 12371,
+"tokens": 1482526,
+"seconds": 115.81276321411133,
+"n_timestamps": 185
+},
+"null-guard/astropy__astropy-13477": {
+"tokens_in": 521147,
+"tokens_out": 6213,
+"tokens": 527360,
+"seconds": 102.64366292953491,
+"n_timestamps": 117
+},
+"harm-swallow-exceptions/astropy__astropy-13731": {
+"tokens_in": 378791,
+"tokens_out": 6931,
+"tokens": 385722,
+"seconds": 49.494648933410645,
+"n_timestamps": 67
+},
+"type-guard/astropy__astropy-13306": {
+"tokens_in": 6970524,
+"tokens_out": 22948,
+"tokens": 6993472,
+"seconds": 353.8670494556427,
+"n_timestamps": 500
+},
+"type-guard/astropy__astropy-13572": {
+"tokens_in": 220767,
+"tokens_out": 1562,
+"tokens": 222329,
+"seconds": 22.774040460586548,
+"n_timestamps": 41
+},
+"harm-minimal-edit/astropy__astropy-13731": {
+"tokens_in": 384880,
+"tokens_out": 3282,
+"tokens": 388162,
+"seconds": 41.20170736312866,
+"n_timestamps": 77
+}
+},
+"g1-e1-s51-p02": {
+"none/astropy__astropy-14566": {
+"tokens_in": 2222271,
+"tokens_out": 16959,
+"tokens": 2239230,
+"seconds": 140.88586902618408,
+"n_timestamps": 189
+},
+"none/astropy__astropy-14995": {
+"tokens_in": 7142290,
+"tokens_out": 10250,
+"tokens": 7152540,
+"seconds": 269.6473910808563,
+"n_timestamps": 500
+},
+"none/astropy__astropy-8005": {
+"tokens_in": 194117,
+"tokens_out": 1289,
+"tokens": 195406,
+"seconds": 21.341251373291016,
+"n_timestamps": 43
+},
+"none/astropy__astropy-13838": {
+"tokens_in": 12359084,
+"tokens_out": 109661,
+"tokens": 12468745,
+"seconds": 576.0998384952545,
+"n_timestamps": 500
+},
+"null-guard/astropy__astropy-8005": {
+"tokens_in": 99983,
+"tokens_out": 2153,
+"tokens": 102136,
+"seconds": 20.279829740524292,
+"n_timestamps": 27
+},
+"null-guard/astropy__astropy-13838": {
+"tokens_in": 447019,
+"tokens_out": 4123,
+"tokens": 451142,
+"seconds": 42.44133520126343,
+"n_timestamps": 77
+},
+"type-guard/astropy__astropy-14566": {
+"tokens_in": 3844492,
+"tokens_out": 25905,
+"tokens": 3870397,
+"seconds": 218.3611035346985,
+"n_timestamps": 269
+},
+"type-guard/astropy__astropy-14995": {
+"tokens_in": 7175654,
+"tokens_out": 10248,
+"tokens": 7185902,
+"seconds": 288.59549379348755,
+"n_timestamps": 500
+}
+},
+"g1-e1-s51-p03": {
+"harm-skip-verification/django__django-10853": {
+"tokens_in": 417319,
+"tokens_out": 2542,
+"tokens": 419861,
+"seconds": 54.178383350372314,
+"n_timestamps": 115
+},
+"harm-skip-verification/django__django-11451": {
+"tokens_in": 241569,
+"tokens_out": 2115,
+"tokens": 243684,
+"seconds": 24.419711351394653,
+"n_timestamps": 41
+},
+"none/django__django-10730": {
+"tokens_in": 186076,
+"tokens_out": 4247,
+"tokens": 190323,
+"seconds": 32.88057899475098,
+"n_timestamps": 55
+},
+"none/django__django-11030": {
+"tokens_in": 5996804,
+"tokens_out": 11262,
+"tokens": 6008066,
+"seconds": 271.61198019981384,
+"n_timestamps": 500
+},
+"none/django__django-10853": {
+"tokens_in": 440107,
+"tokens_out": 2996,
+"tokens": 443103,
+"seconds": 38.286678314208984,
+"n_timestamps": 75
+},
+"none/django__django-11451": {
+"tokens_in": 533854,
+"tokens_out": 9730,
+"tokens": 543584,
+"seconds": 59.58431529998779,
+"n_timestamps": 75
+},
+"exception-handling/django__django-10730": {
+"tokens_in": 129584,
+"tokens_out": 2262,
+"tokens": 131846,
+"seconds": 26.89439630508423,
+"n_timestamps": 45
+},
+"exception-handling/django__django-11030": {
+"tokens_in": 754079,
+"tokens_out": 3498,
+"tokens": 757577,
+"seconds": 60.482571840286255,
+"n_timestamps": 97
+},
+"exception-handling/django__django-10853": {
+"tokens_in": 275153,
+"tokens_out": 1605,
+"tokens": 276758,
+"seconds": 25.60202407836914,
+"n_timestamps": 53
+},
+"null-guard/django__django-11030": {
+"tokens_in": 466540,
+"tokens_out": 4946,
+"tokens": 471486,
+"seconds": 40.883684396743774,
+"n_timestamps": 61
+},
+"null-guard/django__django-11451": {
+"tokens_in": 276356,
+"tokens_out": 7980,
+"tokens": 284336,
+"seconds": 36.2845242023468,
+"n_timestamps": 41
+},
+"harm-swallow-exceptions/django__django-10853": {
+"tokens_in": 3508521,
+"tokens_out": 7020,
+"tokens": 3515541,
+"seconds": 276.26347041130066,
+"n_timestamps": 500
+},
+"harm-swallow-exceptions/django__django-11451": {
+"tokens_in": 72130,
+"tokens_out": 2361,
+"tokens": 74491,
+"seconds": 19.284844636917114,
+"n_timestamps": 29
+},
+"harm-minimal-edit/django__django-10853": {
+"tokens_in": 199164,
+"tokens_out": 2032,
+"tokens": 201196,
+"seconds": 27.67030382156372,
+"n_timestamps": 49
+},
+"harm-minimal-edit/django__django-11451": {
+"tokens_in": 367898,
+"tokens_out": 4582,
+"tokens": 372480,
+"seconds": 40.9283881187439,
+"n_timestamps": 69
+}
+},
+"g1-e1-s51-p04": {
+"none/django__django-11457": {
+"tokens_in": 129601,
+"tokens_out": 3911,
+"tokens": 133512,
+"seconds": 29.168232440948486,
+"n_timestamps": 51
+},
+"none/django__django-11618": {
+"tokens_in": 189817,
+"tokens_out": 4298,
+"tokens": 194115,
+"seconds": 32.67428255081177,
+"n_timestamps": 63
+},
+"none/django__django-11517": {
+"tokens_in": 1462491,
+"tokens_out": 14715,
+"tokens": 1477206,
+"seconds": 109.7878646850586,
+"n_timestamps": 167
+},
+"none/django__django-11638": {
+"tokens_in": 7488787,
+"tokens_out": 23237,
+"tokens": 7512024,
+"seconds": 250.36515593528748,
+"n_timestamps": 500
+},
+"exception-handling/django__django-11457": {
+"tokens_in": 135275,
+"tokens_out": 3843,
+"tokens": 139118,
+"seconds": 27.9828622341156,
+"n_timestamps": 43
+},
+"exception-handling/django__django-11618": {
+"tokens_in": 75296,
+"tokens_out": 2352,
+"tokens": 77648,
+"seconds": 24.174504041671753,
+"n_timestamps": 43
+},
+"null-guard/django__django-11638": {
+"tokens_in": 957067,
+"tokens_out": 9709,
+"tokens": 966776,
+"seconds": 82.17183113098145,
+"n_timestamps": 109
+},
+"type-guard/django__django-11517": {
+"tokens_in": 608828,
+"tokens_out": 11035,
+"tokens": 619863,
+"seconds": 68.3911828994751,
+"n_timestamps": 95
+}
+},
+"g1-e1-s51-p05": {
+"harm-skip-verification/django__django-12518": {
+"tokens_in": 281138,
+"tokens_out": 1321,
+"tokens": 282459,
+"seconds": 30.060232877731323,
+"n_timestamps": 75
+},
+"harm-skip-verification/django__django-11911": {
+"tokens_in": 170940,
+"tokens_out": 4512,
+"tokens": 175452,
+"seconds": 34.50982117652893,
+"n_timestamps": 53
+},
+"none/django__django-12915": {
+"tokens_in": 286587,
+"tokens_out": 7075,
+"tokens": 293662,
+"seconds": 42.67660403251648,
+"n_timestamps": 57
+},
+"none/django__django-12518": {
+"tokens_in": 590338,
+"tokens_out": 6055,
+"tokens": 596393,
+"seconds": 56.74470400810242,
+"n_timestamps": 95
+},
+"none/django__django-11911": {
+"tokens_in": 84368,
+"tokens_out": 3420,
+"tokens": 87788,
+"seconds": 19.29774785041809,
+"n_timestamps": 31
+},
+"none/django__django-12869": {
+"tokens_in": 391413,
+"tokens_out": 3309,
+"tokens": 394722,
+"seconds": 38.477240562438965,
+"n_timestamps": 63
+},
+"exception-handling/django__django-12518": {
+"tokens_in": 1220090,
+"tokens_out": 15829,
+"tokens": 1235919,
+"seconds": 106.20827794075012,
+"n_timestamps": 141
+},
+"exception-handling/django__django-12869": {
+"tokens_in": 499251,
+"tokens_out": 3633,
+"tokens": 502884,
+"seconds": 38.57605051994324,
+"n_timestamps": 67
+},
+"null-guard/django__django-11911": {
+"tokens_in": 38368,
+"tokens_out": 1114,
+"tokens": 39482,
+"seconds": 12.965293407440186,
+"n_timestamps": 23
+},
+"harm-swallow-exceptions/django__django-12518": {
+"tokens_in": 268697,
+"tokens_out": 6542,
+"tokens": 275239,
+"seconds": 38.32978701591492,
+"n_timestamps": 47
+},
+"harm-swallow-exceptions/django__django-11911": {
+"tokens_in": 251077,
+"tokens_out": 3590,
+"tokens": 254667,
+"seconds": 42.18426775932312,
+"n_timestamps": 81
+},
+"type-guard/django__django-12915": {
+"tokens_in": 718236,
+"tokens_out": 6289,
+"tokens": 724525,
+"seconds": 51.756672620773315,
+"n_timestamps": 97
+},
+"harm-minimal-edit/django__django-12518": {
+"tokens_in": 316258,
+"tokens_out": 900,
+"tokens": 317158,
+"seconds": 23.365095853805542,
+"n_timestamps": 51
+},
+"harm-minimal-edit/django__django-11911": {
+"tokens_in": 354768,
+"tokens_out": 4908,
+"tokens": 359676,
+"seconds": 63.18371844291687,
+"n_timestamps": 111
+}
+},
+"g1-e1-s51-p06": {
+"harm-skip-verification/django__django-13607": {
+"tokens_in": 302942,
+"tokens_out": 2135,
+"tokens": 305077,
+"seconds": 41.62993383407593,
+"n_timestamps": 83
+},
+"harm-skip-verification/django__django-13426": {
+"tokens_in": 6304336,
+"tokens_out": 9264,
+"tokens": 6313600,
+"seconds": 272.8284785747528,
+"n_timestamps": 500
+},
+"harm-skip-verification/django__django-13449": {
+"tokens_in": 394534,
+"tokens_out": 1604,
+"tokens": 396138,
+"seconds": 30.20032787322998,
+"n_timestamps": 67
+},
+"none/django__django-13607": {
+"tokens_in": 1815810,
+"tokens_out": 18986,
+"tokens": 1834796,
+"seconds": 170.08892941474915,
+"n_timestamps": 199
+},
+"none/django__django-13757": {
+"tokens_in": 10950393,
+"tokens_out": 12697,
+"tokens": 10963090,
+"seconds": 360.07577562332153,
+"n_timestamps": 500
+},
+"none/django__django-13426": {
+"tokens_in": 1477487,
+"tokens_out": 10110,
+"tokens": 1487597,
+"seconds": 80.77558374404907,
+"n_timestamps": 145
+},
+"none/django__django-13449": {
+"tokens_in": 2120215,
+"tokens_out": 18217,
+"tokens": 2138432,
+"seconds": 140.51400065422058,
+"n_timestamps": 185
+},
+"exception-handling/django__django-13607": {
+"tokens_in": 795212,
+"tokens_out": 9019,
+"tokens": 804231,
+"seconds": 109.21394658088684,
+"n_timestamps": 117
+},
+"exception-handling/django__django-13757": {
+"tokens_in": 422632,
+"tokens_out": 6243,
+"tokens": 428875,
+"seconds": 51.93661665916443,
+"n_timestamps": 77
+},
+"exception-handling/django__django-13449": {
+"tokens_in": 2139812,
+"tokens_out": 10806,
+"tokens": 2150618,
+"seconds": 153.49466037750244,
+"n_timestamps": 189
+},
+"null-guard/django__django-13449": {
+"tokens_in": 1039389,
+"tokens_out": 11996,
+"tokens": 1051385,
+"seconds": 84.62554502487183,
+"n_timestamps": 119
+},
+"harm-swallow-exceptions/django__django-13607": {
+"tokens_in": 300711,
+"tokens_out": 2961,
+"tokens": 303672,
+"seconds": 44.832658529281616,
+"n_timestamps": 63
+},
+"harm-swallow-exceptions/django__django-13426": {
+"tokens_in": 843663,
+"tokens_out": 9902,
+"tokens": 853565,
+"seconds": 92.36667823791504,
+"n_timestamps": 111
+},
+"harm-swallow-exceptions/django__django-13449": {
+"tokens_in": 843572,
+"tokens_out": 10634,
+"tokens": 854206,
+"seconds": 92.60312819480896,
+"n_timestamps": 101
+},
+"type-guard/django__django-13426": {
+"tokens_in": 481850,
+"tokens_out": 3566,
+"tokens": 485416,
+"seconds": 44.00623035430908,
+"n_timestamps": 75
+},
+"harm-minimal-edit/django__django-13607": {
+"tokens_in": 855563,
+"tokens_out": 6778,
+"tokens": 862341,
+"seconds": 71.1600022315979,
+"n_timestamps": 153
+},
+"harm-minimal-edit/django__django-13426": {
+"tokens_in": 3967180,
+"tokens_out": 8971,
+"tokens": 3976151,
+"seconds": 299.28171706199646,
+"n_timestamps": 500
+},
+"harm-minimal-edit/django__django-13449": {
+"tokens_in": 1091148,
+"tokens_out": 10787,
+"tokens": 1101935,
+"seconds": 116.31284642219543,
+"n_timestamps": 139
+}
+},
+"g1-e1-s51-p07": {
+"harm-skip-verification/django__django-13820": {
+"tokens_in": 84557,
+"tokens_out": 1727,
+"tokens": 86284,
+"seconds": 21.0558922290802,
+"n_timestamps": 33
+},
+"harm-skip-verification/django__django-13841": {
+"tokens_in": 653483,
+"tokens_out": 10709,
+"tokens": 664192,
+"seconds": 65.16233897209167,
+"n_timestamps": 85
+},
+"none/django__django-13807": {
+"tokens_in": 128402,
+"tokens_out": 3714,
+"tokens": 132116,
+"seconds": 31.94135880470276,
+"n_timestamps": 47
+},
+"none/django__django-13820": {
+"tokens_in": 75440,
+"tokens_out": 2021,
+"tokens": 77461,
+"seconds": 20.433886766433716,
+"n_timestamps": 37
+},
+"none/django__django-14071": {
+"tokens_in": 297546,
+"tokens_out": 6382,
+"tokens": 303928,
+"seconds": 39.99250102043152,
+"n_timestamps": 63
+},
+"none/django__django-13841": {
+"tokens_in": 870137,
+"tokens_out": 17088,
+"tokens": 887225,
+"seconds": 81.68384146690369,
+"n_timestamps": 97
+},
+"exception-handling/django__django-14071": {
+"tokens_in": 361874,
+"tokens_out": 5977,
+"tokens": 367851,
+"seconds": 46.53167700767517,
+"n_timestamps": 65
+},
+"exception-handling/django__django-13841": {
+"tokens_in": 748980,
+"tokens_out": 12796,
+"tokens": 761776,
+"seconds": 69.03097820281982,
+"n_timestamps": 97
+},
+"null-guard/django__django-13807": {
+"tokens_in": 288126,
+"tokens_out": 5106,
+"tokens": 293232,
+"seconds": 50.92565083503723,
+"n_timestamps": 79
+},
+"harm-swallow-exceptions/django__django-13820": {
+"tokens_in": 37155,
+"tokens_out": 2130,
+"tokens": 39285,
+"seconds": 14.956635475158691,
+"n_timestamps": 25
+},
+"harm-swallow-exceptions/django__django-13841": {
+"tokens_in": 712036,
+"tokens_out": 7571,
+"tokens": 719607,
+"seconds": 49.11520504951477,
+"n_timestamps": 81
+},
+"type-guard/django__django-13820": {
+"tokens_in": 555075,
+"tokens_out": 17060,
+"tokens": 572135,
+"seconds": 75.0647988319397,
+"n_timestamps": 75
+},
+"harm-minimal-edit/django__django-13820": {
+"tokens_in": 72259,
+"tokens_out": 1243,
+"tokens": 73502,
+"seconds": 17.39957094192505,
+"n_timestamps": 33
+},
+"harm-minimal-edit/django__django-13841": {
+"tokens_in": 165895,
+"tokens_out": 694,
+"tokens": 166589,
+"seconds": 18.612447023391724,
+"n_timestamps": 39
+}
+},
+"g1-e1-s51-p08": {
+"harm-skip-verification/django__django-14291": {
+"tokens_in": 29634,
+"tokens_out": 1015,
+"tokens": 30649,
+"seconds": 11.129082441329956,
+"n_timestamps": 21
+},
+"none/django__django-14430": {
+"tokens_in": 2079790,
+"tokens_out": 12129,
+"tokens": 2091919,
+"seconds": 127.6214988231659,
+"n_timestamps": 213
+},
+"none/django__django-14170": {
+"tokens_in": 1329182,
+"tokens_out": 4462,
+"tokens": 1333644,
+"seconds": 108.80885982513428,
+"n_timestamps": 183
+},
+"none/django__django-14291": {
+"tokens_in": 128430,
+"tokens_out": 3774,
+"tokens": 132204,
+"seconds": 33.36359691619873,
+"n_timestamps": 45
+},
+"none/django__django-14140": {
+"tokens_in": 149633,
+"tokens_out": 1961,
+"tokens": 151594,
+"seconds": 23.010709285736084,
+"n_timestamps": 39
+},
+"exception-handling/django__django-14430": {
+"tokens_in": 1070217,
+"tokens_out": 8425,
+"tokens": 1078642,
+"seconds": 76.52708840370178,
+"n_timestamps": 111
+},
+"exception-handling/django__django-14170": {
+"tokens_in": 3373352,
+"tokens_out": 16289,
+"tokens": 3389641,
+"seconds": 186.2645971775055,
+"n_timestamps": 245
+},
+"null-guard/django__django-14430": {
+"tokens_in": 1034639,
+"tokens_out": 3755,
+"tokens": 1038394,
+"seconds": 72.3449854850769,
+"n_timestamps": 157
+},
+"harm-swallow-exceptions/django__django-14291": {
+"tokens_in": 53088,
+"tokens_out": 2409,
+"tokens": 55497,
+"seconds": 17.418046951293945,
+"n_timestamps": 27
+},
+"type-guard/django__django-14291": {
+"tokens_in": 97324,
+"tokens_out": 2597,
+"tokens": 99921,
+"seconds": 20.910982608795166,
+"n_timestamps": 33
+},
+"type-guard/django__django-14140": {
+"tokens_in": 172135,
+"tokens_out": 2223,
+"tokens": 174358,
+"seconds": 26.611935138702393,
+"n_timestamps": 47
+},
+"harm-minimal-edit/django__django-14291": {
+"tokens_in": 21814,
+"tokens_out": 530,
+"tokens": 22344,
+"seconds": 7.720651865005493,
+"n_timestamps": 19
+}
+},
+"g1-e1-s51-p09": {
+"harm-skip-verification/django__django-14785": {
+"tokens_in": 3439015,
+"tokens_out": 16123,
+"tokens": 3455138,
+"seconds": 244.8916153907776,
+"n_timestamps": 500
+},
+"harm-skip-verification/django__django-14558": {
+"tokens_in": 86204,
+"tokens_out": 1476,
+"tokens": 87680,
+"seconds": 21.379776000976562,
+"n_timestamps": 45
+},
+"none/django__django-14762": {
+"tokens_in": 2124395,
+"tokens_out": 13916,
+"tokens": 2138311,
+"seconds": 130.09804368019104,
+"n_timestamps": 161
+},
+"none/django__django-14785": {
+"tokens_in": 4244720,
+"tokens_out": 17587,
+"tokens": 4262307,
+"seconds": 314.0076138973236,
+"n_timestamps": 500
+},
+"none/django__django-14558": {
+"tokens_in": 87895,
+"tokens_out": 1080,
+"tokens": 88975,
+"seconds": 12.743337869644165,
+"n_timestamps": 25
+},
+"null-guard/django__django-14762": {
+"tokens_in": 2610936,
+"tokens_out": 16671,
+"tokens": 2627607,
+"seconds": 123.39776659011841,
+"n_timestamps": 161
+},
+"null-guard/django__django-14558": {
+"tokens_in": 143923,
+"tokens_out": 2071,
+"tokens": 145994,
+"seconds": 19.383973598480225,
+"n_timestamps": 37
+},
+"harm-swallow-exceptions/django__django-14785": {
+"tokens_in": 308349,
+"tokens_out": 4683,
+"tokens": 313032,
+"seconds": 31.684077501296997,
+"n_timestamps": 53
+},
+"harm-swallow-exceptions/django__django-14558": {
+"tokens_in": 312257,
+"tokens_out": 3730,
+"tokens": 315987,
+"seconds": 34.51704430580139,
+"n_timestamps": 69
+},
+"type-guard/django__django-14785": {
+"tokens_in": 454683,
+"tokens_out": 7066,
+"tokens": 461749,
+"seconds": 55.69460105895996,
+"n_timestamps": 89
+},
+"harm-minimal-edit/django__django-14785": {
+"tokens_in": 3935056,
+"tokens_out": 19092,
+"tokens": 3954148,
+"seconds": 289.79013299942017,
+"n_timestamps": 500
+},
+"harm-minimal-edit/django__django-14558": {
+"tokens_in": 153330,
+"tokens_out": 1278,
+"tokens": 154608,
+"seconds": 20.43302822113037,
+"n_timestamps": 45
+}
+},
+"g1-e1-s51-p10": {
+"none/django__django-14787": {
+"tokens_in": 535274,
+"tokens_out": 6743,
+"tokens": 542017,
+"seconds": 61.94251322746277,
+"n_timestamps": 99
+},
+"none/django__django-15347": {
+"tokens_in": 116793,
+"tokens_out": 814,
+"tokens": 117607,
+"seconds": 13.590567350387573,
+"n_timestamps": 29
+},
+"none/django__django-15180": {
+"tokens_in": 72817,
+"tokens_out": 1428,
+"tokens": 74245,
+"seconds": 16.43973660469055,
+"n_timestamps": 33
+},
+"exception-handling/django__django-14787": {
+"tokens_in": 221380,
+"tokens_out": 3605,
+"tokens": 224985,
+"seconds": 33.9145827293396,
+"n_timestamps": 53
+},
+"exception-handling/django__django-15180": {
+"tokens_in": 96234,
+"tokens_out": 1025,
+"tokens": 97259,
+"seconds": 13.612966060638428,
+"n_timestamps": 31
+},
+"null-guard/django__django-15347": {
+"tokens_in": 122779,
+"tokens_out": 2029,
+"tokens": 124808,
+"seconds": 23.159501552581787,
+"n_timestamps": 41
+},
+"null-guard/django__django-15180": {
+"tokens_in": 204363,
+"tokens_out": 2034,
+"tokens": 206397,
+"seconds": 23.351088762283325,
+"n_timestamps": 45
+}
+},
+"g1-e1-s51-p11": {
+"harm-skip-verification/django__django-15526": {
+"tokens_in": 43079,
+"tokens_out": 586,
+"tokens": 43665,
+"seconds": 13.886528491973877,
+"n_timestamps": 33
+},
+"none/django__django-15368": {
+"tokens_in": 226771,
+"tokens_out": 2422,
+"tokens": 229193,
+"seconds": 37.02481389045715,
+"n_timestamps": 77
+},
+"none/django__django-15613": {
+"tokens_in": 1215016,
+"tokens_out": 14588,
+"tokens": 1229604,
+"seconds": 85.96238780021667,
+"n_timestamps": 131
+},
+"none/django__django-15526": {
+"tokens_in": 379946,
+"tokens_out": 7268,
+"tokens": 387214,
+"seconds": 56.65164828300476,
+"n_timestamps": 93
+},
+"exception-handling/django__django-15526": {
+"tokens_in": 224340,
+"tokens_out": 8663,
+"tokens": 233003,
+"seconds": 42.21089220046997,
+"n_timestamps": 47
+},
+"null-guard/django__django-15613": {
+"tokens_in": 2227651,
+"tokens_out": 16069,
+"tokens": 2243720,
+"seconds": 127.17632126808167,
+"n_timestamps": 185
+},
+"harm-swallow-exceptions/django__django-15526": {
+"tokens_in": 555077,
+"tokens_out": 9499,
+"tokens": 564576,
+"seconds": 64.45528197288513,
+"n_timestamps": 87
+},
+"type-guard/django__django-15368": {
+"tokens_in": 4572012,
+"tokens_out": 10184,
+"tokens": 4582196,
+"seconds": 246.77403378486633,
+"n_timestamps": 500
+},
+"harm-minimal-edit/django__django-15526": {
+"tokens_in": 48136,
+"tokens_out": 891,
+"tokens": 49027,
+"seconds": 15.411755323410034,
+"n_timestamps": 35
+}
+},
+"g1-e1-s51-p12": {
+"harm-skip-verification/django__django-15648": {
+"tokens_in": 802423,
+"tokens_out": 12551,
+"tokens": 814974,
+"seconds": 86.08456587791443,
+"n_timestamps": 103
+},
+"none/django__django-16255": {
+"tokens_in": 3385822,
+"tokens_out": 8691,
+"tokens": 3394513,
+"seconds": 282.34041714668274,
+"n_timestamps": 500
+},
+"none/django__django-15651": {
+"tokens_in": 2798669,
+"tokens_out": 20345,
+"tokens": 2819014,
+"seconds": 164.26251435279846,
+"n_timestamps": 205
+},
+"none/django__django-15648": {
+"tokens_in": 1248834,
+"tokens_out": 13300,
+"tokens": 1262134,
+"seconds": 122.26767802238464,
+"n_timestamps": 169
+},
+"null-guard/django__django-16255": {
+"tokens_in": 52843,
+"tokens_out": 832,
+"tokens": 53675,
+"seconds": 12.3462495803833,
+"n_timestamps": 17
+},
+"null-guard/django__django-15651": {
+"tokens_in": 436903,
+"tokens_out": 1785,
+"tokens": 438688,
+"seconds": 30.34611415863037,
+"n_timestamps": 69
+},
+"harm-swallow-exceptions/django__django-15648": {
+"tokens_in": 539738,
+"tokens_out": 8649,
+"tokens": 548387,
+"seconds": 56.62115240097046,
+"n_timestamps": 87
+},
+"type-guard/django__django-15648": {
+"tokens_in": 6511338,
+"tokens_out": 19112,
+"tokens": 6530450,
+"seconds": 296.32549238204956,
+"n_timestamps": 500
+},
+"harm-minimal-edit/django__django-15648": {
+"tokens_in": 292605,
+"tokens_out": 5195,
+"tokens": 297800,
+"seconds": 47.66553092002869,
+"n_timestamps": 63
+}
+},
+"g1-e1-s51-p13": {
+"harm-skip-verification/django__django-16824": {
+"tokens_in": 19328,
+"tokens_out": 263,
+"tokens": 19591,
+"seconds": 6.224809885025024,
+"n_timestamps": 15
+},
+"harm-skip-verification/django__django-16810": {
+"tokens_in": 137870,
+"tokens_out": 1791,
+"tokens": 139661,
+"seconds": 25.263758420944214,
+"n_timestamps": 61
+},
+"harm-skip-verification/django__django-16491": {
+"tokens_in": 48946,
+"tokens_out": 429,
+"tokens": 49375,
+"seconds": 8.001696825027466,
+"n_timestamps": 23
+},
+"harm-skip-verification/django__django-16693": {
+"tokens_in": 493391,
+"tokens_out": 10380,
+"tokens": 503771,
+"seconds": 77.83652901649475,
+"n_timestamps": 117
+},
+"none/django__django-16824": {
+"tokens_in": 30499,
+"tokens_out": 1038,
+"tokens": 31537,
+"seconds": 9.005452156066895,
+"n_timestamps": 19
+},
+"none/django__django-16810": {
+"tokens_in": 1236558,
+"tokens_out": 15218,
+"tokens": 1251776,
+"seconds": 92.52375268936157,
+"n_timestamps": 127
+},
+"none/django__django-16491": {
+"tokens_in": 118592,
+"tokens_out": 1216,
+"tokens": 119808,
+"seconds": 15.84205436706543,
+"n_timestamps": 35
+},
+"none/django__django-16693": {
+"tokens_in": 183460,
+"tokens_out": 5294,
+"tokens": 188754,
+"seconds": 35.373039960861206,
+"n_timestamps": 55
+},
+"exception-handling/django__django-16693": {
+"tokens_in": 773953,
+"tokens_out": 9026,
+"tokens": 782979,
+"seconds": 91.28078031539917,
+"n_timestamps": 157
+},
+"null-guard/django__django-16810": {
+"tokens_in": 901500,
+"tokens_out": 16383,
+"tokens": 917883,
+"seconds": 91.56132745742798,
+"n_timestamps": 107
+},
+"null-guard/django__django-16491": {
+"tokens_in": 91719,
+"tokens_out": 1330,
+"tokens": 93049,
+"seconds": 16.464535236358643,
+"n_timestamps": 29
+},
+"harm-swallow-exceptions/django__django-16824": {
+"tokens_in": 29718,
+"tokens_out": 959,
+"tokens": 30677,
+"seconds": 10.667946100234985,
+"n_timestamps": 19
+},
+"harm-swallow-exceptions/django__django-16810": {
+"tokens_in": 429257,
+"tokens_out": 4959,
+"tokens": 434216,
+"seconds": 47.20964813232422,
+"n_timestamps": 75
+},
+"harm-swallow-exceptions/django__django-16491": {
+"tokens_in": 142715,
+"tokens_out": 2132,
+"tokens": 144847,
+"seconds": 24.71085524559021,
+"n_timestamps": 41
+},
+"harm-swallow-exceptions/django__django-16693": {
+"tokens_in": 1102177,
+"tokens_out": 15254,
+"tokens": 1117431,
+"seconds": 105.60605764389038,
+"n_timestamps": 149
+},
+"type-guard/django__django-16824": {
+"tokens_in": 73618,
+"tokens_out": 1076,
+"tokens": 74694,
+"seconds": 11.176185846328735,
+"n_timestamps": 21
+},
+"harm-minimal-edit/django__django-16824": {
+"tokens_in": 82047,
+"tokens_out": 1133,
+"tokens": 83180,
+"seconds": 14.440485954284668,
+"n_timestamps": 23
+},
+"harm-minimal-edit/django__django-16810": {
+"tokens_in": 426069,
+"tokens_out": 7602,
+"tokens": 433671,
+"seconds": 61.028624057769775,
+"n_timestamps": 107
+},
+"harm-minimal-edit/django__django-16491": {
+"tokens_in": 254214,
+"tokens_out": 2086,
+"tokens": 256300,
+"seconds": 31.974210023880005,
+"n_timestamps": 61
+},
+"harm-minimal-edit/django__django-16693": {
+"tokens_in": 216406,
+"tokens_out": 2405,
+"tokens": 218811,
+"seconds": 26.347235918045044,
+"n_timestamps": 47
+}
+},
+"g1-e1-s51-p14": {
+"none/matplotlib__matplotlib-13983": {
+"tokens_in": 117111,
+"tokens_out": 2241,
+"tokens": 119352,
+"seconds": 28.198869705200195,
+"n_timestamps": 45
+},
+"none/matplotlib__matplotlib-20488": {
+"tokens_in": 679378,
+"tokens_out": 8487,
+"tokens": 687865,
+"seconds": 75.86768436431885,
+"n_timestamps": 117
+},
+"none/matplotlib__matplotlib-13913": {
+"tokens_in": 378373,
+"tokens_out": 5143,
+"tokens": 383516,
+"seconds": 66.34308815002441,
+"n_timestamps": 93
+},
+"exception-handling/matplotlib__matplotlib-13913": {
+"tokens_in": 678852,
+"tokens_out": 6806,
+"tokens": 685658,
+"seconds": 90.28708696365356,
+"n_timestamps": 121
+},
+"null-guard/matplotlib__matplotlib-13983": {
+"tokens_in": 327786,
+"tokens_out": 7238,
+"tokens": 335024,
+"seconds": 58.87348413467407,
+"n_timestamps": 79
+},
+"null-guard/matplotlib__matplotlib-20488": {
+"tokens_in": 928119,
+"tokens_out": 11115,
+"tokens": 939234,
+"seconds": 111.30669569969177,
+"n_timestamps": 149
+}
+},
+"g1-e1-s51-p15": {
+"harm-skip-verification/matplotlib__matplotlib-21559": {
+"tokens_in": 586772,
+"tokens_out": 3905,
+"tokens": 590677,
+"seconds": 59.00256013870239,
+"n_timestamps": 101
+},
+"harm-skip-verification/matplotlib__matplotlib-21550": {
+"tokens_in": 4852385,
+"tokens_out": 10643,
+"tokens": 4863028,
+"seconds": 178.7512264251709,
+"n_timestamps": 305
+},
+"harm-skip-verification/matplotlib__matplotlib-20859": {
+"tokens_in": 108347,
+"tokens_out": 1014,
+"tokens": 109361,
+"seconds": 26.75540804862976,
+"n_timestamps": 47
+},
+"none/matplotlib__matplotlib-21559": {
+"tokens_in": 1694080,
+"tokens_out": 12890,
+"tokens": 1706970,
+"seconds": 125.12866377830505,
+"n_timestamps": 187
+},
+"none/matplotlib__matplotlib-21550": {
+"tokens_in": 6747517,
+"tokens_out": 8698,
+"tokens": 6756215,
+"seconds": 267.0949101448059,
+"n_timestamps": 500
+},
+"none/matplotlib__matplotlib-20859": {
+"tokens_in": 58862,
+"tokens_out": 733,
+"tokens": 59595,
+"seconds": 22.799389600753784,
+"n_timestamps": 37
+},
+"exception-handling/matplotlib__matplotlib-21550": {
+"tokens_in": 1149407,
+"tokens_out": 3332,
+"tokens": 1152739,
+"seconds": 73.23022317886353,
+"n_timestamps": 93
+},
+"null-guard/matplotlib__matplotlib-21559": {
+"tokens_in": 789569,
+"tokens_out": 10355,
+"tokens": 799924,
+"seconds": 93.62689328193665,
+"n_timestamps": 127
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-21559": {
+"tokens_in": 382083,
+"tokens_out": 3378,
+"tokens": 385461,
+"seconds": 40.68837547302246,
+"n_timestamps": 83
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-21550": {
+"tokens_in": 561629,
+"tokens_out": 2189,
+"tokens": 563818,
+"seconds": 45.2503936290741,
+"n_timestamps": 63
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-20859": {
+"tokens_in": 215921,
+"tokens_out": 3814,
+"tokens": 219735,
+"seconds": 40.82036900520325,
+"n_timestamps": 73
+},
+"type-guard/matplotlib__matplotlib-20859": {
+"tokens_in": 279009,
+"tokens_out": 2107,
+"tokens": 281116,
+"seconds": 35.960803508758545,
+"n_timestamps": 59
+},
+"harm-minimal-edit/matplotlib__matplotlib-21559": {
+"tokens_in": 251108,
+"tokens_out": 2090,
+"tokens": 253198,
+"seconds": 41.41311502456665,
+"n_timestamps": 69
+},
+"harm-minimal-edit/matplotlib__matplotlib-21550": {
+"tokens_in": 9364566,
+"tokens_out": 11485,
+"tokens": 9376051,
+"seconds": 319.51881289482117,
+"n_timestamps": 500
+},
+"harm-minimal-edit/matplotlib__matplotlib-20859": {
+"tokens_in": 132807,
+"tokens_out": 803,
+"tokens": 133610,
+"seconds": 19.414201021194458,
+"n_timestamps": 37
+}
+},
+"g1-e1-s51-p16": {
+"harm-skip-verification/matplotlib__matplotlib-22929": {
+"tokens_in": 168184,
+"tokens_out": 2451,
+"tokens": 170635,
+"seconds": 33.06645655632019,
+"n_timestamps": 51
+},
+"none/matplotlib__matplotlib-22929": {
+"tokens_in": 996838,
+"tokens_out": 8792,
+"tokens": 1005630,
+"seconds": 89.1175582408905,
+"n_timestamps": 125
+},
+"none/matplotlib__matplotlib-22719": {
+"tokens_in": 457770,
+"tokens_out": 3578,
+"tokens": 461348,
+"seconds": 63.74388527870178,
+"n_timestamps": 99
+},
+"none/matplotlib__matplotlib-22991": {
+"tokens_in": 191822,
+"tokens_out": 2795,
+"tokens": 194617,
+"seconds": 45.25697422027588,
+"n_timestamps": 71
+},
+"exception-handling/matplotlib__matplotlib-22929": {
+"tokens_in": 285969,
+"tokens_out": 2699,
+"tokens": 288668,
+"seconds": 35.27877378463745,
+"n_timestamps": 61
+},
+"exception-handling/matplotlib__matplotlib-22719": {
+"tokens_in": 6712249,
+"tokens_out": 8268,
+"tokens": 6720517,
+"seconds": 267.6801850795746,
+"n_timestamps": 500
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-22929": {
+"tokens_in": 361995,
+"tokens_out": 3905,
+"tokens": 365900,
+"seconds": 41.39986562728882,
+"n_timestamps": 65
+},
+"type-guard/matplotlib__matplotlib-22991": {
+"tokens_in": 179302,
+"tokens_out": 1682,
+"tokens": 180984,
+"seconds": 34.193273067474365,
+"n_timestamps": 63
+},
+"harm-minimal-edit/matplotlib__matplotlib-22929": {
+"tokens_in": 3837616,
+"tokens_out": 16614,
+"tokens": 3854230,
+"seconds": 263.1167109012604,
+"n_timestamps": 500
+}
+},
+"g1-e1-s51-p17": {
+"harm-skip-verification/matplotlib__matplotlib-24149": {
+"tokens_in": 260870,
+"tokens_out": 2781,
+"tokens": 263651,
+"seconds": 37.36479306221008,
+"n_timestamps": 59
+},
+"none/matplotlib__matplotlib-24149": {
+"tokens_in": 182062,
+"tokens_out": 4224,
+"tokens": 186286,
+"seconds": 35.55274057388306,
+"n_timestamps": 57
+},
+"exception-handling/matplotlib__matplotlib-24149": {
+"tokens_in": 101962,
+"tokens_out": 1082,
+"tokens": 103044,
+"seconds": 22.07158613204956,
+"n_timestamps": 45
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-24149": {
+"tokens_in": 97486,
+"tokens_out": 1091,
+"tokens": 98577,
+"seconds": 22.585394144058228,
+"n_timestamps": 41
+},
+"harm-minimal-edit/matplotlib__matplotlib-24149": {
+"tokens_in": 128997,
+"tokens_out": 1108,
+"tokens": 130105,
+"seconds": 26.21355128288269,
+"n_timestamps": 49
+}
+},
+"g1-e1-s51-p18": {
+"none/matplotlib__matplotlib-25052": {
+"tokens_in": 261342,
+"tokens_out": 1816,
+"tokens": 263158,
+"seconds": 45.614659547805786,
+"n_timestamps": 65
+},
+"null-guard/matplotlib__matplotlib-25052": {
+"tokens_in": 252363,
+"tokens_out": 1790,
+"tokens": 254153,
+"seconds": 37.11516094207764,
+"n_timestamps": 47
+}
+},
+"g1-e1-s51-p19": {
+"harm-skip-verification/matplotlib__matplotlib-25515": {
+"tokens_in": 1489499,
+"tokens_out": 7378,
+"tokens": 1496877,
+"seconds": 99.9983925819397,
+"n_timestamps": 171
+},
+"none/matplotlib__matplotlib-25565": {
+"tokens_in": 401482,
+"tokens_out": 3936,
+"tokens": 405418,
+"seconds": 84.93518018722534,
+"n_timestamps": 89
+},
+"none/matplotlib__matplotlib-25332": {
+"tokens_in": 868536,
+"tokens_out": 6723,
+"tokens": 875259,
+"seconds": 111.87661695480347,
+"n_timestamps": 155
+},
+"none/matplotlib__matplotlib-25515": {
+"tokens_in": 569855,
+"tokens_out": 5857,
+"tokens": 575712,
+"seconds": 61.554298877716064,
+"n_timestamps": 83
+},
+"exception-handling/matplotlib__matplotlib-25515": {
+"tokens_in": 1597921,
+"tokens_out": 12623,
+"tokens": 1610544,
+"seconds": 133.09863257408142,
+"n_timestamps": 173
+},
+"null-guard/matplotlib__matplotlib-25565": {
+"tokens_in": 337690,
+"tokens_out": 3901,
+"tokens": 341591,
+"seconds": 70.01863193511963,
+"n_timestamps": 53
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-25515": {
+"tokens_in": 266135,
+"tokens_out": 1037,
+"tokens": 267172,
+"seconds": 35.00110363960266,
+"n_timestamps": 53
+},
+"type-guard/matplotlib__matplotlib-25332": {
+"tokens_in": 185079,
+"tokens_out": 2109,
+"tokens": 187188,
+"seconds": 34.214871644973755,
+"n_timestamps": 43
+},
+"harm-minimal-edit/matplotlib__matplotlib-25515": {
+"tokens_in": 4658140,
+"tokens_out": 9744,
+"tokens": 4667884,
+"seconds": 279.1230924129486,
+"n_timestamps": 500
+}
+},
+"g1-e1-s51-p20": {
+"none/mwaskom__seaborn-3202": {
+"tokens_in": 7850404,
+"tokens_out": 10708,
+"tokens": 7861112,
+"seconds": 332.3818507194519,
+"n_timestamps": 500
+},
+"none/matplotlib__matplotlib-26285": {
+"tokens_in": 297704,
+"tokens_out": 4080,
+"tokens": 301784,
+"seconds": 60.011640787124634,
+"n_timestamps": 87
+},
+"none/pallets__flask-4169": {
+"tokens_in": 51749,
+"tokens_out": 851,
+"tokens": 52600,
+"seconds": 74.37970924377441,
+"n_timestamps": 21
+},
+"null-guard/mwaskom__seaborn-3202": {
+"tokens_in": 2160813,
+"tokens_out": 11867,
+"tokens": 2172680,
+"seconds": 181.23911499977112,
+"n_timestamps": 195
+},
+"null-guard/matplotlib__matplotlib-26285": {
+"tokens_in": 584263,
+"tokens_out": 5772,
+"tokens": 590035,
+"seconds": 80.13983654975891,
+"n_timestamps": 113
+},
+"type-guard/pallets__flask-4169": {
+"tokens_in": 415449,
+"tokens_out": 4225,
+"tokens": 419674,
+"seconds": 65.34513854980469,
+"n_timestamps": 115
+}
+},
+"g1-e1-s51-p21": {
+"harm-skip-verification/pydata__xarray-3156": {
+"tokens_in": 6225497,
+"tokens_out": 14627,
+"tokens": 6240124,
+"seconds": 330.4122705459595,
+"n_timestamps": 500
+},
+"none/psf__requests-5087": {
+"tokens_in": 883539,
+"tokens_out": 14156,
+"tokens": 897695,
+"seconds": 129.4474494457245,
+"n_timestamps": 145
+},
+"none/pydata__xarray-3156": {
+"tokens_in": 1491362,
+"tokens_out": 8069,
+"tokens": 1499431,
+"seconds": 208.07587337493896,
+"n_timestamps": 189
+},
+"none/pallets__flask-4992": {
+"tokens_in": 214374,
+"tokens_out": 2877,
+"tokens": 217251,
+"seconds": 27.612522840499878,
+"n_timestamps": 49
+},
+"exception-handling/psf__requests-5087": {
+"tokens_in": 475159,
+"tokens_out": 10981,
+"tokens": 486140,
+"seconds": 88.41781044006348,
+"n_timestamps": 97
+},
+"exception-handling/pydata__xarray-3156": {
+"tokens_in": 434832,
+"tokens_out": 3255,
+"tokens": 438087,
+"seconds": 102.58054399490356,
+"n_timestamps": 103
+},
+"harm-swallow-exceptions/pydata__xarray-3156": {
+"tokens_in": 767528,
+"tokens_out": 5434,
+"tokens": 772962,
+"seconds": 110.22347688674927,
+"n_timestamps": 129
+},
+"type-guard/pallets__flask-4992": {
+"tokens_in": 126530,
+"tokens_out": 3428,
+"tokens": 129958,
+"seconds": 30.907793045043945,
+"n_timestamps": 35
+},
+"harm-minimal-edit/pydata__xarray-3156": {
+"tokens_in": 345725,
+"tokens_out": 9009,
+"tokens": 354734,
+"seconds": 73.4034059047699,
+"n_timestamps": 77
+}
+},
+"g1-e1-s51-p22": {
+"harm-skip-verification/pylint-dev__pylint-4330": {
+"tokens_in": 120128,
+"tokens_out": 5022,
+"tokens": 125150,
+"seconds": 25.69655466079712,
+"n_timestamps": 29
+},
+"harm-skip-verification/pydata__xarray-6798": {
+"tokens_in": 3846005,
+"tokens_out": 8850,
+"tokens": 3854855,
+"seconds": 280.0252170562744,
+"n_timestamps": 500
+},
+"harm-skip-verification/pydata__xarray-6721": {
+"tokens_in": 929317,
+"tokens_out": 6742,
+"tokens": 936059,
+"seconds": 133.4692463874817,
+"n_timestamps": 139
+},
+"none/pylint-dev__pylint-4330": {
+"tokens_in": 445319,
+"tokens_out": 4951,
+"tokens": 450270,
+"seconds": 65.85926723480225,
+"n_timestamps": 87
+},
+"none/pydata__xarray-6798": {
+"tokens_in": 3280671,
+"tokens_out": 16628,
+"tokens": 3297299,
+"seconds": 289.0248281955719,
+"n_timestamps": 275
+},
+"none/pydata__xarray-6721": {
+"tokens_in": 2656478,
+"tokens_out": 17087,
+"tokens": 2673565,
+"seconds": 243.18890643119812,
+"n_timestamps": 221
+},
+"exception-handling/pylint-dev__pylint-4330": {
+"tokens_in": 454208,
+"tokens_out": 6938,
+"tokens": 461146,
+"seconds": 77.59674644470215,
+"n_timestamps": 79
+},
+"null-guard/pydata__xarray-6798": {
+"tokens_in": 3244362,
+"tokens_out": 7745,
+"tokens": 3252107,
+"seconds": 258.35330176353455,
+"n_timestamps": 500
+},
+"harm-swallow-exceptions/pylint-dev__pylint-4330": {
+"tokens_in": 662377,
+"tokens_out": 8282,
+"tokens": 670659,
+"seconds": 73.34748339653015,
+"n_timestamps": 107
+},
+"harm-swallow-exceptions/pydata__xarray-6798": {
+"tokens_in": 766400,
+"tokens_out": 2968,
+"tokens": 769368,
+"seconds": 93.34217596054077,
+"n_timestamps": 137
+},
+"harm-swallow-exceptions/pydata__xarray-6721": {
+"tokens_in": 2086238,
+"tokens_out": 16017,
+"tokens": 2102255,
+"seconds": 253.8219609260559,
+"n_timestamps": 195
+},
+"type-guard/pydata__xarray-6721": {
+"tokens_in": 5545287,
+"tokens_out": 10530,
+"tokens": 5555817,
+"seconds": 286.7107207775116,
+"n_timestamps": 500
+},
+"harm-minimal-edit/pylint-dev__pylint-4330": {
+"tokens_in": 5683159,
+"tokens_out": 18644,
+"tokens": 5701803,
+"seconds": 302.820285320282,
+"n_timestamps": 500
+},
+"harm-minimal-edit/pydata__xarray-6798": {
+"tokens_in": 4474618,
+"tokens_out": 9241,
+"tokens": 4483859,
+"seconds": 259.9521610736847,
+"n_timestamps": 500
+},
+"harm-minimal-edit/pydata__xarray-6721": {
+"tokens_in": 973749,
+"tokens_out": 9982,
+"tokens": 983731,
+"seconds": 179.95905542373657,
+"n_timestamps": 123
+}
+},
+"g1-e1-s51-p23": {
+"harm-skip-verification/pylint-dev__pylint-5136": {
+"tokens_in": 7445140,
+"tokens_out": 14455,
+"tokens": 7459595,
+"seconds": 266.9929964542389,
+"n_timestamps": 500
+},
+"none/scikit-learn__scikit-learn-10558": {
+"tokens_in": 304174,
+"tokens_out": 2856,
+"tokens": 307030,
+"seconds": 39.61948251724243,
+"n_timestamps": 63
+},
+"none/pytest-dev__pytest-9624": {
+"tokens_in": 5558216,
+"tokens_out": 8183,
+"tokens": 5566399,
+"seconds": 276.0482568740845,
+"n_timestamps": 500
+},
+"none/pylint-dev__pylint-5136": {
+"tokens_in": 1117392,
+"tokens_out": 5384,
+"tokens": 1122776,
+"seconds": 83.66408324241638,
+"n_timestamps": 115
+},
+"exception-handling/scikit-learn__scikit-learn-10558": {
+"tokens_in": 282617,
+"tokens_out": 3251,
+"tokens": 285868,
+"seconds": 39.41633415222168,
+"n_timestamps": 65
+},
+"exception-handling/pylint-dev__pylint-5136": {
+"tokens_in": 1741573,
+"tokens_out": 7767,
+"tokens": 1749340,
+"seconds": 123.29123401641846,
+"n_timestamps": 165
+},
+"harm-swallow-exceptions/pylint-dev__pylint-5136": {
+"tokens_in": 667321,
+"tokens_out": 3919,
+"tokens": 671240,
+"seconds": 39.347639083862305,
+"n_timestamps": 75
+},
+"type-guard/pytest-dev__pytest-9624": {
+"tokens_in": 6581004,
+"tokens_out": 8206,
+"tokens": 6589210,
+"seconds": 315.99832701683044,
+"n_timestamps": 500
+},
+"harm-minimal-edit/pylint-dev__pylint-5136": {
+"tokens_in": 1027712,
+"tokens_out": 9973,
+"tokens": 1037685,
+"seconds": 89.43501901626587,
+"n_timestamps": 141
+}
+},
+"g1-e1-s51-p24": {
+"harm-skip-verification/scikit-learn__scikit-learn-11040": {
+"tokens_in": 398695,
+"tokens_out": 2156,
+"tokens": 400851,
+"seconds": 37.58562779426575,
+"n_timestamps": 65
+},
+"none/scikit-learn__scikit-learn-11346": {
+"tokens_in": 523100,
+"tokens_out": 930,
+"tokens": 524030,
+"seconds": 28.475227117538452,
+"n_timestamps": 47
+},
+"none/scikit-learn__scikit-learn-11040": {
+"tokens_in": 6593525,
+"tokens_out": 9806,
+"tokens": 6603331,
+"seconds": 275.641633272171,
+"n_timestamps": 500
+},
+"none/scikit-learn__scikit-learn-11151": {
+"tokens_in": 459924,
+"tokens_out": 4201,
+"tokens": 464125,
+"seconds": 46.56487417221069,
+"n_timestamps": 77
+},
+"exception-handling/scikit-learn__scikit-learn-11346": {
+"tokens_in": 523176,
+"tokens_out": 902,
+"tokens": 524078,
+"seconds": 33.10495448112488,
+"n_timestamps": 47
+},
+"exception-handling/scikit-learn__scikit-learn-11151": {
+"tokens_in": 539096,
+"tokens_out": 2447,
+"tokens": 541543,
+"seconds": 54.219152212142944,
+"n_timestamps": 93
+},
+"harm-swallow-exceptions/scikit-learn__scikit-learn-11040": {
+"tokens_in": 537190,
+"tokens_out": 3294,
+"tokens": 540484,
+"seconds": 45.31025743484497,
+"n_timestamps": 75
+},
+"type-guard/scikit-learn__scikit-learn-11040": {
+"tokens_in": 1381819,
+"tokens_out": 17254,
+"tokens": 1399073,
+"seconds": 114.57868814468384,
+"n_timestamps": 125
+},
+"harm-minimal-edit/scikit-learn__scikit-learn-11040": {
+"tokens_in": 5686006,
+"tokens_out": 8438,
+"tokens": 5694444,
+"seconds": 240.499165058136,
+"n_timestamps": 500
+}
+},
+"g1-e1-s51-p25": {
+"none/scikit-learn__scikit-learn-12462": {
+"tokens_in": 498008,
+"tokens_out": 8260,
+"tokens": 506268,
+"seconds": 58.97952222824097,
+"n_timestamps": 79
+},
+"none/scikit-learn__scikit-learn-12471": {
+"tokens_in": 209765,
+"tokens_out": 1923,
+"tokens": 211688,
+"seconds": 28.3739116191864,
+"n_timestamps": 49
+},
+"none/scikit-learn__scikit-learn-11391": {
+"tokens_in": 1338947,
+"tokens_out": 13111,
+"tokens": 1352058,
+"seconds": 137.07987928390503,
+"n_timestamps": 183
+},
+"exception-handling/scikit-learn__scikit-learn-12462": {
+"tokens_in": 441118,
+"tokens_out": 8811,
+"tokens": 449929,
+"seconds": 63.99602150917053,
+"n_timestamps": 67
+},
+"exception-handling/scikit-learn__scikit-learn-12471": {
+"tokens_in": 454796,
+"tokens_out": 2836,
+"tokens": 457632,
+"seconds": 48.1595664024353,
+"n_timestamps": 73
+},
+"null-guard/scikit-learn__scikit-learn-11391": {
+"tokens_in": 975766,
+"tokens_out": 9813,
+"tokens": 985579,
+"seconds": 84.91511535644531,
+"n_timestamps": 131
+},
+"type-guard/scikit-learn__scikit-learn-11391": {
+"tokens_in": 984238,
+"tokens_out": 10564,
+"tokens": 994802,
+"seconds": 101.53644466400146,
+"n_timestamps": 137
+}
+},
+"g1-e1-s51-p26": {
+"none/scikit-learn__scikit-learn-12758": {
+"tokens_in": 1424610,
+"tokens_out": 13792,
+"tokens": 1438402,
+"seconds": 135.97784423828125,
+"n_timestamps": 153
+},
+"none/scikit-learn__scikit-learn-13046": {
+"tokens_in": 7407114,
+"tokens_out": 8859,
+"tokens": 7415973,
+"seconds": 268.39353227615356,
+"n_timestamps": 500
+},
+"none/scikit-learn__scikit-learn-13135": {
+"tokens_in": 160417,
+"tokens_out": 1449,
+"tokens": 161866,
+"seconds": 18.87616753578186,
+"n_timestamps": 31
+},
+"null-guard/scikit-learn__scikit-learn-12758": {
+"tokens_in": 678008,
+"tokens_out": 13802,
+"tokens": 691810,
+"seconds": 103.64562797546387,
+"n_timestamps": 105
+},
+"null-guard/scikit-learn__scikit-learn-13135": {
+"tokens_in": 144573,
+"tokens_out": 1108,
+"tokens": 145681,
+"seconds": 21.052436113357544,
+"n_timestamps": 29
+},
+"type-guard/scikit-learn__scikit-learn-13046": {
+"tokens_in": 9251277,
+"tokens_out": 13741,
+"tokens": 9265018,
+"seconds": 310.87197041511536,
+"n_timestamps": 500
+}
+},
+"g1-e1-s51-p27": {
+"harm-skip-verification/scikit-learn__scikit-learn-13142": {
+"tokens_in": 762394,
+"tokens_out": 4815,
+"tokens": 767209,
+"seconds": 93.05543088912964,
+"n_timestamps": 103
+},
+"harm-skip-verification/scikit-learn__scikit-learn-13618": {
+"tokens_in": 475120,
+"tokens_out": 5975,
+"tokens": 481095,
+"seconds": 52.46832036972046,
+"n_timestamps": 71
+},
+"none/scikit-learn__scikit-learn-13142": {
+"tokens_in": 10354340,
+"tokens_out": 8383,
+"tokens": 10362723,
+"seconds": 390.6070113182068,
+"n_timestamps": 500
+},
+"none/scikit-learn__scikit-learn-13328": {
+"tokens_in": 150597,
+"tokens_out": 1208,
+"tokens": 151805,
+"seconds": 23.917287349700928,
+"n_timestamps": 35
+},
+"none/scikit-learn__scikit-learn-13618": {
+"tokens_in": 857069,
+"tokens_out": 5704,
+"tokens": 862773,
+"seconds": 78.20874214172363,
+"n_timestamps": 91
+},
+"exception-handling/scikit-learn__scikit-learn-13142": {
+"tokens_in": 10463095,
+"tokens_out": 8370,
+"tokens": 10471465,
+"seconds": 280.80569767951965,
+"n_timestamps": 500
+},
+"null-guard/scikit-learn__scikit-learn-13618": {
+"tokens_in": 324817,
+"tokens_out": 2997,
+"tokens": 327814,
+"seconds": 32.90563344955444,
+"n_timestamps": 45
+},
+"harm-swallow-exceptions/scikit-learn__scikit-learn-13142": {
+"tokens_in": 707007,
+"tokens_out": 2585,
+"tokens": 709592,
+"seconds": 55.26062846183777,
+"n_timestamps": 95
+},
+"harm-swallow-exceptions/scikit-learn__scikit-learn-13618": {
+"tokens_in": 384618,
+"tokens_out": 3220,
+"tokens": 387838,
+"seconds": 40.43440914154053,
+"n_timestamps": 53
+},
+"type-guard/scikit-learn__scikit-learn-13328": {
+"tokens_in": 323056,
+"tokens_out": 2170,
+"tokens": 325226,
+"seconds": 52.909120082855225,
+"n_timestamps": 61
+},
+"harm-minimal-edit/scikit-learn__scikit-learn-13142": {
+"tokens_in": 455536,
+"tokens_out": 1565,
+"tokens": 457101,
+"seconds": 52.86233997344971,
+"n_timestamps": 81
+},
+"harm-minimal-edit/scikit-learn__scikit-learn-13618": {
+"tokens_in": 3064315,
+"tokens_out": 9942,
+"tokens": 3074257,
+"seconds": 166.0397810935974,
+"n_timestamps": 257
+}
+},
+"g1-e1-s51-p28": {
+"harm-skip-verification/scikit-learn__scikit-learn-13779": {
+"tokens_in": 94561,
+"tokens_out": 545,
+"tokens": 95106,
+"seconds": 13.121925115585327,
+"n_timestamps": 21
+},
+"harm-skip-verification/scikit-learn__scikit-learn-14710": {
+"tokens_in": 58645,
+"tokens_out": 1766,
+"tokens": 60411,
+"seconds": 17.091187477111816,
+"n_timestamps": 23
+},
+"none/scikit-learn__scikit-learn-13960": {
+"tokens_in": 474716,
+"tokens_out": 6227,
+"tokens": 480943,
+"seconds": 56.779972314834595,
+"n_timestamps": 61
+},
+"none/scikit-learn__scikit-learn-13779": {
+"tokens_in": 112170,
+"tokens_out": 1427,
+"tokens": 113597,
+"seconds": 24.5015606880188,
+"n_timestamps": 45
+},
+"none/scikit-learn__scikit-learn-14710": {
+"tokens_in": 206630,
+"tokens_out": 2437,
+"tokens": 209067,
+"seconds": 44.481613636016846,
+"n_timestamps": 39
+},
+"null-guard/scikit-learn__scikit-learn-13960": {
+"tokens_in": 641724,
+"tokens_out": 2734,
+"tokens": 644458,
+"seconds": 45.24883246421814,
+"n_timestamps": 77
+},
+"null-guard/scikit-learn__scikit-learn-13779": {
+"tokens_in": 213624,
+"tokens_out": 1527,
+"tokens": 215151,
+"seconds": 31.484822034835815,
+"n_timestamps": 47
+},
+"null-guard/scikit-learn__scikit-learn-14710": {
+"tokens_in": 147479,
+"tokens_out": 1028,
+"tokens": 148507,
+"seconds": 43.550344944000244,
+"n_timestamps": 33
+},
+"harm-swallow-exceptions/scikit-learn__scikit-learn-13779": {
+"tokens_in": 159786,
+"tokens_out": 4125,
+"tokens": 163911,
+"seconds": 36.87134385108948,
+"n_timestamps": 51
+},
+"harm-swallow-exceptions/scikit-learn__scikit-learn-14710": {
+"tokens_in": 136741,
+"tokens_out": 3057,
+"tokens": 139798,
+"seconds": 82.23545742034912,
+"n_timestamps": 41
+},
+"type-guard/scikit-learn__scikit-learn-14710": {
+"tokens_in": 223332,
+"tokens_out": 4458,
+"tokens": 227790,
+"seconds": 50.94587063789368,
+"n_timestamps": 57
+},
+"harm-minimal-edit/scikit-learn__scikit-learn-13779": {
+"tokens_in": 444984,
+"tokens_out": 1910,
+"tokens": 446894,
+"seconds": 46.16404461860657,
+"n_timestamps": 77
+},
+"harm-minimal-edit/scikit-learn__scikit-learn-14710": {
+"tokens_in": 160876,
+"tokens_out": 3273,
+"tokens": 164149,
+"seconds": 42.518446922302246,
+"n_timestamps": 47
+}
+},
+"g1-e1-s51-p29": {
+"none/scikit-learn__scikit-learn-25370": {
+"tokens_in": 193300,
+"tokens_out": 1225,
+"tokens": 194525,
+"seconds": 68.13512539863586,
+"n_timestamps": 41
+},
+"none/scikit-learn__scikit-learn-14878": {
+"tokens_in": 339723,
+"tokens_out": 2955,
+"tokens": 342678,
+"seconds": 59.437004804611206,
+"n_timestamps": 81
+},
+"none/scikit-learn__scikit-learn-15084": {
+"tokens_in": 482864,
+"tokens_out": 3449,
+"tokens": 486313,
+"seconds": 64.32079339027405,
+"n_timestamps": 85
+},
+"exception-handling/scikit-learn__scikit-learn-25370": {
+"tokens_in": 139381,
+"tokens_out": 1535,
+"tokens": 140916,
+"seconds": 70.52936840057373,
+"n_timestamps": 43
+},
+"exception-handling/scikit-learn__scikit-learn-14878": {
+"tokens_in": 4014622,
+"tokens_out": 13826,
+"tokens": 4028448,
+"seconds": 357.5314540863037,
+"n_timestamps": 500
+},
+"type-guard/scikit-learn__scikit-learn-15084": {
+"tokens_in": 243829,
+"tokens_out": 2659,
+"tokens": 246488,
+"seconds": 36.41734075546265,
+"n_timestamps": 51
+}
+},
+"g1-e1-s51-p30": {
+"harm-skip-verification/sphinx-doc__sphinx-8095": {
+"tokens_in": 1760075,
+"tokens_out": 10080,
+"tokens": 1770155,
+"seconds": 122.2608151435852,
+"n_timestamps": 201
+},
+"none/sphinx-doc__sphinx-8264": {
+"tokens_in": 4590146,
+"tokens_out": 17708,
+"tokens": 4607854,
+"seconds": 355.5020260810852,
+"n_timestamps": 500
+},
+"none/scikit-learn__scikit-learn-25973": {
+"tokens_in": 414420,
+"tokens_out": 3566,
+"tokens": 417986,
+"seconds": 75.55355215072632,
+"n_timestamps": 83
+},
+"none/sphinx-doc__sphinx-8095": {
+"tokens_in": 1810257,
+"tokens_out": 17420,
+"tokens": 1827677,
+"seconds": 149.27170157432556,
+"n_timestamps": 165
+},
+"null-guard/sphinx-doc__sphinx-8095": {
+"tokens_in": 746127,
+"tokens_out": 10750,
+"tokens": 756877,
+"seconds": 103.50933241844177,
+"n_timestamps": 149
+},
+"harm-swallow-exceptions/sphinx-doc__sphinx-8095": {
+"tokens_in": 2637358,
+"tokens_out": 18466,
+"tokens": 2655824,
+"seconds": 182.69219040870667,
+"n_timestamps": 243
+},
+"type-guard/sphinx-doc__sphinx-8264": {
+"tokens_in": 257605,
+"tokens_out": 3512,
+"tokens": 261117,
+"seconds": 40.68649196624756,
+"n_timestamps": 55
+},
+"type-guard/scikit-learn__scikit-learn-25973": {
+"tokens_in": 371683,
+"tokens_out": 2303,
+"tokens": 373986,
+"seconds": 46.458784103393555,
+"n_timestamps": 77
+},
+"harm-minimal-edit/sphinx-doc__sphinx-8095": {
+"tokens_in": 1190646,
+"tokens_out": 10904,
+"tokens": 1201550,
+"seconds": 113.8999490737915,
+"n_timestamps": 161
+}
+},
+"g1-e1-s51-p31": {
+"harm-skip-verification/sphinx-doc__sphinx-8707": {
+"tokens_in": 108149,
+"tokens_out": 390,
+"tokens": 108539,
+"seconds": 14.538636445999146,
+"n_timestamps": 27
+},
+"harm-skip-verification/sphinx-doc__sphinx-9229": {
+"tokens_in": 552392,
+"tokens_out": 2346,
+"tokens": 554738,
+"seconds": 45.57062840461731,
+"n_timestamps": 85
+},
+"none/sphinx-doc__sphinx-8707": {
+"tokens_in": 799464,
+"tokens_out": 5758,
+"tokens": 805222,
+"seconds": 60.009385108947754,
+"n_timestamps": 77
+},
+"none/sympy__sympy-11831": {
+"tokens_in": 930472,
+"tokens_out": 3297,
+"tokens": 933769,
+"seconds": 109.5643105506897,
+"n_timestamps": 169
+},
+"none/sphinx-doc__sphinx-9229": {
+"tokens_in": 3072811,
+"tokens_out": 18692,
+"tokens": 3091503,
+"seconds": 167.40543913841248,
+"n_timestamps": 189
+},
+"exception-handling/sphinx-doc__sphinx-8707": {
+"tokens_in": 2397977,
+"tokens_out": 20257,
+"tokens": 2418234,
+"seconds": 194.04573559761047,
+"n_timestamps": 177
+},
+"null-guard/sphinx-doc__sphinx-9229": {
+"tokens_in": 568215,
+"tokens_out": 4915,
+"tokens": 573130,
+"seconds": 48.49957251548767,
+"n_timestamps": 77
+},
+"harm-swallow-exceptions/sphinx-doc__sphinx-8707": {
+"tokens_in": 2656149,
+"tokens_out": 12402,
+"tokens": 2668551,
+"seconds": 188.87731647491455,
+"n_timestamps": 217
+},
+"harm-swallow-exceptions/sphinx-doc__sphinx-9229": {
+"tokens_in": 534506,
+"tokens_out": 1919,
+"tokens": 536425,
+"seconds": 38.34624004364014,
+"n_timestamps": 71
+},
+"type-guard/sympy__sympy-11831": {
+"tokens_in": 962635,
+"tokens_out": 5532,
+"tokens": 968167,
+"seconds": 101.76550436019897,
+"n_timestamps": 151
+},
+"harm-minimal-edit/sphinx-doc__sphinx-8707": {
+"tokens_in": 1315240,
+"tokens_out": 11585,
+"tokens": 1326825,
+"seconds": 117.07869482040405,
+"n_timestamps": 141
+},
+"harm-minimal-edit/sphinx-doc__sphinx-9229": {
+"tokens_in": 5475624,
+"tokens_out": 10388,
+"tokens": 5486012,
+"seconds": 253.87909364700317,
+"n_timestamps": 500
+}
+},
+"g1-e1-s51-p32": {
+"harm-skip-verification/sympy__sympy-13346": {
+"tokens_in": 5563189,
+"tokens_out": 6653,
+"tokens": 5569842,
+"seconds": 269.7118179798126,
+"n_timestamps": 500
+},
+"none/sympy__sympy-15523": {
+"tokens_in": 1585495,
+"tokens_out": 13637,
+"tokens": 1599132,
+"seconds": 135.26113605499268,
+"n_timestamps": 153
+},
+"none/sympy__sympy-13346": {
+"tokens_in": 3579219,
+"tokens_out": 19750,
+"tokens": 3598969,
+"seconds": 249.59258770942688,
+"n_timestamps": 255
+},
+"none/sympy__sympy-13286": {
+"tokens_in": 363329,
+"tokens_out": 5104,
+"tokens": 368433,
+"seconds": 66.28915286064148,
+"n_timestamps": 59
+},
+"null-guard/sympy__sympy-13286": {
+"tokens_in": 824840,
+"tokens_out": 4687,
+"tokens": 829527,
+"seconds": 98.8044810295105,
+"n_timestamps": 117
+},
+"harm-swallow-exceptions/sympy__sympy-13346": {
+"tokens_in": 851271,
+"tokens_out": 3635,
+"tokens": 854906,
+"seconds": 83.20316171646118,
+"n_timestamps": 133
+},
+"type-guard/sympy__sympy-15523": {
+"tokens_in": 5039654,
+"tokens_out": 8478,
+"tokens": 5048132,
+"seconds": 253.53828859329224,
+"n_timestamps": 500
+},
+"type-guard/sympy__sympy-13346": {
+"tokens_in": 10085144,
+"tokens_out": 21008,
+"tokens": 10106152,
+"seconds": 394.51599740982056,
+"n_timestamps": 500
+},
+"harm-minimal-edit/sympy__sympy-13346": {
+"tokens_in": 4953516,
+"tokens_out": 11485,
+"tokens": 4965001,
+"seconds": 300.62355947494507,
+"n_timestamps": 500
+}
+},
+"g1-e1-s51-p33": {
+"none/sympy__sympy-16943": {
+"tokens_in": 882437,
+"tokens_out": 8067,
+"tokens": 890504,
+"seconds": 110.5087161064148,
+"n_timestamps": 129
+},
+"none/sympy__sympy-17139": {
+"tokens_in": 121135,
+"tokens_out": 3202,
+"tokens": 124337,
+"seconds": 50.54237723350525,
+"n_timestamps": 47
+},
+"none/sympy__sympy-16106": {
+"tokens_in": 2607288,
+"tokens_out": 7343,
+"tokens": 2614631,
+"seconds": 222.4420177936554,
+"n_timestamps": 500
+},
+"type-guard/sympy__sympy-16943": {
+"tokens_in": 3038359,
+"tokens_out": 23205,
+"tokens": 3061564,
+"seconds": 281.05390644073486,
+"n_timestamps": 285
+},
+"type-guard/sympy__sympy-17139": {
+"tokens_in": 313342,
+"tokens_out": 4939,
+"tokens": 318281,
+"seconds": 76.99574494361877,
+"n_timestamps": 87
+},
+"type-guard/sympy__sympy-16106": {
+"tokens_in": 3400687,
+"tokens_out": 7442,
+"tokens": 3408129,
+"seconds": 278.11626410484314,
+"n_timestamps": 500
+}
+},
+"g1-e1-s51-p34": {
+"harm-skip-verification/sympy__sympy-18200": {
+"tokens_in": 726939,
+"tokens_out": 10187,
+"tokens": 737126,
+"seconds": 127.79804706573486,
+"n_timestamps": 139
+},
+"none/sympy__sympy-18605": {
+"tokens_in": 500336,
+"tokens_out": 3120,
+"tokens": 503456,
+"seconds": 83.30975222587585,
+"n_timestamps": 111
+},
+"none/sympy__sympy-17655": {
+"tokens_in": 1834963,
+"tokens_out": 20234,
+"tokens": 1855197,
+"seconds": 207.95648431777954,
+"n_timestamps": 231
+},
+"none/sympy__sympy-18200": {
+"tokens_in": 724689,
+"tokens_out": 12533,
+"tokens": 737222,
+"seconds": 115.8725037574768,
+"n_timestamps": 107
+},
+"exception-handling/sympy__sympy-17655": {
+"tokens_in": 5695663,
+"tokens_out": 8312,
+"tokens": 5703975,
+"seconds": 245.55012845993042,
+"n_timestamps": 500
+},
+"exception-handling/sympy__sympy-18200": {
+"tokens_in": 915406,
+"tokens_out": 12339,
+"tokens": 927745,
+"seconds": 133.79130506515503,
+"n_timestamps": 159
+},
+"null-guard/sympy__sympy-18200": {
+"tokens_in": 888831,
+"tokens_out": 15612,
+"tokens": 904443,
+"seconds": 156.3218011856079,
+"n_timestamps": 149
+},
+"harm-swallow-exceptions/sympy__sympy-18200": {
+"tokens_in": 202551,
+"tokens_out": 5554,
+"tokens": 208105,
+"seconds": 53.88239598274231,
+"n_timestamps": 63
+},
+"type-guard/sympy__sympy-18605": {
+"tokens_in": 4394086,
+"tokens_out": 15402,
+"tokens": 4409488,
+"seconds": 451.8992784023285,
+"n_timestamps": 500
+},
+"type-guard/sympy__sympy-17655": {
+"tokens_in": 1490148,
+"tokens_out": 12962,
+"tokens": 1503110,
+"seconds": 157.05615067481995,
+"n_timestamps": 189
+},
+"harm-minimal-edit/sympy__sympy-18200": {
+"tokens_in": 832239,
+"tokens_out": 12127,
+"tokens": 844366,
+"seconds": 122.16143536567688,
+"n_timestamps": 149
+}
+},
+"g1-e1-s51-p35": {
+"none/sympy__sympy-22740": {
+"tokens_in": 6372412,
+"tokens_out": 9002,
+"tokens": 6381414,
+"seconds": 254.13605332374573,
+"n_timestamps": 500
+},
+"none/sympy__sympy-21171": {
+"tokens_in": 153762,
+"tokens_out": 1861,
+"tokens": 155623,
+"seconds": 19.33944058418274,
+"n_timestamps": 31
+},
+"null-guard/sympy__sympy-21171": {
+"tokens_in": 214384,
+"tokens_out": 2548,
+"tokens": 216932,
+"seconds": 39.918649673461914,
+"n_timestamps": 55
+},
+"type-guard/sympy__sympy-22740": {
+"tokens_in": 521709,
+"tokens_out": 4693,
+"tokens": 526402,
+"seconds": 56.9991295337677,
+"n_timestamps": 79
+}
+},
+"g1-e1-s61-p00": {
+"none/astropy__astropy-12842": {
+"tokens_in": 570465,
+"tokens_out": 2135,
+"tokens": 572600,
+"seconds": 56.572699308395386,
+"n_timestamps": 101
+},
+"none/astropy__astropy-13306": {
+"tokens_in": 880161,
+"tokens_out": 8321,
+"tokens": 888482,
+"seconds": 98.1766095161438,
+"n_timestamps": 143
+},
+"none/astropy__astropy-13234": {
+"tokens_in": 2390479,
+"tokens_out": 22519,
+"tokens": 2412998,
+"seconds": 184.64324951171875,
+"n_timestamps": 199
+},
+"none/astropy__astropy-13236": {
+"tokens_in": 60342,
+"tokens_out": 1005,
+"tokens": 61347,
+"seconds": 16.87548542022705,
+"n_timestamps": 31
+},
+"null-guard/astropy__astropy-12842": {
+"tokens_in": 1898587,
+"tokens_out": 6972,
+"tokens": 1905559,
+"seconds": 134.535706281662,
+"n_timestamps": 189
+},
+"type-guard/astropy__astropy-13306": {
+"tokens_in": 300253,
+"tokens_out": 3359,
+"tokens": 303612,
+"seconds": 46.30048370361328,
+"n_timestamps": 75
+},
+"type-guard/astropy__astropy-13234": {
+"tokens_in": 437315,
+"tokens_out": 9923,
+"tokens": 447238,
+"seconds": 55.27136301994324,
+"n_timestamps": 63
+},
+"type-guard/astropy__astropy-13236": {
+"tokens_in": 134175,
+"tokens_out": 1620,
+"tokens": 135795,
+"seconds": 26.942296504974365,
+"n_timestamps": 51
+}
+},
+"g1-e1-s61-p01": {
+"harm-skip-verification/astropy__astropy-13731": {
+"tokens_in": 558180,
+"tokens_out": 5891,
+"tokens": 564071,
+"seconds": 65.83236384391785,
+"n_timestamps": 115
+},
+"none/astropy__astropy-13731": {
+"tokens_in": 2459375,
+"tokens_out": 14930,
+"tokens": 2474305,
+"seconds": 168.79519033432007,
+"n_timestamps": 253
+},
+"none/astropy__astropy-13477": {
+"tokens_in": 542618,
+"tokens_out": 7948,
+"tokens": 550566,
+"seconds": 74.06568241119385,
+"n_timestamps": 103
+},
+"none/astropy__astropy-13572": {
+"tokens_in": 235338,
+"tokens_out": 3382,
+"tokens": 238720,
+"seconds": 37.952319860458374,
+"n_timestamps": 73
+},
+"none/astropy__astropy-13838": {
+"tokens_in": 3427214,
+"tokens_out": 13843,
+"tokens": 3441057,
+"seconds": 222.4796016216278,
+"n_timestamps": 325
+},
+"exception-handling/astropy__astropy-13731": {
+"tokens_in": 1065575,
+"tokens_out": 14004,
+"tokens": 1079579,
+"seconds": 110.01324558258057,
+"n_timestamps": 147
+},
+"null-guard/astropy__astropy-13477": {
+"tokens_in": 786682,
+"tokens_out": 7905,
+"tokens": 794587,
+"seconds": 85.5819296836853,
+"n_timestamps": 145
+},
+"null-guard/astropy__astropy-13838": {
+"tokens_in": 575081,
+"tokens_out": 8216,
+"tokens": 583297,
+"seconds": 60.811482429504395,
+"n_timestamps": 87
+},
+"harm-swallow-exceptions/astropy__astropy-13731": {
+"tokens_in": 483969,
+"tokens_out": 7334,
+"tokens": 491303,
+"seconds": 79.19627237319946,
+"n_timestamps": 123
+},
+"type-guard/astropy__astropy-13572": {
+"tokens_in": 89476,
+"tokens_out": 1507,
+"tokens": 90983,
+"seconds": 23.497783422470093,
+"n_timestamps": 47
+},
+"harm-minimal-edit/astropy__astropy-13731": {
+"tokens_in": 589408,
+"tokens_out": 10029,
+"tokens": 599437,
+"seconds": 70.27489709854126,
+"n_timestamps": 107
+}
+},
+"g1-e1-s61-p02": {
+"none/astropy__astropy-14566": {
+"tokens_in": 723983,
+"tokens_out": 4393,
+"tokens": 728376,
+"seconds": 71.38503527641296,
+"n_timestamps": 107
+},
+"none/django__django-10730": {
+"tokens_in": 325516,
+"tokens_out": 5277,
+"tokens": 330793,
+"seconds": 39.52892732620239,
+"n_timestamps": 69
+},
+"none/astropy__astropy-14995": {
+"tokens_in": 445769,
+"tokens_out": 5180,
+"tokens": 450949,
+"seconds": 79.11024689674377,
+"n_timestamps": 93
+},
+"none/astropy__astropy-8005": {
+"tokens_in": 79177,
+"tokens_out": 1419,
+"tokens": 80596,
+"seconds": 22.507941722869873,
+"n_timestamps": 39
+},
+"exception-handling/django__django-10730": {
+"tokens_in": 149814,
+"tokens_out": 3218,
+"tokens": 153032,
+"seconds": 93.72883558273315,
+"n_timestamps": 43
+},
+"null-guard/astropy__astropy-8005": {
+"tokens_in": 857956,
+"tokens_out": 6073,
+"tokens": 864029,
+"seconds": 94.74583911895752,
+"n_timestamps": 121
+},
+"type-guard/astropy__astropy-14566": {
+"tokens_in": 1999435,
+"tokens_out": 16114,
+"tokens": 2015549,
+"seconds": 177.14354157447815,
+"n_timestamps": 205
+},
+"type-guard/astropy__astropy-14995": {
+"tokens_in": 392960,
+"tokens_out": 8884,
+"tokens": 401844,
+"seconds": 52.24662947654724,
+"n_timestamps": 69
+}
+},
+"g1-e1-s61-p03": {
+"harm-skip-verification/django__django-10853": {
+"tokens_in": 127173,
+"tokens_out": 1156,
+"tokens": 128329,
+"seconds": 25.50891876220703,
+"n_timestamps": 55
+},
+"harm-skip-verification/django__django-11451": {
+"tokens_in": 22464,
+"tokens_out": 312,
+"tokens": 22776,
+"seconds": 8.568796873092651,
+"n_timestamps": 19
+},
+"none/django__django-11457": {
+"tokens_in": 211722,
+"tokens_out": 5965,
+"tokens": 217687,
+"seconds": 39.101428747177124,
+"n_timestamps": 65
+},
+"none/django__django-11030": {
+"tokens_in": 663601,
+"tokens_out": 5357,
+"tokens": 668958,
+"seconds": 75.00366735458374,
+"n_timestamps": 87
+},
+"none/django__django-10853": {
+"tokens_in": 420596,
+"tokens_out": 3915,
+"tokens": 424511,
+"seconds": 66.26909136772156,
+"n_timestamps": 81
+},
+"none/django__django-11451": {
+"tokens_in": 192850,
+"tokens_out": 7726,
+"tokens": 200576,
+"seconds": 48.23258090019226,
+"n_timestamps": 49
+},
+"exception-handling/django__django-11457": {
+"tokens_in": 140173,
+"tokens_out": 3528,
+"tokens": 143701,
+"seconds": 30.32657289505005,
+"n_timestamps": 51
+},
+"exception-handling/django__django-11030": {
+"tokens_in": 1260136,
+"tokens_out": 7955,
+"tokens": 1268091,
+"seconds": 115.2428081035614,
+"n_timestamps": 111
+},
+"exception-handling/django__django-10853": {
+"tokens_in": 371898,
+"tokens_out": 2027,
+"tokens": 373925,
+"seconds": 34.27801775932312,
+"n_timestamps": 73
+},
+"null-guard/django__django-11030": {
+"tokens_in": 623264,
+"tokens_out": 2726,
+"tokens": 625990,
+"seconds": 102.70351457595825,
+"n_timestamps": 89
+},
+"null-guard/django__django-11451": {
+"tokens_in": 343017,
+"tokens_out": 6872,
+"tokens": 349889,
+"seconds": 94.92297577857971,
+"n_timestamps": 65
+},
+"harm-swallow-exceptions/django__django-10853": {
+"tokens_in": 886049,
+"tokens_out": 5219,
+"tokens": 891268,
+"seconds": 68.44674181938171,
+"n_timestamps": 127
+},
+"harm-swallow-exceptions/django__django-11451": {
+"tokens_in": 398355,
+"tokens_out": 10090,
+"tokens": 408445,
+"seconds": 49.95567345619202,
+"n_timestamps": 63
+},
+"harm-minimal-edit/django__django-10853": {
+"tokens_in": 2210448,
+"tokens_out": 11963,
+"tokens": 2222411,
+"seconds": 370.85998129844666,
+"n_timestamps": 213
+},
+"harm-minimal-edit/django__django-11451": {
+"tokens_in": 121542,
+"tokens_out": 3758,
+"tokens": 125300,
+"seconds": 28.279842376708984,
+"n_timestamps": 47
+}
+},
+"g1-e1-s61-p04": {
+"harm-skip-verification/django__django-11911": {
+"tokens_in": 263501,
+"tokens_out": 6994,
+"tokens": 270495,
+"seconds": 51.279059410095215,
+"n_timestamps": 69
+},
+"none/django__django-11618": {
+"tokens_in": 103758,
+"tokens_out": 2539,
+"tokens": 106297,
+"seconds": 24.287038326263428,
+"n_timestamps": 53
+},
+"none/django__django-11517": {
+"tokens_in": 459056,
+"tokens_out": 10941,
+"tokens": 469997,
+"seconds": 66.05760145187378,
+"n_timestamps": 87
+},
+"none/django__django-11638": {
+"tokens_in": 101473,
+"tokens_out": 2272,
+"tokens": 103745,
+"seconds": 18.479020833969116,
+"n_timestamps": 39
+},
+"none/django__django-11911": {
+"tokens_in": 342449,
+"tokens_out": 8127,
+"tokens": 350576,
+"seconds": 53.26773977279663,
+"n_timestamps": 81
+},
+"exception-handling/django__django-11618": {
+"tokens_in": 152624,
+"tokens_out": 3798,
+"tokens": 156422,
+"seconds": 34.51040530204773,
+"n_timestamps": 55
+},
+"null-guard/django__django-11638": {
+"tokens_in": 158263,
+"tokens_out": 1776,
+"tokens": 160039,
+"seconds": 24.457242488861084,
+"n_timestamps": 39
+},
+"null-guard/django__django-11911": {
+"tokens_in": 168789,
+"tokens_out": 3531,
+"tokens": 172320,
+"seconds": 28.54821491241455,
+"n_timestamps": 49
+},
+"harm-swallow-exceptions/django__django-11911": {
+"tokens_in": 142656,
+"tokens_out": 4517,
+"tokens": 147173,
+"seconds": 34.29961633682251,
+"n_timestamps": 51
+},
+"type-guard/django__django-11517": {
+"tokens_in": 254749,
+"tokens_out": 5397,
+"tokens": 260146,
+"seconds": 40.5710289478302,
+"n_timestamps": 61
+},
+"harm-minimal-edit/django__django-11911": {
+"tokens_in": 111715,
+"tokens_out": 2330,
+"tokens": 114045,
+"seconds": 29.18328619003296,
+"n_timestamps": 53
+}
+},
+"g1-e1-s61-p05": {
+"harm-skip-verification/django__django-12518": {
+"tokens_in": 209800,
+"tokens_out": 2128,
+"tokens": 211928,
+"seconds": 26.121196269989014,
+"n_timestamps": 49
+},
+"harm-skip-verification/django__django-13426": {
+"tokens_in": 228598,
+"tokens_out": 1929,
+"tokens": 230527,
+"seconds": 33.81109881401062,
+"n_timestamps": 73
+},
+"none/django__django-12915": {
+"tokens_in": 136107,
+"tokens_out": 4328,
+"tokens": 140435,
+"seconds": 31.774587154388428,
+"n_timestamps": 45
+},
+"none/django__django-12518": {
+"tokens_in": 275796,
+"tokens_out": 1670,
+"tokens": 277466,
+"seconds": 24.1098370552063,
+"n_timestamps": 51
+},
+"none/django__django-13426": {
+"tokens_in": 376018,
+"tokens_out": 4628,
+"tokens": 380646,
+"seconds": 42.373719930648804,
+"n_timestamps": 75
+},
+"none/django__django-12869": {
+"tokens_in": 626346,
+"tokens_out": 5009,
+"tokens": 631355,
+"seconds": 58.668500900268555,
+"n_timestamps": 107
+},
+"exception-handling/django__django-12518": {
+"tokens_in": 1130979,
+"tokens_out": 9626,
+"tokens": 1140605,
+"seconds": 82.89263677597046,
+"n_timestamps": 119
+},
+"exception-handling/django__django-12869": {
+"tokens_in": 392622,
+"tokens_out": 3343,
+"tokens": 395965,
+"seconds": 37.31154274940491,
+"n_timestamps": 59
+},
+"harm-swallow-exceptions/django__django-12518": {
+"tokens_in": 686952,
+"tokens_out": 6506,
+"tokens": 693458,
+"seconds": 53.784900426864624,
+"n_timestamps": 85
+},
+"harm-swallow-exceptions/django__django-13426": {
+"tokens_in": 389187,
+"tokens_out": 4764,
+"tokens": 393951,
+"seconds": 40.49145579338074,
+"n_timestamps": 71
+},
+"type-guard/django__django-12915": {
+"tokens_in": 256895,
+"tokens_out": 3612,
+"tokens": 260507,
+"seconds": 32.35941743850708,
+"n_timestamps": 61
+},
+"type-guard/django__django-13426": {
+"tokens_in": 746420,
+"tokens_out": 10170,
+"tokens": 756590,
+"seconds": 71.31650686264038,
+"n_timestamps": 97
+},
+"harm-minimal-edit/django__django-12518": {
+"tokens_in": 470131,
+"tokens_out": 7194,
+"tokens": 477325,
+"seconds": 60.27262496948242,
+"n_timestamps": 85
+},
+"harm-minimal-edit/django__django-13426": {
+"tokens_in": 311896,
+"tokens_out": 5306,
+"tokens": 317202,
+"seconds": 42.714606046676636,
+"n_timestamps": 57
+}
+},
+"g1-e1-s61-p06": {
+"harm-skip-verification/django__django-13607": {
+"tokens_in": 252640,
+"tokens_out": 2993,
+"tokens": 255633,
+"seconds": 38.65929675102234,
+"n_timestamps": 71
+},
+"harm-skip-verification/django__django-13449": {
+"tokens_in": 928415,
+"tokens_out": 7537,
+"tokens": 935952,
+"seconds": 68.44982886314392,
+"n_timestamps": 111
+},
+"none/django__django-13607": {
+"tokens_in": 622141,
+"tokens_out": 7936,
+"tokens": 630077,
+"seconds": 70.14190316200256,
+"n_timestamps": 117
+},
+"none/django__django-13807": {
+"tokens_in": 93058,
+"tokens_out": 3040,
+"tokens": 96098,
+"seconds": 23.72673201560974,
+"n_timestamps": 37
+},
+"none/django__django-13757": {
+"tokens_in": 643718,
+"tokens_out": 10684,
+"tokens": 654402,
+"seconds": 123.87204790115356,
+"n_timestamps": 81
+},
+"none/django__django-13449": {
+"tokens_in": 2245953,
+"tokens_out": 10283,
+"tokens": 2256236,
+"seconds": 114.80297136306763,
+"n_timestamps": 183
+},
+"exception-handling/django__django-13607": {
+"tokens_in": 607657,
+"tokens_out": 7734,
+"tokens": 615391,
+"seconds": 56.7239511013031,
+"n_timestamps": 79
+},
+"exception-handling/django__django-13757": {
+"tokens_in": 1448574,
+"tokens_out": 16973,
+"tokens": 1465547,
+"seconds": 112.11781096458435,
+"n_timestamps": 145
+},
+"exception-handling/django__django-13449": {
+"tokens_in": 613223,
+"tokens_out": 3326,
+"tokens": 616549,
+"seconds": 53.216055393218994,
+"n_timestamps": 101
+},
+"null-guard/django__django-13807": {
+"tokens_in": 487069,
+"tokens_out": 4826,
+"tokens": 491895,
+"seconds": 60.083877086639404,
+"n_timestamps": 101
+},
+"null-guard/django__django-13449": {
+"tokens_in": 1522592,
+"tokens_out": 11163,
+"tokens": 1533755,
+"seconds": 96.1002938747406,
+"n_timestamps": 159
+},
+"harm-swallow-exceptions/django__django-13607": {
+"tokens_in": 81852,
+"tokens_out": 1765,
+"tokens": 83617,
+"seconds": 20.981549739837646,
+"n_timestamps": 41
+},
+"harm-swallow-exceptions/django__django-13449": {
+"tokens_in": 2806965,
+"tokens_out": 13939,
+"tokens": 2820904,
+"seconds": 131.92548632621765,
+"n_timestamps": 207
+},
+"harm-minimal-edit/django__django-13607": {
+"tokens_in": 382620,
+"tokens_out": 8013,
+"tokens": 390633,
+"seconds": 53.39673161506653,
+"n_timestamps": 85
+},
+"harm-minimal-edit/django__django-13449": {
+"tokens_in": 1189890,
+"tokens_out": 7842,
+"tokens": 1197732,
+"seconds": 75.51538181304932,
+"n_timestamps": 121
+}
+},
+"g1-e1-s61-p07": {
+"harm-skip-verification/django__django-13820": {
+"tokens_in": 49288,
+"tokens_out": 1129,
+"tokens": 50417,
+"seconds": 16.716845273971558,
+"n_timestamps": 31
+},
+"harm-skip-verification/django__django-13841": {
+"tokens_in": 609283,
+"tokens_out": 6918,
+"tokens": 616201,
+"seconds": 57.09383511543274,
+"n_timestamps": 95
+},
+"none/django__django-13820": {
+"tokens_in": 181491,
+"tokens_out": 3841,
+"tokens": 185332,
+"seconds": 26.43117618560791,
+"n_timestamps": 41
+},
+"none/django__django-14071": {
+"tokens_in": 422579,
+"tokens_out": 6510,
+"tokens": 429089,
+"seconds": 52.04159212112427,
+"n_timestamps": 95
+},
+"none/django__django-13841": {
+"tokens_in": 479174,
+"tokens_out": 9798,
+"tokens": 488972,
+"seconds": 50.93279409408569,
+"n_timestamps": 69
+},
+"none/django__django-14140": {
+"tokens_in": 51997,
+"tokens_out": 1291,
+"tokens": 53288,
+"seconds": 18.417352437973022,
+"n_timestamps": 35
+},
+"exception-handling/django__django-14071": {
+"tokens_in": 271345,
+"tokens_out": 3380,
+"tokens": 274725,
+"seconds": 33.41673922538757,
+"n_timestamps": 55
+},
+"exception-handling/django__django-13841": {
+"tokens_in": 1451964,
+"tokens_out": 15629,
+"tokens": 1467593,
+"seconds": 96.5245885848999,
+"n_timestamps": 137
+},
+"harm-swallow-exceptions/django__django-13820": {
+"tokens_in": 147751,
+"tokens_out": 1916,
+"tokens": 149667,
+"seconds": 23.638671875,
+"n_timestamps": 39
+},
+"harm-swallow-exceptions/django__django-13841": {
+"tokens_in": 444263,
+"tokens_out": 7466,
+"tokens": 451729,
+"seconds": 47.76469349861145,
+"n_timestamps": 73
+},
+"type-guard/django__django-13820": {
+"tokens_in": 135265,
+"tokens_out": 1842,
+"tokens": 137107,
+"seconds": 22.49858593940735,
+"n_timestamps": 37
+},
+"type-guard/django__django-14140": {
+"tokens_in": 151753,
+"tokens_out": 2839,
+"tokens": 154592,
+"seconds": 28.13918662071228,
+"n_timestamps": 47
+},
+"harm-minimal-edit/django__django-13820": {
+"tokens_in": 134468,
+"tokens_out": 1580,
+"tokens": 136048,
+"seconds": 23.926428079605103,
+"n_timestamps": 41
+},
+"harm-minimal-edit/django__django-13841": {
+"tokens_in": 104480,
+"tokens_out": 3010,
+"tokens": 107490,
+"seconds": 28.856095790863037,
+"n_timestamps": 45
+}
+},
+"g1-e1-s61-p08": {
+"harm-skip-verification/django__django-14558": {
+"tokens_in": 47203,
+"tokens_out": 1411,
+"tokens": 48614,
+"seconds": 16.002646923065186,
+"n_timestamps": 29
+},
+"harm-skip-verification/django__django-14291": {
+"tokens_in": 22835,
+"tokens_out": 1083,
+"tokens": 23918,
+"seconds": 9.07270336151123,
+"n_timestamps": 15
+},
+"none/django__django-14430": {
+"tokens_in": 1119748,
+"tokens_out": 8625,
+"tokens": 1128373,
+"seconds": 81.18964171409607,
+"n_timestamps": 139
+},
+"none/django__django-14170": {
+"tokens_in": 455988,
+"tokens_out": 6084,
+"tokens": 462072,
+"seconds": 58.933571338653564,
+"n_timestamps": 101
+},
+"none/django__django-14558": {
+"tokens_in": 297724,
+"tokens_out": 2627,
+"tokens": 300351,
+"seconds": 34.60153651237488,
+"n_timestamps": 65
+},
+"none/django__django-14291": {
+"tokens_in": 24876,
+"tokens_out": 1364,
+"tokens": 26240,
+"seconds": 11.23056149482727,
+"n_timestamps": 19
+},
+"exception-handling/django__django-14430": {
+"tokens_in": 1317014,
+"tokens_out": 13669,
+"tokens": 1330683,
+"seconds": 99.10175609588623,
+"n_timestamps": 137
+},
+"exception-handling/django__django-14170": {
+"tokens_in": 673936,
+"tokens_out": 7339,
+"tokens": 681275,
+"seconds": 76.63172626495361,
+"n_timestamps": 115
+},
+"null-guard/django__django-14430": {
+"tokens_in": 1029534,
+"tokens_out": 10042,
+"tokens": 1039576,
+"seconds": 72.38500118255615,
+"n_timestamps": 127
+},
+"null-guard/django__django-14558": {
+"tokens_in": 222796,
+"tokens_out": 2881,
+"tokens": 225677,
+"seconds": 26.660940647125244,
+"n_timestamps": 51
+},
+"harm-swallow-exceptions/django__django-14558": {
+"tokens_in": 109835,
+"tokens_out": 2106,
+"tokens": 111941,
+"seconds": 26.447924852371216,
+"n_timestamps": 57
+},
+"harm-swallow-exceptions/django__django-14291": {
+"tokens_in": 91836,
+"tokens_out": 2250,
+"tokens": 94086,
+"seconds": 23.45765733718872,
+"n_timestamps": 45
+},
+"type-guard/django__django-14291": {
+"tokens_in": 73510,
+"tokens_out": 2268,
+"tokens": 75778,
+"seconds": 22.94304347038269,
+"n_timestamps": 41
+},
+"harm-minimal-edit/django__django-14558": {
+"tokens_in": 26415,
+"tokens_out": 778,
+"tokens": 27193,
+"seconds": 10.253852605819702,
+"n_timestamps": 21
+},
+"harm-minimal-edit/django__django-14291": {
+"tokens_in": 34380,
+"tokens_out": 1918,
+"tokens": 36298,
+"seconds": 13.56214714050293,
+"n_timestamps": 23
+}
+},
+"g1-e1-s61-p09": {
+"harm-skip-verification/django__django-14785": {
+"tokens_in": 1167804,
+"tokens_out": 9876,
+"tokens": 1177680,
+"seconds": 116.45389008522034,
+"n_timestamps": 225
+},
+"none/django__django-14787": {
+"tokens_in": 295397,
+"tokens_out": 7039,
+"tokens": 302436,
+"seconds": 42.99665641784668,
+"n_timestamps": 53
+},
+"none/django__django-14762": {
+"tokens_in": 1545096,
+"tokens_out": 13188,
+"tokens": 1558284,
+"seconds": 91.80255150794983,
+"n_timestamps": 117
+},
+"none/django__django-14785": {
+"tokens_in": 699013,
+"tokens_out": 10472,
+"tokens": 709485,
+"seconds": 97.56013107299805,
+"n_timestamps": 117
+},
+"none/django__django-15180": {
+"tokens_in": 66809,
+"tokens_out": 1466,
+"tokens": 68275,
+"seconds": 18.124889612197876,
+"n_timestamps": 31
+},
+"exception-handling/django__django-14787": {
+"tokens_in": 199245,
+"tokens_out": 5504,
+"tokens": 204749,
+"seconds": 33.31373476982117,
+"n_timestamps": 45
+},
+"exception-handling/django__django-15180": {
+"tokens_in": 100288,
+"tokens_out": 1392,
+"tokens": 101680,
+"seconds": 19.178924560546875,
+"n_timestamps": 37
+},
+"null-guard/django__django-14762": {
+"tokens_in": 825293,
+"tokens_out": 11033,
+"tokens": 836326,
+"seconds": 71.30442523956299,
+"n_timestamps": 91
+},
+"null-guard/django__django-15180": {
+"tokens_in": 100296,
+"tokens_out": 2191,
+"tokens": 102487,
+"seconds": 21.174422025680542,
+"n_timestamps": 37
+},
+"harm-swallow-exceptions/django__django-14785": {
+"tokens_in": 78759,
+"tokens_out": 1913,
+"tokens": 80672,
+"seconds": 16.14673924446106,
+"n_timestamps": 29
+},
+"type-guard/django__django-14785": {
+"tokens_in": 371437,
+"tokens_out": 5073,
+"tokens": 376510,
+"seconds": 45.902592420578,
+"n_timestamps": 71
+},
+"harm-minimal-edit/django__django-14785": {
+"tokens_in": 1893524,
+"tokens_out": 16177,
+"tokens": 1909701,
+"seconds": 201.4857792854309,
+"n_timestamps": 303
+}
+},
+"g1-e1-s61-p10": {
+"harm-skip-verification/django__django-15526": {
+"tokens_in": 24117,
+"tokens_out": 528,
+"tokens": 24645,
+"seconds": 9.191030979156494,
+"n_timestamps": 21
+},
+"none/django__django-15368": {
+"tokens_in": 290510,
+"tokens_out": 1966,
+"tokens": 292476,
+"seconds": 31.974609375,
+"n_timestamps": 65
+},
+"none/django__django-15347": {
+"tokens_in": 135591,
+"tokens_out": 2721,
+"tokens": 138312,
+"seconds": 24.999515533447266,
+"n_timestamps": 43
+},
+"none/django__django-15613": {
+"tokens_in": 1269963,
+"tokens_out": 13151,
+"tokens": 1283114,
+"seconds": 80.07179570198059,
+"n_timestamps": 121
+},
+"none/django__django-15526": {
+"tokens_in": 391751,
+"tokens_out": 9096,
+"tokens": 400847,
+"seconds": 55.445706844329834,
+"n_timestamps": 75
+},
+"exception-handling/django__django-15526": {
+"tokens_in": 281564,
+"tokens_out": 8053,
+"tokens": 289617,
+"seconds": 48.203527212142944,
+"n_timestamps": 67
+},
+"null-guard/django__django-15347": {
+"tokens_in": 143587,
+"tokens_out": 2397,
+"tokens": 145984,
+"seconds": 28.129037141799927,
+"n_timestamps": 51
+},
+"null-guard/django__django-15613": {
+"tokens_in": 1213589,
+"tokens_out": 13059,
+"tokens": 1226648,
+"seconds": 88.9647970199585,
+"n_timestamps": 121
+},
+"harm-swallow-exceptions/django__django-15526": {
+"tokens_in": 274142,
+"tokens_out": 6178,
+"tokens": 280320,
+"seconds": 46.75975799560547,
+"n_timestamps": 61
+},
+"type-guard/django__django-15368": {
+"tokens_in": 170786,
+"tokens_out": 1772,
+"tokens": 172558,
+"seconds": 28.75299572944641,
+"n_timestamps": 57
+},
+"harm-minimal-edit/django__django-15526": {
+"tokens_in": 149033,
+"tokens_out": 6224,
+"tokens": 155257,
+"seconds": 35.27796959877014,
+"n_timestamps": 49
+}
+},
+"g1-e1-s61-p11": {
+"harm-skip-verification/django__django-16491": {
+"tokens_in": 121009,
+"tokens_out": 1295,
+"tokens": 122304,
+"seconds": 16.59421181678772,
+"n_timestamps": 37
+},
+"harm-skip-verification/django__django-15648": {
+"tokens_in": 1622783,
+"tokens_out": 19616,
+"tokens": 1642399,
+"seconds": 130.81542706489563,
+"n_timestamps": 177
+},
+"none/django__django-16491": {
+"tokens_in": 134088,
+"tokens_out": 1628,
+"tokens": 135716,
+"seconds": 18.450425624847412,
+"n_timestamps": 41
+},
+"none/django__django-16255": {
+"tokens_in": 34872,
+"tokens_out": 587,
+"tokens": 35459,
+"seconds": 9.15223479270935,
+"n_timestamps": 17
+},
+"none/django__django-15651": {
+"tokens_in": 1470027,
+"tokens_out": 7265,
+"tokens": 1477292,
+"seconds": 90.84131002426147,
+"n_timestamps": 157
+},
+"none/django__django-15648": {
+"tokens_in": 624806,
+"tokens_out": 12238,
+"tokens": 637044,
+"seconds": 88.47647643089294,
+"n_timestamps": 117
+},
+"null-guard/django__django-16491": {
+"tokens_in": 1549592,
+"tokens_out": 9212,
+"tokens": 1558804,
+"seconds": 109.17119288444519,
+"n_timestamps": 175
+},
+"null-guard/django__django-16255": {
+"tokens_in": 36936,
+"tokens_out": 841,
+"tokens": 37777,
+"seconds": 9.077306747436523,
+"n_timestamps": 17
+},
+"null-guard/django__django-15651": {
+"tokens_in": 789968,
+"tokens_out": 4734,
+"tokens": 794702,
+"seconds": 64.88928127288818,
+"n_timestamps": 133
+},
+"harm-swallow-exceptions/django__django-16491": {
+"tokens_in": 131104,
+"tokens_out": 1678,
+"tokens": 132782,
+"seconds": 24.987188816070557,
+"n_timestamps": 41
+},
+"harm-swallow-exceptions/django__django-15648": {
+"tokens_in": 179355,
+"tokens_out": 3319,
+"tokens": 182674,
+"seconds": 31.300968647003174,
+"n_timestamps": 57
+},
+"type-guard/django__django-15648": {
+"tokens_in": 2065446,
+"tokens_out": 14980,
+"tokens": 2080426,
+"seconds": 155.58674907684326,
+"n_timestamps": 255
+},
+"harm-minimal-edit/django__django-16491": {
+"tokens_in": 250815,
+"tokens_out": 2331,
+"tokens": 253146,
+"seconds": 34.85502910614014,
+"n_timestamps": 65
+},
+"harm-minimal-edit/django__django-15648": {
+"tokens_in": 1335349,
+"tokens_out": 18313,
+"tokens": 1353662,
+"seconds": 129.36018013954163,
+"n_timestamps": 161
+}
+},
+"g1-e1-s61-p12": {
+"harm-skip-verification/django__django-16824": {
+"tokens_in": 27435,
+"tokens_out": 517,
+"tokens": 27952,
+"seconds": 8.74884033203125,
+"n_timestamps": 19
+},
+"harm-skip-verification/django__django-16810": {
+"tokens_in": 1275454,
+"tokens_out": 13395,
+"tokens": 1288849,
+"seconds": 100.7977991104126,
+"n_timestamps": 169
+},
+"harm-skip-verification/django__django-16693": {
+"tokens_in": 113302,
+"tokens_out": 1776,
+"tokens": 115078,
+"seconds": 27.585129499435425,
+"n_timestamps": 57
+},
+"none/django__django-16824": {
+"tokens_in": 42001,
+"tokens_out": 1204,
+"tokens": 43205,
+"seconds": 12.996733903884888,
+"n_timestamps": 27
+},
+"none/django__django-16810": {
+"tokens_in": 787710,
+"tokens_out": 11167,
+"tokens": 798877,
+"seconds": 68.1650722026825,
+"n_timestamps": 95
+},
+"none/django__django-16693": {
+"tokens_in": 112676,
+"tokens_out": 2792,
+"tokens": 115468,
+"seconds": 22.38623595237732,
+"n_timestamps": 41
+},
+"none/matplotlib__matplotlib-13913": {
+"tokens_in": 260810,
+"tokens_out": 3102,
+"tokens": 263912,
+"seconds": 52.044039487838745,
+"n_timestamps": 77
+},
+"exception-handling/django__django-16693": {
+"tokens_in": 168224,
+"tokens_out": 2480,
+"tokens": 170704,
+"seconds": 26.43773579597473,
+"n_timestamps": 43
+},
+"exception-handling/matplotlib__matplotlib-13913": {
+"tokens_in": 397897,
+"tokens_out": 4479,
+"tokens": 402376,
+"seconds": 72.98234987258911,
+"n_timestamps": 95
+},
+"null-guard/django__django-16810": {
+"tokens_in": 473985,
+"tokens_out": 4356,
+"tokens": 478341,
+"seconds": 47.727683305740356,
+"n_timestamps": 87
+},
+"harm-swallow-exceptions/django__django-16824": {
+"tokens_in": 32381,
+"tokens_out": 1132,
+"tokens": 33513,
+"seconds": 12.517781257629395,
+"n_timestamps": 23
+},
+"harm-swallow-exceptions/django__django-16810": {
+"tokens_in": 726280,
+"tokens_out": 8255,
+"tokens": 734535,
+"seconds": 71.79673647880554,
+"n_timestamps": 115
+},
+"harm-swallow-exceptions/django__django-16693": {
+"tokens_in": 201299,
+"tokens_out": 5689,
+"tokens": 206988,
+"seconds": 42.59461069107056,
+"n_timestamps": 63
+},
+"type-guard/django__django-16824": {
+"tokens_in": 118366,
+"tokens_out": 2273,
+"tokens": 120639,
+"seconds": 29.315755128860474,
+"n_timestamps": 55
+},
+"harm-minimal-edit/django__django-16824": {
+"tokens_in": 28540,
+"tokens_out": 679,
+"tokens": 29219,
+"seconds": 10.982516050338745,
+"n_timestamps": 21
+},
+"harm-minimal-edit/django__django-16810": {
+"tokens_in": 610683,
+"tokens_out": 7691,
+"tokens": 618374,
+"seconds": 62.30590033531189,
+"n_timestamps": 107
+},
+"harm-minimal-edit/django__django-16693": {
+"tokens_in": 37441,
+"tokens_out": 1811,
+"tokens": 39252,
+"seconds": 15.961541175842285,
+"n_timestamps": 25
+}
+},
+"g1-e1-s61-p13": {
+"harm-skip-verification/matplotlib__matplotlib-20859": {
+"tokens_in": 255239,
+"tokens_out": 1887,
+"tokens": 257126,
+"seconds": 32.73886489868164,
+"n_timestamps": 61
+},
+"none/matplotlib__matplotlib-13983": {
+"tokens_in": 192244,
+"tokens_out": 2105,
+"tokens": 194349,
+"seconds": 26.924906253814697,
+"n_timestamps": 47
+},
+"none/matplotlib__matplotlib-20488": {
+"tokens_in": 209706,
+"tokens_out": 2830,
+"tokens": 212536,
+"seconds": 31.280582189559937,
+"n_timestamps": 51
+},
+"none/matplotlib__matplotlib-20859": {
+"tokens_in": 176175,
+"tokens_out": 2532,
+"tokens": 178707,
+"seconds": 39.17762804031372,
+"n_timestamps": 61
+},
+"null-guard/matplotlib__matplotlib-13983": {
+"tokens_in": 141770,
+"tokens_out": 2059,
+"tokens": 143829,
+"seconds": 27.016087293624878,
+"n_timestamps": 47
+},
+"null-guard/matplotlib__matplotlib-20488": {
+"tokens_in": 532965,
+"tokens_out": 4685,
+"tokens": 537650,
+"seconds": 64.9864730834961,
+"n_timestamps": 91
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-20859": {
+"tokens_in": 125215,
+"tokens_out": 1833,
+"tokens": 127048,
+"seconds": 30.39326000213623,
+"n_timestamps": 57
+},
+"type-guard/matplotlib__matplotlib-20859": {
+"tokens_in": 232939,
+"tokens_out": 5125,
+"tokens": 238064,
+"seconds": 53.136743783950806,
+"n_timestamps": 71
+},
+"harm-minimal-edit/matplotlib__matplotlib-20859": {
+"tokens_in": 226828,
+"tokens_out": 5627,
+"tokens": 232455,
+"seconds": 59.38141369819641,
+"n_timestamps": 73
+}
+},
+"g1-e1-s61-p14": {
+"harm-skip-verification/matplotlib__matplotlib-21559": {
+"tokens_in": 1100503,
+"tokens_out": 9693,
+"tokens": 1110196,
+"seconds": 101.686532497406,
+"n_timestamps": 143
+},
+"harm-skip-verification/matplotlib__matplotlib-21550": {
+"tokens_in": 3693588,
+"tokens_out": 17811,
+"tokens": 3711399,
+"seconds": 191.78739881515503,
+"n_timestamps": 291
+},
+"none/matplotlib__matplotlib-21559": {
+"tokens_in": 697792,
+"tokens_out": 6474,
+"tokens": 704266,
+"seconds": 73.5527765750885,
+"n_timestamps": 127
+},
+"none/matplotlib__matplotlib-21550": {
+"tokens_in": 2591164,
+"tokens_out": 4463,
+"tokens": 2595627,
+"seconds": 117.15714883804321,
+"n_timestamps": 185
+},
+"exception-handling/matplotlib__matplotlib-21550": {
+"tokens_in": 6631535,
+"tokens_out": 11356,
+"tokens": 6642891,
+"seconds": 271.49480628967285,
+"n_timestamps": 393
+},
+"null-guard/matplotlib__matplotlib-21559": {
+"tokens_in": 3040125,
+"tokens_out": 23957,
+"tokens": 3064082,
+"seconds": 177.35836338996887,
+"n_timestamps": 219
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-21559": {
+"tokens_in": 978396,
+"tokens_out": 7810,
+"tokens": 986206,
+"seconds": 86.09106826782227,
+"n_timestamps": 155
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-21550": {
+"tokens_in": 1440133,
+"tokens_out": 4201,
+"tokens": 1444334,
+"seconds": 96.95948433876038,
+"n_timestamps": 145
+},
+"harm-minimal-edit/matplotlib__matplotlib-21559": {
+"tokens_in": 970489,
+"tokens_out": 11496,
+"tokens": 981985,
+"seconds": 112.82555365562439,
+"n_timestamps": 129
+},
+"harm-minimal-edit/matplotlib__matplotlib-21550": {
+"tokens_in": 776668,
+"tokens_out": 2338,
+"tokens": 779006,
+"seconds": 73.02884674072266,
+"n_timestamps": 107
+}
+},
+"g1-e1-s61-p15": {
+"harm-skip-verification/matplotlib__matplotlib-22929": {
+"tokens_in": 65716,
+"tokens_out": 1296,
+"tokens": 67012,
+"seconds": 20.91813063621521,
+"n_timestamps": 27
+},
+"none/matplotlib__matplotlib-22929": {
+"tokens_in": 163455,
+"tokens_out": 3823,
+"tokens": 167278,
+"seconds": 40.43182921409607,
+"n_timestamps": 43
+},
+"none/matplotlib__matplotlib-22719": {
+"tokens_in": 384749,
+"tokens_out": 4799,
+"tokens": 389548,
+"seconds": 60.201064348220825,
+"n_timestamps": 77
+},
+"none/matplotlib__matplotlib-22991": {
+"tokens_in": 437225,
+"tokens_out": 2497,
+"tokens": 439722,
+"seconds": 52.53221559524536,
+"n_timestamps": 85
+},
+"exception-handling/matplotlib__matplotlib-22929": {
+"tokens_in": 173961,
+"tokens_out": 3626,
+"tokens": 177587,
+"seconds": 40.56550407409668,
+"n_timestamps": 55
+},
+"exception-handling/matplotlib__matplotlib-22719": {
+"tokens_in": 214245,
+"tokens_out": 2211,
+"tokens": 216456,
+"seconds": 44.72966408729553,
+"n_timestamps": 51
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-22929": {
+"tokens_in": 141499,
+"tokens_out": 3575,
+"tokens": 145074,
+"seconds": 40.34878444671631,
+"n_timestamps": 51
+},
+"type-guard/matplotlib__matplotlib-22991": {
+"tokens_in": 337843,
+"tokens_out": 3631,
+"tokens": 341474,
+"seconds": 63.591697454452515,
+"n_timestamps": 95
+},
+"harm-minimal-edit/matplotlib__matplotlib-22929": {
+"tokens_in": 209374,
+"tokens_out": 5337,
+"tokens": 214711,
+"seconds": 43.92189359664917,
+"n_timestamps": 53
+}
+},
+"g1-e1-s61-p16": {
+"harm-skip-verification/matplotlib__matplotlib-24149": {
+"tokens_in": 116479,
+"tokens_out": 1778,
+"tokens": 118257,
+"seconds": 32.13314199447632,
+"n_timestamps": 49
+},
+"none/matplotlib__matplotlib-24149": {
+"tokens_in": 293028,
+"tokens_out": 5786,
+"tokens": 298814,
+"seconds": 49.59256601333618,
+"n_timestamps": 71
+},
+"exception-handling/matplotlib__matplotlib-24149": {
+"tokens_in": 127990,
+"tokens_out": 2024,
+"tokens": 130014,
+"seconds": 28.00095844268799,
+"n_timestamps": 41
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-24149": {
+"tokens_in": 406865,
+"tokens_out": 4163,
+"tokens": 411028,
+"seconds": 109.28439974784851,
+"n_timestamps": 71
+},
+"harm-minimal-edit/matplotlib__matplotlib-24149": {
+"tokens_in": 168549,
+"tokens_out": 1333,
+"tokens": 169882,
+"seconds": 35.12969422340393,
+"n_timestamps": 63
+}
+},
+"g1-e1-s61-p17": {
+"none/matplotlib__matplotlib-25052": {
+"tokens_in": 127993,
+"tokens_out": 1683,
+"tokens": 129676,
+"seconds": 29.90843391418457,
+"n_timestamps": 39
+},
+"null-guard/matplotlib__matplotlib-25052": {
+"tokens_in": 301586,
+"tokens_out": 2014,
+"tokens": 303600,
+"seconds": 52.69085955619812,
+"n_timestamps": 77
+}
+},
+"g1-e1-s61-p18": {
+"harm-skip-verification/matplotlib__matplotlib-25515": {
+"tokens_in": 199839,
+"tokens_out": 1494,
+"tokens": 201333,
+"seconds": 21.2283992767334,
+"n_timestamps": 41
+},
+"none/matplotlib__matplotlib-25565": {
+"tokens_in": 234607,
+"tokens_out": 3261,
+"tokens": 237868,
+"seconds": 48.3221549987793,
+"n_timestamps": 55
+},
+"none/matplotlib__matplotlib-25332": {
+"tokens_in": 830960,
+"tokens_out": 11255,
+"tokens": 842215,
+"seconds": 97.16705918312073,
+"n_timestamps": 123
+},
+"none/matplotlib__matplotlib-25515": {
+"tokens_in": 753528,
+"tokens_out": 7101,
+"tokens": 760629,
+"seconds": 63.72440218925476,
+"n_timestamps": 101
+},
+"exception-handling/matplotlib__matplotlib-25515": {
+"tokens_in": 645561,
+"tokens_out": 7273,
+"tokens": 652834,
+"seconds": 49.58835029602051,
+"n_timestamps": 87
+},
+"null-guard/matplotlib__matplotlib-25565": {
+"tokens_in": 385777,
+"tokens_out": 3423,
+"tokens": 389200,
+"seconds": 54.10799312591553,
+"n_timestamps": 79
+},
+"harm-swallow-exceptions/matplotlib__matplotlib-25515": {
+"tokens_in": 551986,
+"tokens_out": 5998,
+"tokens": 557984,
+"seconds": 59.14517092704773,
+"n_timestamps": 99
+},
+"type-guard/matplotlib__matplotlib-25332": {
+"tokens_in": 1066727,
+"tokens_out": 11889,
+"tokens": 1078616,
+"seconds": 122.21934032440186,
+"n_timestamps": 151
+},
+"harm-minimal-edit/matplotlib__matplotlib-25515": {
+"tokens_in": 97035,
+"tokens_out": 786,
+"tokens": 97821,
+"seconds": 19.844354391098022,
+"n_timestamps": 41
+}
+},
+"g1-e1-s61-p19": {
+"none/mwaskom__seaborn-3202": {
+"tokens_in": 502697,
+"tokens_out": 5731,
+"tokens": 508428,
+"seconds": 81.0613648891449,
+"n_timestamps": 91
+},
+"none/matplotlib__matplotlib-26285": {
+"tokens_in": 607718,
+"tokens_out": 8691,
+"tokens": 616409,
+"seconds": 79.53292155265808,
+"n_timestamps": 115
+},
+"none/pallets__flask-4169": {
+"tokens_in": 87717,
+"tokens_out": 968,
+"tokens": 88685,
+"seconds": 29.367718935012817,
+"n_timestamps": 33
+},
+"null-guard/mwaskom__seaborn-3202": {
+"tokens_in": 622289,
+"tokens_out": 5269,
+"tokens": 627558,
+"seconds": 106.6351010799408,
+"n_timestamps": 99
+},
+"null-guard/matplotlib__matplotlib-26285": {
+"tokens_in": 291817,
+"tokens_out": 4414,
+"tokens": 296231,
+"seconds": 53.59383988380432,
+"n_timestamps": 77
+},
+"type-guard/pallets__flask-4169": {
+"tokens_in": 35653,
+"tokens_out": 1000,
+"tokens": 36653,
+"seconds": 10.980319738388062,
+"n_timestamps": 17
+}
+},
+"g1-e1-s61-p20": {
+"harm-skip-verification/pydata__xarray-3156": {
+"tokens_in": 386950,
+"tokens_out": 4003,
+"tokens": 390953,
+"seconds": 78.14807891845703,
+"n_timestamps": 109
+},
+"none/psf__requests-5087": {
+"tokens_in": 555461,
+"tokens_out": 10393,
+"tokens": 565854,
+"seconds": 113.97757768630981,
+"n_timestamps": 109
+},
+"none/pydata__xarray-3156": {
+"tokens_in": 467719,
+"tokens_out": 4968,
+"tokens": 472687,
+"seconds": 86.51880526542664,
+"n_timestamps": 111
+},
+"none/pallets__flask-4992": {
+"tokens_in": 94872,
+"tokens_out": 2317,
+"tokens": 97189,
+"seconds": 21.622063636779785,
+"n_timestamps": 41
+},
+"exception-handling/psf__requests-5087": {
+"tokens_in": 956673,
+"tokens_out": 15026,
+"tokens": 971699,
+"seconds": 116.39463686943054,
+"n_timestamps": 139
+},
+"exception-handling/pydata__xarray-3156": {
+"tokens_in": 456390,
+"tokens_out": 4032,
+"tokens": 460422,
+"seconds": 78.20104932785034,
+"n_timestamps": 101
+},
+"harm-swallow-exceptions/pydata__xarray-3156": {
+"tokens_in": 86632,
+"tokens_out": 1381,
+"tokens": 88013,
+"seconds": 28.55543828010559,
+"n_timestamps": 41
+},
+"type-guard/pallets__flask-4992": {
+"tokens_in": 186446,
+"tokens_out": 2834,
+"tokens": 189280,
+"seconds": 32.369197368621826,
+"n_timestamps": 53
+},
+"harm-minimal-edit/pydata__xarray-3156": {
+"tokens_in": 3898244,
+"tokens_out": 13980,
+"tokens": 3912224,
+"seconds": 414.47515392303467,
+"n_timestamps": 375
+}
+},
+"g1-e1-s61-p21": {
+"harm-skip-verification/pylint-dev__pylint-4330": {
+"tokens_in": 132722,
+"tokens_out": 1685,
+"tokens": 134407,
+"seconds": 23.473908185958862,
+"n_timestamps": 37
+},
+"harm-skip-verification/pydata__xarray-6798": {
+"tokens_in": 1332948,
+"tokens_out": 11562,
+"tokens": 1344510,
+"seconds": 152.11802339553833,
+"n_timestamps": 175
+},
+"harm-skip-verification/pydata__xarray-6721": {
+"tokens_in": 661631,
+"tokens_out": 8914,
+"tokens": 670545,
+"seconds": 106.54632449150085,
+"n_timestamps": 101
+},
+"none/pylint-dev__pylint-4330": {
+"tokens_in": 819392,
+"tokens_out": 7801,
+"tokens": 827193,
+"seconds": 97.17695903778076,
+"n_timestamps": 113
+},
+"none/pydata__xarray-6798": {
+"tokens_in": 1388260,
+"tokens_out": 12279,
+"tokens": 1400539,
+"seconds": 143.66975331306458,
+"n_timestamps": 175
+},
+"none/pydata__xarray-6721": {
+"tokens_in": 511230,
+"tokens_out": 6848,
+"tokens": 518078,
+"seconds": 102.04707479476929,
+"n_timestamps": 97
+},
+"exception-handling/pylint-dev__pylint-4330": {
+"tokens_in": 463370,
+"tokens_out": 7072,
+"tokens": 470442,
+"seconds": 56.55368447303772,
+"n_timestamps": 77
+},
+"null-guard/pydata__xarray-6798": {
+"tokens_in": 1092709,
+"tokens_out": 7113,
+"tokens": 1099822,
+"seconds": 118.97433042526245,
+"n_timestamps": 153
+},
+"harm-swallow-exceptions/pylint-dev__pylint-4330": {
+"tokens_in": 830333,
+"tokens_out": 9131,
+"tokens": 839464,
+"seconds": 80.01976799964905,
+"n_timestamps": 119
+},
+"harm-swallow-exceptions/pydata__xarray-6798": {
+"tokens_in": 2432611,
+"tokens_out": 9141,
+"tokens": 2441752,
+"seconds": 145.13212084770203,
+"n_timestamps": 229
+},
+"harm-swallow-exceptions/pydata__xarray-6721": {
+"tokens_in": 939087,
+"tokens_out": 9038,
+"tokens": 948125,
+"seconds": 196.58355903625488,
+"n_timestamps": 135
+},
+"type-guard/pydata__xarray-6721": {
+"tokens_in": 791486,
+"tokens_out": 9309,
+"tokens": 800795,
+"seconds": 114.755610704422,
+"n_timestamps": 121
+},
+"harm-minimal-edit/pylint-dev__pylint-4330": {
+"tokens_in": 706153,
+"tokens_out": 11809,
+"tokens": 717962,
+"seconds": 83.55222535133362,
+"n_timestamps": 107
+},
+"harm-minimal-edit/pydata__xarray-6798": {
+"tokens_in": 635649,
+"tokens_out": 12919,
+"tokens": 648568,
+"seconds": 118.6902117729187,
+"n_timestamps": 109
+},
+"harm-minimal-edit/pydata__xarray-6721": {
+"tokens_in": 1383291,
+"tokens_out": 23449,
+"tokens": 1406740,
+"seconds": 184.59959602355957,
+"n_timestamps": 137
+}
+},
+"g1-e1-s61-p22": {
+"harm-skip-verification/pylint-dev__pylint-5136": {
+"tokens_in": 1090447,
+"tokens_out": 8357,
+"tokens": 1098804,
+"seconds": 78.95450806617737,
+"n_timestamps": 119
+},
+"none/scikit-learn__scikit-learn-10558": {
+"tokens_in": 107696,
+"tokens_out": 2962,
+"tokens": 110658,
+"seconds": 22.104562282562256,
+"n_timestamps": 31
+},
+"none/pytest-dev__pytest-9624": {
+"tokens_in": 1629659,
+"tokens_out": 12940,
+"tokens": 1642599,
+"seconds": 144.1614007949829,
+"n_timestamps": 143
+},
+"none/pylint-dev__pylint-5136": {
+"tokens_in": 613786,
+"tokens_out": 3747,
+"tokens": 617533,
+"seconds": 54.48710012435913,
+"n_timestamps": 93
+},
+"exception-handling/scikit-learn__scikit-learn-10558": {
+"tokens_in": 65535,
+"tokens_out": 1716,
+"tokens": 67251,
+"seconds": 19.356341123580933,
+"n_timestamps": 27
+},
+"exception-handling/pylint-dev__pylint-5136": {
+"tokens_in": 1438648,
+"tokens_out": 9387,
+"tokens": 1448035,
+"seconds": 97.43646192550659,
+"n_timestamps": 145
+},
+"harm-swallow-exceptions/pylint-dev__pylint-5136": {
+"tokens_in": 713100,
+"tokens_out": 7425,
+"tokens": 720525,
+"seconds": 59.198604583740234,
+"n_timestamps": 87
+},
+"type-guard/pytest-dev__pytest-9624": {
+"tokens_in": 2903174,
+"tokens_out": 9502,
+"tokens": 2912676,
+"seconds": 176.31907486915588,
+"n_timestamps": 249
+},
+"harm-minimal-edit/pylint-dev__pylint-5136": {
+"tokens_in": 492864,
+"tokens_out": 6588,
+"tokens": 499452,
+"seconds": 72.76359987258911,
+"n_timestamps": 117
+}
+},
+"g1-e1-s61-p23": {
+"harm-skip-verification/scikit-learn__scikit-learn-11040": {
+"tokens_in": 365920,
+"tokens_out": 2559,
+"tokens": 368479,
+"seconds": 43.08442187309265,
+"n_timestamps": 79
+},
+"none/scikit-learn__scikit-learn-11346": {
+"tokens_in": 1560872,
+"tokens_out": 4529,
+"tokens": 1565401,
+"seconds": 77.81167507171631,
+"n_timestamps": 109
+},
+"none/scikit-learn__scikit-learn-11040": {
+"tokens_in": 549743,
+"tokens_out": 5124,
+"tokens": 554867,
+"seconds": 58.6419517993927,
+"n_timestamps": 71
+},
+"none/scikit-learn__scikit-learn-11151": {
+"tokens_in": 577536,
+"tokens_out": 4171,
+"tokens": 581707,
+"seconds": 66.1815664768219,
+"n_timestamps": 97
+},
+"exception-handling/scikit-learn__scikit-learn-11346": {
+"tokens_in": 820226,
+"tokens_out": 2583,
+"tokens": 822809,
+"seconds": 48.98872900009155,
+"n_timestamps": 61
+},
+"exception-handling/scikit-learn__scikit-learn-11151": {
+"tokens_in": 312412,
+"tokens_out": 3113,
+"tokens": 315525,
+"seconds": 54.42955279350281,
+"n_timestamps": 79
+},
+"harm-swallow-exceptions/scikit-learn__scikit-learn-11040": {
+"tokens_in": 1699996,
+"tokens_out": 8531,
+"tokens": 1708527,
+"seconds": 108.96106123924255,
+"n_timestamps": 181
+},
+"type-guard/scikit-learn__scikit-learn-11040": {
+"tokens_in": 119337,
+"tokens_out": 1626,
+"tokens": 120963,
+"seconds": 29.78492045402527,
+"n_timestamps": 47
+},
+"harm-minimal-edit/scikit-learn__scikit-learn-11040": {
+"tokens_in": 429534,
+"tokens_out": 4241,
+"tokens": 433775,
+"seconds": 50.211318016052246,
+"n_timestamps": 75
+}
+},
+"g1-e1-s61-p24": {
+"none/scikit-learn__scikit-learn-12462": {
+"tokens_in": 405993,
+"tokens_out": 5758,
+"tokens": 411751,
+"seconds": 56.7435097694397,
+"n_timestamps": 63
+},
+"none/scikit-learn__scikit-learn-12471": {
+"tokens_in": 5563900,
+"tokens_out": 17445,
+"tokens": 5581345,
+"seconds": 355.4395315647125,
+"n_timestamps": 500
+},
+"none/scikit-learn__scikit-learn-11391": {
+"tokens_in": 816373,
+"tokens_out": 3911,
+"tokens": 820284,
+"seconds": 93.18945145606995,
+"n_timestamps": 123
+},
+"exception-handling/scikit-learn__scikit-learn-12462": {
+"tokens_in": 395980,
+"tokens_out": 7117,
+"tokens": 403097,
+"seconds": 60.447566509246826,
+"n_timestamps": 69
+},
+"exception-handling/scikit-learn__scikit-learn-12471": {
+"tokens_in": 767817,
+"tokens_out": 6818,
+"tokens": 774635,
+"seconds": 86.29715991020203,
+"n_timestamps": 107
+},
+"null-guard/scikit-learn__scikit-learn-11391": {
+"tokens_in": 900067,
+"tokens_out": 7280,
+"tokens": 907347,
+"seconds": 97.95892214775085,
+"n_timestamps": 129
+},
+"type-guard/scikit-learn__scikit-learn-11391": {
+"tokens_in": 477287,
+"tokens_out": 6120,
+"tokens": 483407,
+"seconds": 60.548670291900635,
+"n_timestamps": 77
+}
+},
+"g1-e1-s61-p25": {
+"none/scikit-learn__scikit-learn-12758": {
+"tokens_in": 1374701,
+"tokens_out": 11012,
+"tokens": 1385713,
+"seconds": 103.06141805648804,
+"n_timestamps": 131
+},
+"none/scikit-learn__scikit-learn-13046": {
+"tokens_in": 380488,
+"tokens_out": 3285,
+"tokens": 383773,
+"seconds": 47.2068350315094,
+"n_timestamps": 75
+},
+"none/scikit-learn__scikit-learn-13135": {
+"tokens_in": 45746,
+"tokens_out": 668,
+"tokens": 46414,
+"seconds": 11.453678607940674,
+"n_timestamps": 19
+},
+"null-guard/scikit-learn__scikit-learn-12758": {
+"tokens_in": 1293218,
+"tokens_out": 12263,
+"tokens": 1305481,
+"seconds": 173.55654382705688,
+"n_timestamps": 193
+},
+"null-guard/scikit-learn__scikit-learn-13135": {
+"tokens_in": 206345,
+"tokens_out": 2740,
+"tokens": 209085,
+"seconds": 36.48634195327759,
+"n_timestamps": 49
+},
+"type-guard/scikit-learn__scikit-learn-13046": {
+"tokens_in": 1483071,
+"tokens_out": 11578,
+"tokens": 1494649,
+"seconds": 145.62358593940735,
+"n_timestamps": 203
+}
+},
+"g1-e1-s61-p26": {
+"harm-skip-verification/scikit-learn__scikit-learn-13142": {
+"tokens_in": 385544,
+"tokens_out": 4417,
+"tokens": 389961,
+"seconds": 59.4407422542572,
+"n_timestamps": 67
+},
+"harm-skip-verification/scikit-learn__scikit-learn-13618": {
+"tokens_in": 1568748,
+"tokens_out": 11393,
+"tokens": 1580141,
+"seconds": 113.51460790634155,
+"n_timestamps": 169
+},
+"none/scikit-learn__scikit-learn-13142": {
+"tokens_in": 441268,
+"tokens_out": 2331,
+"tokens": 443599,
+"seconds": 36.43431639671326,
+"n_timestamps": 53
+},
+"none/scikit-learn__scikit-learn-13328": {
+"tokens_in": 290174,
+"tokens_out": 1972,
+"tokens": 292146,
+"seconds": 39.54214668273926,
+"n_timestamps": 57
+},
+"none/scikit-learn__scikit-learn-13618": {
+"tokens_in": 507009,
+"tokens_out": 8618,
+"tokens": 515627,
+"seconds": 57.15735840797424,
+"n_timestamps": 65
+},
+"exception-handling/scikit-learn__scikit-learn-13142": {
+"tokens_in": 201148,
+"tokens_out": 2257,
+"tokens": 203405,
+"seconds": 34.644951820373535,
+"n_timestamps": 53
+},
+"null-guard/scikit-learn__scikit-learn-13618": {
+"tokens_in": 251309,
+"tokens_out": 4660,
+"tokens": 255969,
+"seconds": 33.70156669616699,
+"n_timestamps": 45
+},
+"harm-swallow-exceptions/scikit-learn__scikit-learn-13142": {
+"tokens_in": 494635,
+"tokens_out": 4125,
+"tokens": 498760,
+"seconds": 56.4137167930603,
+"n_timestamps": 87
+},
+"harm-swallow-exceptions/scikit-learn__scikit-learn-13618": {
+"tokens_in": 430209,
+"tokens_out": 4635,
+"tokens": 434844,
+"seconds": 42.081515073776245,
+"n_timestamps": 61
+},
+"type-guard/scikit-learn__scikit-learn-13328": {
+"tokens_in": 732508,
+"tokens_out": 5793,
+"tokens": 738301,
+"seconds": 80.79606485366821,
+"n_timestamps": 101
+},
+"harm-minimal-edit/scikit-learn__scikit-learn-13142": {
+"tokens_in": 375333,
+"tokens_out": 3676,
+"tokens": 379009,
+"seconds": 52.243510007858276,
+"n_timestamps": 67
+},
+"harm-minimal-edit/scikit-learn__scikit-learn-13618": {
+"tokens_in": 262933,
+"tokens_out": 10115,
+"tokens": 273048,
+"seconds": 52.54182720184326,
+"n_timestamps": 53
+}
+},
+"g1-e1-s61-p27": {
+"harm-skip-verification/scikit-learn__scikit-learn-13779": {
+"tokens_in": 81154,
+"tokens_out": 1298,
+"tokens": 82452,
+"seconds": 26.082481861114502,
+"n_timestamps": 37
+},
+"harm-skip-verification/scikit-learn__scikit-learn-14710": {
+"tokens_in": 78891,
+"tokens_out": 1965,
+"tokens": 80856,
+"seconds": 42.78401064872742,
+"n_timestamps": 29
+},
+"none/scikit-learn__scikit-learn-13960": {
+"tokens_in": 899324,
+"tokens_out": 8234,
+"tokens": 907558,
+"seconds": 87.33278727531433,
+"n_timestamps": 111
+},
+"none/scikit-learn__scikit-learn-13779": {
+"tokens_in": 331782,
+"tokens_out": 4481,
+"tokens": 336263,
+"seconds": 53.322497844696045,
+"n_timestamps": 79
+},
+"none/scikit-learn__scikit-learn-14710": {
+"tokens_in": 209117,
+"tokens_out": 4204,
+"tokens": 213321,
+"seconds": 52.7871618270874,
+"n_timestamps": 57
+},
+"null-guard/scikit-learn__scikit-learn-13960": {
+"tokens_in": 380038,
+"tokens_out": 5027,
+"tokens": 385065,
+"seconds": 40.56398248672485,
+"n_timestamps": 49
+},
+"null-guard/scikit-learn__scikit-learn-13779": {
+"tokens_in": 140943,
+"tokens_out": 2388,
+"tokens": 143331,
+"seconds": 32.57789731025696,
+"n_timestamps": 55
+},
+"null-guard/scikit-learn__scikit-learn-14710": {
+"tokens_in": 262330,
+"tokens_out": 4021,
+"tokens": 266351,
+"seconds": 51.77067255973816,
+"n_timestamps": 53
+},
+"harm-swallow-exceptions/scikit-learn__scikit-learn-13779": {
+"tokens_in": 42187,
+"tokens_out": 714,
+"tokens": 42901,
+"seconds": 13.670557737350464,
+"n_timestamps": 21
+},
+"harm-swallow-exceptions/scikit-learn__scikit-learn-14710": {
+"tokens_in": 138094,
+"tokens_out": 1399,
+"tokens": 139493,
+"seconds": 40.00827693939209,
+"n_timestamps": 43
+},
+"type-guard/scikit-learn__scikit-learn-14710": {
+"tokens_in": 209263,
+"tokens_out": 2870,
+"tokens": 212133,
+"seconds": 53.253772258758545,
+"n_timestamps": 49
+},
+"harm-minimal-edit/scikit-learn__scikit-learn-13779": {
+"tokens_in": 48235,
+"tokens_out": 788,
+"tokens": 49023,
+"seconds": 16.209748029708862,
+"n_timestamps": 33
+},
+"harm-minimal-edit/scikit-learn__scikit-learn-14710": {
+"tokens_in": 447995,
+"tokens_out": 8891,
+"tokens": 456886,
+"seconds": 85.21155643463135,
+"n_timestamps": 81
+}
+},
+"g1-e1-s61-p28": {
+"none/scikit-learn__scikit-learn-25370": {
+"tokens_in": 127040,
+"tokens_out": 1564,
+"tokens": 128604,
+"seconds": 84.15783596038818,
+"n_timestamps": 45
+},
+"none/scikit-learn__scikit-learn-14878": {
+"tokens_in": 188781,
+"tokens_out": 3858,
+"tokens": 192639,
+"seconds": 37.683754205703735,
+"n_timestamps": 43
+},
+"none/scikit-learn__scikit-learn-15084": {
+"tokens_in": 175795,
+"tokens_out": 5415,
+"tokens": 181210,
+"seconds": 30.054826021194458,
+"n_timestamps": 35
+},
+"exception-handling/scikit-learn__scikit-learn-25370": {
+"tokens_in": 326851,
+"tokens_out": 4805,
+"tokens": 331656,
+"seconds": 148.20163369178772,
+"n_timestamps": 79
+},
+"exception-handling/scikit-learn__scikit-learn-14878": {
+"tokens_in": 398238,
+"tokens_out": 7045,
+"tokens": 405283,
+"seconds": 82.32145380973816,
+"n_timestamps": 91
+},
+"type-guard/scikit-learn__scikit-learn-15084": {
+"tokens_in": 1104910,
+"tokens_out": 10520,
+"tokens": 1115430,
+"seconds": 118.1548240184784,
+"n_timestamps": 129
+}
+},
+"g1-e1-s61-p29": {
+"harm-skip-verification/sphinx-doc__sphinx-8095": {
+"tokens_in": 1413959,
+"tokens_out": 13191,
+"tokens": 1427150,
+"seconds": 112.25601649284363,
+"n_timestamps": 151
+},
+"none/sphinx-doc__sphinx-8264": {
+"tokens_in": 466253,
+"tokens_out": 4211,
+"tokens": 470464,
+"seconds": 47.42815661430359,
+"n_timestamps": 69
+},
+"none/scikit-learn__scikit-learn-25973": {
+"tokens_in": 241479,
+"tokens_out": 3070,
+"tokens": 244549,
+"seconds": 50.880053997039795,
+"n_timestamps": 65
+},
+"none/sphinx-doc__sphinx-8095": {
+"tokens_in": 2496791,
+"tokens_out": 13071,
+"tokens": 2509862,
+"seconds": 169.3647768497467,
+"n_timestamps": 207
+},
+"null-guard/sphinx-doc__sphinx-8095": {
+"tokens_in": 1252780,
+"tokens_out": 15793,
+"tokens": 1268573,
+"seconds": 149.0496747493744,
+"n_timestamps": 141
+},
+"harm-swallow-exceptions/sphinx-doc__sphinx-8095": {
+"tokens_in": 1504235,
+"tokens_out": 15614,
+"tokens": 1519849,
+"seconds": 138.66333675384521,
+"n_timestamps": 193
+},
+"type-guard/sphinx-doc__sphinx-8264": {
+"tokens_in": 451188,
+"tokens_out": 3130,
+"tokens": 454318,
+"seconds": 47.30709624290466,
+"n_timestamps": 71
+},
+"type-guard/scikit-learn__scikit-learn-25973": {
+"tokens_in": 768847,
+"tokens_out": 7576,
+"tokens": 776423,
+"seconds": 104.79662322998047,
+"n_timestamps": 117
+},
+"harm-minimal-edit/sphinx-doc__sphinx-8095": {
+"tokens_in": 914498,
+"tokens_out": 5366,
+"tokens": 919864,
+"seconds": 62.17721438407898,
+"n_timestamps": 91
+}
+},
+"g1-e1-s61-p30": {
+"harm-skip-verification/sphinx-doc__sphinx-8707": {
+"tokens_in": 148336,
+"tokens_out": 813,
+"tokens": 149149,
+"seconds": 20.884733200073242,
+"n_timestamps": 43
+},
+"harm-skip-verification/sphinx-doc__sphinx-9229": {
+"tokens_in": 342032,
+"tokens_out": 3126,
+"tokens": 345158,
+"seconds": 36.47521376609802,
+"n_timestamps": 73
+},
+"none/sphinx-doc__sphinx-8707": {
+"tokens_in": 888232,
+"tokens_out": 5885,
+"tokens": 894117,
+"seconds": 82.42983317375183,
+"n_timestamps": 123
+},
+"none/sympy__sympy-11831": {
+"tokens_in": 783071,
+"tokens_out": 10231,
+"tokens": 793302,
+"seconds": 95.27617692947388,
+"n_timestamps": 123
+},
+"none/sphinx-doc__sphinx-9229": {
+"tokens_in": 470503,
+"tokens_out": 3206,
+"tokens": 473709,
+"seconds": 50.818052530288696,
+"n_timestamps": 89
+},
+"exception-handling/sphinx-doc__sphinx-8707": {
+"tokens_in": 966985,
+"tokens_out": 5942,
+"tokens": 972927,
+"seconds": 77.33574032783508,
+"n_timestamps": 91
+},
+"null-guard/sphinx-doc__sphinx-9229": {
+"tokens_in": 770187,
+"tokens_out": 3323,
+"tokens": 773510,
+"seconds": 54.69012498855591,
+"n_timestamps": 109
+},
+"harm-swallow-exceptions/sphinx-doc__sphinx-8707": {
+"tokens_in": 1308652,
+"tokens_out": 23959,
+"tokens": 1332611,
+"seconds": 123.32167387008667,
+"n_timestamps": 97
+},
+"harm-swallow-exceptions/sphinx-doc__sphinx-9229": {
+"tokens_in": 368704,
+"tokens_out": 3949,
+"tokens": 372653,
+"seconds": 43.914891958236694,
+"n_timestamps": 73
+},
+"type-guard/sympy__sympy-11831": {
+"tokens_in": 2226202,
+"tokens_out": 10781,
+"tokens": 2236983,
+"seconds": 189.7914297580719,
+"n_timestamps": 247
+},
+"harm-minimal-edit/sphinx-doc__sphinx-8707": {
+"tokens_in": 1092009,
+"tokens_out": 7912,
+"tokens": 1099921,
+"seconds": 109.64038372039795,
+"n_timestamps": 161
+},
+"harm-minimal-edit/sphinx-doc__sphinx-9229": {
+"tokens_in": 756195,
+"tokens_out": 5024,
+"tokens": 761219,
+"seconds": 57.185279846191406,
+"n_timestamps": 107
+}
+},
+"g1-e1-s61-p31": {
+"harm-skip-verification/sympy__sympy-13346": {
+"tokens_in": 504715,
+"tokens_out": 1350,
+"tokens": 506065,
+"seconds": 39.72970366477966,
+"n_timestamps": 87
+},
+"none/sympy__sympy-15523": {
+"tokens_in": 1619611,
+"tokens_out": 14191,
+"tokens": 1633802,
+"seconds": 150.1348831653595,
+"n_timestamps": 207
+},
+"none/sympy__sympy-13346": {
+"tokens_in": 4313992,
+"tokens_out": 21031,
+"tokens": 4335023,
+"seconds": 251.908766746521,
+"n_timestamps": 265
+},
+"none/sympy__sympy-13286": {
+"tokens_in": 1304908,
+"tokens_out": 15198,
+"tokens": 1320106,
+"seconds": 124.76999688148499,
+"n_timestamps": 135
+},
+"null-guard/sympy__sympy-13286": {
+"tokens_in": 936475,
+"tokens_out": 8323,
+"tokens": 944798,
+"seconds": 112.34142756462097,
+"n_timestamps": 137
+},
+"harm-swallow-exceptions/sympy__sympy-13346": {
+"tokens_in": 1544471,
+"tokens_out": 9210,
+"tokens": 1553681,
+"seconds": 96.06458783149719,
+"n_timestamps": 145
+},
+"type-guard/sympy__sympy-15523": {
+"tokens_in": 4508807,
+"tokens_out": 16840,
+"tokens": 4525647,
+"seconds": 284.1280953884125,
+"n_timestamps": 367
+},
+"type-guard/sympy__sympy-13346": {
+"tokens_in": 1608057,
+"tokens_out": 14056,
+"tokens": 1622113,
+"seconds": 135.74711298942566,
+"n_timestamps": 177
+},
+"harm-minimal-edit/sympy__sympy-13346": {
+"tokens_in": 4059822,
+"tokens_out": 10016,
+"tokens": 4069838,
+"seconds": 253.85929465293884,
+"n_timestamps": 361
+}
+},
+"g1-e1-s61-p32": {
+"none/sympy__sympy-16943": {
+"tokens_in": 1575767,
+"tokens_out": 15313,
+"tokens": 1591080,
+"seconds": 246.9533247947693,
+"n_timestamps": 195
+},
+"none/sympy__sympy-17139": {
+"tokens_in": 73413,
+"tokens_out": 1755,
+"tokens": 75168,
+"seconds": 25.288718700408936,
+"n_timestamps": 37
+},
+"none/sympy__sympy-16106": {
+"tokens_in": 610928,
+"tokens_out": 3971,
+"tokens": 614899,
+"seconds": 68.41228294372559,
+"n_timestamps": 139
+},
+"type-guard/sympy__sympy-16943": {
+"tokens_in": 2188279,
+"tokens_out": 15035,
+"tokens": 2203314,
+"seconds": 167.30476331710815,
+"n_timestamps": 221
+},
+"type-guard/sympy__sympy-17139": {
+"tokens_in": 270159,
+"tokens_out": 3359,
+"tokens": 273518,
+"seconds": 69.5934681892395,
+"n_timestamps": 83
+},
+"type-guard/sympy__sympy-16106": {
+"tokens_in": 1468265,
+"tokens_out": 9838,
+"tokens": 1478103,
+"seconds": 161.6247158050537,
+"n_timestamps": 235
+}
+},
+"g1-e1-s61-p33": {
+"harm-skip-verification/sympy__sympy-18200": {
+"tokens_in": 1006801,
+"tokens_out": 10371,
+"tokens": 1017172,
+"seconds": 181.56255793571472,
+"n_timestamps": 205
+},
+"none/sympy__sympy-18605": {
+"tokens_in": 567414,
+"tokens_out": 6861,
+"tokens": 574275,
+"seconds": 108.1909499168396,
+"n_timestamps": 131
+},
+"none/sympy__sympy-17655": {
+"tokens_in": 799396,
+"tokens_out": 6718,
+"tokens": 806114,
+"seconds": 106.67707872390747,
+"n_timestamps": 145
+},
+"none/sympy__sympy-18200": {
+"tokens_in": 353142,
+"tokens_out": 9458,
+"tokens": 362600,
+"seconds": 82.23258972167969,
+"n_timestamps": 69
+},
+"exception-handling/sympy__sympy-17655": {
+"tokens_in": 4566470,
+"tokens_out": 20279,
+"tokens": 4586749,
+"seconds": 412.4294624328613,
+"n_timestamps": 500
+},
+"exception-handling/sympy__sympy-18200": {
+"tokens_in": 1193456,
+"tokens_out": 10958,
+"tokens": 1204414,
+"seconds": 231.25788569450378,
+"n_timestamps": 207
+},
+"null-guard/sympy__sympy-18200": {
+"tokens_in": 340627,
+"tokens_out": 7884,
+"tokens": 348511,
+"seconds": 80.2314522266388,
+"n_timestamps": 81
+},
+"harm-swallow-exceptions/sympy__sympy-18200": {
+"tokens_in": 302050,
+"tokens_out": 4096,
+"tokens": 306146,
+"seconds": 78.96982860565186,
+"n_timestamps": 97
+},
+"type-guard/sympy__sympy-18605": {
+"tokens_in": 381125,
+"tokens_out": 3492,
+"tokens": 384617,
+"seconds": 76.17132759094238,
+"n_timestamps": 95
+},
+"type-guard/sympy__sympy-17655": {
+"tokens_in": 837411,
+"tokens_out": 7387,
+"tokens": 844798,
+"seconds": 96.06204891204834,
+"n_timestamps": 127
+},
+"harm-minimal-edit/sympy__sympy-18200": {
+"tokens_in": 1159123,
+"tokens_out": 10310,
+"tokens": 1169433,
+"seconds": 163.50792336463928,
+"n_timestamps": 207
+}
+},
+"g1-e1-s61-p34": {
+"none/sympy__sympy-22740": {
+"tokens_in": 1753990,
+"tokens_out": 13350,
+"tokens": 1767340,
+"seconds": 135.99639010429382,
+"n_timestamps": 193
+},
+"none/sympy__sympy-21171": {
+"tokens_in": 161883,
+"tokens_out": 3069,
+"tokens": 164952,
+"seconds": 29.94330406188965,
+"n_timestamps": 45
+},
+"null-guard/sympy__sympy-21171": {
+"tokens_in": 234699,
+"tokens_out": 2149,
+"tokens": 236848,
+"seconds": 36.90410375595093,
+"n_timestamps": 61
+},
+"type-guard/sympy__sympy-22740": {
+"tokens_in": 720789,
+"tokens_out": 5897,
+"tokens": 726686,
+"seconds": 92.06544589996338,
+"n_timestamps": 111
+}
+}
+}
+}
