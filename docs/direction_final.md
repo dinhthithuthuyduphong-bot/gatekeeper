@@ -1,62 +1,94 @@
-# Hướng đi đề xuất cho paper (05/11/2026, chờ @thuthuy và thầy duyệt)
+# Rà soát 4 việc và hướng đi cho paper (bản 2, 05/11/2026; chờ @thuthuy và thầy duyệt)
 
-**Cơ sở:**
-- `docs/strategy_review.md` (kỳ vọng gốc, to-do gốc, các kết quả đã đo);
-- `docs/p6_review.md` (chỉ lấy dữ liệu thí nghiệm của p6, không lấy lý thuyết);
-- bản gốc 5 bài mới đọc qua workflow `sources` (run 42017123630, nhánh `sources-snapshots`), cùng các bài đã có (Qu et al., SWE-Skills-Bench).
+**Nguồn và quy ước:**
+- Bản gốc đọc lại: paper gốc, bản tóm tắt, to-do bản 2 (commit `22159ef`).
+- Mọi file trong `results/`.
+- Dữ liệu thô của p6 (chỉ Study T/T2; số đếm **tính lại từ từng dòng, khớp file kết quả**).
+- Bản gốc tài liệu lưu ở nhánh `sources-snapshots`, lấy qua run 42017123630 và lần tải lại lúc 11:28 UTC.
+- Mỗi rủi ro ở mục 4 ghi rõ **đã kiểm bằng gì** và **trạng thái**.
 
-## 1. Đối chiếu tính mới (câu trích từ bản gốc)
+---
 
-| Công trình | Đã làm (câu gốc) | Chưa làm |
+## 1. Paper gốc và kỳ vọng gốc: khả thi hay không
+
+| Kỳ vọng gốc | Khả thi? | Bằng chứng |
 | --- | --- | --- |
-| On Randomness in Agentic Evals (`randomness_agentic_evals_2026`) | "single-run pass@1 estimates vary by 2.2 to 6.0 percentage points … even at temperature 0"; khuyên "estimate pass@1 from multiple independent runs" và "use statistical power analysis" | Đoạn trích theo từ khóa không có kết quả nào cho "paired", "sequential", "peek", "anytime", "skill" (bản gốc 65.903 ký tự). Họ so model và agent, không so có/không skill |
-| Coding Agents Have Converged (`converged_agents_2026`) | Kiểm toán 254 bài nộp leaderboard: "Exact paired McNemar tests separate none of the 29 adjacent Verified top-thirty pairs"; "The statistical machinery itself is established, and we use it as such" | Không chạy model; không có skill; không có kiểm định tuần tự |
-| Same Model, Different Harness (`same_model_harness_2026`) | So ghép cặp hai cấu hình harness: F2PF "from 28% to 49%" | Một can thiệp lớn; không có cổng nhận hay kiểm soát sai số |
-| Engineering Reliable Coding Agents (`reliable_coding_agents_2026`) | Chuyên khảo tổng quan: "Measurement determines whether a difference is credible. Grading converts observations into acceptance decisions" | Danh mục thực hành; không có giao thức có bảo đảm |
-| PatchDiff (`patchdiff_2025`, ICSE 2026) | "29.6% plausible patches induce different behavior than the ground truth patches"; "28.6% of behaviorally divergent patches are certainly incorrect" | **Trùng với Study Q của p6** (43,1% / 11,1%), nên **không dùng Q làm đóng góp** |
-| SWE-Skills-Bench (`sskb_paper`) | "no standard procedure tests an individual skill before installation"; "we run every task once without the skill and once with it"; "use a statistical test to classify each skill"; "92 of 98 skills are Ineffective" | Mỗi nhánh chạy **một lần** cho mỗi requirement, kiểm định cỡ mẫu cố định trên 10 requirement. Không đo nhiễu A/A, không đề cập theo dõi liên tục, không có thu hồi |
-| Propose, Don't Judge (Qu et al., `anytime_referee_2026`) | Referee bằng betting, "false-discovery guarantee holds at every stopping time"; admit bằng online e-BH, thu hồi bằng e-detector | Lĩnh vực tài chính; FDR; không có coding agent, scope, skill ghép |
+| Tiền đề: skill có hiệu ứng lớn, khác nhau theo ngữ cảnh; hại ở 20–58% số cặp | ❌ sai với skill mức agent | E1: Z̄ ∈ [−0,019; +0,013]. E2: +2,1 điểm [−1,0; +5,3]. SWE-Skills-Bench: "92 of 98 skills are Ineffective … 76.6% … 76.9%" |
+| RQ1: nhận nhầm 11,5% → 5,1% so với replay + fingerprint, tại cùng độ phủ | ❌ trên skill agent, vì không gán được nhãn có hại. ⚠️ Phần động cơ "replay không đủ" có bằng chứng thật | Nhãn cần hơn 100 trial mỗi ô. §16: không có lợi thế khi so ở cùng độ phủ. p6 T/T2: replay + fingerprint nhận 9/11 và 17/20 ô Ruff có hại |
+| RQ2: bắt 41/46 cặp ghép có hại | ❌ trên dữ liệu thật; ✅ trên plasmode và lý thuyết | T3: ghép ngây thơ 98,8%, Gatekeeper 0% |
+| RQ3: regime A/B/C; B9 thử lại cùng ngân sách | ❌ | Cần nhãn hại |
+| RQ4: thu hồi; điểm hòa vốn | ✅ | T2/T2b; chi phí đo được |
+| Lý thuyết: admission, ghép, Prop. 9 | ✅ nếu viết gọn | Prop. 9 đo được: 3,3–4,6× (repo này) và **3,2–4,4× trên 4 cấu hình của SWE-Skills-Bench** |
+| SkillShift-SE 180 cặp | ❌ | Khoảng 5.800 USD |
 
-**Khoảng trống còn lại (có bằng chứng):**
-- SWE-Skills-Bench đặt đúng bài toán ("tests an individual skill before installation"). Nhưng thủ tục của họ là một lần chạy mỗi nhánh, cộng một kiểm định cỡ mẫu cố định.
-- Các bài về nhiễu cho thấy một lần chạy là không đủ, nhưng không xét skill, không xét nhận skill, không xét theo dõi liên tục.
-- Qu et al. có công cụ thống kê đúng, nhưng ở lĩnh vực khác.
-- **Chưa ai đo, trên coding agent thật, điều gì xảy ra với việc kiểm tra skill trước khi cài khi kết quả có nhiễu và bị xem nhiều lần, rồi đưa ra và kiểm chứng một thủ tục có bảo đảm.**
+## 2. To-do gốc: khả thi hay không
 
-## 2. Hướng đề xuất
+| Phase | Trạng thái | Khả thi cho paper |
+| --- | --- | --- |
+| H, 0, 5a | Xong | — |
+| 1: sửa lý thuyết | Mới có ghi chú | ✅ miễn phí (F1) |
+| 2: môi trường, baseline | Một model; XRepoSkill, GEPA, Library Drift đã có nguồn | Model thứ hai còn mở (P2) |
+| 3: pilot và go/no-go **theo power** | Đã trả lời "không đủ power" từ G1 (03/11) | Đây là dữ liệu cho hướng mới |
+| 4: SkillShift-SE | ❌ | Bỏ; thay bằng plasmode trên nhiễu thật, đối chứng dương T4, dữ liệu công khai của SWE-Skills-Bench |
+| 5b: Gatekeeper đầy đủ | Một phần | Chỉ giữ admission, sổ α, thu hồi |
+| 6: 8 hệ thống × 2 backend | ❌ | Bỏ |
+| 7: phân tích, viết | ⏳ | ✅ |
 
-**Tên làm việc:** *Testing a Skill Before You Install It: Noise, Peeking and Anytime-Valid Admission for Coding-Agent Skills* (kiểm tra skill trước khi cài: nhiễu, xem kết quả nhiều lần, và việc nhận skill với bảo đảm đúng ở mọi thời điểm dừng).
+## 3. Kết quả từ giai đoạn 0 tới nay
 
-**Đóng góp** (không tuyên bố công cụ thống kê mới; trích Qu et al., Ville, Wang & Ramdas):
+| Mức | Kết quả | Vì sao |
+| --- | --- | --- |
+| **Dùng chính** | Khoảng 2.000 lần chạy ghép cặp; A/A; F(n); 7/13 mức tăng đã công bố nằm trong nhiễu | Dữ liệu nhiễu thật của **phép so có/không skill**. Các bài đã công bố chỉ đo nhiễu khi so model hoặc agent |
+| **Dùng chính** | Null thật B-X2 0,026 → 0,103; P1 0,075 → 0,303; Gatekeeper ≤ 0,002; T1 | RQ2 |
+| **Dùng chính** | T4: admit ở trial 20, khớp dự đoán đăng ký 21–25 | Kiểm chứng trên agent thật |
+| **Dùng chính** | T2/T2b (thu hồi) | RQ4 |
+| **Dùng chính** | Dữ liệu SWE-Skills-Bench: 3.920 cặp, 4 cấu hình, MIT | Bằng chứng ngoài, nhiều model |
+| Dùng có giới hạn | C2, C3, §16 (kết quả âm), dư địa (thăm dò) | Động cơ; định phạm vi tuyên bố |
+| Dùng có giới hạn | p6 T/T2 | Chỉ ở phần thảo luận phạm vi, trình bày riêng (định nghĩa draw khác) |
+| Không dùng | G1-B, A76 rerun, ô MemGovern, kiểm "model không đổi", 2.1, p6 Study Q (trùng PatchDiff), lý thuyết p6, mock review | Lỗi, trùng, hoặc không phải bằng chứng |
 
-| RQ | Câu hỏi | Dữ liệu đã có | Còn thiếu |
-| --- | --- | --- | --- |
-| RQ1 | Nhiễu của phép so có/không skill lớn tới đâu so với các mức tăng skill đã công bố? | A/A ghép cặp trên khoảng 2.000 lần chạy; F(n); ghép cặp giảm phương sai 3,3–4,6×; 7/13 mức tăng đã công bố nằm trong nhiễu; dư địa theo loại thất bại (thăm dò) | Đăng ký và chạy lại phần dư địa; bảng số trial cần (F3) |
-| RQ2 | Các cách nhận skill đang dùng có giữ được tỉ lệ nhận nhầm khi kết quả có nhiễu và bị xem nhiều lần không? | Null thật: B-X2 0,026 → 0,103. Plasmode P1: 0,075 → 0,303. GEPA, plug-in (T1, P2). Lựa chọn trên SWE-Skills-Bench (C3: 43–44% so với nền 38,5%) | Áp đúng thủ tục kiểu SWE-Skills-Bench (một lần mỗi nhánh, 10 requirement) lên nhiễu thật (miễn phí, F8) |
-| RQ3 | Thủ tục anytime-valid có giữ được sai số và vẫn chứng nhận được hiệu ứng thật không, với chi phí bao nhiêu? | FWER ≤ 0,002; độ phủ 0,59 / 0,80; T4 admit ở trial 20, khớp dự đoán đăng ký 21–25; §16 (không có lợi thế khi chỉnh ngưỡng bằng đáp án, báo cáo thẳng) | Chứng minh gọn (F1) |
-| RQ4 | Thu hồi skill khi hiệu ứng đổi chiều | T2: Library Drift 53%; e-SR thu hồi nhầm 35%. T2b: 100% phát hiện, độ trễ 75, 0/1000 thu hồi nhầm | — |
-| Phạm vi | Khi nào **không** cần thống kê | p6 T/T2: quy tắc Ruff trên 120 dự án PyPI. Tác hại hiếm và tất định; smoke test 20 draw đạt 0/11 và 1/20, còn replay + fingerprint nhận nhầm 9/11 và 17/20 | Chỉ một đoạn hoặc một RQ phụ; báo cáo cả việc Gatekeeper thua về chi phí |
+## 4. Hướng đi và mọi rủi ro, mỗi rủi ro đã kiểm bằng gì
 
-**Các điểm yếu reviewer sẽ chấm, và cách xử lý:**
-1. **Một model.** SWE-Skills-Bench có 4 cấu hình agent–model, dữ liệu công khai, đã phân tích một phần (`results/sskb_analysis.json`). Dùng nó cho RQ2 (miễn phí) là bằng chứng ngoài, nhiều model. Phần nhiễu A/A vẫn chỉ có một model, nên P2 vẫn nên làm nếu có ngân sách.
-2. **Trùng công cụ với Qu et al.** Nói thẳng là áp dụng; đóng góp nằm ở bài toán SE, phép đo, và các so sánh trực tiếp.
-3. **Định lý.** Chỉ giữ: admission (Ville + sổ α), ghép có thứ tự định nghĩa rõ, thu hồi hai bước. Bỏ cận dịch phân phối TV nếu không dùng. Mỗi ký hiệu một nghĩa, định nghĩa "trial" một lần. Tránh đúng lỗi của p6.
-4. **Không chứng nhận được skill thật.** Đây là kết quả của RQ1 (dư địa, nhiễu), không phải điểm yếu. T4 cho thấy giao thức chứng nhận đúng khi hiệu ứng có thật.
+**Hướng:** *Testing a Skill Before You Install It* (kiểm tra skill trước khi cài).
+- Câu hỏi của SWE-Skills-Bench, nguyên văn: "no standard procedure tests an individual skill before installation".
+- Trả lời bằng ba phép đo trên dữ liệu thật:
+  1. RQ1: nhiễu của phép so có/không skill;
+  2. RQ2: các tiêu chí nhận và thu hồi **đã công bố** khi gặp nhiễu và bị xem nhiều lần;
+  3. RQ3/RQ4: một thủ tục anytime-valid giữ được sai số, có đối chứng dương trên agent thật.
+- Không tuyên bố công cụ thống kê mới.
 
-## 3. To-do (theo L38: kết quả gì, P(có kết quả dùng được), chi phí)
-
-| # | Việc | Chi phí | P(có kết quả dùng được) | Lý do |
+| # | Rủi ro | Đã kiểm bằng | Kết quả | Trạng thái |
 | --- | --- | --- | --- | --- |
-| F8 | RQ2 trên thủ tục kiểu SWE-Skills-Bench: một lần chạy mỗi nhánh, 10 requirement, kiểm định cố định; áp lên plasmode nhiễu thật và lên dữ liệu SWE-Skills-Bench | 0 | ≈ 1 | Phép tính trên dữ liệu có sẵn |
-| F2 | Đăng ký §18, rồi đo: dư địa, F(n), A/A trên E1 + E2; chấm lại bản vá gốc nghi chập chờn | 0 | ≈ 1 | Phép đo |
-| F3 | Bảng số trial cần để chứng nhận các mức tăng đã công bố (SWE-Skills-Bench Golden, XRepoSkill, MemGovern) | 0 | ≈ 1 | Cùng cách mô phỏng đã dự đoán đúng T4 |
-| F1 | Chứng minh gọn (3 mệnh đề) + 👤 người biết thống kê đọc | 0 | Cao | Kết quả chuẩn |
-| F5 | Viết paper; bảng và hình sinh tự động; kiểm `refs.bib` | 0 | Cao | — |
-| P2 | *(tùy chọn)* A/A trên model thứ hai, khoảng 200 lần chạy | Gemini Flash khoảng 48 USD | ≈ 1 | Phép đo, không có cổng; @thuthuy duyệt |
+| R1 | "Đo nhiễu đã có người làm" | Bản gốc 2602.07150, 2609.17394 | Đúng: họ đo nhiễu khi so model, agent hoặc leaderboard. Không đoạn trích nào chứa "skill", "paired", "sequential" (2602.07150) | ✅ **Xử lý:** trích họ; đóng góp của mình là nhiễu của **phép so có/không skill** và hệ quả cho việc nhận skill |
+| R2 | "Xem nhiều lần làm hỏng kiểm định là kiến thức cũ" | Bản gốc gskill/GEPA, Library Drift | gskill: tiêu chí "strictly greater" trên minibatch 3, `max-metric-calls` mặc định 600. Library Drift chạy 100 vòng và tự viết "skills … are prematurely retired on unlucky draws, while genuinely harmful skills may survive early rounds" | ✅ **Xử lý:** đóng góp là **độ lớn đo được trên các tiêu chí đã công bố**, vốn được áp lặp lại theo thiết kế. Bỏ câu "người dùng hay theo dõi" vì không có nguồn |
+| R3 | Trùng công cụ với Qu et al. | `anytime_referee_2026` | Họ dùng betting, FDR, ở lĩnh vực tài chính | ⚠️ Rủi ro do reviewer đánh giá. **Xử lý:** nói thẳng là áp dụng; tách các phần khác (FWER theo scope, thu hồi có xác nhận, dữ liệu coding agent) |
+| R4 | Một model | `results/sskb_analysis.json` | Ghép cặp giảm phương sai 3,2–4,4× ở cả 4 cấu hình. Hiệu ứng skill gần 0 ở cả 4 (mean Z từ −0,008 tới +0,003) | ⚠️ Một phần. RQ1-pairing và RQ2 có dữ liệu 4 model. A/A chỉ có một model, cần P2 (khoảng 48 USD, @thuthuy quyết) |
+| R5 | Hiệu ứng trong plasmode là giả lập | T4 | Agent thật admit ở trial 20, khớp dự đoán 21–25 | ✅ một điểm kiểm chứng. Nêu giới hạn |
+| R6 | "Không chứng nhận được skill thật nào" | Dư địa (thăm dò), SWE-Skills-Bench | 48,5% số lần chạy thất bại vì "sửa đúng file nhưng sai cách sửa". SWE-Skills-Bench: 92/98 skill không có hiệu ứng có ý nghĩa thống kê | ✅ Đây là kết quả của RQ1. Phải đăng ký lại phân tích dư địa (F2) |
+| R7 | §16: không có lợi thế khi so ở cùng độ phủ | `harm_coverage.json` | Đúng | ✅ **Xử lý:** chỉ tuyên bố "hợp lệ khi không có đáp án để chỉnh ngưỡng và khi bị xem nhiều lần" |
+| R8 | Định lý lộn xộn (bài học của p6) | `PAPER_EXPECTATION_AUDIT.md` của p6; R12 trong to-do gốc | Ba lỗi đã biết: hệ số TV, Định lý 7, sổ α với 1/C(N, m) | ⏳ **Xử lý:** F1 chỉ 3 mệnh đề (admission theo Ville + sổ α; ghép có thứ tự; thu hồi Σα_k ≤ α). Bỏ cận dịch phân phối. Mỗi ký hiệu một nghĩa. 👤 người biết thống kê đọc |
+| R9 | Endpoint "resolved" có nhiễu (A76; PASS_TO_PASS chập chờn) | T4: 4/9 task không giải được có loss trong (0; 0,01) | Nghi chập chờn | ⏳ F2: chấm lại bản vá gốc 5 lần (chỉ Docker, 0 USD); thêm độ nhạy chỉ xét FAIL_TO_PASS |
+| R10 | Trộn dữ liệu p6 | Tính lại từ dữ liệu thô | Khớp. **Sửa một nhận định sai của mình:** tác hại ở các ô Ruff **không** tất định (10/20 ô T2 có tỉ lệ 0,067–0,20); smoke test bỏ sót ít vì ô có hại hiếm | ✅ **Xử lý:** chỉ ở phần thảo luận phạm vi, không gộp với dữ liệu agent |
+| R11 | F8 có thể không ra điều gì mới | Bản gốc SWE-Skills-Bench (Table 4) | Kiểm định của họ là "Exact sign-flip (primary)", hợp lệ khi xem một lần. **Tính trước:** σ_S² = 0,040, n = 10, nên nửa độ rộng CI 90% khoảng 9–12 điểm tùy cấu hình | ✅ **Đổi nội dung F8:** không nói "sai", mà đo **power và tính tương đương**. Dự đoán: gần như không skill "Ineffective" nào được chứng minh là có hiệu ứng dưới ±5 điểm, nếu tính theo từng cấu hình. **Còn mở:** họ gộp 4 cấu hình (40 cặp, khoảng ±5 điểm) hay tách? Phải đọc lại bản gốc trước khi đăng ký |
+| R12 | Thu hồi hai bước bị trùng | `universality_edetectors_2026` | Có thể là trường hợp riêng | ✅ Chỉ tuyên bố cách xây dựng và phép đo |
+| R13 | Con số "7/13 nằm trong nhiễu" | `noise_floor_audit.json` | Nhiễu đo trên một model, ở tỉ lệ giải nền thấp hơn của họ | ✅ Đã ghi: quy tắc **có lợi cho các tuyên bố** |
+| R14 | Tái lập | `raw-archive`; không tất định 21,5% | — | ✅ Công bố dữ liệu thô và mã |
 
-**Không làm:** pilot skill thật mới; bậc thang skill; Study Q; mọi lý thuyết của p6.
+## 5. To-do cuối (không có việc nào đặt cược vào giả thuyết "skill có tác dụng")
 
-**Mức cạnh tranh** (định tính, không có số để tính xác suất được nhận):
-- Không có P2: có dữ liệu ngoài từ 4 cấu hình của SWE-Skills-Bench, nên **cạnh tranh được nhưng ở ranh giới**.
-- Có P2: **cạnh tranh được**.
-- Rủi ro lớn nhất còn lại: reviewer coi đây là "áp dụng thống kê đã biết". Cách giảm: chứng minh bằng số rằng thủ tục đang được đề xuất trong tài liệu (SWE-Skills-Bench) hỏng trên nhiễu thật (F8).
+| # | Việc | Chi phí | Kết quả chắc chắn có | Phụ thuộc |
+| --- | --- | --- | --- | --- |
+| F0 | Đọc lại bản gốc SWE-Skills-Bench để biết họ gộp hay tách 4 cấu hình, và mức α | 0 | Có | — |
+| F2 | Đăng ký §18, rồi đo: dư địa, F(n), A/A trên E1 + E2; chấm lại bản vá gốc nghi chập chờn | 0 | Có | — |
+| F8 | Đăng ký §19 (power và tương đương của thủ tục kiểu SWE-Skills-Bench), rồi chạy trên dữ liệu của họ và trên plasmode | 0 | Có (đã tính trước bằng σ_S²) | F0 |
+| F3 | Bảng số trial cần cho các mức tăng đã công bố | 0 | Có | F2 |
+| F1 | 3 mệnh đề + 👤 người đọc | 0 | Có | — |
+| F5 | Viết paper; `number_provenance`, `glossary`, `refs.bib` | 0 | Có | F1–F8 |
+| P2 | *(tùy chọn)* A/A trên model thứ hai | khoảng 48 USD | Có (phép đo) | @thuthuy |
+
+**Còn lại không xử lý được bằng dữ liệu** (phải nói thẳng):
+- (a) Reviewer có thể coi đây là "áp dụng thống kê đã biết" (R3).
+- (b) A/A chỉ trên một model, nếu không làm P2 (R4).
+- Mức cạnh tranh (định tính):
+  - không có P2: **ranh giới, nhưng cạnh tranh được**;
+  - có P2: **cạnh tranh được**.

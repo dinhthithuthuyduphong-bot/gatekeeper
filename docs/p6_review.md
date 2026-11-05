@@ -49,7 +49,11 @@ Chỉ tính các ô Ruff. T: 11 ô hại, 1.520 ô an toàn. T2: 20 ô hại, 3.
 **Đọc trung thực:**
 - **Đúng câu hỏi RQ1 của paper gốc:** replay + fingerprint nhận nhầm hầu hết ô có hại (9/11, 17/20). Đây là bằng chứng thật cho động cơ "replay không đủ".
 - Nhưng **mọi cổng dùng bằng chứng trên target** (S20, B8, Gatekeeper) đều gần 0. Ở T và V, smoke test 20 draw **trội** Gatekeeper: ít draw hơn khoảng 10 lần, cùng 0 ô hại. Tiêu chí W1 (an toàn) và W3 (chi phí) của chính p6 **không đạt** ở T và V; ở T2, W1 đạt (S20 nhận 1 ô hại) nhưng W3 vẫn không đạt.
-- **Kết luận:** với biến đổi mã tất định, tác hại hiếm (khoảng 0,8% số ô) và hầu như tất định, nên thống kê tuần tự **không cần thiết**.
+- **Kết luận (đã sửa 05/11 sau khi tính lại từ dữ liệu thô; số đếm khớp file kết quả):**
+  - Tác hại hiếm: 11/1.531 và 20/3.548 ô Ruff.
+  - Tác hại **không** tất định: tỉ lệ hại của các ô có hại trải từ 0,05 tới 1,0. Ở T2, 10/20 ô có tỉ lệ hại 0,067–0,20.
+  - Smoke test 20 draw chỉ bỏ sót 0 ô (T) và 1 ô (T2), đúng với kỳ vọng tính từ các tỉ lệ đó: Σ(1 − p)^20 ≈ 0,7 (T) và ≈ 1,0 (T2). Lý do là ô có hại hiếm, chứ không phải tác hại tất định.
+  - Bản cũ ghi "hầu như tất định" là **sai**.
 
 ### 3b. U: patch LLM có tác hại một phần
 
@@ -72,7 +76,7 @@ Chỉ tính các ô Ruff. T: 11 ô hại, 1.520 ô an toàn. T2: 20 ô hại, 3.
 
 | # | Ý | Dữ liệu thật ở cả hai repo | Rủi ro |
 | --- | --- | --- | --- |
-| A1 | **Bản đồ chế độ:** loại cổng cần dùng phụ thuộc vào việc kết quả trên mỗi draw có tất định không. Biến đổi mã tất định (p6 T/T2): smoke test là đủ, còn replay và LLM judge thì không. Skill mức agent (repo này E1/E2/T4): hiệu ứng nhỏ so với nhiễu, nên cần cổng có bảo đảm. Theo dõi liên tục phá cổng cỡ mẫu cố định | Có ở cả hai | Hai miền khác nhau, review đã chê là rời rạc. Phải có một câu hỏi chung và **một** định nghĩa draw/trial dùng cho cả hai |
+| A1 | **Bản đồ chế độ** (đã sửa: tiêu chí là **mức nhiễu và độ hiếm của ô có hại**, không phải tính tất định). Quy tắc Ruff (p6 T/T2): ô có hại hiếm và tỉ lệ hại ≥ 0,05, nên smoke test 20 draw bỏ sót khoảng 1 ô, còn replay và LLM judge thì không. Skill mức agent (repo này E1/E2/T4): hiệu ứng nhỏ so với nhiễu, nên cần cổng có bảo đảm. Theo dõi liên tục phá cổng cỡ mẫu cố định | Có ở cả hai | Hai miền khác nhau, review đã chê là rời rạc. Phải có một câu hỏi chung và **một** định nghĩa draw/trial dùng cho cả hai |
 | A2 | **Động cơ cho RQ1 gốc:** replay + fingerprint nhận 9/11 và 17/20 ô có hại trên quy tắc Ruff thật | Có (p6) | Đó là B6R do p6 tự dựng, không phải GSE thật. Ghi rõ như B-X2 ở repo này |
 | A3 | **Chủ đề "endpoint quyết định con số":** Q (hệ số 3,88); repo này có A76 (loss == 0 so với < 0,5) và nghi PASS_TO_PASS chập chờn | Có ở cả hai | Có thể trùng với công trình về patch "plausible" (chưa kiểm) |
 | A4 | Ví dụ ghép không giao hoán (R2) | p6 | Nhỏ, không có tác hại |
@@ -90,6 +94,6 @@ Chỉ tính các ô Ruff. T: 11 ô hại, 1.520 ô an toàn. T2: 20 ô hại, 3.
 ## 5. Kết luận
 
 **Có ánh sáng, nhưng là ánh sáng về định vị, không phải một kết quả thắng.**
-- Dữ liệu của hai repo cho cùng một câu trả lời trung thực: cổng thống kê chỉ cần khi kết quả trên mỗi draw có nhiễu. Ở biến đổi tất định, một smoke test rẻ là đủ. Ở skill mức agent, nhiễu chiếm ưu thế, và các quy tắc phổ biến hỏng khi bị theo dõi liên tục.
+- Dữ liệu của hai repo cho cùng một câu trả lời trung thực: cổng thống kê chỉ cần khi kết quả trên mỗi draw có nhiễu. Ở quy tắc Ruff, ô có hại hiếm nên smoke test 20 draw chỉ bỏ sót khoảng 1 ô (không phải 0). Ở skill mức agent, nhiễu chiếm ưu thế, và các quy tắc phổ biến hỏng khi bị theo dõi liên tục.
 - Đây có thể là trục chính của paper. Nó trả lời "khi nào cần gì" bằng số đo, thay vì "Gatekeeper thắng".
 - **Chưa chốt:** phải làm xong việc rà tài liệu (`docs/strategy_review.md` §5b), gồm cả công trình về patch "plausible", và kiểm A1 có bị trùng không.
