@@ -117,6 +117,19 @@ jobs:
           for i in $(seq 1 60); do curl -sf http://localhost:9030/health > health.json && break; sleep 10; done
           echo "[F3] health: $(cat health.json 2>/dev/null || echo NONE)" | tee -a checks.txt
           grep "\[memgovern\]" mg_server.log | tee -a checks.txt
+          # F4b: latency of /search as the tool calls it (top_k 10); must stay below the tool's 10 s timeout
+          python - <<'EOF' | tee -a checks.txt
+          import json, time, urllib.request
+          qs = [json.loads(l)["problem_statement"][:2000] for l in open("e2_rows.jsonl")][:20]
+          ts = []
+          for q in qs:
+              t0 = time.time()
+              req = urllib.request.Request("http://localhost:9030/search", data=json.dumps({"query": q, "top_k": 10}).encode(), headers={"Content-Type": "application/json"})
+              n = len(json.load(urllib.request.urlopen(req, timeout=60))["results"])
+              ts.append(time.time() - t0)
+          ts.sort()
+          print(f"[F4b] /search latency s: median {ts[len(ts)//2]:.2f}, p95 {ts[int(0.95*len(ts))-1]:.2f}, max {ts[-1]:.2f}; results per query {n}")
+          EOF
       - name: Gate (preflight)
         run: python scripts/preflight.py --ci
       - name: Dry run, scripted model, both arms on one Live task (F2, F4, F6)

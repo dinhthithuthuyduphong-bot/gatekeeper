@@ -95,7 +95,24 @@ def load_server(mg_root: Path, instance_ids: list[str]):
     es.experience_data = filter_cards(es.experience_data, excl)
     es.collection = FilteredCollection(es.collection, es.experience_data)
     print(f"[memgovern] cards {n0} -> {len(es.experience_data)} after excluding {len(excl)} repos")
+    warm_up(es)
     return es
+
+
+def warm_up(es) -> None:
+    """MemGovern's exp_search client waits 10 s (urllib timeout=10 in exp_search.py). The embedding
+    model loads in bfloat16, which is slow on CPU, and the first query is slower still: cast to
+    float32 when the model is reachable, and run one query before the server answers /health."""
+    import time
+
+    emb = getattr(es.collection.inner, "_embedding_function", None)
+    model = getattr(emb, "model", None)
+    if model is not None and hasattr(model, "float"):
+        emb.model = model.float()
+        print("[memgovern] embedding model cast to float32")
+    t0 = time.time()
+    es.collection.query(query_texts=["warm-up query"], n_results=10)
+    print(f"[memgovern] warm-up query {time.time() - t0:.1f} s")
 
 
 def card_text(card: Mapping[str, Any]) -> str:

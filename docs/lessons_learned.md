@@ -296,3 +296,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 
 - **Xảy ra:** driver đo thời gian theo session. Vòng lặp bọc ngoài của tôi chạy mọi lần trong cùng một session, nên đồng hồ không được đặt lại.
 - **Phòng ngừa:** trước khi bọc một script, `grep` các chỗ nó đọc trạng thái tiến trình (`getsid`, `/proc`, biến môi trường). Lần chạy lại đầu tiên phải được xem log để chắc nó làm được ít nhất một lô.
+
+## L33. Câu kiểm phải đọc đúng phần dữ liệu do hành vi cần kiểm tạo ra (A73)
+
+- **Xảy ra:** tôi tìm chuỗi đầu ra của công cụ trong cả trajectory, nên khớp nhầm với chính đoạn hướng dẫn trong prompt.
+- **Phòng ngừa:**
+  - Kiểm đầu ra ở đúng vị trí nó xuất hiện (quan sát sau hành động), kèm một bộ đếm độc lập (log của server theo từng endpoint).
+  - Một câu kiểm "đạt" mà hai bằng chứng mâu thuẫn nhau (ở đây: 1 lời gọi server nhưng lại có thẻ được đọc) thì coi là không đạt cho tới khi giải thích được.

@@ -198,3 +198,5 @@ Chi phí: khoảng (109 + 200) × 0,064 ≈ 20 USD, chưa tính phần prompt d�
   - (F6) chạy thử hoàn tất với `infra_failures` = 0.
 - **Quy tắc chọn:** đạt đủ F3–F6 thì ô có chi phí dùng bản gốc. Thiếu bất kỳ mục nào thì dùng B-M, ghi rõ mục nào không đạt và vì sao.
 - **Khi chạy có chi phí:** sổ chi chung (như E2) với trần 20 USD. Sau 10 trial đầu, nếu chi phí dự kiến cho cả ô vượt 20 USD thì dừng và hỏi @thuthuy.
+
+- **Ghi chú (04–05/11, A73):** lần thử 5 cho F1, F2, F3, F5, F6 đạt; F4 **không đạt** (công cụ quá giờ 10 giây). Thêm F4b (phân vị 95% của độ trễ < 10 giây, theo hằng số timeout của công cụ). Sửa lớp bọc (float32, truy vấn khởi động), rồi chạy lại lần thử miễn phí trước khi quyết định bản gốc hay B-M.
