@@ -43,6 +43,8 @@ def combine(runs: list[dict]) -> dict:
 
 def main() -> int:
     name, *parts = sys.argv[1:]
+    if name.startswith("-") or not parts:
+        raise SystemExit("usage: combine_runs.py <out-name> <run> [<run> ...]")
     runs = [json.loads((RESULTS / f"{p}.json").read_text()) for p in parts]
     out = combine(runs)
     out["name"] = name
