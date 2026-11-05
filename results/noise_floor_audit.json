@@ -1,0 +1,114 @@
+{
+ "n_tasks_noise_pool": 257,
+ "F_pp": {
+  "113": 7.965,
+  "200": 6.0,
+  "500": 3.8
+ },
+ "claims": [
+  {
+   "system": "XRepoSkill",
+   "setting": "Pro/DeepSeek",
+   "n": 200,
+   "gain_pp": 4.0,
+   "F_pp": 6.0,
+   "beyond_rerun_noise": false
+  },
+  {
+   "system": "XRepoSkill",
+   "setting": "Pro/GPT",
+   "n": 200,
+   "gain_pp": 5.5,
+   "F_pp": 6.0,
+   "beyond_rerun_noise": false
+  },
+  {
+   "system": "XRepoSkill",
+   "setting": "Pro/MiMo",
+   "n": 200,
+   "gain_pp": 8.5,
+   "F_pp": 6.0,
+   "beyond_rerun_noise": true
+  },
+  {
+   "system": "XRepoSkill",
+   "setting": "DeepSWE/DeepSeek",
+   "n": 113,
+   "gain_pp": 12.4,
+   "F_pp": 7.96,
+   "beyond_rerun_noise": true
+  },
+  {
+   "system": "XRepoSkill",
+   "setting": "DeepSWE/GPT",
+   "n": 113,
+   "gain_pp": 12.4,
+   "F_pp": 7.96,
+   "beyond_rerun_noise": true
+  },
+  {
+   "system": "XRepoSkill",
+   "setting": "DeepSWE/MiMo",
+   "n": 113,
+   "gain_pp": 6.2,
+   "F_pp": 7.96,
+   "beyond_rerun_noise": false
+  },
+  {
+   "system": "MemGovern",
+   "setting": "Claude-4-Sonnet",
+   "n": 500,
+   "gain_pp": 3.2,
+   "F_pp": 3.8,
+   "beyond_rerun_noise": false
+  },
+  {
+   "system": "MemGovern",
+   "setting": "GPT5-Medium",
+   "n": 500,
+   "gain_pp": 2.4,
+   "F_pp": 3.8,
+   "beyond_rerun_noise": false
+  },
+  {
+   "system": "MemGovern",
+   "setting": "DeepSeek-V3.1T",
+   "n": 500,
+   "gain_pp": 3.0,
+   "F_pp": 3.8,
+   "beyond_rerun_noise": false
+  },
+  {
+   "system": "MemGovern",
+   "setting": "Qwen3-235B",
+   "n": 500,
+   "gain_pp": 8.2,
+   "F_pp": 3.8,
+   "beyond_rerun_noise": true
+  },
+  {
+   "system": "MemGovern",
+   "setting": "Kimi-K2-Instruct",
+   "n": 500,
+   "gain_pp": 8.0,
+   "F_pp": 3.8,
+   "beyond_rerun_noise": true
+  },
+  {
+   "system": "MemGovern",
+   "setting": "GPT-4o",
+   "n": 500,
+   "gain_pp": 9.4,
+   "F_pp": 3.8,
+   "beyond_rerun_noise": true
+  },
+  {
+   "system": "MemGovern",
+   "setting": "GPT-4o-Mini",
+   "n": 500,
+   "gain_pp": 3.2,
+   "F_pp": 3.8,
+   "beyond_rerun_noise": false
+  }
+ ]
+}

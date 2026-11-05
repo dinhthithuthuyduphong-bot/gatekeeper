@@ -18,3 +18,13 @@
 2. **C3:** phải nêu tỉ lệ nền 38,5% bên cạnh con số 43–44%.
 3. **Ghi chú thực thi 1 của §9:** cách ước lượng được chọn khi viết mã, nhưng chỉ được ghi lại **sau khi** đã thấy kết quả. Lời ghi cũ ("trước khi đọc kết quả P2") không chính xác và đã được sửa.
 4. **FWER 0 của Gatekeeper trong plasmode:** với 1.000 lần lặp, cận trên khoảng tin cậy 95% của FWER là khoảng 0,003 (quy tắc 3/n), không phải đúng bằng 0.
+
+## C8. Mức nhiễu nền và đối chiếu (bản đăng ký §12, đăng ký trước khi đối chiếu; `results/noise_floor_audit.json`)
+
+- **Ngưỡng nhiễu F(n)** (chỉ do chạy lại, phân vị 97,5%, lấy từ 257 task thật): 8,0 điểm (n = 113), 6,0 điểm (n = 200), 3,8 điểm (n = 500).
+- **7/13 mức tăng đã công bố nằm trong mức nhiễu này:**
+  - XRepoSkill: 3/6 (Pro/DeepSeek +4,0; Pro/GPT +5,5; DeepSWE/MiMo +6,2);
+  - MemGovern: 4/7 (+2,4; +3,0; +3,2; +3,2).
+- **6/13 vượt mức nhiễu:** XRepoSkill +8,5 / +12,4 / +12,4; MemGovern +8,0 / +8,2 / +9,4.
+- **Bằng chứng từ chính bài XRepoSkill:** Pass@4 89,4% và All@4 32,7%, tức 56,7% số task cho kết quả khác nhau giữa 4 lần chạy của họ.
+- **Giới hạn:** nhiễu đo trên một model với tỉ lệ nền 0,37. Ở tỉ lệ gần 0,5 phương sai lớn hơn, nên F(n) của mình có thể thấp hơn nhiễu thật của họ. Quy tắc này vì vậy **có lợi cho các tuyên bố**. "Nằm trong nhiễu" không có nghĩa là "không có tác dụng": nó chỉ có nghĩa là một lần chạy không đủ để phân biệt với việc chạy lại.
