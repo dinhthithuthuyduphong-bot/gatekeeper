@@ -68,5 +68,5 @@
    "ess’s own baseline, not an absolute model ranking. A document scan cannot produce this view because it never observes routing, execution, or final task outcome. Coverage is uneven: Claude Code contributes 56 scored cells/251 paired cases, Codex 50/259, OpenCode 34/211, and Terminus-2 37/226. The report therefore keeps per-skill and per-harness diag- nostics for review rather than treating them as a balanced leader- board. The compact heatmap in Figure 9 keeps the per-skill view with- out consuming a full page. Each row is one anonymized skill and each column is one primary harness, making the heterogeneity visible even when aggregate lift is positive. Figure 10(b) shows lift by valid harness–model cell, and Fig- ure 10(c) holds the Codex harness fixed while varying the model. In that slice, the baseline rises sharply for GPT-5.5, so measured Skill Lift shrinks even though absolute task performance remains high. Live evaluation exposes this model–skill interaction; document scanning cannot. A separate 25-variant routing stress test keeps the production headline fixed while varying the visible-skill count from 1 to 50. Mean overall lift remains at 0.133–0.149 for 1–20 visible skills, while mea"
   ]
  },
- "fetched_utc": "2026-11-05T12:24:31+00:00"
+ "fetched_utc": "2026-11-05T12:33:11+00:00"
 }
