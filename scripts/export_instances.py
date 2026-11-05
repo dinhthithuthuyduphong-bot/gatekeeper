@@ -14,15 +14,22 @@ from pathlib import Path
 DATASET = "SWE-bench/SWE-bench_Verified"  # swebench>=5 format (image, eval_script, log_parser)
 
 
+# pools whose new tasks go to a separate file: one file must stay below GitHub's 100 MB limit
+SEPARATE_POOLS = {"e2c", "e2d"}
+
+
 def main() -> int:
     from datasets import load_dataset
 
     wanted: dict[str, set[str]] = defaultdict(set)
+    split_ids: set[str] = set()  # tasks only in the separate-file pools (GitHub 100 MB file limit)
+    old_ids: set[str] = set()
     for p in Path("configs/pools").glob("*.json"):
         pool = json.loads(p.read_text())
         if not isinstance(pool, dict) or not isinstance(pool.get("instances"), list):
             continue  # task-set files (e.g. e1_task_sets.json) are not pools
         wanted[pool.get("dataset", DATASET)] |= set(pool["instances"])
+        (split_ids if p.stem in SEPARATE_POOLS else old_ids).update(pool["instances"])
     rows: dict[str, dict] = {}
     for ds in sorted(wanted, key=lambda d: d != DATASET):  # Verified first
         split = "full" if "Live" in ds else "test"
@@ -50,12 +57,18 @@ def main() -> int:
     Path("data/instances").mkdir(parents=True, exist_ok=True)
     Path("data/instances/revisions.json").write_text(json.dumps(revisions, indent=1) + "\n")
     ids = set().union(*wanted.values())
-    out = Path("data/instances/verified_pools.jsonl")
-    out.parent.mkdir(parents=True, exist_ok=True)
-    with out.open("w", encoding="utf-8") as fh:
-        for iid in sorted(rows):
-            fh.write(json.dumps(rows[iid], default=str) + "\n")
-    print(f"exported {len(rows)}/{len(ids)} rows -> {out} ({out.stat().st_size // 1024} KiB)")
+    extra = split_ids - old_ids
+    for out, keep in (
+        (Path("data/instances/verified_pools.jsonl"), lambda i: i not in extra),
+        (Path("data/instances/live_blocks_cd.jsonl"), lambda i: i in extra),
+    ):
+        out.parent.mkdir(parents=True, exist_ok=True)
+        with out.open("w", encoding="utf-8") as fh:
+            for iid in sorted(rows):
+                if keep(iid):
+                    fh.write(json.dumps(rows[iid], default=str) + "\n")
+        print(f"rows -> {out} ({out.stat().st_size // 1024} KiB)")
+    print(f"exported {len(rows)}/{len(ids)} rows")
     return 0 if len(rows) == len(ids) else 1
 
 
