@@ -303,3 +303,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Phòng ngừa:**
   - Kiểm đầu ra ở đúng vị trí nó xuất hiện (quan sát sau hành động), kèm một bộ đếm độc lập (log của server theo từng endpoint).
   - Một câu kiểm "đạt" mà hai bằng chứng mâu thuẫn nhau (ở đây: 1 lời gọi server nhưng lại có thẻ được đọc) thì coi là không đạt cho tới khi giải thích được.
+
+## L34. Một tính chất của hệ thống bên ngoài (ở đây là tính tất định) phải được đo trên mẫu đủ lớn trước khi dùng làm giả định của thiết kế (A75)
+
+- **Xảy ra:** tôi kết luận "tất định theo seed" từ 2 lời gọi. Đo lại trên 688 lời gọi: 21,5% không lặp lại được.
+- **Phòng ngừa:**
+  - Mọi giả định về hành vi của API phải có cỡ mẫu và khoảng tin cậy ghi trong `docs/number_provenance.md`.
+  - Thiết kế nào dựa vào giả định đó phải có phép kiểm đăng ký trước, như §5 đã có.
