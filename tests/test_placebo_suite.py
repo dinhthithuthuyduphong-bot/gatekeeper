@@ -132,3 +132,20 @@ def test_preflight_run_counts_accept_reused_none_only():
     assert preflight.run_count_problems(not_reused)
     lost = {"reused_none": "x.json", "usage": {"s": {"runs": 3, "scored": 2}}}
     assert preflight.run_count_problems(lost)
+
+
+def test_section21_permutation_test_level_and_power():
+    import section21 as s21
+
+    rng = np.random.default_rng(6)
+    ps_null = []
+    for _ in range(200):
+        none, skill = ps.simulate_cell(rng, 0.5, 1.0, 60, 3, 0.0)
+        ps_null.append(s21.perm_test(skill, none, 99, rng))
+    assert np.mean(np.array(ps_null) <= 0.05) <= 0.05 + 2 * (0.05 * 0.95 / 200) ** 0.5
+    none, skill = ps.simulate_cell(rng, 2.0, 1.0, 100, 3, 0.8)
+    assert s21.perm_test(skill, none, 199, rng) < 0.05
+    assert (
+        s21.t_stat(skill, none)
+        == ps.candidates(none, skill)[0].sum() - ps.candidates(none, skill)[1].sum()
+    )
