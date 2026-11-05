@@ -1,7 +1,8 @@
 {
   "name": "p21-s41",
   "merged_from": [
-    "p21-s41-p00"
+    "p21-s41-p00",
+    "p21-s41-p01"
   ],
   "skills": {
     "repo-test-guide": {
@@ -10,44 +11,52 @@
           "instance_id": "pvlib__pvlib-python-2133",
           "loss_with": 0.0,
           "loss_without": 0.0
+        },
+        {
+          "instance_id": "beeware__briefcase-1785",
+          "loss_with": 0.0025298156848572464,
+          "loss_without": 0.0025298156848572464
         }
       ],
       "mean_Z": 0.0,
-      "n": 1,
-      "solve_rate_with": 1.0,
-      "solve_rate_without": 1.0
+      "n": 2,
+      "solve_rate_with": 0.5,
+      "solve_rate_without": 0.5
     }
   },
   "usage": {
     "none": {
-      "runs": 1,
-      "usd": 0.035744075,
+      "runs": 2,
+      "usd": 0.0677024,
       "solved": 1,
-      "scored": 1,
-      "usd_per_run": 0.035744075
+      "scored": 2,
+      "usd_per_run": 0.0338512
     },
     "repo-test-guide": {
-      "runs": 1,
-      "usd": 0.042204624999999996,
+      "runs": 2,
+      "usd": 0.06209137499999999,
       "solved": 1,
-      "scored": 1,
-      "usd_per_run": 0.042204624999999996
+      "scored": 2,
+      "usd_per_run": 0.031045687499999995
     }
   },
   "infra_failures": {},
   "exit_status": {
     "none": {
-      "pvlib__pvlib-python-2133": "Submitted"
+      "pvlib__pvlib-python-2133": "Submitted",
+      "beeware__briefcase-1785": "Submitted"
     },
     "repo-test-guide": {
-      "pvlib__pvlib-python-2133": "Submitted"
+      "pvlib__pvlib-python-2133": "Submitted",
+      "beeware__briefcase-1785": "Submitted"
     }
   },
   "patch_apply_failed": {},
   "harness_test_timeout": {},
-  "spent_usd": 0.0779,
+  "spent_usd": 0.1297,
   "instances": [
-    "pvlib__pvlib-python-2133"
+    "pvlib__pvlib-python-2133",
+    "beeware__briefcase-1785"
   ],
   "model": "vertex_ai/gemini-3.1-flash-lite",
   "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/live_rows.jsonl"
