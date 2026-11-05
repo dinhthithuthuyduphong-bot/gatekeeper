@@ -1,0 +1,170 @@
+{
+ "alpha_cell": 0.004166666666666667,
+ "cells": {
+  "null-guard": {
+   "n_tasks": 40,
+   "decisions": {
+    "Gatekeeper": false,
+    "Plug-in (mean < 0)": true,
+    "B1 never": false,
+    "B2 always": true,
+    "Gatekeeper (registered alpha, D2)": false
+   },
+   "label": "beneficial",
+   "str_true": -0.0375,
+   "truth_p_benefit": 0.1875,
+   "truth_p_harm": 0.96875,
+   "screen_mean": -0.025,
+   "label_tested": "undetermined"
+  },
+  "type-guard": {
+   "n_tasks": 40,
+   "decisions": {
+    "Gatekeeper": false,
+    "Plug-in (mean < 0)": true,
+    "B1 never": false,
+    "B2 always": true,
+    "Gatekeeper (registered alpha, D2)": false
+   },
+   "label": "harmful",
+   "str_true": 0.075,
+   "truth_p_benefit": 0.9892578125,
+   "truth_p_harm": 0.0546875,
+   "screen_mean": -0.1,
+   "label_tested": "undetermined"
+  },
+  "exception-handling": {
+   "n_tasks": 40,
+   "decisions": {
+    "Gatekeeper": false,
+    "Plug-in (mean < 0)": false,
+    "B1 never": false,
+    "B2 always": true,
+    "Gatekeeper (registered alpha, D2)": false
+   },
+   "label": "harmful",
+   "str_true": 0.0125,
+   "truth_p_benefit": 0.705078125,
+   "truth_p_harm": 0.5,
+   "screen_mean": 0.025,
+   "label_tested": "undetermined"
+  },
+  "harm-swallow-exceptions": {
+   "n_tasks": 40,
+   "decisions": {
+    "Gatekeeper": false,
+    "Plug-in (mean < 0)": false,
+    "B1 never": false,
+    "B2 always": true,
+    "Gatekeeper (registered alpha, D2)": false
+   },
+   "label": "harmful",
+   "str_true": 0.025,
+   "truth_p_benefit": 0.80078125,
+   "truth_p_harm": 0.390625,
+   "screen_mean": 0.125,
+   "label_tested": "undetermined"
+  },
+  "harm-minimal-edit": {
+   "n_tasks": 40,
+   "decisions": {
+    "Gatekeeper": false,
+    "Plug-in (mean < 0)": false,
+    "B1 never": false,
+    "B2 always": true,
+    "Gatekeeper (registered alpha, D2)": false
+   },
+   "label": "harmful",
+   "str_true": 0.025,
+   "truth_p_benefit": 0.890625,
+   "truth_p_harm": 0.34375,
+   "screen_mean": 0.1,
+   "label_tested": "undetermined"
+  },
+  "harm-skip-verification": {
+   "n_tasks": 40,
+   "decisions": {
+    "Gatekeeper": false,
+    "Plug-in (mean < 0)": false,
+    "B1 never": false,
+    "B2 always": true,
+    "Gatekeeper (registered alpha, D2)": false
+   },
+   "label": "harmful",
+   "str_true": 0.025,
+   "truth_p_benefit": 0.890625,
+   "truth_p_harm": 0.34375,
+   "screen_mean": 0.125,
+   "label_tested": "undetermined"
+  }
+ },
+ "summary_tested_labels": {
+  "Gatekeeper": {
+   "harmful_established": 0,
+   "harmful_acceptance": null,
+   "beneficial_established": 0,
+   "clean_reuse_coverage": null,
+   "admitted_undetermined": 0
+  },
+  "Plug-in (mean < 0)": {
+   "harmful_established": 0,
+   "harmful_acceptance": null,
+   "beneficial_established": 0,
+   "clean_reuse_coverage": null,
+   "admitted_undetermined": 2
+  },
+  "B1 never": {
+   "harmful_established": 0,
+   "harmful_acceptance": null,
+   "beneficial_established": 0,
+   "clean_reuse_coverage": null,
+   "admitted_undetermined": 0
+  },
+  "B2 always": {
+   "harmful_established": 0,
+   "harmful_acceptance": null,
+   "beneficial_established": 0,
+   "clean_reuse_coverage": null,
+   "admitted_undetermined": 6
+  },
+  "Gatekeeper (registered alpha, D2)": {
+   "harmful_established": 0,
+   "harmful_acceptance": null,
+   "beneficial_established": 0,
+   "clean_reuse_coverage": null,
+   "admitted_undetermined": 0
+  }
+ },
+ "summary_point_labels": {
+  "Gatekeeper": {
+   "admitted": 0,
+   "harmful_acceptance": 0.0,
+   "clean_reuse_coverage": 0.0,
+   "mean_true_STR_of_admitted": null
+  },
+  "Plug-in (mean < 0)": {
+   "admitted": 2,
+   "harmful_acceptance": 0.2,
+   "clean_reuse_coverage": 1.0,
+   "mean_true_STR_of_admitted": 0.01875
+  },
+  "B1 never": {
+   "admitted": 0,
+   "harmful_acceptance": 0.0,
+   "clean_reuse_coverage": 0.0,
+   "mean_true_STR_of_admitted": null
+  },
+  "B2 always": {
+   "admitted": 6,
+   "harmful_acceptance": 1.0,
+   "clean_reuse_coverage": 1.0,
+   "mean_true_STR_of_admitted": 0.020833333333333332
+  },
+  "Gatekeeper (registered alpha, D2)": {
+   "admitted": 0,
+   "harmful_acceptance": 0.0,
+   "clean_reuse_coverage": 0.0,
+   "mean_true_STR_of_admitted": null
+  }
+ }
+}

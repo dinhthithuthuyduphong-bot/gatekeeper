@@ -1,0 +1,85 @@
+{
+  "skills": {
+    "xreposkill": {
+      "n_tasks": 109,
+      "mean_z_resolved": -0.02140672782874618,
+      "ci": [
+        -0.05278516396099006,
+        0.009971708303497698
+      ],
+      "critical_effect": 0.039755351681957186,
+      "mean_z_loss_secondary": -0.0071406498686294425,
+      "helped_tasks": 10,
+      "hurt_tasks": 5,
+      "p": 0.1263427734375,
+      "p_holm": 0.1263427734375,
+      "reject": false,
+      "p_holm_level": 0.025,
+      "s1_paired_t_p": 0.08955825864774568,
+      "s2_cluster_sign_flip_p": 0.1005859375,
+      "s2_clusters": 59,
+      "robust": false,
+      "harm": {
+        "p": 0.938232421875,
+        "p_holm": 0.938232421875,
+        "reject_primary": false,
+        "reject": false
+      },
+      "sensitivity_agrees": {
+        "s1": false,
+        "s2": false,
+        "s2_min_attainable_p": 1.734723475976807e-18
+      }
+    }
+  },
+  "alpha_family_one_sided": 0.025,
+  "ci_level": 0.95,
+  "n_seeds": 3,
+  "aa": {
+    "n": 112,
+    "mean": 0.017857142857142856,
+    "ci": [
+      -0.038242654578758896,
+      0.07395694029304462
+    ],
+    "p_two_sided": 0.75390625,
+    "flag": false
+  },
+  "intercurrent_events": {
+    "truncation_rate": {
+      "none": {
+        "n": 337,
+        "rate": 0.05637982195845697
+      },
+      "xreposkill": {
+        "n": 337,
+        "rate": 0.050445103857566766
+      }
+    },
+    "hypothetical": {
+      "xreposkill": {
+        "n_tasks": 115,
+        "n_pairs": 305,
+        "mean_z_resolved": -0.014492753623188404,
+        "ci": [
+          -0.051547492143825244,
+          0.02256198489744844
+        ],
+        "p_help_one_sided": 0.24700927734375,
+        "p_harm_one_sided": 0.7988739013671875
+      }
+    }
+  },
+  "verdict": "E2 FAIL: no skill rejects H0 (effects smaller than the critical effect ~0.04 cannot be declared with these data)",
+  "verdict_ich_e9_r1": {
+    "benefit": [],
+    "harm": [],
+    "rule": "primary exact sign-flip test at its Holm level; S1, S2 reported"
+  },
+  "harm_verdict": "no harm established",
+  "confirm_runs": [
+    "g2-e2-s41",
+    "g2-e2-s51",
+    "g2-e2-s61"
+  ]
+}

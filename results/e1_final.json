@@ -1,0 +1,177 @@
+{
+  "skills": {
+    "null-guard": {
+      "n_tasks": 53,
+      "mean_z_resolved": -0.018867924528301886,
+      "ci": [
+        -0.07415675615628854,
+        0.03642090709968476
+      ],
+      "critical_effect": 0.06918238993710692,
+      "mean_z_loss_secondary": -0.012681029162551528,
+      "helped_tasks": 6,
+      "hurt_tasks": 4,
+      "p": 0.328125,
+      "p_holm": 0.984375,
+      "reject": false,
+      "p_holm_level": 0.008333333333333333,
+      "s1_paired_t_p": 0.24825865828604804,
+      "s2_cluster_sign_flip_p": 0.1875,
+      "s2_clusters": 8,
+      "robust": false,
+      "harm": {
+        "p": 0.8154296875,
+        "p_holm": 1.0,
+        "reject_primary": false,
+        "reject": false
+      },
+      "sensitivity_agrees": {
+        "s1": false,
+        "s2": false,
+        "s2_min_attainable_p": 0.00390625
+      }
+    },
+    "type-guard": {
+      "n_tasks": 53,
+      "mean_z_resolved": -1.047380211910525e-18,
+      "ci": [
+        -0.05405630161922951,
+        0.05405630161922951
+      ],
+      "critical_effect": 0.07547169811320754,
+      "mean_z_loss_secondary": 0.026722519228065747,
+      "helped_tasks": 5,
+      "hurt_tasks": 7,
+      "p": 0.5908203125,
+      "p_holm": 1.0,
+      "reject": false,
+      "p_holm_level": 0.0125,
+      "s1_paired_t_p": 0.5,
+      "s2_cluster_sign_flip_p": 0.578125,
+      "s2_clusters": 9,
+      "robust": false,
+      "harm": {
+        "p": 0.5908203125,
+        "p_holm": 1.0,
+        "reject_primary": false,
+        "reject": false
+      },
+      "sensitivity_agrees": {
+        "s1": false,
+        "s2": false,
+        "s2_min_attainable_p": 0.001953125
+      }
+    },
+    "exception-handling": {
+      "n_tasks": 53,
+      "mean_z_resolved": 0.012578616352201259,
+      "ci": [
+        -0.038265811559343346,
+        0.06342304426374587
+      ],
+      "critical_effect": 0.07547169811320754,
+      "mean_z_loss_secondary": -0.005054454484069419,
+      "helped_tasks": 6,
+      "hurt_tasks": 7,
+      "p": 0.7698974609375,
+      "p_holm": 1.0,
+      "reject": false,
+      "p_holm_level": 0.025,
+      "s1_paired_t_p": 0.689159388757639,
+      "s2_cluster_sign_flip_p": 0.75,
+      "s2_clusters": 10,
+      "robust": false,
+      "harm": {
+        "p": 0.4033203125,
+        "p_holm": 1.0,
+        "reject_primary": false,
+        "reject": false
+      },
+      "sensitivity_agrees": {
+        "s1": false,
+        "s2": false,
+        "s2_min_attainable_p": 0.0009765625
+      }
+    }
+  },
+  "alpha_family_one_sided": 0.025,
+  "ci_level": 0.95,
+  "n_seeds": 3,
+  "aa": {
+    "n": 144,
+    "mean": -0.013888888888888888,
+    "ci": [
+      -0.07544950789664279,
+      0.047671730118865004
+    ],
+    "p_two_sided": 0.8238029479980469,
+    "flag": false
+  },
+  "intercurrent_events": {
+    "truncation_rate": {
+      "none": {
+        "n": 432,
+        "rate": 0.08796296296296297
+      },
+      "null-guard": {
+        "n": 159,
+        "rate": 0.03773584905660377
+      },
+      "type-guard": {
+        "n": 159,
+        "rate": 0.0880503144654088
+      },
+      "exception-handling": {
+        "n": 159,
+        "rate": 0.05660377358490566
+      }
+    },
+    "hypothetical": {
+      "null-guard": {
+        "n_tasks": 53,
+        "n_pairs": 141,
+        "mean_z_resolved": -0.015723270440251572,
+        "ci": [
+          -0.0684602273583497,
+          0.037013686477846544
+        ],
+        "p_help_one_sided": 0.328125,
+        "p_harm_one_sided": 0.765625
+      },
+      "type-guard": {
+        "n_tasks": 53,
+        "n_pairs": 133,
+        "mean_z_resolved": 0.031446540880503145,
+        "ci": [
+          -0.0329290221049291,
+          0.0958221038659354
+        ],
+        "p_help_one_sided": 0.853515625,
+        "p_harm_one_sided": 0.1982421875
+      },
+      "exception-handling": {
+        "n_tasks": 53,
+        "n_pairs": 137,
+        "mean_z_resolved": 0.02830188679245283,
+        "ci": [
+          -0.021646065259147917,
+          0.07824983884405358
+        ],
+        "p_help_one_sided": 0.896484375,
+        "p_harm_one_sided": 0.165283203125
+      }
+    }
+  },
+  "verdict": "E1 FAIL: no skill rejects H0 (effects smaller than the critical effect ~0.08 cannot be declared with these data)",
+  "verdict_ich_e9_r1": {
+    "benefit": [],
+    "harm": [],
+    "rule": "primary exact sign-flip test at its Holm level; S1, S2 reported"
+  },
+  "harm_verdict": "no harm established",
+  "confirm_runs": [
+    "g1-e1all-s41",
+    "g1-e1all-s51",
+    "g1-e1all-s61"
+  ]
+}
