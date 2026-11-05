@@ -4,11 +4,16 @@
  "attempts": [
   {
    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4950030/",
+   "ok": false,
+   "error": "only 227 characters: not the document"
+  },
+  {
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4950030/",
    "ok": true
   }
  ],
- "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4950030/",
- "sha256": "0ba808fec8db9d25df14ae9fe314be93b89a68dce78b9519594d46773d386967",
+ "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4950030/",
+ "sha256": "5a052e5e2820baf14dfbcfa7e2ee10d0c6b92b83217479ab82dd3c7bdb3dbd13",
  "n_chars": 139560,
  "head": " Methods to estimate the between‐study variance and its uncertainty in meta‐analysis - PMC Skip to main content An official website of the United States government Here's how you know Here's how you know Official websites use .gov A .gov website belongs to an official government org",
  "excerpts": {
@@ -26,21 +31,5 @@
   ],
   "between-study variance": []
  },
- "fetched_utc": "2026-11-04T01:04:51+00:00",
- "snapshot_commit": "aa04020657f7d6e002107fd5beff0a1daafe40ad",
- "refetch_failed": {
-  "utc": "2026-11-04T01:20:26+00:00",
-  "attempts": [
-   {
-    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4950030/",
-    "ok": false,
-    "error": "only 227 characters: not the document"
-   },
-   {
-    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4950030/",
-    "ok": false,
-    "error": "only 227 characters: not the document"
-   }
-  ]
- }
+ "fetched_utc": "2026-11-05T01:41:18+00:00"
 }
