@@ -580,3 +580,17 @@ Trong mô hình của D1, tính tỉ lệ dương tính giả và độ nhạy c
 Ở mọi k ≤ 10, quy lỗi theo từng task có độ phân biệt kém: tỉ lệ khi có hiệu ứng chỉ gấp 1,7–4,8 lần tỉ lệ khi không có.
 
 **Chi tiêu của thí nghiệm chính tới nay:** 0,35 (kiểm model) + 2,16 (T4) + 0,97 (2.1) + 0,134 (C, gồm cả 3 lời gọi đo thử) = **3,61 USD** trên trần 64 USD.
+
+**Ghi chú thực thi 19-2: độ vững của C với auditor mạnh hơn** (05/11/2026, đăng ký **trước khi** gọi các model này):
+- **Lý do:** phản biện dễ đoán nhất của kết quả C là "auditor Flash-Lite quá yếu".
+- **Thiết kế:**
+  - Cùng 102 job (`sham_audit_jobs.jsonl`, dựng một lần ở bước `build`) và cùng prompt `configs/audit_prompt.txt`.
+  - Auditor: `gemini-flash` rồi `gemini-pro`, mỗi model một lời gọi cho mỗi job, tham số theo `configs/models/vertex_gemini.json` (reasoning_effort low, seed 1).
+  - Kết quả ghi ở `results/sham_audit_flash.json` và `results/sham_audit_pro.json`.
+- **Đại lượng:** như C, tức tỉ lệ quy lỗi ở (i), (ii), (iii) với CI Wilson.
+- **Dự đoán:** (ii) ≥ 0,5 × (i) với cả hai model.
+- **Chi phí:**
+  - Đo trên 3 job trước.
+  - Trần cứng: Flash 1 USD, Pro 2 USD.
+  - Ước tính: Flash khoảng 0,5 USD (0,75 USD mỗi triệu token vào); Pro khoảng 1,5 USD (2 USD mỗi triệu token vào, 12 USD mỗi triệu token ra).
+- **Nằm trong** 64 USD đã duyệt cho thí nghiệm chính; tổng chi tới nay 3,61 USD.

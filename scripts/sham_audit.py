@@ -166,7 +166,7 @@ def build() -> None:
     print(f"{len(jobs)} jobs ({len(real)} real, {len(placebo)} placebo pairs) -> {JOBS}")
 
 
-def call(model: str, cap_usd: float, limit: int | None) -> None:
+def call(model: str, cap_usd: float, limit: int | None, tag: str) -> None:
     import litellm  # agent environment
 
     spec = json.loads(MODELS.read_text())["models"][model]
@@ -212,7 +212,7 @@ def call(model: str, cap_usd: float, limit: int | None) -> None:
         "tokens_out": sum(x["tokens_out"] for x in out),
         "rows": out,
     }
-    name = "sham_audit_cost_probe" if limit else "sham_audit"
+    name = ("sham_audit_cost_probe" if limit else "sham_audit") + tag
     Path(f"results/{name}.json").write_text(json.dumps(res, indent=1) + "\n")
 
 
@@ -222,13 +222,16 @@ def main() -> int:
     ap.add_argument("--model")
     ap.add_argument("--cap-usd", type=float)
     ap.add_argument("--limit", type=int, default=None, help="first N jobs only (cost measurement)")
+    ap.add_argument(
+        "--tag", default="", help="suffix of the result file, e.g. _flash (section 19 note 19-2)"
+    )
     a = ap.parse_args()
     if a.step == "build":
         build()
     else:
         if not a.model or a.cap_usd is None:
             ap.error("call needs --model and --cap-usd")
-        call(a.model, a.cap_usd, a.limit)
+        call(a.model, a.cap_usd, a.limit, a.tag)
     return 0
 
 
