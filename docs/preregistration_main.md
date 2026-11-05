@@ -678,3 +678,23 @@ Trong mô hình của D1, tính tỉ lệ dương tính giả và độ nhạy c
   - Agent không làm theo chỉ dẫn "do not modify any file".
   - Chi 0,1305 USD; 1.925.522 token vào, 17.876 token ra.
 - **Chi tiêu của thí nghiệm chính tới nay:** 5,52 + 0,13 = **5,65 USD**.
+
+## 21. Sửa và làm chặt (đăng ký 05/11/2026, trước khi tính; 0 USD)
+
+**Sai lệch D-M10 (P-A):**
+- **Vấn đề:** S2 (§20) đã tính bootstrap theo đơn vị (skill, task). 45/112 task của E1 thuộc ≥ 2 skill, nên ứng viên placebo của cùng một lần chạy không skill bị đếm lặp, mà bootstrap lại coi các đơn vị là độc lập (phát hiện khi rà ở `docs/paper_review_e2e.md`, sau khi đã thấy kết quả S2).
+- **Thay bằng bootstrap theo task:** mỗi lần lấy một task thì lấy mọi đơn vị (skill, task) của task đó; 10.000 lần. Cận dưới đổ lỗi sai tính lại như S2.
+- **Báo cáo cả hai bản.**
+
+**P-B, kiểm định hoán vị chính xác cho phép trừ placebo:**
+- **Giả thiết H₀:** trong mỗi task, k lần chạy có skill và k lần chạy không skill là **hoán đổi được**. Điều này đúng khi pₛᵢ = p₀ᵢ và các lần chạy độc lập, cùng phân phối, không phụ thuộc seed.
+- **Thống kê:** T = S − P như §18.
+- **Cách làm:** trong từng task, hoán vị ngẫu nhiên 2k nhãn; giữ cách ghép cặp theo seed của §18; 10.000 hoán vị, **gồm cả hoán vị đơn vị**. Một phía (chiều hại), p = (1 + #{T* ≥ T}) / (1 + B).
+- **Mức đúng α:** theo Hemerik & Goeman (`hemerik_goeman_2018`), p tính như trên **cho kiểm định có mức chính xác** khi tập hoán vị ngẫu nhiên có chứa hoán vị đơn vị. Câu gốc phải kiểm trong bản lưu trước khi dùng.
+- **Áp dụng:** 6 skill E1, E2, và S3 (chiều giúp; mỗi task có 5 lần chạy: 1 có skill, 1 không skill của T4, 3 không skill của E2).
+- **Giới hạn ở S3:** lần chạy T4 dùng cost-limit 0,5 còn E2 dùng 1,0, nên giả thiết hoán đổi yếu hơn.
+- **Kiểm mức:** plasmode §19 D với q = 0, 1.000 lần lặp, 500 hoán vị mỗi lần; tỉ lệ bác bỏ ở α = 0,05 phải ≤ 0,05 + 2 sai số chuẩn. Đo độ nhạy ở q = 0,2 và 0,3.
+
+**P-D:** đã kiểm, **chưa có dữ liệu ngoài dùng được**.
+- Repo SkillJuror (`zhiyuchen-ai/skill-juror`, clone ngày 05/11) ghi: "Evaluation, judging, aggregate reporting, and result-viewer components are outside the current release scope".
+- Bài ACES (`continuous_skill_eval_2026`): không có link dữ liệu trong các đoạn trích.
