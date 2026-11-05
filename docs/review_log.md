@@ -409,3 +409,18 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Kết quả** (1.000 lần lặp): khi ngưỡng được chỉnh cho khớp độ phủ 0,5 / 0,7 / 0,8, Gatekeeper, B-X2 và e-BH đều có tỉ lệ nhận nhầm ≤ 0,0003. Plug-in nhìn liên tục: 0,003 / 0,011 / 0,038.
 - **Diễn giải đúng:** so tại cùng độ phủ đòi hỏi chỉnh ngưỡng **khi đã biết đáp án**, nên đây là trường hợp tốt nhất cho các baseline. Gatekeeper **không** có lợi thế trên đường cong. Giá trị của nó là bảo đảm có được **mà không cần chỉnh ngưỡng** (ngưỡng = 1/α cố định trước) và vẫn đúng khi bị theo dõi (T1, P1, §13).
 - **Hệ quả cho paper:** **không** được tuyên bố "Gatekeeper giảm nhận nhầm tại cùng độ phủ". Endpoint RQ1 gốc **không** ủng hộ tuyên bố đó, và phải báo cáo như vậy.
+
+## R-37. 2.1, pilot skill "repo-test-guide" (§17; 2026-11-05, trước khi chạy có chi phí)
+
+- **Mã và cấu hình đã review:**
+  - Skill `configs/skills/repo-test-guide.json`, văn bản đúng nguyên văn §17.
+  - Pool `p21-s41_pool.json`: 20 task dùng được đầu tiên của `e2c` theo `random_order`, chưa dùng ở E2 hay T4.
+  - Script chạy (scratchpad `run_21.sh`): cổng preflight; seed 41; 250 bước; `cost_limit` 0,5; lô 1 task; `--cap-usd` = tổng chi pilot trước 2.1 + 3,0.
+- **Kiểm rò rỉ:** trên 118 task dùng được của `e2c`, `test_cmds` không chứa tên file hay tên test nào của FAIL_TO_PASS (0 trường hợp).
+- **Chạy thử miễn phí** (agent giả lập, đúng vòng lặp của script thật theo L37; task `pvlib__pvlib-python-2133`):
+  - cả hai nhánh `Submitted`;
+  - `infra_failures`, `endpoint_mismatch`, `patch_apply_failed` đều rỗng;
+  - hướng dẫn kèm lệnh `pytest pvlib --ignore=pvlib/tests/iotools -rA` có trong quỹ đạo của nhánh skill; 0 lần xuất hiện ở nhánh `none`.
+- **Lưu ý vận hành:**
+  - Lần kéo image đầu tiên thất bại tạm thời (registry). Kéo thủ công ngay sau đó thì được. Script tự thử lại sau 30 phút, nên không mất tiền.
+  - Cổng chi tiêu của script dừng khi "đã chi + lô xấu nhất (2 × 0,5 USD) > trần". Vì vậy chi thực tế không vượt 3 USD, nhưng script có thể dừng trước khi đủ 20 task nếu chi tới khoảng 2 USD. Nếu xảy ra, báo cáo đúng n đã chạy; không nới trần.

@@ -1,0 +1,54 @@
+{
+  "name": "p21dry",
+  "merged_from": [
+    "p21dry-p00"
+  ],
+  "skills": {
+    "repo-test-guide": {
+      "pairs": [
+        {
+          "instance_id": "pvlib__pvlib-python-2133",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "n": 1,
+      "solve_rate_with": 0.0,
+      "solve_rate_without": 0.0
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd": 0.0,
+      "solved": 0,
+      "scored": 1,
+      "usd_per_run": 0.0
+    },
+    "repo-test-guide": {
+      "runs": 1,
+      "usd": 0.0,
+      "solved": 0,
+      "scored": 1,
+      "usd_per_run": 0.0
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "pvlib__pvlib-python-2133": "Submitted"
+    },
+    "repo-test-guide": {
+      "pvlib__pvlib-python-2133": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.0,
+  "instances": [
+    "pvlib__pvlib-python-2133"
+  ],
+  "model": "deterministic",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/live_rows.jsonl"
+}
