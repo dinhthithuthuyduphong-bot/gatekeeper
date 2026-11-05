@@ -449,3 +449,65 @@ Dự đoán sai thì báo cáo nguyên trạng.
   - **Không** được viết "τ < 0,10".
 - **E1** (thăm dò): mọi CI của τ² đều chứa 0.
 - Bản kiểm power cũ (A80) vẫn được báo cáo trong `power_check_e2`: độ phủ 0,37–0,66 do đặt giá trị thật sai.
+
+## 19. Phép thử placebo cho việc đánh giá skill (đăng ký 05/11/2026, trước khi tính bất kỳ đại lượng nào dưới đây; vai trò paper do @thuthuy duyệt: "Ok")
+
+**Định vị:** paper đóng vai trò kiểm tra phương pháp đánh giá skill: các quy tắc đã công bố có qua được placebo A/A trên nhiễu thật không, và cách làm nào qua được. §18 là kết quả đầu tiên của hướng này. Tính mới của phần audit đã kiểm qua `whowhen_pro_2026` và `negative_controls_llm_2026`: chưa thấy ai làm audit bằng skill giả trên các cặp A/A.
+
+**Dữ liệu placebo chung:**
+- Các cặp A/A, tức nhánh không skill seed a so với nhánh không skill seed b trên cùng task, theo 3 cặp có thứ tự như §18: E1 có 112 task, E2 có 109 task.
+- Luồng placebo dài n được tạo bằng cách rút task có hoàn lại, mỗi lần lấy một cặp ngẫu nhiên trong 3 cặp seed. Lặp **10.000 lần**.
+- Endpoint: resolved (loss == 0).
+
+### A. Bảng placebo cho các quy tắc đã công bố hoặc dựng theo công bố (cùng luồng, cùng nhiễu)
+
+| Mã | Quy tắc | Nguồn | Thiết lập | Đại lượng |
+| --- | --- | --- | --- | --- |
+| A1 | Ứng viên lỗi của Dong et al. | `skill_induced_failures_2026` | Đã có ở §18 | R (đã báo cáo) |
+| A2 | GEPA `StrictImprovementAcceptance`, minibatch 3 | `gepa_acceptance`, `gskill_train_config` | Mỗi đề xuất so 3 task. K = 100 và 200 đề xuất (600 rollout chia cho 6 hoặc 3 rollout mỗi đề xuất) | P(nhận một đề xuất no-op); P(nhận ≥ 1 trong K); số no-op được nhận trung bình |
+| A3 | Thống kê MH của XRepoSkill, z ≥ 1,96 (B-X2, cổng do mình dựng theo công bố) | `gates.b_x2` | n = 200; một lần nhìn và nhìn mỗi 10 trial | P(nhận) |
+| A4 | So một lần: mức tăng trung bình > 0 (plug-in) | — | n = 200; một lần nhìn và mỗi 10 trial | P(nhận) |
+| A5 | Kiểm định đổi dấu chính xác hai phía của SWE-Skills-Bench | `sskb_paper` (Table 4) | 10 task, một lần chạy mỗi nhánh, α = 0,05 | P(Golden hoặc Harmful); số phân loại nhầm kỳ vọng trên 98 × 4 ô |
+| A6 | Thu hồi của Library Drift: N_min = 100, τ = 0,10 | `library_drift_2026` | Luồng dài 400 | P(thu hồi) |
+| A7 | e-SR của Qu et al., λ = 0,5, ngưỡng 1/α | `anytime_referee_2026` | Luồng dài 400, α = 0,025 | P(báo động) |
+| A8 | Gatekeeper: admission α = 0,025, n = 200; thu hồi hai bước (§15) | §14, §15 | Như trên | P(nhận nhầm), P(thu hồi nhầm) |
+
+**Dự đoán:**
+- A3 và A5 xem một lần thì ≤ α.
+- A2, A4, A6, A7 thì lớn hơn nhiều.
+- A8 thì ≤ 0,025.
+
+### B. Kiểm hiệu chỉnh trên dữ liệu SWE-Skills-Bench (`data/external/swe-skills-bench`, MIT)
+
+- **Bước 1:** tính lại p của kiểm định đổi dấu chính xác hai phía cho từng ô (skill × cấu hình, 10 requirement). Cũng tính bản gộp theo skill (40 cặp). Ghi rõ cách gộp nào tái lập được con số 4/2/92 của họ.
+- **Bước 2:** so số ô có p < 0,05 với kỳ vọng 0,05 × N bằng kiểm định nhị thức chính xác hai phía. Báo cáo phân phối của p (10 khoảng).
+
+### C. Audit bằng skill giả (cần @thuthuy duyệt chạy; chi phí ước dưới 1 USD, sẽ đo trước)
+
+- **Mẫu:**
+  - (i) Ứng viên lỗi chức năng **có skill thật** (E1: 52; E2: 13).
+  - (ii) Cặp placebo (không skill / không skill) mà lần chạy đích thất bại và lần tham chiếu giải được, trình bày cho auditor **như thể** lần chạy đích có nạp skill. Văn bản skill giả: E1 dùng văn bản của skill tương ứng; E2 dùng rule XRepoSkill của task đó (chỉ dùng tại máy, không công bố).
+  - (iii) Cùng các cặp placebo, không nhắc tới skill nào (đối chứng hành vi của auditor).
+- **Auditor:**
+  - Một lời gọi cho mỗi cặp. Model `gemini-flash-lite` (cùng model với agent), cấu hình như agent.
+  - Prompt cố định, lưu tại `configs/audit_prompt.txt` **trước khi chạy**, gồm: đề bài, văn bản skill (nếu có), diff bản vá của hai lần chạy, tóm tắt kết quả test, và 30 message cuối của lần chạy đích (cắt ở 20.000 token).
+  - Câu hỏi: lỗi có do skill gây ra không (có/không), độ tin cậy 0–1, loại lỗi theo taxonomy của Dong et al.
+- **Đại lượng chính:** tỉ lệ "có" ở (ii) so với (i), với CI Wilson. Đại lượng phụ: tỉ lệ ở (iii), độ tin cậy trung bình.
+- **Dự đoán:** (ii) ≥ 0,5 × (i).
+- **Giới hạn:** auditor là LLM, giống công cụ SKILLTRIAGE của họ; **không** kết luận gì về audit thủ công của nhóm tác giả.
+
+### D. Quy tắc có hiệu chỉnh placebo (phần xây dựng)
+
+| Mã | Quy tắc | Cách đo |
+| --- | --- | --- |
+| D1 | Chỉ quy lỗi khi ứng viên lặp lại ở ≥ 2 trong 3 seed | Plasmode: p_i ~ Beta khớp với E2 (như D-M8); skill làm lần chạy đang giải được thành thất bại với xác suất q ∈ {0; 0,1; 0,2; 0,3}. Đo tỉ lệ dương tính giả (q = 0) và độ nhạy |
+| D2 | So số ứng viên có skill với số ứng viên placebo: S ~ Bin(S + P, 1/2), một phía, α = 0,05 | Như D1. Trên dữ liệu thật E1 và E2 thì báo cáo p |
+| D3 | Gatekeeper trên chuỗi chỉ báo ứng viên (e-process, α = 0,025) | Như D1 |
+
+Hiệu ứng thật dùng để kiểm độ nhạy trên dữ liệu thật: T4 (lỗi chức năng theo chiều ngược, tức skill giúp) và `harm-skip-verification` (hồi quy hiệu năng theo chiều ngược: 1 so với 9).
+
+### F. Cần bao nhiêu seed
+
+Trong mô hình của D1, tính tỉ lệ dương tính giả và độ nhạy của quy tắc "≥ r trong k seed" với k ∈ {1, 2, 3, 5, 10}.
+
+**Mã:** `scripts/placebo_suite.py` (A, B, D, F) và `scripts/sham_audit.py` (C). Review R-39 và chạy thử trên dữ liệu giả trước khi chạy thật.
