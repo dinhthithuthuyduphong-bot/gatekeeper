@@ -1,0 +1,47 @@
+{
+ "conan-io__conan-15705": {
+  "dataset": "rows.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-conan-io__conan-15705-20261106T050407-r0",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_all_prevs[True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_latest_prevs[1.0.0-True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_latest_prevs[[>=1.0.0",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids[True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids_all_rrevs[True]"
+    ]
+   },
+   {
+    "run_id": "gold-conan-io__conan-15705-20261106T051357-r1",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_all_prevs[True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_latest_prevs[1.0.0-True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_latest_prevs[[>=1.0.0",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids[True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids_all_rrevs[True]"
+    ]
+   },
+   {
+    "run_id": "gold-conan-io__conan-15705-20261106T052330-r2",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_all_prevs[True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_latest_prevs[1.0.0-True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_latest_prevs[[>=1.0.0",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids[True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids_all_rrevs[True]"
+    ]
+   }
+  ],
+  "label": "broken"
+ }
+}
