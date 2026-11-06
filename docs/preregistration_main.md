@@ -969,3 +969,25 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
   - B không bắt được các trường hợp T4, vì mỗi instance T4 chỉ có 2 lần chấm (< 3).
 - **Thăm dò, không thuộc họ phép kiểm đã đăng ký:** ba skill gây hại của E1 theo F là −0,067 / −0,067 / −0,092. Hai trong ba có CI không chứa 0; theo S thì cả ba CI đều chứa 0. Chỉ báo cáo mô tả.
 - **Test hỏng theo quy tắc B:** 2 instance ở E1, 6 ở E2.
+
+## 27. Đối chứng bản vá rỗng cho harness của mình, và tỉ lệ chuyển giao trên SSKB (đăng ký 06/11/2026, trước khi có dữ liệu của (a); 0 USD)
+
+**Vì sao:** §26 kiểm harness có từ chối bản vá **đúng** không (bản vá gốc). Nửa còn lại là harness có nhận bản vá **không sửa gì** không. Nhánh `trial` (§25 F0) cho thấy bộ chấm công khai của gskill nhận bản vá rỗng ở 96/96 task. Paper cần cùng phép kiểm đó cho chính harness mà E1, E2 và T4 đã dùng.
+
+**(a) Bản vá rỗng trên harness SWE-bench (Verified) và SWE-bench-Live:**
+- **Bản vá:** tạo một file mới `gk_noop.py` chứa đúng một dòng comment. Bản vá áp được nhưng không đổi hành vi nào. Cách này khác cách của §25, vốn thêm dòng vào file có sẵn, vì mình không cần đọc nội dung file gốc.
+- **Task:**
+  - T4: toàn bộ 20 task (Live);
+  - E1: 20 task rút bằng `random.Random(27).sample` từ 53 task của E1 (Verified), sắp theo tên trước khi rút.
+  - Con số 20 là vận hành: với 0/20, cận trên Wilson 95% là 0,161. Đủ để phát hiện một bộ chấm nhận bản vá rỗng ở tỉ lệ cỡ của gskill (≈ 1,0), với chi phí CPU nhỏ.
+- **Một lần chấm mỗi task.** Chạy **sau khi** §26 chấm xong, để hai việc không tranh CPU và làm test quá giờ.
+- **Đại lượng:** tỉ lệ resolved của bản vá rỗng, kèm Wilson 95%.
+- **Dự đoán:** 0, vì FAIL_TO_PASS phải fail khi không sửa gì.
+- **Diễn giải đặt trước:** nếu có task resolved với bản vá rỗng thì task đó có test FAIL_TO_PASS không bắt được lỗi. Liệt kê các task đó, và tính lại E1/E2/T4 khi bỏ chúng (độ nhạy).
+
+**(b) Tỉ lệ tác dụng chuyển giao giữa các cấu hình SSKB (thăm dò; đã thấy số điểm ở `results/sskb_transfer_power.json`):**
+- **Đại lượng:**
+  1. ρ = (trung bình hiệp phương sai giữa 6 cặp cấu hình) / (trung bình phương sai trong từng cấu hình), trên 98 skill chung;
+  2. trong các (cấu hình, skill) có |Δ| ≥ 6 điểm: tỉ lệ cấu hình khác cùng chiều và |Δ| ≥ 6, và tỉ lệ ngược chiều và |Δ| ≥ 6.
+- **CI:** bootstrap theo skill, 10.000 lần.
+- **Giới hạn:** dữ liệu một lần chạy không tách được "do scope" và "do nhiễu". Kết luận chỉ là "nhãn và cỡ tác dụng không lặp lại giữa các cấu hình".
