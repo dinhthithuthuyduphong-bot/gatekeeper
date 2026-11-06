@@ -140,6 +140,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Power của tương quan và chuyển giao (L41)**
 - [ ] r kỳ vọng tính từ hiệp phương sai giữa các cấu hình (phần chuyển giao được) và nhiễu đo được của chính phép đo sẽ chạy; con số power ra từ script đã commit. Power < 0,8 thì câu hỏi chỉ là mô tả.
 
+**Trung thành với paper gốc (L44)**
+- [ ] Có bảng so định nghĩa của paper gốc (skill, trial, loss, I(x)) với thiết kế sẽ chạy, kèm câu trích từ bản gốc. Mỗi chỗ lệch có lý do và phạm vi kết luận. Quy tắc chọn phương án không loại một bước mà kế hoạch gốc bắt buộc khi chưa báo @thuthuy (A86).
+
 **Kiểm thử**
 - [ ] Mô phỏng hoặc phép toán mảng: assert kích thước kết quả, vì broadcasting âm thầm làm rộng mẫu (R-6).
 - [ ] Có test cho từng chỗ sửa; `ruff check`, `ruff format --check` và `pytest` đều qua.

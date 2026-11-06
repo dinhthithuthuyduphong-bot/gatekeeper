@@ -902,3 +902,44 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 - **Kiểm sau khi chạy:** 17/17 `Submitted`; 0 lỗi hạ tầng; `skill_files` > 0 ở mọi lần chạy nhánh skill (7 với `viper`, 2 với `asyncio`).
 - **Chi và token:** 4,059 USD trên trần 5 USD; 3.715.909 token vào (2.348.518 cache), 71.175 token ra.
 - **Giai đoạn bỏ dở trước D-M11** (không gộp): `viper` b1 nhánh không skill trên Flash, và `go-fx-di` b1 nhánh không skill trên Flash-Lite (0,030 USD). Chi phí ô Flash được báo cùng §23b.
+
+## 24. Khảo sát khả năng áp dụng của skill dạng chương trình sửa code (edit program) (đăng ký 06/11/2026, trước khi có kết quả; 0 USD)
+
+**Lý do (A86):** paper gốc định nghĩa skill là chương trình sửa code, nhưng mọi pilot đã dùng đoạn hướng dẫn chèn vào prompt. Câu gốc (`docs/01-FSE-2027-13-paper.pdf`, mục Implementation):
+- *"Skills are parameterised edit programs (AST rewrites plus shell steps) induced from successful trajectories."*
+- *"the with-skill and without-skill runs share the task, seed and environment, differing only in whether π is applied. Loss is 1− held-out pass rate plus a 0.5 penalty per regression."*
+
+TODO R15 yêu cầu đo loại skill này **đầu tiên**, nhưng việc đó chưa từng làm. Khảo sát này là bước 1, miễn phí: nó cho biết hướng này có thể chứng nhận được skill nào hay không, trước khi viết bộ sinh skill.
+
+**Câu hỏi Q24:** trên tập test của `data/splits/split_v0.json` (3.991 task của SWE-bench, Verified và Live, trừ các repo của SWE-Gym), bao nhiêu task có bản sửa gốc (gold patch) mang **hình dạng** đã xuất hiện trong bản sửa gốc của tập train (SWE-Gym, 11 repo)? Và có ô nào đủ task để Gatekeeper chứng nhận được không, kể cả trong trường hợp tốt nhất?
+
+**Định nghĩa** (mã: `scripts/survey_edit_shapes.py`, `gatekeeper.patches.change_blocks`):
+- **Khối sửa:** một dãy liền nhau các dòng bị xóa hoặc thêm, trong file `.py` không phải test (cùng quy tắc nhận diện file test với `parse_patch`). Dòng ngữ cảnh, đầu hunk hoặc file mới đều kết thúc một khối.
+- **Dòng chuẩn hóa:** tách token; giữ từ khóa Python (kể cả `True`, `False`, `None`) và toán tử; mọi tên khác thành `ID`, số thành `NUM`, chuỗi thành `STR`; bỏ chú thích; dòng rỗng sau chuẩn hóa thì bỏ.
+- **Hình dạng h** của một khối: (các dòng xóa đã chuẩn hóa, các dòng thêm đã chuẩn hóa).
+- **Phủ bởi một skill (chính):** task có ít nhất 1 khối, mọi khối có cùng hình dạng h, và h xuất hiện trong các khối của tập train ở **ít nhất k repo**. k = 1 là kết quả chính; k = 2 và 3 chỉ để mô tả.
+  - Cơ sở: một chương trình sửa có tham số viết ra một hình dạng cố định và chỉ thay tên và giá trị. Vì vậy, để sinh đúng bản sửa gốc, mọi khối của bản sửa phải có hình dạng của một bản sửa mà skill học từ đó (suy ra từ định nghĩa của paper gốc).
+  - k = 1 là cách tính rộng nhất, nên con số này là **cận trên**.
+- **Phủ bởi thư viện (phụ):** mọi khối của task có hình dạng xuất hiện trong train (k = 1), có thể từ nhiều skill khác nhau.
+- **Ô:** (h, repo đích). **Ô gộp:** h trên mọi repo đích. K là số ô có ít nhất 1 task được phủ.
+- **n_min(K):** số trial ít nhất, mỗi trial có Z = −1 (skill giải được mọi task), để e-process đã đăng ký đạt E ≥ K/α. Tham số của e-process theo §2: θ = 0, c = 0,5, α = 0,025 một phía, Bonferroni α/K. Các giá trị tính từ mã: n_min = 11 (K = 1), 16 (K = 10), 22 (K = 100), 28 (K = 1.000), 31 (K = 3.991).
+
+**Quy tắc quyết định (cố định trước):**
+- **Theo repo đạt** nếu có ít nhất một ô (h, repo) có số task được phủ ≥ n_min(K). Đây là phép thử cho thiết kế gốc: chứng nhận theo từng (skill, scope), với scope = repo.
+- **Gộp đạt** nếu có ít nhất một hình dạng h có số task được phủ trên mọi repo ≥ n_min(K gộp). Đây là phép thử cho thiết kế gộp scope (P3).
+- **Có ít nhất một đạt:** được phép sang bước 2 (viết bộ sinh skill dạng chương trình sửa code, áp skill, chạy test giữ lại). Bước 2 cần một bản đăng ký mới. "Đạt" ở đây **không** phải bằng chứng skill có ích.
+- **Cả hai trượt:** kể cả khi skill giải được mọi task mà nó có thể chạm tới, không skill nào học từ bản sửa của SWE-Gym chứng nhận được trên tập test này. Khi đó dừng hướng này và báo cáo như một kết quả.
+
+**Giới hạn ghi trước:**
+1. **Giả định cùng hình dạng với bản sửa gốc:** skill có thể sửa đúng bằng một hình dạng khác bản sửa gốc, nên cách tính này có thể **đánh giá thấp** số task phủ được.
+2. **Không kiểm vị trí và tham số:** cách tính này **đánh giá cao** số task phủ được. Hình dạng tầm thường (ví dụ chỉ đổi một chuỗi: `STR` → `STR`) cũng được tính.
+3. **Chỉ xét bản sửa gốc của tập train**, không xét trajectory của agent. Tập train không có trajectory công khai đi kèm, nên bản sửa gốc là bản sửa thành công duy nhất có sẵn.
+4. **Chỉ đo chiều "giúp"**, không đo chiều gây hại.
+
+**Công khai trước (R5):**
+- Chạy thử miễn phí trên 496 dòng của `data/instances/verified_pools.jsonl` (nhánh `data-snapshots`; task Live, nằm trong tập test).
+- Tập train giả được tạo bằng cách chia đôi theo repo. **Không dùng SWE-Gym**, nên kết quả chính vẫn chưa biết.
+- Kết quả đã thấy: 5/294 task được phủ bởi một skill; cả hai quy tắc trượt; các hình dạng phổ biến nhất là hình dạng tầm thường (ví dụ `STR` → `STR`).
+- Quy tắc trên được viết **sau** lần chạy thử này. Nó không dùng con số nào lấy từ lần chạy thử: n_min suy ra từ e-process, k = 1 là cách tính rộng nhất.
+
+**Chạy:** workflow `Data snapshots` (cần HuggingFace) trên nhánh `trial`, bước `Edit-shape survey (section 24)`. Kết quả ghi vào `data/survey/edit_shapes.json` trên nhánh `data-snapshots`. File kết quả chỉ chứa hình dạng đã trừu tượng hóa và số đếm, không chứa mã nguồn.

@@ -533,3 +533,29 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - trần tính từ số đã chi thật;
   - worst cell = cost-limit 1,0 USD.
 - **Chạy thử miễn phí:** model giả lập trên batch 1 của 5 skill mới, cả hai nhánh (`runs/sskb-s23-dry`). Kết quả ghi bên dưới khi xong.
+
+## R-45. §24: khảo sát khả năng áp dụng của skill dạng chương trình sửa code (2026-11-06, trước khi chạy trên dữ liệu thật; 0 USD)
+
+- **Đối chiếu bản đăng ký:** §24 commit cùng mã và trước khi workflow chạy trên SWE-Gym. Đã công khai lần chạy thử trên 496 task Live với tập train giả.
+- **Đối chiếu paper gốc (mục mới L44):**
+
+  | | Paper gốc | §24 |
+  | --- | --- | --- |
+  | Skill | Chương trình sửa code có tham số, học từ bản sửa thành công | Hình dạng token của khối sửa trong bản sửa gốc của train |
+  | Trial | Áp π, chạy test giữ lại | Chưa chạy (§24 chỉ đếm điều kiện cần) |
+  | Loss | 1 − tỉ lệ pass + 0,5 mỗi regression | Không dùng ở §24 |
+
+- **Mã:**
+  1. `gatekeeper.patches.change_blocks`: tách khối ở dòng ngữ cảnh, đầu hunk và file mới; bỏ file test (cùng `_TEST_PATH`) và file không phải `.py`. Test: tách đúng, bỏ test và `.rst`.
+  2. `scripts/survey_edit_shapes.py`:
+     - Bộ tách token có xử lý số hex. Lỗi tìm thấy khi review: `0x1F` từng bị tách thành `NUM ID`; đã sửa và có test.
+     - `n_min` dùng đúng `BettingEProcess` của §2; có test khớp ngưỡng.
+     - `survey`: phủ bởi một skill, phủ bởi thư viện, ô theo repo và ô gộp. Test có ví dụ đã biết đáp án.
+- **Kiểm §4:**
+  - α, θ, c truyền bắt buộc, không có mặc định;
+  - k = 1 là định nghĩa; n_min là số suy ra (ghi trong `number_provenance`);
+  - không `continue-on-error` ở bước mới;
+  - thiếu task của split thì dừng (`SystemExit`);
+  - file kết quả chỉ có hình dạng đã trừu tượng hóa, không chứa mã của bên thứ ba;
+  - không ghi đè kết quả khác (file mới `data/survey/edit_shapes.json`).
+- **Chạy thử miễn phí:** 496 task thật (Live), cả hai quy tắc chạy hết, kết quả ở §24.

@@ -374,3 +374,14 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   3. Trước khi tạo lệnh chờ thay thế, tìm tiến trình cũ bằng ID tác vụ nền hoặc file output của nó, không chỉ bằng `ps | grep`.
   4. Driver dùng chung một file kết quả không được chạy song song trên cùng plan.
 
+
+## L44. Một quy tắc tự đặt không được loại bỏ phép thử mà kế hoạch gốc bắt làm đầu tiên; phải đối chiếu định nghĩa của paper gốc trước mỗi pilot (A86)
+
+- **Xảy ra:**
+  - Pilot dùng skill dạng hướng dẫn trong khi paper gốc dùng chương trình sửa code.
+  - TODO R15 ghi rõ phải đo skill dạng chương trình sửa code đầu tiên, nhưng phương án đó (P2) bị loại sau G1 bởi một quy tắc chọn do mình đặt.
+- **Vì sao lọt qua:** quy tắc chọn phương án chỉ xét những gì tính được n từ nguồn công bố. Nó không hỏi phương án đó có kiểm đúng giả thuyết của paper gốc hay không.
+- **Phòng ngừa:**
+  1. Trước mỗi pilot, lập bảng so định nghĩa của paper gốc (skill, trial, loss, I(x)) với cái sẽ chạy, kèm câu trích từ bản gốc. Chỗ nào lệch phải ghi lý do và phạm vi kết luận.
+  2. Một quy tắc chọn phương án không được loại một phương án mà kế hoạch gốc bắt buộc, khi chưa báo @thuthuy.
+  3. Mục kiểm tra mới trong `docs/research_rules.md` §4.
