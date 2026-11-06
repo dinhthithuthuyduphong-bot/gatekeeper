@@ -112,6 +112,17 @@ def select_confirm(screen_rows: list[dict], skills: list[str]) -> tuple[str, int
     return best, (1 if d[best] > 0 else -1)
 
 
+def health_stop(row: dict, new: int, infra_new: int) -> str | None:
+    """Stop reasons checked after each new cell (section 23; A84)."""
+    if "infra_error" not in row and (row.get("n_calls") or 0) > 0 and not row.get("cost_usd"):
+        return "cost accounting: model calls with cost 0 (A84)"
+    if row.get("exit_status") in ("APIConnectionError", "AuthenticationError"):
+        return f"model unreachable: {row['exit_status']} (A84)"
+    if new >= 4 and infra_new / new > 0.10:
+        return f"infra errors {infra_new}/{new} > 10%"
+    return None
+
+
 def load_rows(plan: str) -> list[dict]:
     f = Path(f"results/sskb_{plan}.json")
     return json.loads(f.read_text())["rows"] if f.exists() else []
@@ -143,7 +154,7 @@ def main() -> int:
     done = {(r["skill"], r["batch"], r["seed"], r["arm"]) for r in rows}
     group = [p for p, v in PLANS.items() if v["group"] == plan["group"]]
     spent = sum(r.get("cost_usd") or 0.0 for p in group for r in load_rows(p))
-    new, new_cost = 0, 0.0
+    new, new_cost, infra_new = 0, 0.0, 0
     for sk, b, s, arm in cells(plan):
         if (sk, b, s, arm) in done:
             continue
@@ -194,6 +205,10 @@ def main() -> int:
             f"{' INFRA' if 'infra_error' in row else ''}",
             flush=True,
         )
+        infra_new += "infra_error" in row
+        if stop := health_stop(row, new, infra_new):
+            print(f"[stop] {stop}")
+            break
     print(f"[done] {len(rows)} cells, group spent {spent:.4f} USD")
     return 0
 

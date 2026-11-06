@@ -150,3 +150,14 @@ def test_select_confirm_refuses_incomplete_screen():
     ]
     with pytest.raises(SystemExit):
         rs.select_confirm(rows, sk)
+
+
+def test_health_stop_rules():
+    import run_sskb as rs
+
+    ok = {"n_calls": 30, "cost_usd": 0.03, "exit_status": "Submitted"}
+    assert rs.health_stop(ok, 1, 0) is None
+    assert "cost 0" in rs.health_stop({**ok, "cost_usd": 0.0}, 1, 0)
+    assert "unreachable" in rs.health_stop({**ok, "exit_status": "APIConnectionError"}, 1, 0)
+    assert rs.health_stop({"infra_error": "x"}, 3, 1) is None
+    assert "infra" in rs.health_stop({"infra_error": "x"}, 5, 1)
