@@ -966,3 +966,51 @@ TODO R15 yêu cầu đo loại skill này **đầu tiên**, nhưng việc đó c
   - Kể cả khi skill giải được mọi task nó có thể chạm tới, không skill dạng chương trình sửa code nào học từ bản sửa của SWE-Gym chứng nhận được trên tập test này, ở cả thiết kế theo repo lẫn thiết kế gộp.
   - Khoảng cách: ô lớn nhất có 5 task, so với n_min là 23 (theo repo); 8 so với 22 (gộp).
 - **Giới hạn còn lại:** giới hạn 1 (skill có thể sửa đúng bằng hình dạng khác bản sửa gốc) chưa được loại trừ. Hướng của sai lệch này được ghi rõ: con số trên có thể thấp hơn thật.
+
+## 25. gskill trên SWE-smith: kiểm bộ chấm (F0, 0 USD) và đo thử (F1, trần 2 USD) (đăng ký 06/11/2026, trước khi có dữ liệu)
+
+**Duyệt:** @thuthuy 06/11/2026: "làm bước miễn phí trước, rồi đo thử 2 đô". Nằm trong 60 USD của kế hoạch tái hiện, đã chi khoảng 5,9 USD. Căn cứ: `docs/root_cause.md` (A87).
+
+**Phát hiện khi đọc mã gốc (R1, trước khi có dữ liệu):** `gepa@8c7b697`, `src/gepa/gskill/gskill/swe_harness.py::verify_with_patch`:
+```python
+passed = not timed_out and "FAILED" not in test_output and "ERROR" not in test_output
+if "PASSED" in test_output or "passed" in test_output.lower():
+    passed = True
+```
+- Với repo Python, lệnh test của SWE-smith là `pytest --disable-warnings --color=no --tb=no --verbose` cộng với **các file** test F2P (`swesmith==0.0.9`, `profiles/base.py::get_test_cmd`, `profiles/python.py`).
+- Như vậy chỉ cần **một** test bất kỳ trong các file đó qua là đủ để `passed = True`, kể cả khi test F2P vẫn fail.
+- `evaluate/mini_swe_agent.py` dùng hàm này cho cả bước F2P lẫn bước bộ test đầy đủ.
+- Dòng này có từ commit thêm gskill (`3121b20`, 23/02/2026) và không đổi tới `8c7b697`. Bài blog đề ngày 18/02/2026, nên **không biết chắc** con số trong blog được chấm bằng đúng mã này.
+
+**F0: kiểm bộ chấm (0 USD, không gọi model).**
+- **Task:** tập test của gskill cho `pallets__jinja`, tái tạo đúng `load_and_split_data` (350 dòng đầu khớp repo, `random.seed(42)`, 200/50/100; `scripts/export_swesmith.py`, có test so với mã gốc). Dùng **toàn bộ 100 task**.
+- **Patch:**
+  - (a) **no-op:** thêm một dòng `# no-op` vào cuối file `.py` đầu tiên của bản vá gây lỗi; không đổi hành vi.
+  - (b) **gold:** bản sửa đúng, là nghịch đảo của bản vá gây lỗi (`git apply --reverse`, như `is_gold` của SWE-smith).
+- **Bộ chấm:**
+  - **L (lenient):** đúng quy trình của `evaluate/mini_swe_agent.py`: F2P rồi bộ test đầy đủ, dùng `SWEHarness.verify_with_patch` gọi **nguyên mã gốc**.
+  - **S (strict):** chuẩn của chính SWE-smith, `swesmith.harness.grading.get_eval_report`, tức resolved.
+- **Đại lượng:** tỉ lệ "qua" của L và S cho (a) và (b), kèm Wilson 95%.
+- **Dự đoán (từ đọc mã):** L(a) ≥ 0,5; S(a) = 0; L(b) và S(b) gần 1 (kiểm sự đúng đắn của pipeline).
+- **Diễn giải viết trước:**
+  - Nếu cận dưới Wilson 95% của L(a) > S(a): bộ chấm trong mã công khai của gskill nhận bản vá không sửa gì. Tỉ lệ "resolve" đo bằng nó **không phải** tỉ lệ resolved.
+  - Kết luận này **không** nói gì về tác dụng của skill gskill dưới bộ chấm S.
+  - Nếu S(b) < 0,9: pipeline của mình có lỗi. Khi đó dừng, sửa, ghi A#, không sang F1.
+
+**F1: đo thử có phí (trần 2 USD).**
+- **Thiết lập:**
+  - nhánh không skill (`{{ skills }}` rỗng) trên tập test của gskill, theo thứ tự `_gskill_order`;
+  - 1 seed (41);
+  - model Flash-Lite như §22, với kwargs đã đăng ký;
+  - cấu hình agent của gskill: `mini.yaml` và step_limit 50 (giá trị gán cứng trong `run_agent`);
+  - cost_limit 0,30 USD mỗi lần chạy. Đây là số vận hành: gấp khoảng 4,7 lần chi phí trung bình đo ở E2 (0,063 USD), chỉ để chặn trường hợp xấu nhất.
+- **Trần:** driver dừng khi "đã chi + 0,30 > 2,0". Chạy trên GitHub Actions bằng secret của repo.
+- **Kiểm sau khi chạy:** `infra_error`, `exit_status`, patch rỗng. Lỗi hạ tầng > 10% số lần chạy thì dừng và báo.
+- **Đại lượng:**
+  - chi phí và token mỗi lần chạy;
+  - p̂_S và p̂_L (cùng các patch, chấm bằng cả hai bộ);
+  - tỉ lệ patch rỗng.
+- **Quy tắc (cố định trước):** đề xuất bước học skill **chỉ khi** khoảng trống 1 − p̂_S ≥ 0,27.
+  - 0,27 là mức tăng nhỏ nhất gskill công bố (Jinja 55% → 82%; nhóm "bên thứ ba").
+  - Nếu khoảng trống nhỏ hơn, không thể tái hiện mức tăng có độ lớn như công bố.
+- **Không xem kết quả giữa chừng (L28):** driver chỉ in chi phí và trạng thái.

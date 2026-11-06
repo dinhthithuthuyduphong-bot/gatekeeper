@@ -118,3 +118,7 @@ Mọi con số khác bên dưới đều được **suy ra từ α**, **suy ra t
 | Power của E1/E2 | Suy ra (mô phỏng) | Plasmode từ q của 32 task trên (Franklin et al. 2014, ⏳ đang lấy nguồn). Khoảng bất định do q: `results/power_input_uncertainty.json` |
 | **k = 1** (§24, số repo train tối thiểu của một hình dạng) | Định nghĩa | Cách tính rộng nhất, để kết quả là cận trên; k = 2 và 3 chỉ để mô tả. Không dùng `MIN_REPOS = 3` của `scripts/mine_skills.py`, vì số đó tự đặt, không có nguồn |
 | **n_min(K) = 11 / 16 / 22 / 28 / 31** (K = 1 / 10 / 100 / 1.000 / 3.991; §24) | Suy ra | Tính bằng `BettingEProcess` với θ = 0 (D2), c = 0,5 (GRO; Waudby-Smith & Ramdas), α = 0,025 một phía (ICH E9), Bonferroni α/K; `scripts/survey_edit_shapes.py::n_min` |
+| **0,27** (§25, khoảng trống tối thiểu) | Bên thứ ba | Mức tăng nhỏ nhất gskill công bố: Jinja 55% → 82% (snapshot `gskill`) |
+| **cost_limit 0,30 USD** (§25 F1) | Vận hành | Chặn trường hợp xấu nhất; gấp khoảng 4,7 lần chi phí trung bình E2 (0,063 USD). Chỉ ảnh hưởng số lần chạy trong trần, không ảnh hưởng đại lượng đo |
+| **step_limit 50** (§25 F1) | Bên thứ ba | Gán cứng trong `gskill/swe_harness.py::run_agent` (`gepa@8c7b697`) |
+| **100 task, 200/50/100, seed 42** (§25) | Bên thứ ba | Mặc định của gskill (`train_optimize_anything.py`) |

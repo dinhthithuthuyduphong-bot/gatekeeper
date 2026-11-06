@@ -62,6 +62,8 @@ jobs:
       - name: Edit-shape survey (section 24)
         # registered in docs/preregistration_main.md section 24; no continue-on-error (fails loudly)
         run: python scripts/survey_edit_shapes.py --alpha 0.025 --theta 0 --c 0.5 --out data/survey/edit_shapes.json
+      - name: SWE-smith jinja rows with gskill split (section 25)
+        run: python scripts/export_swesmith.py --repo pallets__jinja --train 200 --val 50 --test 100 --seed 42 --out data/instances/swesmith_pallets__jinja.jsonl
       - name: Summarise
         run: |
           python - <<'EOF'
