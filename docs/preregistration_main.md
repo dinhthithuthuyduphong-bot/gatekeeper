@@ -884,3 +884,21 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 - Driver đang chạy dừng ở trần 3 USD; sau đó chạy tiếp cùng plan với trần 5 USD (driver bỏ qua các ô đã có).
 - Chi phí đo được ở 2 ô đầu: 0,147 và 0,127 USD. Với trần 5 USD, dự kiến khoảng 29 lần chạy, tức k khoảng 7. Ở k = 7: P(có tín hiệu | như công bố) = 0,799, P(có tín hiệu | không tác dụng) = 0,155 (`results/section23_design.json`, `a_flash_probe`; cùng phép rút).
 - Quy tắc G ≥ 0,10 không đổi.
+
+### Kết quả §23a sau D-M11 và ghi chú 23-1 (06/11/2026; `results/sskb_s23a-pro.json`)
+
+- **G = 0,000 < 0,10: không có tín hiệu, nên dừng theo quy tắc.** Không chạy thêm.
+- **Số batch đủ cặp:** k = 4 (batch 1–4). Ô `viper` b5 chỉ có nhánh không skill nên không tính.
+
+  | Skill | Hiệu số theo batch 1–4 | D | D ở §22 (Flash-Lite, cùng batch) | Công bố |
+  | --- | --- | --- | --- | --- |
+  | `viper-configuration` | 0; 0; 0; 0 | 0,000 | +0,018 | +0,177 |
+  | `asyncio-patterns` | 0; 0; 0; 0 | 0,000 | −0,282 | −0,170 |
+
+- **Tỉ lệ pass giống hệt nhau ở cả hai nhánh, ở mọi batch:**
+  - `viper`: 0,33; 0,93; 0,87; 1,00;
+  - `asyncio`: 0,93; 0,93; 0,93; 0,88.
+- **Diễn giải (mô tả):** nhánh không skill đã gần trần ở 7/8 ô, nên skill không còn chỗ tác động.
+- **Kiểm sau khi chạy:** 17/17 `Submitted`; 0 lỗi hạ tầng; `skill_files` > 0 ở mọi lần chạy nhánh skill (7 với `viper`, 2 với `asyncio`).
+- **Chi và token:** 4,059 USD trên trần 5 USD; 3.715.909 token vào (2.348.518 cache), 71.175 token ra.
+- **Giai đoạn bỏ dở trước D-M11** (không gộp): `viper` b1 nhánh không skill trên Flash, và `go-fx-di` b1 nhánh không skill trên Flash-Lite (0,030 USD). Chi phí ô Flash được báo cùng §23b.
