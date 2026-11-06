@@ -59,5 +59,24 @@
    }
   ],
   "label": "broken"
+ },
+ "beeware__briefcase-1785": {
+  "dataset": "live_rows.jsonl",
+  "runs": [
+   {
+    "run_id": "goldnet-beeware__briefcase-1785-20261106T071446-r0",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "tests/integrations/android_sdk/AndroidSDK/test_properties.py::test_cmdline_tools_url[Darwin-arm64-mac]",
+     "tests/integrations/android_sdk/AndroidSDK/test_properties.py::test_cmdline_tools_url[Darwin-x86_64-mac]",
+     "tests/integrations/android_sdk/AndroidSDK/test_properties.py::test_cmdline_tools_url[Linux-x86_64-linux]",
+     "tests/integrations/android_sdk/AndroidSDK/test_properties.py::test_cmdline_tools_url[Windows-AMD64-win]",
+     "tests/integrations/base/test_ToolCache.py::test_toolcache_typing"
+    ]
+   }
+  ],
+  "label": "broken"
  }
 }
