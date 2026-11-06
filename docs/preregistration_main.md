@@ -1026,3 +1026,17 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - **Dữ liệu:** 34/100 task của tập test gskill có `problem_statement` rỗng. Giữ nguyên, như gskill. Báo cáo cả nhóm 66 task có problem statement như một phân tích phụ, vì gskill ghi lại trường `has_problem_statement`.
 - **Công khai (R5):** lần chạy thử F0 trên task `func_basic__arv5rwp0` cho L(no-op) qua, S(no-op) không qua; L(gold) và S(gold) đều qua. Quy tắc diễn giải không đổi.
 - **Sửa trước khi chạy đủ (A89):** lỗi hạ tầng (test không chạy) được phân loại thành `infra_error`, không đếm là "không qua".
+
+### Kết quả F0 (06/11/2026; `results/f0_scorer_check.json`; 0 USD)
+
+| Patch | L (luồng chấm của gskill) | S (SWE-smith, resolved) |
+| --- | --- | --- |
+| (a) no-op | **96/96 = 1,00** [0,962; 1,000] | **0/96 = 0,00** [0,000; 0,038] |
+| (b) gold | 96/96 = 1,00 | 96/96 = 1,00 [0,962; 1,000] |
+
+- **Theo quy tắc đã viết trước:**
+  - Cận dưới Wilson của L(a) là 0,962, lớn hơn S(a) = 0. Vậy bộ chấm trong mã công khai của gskill (`gepa@8c7b697`) nhận bản vá không sửa gì ở **mọi** task được chấm. Tỉ lệ "resolve" đo bằng nó không phải tỉ lệ resolved.
+  - S(b) = 1,00 ≥ 0,9, nên pipeline đúng và được sang F1.
+- **Nhóm 63 task có problem statement:** L(a) = 63/63.
+- **Lỗi hạ tầng:** 4/100 (≤ 10%). Đây là lỗi của tôi: `first_source_file` loại mọi file có chữ "test" trong tên, nên loại nhầm `src/jinja2/tests.py` (module thật của jinja). 4 task này không được chấm; kết quả trên tính trên 96 task (A90).
+- **Phạm vi kết luận:** chỉ về bộ chấm trong mã công khai. **Không** kết luận gì về con số trong blog (có thể được chấm bằng mã khác), cũng không về tác dụng của skill gskill dưới bộ chấm S.
