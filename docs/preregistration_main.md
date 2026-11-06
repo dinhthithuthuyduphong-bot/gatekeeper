@@ -943,3 +943,26 @@ TODO R15 yêu cầu đo loại skill này **đầu tiên**, nhưng việc đó c
 - Quy tắc trên được viết **sau** lần chạy thử này. Nó không dùng con số nào lấy từ lần chạy thử: n_min suy ra từ e-process, k = 1 là cách tính rộng nhất.
 
 **Chạy:** workflow `Data snapshots` (cần HuggingFace) trên nhánh `trial`, bước `Edit-shape survey (section 24)`. Kết quả ghi vào `data/survey/edit_shapes.json` trên nhánh `data-snapshots`. File kết quả chỉ chứa hình dạng đã trừu tượng hóa và số đếm, không chứa mã nguồn.
+
+### Kết quả §24 (06/11/2026; [run 42158919971](https://github.com/dinhthithuthuyduphong-bot/gatekeeper/actions/runs/42158919971), `results/edit_shape_survey.json`)
+
+- **Cả hai quy tắc trượt, nên dừng hướng này theo quy tắc đã đăng ký.** Không sang bước 2.
+
+  | Quy tắc | K | n_min(K) | Số task lớn nhất trong một ô | Số ô đạt n_min |
+  | --- | --- | --- | --- | --- |
+  | Theo repo | 131 | 23 | **5** (django, hình dạng `STR` → `STR`) | 0 |
+  | Gộp | 98 | 22 | **8** (`STR` → `STR`) | 0 |
+
+- **Dữ liệu:**
+  - Train: SWE-Gym, 2.438 task, 11 repo, 19.448 khối sửa, 12.753 hình dạng.
+  - Test: 3.991 task, 223 repo, đủ id của split (thiếu 0).
+  - Fingerprint của HF ghi trong file kết quả.
+- **Độ phủ:**
+  - Phủ bởi một skill: 145/3.991 = 3,6% (k = 1); 98 (2,5%) với k = 2; 81 (2,0%) với k = 3.
+  - Phủ bởi thư viện: 177/3.991 = 4,4%.
+  - 42 task không có khối sửa `.py` ngoài test.
+- **Mô tả các ô lớn nhất:** đều là hình dạng tầm thường: đổi một chuỗi; `ID = STR` → `ID = STR`; thêm `STR ,`; thêm một lời gọi `ID . ID ( )`. Đây là giới hạn 2 đã ghi trước, và nó làm con số trên **cao hơn** khả năng thật.
+- **Diễn giải theo đúng quy tắc đã viết trước:**
+  - Kể cả khi skill giải được mọi task nó có thể chạm tới, không skill dạng chương trình sửa code nào học từ bản sửa của SWE-Gym chứng nhận được trên tập test này, ở cả thiết kế theo repo lẫn thiết kế gộp.
+  - Khoảng cách: ô lớn nhất có 5 task, so với n_min là 23 (theo repo); 8 so với 22 (gộp).
+- **Giới hạn còn lại:** giới hạn 1 (skill có thể sửa đúng bằng hình dạng khác bản sửa gốc) chưa được loại trừ. Hướng của sai lệch này được ghi rõ: con số trên có thể thấp hơn thật.
