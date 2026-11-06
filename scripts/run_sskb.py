@@ -45,6 +45,7 @@ def main() -> int:
     ap.add_argument("--model", required=True)
     ap.add_argument("--cap-usd", type=float, required=True)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--max-cells", type=int, default=0, help="stop after N new cells (cost check)")
     a = ap.parse_args()
     if subprocess.run(
         [sys.executable, "scripts/preflight.py", "--ci"], capture_output=True
@@ -54,9 +55,14 @@ def main() -> int:
     rows = json.loads(out_file.read_text())["rows"] if out_file.exists() else []
     done = {(r["skill"], r["batch"], r["seed"], r["arm"]) for r in rows}
     spent = sum(r.get("cost_usd") or 0.0 for r in rows)
+    new = 0
     for sk, b, s, arm in cells(PLANS[a.plan]):
         if (sk, b, s, arm) in done:
             continue
+        if a.max_cells and new >= a.max_cells:
+            print(f"[stop] --max-cells {a.max_cells}")
+            break
+        new += 1
         if spent + WORST_CELL > a.cap_usd:
             print(f"[stop] cap: spent {spent:.4f} + worst cell {WORST_CELL} > {a.cap_usd}")
             break
