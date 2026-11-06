@@ -1172,3 +1172,10 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - **`num_candidates` = 4 > 1, nên theo quy tắc dừng sớm, chạy nửa 2.**
 - Điểm validation tốt nhất theo bộ chấm **lỏng** của gskill: 0,84. Đây là điểm trên tập validation (50 task) mà GEPA dùng để chọn skill, nên **không** được dùng làm kết quả. Kết quả chỉ lấy từ bước chấm trên tập test, bằng cả hai bộ chấm.
 - Skill tốt nhất hiện tại dài 3.022 ký tự (`results/s25_best_skills.txt`; sẽ được thay bằng kết quả của nửa 2).
+
+**Kết quả nửa 2 của bước học** (run 42199763787, publish lại sau khi sửa A95):
+- **Chi phí nửa 2:** 5,890 USD. **Cộng dồn bước học: 12,254 USD** (trần 23,0).
+  - Flash-Lite: 5.746 lời gọi. Pro: 6 lời gọi.
+- **`total_metric_calls` = 606, `num_candidates` = 9.** Skill tốt nhất dài 2.675 ký tự (`results/s25_best_skills.txt`, bản sao ở `docs/skills/gskill/jinja_best_skills.txt`).
+- Điểm validation tốt nhất theo bộ chấm lỏng: 0,94. Như ở nửa 1, đây **không** phải kết quả.
+- Bước tiếp theo: chấm trên 100 task test (`swesmith-eval`, trần 3,2 USD).
