@@ -11,5 +11,20 @@
    }
   ],
   "label": "ok"
+ },
+ "aws-cloudformation__cfn-lint-3508": {
+  "dataset": "rows.jsonl",
+  "runs": [
+   {
+    "run_id": "goldnet-aws-cloudformation__cfn-lint-3508-20261106T071034-r0",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "test/unit/module/formatters/test_formatters.py::TestFormatters::test_sarif_formatter"
+    ]
+   }
+  ],
+  "label": "broken"
  }
 }
