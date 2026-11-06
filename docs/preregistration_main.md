@@ -1152,12 +1152,13 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 | `pygments__pygments` | **26/30** [0,703; 0,947] | 0/30 | 29/30 | 0 |
 | `benoitc__gunicorn` | **24/30** [0,627; 0,905] | 0/30 | 30/30 | 0 |
 | `gawel__pyquery` | không tính | — | 0/4 | **26/30** |
-| `prettytable__prettytable` | đang chạy lại (lần đầu bị dừng vì lệnh nền chạm giới hạn 2 giờ, chưa ghi file; lỗi vận hành) | | | |
+| `prettytable__prettytable` | **30/30** [0,886; 1,000] | 0/30 | 30/30 | 0 (chạy lại sau lần đầu bị dừng vì lệnh nền chạm giới hạn 2 giờ, chưa ghi file; lỗi vận hành, không phải lỗi agent) |
 
 - **Theo quy tắc đã viết trước:**
   - Ở mọi repo chấm được, cận dưới Wilson của L(a) lớn hơn S(a) = 0.
   - Bleve (Go) khớp dự đoán, qua nhánh "không có FAILED/ERROR" của cùng một điều kiện.
-  - S(gold) ≥ 0,9 ở cả 3 repo, nên pipeline đúng.
+  - S(gold) ≥ 0,9 ở cả 4 repo, nên pipeline đúng.
+- **Tổng hợp 5 repo chấm được** (gồm jinja): L(no-op) = 206/216 = 0,954; S(no-op) = 0/216.
 - **pyquery bị báo riêng và không gộp,** vì lỗi hạ tầng > 10% (A93). pyquery kiểm bằng doctest trong file nguồn, nên `get_test_files` của SWE-smith trả về file nguồn (ví dụ `pyquery/cssselectpatch.py`). Hai hệ quả:
   1. Driver không còn file nào để chèn no-op.
   2. `run_patch_in_container` hoàn tác mọi thay đổi trên "file test" trước khi chấm, nên hoàn tác luôn bản sửa đúng: S(gold) = 0/4.
