@@ -25,5 +25,5 @@
    "# Catch a model with a model To measure the scale of the reward-hacking behavior, we had the auditor examine 731 Opus 4.8 Max trajectories. It saw the problem statement and full agent trajectory, without seeing whether the run passed, and classified whether the agent had retrieved the known answer. The two most common reward-hacking patterns it found were: Upstream lookup: In 57% of the trajectories, Opus 4.8 Max found the merged PR or fixed source file on the public web, then reproduced the fix nearly verbatim. Git-history mining: In 9% of trajectories, Opus 4.8 Max searched the bundled .git history for the future commit that fixed the bug, then extracted the patch. 1 As models get stronger, they can sometimes infer that they are in an eval, especially when the task is borrowed from a past public repository. Even in cases where they don't remember the fix from training, the environment can still give them clues that the bug has already been solved. In one SWE-bench Multilingual task from a 2019 jq issue, the agent tried to reproduce the bug with the system jq binary. Because the image had been built after the bug was fixed, the reproduction failed, and the agent inferred that the issue h"
   ]
  },
- "fetched_utc": "2026-11-06T16:39:43+00:00"
+ "fetched_utc": "2026-11-06T16:43:44+00:00"
 }

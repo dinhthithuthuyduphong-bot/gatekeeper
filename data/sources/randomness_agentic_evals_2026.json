@@ -81,5 +81,5 @@
    "ble sound evaluation of agentic systems, we recommend three concrete practices: (1) estimate pass@1 from multiple independent runs per task, especially when measuring small improvements, (2) using statistical power analysis to determine how many runs to do, and (3) consider multiple metrics like pass@k (optimistic bound) and pass ˆ k (pessimistic bound) with k > 1 k>1 to characterize the full performance envelope. To summarize, our contributions are: (1) a large-scale empirical study quantifying variance in agentic evals across three models, two scaffolds, and two temperature settings (60,000 trajectories total, 25.58B tokens, 1.88M tool calls); (2) token-level divergence analysis revealing when and how agent trajectories split into different solution strategies; (3) characterization of performance bounds using pass@k and pass ˆ k metrics, demonstrating gaps up to 24.9 percentage points between optimistic and pessimistic scenarios; and (4) concrete, actionable recommendations for reliable evaluation practices that enable sound scientific progress in agentic AI. 2 Characterizing Randomness in Agentic Evals Our goal is to characterize the randomness happening in evals or agentic systems, and und"
   ]
  },
- "fetched_utc": "2026-11-06T16:39:20+00:00"
+ "fetched_utc": "2026-11-06T16:43:25+00:00"
 }

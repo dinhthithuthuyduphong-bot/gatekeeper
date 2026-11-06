@@ -68,5 +68,5 @@
    "valuation often involves multiple pages, navigation paths, and interaction states that cannot be captured by static screenshot. The browsing agent produces both screenshots and a structured browsing evaluation report containing page-level loading status, discovered sections, missing sections, and navigation outcomes. Based on these collected screenshots, we evaluatevisual designandresponsiveness. For responsiveness, we render the website under multiple viewport settings, including device sizes corresponding to iPhone 13 and iPad 7, to assess layout adaptation across screen sizes. In practice, we find that using only full-page screenshots often leads to excessive image compression and loss of fine-grained details. We therefore adopt a hybrid screenshot strategy: the evaluator receives both full-page screenshots for global structural understanding and viewport- based sequential screenshots (with a viewport height of 900px) for local detail inspection. Poster Generation and Data Visualization.For poster generation and data visualization, the final artifacts are single PNG images, so we directly use the generated images as inputs to the VLM evaluator. The evaluation is grounded in the pre-def"
   ]
  },
- "fetched_utc": "2026-11-06T16:39:32+00:00"
+ "fetched_utc": "2026-11-06T16:43:36+00:00"
 }

@@ -8,7 +8,7 @@
   }
  ],
  "url": "https://github.com/marin-community/marin/issues/10212",
- "sha256": "b84a995bf081b4a5d9209e45a2f13573ad67a8fbad17f6d0421f2ff2bd6900c9",
+ "sha256": "ae0a34402bcb0746850af4bcb5a423636d855e5823f377d15c75f217d33981ce",
  "n_chars": 37628,
  "head": " SWE-smith Harbor packages expose the fix through git history in the agent container · Issue #10212 · marin-community/marin · GitHub Skip to content Navigation Menu Sign in Products Platform GitHub Repository hosting, code review, and collaboration Copilot AI coding agent for tasks, projects, and automated work Build & Ship Actions CI/CD and automation Code Quality Quality analysis, fixes, and enforcement Codespaces Cloud development environments Secure Code Security Vulnerability detection and remediation Secret",
  "excerpts": {
@@ -25,5 +25,5 @@
    "refresh your session. Dismiss alert {{ message }} marin-community marin Repository navigation Code Issues 463 ( 463 ) Pull requests 306 ( 306 ) Discussions Actions Projects Security and quality Insights More items SWE-smith Harbor packages expose the fix through git history in the agent container #10212 New issue Copy link New issue Copy link Open Open SWE-smith Harbor packages expose the fix through git history in the agent container #10212 Copy link Labels agent-generated Automated failure tracking Automated failure tracking Description karansag opened on Oct 16, 2026 Issue body actions The SWE-smith Harbor task packages in DCAgent/swesmith-sandboxes-with_tests-oracle_verified_120s (and the same layout in mlfoundations-dev/swesmith-sandboxes-with_tests ) leave the repository's full git history in the agent's container. The image built from environment/Dockerfile keeps a local main branch with the unbroken code and about 944 other branches, so the agent can print the fix with git diff HEAD main -- <package> or git show main:<file> . /tests and /solution are correctly absent from the image. Reproduce: build swesmith-00003 's environment/Dockerfile from the package, run it with no network, t"
   ]
  },
- "fetched_utc": "2026-11-06T16:39:37+00:00"
+ "fetched_utc": "2026-11-06T16:43:40+00:00"
 }
