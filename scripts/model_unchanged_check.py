@@ -45,11 +45,31 @@ def signature(msg: dict) -> dict:
     }
 
 
+def _part_no(traj: Path) -> int:
+    """Part number NN of the run dir g2-e2-s41-kK-pNN that holds this trajectory."""
+    run_dir = traj.parents[3].name
+    head, sep, nn = run_dir.rpartition("-p")
+    if not sep or not nn.isdigit() or not head.startswith("g2-e2-s41-k"):
+        raise ValueError(f"unexpected run dir {run_dir}")
+    return int(nn)
+
+
 def find_traj(runs_dir: Path, task: str) -> Path:
+    """The seed-41 none trajectory that E2 counted.
+
+    A task re-run in a later part of the same batch replaces the older data
+    (run_batched_pilot.merge, A98), so the counted run is the one in the highest part.
+    """
     hits = sorted(runs_dir.glob(f"g2-e2-s41-*/none/agent/{task}/{task}.traj.json"))
-    if len(hits) != 1:
-        raise FileNotFoundError(f"{task}: {len(hits)} seed-41 none trajectories")
-    return hits[0]
+    if not hits:
+        raise FileNotFoundError(f"{task}: no seed-41 none trajectory")
+    batches = {h.parents[3].name.rpartition("-p")[0] for h in hits}
+    if len(batches) != 1:
+        raise FileNotFoundError(f"{task}: trajectories in several batches {sorted(batches)}")
+    best = max(hits, key=_part_no)
+    if sum(_part_no(h) == _part_no(best) for h in hits) != 1:
+        raise FileNotFoundError(f"{task}: two trajectories in the same part")
+    return best
 
 
 def main() -> int:

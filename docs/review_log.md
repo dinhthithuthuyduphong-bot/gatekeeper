@@ -624,3 +624,13 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - power đã mô phỏng (L11), mức sai 0,008 ≤ 0,0125;
   - trần tính từ số đã chi;
   - không xem kết quả giữa chừng: driver chỉ in chi phí.
+
+## R-51. Phép kiểm "model không đổi" §5, sửa A97 và A98 (2026-11-06, trước khi chạy lại; khoảng 0,25 USD trong 40 USD)
+- **Thay đổi:**
+  - cài `mcp` (A97);
+  - `find_traj` chọn lượt mà E2 tính, theo `run_batched_pilot.merge`: task chạy lại ở phần sau thay dữ liệu cũ (A98).
+- **Kiểm §4:**
+  - quy tắc so sánh và quy tắc ghép không đổi (R5);
+  - test 3 trường hợp (một lượt; lượt sau thắng, so theo số chứ không theo chữ; thiếu hoặc nằm ở hai lô);
+  - chạy thử miễn phí trên archive thật cho 109/109 task;
+  - preflight đạt.
