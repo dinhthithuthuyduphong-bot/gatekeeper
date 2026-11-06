@@ -1318,3 +1318,25 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - quy tắc như draft §10: ghép chỉ khi **mọi** task đạt cả hai bước.
   - Trajectory lấy từ `raw-archive` (`g2-e2-s41-*`, nhánh `none`). Chi phí ước khoảng 0,1 USD (218 lời gọi, khoảng 1.400 token vào mỗi lời gọi).
 - **Nếu §5 không đạt:** theo §5 phải chạy cả hai nhánh mới, ước khoảng 21 USD, có thể vượt phần trần còn lại. Khi đó báo @thuthuy trước khi chạy.
+
+### Ô memgovern: kết quả §5 (06/11/2026)
+
+- **Hai lần chạy đầu không ra kết quả:**
+  - run 42294432522 thiếu gói `mcp` (A97, không tốn tiền);
+  - run 42296379214 chọn sai quỹ đạo của 3 task được chạy lại (A98, tốn 0,0118 USD).
+- **Run 42297492582** (`results/model_unchanged_check_run42297492582.json`) trên 109 task:
+  - bước 1 (hai lần gọi mới giống nhau): 107/109;
+  - bước 2 (trùng E2): 75/109;
+  - trường `model`: 109/109;
+  - **`pair_with_e2 = false`**; chi phí 0,104 USD.
+- **Run thứ 4** (`results/model_unchanged_check.json`) có lưu kèm các câu trả lời được so (`sig_e2`, `sig_new`):
+  - bước 1: 107/109; bước 2: 74/109; trường `model`: 109/109; `pair_with_e2 = false`; chi phí 0,095 USD;
+  - 108/109 task giữ cùng trạng thái trùng hay lệch E2 như ở run 42297492582;
+  - cả 35 task lệch đều gọi một **lệnh khác**, không chỉ khác khoảng trắng. Ví dụ, E2 gọi `find . -maxdepth 2 -not -path '*/.*'`, nay model gọi `ls -R`.
+- **Phán quyết theo quy tắc đã đăng ký (R5): không ghép với E2.** Nếu chạy ô memgovern thì phải chạy cả hai nhánh mới.
+- **Diễn giải:**
+  - Với cùng tên model, cùng seed và cùng prompt, model ngày 06/11 vẫn gần như tất định (107/109). Nhưng nó khác hành vi của model ở E2 trên khoảng 32% câu trả lời đầu tiên (35/109).
+  - Trường `model` của phản hồi **không** phát hiện được thay đổi này (109/109 trùng).
+  - Hệ quả cho paper: ghép một nhánh mới với một nhánh cũ chỉ dựa trên tên model là không an toàn. Phép kiểm §5 cần thiết, và đã bắt được sự thay đổi.
+- **Ngân sách:** chạy cả hai nhánh ước khoảng 21 USD. Theo M-1, trước khi chạy phải báo @thuthuy, kèm số Bleve chi thực tế.
+
