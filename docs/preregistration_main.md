@@ -991,3 +991,17 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
   2. trong các (cấu hình, skill) có |Δ| ≥ 6 điểm: tỉ lệ cấu hình khác cùng chiều và |Δ| ≥ 6, và tỉ lệ ngược chiều và |Δ| ≥ 6.
 - **CI:** bootstrap theo skill, 10.000 lần.
 - **Giới hạn:** dữ liệu một lần chạy không tách được "do scope" và "do nhiễu". Kết luận chỉ là "nhãn và cỡ tác dụng không lặp lại giữa các cấu hình".
+
+**Ghi chú thực thi 27-1** (06/11/2026, trước khi chạy (a)):
+- "53 task của E1" ở trên là chưa chính xác. Mỗi skill có tập 53 task kích hoạt riêng; hợp của ba tập là **144 task**.
+- 20 task E1 được rút từ hợp 144 task này, sắp theo tên, bằng `random.Random(27).sample` (`scripts/noop_rescore.py::e1_tasks`).
+
+### Kết quả §27b (06/11/2026; `results/sskb_transfer.json`; thăm dò)
+
+- **ρ = 0,067, CI 95% [−0,10; 0,25]** (bootstrap theo skill, 98 skill, 4 cấu hình).
+  - ρ là phần phương sai tác dụng chung giữa các cấu hình: hiệp phương sai chéo 3,34 điểm², chia cho phương sai trong từng cấu hình 49,7 điểm².
+- **Trong 321 (cấu hình, skill) có |Δ| ≥ 6 điểm**, ở cấu hình khác:
+  - cùng chiều và |Δ| ≥ 6: **0,249** [0,158; 0,343];
+  - **ngược chiều** và |Δ| ≥ 6: **0,187** [0,116; 0,255].
+- **Sửa một con số tôi nói trong trao đổi:** "khoảng 22% chuyển giao" là sai mẫu số. Con số 14,9 là phương sai của trung bình 4 cấu hình, không phải phương sai trong từng cấu hình. Số đúng là 0,067.
+- **Diễn giải (theo giới hạn đã ghi):** trên dữ liệu công khai của SSKB, nhãn và cỡ tác dụng của một skill gần như không lặp lại khi đổi agent hay model. Dữ liệu một lần chạy không tách được phần do scope và phần do nhiễu.

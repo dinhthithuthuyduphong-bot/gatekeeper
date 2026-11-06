@@ -1,0 +1,105 @@
+"""Section 27a: score a NO-OP patch (adds an unused one-line file) once per task with our harness.
+
+  python scripts/noop_rescore.py --rows <e1_rows.jsonl> <live rows.jsonl> ... \
+      --live-python <livenv python>
+
+Tasks: all 20 T4 tasks (SWE-bench-Live) and 20 E1 tasks (SWE-bench Verified) drawn with
+random.Random(27).sample from the sorted union of E1 task sets (execution note 27-1). A no-op
+patch leaves every FAIL_TO_PASS test failing, so the expected resolved rate is 0. Writes
+results/harness_noop.json after every task (resumable).
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import random
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from gold_rescore import failures  # noqa: E402
+from run_pilot import image_name, prepull  # noqa: E402
+
+from gatekeeper.harness import read_report, run_harness  # noqa: E402
+
+OUT = Path("results/harness_noop.json")
+NOOP_PATCH = (
+    "diff --git a/gk_noop.py b/gk_noop.py\n"
+    "new file mode 100644\n"
+    "--- /dev/null\n"
+    "+++ b/gk_noop.py\n"
+    "@@ -0,0 +1 @@\n"
+    "+# no-op\n"
+)
+N_E1 = 20  # section 27: 0/20 gives a Wilson 95% upper bound of 0.161
+SEED = 27
+
+
+def e1_tasks() -> list[str]:
+    u = set()
+    for s in (41, 51, 61):
+        d = json.loads(Path(f"results/pilot/g1-e1all-s{s}.json").read_text())
+        for sk in ("null-guard", "type-guard", "exception-handling"):
+            u |= {p["instance_id"] for p in d["skills"][sk]["pairs"]}
+    return random.Random(SEED).sample(sorted(u), N_E1)
+
+
+def targets() -> list[str]:
+    t4 = json.loads(Path("results/pilot/t4-s41.json").read_text())["instances"]
+    return list(t4) + e1_tasks()
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--rows", nargs="+", type=Path, required=True)
+    ap.add_argument("--live-python", required=True)
+    a = ap.parse_args()
+    rows, src = {}, {}
+    for f in a.rows:
+        for line in f.read_text().splitlines():
+            if line.strip():
+                r = json.loads(line)
+                rows.setdefault(r["instance_id"], r)
+                src.setdefault(r["instance_id"], f)
+    out = json.loads(OUT.read_text()) if OUT.exists() else {}
+    work = Path("runs/noop-rescore")
+    work.mkdir(parents=True, exist_ok=True)
+    for iid in targets():
+        if iid in out:
+            continue
+        if iid not in rows:
+            out[iid] = {"error": "row not found"}
+            continue
+        row = rows[iid]
+        live = bool(row.get("image"))
+        failed = prepull([row])
+        if failed:
+            out[iid] = {"error": f"image pull failed: {failed}"}
+            OUT.write_text(json.dumps(out, indent=1) + "\n")
+            continue
+        preds = work / f"{iid}.json"
+        preds.write_text(
+            json.dumps(
+                {iid: {"model_name_or_path": "noop", "instance_id": iid, "model_patch": NOOP_PATCH}}
+            )
+        )
+        rid = f"noop-{iid}-{time.strftime('%Y%m%dT%H%M%S')}"
+        kw = {"namespace": "starryzhang", "python": a.live_python} if live else {}
+        try:
+            run_harness(str(preds), [iid], rid, 1, dataset=str(src[iid]), **kw)
+        except SystemExit as exc:
+            print(f"harness error {rid}: {exc}", flush=True)
+        out[iid] = {"dataset": src[iid].name, "run_id": rid, **failures(read_report(rid, "", iid))}
+        OUT.write_text(json.dumps(out, indent=1) + "\n")
+        print(f"[noop] {iid}: resolved={out[iid].get('resolved')}", flush=True)
+        subprocess.run(["docker", "rmi", "-f", image_name(row)], capture_output=True)
+    print("[noop] done", flush=True)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
