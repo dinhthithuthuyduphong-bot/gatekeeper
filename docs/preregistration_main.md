@@ -915,3 +915,33 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 - **Bài học cho ước tính:** ước tính 0,075 USD/ô (token của §22 × giá) thấp hơn thật 3–10 lần. Với Flash, agent dùng nhiều lời gọi hơn và token suy luận chiếm phần lớn token ra.
 - **Giai đoạn bỏ dở trước D-M11:** `viper` b1 nhánh không skill trên Flash, 0,480 USD (`runs/sskb-s23a/`); `go-fx-di` b1 nhánh không skill trên Flash-Lite, 0,030 USD (`runs/sskb-s23b/`). Không gộp vào giai đoạn nào.
 - **Tổng §23:** 4,059 (23a Pro) + 1,568 (23b Flash) + 0,510 (bỏ dở) = **6,136 USD**.
+
+## 26. Kiểm bộ chấm: test PASS_TO_PASS hỏng do môi trường (đăng ký 06/11/2026, trước khi tính lại tác dụng nào; 0 USD)
+
+**Đánh số:** §24 và §25 đã được dùng trên nhánh `trial`, nên mục này là §26 để không trùng.
+
+**Đã thấy trước khi đăng ký** (chỉ số đếm, không phải tác dụng):
+- Quét 1.911 báo cáo chấm điểm cục bộ (E1, pilot, T4): 76 lần chấm có mọi FAIL_TO_PASS qua nhưng không resolved, thuộc 26 instance.
+- 17 instance có ít nhất một test PASS_TO_PASS trượt ở mọi lần chấm.
+- T4 `conan-15705` (bản vá giống hệt bản gốc): FAIL_TO_PASS 1/1 qua; PASS_TO_PASS 5/3.650 trượt, cả 5 trong `list_test.py::TestListPrefs`.
+
+**Vì sao:** endpoint resolved đòi **mọi** PASS_TO_PASS qua. Một test hỏng do môi trường của mình (mạng, thời gian, file hệ thống) làm task không thể giải ở **cả hai nhánh**. Hệ quả:
+- tác dụng bị pha loãng;
+- reviewer có thể nói kết quả null là lỗi harness.
+
+**Ba endpoint (độ nhạy; phán quyết đã đăng ký giữ nguyên theo endpoint S):**
+1. **S (strict):** `resolved` của harness, như đã đăng ký.
+2. **F (chỉ FAIL_TO_PASS):** bản vá áp được, test đã chạy, và mọi FAIL_TO_PASS qua.
+3. **B (bỏ test hỏng):** như S, nhưng bỏ các test PASS_TO_PASS **trượt ở mọi lần chấm** của instance đó (mọi nhánh, mọi seed). Chỉ áp cho instance có ≥ 3 lần chấm. Test hỏng được xác định không phụ thuộc nhánh, nên quy tắc không ưu ái nhánh nào.
+
+**Đại lượng:** với E1 (từng skill), E2 (`xreposkill`) và T4 (`control-oracle-patch`): trung bình hiệu số resolved (có skill − không skill) trên các cặp cùng instance, cùng seed, theo S, F, B. CI 95% bootstrap theo task, 10.000 lần. Endpoint S phải khớp số đã báo; đây là phép kiểm cách đọc log.
+
+**Chấm lại bản vá gốc (gold patch):**
+- Áp cho các instance thuộc hợp của hai nhóm ở trên.
+- Chạy harness 3 lần mỗi instance, bằng CPU, không gọi LLM. Con số 3 là vận hành: đủ để tách lỗi xác định (3/3) khỏi lỗi chập chờn (1–2/3) với chi phí CPU nhỏ.
+- **Nhãn:** "môi trường hỏng" nếu gold trượt 3/3; "chập chờn" nếu 1–2/3; "ổn" nếu 0/3.
+- **Giới hạn:** 3 lần không phát hiện được chập chờn hiếm.
+
+**Diễn giải đặt trước:**
+- Nếu tác dụng theo F hoặc B khác S về chiều hoặc ý nghĩa thống kê thì báo cáo là threat lớn. Phán quyết cũ vẫn giữ (R5), kèm cảnh báo.
+- Nếu không khác thì kết luận null chắc chắn với lỗi bộ chấm.
