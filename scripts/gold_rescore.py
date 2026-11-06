@@ -54,6 +54,11 @@ def main() -> int:
     ap.add_argument("--live-python", required=True)
     # SWE-bench Verified is scored with swebench 5.0.2 in the agent env, as E1 was (A90 below)
     ap.add_argument("--verified-python", required=True)
+    # section 28 step 1: same gold scoring with network (proxy + CA); separate output file
+    ap.add_argument("--net", action="store_true")
+    ap.add_argument("--targets", type=Path, default=Path("results/harness_gold_targets.json"))
+    ap.add_argument("--out", type=Path, default=OUT)
+    ap.add_argument("--reps", type=int, default=REPS)
     a = ap.parse_args()
     rows, src = {}, {}
     for f in a.rows:
@@ -62,8 +67,8 @@ def main() -> int:
                 r = json.loads(line)
                 rows.setdefault(r["instance_id"], r)
                 src.setdefault(r["instance_id"], f)
-    targets = json.loads(Path("results/harness_gold_targets.json").read_text())
-    out = json.loads(OUT.read_text()) if OUT.exists() else {}
+    targets = json.loads(a.targets.read_text())
+    out = json.loads(a.out.read_text()) if a.out.exists() else {}
     work = Path("runs/gold-rescore")
     work.mkdir(parents=True, exist_ok=True)
     for iid in targets:
@@ -77,7 +82,7 @@ def main() -> int:
         failed = prepull([row])
         if failed:
             out[iid] = {"error": f"image pull failed: {failed}"}
-            OUT.write_text(json.dumps(out, indent=1) + "\n")
+            a.out.write_text(json.dumps(out, indent=1) + "\n")
             continue
         preds = work / f"{iid}.json"
         preds.write_text(
@@ -92,20 +97,20 @@ def main() -> int:
             )
         )
         runs = []
-        for k in range(REPS):
-            rid = f"gold-{iid}-{time.strftime('%Y%m%dT%H%M%S')}-r{k}"
+        for k in range(a.reps):
+            rid = f"gold{'net' if a.net else ''}-{iid}-{time.strftime('%Y%m%dT%H%M%S')}-r{k}"
             kw = (
                 {"namespace": "starryzhang", "python": a.live_python}
                 if live
                 else {"python": a.verified_python}
             )
             try:
-                run_harness(str(preds), [iid], rid, 1, dataset=str(src[iid]), **kw)
+                run_harness(str(preds), [iid], rid, 1, dataset=str(src[iid]), net=a.net, **kw)
             except SystemExit as exc:
                 print(f"harness error {rid}: {exc}", flush=True)
             runs.append({"run_id": rid, **failures(read_report(rid, "gold", iid))})
         out[iid] = {"dataset": src[iid].name, "runs": runs, "label": label(runs)}
-        OUT.write_text(json.dumps(out, indent=1) + "\n")
+        a.out.write_text(json.dumps(out, indent=1) + "\n")
         print(f"[gold] {iid}: {out[iid]['label']}", flush=True)
         subprocess.run(["docker", "rmi", "-f", image_name(row)], capture_output=True)
     print("[gold] done", flush=True)

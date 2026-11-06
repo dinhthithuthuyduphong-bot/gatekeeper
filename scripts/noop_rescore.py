@@ -59,6 +59,10 @@ def main() -> int:
     ap.add_argument("--live-python", required=True)
     # SWE-bench Verified is scored with swebench 5.0.2 in the agent env, as E1 was (A90 below)
     ap.add_argument("--verified-python", required=True)
+    # section 28 step 1 negative control: first N tasks, with network, separate output
+    ap.add_argument("--net", action="store_true")
+    ap.add_argument("--first", type=int, default=0)
+    ap.add_argument("--out", type=Path, default=OUT)
     a = ap.parse_args()
     rows, src = {}, {}
     for f in a.rows:
@@ -67,10 +71,10 @@ def main() -> int:
                 r = json.loads(line)
                 rows.setdefault(r["instance_id"], r)
                 src.setdefault(r["instance_id"], f)
-    out = json.loads(OUT.read_text()) if OUT.exists() else {}
+    out = json.loads(a.out.read_text()) if a.out.exists() else {}
     work = Path("runs/noop-rescore")
     work.mkdir(parents=True, exist_ok=True)
-    for iid in targets():
+    for iid in targets()[: a.first or None]:
         if iid in out:
             continue
         if iid not in rows:
@@ -81,7 +85,7 @@ def main() -> int:
         failed = prepull([row])
         if failed:
             out[iid] = {"error": f"image pull failed: {failed}"}
-            OUT.write_text(json.dumps(out, indent=1) + "\n")
+            a.out.write_text(json.dumps(out, indent=1) + "\n")
             continue
         preds = work / f"{iid}.json"
         preds.write_text(
@@ -89,18 +93,18 @@ def main() -> int:
                 {iid: {"model_name_or_path": "noop", "instance_id": iid, "model_patch": NOOP_PATCH}}
             )
         )
-        rid = f"noop-{iid}-{time.strftime('%Y%m%dT%H%M%S')}"
+        rid = f"noop{'net' if a.net else ''}-{iid}-{time.strftime('%Y%m%dT%H%M%S')}"
         kw = (
             {"namespace": "starryzhang", "python": a.live_python}
             if live
             else {"python": a.verified_python}
         )
         try:
-            run_harness(str(preds), [iid], rid, 1, dataset=str(src[iid]), **kw)
+            run_harness(str(preds), [iid], rid, 1, dataset=str(src[iid]), net=a.net, **kw)
         except SystemExit as exc:
             print(f"harness error {rid}: {exc}", flush=True)
         out[iid] = {"dataset": src[iid].name, "run_id": rid, **failures(read_report(rid, "", iid))}
-        OUT.write_text(json.dumps(out, indent=1) + "\n")
+        a.out.write_text(json.dumps(out, indent=1) + "\n")
         print(f"[noop] {iid}: resolved={out[iid].get('resolved')}", flush=True)
         subprocess.run(["docker", "rmi", "-f", image_name(row)], capture_output=True)
     print("[noop] done", flush=True)
