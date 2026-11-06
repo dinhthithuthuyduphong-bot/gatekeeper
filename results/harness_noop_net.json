@@ -21,5 +21,21 @@
    "tests/test_stl.py::STLTests::test_ascii_multibody"
   ],
   "p2p_fail": []
+ },
+ "conan-io__conan-15705": {
+  "dataset": "rows.jsonl",
+  "run_id": "noopnet-conan-io__conan-15705-20261106T073417",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "conans/test/integration/toolchains/cmake/test_cmaketoolchain.py::test_build_folder_vars_self_name_version"
+  ],
+  "p2p_fail": [
+   "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_all_prevs[True]",
+   "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_latest_prevs[1.0.0-True]",
+   "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_latest_prevs[[>=1.0.0",
+   "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids[True]",
+   "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids_all_rrevs[True]"
+  ]
  }
 }
