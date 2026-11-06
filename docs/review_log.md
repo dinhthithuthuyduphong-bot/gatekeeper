@@ -559,3 +559,12 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - file kết quả chỉ có hình dạng đã trừu tượng hóa, không chứa mã của bên thứ ba;
   - không ghi đè kết quả khác (file mới `data/survey/edit_shapes.json`).
 - **Chạy thử miễn phí:** 496 task thật (Live), cả hai quy tắc chạy hết, kết quả ở §24.
+
+## R-46. Census SWE-smith và phân tích nguyên nhân gốc (2026-11-06; 0 USD)
+
+- **Mã:** `scripts/census_swesmith.py` chỉ đọc metadata đã commit (`data/benchmarks/summary.json`, các CSV); không đọc kết quả của lần chạy agent nào.
+- **Kiểm §4:**
+  - các ngưỡng 11 / 22 / 31 là n_min đã suy ra ở §24; 100 và 300 chỉ để mô tả;
+  - tên repo SWE-smith được đổi theo mẫu `swesmith/owner__name.hash` → `owner/name`. Đã kiểm thủ công trên 5 tên: pandas, conan, jinja, click, MONAI;
+  - không ghi đè file khác.
+- **Đối chiếu nguồn (R1):** câu của gskill trích từ snapshot `gskill`; README của gskill đọc ở commit `8c7b697` (bản clone chỉ đọc, MIT).

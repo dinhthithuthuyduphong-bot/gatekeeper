@@ -385,3 +385,17 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   1. Trước mỗi pilot, lập bảng so định nghĩa của paper gốc (skill, trial, loss, I(x)) với cái sẽ chạy, kèm câu trích từ bản gốc. Chỗ nào lệch phải ghi lý do và phạm vi kết luận.
   2. Một quy tắc chọn phương án không được loại một phương án mà kế hoạch gốc bắt buộc, khi chưa báo @thuthuy.
   3. Mục kiểm tra mới trong `docs/research_rules.md` §4.
+
+## L45. Đo trên quần thể mà ước lượng được định nghĩa trên đó; xét mọi đường dự phòng của kế hoạch gốc trước khi kết luận "không khả thi" (A87)
+
+- **Xảy ra:**
+  - STR của paper gốc định nghĩa trên P_s (task trong scope của skill), nhưng mọi thí nghiệm đo trên issue tự nhiên, nơi skill hầu như không liên quan.
+  - Hiệu ứng bị pha loãng, nên mọi kết quả null và mọi phép tính khả thi đều được tính trên một quần thể sai.
+- **Vì sao lọt qua:**
+  1. Ràng buộc R13 ("chỉ benchmark chuẩn") được hiểu là "chỉ SWE-bench và các bản liên quan", dù bảng 6.1 có SWE-smith.
+  2. I(x) bằng regex được coi là đã định nghĩa P_s, dù precision chỉ ≤ 0,34.
+  3. Quy tắc chọn phương án chỉ tính n_có trên SWE-bench.
+- **Phòng ngừa:**
+  1. Mục kiểm tra mới ở `docs/research_rules.md` §4.
+  2. Mỗi phép tính khả thi ghi rõ quần thể và tỉ lệ task liên quan đã đo.
+  3. Trước khi kết luận "không khả thi", liệt kê các đường dự phòng của to-do gốc và lý do loại từng đường.
