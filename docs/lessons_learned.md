@@ -379,3 +379,11 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Xảy ra:** script phân tích lại có một giả định sai về giá trị loss của cặp không có báo cáo. Chỉ phép kiểm "endpoint cũ phải ra đúng số cũ" mới bắt được lỗi này.
 - **Phòng ngừa:** mỗi phân tích lại có một bước tái lập bắt buộc: số cũ, cỡ mẫu cũ, số cặp nối được. Chỉ đọc số mới khi bước này khớp tuyệt đối.
 
+## L48. Script gọi harness phải nhận interpreter của từng benchmark làm tham số bắt buộc, và "không có báo cáo" không bao giờ được gộp vào một kết luận (A91)
+
+- **Xảy ra:** script chấm lại dùng interpreter mặc định, mà môi trường đó không có `swebench`. Hàm gán nhãn lại coi "không chấm được" là "hỏng".
+- **Phòng ngừa:**
+  1. Interpreter của harness là tham số bắt buộc, theo từng benchmark.
+  2. Nhãn kết luận chỉ được gán khi mọi lần chấm có báo cáo; còn lại ghi `no_report`.
+  3. Chạy thử script trên **mỗi loại** dataset trước khi chạy hàng loạt.
+

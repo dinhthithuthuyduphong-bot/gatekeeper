@@ -18,3 +18,11 @@ def test_targets_are_fixed_and_sized():
     t = nr.targets()
     assert len(t) == 40 and len(set(t)) == 40
     assert t == nr.targets()  # deterministic
+
+
+def test_gold_label_no_report_is_not_broken():
+    import gold_rescore as g
+
+    assert g.label([{"report": False}, {"report": True, "resolved": False}]) == "no_report"
+    assert g.label([{"report": True, "resolved": False}] * 3) == "broken"
+    assert g.label([{"report": True, "resolved": True}] * 2 + [{"report": True}]) == "flaky"

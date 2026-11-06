@@ -57,6 +57,8 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--rows", nargs="+", type=Path, required=True)
     ap.add_argument("--live-python", required=True)
+    # SWE-bench Verified is scored with swebench 5.0.2 in the agent env, as E1 was (A90 below)
+    ap.add_argument("--verified-python", required=True)
     a = ap.parse_args()
     rows, src = {}, {}
     for f in a.rows:
@@ -88,7 +90,11 @@ def main() -> int:
             )
         )
         rid = f"noop-{iid}-{time.strftime('%Y%m%dT%H%M%S')}"
-        kw = {"namespace": "starryzhang", "python": a.live_python} if live else {}
+        kw = (
+            {"namespace": "starryzhang", "python": a.live_python}
+            if live
+            else {"python": a.verified_python}
+        )
         try:
             run_harness(str(preds), [iid], rid, 1, dataset=str(src[iid]), **kw)
         except SystemExit as exc:

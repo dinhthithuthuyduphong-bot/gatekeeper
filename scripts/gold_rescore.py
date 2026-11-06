@@ -42,6 +42,8 @@ def failures(rep: dict | None) -> dict:
 
 
 def label(runs: list[dict]) -> str:
+    if not all(r.get("report") for r in runs):  # harness did not score: not evidence of breakage
+        return "no_report"
     k = sum(1 for r in runs if r.get("resolved"))
     return "ok" if k == len(runs) else ("broken" if k == 0 else "flaky")
 
@@ -50,6 +52,8 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--rows", nargs="+", type=Path, required=True)
     ap.add_argument("--live-python", required=True)
+    # SWE-bench Verified is scored with swebench 5.0.2 in the agent env, as E1 was (A90 below)
+    ap.add_argument("--verified-python", required=True)
     a = ap.parse_args()
     rows, src = {}, {}
     for f in a.rows:
@@ -90,7 +94,11 @@ def main() -> int:
         runs = []
         for k in range(REPS):
             rid = f"gold-{iid}-{time.strftime('%Y%m%dT%H%M%S')}-r{k}"
-            kw = {"namespace": "starryzhang", "python": a.live_python} if live else {}
+            kw = (
+                {"namespace": "starryzhang", "python": a.live_python}
+                if live
+                else {"python": a.verified_python}
+            )
             try:
                 run_harness(str(preds), [iid], rid, 1, dataset=str(src[iid]), **kw)
             except SystemExit as exc:
