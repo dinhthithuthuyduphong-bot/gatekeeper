@@ -1270,3 +1270,35 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - Trên 66 task có mô tả, mức tăng gần như giữ nguyên (+24 → +21) khi bỏ chỗ lộ.
 
 **Sửa một nhận định thăm dò của bước 2 (A96):** câu "ít nhất 29/53 bản vá resolved là bản hoàn tác commit bị lộ, nên là cận dưới của việc dùng chỗ lộ" là **sai**. Trong môi trường không lộ, 18/35 bản vá resolved của nhánh có skill (và 7/14 của nhánh không skill) vẫn là bản hoàn tác đúng từng dòng, vì lỗi SWE-smith là thay đổi nhỏ và sửa đúng thì trùng với hoàn tác. Chỉ số này vì vậy không đo được việc dùng chỗ lộ. Con số đúng là Δ_leak đo bằng thí nghiệm ở trên.
+
+### §25 bước 4: lặp lại toàn bộ chuỗi cho repo thứ hai, Bleve (Go) (@thuthuy 06/11/2026: "Chọn cả bleve và Memgovern, ngân sách mới là 40 đô"; đăng ký trước khi chạy)
+
+**Lý do:** vá điểm yếu "gskill mới làm trên một repo". Bleve là repo thứ hai trong blog của gskill, với mức tăng lớn nhất được báo (24% → 93%). F0 trên Bleve đã có: L(no-op) = 30/30, S(no-op) = 0/30.
+
+**Thiết kế:** giống hệt jinja (§25 F1, bước 2, bước 3); chỉ đổi repo:
+- `--repo blevesearch__bleve`; cách chia của gskill (seed 42, 200/50/100), dữ liệu `swesmith_blevesearch__bleve.jsonl.gz`;
+- image `swebench/swesmith.x86_64.blevesearch_1776_bleve.f2876b5e`, kèm mirror các nhánh task.
+- 42/100 task test có problem statement rỗng (jinja: 34/100).
+- Các file kết quả có tiền tố `s25bleve_`, nên không ghi đè kết quả jinja.
+
+**Các bước và trần** (mỗi bước chạy với `--cap`; cộng dồn cả track Bleve ≤ 25,5 USD; dự kiến khoảng 20 USD theo số đo của jinja):
+
+| Bước | Nội dung | Trần |
+| --- | --- | --- |
+| 4a | Nhánh không skill, môi trường có lộ (như F1) | 2,0 |
+| 4b | Học skill (mã gskill, hai nửa, dừng sớm nếu `num_candidates == 1`) | 16,0 cộng dồn |
+| 4c | Chấm skill, môi trường có lộ | 3,2 |
+| 4d | Môi trường không lộ: none / skill | 1,9 / 2,4 |
+
+**Quy tắc:** như jinja.
+- Bước 4c: A/B/C, theo kiểm định dấu chính xác một phía và Holm, họ α = 0,025.
+- Bước 4d: LF1/LF2.
+- Ngoài ra: Δ_leak có bootstrap, Gatekeeper với θ = 0, α = 0,025, K = 1, và phân tích phụ theo problem statement.
+- **Không gộp** với jinja trong kiểm định; báo cáo theo từng repo.
+
+**Ngân sách 40 USD:** Bleve chạy trước. MemGovern dùng phần còn lại = 40 − (chi thật của Bleve). Nếu phần còn lại không đủ cho thiết kế MemGovern đã ước, thì báo @thuthuy trước khi chạy MemGovern.
+
+**Chạy thử miễn phí trên Bleve** (06/11):
+- `setup_task` → môi trường không lộ (`commits=1 refs=1 remotes=0`) → agent giả lập → `no_patch`, chi phí được ghi.
+- Bản gold tạo trong môi trường không lộ: S resolved, L qua.
+- Phần đặt biến theo repo của workflow được chạy thử cho cả jinja và bleve.

@@ -54,6 +54,12 @@ on:
         default: "1"
         type: choice
         options: ["1", "2"]
+      repo:
+        description: "swesmith plans: jinja (section 25) or bleve (section 25 step 4); bleve outputs use the s25bleve_ prefix"
+        required: true
+        default: "jinja"
+        type: choice
+        options: ["jinja", "bleve"]
       arm:
         description: "swesmith-leakfree only: none = no skill, skill = learned gskill skill"
         required: true
@@ -145,8 +151,22 @@ jobs:
       VERTEXAI_LOCATION: ${{ secrets.VERTEXAI_LOCATION }}
       HAS_KEY: ${{ secrets.GCP_SA_KEY != '' }}
       GEPA_COMMIT: 8c7b697a71977980afc7537dac0881e784eef99f
-      IMG: swebench/swesmith.x86_64.pallets_1776_jinja.ada0a9a6
     steps:
+      - name: Repository settings (jinja = section 25; bleve = section 25 step 4)
+        run: |
+          if [ "${{ inputs.repo }}" = "bleve" ]; then
+            KEY=blevesearch__bleve.f2876b5e; REPO=blevesearch__bleve; ROWS=swesmith_blevesearch__bleve.jsonl.gz; TAG=s25bleve
+            F1OUT=s25bleve_f1_probe.json; EVALOUT=s25bleve_skill_probe.json; SKILLREF=docs/skills/gskill/bleve_best_skills.txt
+          else
+            KEY=pallets__jinja.ada0a9a6; REPO=pallets__jinja; ROWS=swesmith_pallets__jinja.jsonl; TAG=s25
+            F1OUT=f1_probe.json; EVALOUT=f1_skill_probe.json; SKILLREF=docs/skills/gskill/jinja_best_skills.txt
+          fi
+          OWNER=${REPO%%__*}; NAME=${REPO#*__}; HASH=${KEY##*.}
+          IMG=$(echo "swebench/swesmith.x86_64.${OWNER}_1776_${NAME}.${HASH}" | tr 'A-Z' 'a-z')
+          EXT=jsonl; case "$ROWS" in *.gz) EXT=jsonl.gz;; esac
+          { echo "KEY=$KEY"; echo "REPO=$REPO"; echo "ROWS=$ROWS"; echo "TAG=$TAG"; echo "F1OUT=$F1OUT"; echo "EVALOUT=$EVALOUT"
+            echo "SKILLREF=$SKILLREF"; echo "IMG=$IMG"; echo "ROWSLOCAL=/tmp/rows.$EXT"; } >> "$GITHUB_ENV"
+          echo "repo=$REPO key=$KEY img=$IMG tag=$TAG"
       - name: Free disk space for Docker images
         run: |
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
@@ -182,10 +202,10 @@ jobs:
       - name: Task rows (gskill split) and image with the instance branches
         run: |
           git fetch -q origin data-snapshots
-          git show origin/data-snapshots:data/instances/swesmith_pallets__jinja.jsonl > /tmp/rows.jsonl
-          wc -l /tmp/rows.jsonl
+          git show "origin/data-snapshots:data/instances/$ROWS" > "$ROWSLOCAL"
+          ls -la "$ROWSLOCAL"
           docker pull -q "mirror.gcr.io/$IMG"
-          git clone -q --mirror https://github.com/swesmith/pallets__jinja.ada0a9a6 /tmp/img/mirror.git
+          git clone -q --mirror "https://github.com/swesmith/$KEY" /tmp/img/mirror.git
           printf 'FROM mirror.gcr.io/%s\nCOPY mirror.git /opt/mirror.git\nRUN chmod -R a+rX /opt/mirror.git && cd /testbed && git remote set-url origin /opt/mirror.git && git fetch -q origin\n' "$IMG" > /tmp/img/Dockerfile
           docker build -q -t "$IMG:latest" /tmp/img
       - name: Run F1 (no-skill arm, capped)
@@ -194,18 +214,18 @@ jobs:
           mkdir -p /tmp/work results
           cd /tmp/work
           PYTHONPATH=/tmp/gepa/src/gepa/gskill:$GITHUB_WORKSPACE/scripts /tmp/venv/bin/python \
-            $GITHUB_WORKSPACE/scripts/f1_probe.py --rows /tmp/rows.jsonl --split test \
+            $GITHUB_WORKSPACE/scripts/f1_probe.py --rows "$ROWSLOCAL" --split test \
             --model vertex_ai/gemini-3.1-flash-lite --seed 41 --cost-limit 0.30 --cap "${{ inputs.budget_usd }}" \
             --registry $GITHUB_WORKSPACE/tests/fixtures/e1_litellm_registry.json \
             --gskill-yaml /tmp/gepa/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml \
-            --out $GITHUB_WORKSPACE/results/f1_probe.json
+            --out "$GITHUB_WORKSPACE/results/$F1OUT"
       - name: Run reflection cost probe (note 25-3, capped)
         if: inputs.plan == 'swesmith-refl'
         run: |
           mkdir -p /tmp/work results
           cd /tmp/work
           PYTHONPATH=/tmp/gepa/src/gepa/gskill:$GITHUB_WORKSPACE/scripts /tmp/venv/bin/python \
-            $GITHUB_WORKSPACE/scripts/reflection_cost_probe.py --rows /tmp/rows.jsonl --n 3 \
+            $GITHUB_WORKSPACE/scripts/reflection_cost_probe.py --rows "$ROWSLOCAL" --n 3 \
             --model vertex_ai/gemini-3.1-flash-lite --reflection-model vertex_ai/gemini-3.1-pro-preview \
             --seed 41 --cost-limit 0.30 --cap "${{ inputs.budget_usd }}" --registry /tmp/registry.json \
             --gskill-yaml /tmp/gepa/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml \
@@ -218,39 +238,40 @@ jobs:
           if [ "${{ inputs.half }}" = "1" ]; then
             BEFORE=0; CALLS=300; EXTRA=""
           else
-            git -C $GITHUB_WORKSPACE show origin/pilot-snapshots:results/s25_learn_run.tar.gz > /tmp/run.tgz
+            git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/${TAG}_learn_run.tar.gz" > /tmp/run.tgz
             tar -xzf /tmp/run.tgz -C /tmp/work
-            BEFORE=$(python -c "import json; print(json.load(open('/dev/stdin'))['spent_total'])" < <(git -C $GITHUB_WORKSPACE show origin/pilot-snapshots:results/s25_learn_ledger_h1.json))
-            RUN=$(ls -d gepa_results/logs/run_jinja_* | head -1)
+            BEFORE=$(python -c "import json; print(json.load(open('/dev/stdin'))['spent_total'])" < <(git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/${TAG}_learn_ledger_h1.json"))
+            RUN=$(ls -d gepa_results/logs/run_*/ | sort | tail -1); RUN=${RUN%/}
             CALLS=600; EXTRA="--resume $RUN"
           fi
           echo "spent before: $BEFORE; max metric calls: $CALLS"
           rc=0
           PYTHONPATH=/tmp/gepa/src/gepa/gskill /tmp/venv/bin/python $GITHUB_WORKSPACE/scripts/gskill_learn.py \
             --cap "${{ inputs.budget_usd }}" --spent-before "$BEFORE" \
-            --ledger $GITHUB_WORKSPACE/results/s25_learn_ledger_h${{ inputs.half }}.json --registry /tmp/registry.json -- \
-            --repo pallets__jinja --train-size 200 --val-size 50 --test-size 100 \
+            --ledger "$GITHUB_WORKSPACE/results/${TAG}_learn_ledger_h${{ inputs.half }}.json" --registry /tmp/registry.json -- \
+            --repo "$REPO" --train-size 200 --val-size 50 --test-size 100 \
             --model vertex_ai/gemini-3.1-flash-lite --reflection-model vertex_ai/gemini-3.1-pro-preview \
             --workers 6 --max-metric-calls $CALLS --timeout 18000 $EXTRA || rc=$?
           echo "exit $rc"
-          RUN=$(ls -d gepa_results/logs/run_jinja_* | sort | tail -1)  # newest: --resume writes a new run dir (A95)
-          tar -czf $GITHUB_WORKSPACE/results/s25_learn_run.tar.gz gepa_results/logs/$(basename $RUN)
-          cp $RUN/prompts/best_skills.txt $GITHUB_WORKSPACE/results/s25_best_skills.txt || true
-          cp $RUN/summary.json $GITHUB_WORKSPACE/results/s25_learn_summary_h${{ inputs.half }}.json || true
-          ls -la $GITHUB_WORKSPACE/results/s25_*
+          RUN=$(ls -td gepa_results/logs/run_*/ | head -1); RUN=${RUN%/}  # newest: --resume writes a new run dir (A95)
+          echo "newest run dir: $RUN"
+          tar -czf "$GITHUB_WORKSPACE/results/${TAG}_learn_run.tar.gz" "gepa_results/logs/$(basename $RUN)"
+          cp $RUN/prompts/best_skills.txt "$GITHUB_WORKSPACE/results/${TAG}_best_skills.txt" || true
+          cp $RUN/summary.json "$GITHUB_WORKSPACE/results/${TAG}_learn_summary_h${{ inputs.half }}.json" || true
+          ls -la $GITHUB_WORKSPACE/results/${TAG}_*
       - name: Evaluate the learned skill (section 25 step 2, capped)
         if: inputs.plan == 'swesmith-eval'
         run: |
           mkdir -p /tmp/work results && cd /tmp/work
           git -C $GITHUB_WORKSPACE fetch -q origin pilot-snapshots
-          git -C $GITHUB_WORKSPACE show origin/pilot-snapshots:results/s25_best_skills.txt > /tmp/skills.txt
+          git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/${TAG}_best_skills.txt" > /tmp/skills.txt
           wc -c /tmp/skills.txt
           PYTHONPATH=/tmp/gepa/src/gepa/gskill:$GITHUB_WORKSPACE/scripts /tmp/venv/bin/python \
-            $GITHUB_WORKSPACE/scripts/f1_probe.py --rows /tmp/rows.jsonl --split test --skills-file /tmp/skills.txt \
+            $GITHUB_WORKSPACE/scripts/f1_probe.py --rows "$ROWSLOCAL" --split test --skills-file /tmp/skills.txt \
             --model vertex_ai/gemini-3.1-flash-lite --seed 41 --cost-limit 0.30 --cap "${{ inputs.budget_usd }}" \
             --registry $GITHUB_WORKSPACE/tests/fixtures/e1_litellm_registry.json \
             --gskill-yaml /tmp/gepa/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml \
-            --out $GITHUB_WORKSPACE/results/f1_skill_probe.json
+            --out "$GITHUB_WORKSPACE/results/$EVALOUT"
       - name: Leak-free arm (section 25 step 3, capped)
         if: inputs.plan == 'swesmith-leakfree'
         run: |
@@ -258,34 +279,33 @@ jobs:
           SK=""
           if [ "${{ inputs.arm }}" = "skill" ]; then
             git -C $GITHUB_WORKSPACE fetch -q origin pilot-snapshots
-            git -C $GITHUB_WORKSPACE show origin/pilot-snapshots:results/s25_best_skills.txt > /tmp/skills.txt
-            cmp /tmp/skills.txt $GITHUB_WORKSPACE/docs/skills/gskill/jinja_best_skills.txt
+            git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/${TAG}_best_skills.txt" > /tmp/skills.txt
+            cmp /tmp/skills.txt "$GITHUB_WORKSPACE/$SKILLREF"
             SK="--skills-file /tmp/skills.txt"
           fi
           PYTHONPATH=/tmp/gepa/src/gepa/gskill:$GITHUB_WORKSPACE/scripts /tmp/venv/bin/python \
-            $GITHUB_WORKSPACE/scripts/f1_probe.py --rows /tmp/rows.jsonl --split test --leak-free $SK \
+            $GITHUB_WORKSPACE/scripts/f1_probe.py --rows "$ROWSLOCAL" --split test --leak-free $SK \
             --model vertex_ai/gemini-3.1-flash-lite --seed 41 --cost-limit 0.30 --cap "${{ inputs.budget_usd }}" \
             --registry $GITHUB_WORKSPACE/tests/fixtures/e1_litellm_registry.json \
             --gskill-yaml /tmp/gepa/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml \
-            --out $GITHUB_WORKSPACE/results/s25_leakfree_${{ inputs.arm }}.json
+            --out "$GITHUB_WORKSPACE/results/${TAG}_leakfree_${{ inputs.arm }}.json"
       - uses: actions/upload-artifact@v6
         if: always()
         with:
-          name: swesmith-${{ inputs.plan }}-${{ inputs.half }}-${{ inputs.arm }}
+          name: swesmith-${{ inputs.plan }}-${{ inputs.half }}-${{ inputs.arm }}-${{ inputs.repo }}
           path: |
             results/f1_probe.json
             results/reflection_cost_probe.json
             /tmp/work/logs/
             /tmp/work/refl/
             /tmp/work/gepa_results/
-            results/s25_*
-            results/s25_leakfree_*
+            results/s25*
           if-no-files-found: warn
       - name: Publish to pilot-snapshots branch
         if: always()
         run: |
           # only files that exist: git add of a missing path fails the publish
-          files=$(ls results/f1_probe.json results/reflection_cost_probe.json results/s25_learn_run.tar.gz results/s25_best_skills.txt results/s25_learn_ledger_h1.json results/s25_learn_ledger_h2.json results/s25_learn_summary_h1.json results/s25_learn_summary_h2.json results/f1_skill_probe.json results/s25_leakfree_none.json results/s25_leakfree_skill.json 2>/dev/null || true)
+          files=$(ls results/f1_probe.json results/f1_skill_probe.json results/reflection_cost_probe.json results/s25_* results/s25bleve_* 2>/dev/null || true)
           echo "publishing: $files"
           scripts/publish_snapshot.sh pilot-snapshots "Section 25 ${{ inputs.plan }} ${{ inputs.half }} run ${GITHUB_RUN_ID}" $files
 
@@ -297,9 +317,13 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
+      - name: Tag
+        run: |
+          if [ "${{ inputs.repo }}" = "bleve" ]; then echo "TAG=s25bleve" >> "$GITHUB_ENV"; else echo "TAG=s25" >> "$GITHUB_ENV"; fi
       - uses: actions/download-artifact@v5
         with:
-          name: swesmith-swesmith-learn-${{ inputs.half }}
+          # the jinja learning runs were uploaded before the -<arm>-<repo> suffix existed
+          name: ${{ inputs.repo == 'bleve' && format('swesmith-swesmith-learn-{0}-none-bleve', inputs.half) || format('swesmith-swesmith-learn-{0}', inputs.half) }}
           run-id: ${{ inputs.name }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: /tmp/art
@@ -308,13 +332,13 @@ jobs:
           find /tmp/art -maxdepth 4 -name 's25_*' | head -20
           mkdir -p results
           src=$(find /tmp/art -type d -name results | head -1)
-          cp "$src"/s25_learn_ledger_h* results/
-          RUN=$(find /tmp/art -type d -path '*gepa_results/logs/run_jinja_*' -prune | sort | tail -1)  # newest (A95)
+          cp "$src"/${TAG}_learn_ledger_h* results/
+          RUN=$(find /tmp/art -type d -path '*gepa_results/logs/run_*' -prune | sort | tail -1)  # newest (A95)
           echo "newest run dir: $RUN"
-          cp "$RUN/summary.json" "results/s25_learn_summary_h${{ inputs.half }}.json"
-          cp "$RUN/prompts/best_skills.txt" results/s25_best_skills.txt
-          (cd "$(dirname "$(dirname "$(dirname "$RUN")")")" && tar -czf "$GITHUB_WORKSPACE/results/s25_learn_run.tar.gz" "gepa_results/logs/$(basename "$RUN")")
-          python -c "import json; print(json.load(open('results/s25_learn_summary_h${{ inputs.half }}.json'))['extra_info'])"
-          ls -la results/s25_*
-          files=$(ls results/s25_learn_run.tar.gz results/s25_best_skills.txt results/s25_learn_ledger_h1.json results/s25_learn_ledger_h2.json results/s25_learn_summary_h1.json results/s25_learn_summary_h2.json 2>/dev/null || true)
+          cp "$RUN/summary.json" "results/${TAG}_learn_summary_h${{ inputs.half }}.json"
+          cp "$RUN/prompts/best_skills.txt" "results/${TAG}_best_skills.txt"
+          (cd "$(dirname "$(dirname "$(dirname "$RUN")")")" && tar -czf "$GITHUB_WORKSPACE/results/${TAG}_learn_run.tar.gz" "gepa_results/logs/$(basename "$RUN")")
+          python -c "import json; print(json.load(open('results/${TAG}_learn_summary_h${{ inputs.half }}.json'))['extra_info'])"
+          ls -la results/${TAG}_*
+          files=$(ls results/${TAG}_learn_* results/${TAG}_best_skills.txt 2>/dev/null || true)
           scripts/publish_snapshot.sh pilot-snapshots "Section 25 republish of run ${{ inputs.name }} (half ${{ inputs.half }})" $files
