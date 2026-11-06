@@ -52,7 +52,7 @@ Repo đã kiểm cả hai loại π:
 | A | `guidance-reproduce-first`, `repo-test-guide` | Hướng dẫn 259–317 ký tự | Mình viết (ví dụ; skill "cách chạy test" của §17) | Như trên | `docs/skills/own/` |
 | **B** bên thứ ba | `viper-configuration`, `asyncio-patterns` (§22, §23a); `go-fx-di`, `pandas-dataframe-patterns`, `langsmith-fetch`, `scipy-scientific-computing`, `sympy-symbolic-math` (§23b) | `SKILL.md` dài 4,4–42,7 nghìn ký tự | Tác giả khác, nằm trong bộ 98 skill của SWE-Skills-Bench (`ControllableModel/SWE-Skills-Bench@4d3450d`) | Nội dung `SKILL.md` đặt trước yêu cầu trong prompt (`scripts/sskb_adapter.py`). Họ dùng lệnh `/skill-id` của Claude Code; đây là khác biệt có chủ đích, đã đăng ký ở §22 | `docs/skills/swe_skills_bench/` (4 skill có license MIT). 3 skill còn lại không có license rõ: chỉ có link |
 | **C** hệ tự sinh | XRepoSkill (E2) | 3 rule mỗi issue, chọn từ 36 "general strategies" | **Hệ XRepoSkill tự học** từ trajectory; **bước chọn rule là của họ**, chạy nguyên mã (`26fd703…`) | Khung `SKILL_FRAME` của họ, đặt trước đề bài | **Không chép** (repo không có LICENSE). Mã rule được chọn: `results/e2_selection.json` |
-| C | gskill (§25, đang học) | `best_skills.txt` do GEPA tự viết | **Học tự động** từ kết quả chạy agent trên task SWE-smith của jinja (mã gskill nguyên bản) | `{{ skills }}` trong system prompt của gskill | Sẽ thêm vào `docs/skills/gskill/` khi học xong (đầu ra của chính mình) |
+| C | gskill (§25) | `best_skills.txt` do GEPA tự viết, 2.675 ký tự | **Học tự động** từ kết quả chạy agent trên task SWE-smith của jinja (mã gskill nguyên bản) | `{{ skills }}` trong system prompt của gskill | `docs/skills/gskill/jinja_best_skills.txt` |
 | **D** đối chứng | `control-oracle-tests`, `control-oracle-patch`, `control-oracle-files` (dương); `harm-swallow-exceptions`, `harm-minimal-edit`, `harm-skip-verification` (âm, dựng có chủ đích) | Hướng dẫn hoặc mẫu chèn đáp án | Mình dựng; đáp án biết trước theo cách dựng | Như nhóm A | `docs/skills/own/` |
 
 **Thống kê bước chọn của XRepoSkill ở E2:**
@@ -84,7 +84,7 @@ The issue may involve a value that can be None (or missing). Before changing log
 | **control-oracle-tests** (dương) | G1 B3, so với lần chạy lặp không skill | 38 task | +12,5, CI **90%** [+3,1; +22,2] | CI không chứa 0 (quy tắc v2) | `results/g1_decision_b3.json` |
 | **control-oracle-patch** (dương) | T4 | 20 task | **+55** [+35; +75] | Gatekeeper admit ở trial 20 | `results/t4_decision.json` |
 | repo-test-guide | §17 | 4 task (dừng, D-M7) | 0 (4 cặp hòa) | Không kết luận | `docs/preregistration_main.md` §17 |
-| gskill (jinja) | §25 | 100 task | **đang chạy** | Kiểm định dấu, Holm | — |
+| **gskill (jinja)**, skill do máy học | §25, trên task SWE-smith của jinja (đúng scope) | 100 task | **+38** [+26; +50] (resolved 15 → 53); theo bộ chấm của gskill +42 | p = 1,6·10⁻⁸; Holm bác bỏ; **Gatekeeper admit ở trial 29**. Thăm dò: 29/53 resolved là bản hoàn tác commit "Bug Patch" bị lộ trong lịch sử git của task | `results/f1_skill_probe.json`, `docs/skills/gskill/jinja_best_skills.txt` |
 
 **Đọc bảng:**
 - Phương pháp đo **có thể thấy** tác dụng khi nó có thật: đối chứng dương cho +12,5 và +55 điểm.

@@ -1179,3 +1179,33 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - **`total_metric_calls` = 606, `num_candidates` = 9.** Skill tốt nhất dài 2.675 ký tự (`results/s25_best_skills.txt`, bản sao ở `docs/skills/gskill/jinja_best_skills.txt`).
 - Điểm validation tốt nhất theo bộ chấm lỏng: 0,94. Như ở nửa 1, đây **không** phải kết quả.
 - Bước tiếp theo: chấm trên 100 task test (`swesmith-eval`, trần 3,2 USD).
+
+### Kết quả bước chấm skill gskill (run 42212566015; `results/f1_skill_probe.json`; nhánh không skill = F1)
+
+- **Chạy:** 100/100 task; 0 lỗi hạ tầng; 1,940 USD (trần 3,2), tức 0,0194 USD mỗi lần chạy.
+- **Tổng bước 2:** 12,254 + 1,940 = **14,19 USD** (trần 26,2).
+
+| Bộ chấm | Có skill | Không skill | b / c (cặp lệch) | p một phía | Mức tăng, bootstrap 95% |
+| --- | --- | --- | --- | --- | --- |
+| **S** (resolved, SWE-smith) | **53/100** | 15/100 | 44 / 6 | 1,6·10⁻⁸ | **+0,38** [0,26; 0,50] |
+| L (gskill) | 79/100 | 37/100 | 49 / 7 | 3,7·10⁻⁹ | +0,42 [0,30; 0,54] |
+
+- **Holm (họ 0,025):** bác bỏ cả S lẫn L. **Kết quả theo quy tắc đã đăng ký: A.**
+- **Gatekeeper** (e-process §2 trên Z_S, θ = 0, α = 0,025, K = 1, theo thứ tự task): **admit ở trial 29**.
+- **Mô tả thêm:**
+  - patch rỗng giảm từ 62 xuống 21;
+  - số bước trung bình tăng từ 12,0 lên 18,4;
+  - trong 79 patch không rỗng của nhánh có skill, L cho qua 79, S cho qua 53, nên bộ chấm lỏng vẫn thổi phồng thêm 26 điểm.
+
+**Phân tích thêm sau khi có dữ liệu (thăm dò, KHÔNG đăng ký trước; R5):**
+- **Lộ đáp án trong môi trường SWE-smith:**
+  - Nhánh task mà agent làm việc có lịch sử `Initial commit` → `Bug Patch` → `Remove F2P Tests`, tức commit gây lỗi nằm ngay dưới HEAD. Đã kiểm trên mirror `swesmith/pallets__jinja.ada0a9a6`.
+  - Skill học được viết rõ: *"Check Git History: If the issue description is empty … Run `git log -n 5` to identify suspicious recent commits (e.g., "Bug Patch"), then use `git show <commit_hash>` … Revert or fix these specific regressions."*
+- **Đo:**
+  - Trong 53 patch resolved của nhánh có skill, **29** là bản hoàn tác đúng từng dòng của commit "Bug Patch". Nhánh không skill có 6/15.
+  - Phần resolved **không** phải hoàn tác đúng từng dòng: 24 (có skill) so với 9 (không skill).
+  - Đây là cận dưới của việc dùng chỗ lộ, vì agent có thể dùng một phần. Trajectory của bước chấm không được lưu, nên không đo được việc gọi `git log`/`git show`.
+- **Diễn giải (thăm dò):**
+  - Ít nhất một phần lớn mức tăng trong scope đến từ việc skill học cách khai thác một đặc điểm của môi trường đánh giá (commit gây lỗi bị lộ), chứ không phải tri thức về jinja.
+  - Phần còn lại gồm sửa định dạng của agent (ít patch rỗng hơn) và tri thức thật về repo (mục 4 của skill).
+  - Hệ quả có thể kiểm: trên task tự nhiên (không có commit "Bug Patch"), phần khai thác chỗ lộ không thể chuyển giao. Điều này phải đăng ký trước khi đo.
