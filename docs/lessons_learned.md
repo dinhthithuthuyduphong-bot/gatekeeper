@@ -349,3 +349,12 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 
 - **Xảy ra:** `preflight; git commit` vẫn commit dù preflight báo FAIL.
 - **Phòng ngừa:** luôn viết `python scripts/preflight.py && git commit …`. Không dựa vào hook, vì hook chỉ chạy `--ci`, không có lint.
+
+## L41. Tính power cho một phép tương quan hay phép chuyển giao phải dùng đúng thành phần phương sai, đo từ dữ liệu, không dùng phương sai tổng (A83)
+
+- **Xảy ra:** tôi báo power khoảng 83% cho tương quan giữa tác dụng skill của mình và của SSKB. Tôi dùng phương sai tổng của tác dụng skill, trong khi phần có thể tương quan được chỉ là phần **chung giữa các cấu hình** (hiệp phương sai chéo, 3,34 điểm²), và dùng nhiễu của họ thay cho nhiễu đo được ở phía mình (9,3 điểm cho trung bình 10 yêu cầu).
+- **Phòng ngừa:**
+  1. Viết rõ r kỳ vọng = cov_chung / sqrt(var_bên_A · var_bên_B), với cov_chung lấy từ dữ liệu lặp **giữa các cấu hình khác nhau**, và var mỗi bên gồm cả nhiễu đo được của **chính phép đo sẽ chạy**.
+  2. Mọi con số power phải ra từ một script đã commit, không tính nhẩm trong trao đổi.
+  3. Power dưới 0,8 thì câu hỏi đó không được làm kết luận chính; chỉ báo cáo mô tả, kèm power đã nêu trước.
+

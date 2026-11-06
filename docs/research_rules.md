@@ -137,6 +137,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Plasmode và độ phủ (L39)**
 - [ ] "Giá trị thật" trong mô phỏng được định nghĩa trên tham số của mô hình sinh dữ liệu, đúng đại lượng mà bộ ước lượng nhắm tới. Ở trường hợp không có hiệu ứng, độ phủ phải gần mức danh nghĩa.
 
+**Power của tương quan và chuyển giao (L41)**
+- [ ] r kỳ vọng tính từ hiệp phương sai giữa các cấu hình (phần chuyển giao được) và nhiễu đo được của chính phép đo sẽ chạy; con số power ra từ script đã commit. Power < 0,8 thì câu hỏi chỉ là mô tả.
+
 **Kiểm thử**
 - [ ] Mô phỏng hoặc phép toán mảng: assert kích thước kết quả, vì broadcasting âm thầm làm rộng mẫu (R-6).
 - [ ] Có test cho từng chỗ sửa; `ruff check`, `ruff format --check` và `pytest` đều qua.

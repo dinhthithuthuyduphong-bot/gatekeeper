@@ -504,3 +504,9 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 
   - Nhánh không skill không chứa văn bản skill (đếm marker: 0).
 - **Proxy:** biến proxy truyền qua `docker exec` lúc dựng, nên không nằm trong image; CA được gắn chỉ đọc.
+
+## R-43. Tính lại power của phép tương quan chuyển giao SSKB (2026-11-06, miễn phí, A83)
+
+- **Mã:** `scripts/sskb_transfer_power.py`. Nguồn số liệu: `ALL_combined_cells.csv` của SSKB (bản clone ghim 4d3450d, MIT; 4 cấu hình × 98 skill chung) và 20 hiệu số theo yêu cầu của §22 (`results/sskb_probe.json`).
+- **Kiểm:** α = 0,05 là mức quy ước, truyền bắt buộc qua `--alpha` (không mặc định); xấp xỉ z của Fisher cho tương quan. Số skill 66 = 47 skill image Python + 19 skill image Go trong `tasks/` của SSKB.
+- **Kết quả:** hiệp phương sai chéo 3,34 điểm² (sd chuyển giao 1,83 điểm); tương quan giữa các cấu hình SSKB từ −0,105 tới 0,212; nhiễu của mình 29,6 điểm mỗi yêu cầu (9,35 điểm cho 10 yêu cầu); r kỳ vọng 0,091; power 0,178 (một phía), 0,108 (hai phía). Xác nhận đánh giá của reviewer, bác con số 83% trước đó.
