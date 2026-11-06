@@ -1092,3 +1092,30 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
   - Thay báo cáo gốc bằng báo cáo mới cho từng bản vá đã chấm lại.
   - Bản vá mà lần chấm mới **không có báo cáo** (quá giờ, lỗi hạ tầng) thì giữ báo cáo gốc, và đếm số trường hợp này.
   - Tính lại tác dụng theo endpoint S như §26 cho E1, E2, T4; báo cáo số cũ và số mới cạnh nhau.
+
+### Kết quả §28 bước 2 (06/11/2026; run 42213980589; `results/s28_rescored.json`, `results/s28_effects.json`)
+
+- **Chấm lại:** 1.200/1.200 bản vá có báo cáo mới. 0 lỗi hạ tầng; 0 trường hợp phải giữ báo cáo gốc.
+- **Số mặt cặp (một nhánh của một cặp) đổi kết quả:**
+  - E1: 3/1.540, cả 3 từ trượt sang resolved;
+  - E2: 0/30;
+  - T4: 3/6, cả 3 từ trượt sang resolved.
+- **Tác dụng, endpoint S** (số cũ → số mới; CI 95% bootstrap theo task):
+
+  | Thí nghiệm | Cũ | Mới |
+  | --- | --- | --- |
+  | E1 `null-guard` (53 task) | +0,019 [−0,031; +0,075] | +0,013 [−0,044; +0,069] |
+  | E1 `type-guard` (53) | 0,000 [−0,050; +0,057] | 0,000 [−0,050; +0,057] |
+  | E1 `exception-handling` (53) | −0,013 [−0,063; +0,038] | −0,013 [−0,063; +0,038] |
+  | E1 ba skill gây hại (40 mỗi skill) | −0,058 / −0,050 / −0,058 | không đổi |
+  | E2 `xreposkill` (109) | +0,021 [−0,009; +0,055] | +0,021 [−0,009; +0,055] |
+  | T4 `control-oracle-patch` (20) | +0,55 [0,35; 0,75] | **+0,60 [0,35; 0,85]** |
+
+- **Theo quy tắc đặt trước:**
+  - E1 và E2 không đổi chiều hay ý nghĩa thống kê, nên ghi ở threats to validity. **Phán quyết đã đăng ký giữ nguyên.**
+  - T4 tăng 0,05 (1 task trên 20). Đối chứng dương vẫn có ý nghĩa và mạnh hơn một chút.
+- **Kết luận của chuỗi §26–§28:**
+  - Container chấm cục bộ không có mạng làm một số test trượt ở cả hai nhánh.
+  - Lỗi này **không** làm sai kết luận nào của E1 hay E2.
+  - Nó làm T4 bị đo thấp một chút.
+  - Harness, khi có mạng, qua cả đối chứng bản vá gốc (33/35) lẫn bản vá rỗng (0/40).
