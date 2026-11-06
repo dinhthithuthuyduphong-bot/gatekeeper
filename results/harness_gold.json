@@ -43,5 +43,38 @@
    }
   ],
   "label": "broken"
+ },
+ "ansible__ansible-lint-4662": {
+  "dataset": "rows.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-ansible__ansible-lint-4662-20261106T053331-r0",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "test/test_main.py::test_ro_venv"
+    ]
+   },
+   {
+    "run_id": "gold-ansible__ansible-lint-4662-20261106T053756-r1",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "test/test_main.py::test_ro_venv"
+    ]
+   },
+   {
+    "run_id": "gold-ansible__ansible-lint-4662-20261106T054217-r2",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "test/test_main.py::test_ro_venv"
+    ]
+   }
+  ],
+  "label": "broken"
  }
 }
