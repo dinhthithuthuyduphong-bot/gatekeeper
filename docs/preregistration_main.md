@@ -1143,3 +1143,22 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - **A:** skill gskill giúp thật trên Flash-Lite, nên có skill thật cho phần chứng nhận.
   - **B:** mức tăng mà bộ chấm của gskill thấy chủ yếu là do bộ chấm, đo trên một skill thật. Có thể nói vì skill được tối ưu theo bộ chấm lỏng (ghi chú 25-3).
   - **C:** không tái hiện được mức tăng, kể cả theo cách chấm của gskill. Không phân biệt được "skill không giúp Flash-Lite" với "thiết lập học của mình khác gskill" (agent Gemini Flash-Lite và model phản chiếu Gemini Pro, thay cho gpt-5-mini và gpt-5.2-pro).
+
+### Kết quả ghi chú 25-2 (F0 mở rộng; 0 USD; `results/f0_scorer_check_<repo>.json`)
+
+| Repo | L(no-op) | S(no-op) | S(gold) | Lỗi hạ tầng |
+| --- | --- | --- | --- | --- |
+| `blevesearch__bleve` (Go) | **30/30** [0,886; 1,000] | 0/30 | 30/30 | 0 |
+| `pygments__pygments` | **26/30** [0,703; 0,947] | 0/30 | 29/30 | 0 |
+| `benoitc__gunicorn` | **24/30** [0,627; 0,905] | 0/30 | 30/30 | 0 |
+| `gawel__pyquery` | không tính | — | 0/4 | **26/30** |
+| `prettytable__prettytable` | đang chạy lại (lần đầu bị dừng vì lệnh nền chạm giới hạn 2 giờ, chưa ghi file; lỗi vận hành) | | | |
+
+- **Theo quy tắc đã viết trước:**
+  - Ở mọi repo chấm được, cận dưới Wilson của L(a) lớn hơn S(a) = 0.
+  - Bleve (Go) khớp dự đoán, qua nhánh "không có FAILED/ERROR" của cùng một điều kiện.
+  - S(gold) ≥ 0,9 ở cả 3 repo, nên pipeline đúng.
+- **pyquery bị báo riêng và không gộp,** vì lỗi hạ tầng > 10% (A93). pyquery kiểm bằng doctest trong file nguồn, nên `get_test_files` của SWE-smith trả về file nguồn (ví dụ `pyquery/cssselectpatch.py`). Hai hệ quả:
+  1. Driver không còn file nào để chèn no-op.
+  2. `run_patch_in_container` hoàn tác mọi thay đổi trên "file test" trước khi chấm, nên hoàn tác luôn bản sửa đúng: S(gold) = 0/4.
+- Đây là giới hạn của harness SWE-smith với repo dùng doctest, không phải lỗi của bộ chấm gskill.

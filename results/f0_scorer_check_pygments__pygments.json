@@ -1,0 +1,673 @@
+{
+ "summary": {
+  "n_tasks": 30,
+  "n_scored": 30,
+  "infra_errors": 0,
+  "noop": {
+   "L_pass": 26,
+   "L_rate": 0.8666666666666667,
+   "L_wilson95": [
+    0.703186733179637,
+    0.9469034451594526
+   ],
+   "S_resolved": 0,
+   "S_rate": 0.0,
+   "S_wilson95": [
+    0.0,
+    0.11351339317396876
+   ]
+  },
+  "gold": {
+   "L_pass": 30,
+   "L_rate": 1.0,
+   "L_wilson95": [
+    0.8864866068260312,
+    0.9999999999999999
+   ],
+   "S_resolved": 29,
+   "S_rate": 0.9666666666666667,
+   "S_wilson95": [
+    0.8332960900859082,
+    0.9940914096183874
+   ]
+  }
+ },
+ "per_task": [
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__vn5piq5g",
+   "order": 250,
+   "noop_file": "pygments/lexers/scripting.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__ik3ytbv4",
+   "order": 251,
+   "noop_file": "pygments/formatters/__init__.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__p0l2ah6y",
+   "order": 252,
+   "noop_file": "pygments/lexers/gdscript.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__z69jkt78",
+   "order": 253,
+   "noop_file": "pygments/lexers/erlang.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__yngo3awd",
+   "order": 254,
+   "noop_file": "pygments/formatters/latex.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_module__04rqphl1",
+   "order": 255,
+   "noop_file": "pygments/lexers/int_fiction.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__9zubk4ko",
+   "order": 256,
+   "noop_file": "pygments/lexers/webmisc.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__swige4cg",
+   "order": 257,
+   "noop_file": "pygments/lexers/json5.py",
+   "L_noop": {
+    "passed": false,
+    "status": "f2p_failed",
+    "f2p_tail": "ort test summary info ============================\nFAILED tests/snippets/json5/test_arrays.txt::\nFAILED tests/snippets/json5/test_example.txt::\nFAILED tests/snippets/json5/test_objects.txt::\n============================== 3 failed in 0.09s ===============================\n+ : '>>>>> End Test Output'\n"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__pp74znds",
+   "order": 258,
+   "noop_file": "pygments/formatters/__init__.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": false,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__u677ucca",
+   "order": 259,
+   "noop_file": "pygments/lexers/prolog.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__vig7saoj",
+   "order": 260,
+   "noop_file": "pygments/lexers/pawn.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__w59g3rt8",
+   "order": 261,
+   "noop_file": "pygments/lexers/sql.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__euje8e5r",
+   "order": 262,
+   "noop_file": "pygments/lexers/modeling.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__4kdt7dkw",
+   "order": 263,
+   "noop_file": "pygments/formatters/html.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__i3d5fuml",
+   "order": 264,
+   "noop_file": "pygments/lexers/parsers.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__q4ma98du",
+   "order": 265,
+   "noop_file": "pygments/lexers/bibtex.py",
+   "L_noop": {
+    "passed": false,
+    "status": "f2p_failed",
+    "f2p_tail": "txt::\nFAILED tests/snippets/bibtex/test_string.txt::\nFAILED tests/examplefiles/bib/test.bib:: - ValueError: generated Error token ...\nFAILED tests/snippets/bibtex/test_mismatched_brace.txt::\n============================== 5 failed in 0.26s ===============================\n+ : '>>>>> End Test Output'\n"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__lel8j96u",
+   "order": 266,
+   "noop_file": "pygments/lexers/dotnet.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_module__a5qxwnxf",
+   "order": 267,
+   "noop_file": "pygments/lexers/int_fiction.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__fvnnwqjz",
+   "order": 268,
+   "noop_file": "pygments/formatters/terminal.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__45nwhbd4",
+   "order": 269,
+   "noop_file": "pygments/formatters/other.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__mhc5je87",
+   "order": 270,
+   "noop_file": "pygments/lexers/markup.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_module__512ckkm9",
+   "order": 271,
+   "noop_file": "pygments/lexers/int_fiction.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__i3qj1pbj",
+   "order": 272,
+   "noop_file": "pygments/lexers/templates.py",
+   "L_noop": {
+    "passed": false,
+    "status": "f2p_failed",
+    "f2p_tail": "lueError: generated Error...\nFAILED tests/examplefiles/rhtml/test.rhtml:: - ValueError: generated Error to...\nFAILED tests/examplefiles/tea/example.tea:: - ValueError: generated Error tok...\n============================== 6 failed in 0.51s ===============================\n+ : '>>>>> End Test Output'\n"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__xy5t2imq",
+   "order": 273,
+   "noop_file": "pygments/lexers/sql.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__t02r5ih0",
+   "order": 274,
+   "noop_file": "pygments/lexers/textfmts.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__xnrc8lkr",
+   "order": 275,
+   "noop_file": "pygments/lexers/data.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_module__bbk6y4a1",
+   "order": 276,
+   "noop_file": "pygments/formatters/latex.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__wl6qr4oo",
+   "order": 277,
+   "noop_file": "pygments/lexers/parsers.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__berp6i2g",
+   "order": 278,
+   "noop_file": "pygments/lexers/robotframework.py",
+   "L_noop": {
+    "passed": false,
+    "status": "f2p_failed",
+    "f2p_tail": "== short test summary info ============================\nFAILED tests/snippets/robotframework/test_basic.txt::\nFAILED tests/examplefiles/robotframework/robotframework_test.robot:: - ValueE...\n============================== 2 failed in 0.25s ===============================\n+ : '>>>>> End Test Output'\n"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__4zwk24my",
+   "order": 279,
+   "noop_file": "pygments/lexers/mojo.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  }
+ ],
+ "split": "test",
+ "rows": "/tmp/claude-0/-home-user-gatekeeper/f29077ab-9caa-50eb-8538-43fec06f7e6f/scratchpad/rows_pygments__pygments.jsonl.gz"
+}
