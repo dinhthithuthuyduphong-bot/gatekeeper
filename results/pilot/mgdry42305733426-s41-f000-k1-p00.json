@@ -1,0 +1,62 @@
+{
+  "generated_utc": "2026-11-06T22:43:36+00:00",
+  "format_version": 2,
+  "name": "mgdry42305733426-s41-f000-k1-p00",
+  "model": "deterministic",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "aws-cloudformation__cfn-lint-3650"
+  ],
+  "spent_usd": 0.0,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.0,
+      "tokens_in_per_run": 0.0,
+      "tokens_out_per_run": 0.0,
+      "cached_share": null,
+      "api_calls_per_run": 1.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "memgovern": {
+      "runs": 1,
+      "usd_per_run": 0.0,
+      "tokens_in_per_run": 0.0,
+      "tokens_out_per_run": 0.0,
+      "cached_share": null,
+      "api_calls_per_run": 2.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "aws-cloudformation__cfn-lint-3650": "Submitted"
+    },
+    "memgovern": {
+      "aws-cloudformation__cfn-lint-3650": "Submitted"
+    }
+  },
+  "skills": {
+    "memgovern": {
+      "pairs": [
+        {
+          "instance_id": "aws-cloudformation__cfn-lint-3650",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  },
+  "reused_none": null
+}
