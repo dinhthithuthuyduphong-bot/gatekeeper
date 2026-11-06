@@ -1059,3 +1059,24 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 - **Dữ liệu task** lấy từ `data-snapshots` (`verified_pools.jsonl`, `live_blocks_cd.jsonl`). Đã kiểm khớp tuyệt đối với file đã dùng cục bộ: 816 dòng; `patch`, `FAIL_TO_PASS`, `PASS_TO_PASS`, `base_commit` không khác.
 - **Phiên bản:** `swebench==5.0.2` cho Verified, bản fork SWE-bench-Live `ad79b85` cho Live, `docker==7.2.0`, như E2.
 - **Chia việc:** 10 shard. Shard k nhận instance thứ k, k+10, … của mỗi danh sách. Không gọi LLM, không cần khóa.
+
+### Kết quả §26 phần 2 và §27a trên GitHub Actions (06/11/2026; run 42200960814; `results/harness_gold_gh.json`, `results/harness_noop_gh.json`)
+
+- **Bản vá gốc × 3, môi trường runner (có mạng đầy đủ), 35 instance:**
+  - **33 ổn**;
+  - 1 hỏng (`conan-15705`: 5 test `TestListPrefs`, không có dấu hiệu mạng; hỏng ở cả hai môi trường);
+  - 1 chập chờn (`briefcase-1811`: `test_sign_app[True]`, 1 test).
+- **So với cục bộ (không mạng) trên 20 instance chấm ở cả hai nơi:**
+  - hỏng → ổn: **10**;
+  - ổn → ổn: 8;
+  - hỏng → hỏng: 1 (`conan-15705`);
+  - hỏng → chập chờn: 1.
+  - Như vậy **mọi trường hợp hỏng do mạng ở cục bộ đều hết khi có mạng đầy đủ**, kể cả 5 trường hợp cần host bị chặn ở §28.
+- **Bản vá rỗng × 1, môi trường runner, 40 task: 0/40 resolved** (cận trên Wilson 95%: 0,088). Không có lỗi hạ tầng hay thiếu báo cáo.
+  - Harness của mình qua cả đối chứng bản vá rỗng lẫn đối chứng bản vá gốc.
+  - Đối chiếu: bộ chấm công khai của gskill cho bản vá rỗng qua 206/216 (§25, nhánh `trial`).
+- **Hệ quả cho dữ liệu đã có (đối chiếu với nơi chấm):**
+  - E2 được chấm trên GitHub Actions (có mạng), nên **không** bị lỗi mạng.
+  - T4 được chấm cục bộ trên task SWE-bench-Live, nên **bị** ảnh hưởng.
+  - E1 (Verified) chấm cục bộ: mọi instance Verified đã kiểm đều ổn ở cả hai môi trường.
+- **Việc kế tiếp (§28 bước 2):** chấm lại bản vá đã lưu của T4 (40 lần chạy) trên runner. Miễn phí, không gọi model.

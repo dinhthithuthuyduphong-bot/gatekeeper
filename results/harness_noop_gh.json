@@ -1,0 +1,461 @@
+{
+ "conan-io__conan-18655": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-conan-io__conan-18655-20261106T103905",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "test/integration/cache/backup_sources_test.py::TestDownloadCacheBackupSources::test_source_then_upload_workflow[False]",
+   "test/integration/cache/backup_sources_test.py::TestDownloadCacheBackupSources::test_users_download_cache_summary"
+  ],
+  "p2p_fail": []
+ },
+ "beeware__briefcase-1640": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-beeware__briefcase-1640-20261106T104940",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "tests/integrations/docker/test_Docker__subprocess_env.py::test_subprocess_env[None-subprocess_env0]",
+   "tests/integrations/docker/test_Docker__subprocess_env.py::test_subprocess_env[env1-subprocess_env1]",
+   "tests/integrations/docker/test_Docker__subprocess_env.py::test_subprocess_env[env2-subprocess_env2]",
+   "tests/integrations/docker/test_Docker__subprocess_env.py::test_subprocess_env[env3-subprocess_env3]"
+  ],
+  "p2p_fail": []
+ },
+ "sphinx-doc__sphinx-8264": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-sphinx-doc__sphinx-8264-20261106T105124",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "tests/test_util_typing.py::test_stringify_broken_type_hints"
+  ],
+  "p2p_fail": []
+ },
+ "pytest-dev__pytest-9624": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-pytest-dev__pytest-9624-20261106T105221",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "testing/test_unittest.py::test_traceback_pruning"
+  ],
+  "p2p_fail": []
+ },
+ "mikedh__trimesh-2126": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-mikedh__trimesh-2126-20261106T105457",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "tests/test_color.py::VisualTest::test_concatenate_empty_mesh",
+   "tests/test_gltf.py::GLTFTest::test_postprocess",
+   "tests/test_stl.py::STLTests::test_ascii_multibody"
+  ],
+  "p2p_fail": []
+ },
+ "geopandas__geopandas-3202": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-geopandas__geopandas-3202-20261106T110101",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "geopandas/tests/test_geom_methods.py::TestGeomMethods::test_build_area"
+  ],
+  "p2p_fail": []
+ },
+ "matplotlib__matplotlib-20859": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-matplotlib__matplotlib-20859-20261106T110331",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "lib/matplotlib/tests/test_legend.py::test_subfigure_legend"
+  ],
+  "p2p_fail": []
+ },
+ "scikit-learn__scikit-learn-12462": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-scikit-learn__scikit-learn-12462-20261106T110506",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "sklearn/utils/tests/test_validation.py::test_retrieve_samples_from_non_standard_shape"
+  ],
+  "p2p_fail": []
+ },
+ "conan-io__conan-15705": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-conan-io__conan-15705-20261106T103519",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "conans/test/integration/toolchains/cmake/test_cmaketoolchain.py::test_build_folder_vars_self_name_version"
+  ],
+  "p2p_fail": [
+   "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_all_prevs[True]",
+   "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_latest_prevs[1.0.0-True]",
+   "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_latest_prevs[[>=1.0.0",
+   "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids[True]",
+   "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids_all_rrevs[True]"
+  ]
+ },
+ "reflex-dev__reflex-3982": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-reflex-dev__reflex-3982-20261106T104233",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "tests/test_style.py::test_convert[style_dict3-expected3]",
+   "tests/test_style.py::test_convert[style_dict4-expected4]",
+   "tests/test_style.py::test_convert[style_dict5-expected5]",
+   "tests/test_style.py::test_create_style[style_dict3-expected3]",
+   "tests/test_style.py::test_create_style[style_dict4-expected4]",
+   "tests/test_style.py::test_create_style[style_dict5-expected5]"
+  ],
+  "p2p_fail": []
+ },
+ "matplotlib__matplotlib-22719": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-matplotlib__matplotlib-22719-20261106T104435",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "lib/matplotlib/tests/test_category.py::test_no_deprecation_on_empty_data"
+  ],
+  "p2p_fail": []
+ },
+ "django__django-14430": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-django__django-14430-20261106T104558",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "test_coalesced_empty_result_set (aggregation.tests.AggregateTestCase)",
+   "test_empty_result_optimization (aggregation.tests.AggregateTestCase)"
+  ],
+  "p2p_fail": []
+ },
+ "pypa__twine-1249": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-pypa__twine-1249-20261106T103135",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "tests/test_auth.py::test_inability_to_make_token_raises_error",
+   "tests/test_auth.py::test_resolver_authenticator_config_authentication",
+   "tests/test_auth.py::test_resolver_authenticator_credential_input_authentication",
+   "tests/test_auth.py::test_resolver_authenticator_trusted_publishing_authentication",
+   "tests/test_auth.py::test_trusted_publish_authenticator_refreshes_token",
+   "tests/test_auth.py::test_trusted_publish_authenticator_reuses_token"
+  ],
+  "p2p_fail": []
+ },
+ "pvlib__pvlib-python-1947": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-pvlib__pvlib-python-1947-20261106T103232",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "pvlib/tests/test_modelchain.py::test_temperature_model_not_specified"
+  ],
+  "p2p_fail": []
+ },
+ "django__django-14787": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-django__django-14787-20261106T103425",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "@method_decorator preserves wrapper assignments."
+  ],
+  "p2p_fail": []
+ },
+ "django__django-16802": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-django__django-16802-20261106T103540",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "test_empty_list (template_tests.filter_tests.test_random.RandomTests.test_empty_list)"
+  ],
+  "p2p_fail": []
+ },
+ "arviz-devs__arviz-2413": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-arviz-devs__arviz-2413-20261106T102631",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "arviz/tests/base_tests/test_plots_matplotlib.py::test_plot_hdi_string_error"
+  ],
+  "p2p_fail": []
+ },
+ "python-pillow__Pillow-9105": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-python-pillow__Pillow-9105-20261106T103012",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "Tests/test_imagestat.py::test_zero_count"
+  ],
+  "p2p_fail": [
+   "Tests/test_pyroma.py::test_pyroma"
+  ]
+ },
+ "django__django-11451": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-django__django-11451-20261106T103157",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "test_authentication_without_credentials (auth_tests.test_auth_backends.CustomPermissionsUserModelBackendTest)",
+   "test_authentication_without_credentials (auth_tests.test_auth_backends.ExtensionUserModelBackendTest)",
+   "test_authentication_without_credentials (auth_tests.test_auth_backends.ModelBackendTest)",
+   "test_custom_perms (auth_tests.test_auth_backends.CustomPermissionsUserModelBackendTest)",
+   "test_custom_perms (auth_tests.test_auth_backends.ExtensionUserModelBackendTest)",
+   "test_custom_perms (auth_tests.test_auth_backends.ModelBackendTest)"
+  ],
+  "p2p_fail": []
+ },
+ "django__django-16560": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-django__django-16560-20261106T103303",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "test_custom_violation_code_message (constraints.tests.BaseConstraintTests.test_custom_violation_code_message)",
+   "test_deconstruction (constraints.tests.BaseConstraintTests.test_deconstruction)",
+   "test_eq (constraints.tests.CheckConstraintTests.test_eq)",
+   "test_eq (constraints.tests.UniqueConstraintTests.test_eq)",
+   "test_repr_with_violation_error_code (constraints.tests.CheckConstraintTests.test_repr_with_violation_error_code)",
+   "test_repr_with_violation_error_code (constraints.tests.UniqueConstraintTests.test_repr_with_violation_error_code)",
+   "test_validate_conditon_custom_error (constraints.tests.UniqueConstraintTests.test_validate_conditon_custom_error)",
+   "test_validate_custom_error (constraints.tests.CheckConstraintTests.test_validate_custom_error)"
+  ],
+  "p2p_fail": []
+ },
+ "Archmonger__django-dbbackup-631": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-Archmonger__django-dbbackup-631-20261106T103917",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "tests/test_connectors/test_postgresql.py::PgDumpBinaryConnectorTest::test_create_dump_if_exists"
+  ],
+  "p2p_fail": []
+ },
+ "conan-io__conan-18333": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-conan-io__conan-18333-20261106T104035",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "test/unittests/client/toolchain/autotools/autotools_toolchain_test.py::test_autotools_toolchain_conf_extra_configure_args",
+   "test/unittests/tools/gnu/test_gnutoolchain.py::test_gnu_toolchain_conf_extra_configure_args"
+  ],
+  "p2p_fail": []
+ },
+ "django__django-11030": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-django__django-11030-20261106T104222",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "Subquery annotations are excluded from the GROUP BY if they are",
+   "test_missing_alias (expressions.test_deprecation.GetGroupByColsTest)"
+  ],
+  "p2p_fail": []
+ },
+ "sympy__sympy-11831": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-sympy__sympy-11831-20261106T104327",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "test_issue_11827"
+  ],
+  "p2p_fail": []
+ },
+ "conan-io__conan-17102": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-conan-io__conan-17102-20261106T105327",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "test/integration/command_v2/test_info_build_order.py::test_multi_configuration_profile_args"
+  ],
+  "p2p_fail": []
+ },
+ "jlowin__fastmcp-1397": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-jlowin__fastmcp-1397-20261106T110450",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "tests/client/test_logs.py::TestDefaultLogHandler::test_default_handler_routes_to_correct_levels",
+   "tests/client/test_logs.py::TestDefaultLogHandler::test_default_handler_with_missing_msg",
+   "tests/client/test_logs.py::TestDefaultLogHandler::test_default_handler_without_logger_name"
+  ],
+  "p2p_fail": []
+ },
+ "django__django-16824": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-django__django-16824-20261106T110702",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "test_non_zero_exit_status_when_path_to_db_is_path (dbshell.test_sqlite.SqliteDbshellCommandTestCase.test_non_zero_exit_status_when_path_to_db_is_path)"
+  ],
+  "p2p_fail": []
+ },
+ "django__django-11517": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-django__django-11517-20261106T110804",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "test_subparser_dest_args (user_commands.tests.CommandTests)",
+   "test_subparser_dest_required_args (user_commands.tests.CommandTests)",
+   "test_subparser_invalid_option (user_commands.tests.CommandTests)"
+  ],
+  "p2p_fail": []
+ },
+ "openai__openai-agents-python-998": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-openai__openai-agents-python-998-20261106T102619",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "tests/test_agent_config.py::TestAgentValidation::test_hooks_validation_python39_compatibility",
+   "tests/test_agent_config.py::TestAgentValidation::test_list_field_validation",
+   "tests/test_agent_config.py::TestAgentValidation::test_model_settings_validation",
+   "tests/test_agent_config.py::TestAgentValidation::test_name_validation_critical_cases",
+   "tests/test_agent_config.py::TestAgentValidation::test_tool_use_behavior_dict_validation"
+  ],
+  "p2p_fail": []
+ },
+ "projectmesa__mesa-2755": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-projectmesa__mesa-2755-20261106T102732",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "tests/test_discrete_space.py::test_dynamic_modifications_to_space",
+   "tests/test_discrete_space.py::test_networkgrid"
+  ],
+  "p2p_fail": []
+ },
+ "sympy__sympy-18137": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-sympy__sympy-18137-20261106T102842",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "test_Range_symbolic",
+   "test_is_subset"
+  ],
+  "p2p_fail": []
+ },
+ "scikit-learn__scikit-learn-13142": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-scikit-learn__scikit-learn-13142-20261106T103057",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "sklearn/mixture/tests/test_bayesian_mixture.py::test_bayesian_mixture_fit_predict_n_init",
+   "sklearn/mixture/tests/test_gaussian_mixture.py::test_gaussian_mixture_fit_predict_n_init"
+  ],
+  "p2p_fail": []
+ },
+ "falconry__falcon-2475": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-falconry__falcon-2475-20261106T110644",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "tests/test_cors_middleware.py::TestCustomCorsMiddleware::test_enabled_cors_private_network_headers[asgi]",
+   "tests/test_cors_middleware.py::TestCustomCorsMiddleware::test_enabled_cors_private_network_headers[wsgi]"
+  ],
+  "p2p_fail": []
+ },
+ "conan-io__conan-18051": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-conan-io__conan-18051-20261106T110856",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "test/unittests/client/build/cpp_std_flags_test.py::CompilerFlagsTest::test_apple_clang_cppstd_defaults"
+  ],
+  "p2p_fail": []
+ },
+ "mwaskom__seaborn-3202": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-mwaskom__seaborn-3202-20261106T112049",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "tests/_core/test_plot.py::TestPlotting::test_empty",
+   "tests/_core/test_scales.py::TestNominal::test_empty_data"
+  ],
+  "p2p_fail": []
+ },
+ "scikit-learn__scikit-learn-13046": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-scikit-learn__scikit-learn-13046-20261106T112218",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "sklearn/tests/test_impute.py::test_missing_indicator_error[X_fit3-X_trans3-params3-MissingIndicator",
+   "sklearn/tests/test_impute.py::test_missing_indicator_string",
+   "sklearn/tests/test_impute.py::test_missing_indicator_with_imputer[X0-a-X_trans_exp0]",
+   "sklearn/tests/test_impute.py::test_missing_indicator_with_imputer[X2-nan-X_trans_exp2]",
+   "sklearn/tests/test_impute.py::test_missing_indicator_with_imputer[X3-None-X_trans_exp3]"
+  ],
+  "p2p_fail": []
+ },
+ "ansible__ansible-lint-4662": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-ansible__ansible-lint-4662-20261106T104507",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "test/test_rules_collection.py::test_rules_id_format"
+  ],
+  "p2p_fail": []
+ },
+ "reflex-dev__reflex-4230": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-reflex-dev__reflex-4230-20261106T104926",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "tests/units/test_state.py::test_deserialize_gc_state_disk"
+  ],
+  "p2p_fail": []
+ },
+ "django__django-16810": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-django__django-16810-20261106T105041",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "test_get_language_from_request_null (i18n.tests.CountrySpecificLanguageTests.test_get_language_from_request_null)",
+   "test_translated_path_unprefixed_language_other_than_accepted_header (i18n.patterns.tests.URLPrefixedFalseTranslatedTests.test_translated_path_unprefixed_language_other_than_accepted_header)",
+   "test_translated_path_unprefixed_language_other_than_cookie_language (i18n.patterns.tests.URLPrefixedFalseTranslatedTests.test_translated_path_unprefixed_language_other_than_cookie_language)",
+   "test_unprefixed_language_other_than_accept_language (i18n.tests.UnprefixedDefaultLanguageTests.test_unprefixed_language_other_than_accept_language)"
+  ],
+  "p2p_fail": []
+ },
+ "astropy__astropy-8005": {
+  "dataset": "rows_a.jsonl",
+  "run_id": "noop-astropy__astropy-8005-20261106T105139",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "astropy/units/tests/test_equivalencies.py::test_thermodynamic_temperature"
+  ],
+  "p2p_fail": []
+ }
+}
