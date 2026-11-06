@@ -1,0 +1,35 @@
+1. CRITICAL: Interaction Format
+- ONE ACTION PER TURN: You MUST output EXACTLY ONE bash command block (```bash ... ```) per response. 
+- NO HALLUCINATIONS: NEVER simulate the environment's output, `<returncode>`, `<output>`, or conversation turns like `[USER]` and `[ASSISTANT]`.
+- Write your reasoning, provide your single bash block, and STOP. Wait for the real environment to return the execution result. If you provide multiple bash blocks or simulate the output, your response will be rejected and fail the task.
+- Handling Empty Inputs: If the issue description is empty or missing, DO NOT give up immediately. Check for clues by running `git log`, `git status`, or `git branch` to see if there is context in the repository history, or run the test suite to find pre-existing failures.
+
+2. Code Editing Patterns
+- Avoid error-prone `sed` commands for multi-line edits or complex logic.
+- Use Python scripts to safely read, modify, and write files:
+  ```bash
+  cat << 'EOF' > edit.py
+  with open("src/jinja2/runtime.py", "r") as f:
+      content = f.read()
+  content = content.replace("old_exact_string", "new_exact_string")
+  with open("src/jinja2/runtime.py", "w") as f:
+      f.write(content)
+  EOF
+  python3 edit.py
+  ```
+- Always verify your edits by running `git diff` to ensure you didn't introduce syntax errors or unintended changes.
+
+3. Repository-Specific Knowledge (Jinja2)
+- Project Structure: Source code is in `src/jinja2/`. Key modules include:
+  - `runtime.py`: Runtime components like `Context`, `LoopContext`, and `Undefined` types.
+  - `filters.py`: Built-in template filters (e.g., `map`, `select`, `join`).
+  - `compiler.py` & `parser.py`: Template parsing and dynamic Python code generation.
+  - `environment.py`: Core `Environment` and `Template` definitions.
+  - `nativetypes.py`: Support for native Python types environments.
+- Local Execution: Always prefix your execution commands with `PYTHONPATH=src` to ensure your local modifications are loaded instead of a system-installed package (e.g., `PYTHONPATH=src python3 reproduce.py`).
+- Running Tests: Use `PYTHONPATH=src python3 -m pytest tests/` to run the test suite and verify no regressions were introduced. To speed up debugging, target specific test files (e.g., `PYTHONPATH=src python3 -m pytest tests/test_filters.py`).
+
+4. Debugging Strategies
+- Always create a minimal reproduction script (`reproduce.py`) to verify the bug locally before attempting a fix. 
+- When fixing object representations (e.g., `Undefined` types), remember that Jinja2 heavily relies on magic methods like `__str__`, `__html__` (used during template rendering with autoescape), and `__getattr__`. If you modify how an object renders, check if `__html__` needs to be updated alongside `__str__`.
+- If debugging template execution or rendering issues, remember that Jinja compiles templates to raw Python code. You can inspect the compiled source by calling `env.compile(source)` and looking at the generated AST or string to understand compiler-level bugs.

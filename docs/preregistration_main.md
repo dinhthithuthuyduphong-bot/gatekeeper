@@ -1163,3 +1163,12 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   1. Driver không còn file nào để chèn no-op.
   2. `run_patch_in_container` hoàn tác mọi thay đổi trên "file test" trước khi chấm, nên hoàn tác luôn bản sửa đúng: S(gold) = 0/4.
 - Đây là giới hạn của harness SWE-smith với repo dùng doctest, không phải lỗi của bộ chấm gskill.
+
+**Kết quả nửa 1 của bước học** (run 42185902883; publish lại từ artifact ở run republish, A94; `results/s25_learn_ledger_h1.json`, `results/s25_learn_summary_h1.json`):
+- **Chi phí:** 6,364 USD.
+  - Flash-Lite: 4,777 USD (4.949 lời gọi).
+  - Pro (phản chiếu): 1,587 USD (14 lời gọi).
+- **Số lần chạy agent:** 302 (`total_metric_calls`).
+- **`num_candidates` = 4 > 1, nên theo quy tắc dừng sớm, chạy nửa 2.**
+- Điểm validation tốt nhất theo bộ chấm **lỏng** của gskill: 0,84. Đây là điểm trên tập validation (50 task) mà GEPA dùng để chọn skill, nên **không** được dùng làm kết quả. Kết quả chỉ lấy từ bước chấm trên tập test, bằng cả hai bộ chấm.
+- Skill tốt nhất hiện tại dài 3.022 ký tự (`results/s25_best_skills.txt`; sẽ được thay bằng kết quả của nửa 2).
