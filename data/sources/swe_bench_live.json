@@ -9,7 +9,7 @@
  ],
  "url": "https://arxiv.org/pdf/2505.23419",
  "sha256": "4126454bc9b188e92ec869b7ee7308e6469b46ae68feda9cc1c4790a9a940e72",
- "n_chars": 78487,
+ "n_chars": 78492,
  "head": "arXiv:2505.23419v2 [cs.SE] 1 Jun 2025 SWE-bench Goes Live! Linghao Zhang Shilin He Chaoyun Zhang Yu Kang Bowen Li Chengxing Xie Junhao Wang Maoquan Wang Yufan Huang Shengyu Fu Elsie Nallipogu Qingwei Lin Yingnong Dang Saravan Rajmohan Dongmei Zhang Microsoft Leaderboard GitHub HuggingFace Abstract The issue-resolving task, where a model generates patches to fix real-world bugs, has emerged as a key benchmark for evaluating the capabilities of large language models (LLMs). While SWE-bench has become the dominant benchmark in this domain, it suffers from several limitations: it has not been updated since its re- lease, is restricted to only 12 repositories, and relies heavily on manual effort for constructing test instances and setting up executable environments, significantly limiting its scalability. We present SWE-bench-Live1, a live-updatable benchmark designed to address these limitations. Our initial release includes 1,319 tasks derived from real GitHub issues created since 2024, spanning 93 repositories. Each task is accompanied by a dedicated Docker image to ensure reproducible execu- tion. Additionally, we introduce an automated curation pipeline that streamlines the entire process from instance creation to environment setup, removing manual bottlenecks and enabling scalability and continuous updates. We evaluate a range of state-of-the-art models and agent frameworks on SWE-bench-Live, offering de- tailed empirical insights into their real-world bug-fixing capabil",
  "excerpts": {
   "contamination": [
@@ -30,5 +30,5 @@
   ],
   "cutoff": []
  },
- "fetched_utc": "2026-11-05T13:13:33+00:00"
+ "fetched_utc": "2026-11-06T16:37:42+00:00"
 }

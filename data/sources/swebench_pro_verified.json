@@ -1,0 +1,21 @@
+{
+ "id": "swebench_pro_verified",
+ "claim": "SWE-Bench Pro Verified: deleting history alone is not enough; future fixes recoverable from .git/objects",
+ "attempts": [
+  {
+   "url": "https://arxiv.org/abs/2609.08149",
+   "ok": true
+  }
+ ],
+ "url": "https://arxiv.org/abs/2609.08149",
+ "sha256": "291e8c612b53829927d60ab0d38fce59ed9d2e434281bddf95fc2c78950b3014",
+ "n_chars": 10194,
+ "head": " [2609.08149] SWE-Bench Pro Verified: A Reliable Benchmark for Software Engineering Agents Skip to main content Search Submit Donate Log in Search arXiv Press Enter to search · Advanced search --> Computer Science > Artificial Intelligence arXiv:2609.08149 (cs) [Submitted on 8 Sep 2026 ( v1 ), last revised 9 Oct 2026 (this version, v3)] Title: SWE-Bench Pro Verified: A Reliable Benchmark for Software Engineering Agents Authors: Pujun Zheng , Zixin Shang , Shufan Jiang , Wenhui Tian , Dongsheng Zhu , Zerun Ma , Dingbo Yuan , Qi Zhang View a PDF of the paper titled SWE-Bench Pro Verified: A Reliable Benchmark for Software Engineering Agents, by Pujun Zheng and 6 other authors View PDF HTML (experimental) Abstract: SWE-Bench Pro has emerged as a standard benchmark for evaluating software engineering agents on challenging repository-level tasks. However, our analysis work show that its evaluation is undermined by two sources of unreliability: reward hacking,",
+ "excerpts": {
+  "reward hacking": [
+   "ch Pro Verified: A Reliable Benchmark for Software Engineering Agents Authors: Pujun Zheng , Zixin Shang , Shufan Jiang , Wenhui Tian , Dongsheng Zhu , Zerun Ma , Dingbo Yuan , Qi Zhang View a PDF of the paper titled SWE-Bench Pro Verified: A Reliable Benchmark for Software Engineering Agents, by Pujun Zheng and 6 other authors View PDF HTML (experimental) Abstract: SWE-Bench Pro has emerged as a standard benchmark for evaluating software engineering agents on challenging repository-level tasks. However, our analysis work show that its evaluation is undermined by two sources of unreliability: reward hacking, enabled by leakage of gold solutions or hidden evaluation information, and task quality issues, including misleading problem statements and improperly scoped tests. These issues can inflate benchmark performance and obscure agents' true coding ability. We present SWE-Bench Pro Verified, a verified version of SWE-Bench Pro that addresses both problems. Our approach combines anti-hacking safeguards that eliminate major leakage channels without disrupting normal agent functionality, with task refinement that minimally corrects inconsistencies within flawed instances. Evaluations on SWE-Bench Pr"
+  ],
+  "git": []
+ },
+ "fetched_utc": "2026-11-06T16:39:43+00:00"
+}

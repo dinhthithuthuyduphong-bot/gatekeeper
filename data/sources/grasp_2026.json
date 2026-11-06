@@ -9,7 +9,7 @@
  ],
  "url": "https://arxiv.org/pdf/2605.29668",
  "sha256": "24246611036877fc59829244cfa5ee177ad7b3d4da644fa6af550abb6fd10edf",
- "n_chars": 95707,
+ "n_chars": 95709,
  "head": "GRASP: Gated Regression-Aware Skill Proposer for Self-Improving LLM Agents Johannes Moll1, Jean-Philippe Corbeil2, Jiazhen Pan1, Martin Hadamitzky3, Daniel Rueckert1,Lisa Adams 4,†,Keno Bressem 3,4,† 1Technical University of Munich and TUM University Hospital, 2Microsoft Healthcare & Life Sciences, 3Department of Cardiovascular Radiology and Nuclear Medicine, German Heart Center, TUM University Hospital, 4Department of Diagnostic and Interventional Radiology, Klinikum rechts der Isar, TUM University Hospital Correspondence:johannes.moll@tum.de †Equal senior authorship Project page:https://jomoll.github.io/GRASPCode:https://github.com/jomoll/GRASP Abstract LLM agents acting in structured environments fail in operational rather than conversational ways, and reliability depends on procedu- ral knowledge of the environment. Prior self-improvement methods accumulate natural- language guidance without checking that each new item preserves previously correct behavior, so a note that fixes one trajectory can silently regress another. We introduce GRASP(Gated Regression-Aware Skill Proposer), which treats agent improvement as a sequence of edits to a bounded skill library, admitting each can- didate only if it produces a net improvement on a balanced held-out probe under a hard re- gression budget. We evaluate GRASPacross five base models on two FHIR-based clinical benchmarks, which score procedural reliabil- ity against FHIR state rather than clinical cor- rectness or patient outcome",
  "excerpts": {
   "anytime": [],
@@ -58,5 +58,5 @@
    "inst existing behavior, a note that fixes one trajectory can silently regress another, and over time monotonic accumulation dilutes task-relevant content and degrades the agent’s context (Shi et al., 2023; Liu et al., 2024a). Avoiding both failures requires held-out validation of each candidate against previously correct behavior, together with a bounded library that supports modification and removal alongside addition. We introduce GRASP(GatedRegression- AwareSkillProposer), which treats agent self- improvement as a sequence of validated edits to a small library of behavioral instructions, orskills, injected into the agent’s context at inference (Wang et al., 2023). After each batch of episodes, failed trajectories are grouped by failure mode, and candi- date edits are proposed for the most frequent modes, each adding, modifying, or removing a skill. Each candidate is re-run on a balanced probe of previ- ously failing and previously passing examples, and accepted only if it fixes more failures than it causes regressions, with no new regression beyond the existing baseline. The mechanism requires no pa- 1 arXiv:2605.29668v3 [cs.AI] 21 Aug 2026 Agent (LLM) Candidate Edits Add Skill Modif"
   ]
  },
- "fetched_utc": "2026-11-05T13:14:59+00:00"
+ "fetched_utc": "2026-11-06T16:39:11+00:00"
 }

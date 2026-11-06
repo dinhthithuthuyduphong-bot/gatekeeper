@@ -9,7 +9,7 @@
  ],
  "url": "https://arxiv.org/pdf/2607.25619",
  "sha256": "19c358e25a71b70326cfa89e3dd41b7d1f4c65c751c58c731f14d1dd393cc0b0",
- "n_chars": 57481,
+ "n_chars": 57482,
  "head": "SkillGate: Cost Efficient Runtime Malicious Skill File Detection in Coding Agents Rui Yang∗†, Michael Fu ‡, Kla Tantithamthavorn ∗, Chetan Arora ∗, Joey Chua † ∗Monash University, Melbourne, Victoria, Australia †Transurban, Melbourne, Victoria, Australia ‡The University of Melbourne, Melbourne, Victoria, Australia Abstract—Software engineering teams now deploy AI coding agents (Cursor, Claude Code, GitHub Copilot) as first-class productivity tools, installing domain-specificskill filesto tailor agent behavior to project APIs, framework conventions, and or- ganizational workflows. These complex Markdown files are easily downloaded from public registries with a single npx skills add command and no real security screening, representing a novel supply-chain attack surface: a malicious skill file can silently reprogram agent behavior, exfiltrating credentials, injecting backdoors into generated code, or redirecting agent actions to attacker-controlled endpoints. The threat is not hypothetical: recent reports document hundreds of malicious skill packages in public registries, including organized campaigns that distributed credential-stealing infostealers via fake productivity skills [1]. No systematic toolchain defense exists for this attack surface. We present SKILLGATE, a deployable security gateway that screens AI skill packages before coding agent installation. SKILLGATE uses a hybrid regex-prefilter + LLM-judge pipeline: safe-signal files bypass the LLM entirely (skip savings)",
  "excerpts": {
   "anytime": [],
@@ -42,5 +42,5 @@
   ],
   "related work": []
  },
- "fetched_utc": "2026-11-05T13:14:56+00:00"
+ "fetched_utc": "2026-11-06T16:39:08+00:00"
 }

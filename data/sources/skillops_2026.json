@@ -9,7 +9,7 @@
  ],
  "url": "https://arxiv.org/pdf/2605.13716",
  "sha256": "b56e5f031d1ee2a480e2b21d840755ad894cf7d10936d8bf0ac7f384cbdefbfc",
- "n_chars": 69984,
+ "n_chars": 69992,
  "head": "SkillOps: Managing LLM Agent Skill Libraries as Self-Maintaining Software Ecosystems Xinyuan Song Emory University xsong69@emory.edu Hongji Pu University of Illinois Urbana-Champaign hongjip2@illinois.edu Liang Zhao∗ Emory University liang.zhao@emory.edu Abstract LLM agents increasingly rely on skill libraries for multi-step tasks, yet these libraries can accumulate persistent defects as skills are added, reused, patched, and linked to changing dependencies. We call this failure modeskill technical debt: library-level defects that may not break a single skill locally but can harm future retrieval, composition, and execution. Existing skill-based agents mainly focus on task-time retrieval, planning, and repair, while library-time maintenance remains underexplored. We proposeSkillOps, a method-agnostic plug-in frame- work for maintaining skill libraries. SkillOps represents each skill as a typedSkill Contract (P, O, A, V, F), organizes skills with aHierarchical Skill Ecosystem Graph (HSEG), and diagnoses library health across utility, compatibility, risk, and validation dimensions. Given a raw skill library, SkillOps produces a maintained library that can be used by existing retrieval or planning agents without changing their internal code. On ALFWorld, SkillOps achieves 79.5% task success as a stan- dalone agent, outperforming the strongest baseline by +8.8 percentage points with no additional task-time LLM calls. As a plug-in layer, it improves retrieval-heavy baselines by +0",
  "excerpts": {
   "anytime": [],
@@ -51,5 +51,5 @@
   ],
   "related work": []
  },
- "fetched_utc": "2026-11-05T13:14:50+00:00"
+ "fetched_utc": "2026-11-06T16:39:02+00:00"
 }

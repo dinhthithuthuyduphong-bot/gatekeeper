@@ -9,7 +9,7 @@
  ],
  "url": "https://arxiv.org/pdf/2605.23657",
  "sha256": "15909b00291f602602b8eaddd41769534a60d591f90c06c49e18154be52b7109",
- "n_chars": 114320,
+ "n_chars": 114323,
  "head": "OpenSkillEval: Automatically Auditing the Open Skill Ecosystem for LLM Agents Jiahao Ying1∗, Boxian Ai2∗, Wei Tang3, Siyuan Liu2, Yixin Cao2† 1Singapore Management University 2Institute of Trustworthy Embodied AI, Fudan University 3Joy Future Academy, JD Abstract Skills, i.e., structured workflow instructions distilled for large language models (LLMs), are becoming an increasingly important mechanism for improving agent performance on real-world downstream tasks. However, as the open-source skill ecosystem rapidly expands, it remains unclear how different models and agent frameworks interact with skills, how to evaluate skill quality, and how users should select skills under practical cost-performance trade-offs. In this paper, we present OPENSKILLEVAL, an automatic evaluation framework for both skill-augmented agent systems and the skills themselves. Instead of relying on static benchmarks, OPENSKILLEVALautomatically constructs realistic task instances from evolving real-world artifacts across five categories of downstream applications: presentation generation, front-end web design, poster generation, data visualization, and report generation. It further collects and organizes community-contributed skills for con- trolled comparison under unified task settings. Using more than 600 dynamically generated task instances and 30 open-source skills, we conduct a systematic evalu- ation of state-of-the-art models and agent frameworks. Our results show that skill availability does n",
  "excerpts": {
   "48%": [
@@ -68,5 +68,5 @@
    "valuation often involves multiple pages, navigation paths, and interaction states that cannot be captured by static screenshot. The browsing agent produces both screenshots and a structured browsing evaluation report containing page-level loading status, discovered sections, missing sections, and navigation outcomes. Based on these collected screenshots, we evaluatevisual designandresponsiveness. For responsiveness, we render the website under multiple viewport settings, including device sizes corresponding to iPhone 13 and iPad 7, to assess layout adaptation across screen sizes. In practice, we find that using only full-page screenshots often leads to excessive image compression and loss of fine-grained details. We therefore adopt a hybrid screenshot strategy: the evaluator receives both full-page screenshots for global structural understanding and viewport- based sequential screenshots (with a viewport height of 900px) for local detail inspection. Poster Generation and Data Visualization.For poster generation and data visualization, the final artifacts are single PNG images, so we directly use the generated images as inputs to the VLM evaluator. The evaluation is grounded in the pre-def"
   ]
  },
- "fetched_utc": "2026-11-05T13:15:15+00:00"
+ "fetched_utc": "2026-11-06T16:39:32+00:00"
 }

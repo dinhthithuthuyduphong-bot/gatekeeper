@@ -9,7 +9,7 @@
  ],
  "url": "https://arxiv.org/pdf/2609.17394",
  "sha256": "e92261f13d1c993a89eb417b0da39bc8820c5f75f57fdb2427723a83100043fd",
- "n_chars": 35862,
+ "n_chars": 35866,
  "head": "Coding Agents Have Converged: Why the SWE-bench Leaderboard Can No Longer Order Its Top Entries, and What to Measure Instead Fengshuo LIU1[0009−0008−2275−6921]⋆, Ying LIU2, Ruize SUN3, Lie LUO4, and Siyuan GUO4 1 Imperial College London, London, United Kingdom fengshuo.liu26@imperial.ac.uk 2 The Hong Kong Polytechnic University, Hong Kong SAR yarden.liu@connect.polyu.hk 3 Korea University, Seoul, Korea 2025150487@korea.ac.kr 4 Jinan University, Guangzhou, China lxl243@stu2022.jnu.edu.cn, kayaking@stu2025.jnu.edu.cn Abstract.Smalldifferencesoncoding-agentleaderboardsareoftenread as an ordering of systems. We audit whether the published verdicts sup- port this reading, using254SWE-bench submissions across four splits without running models. On Verified, the leading two entries each resolve 396of500instances.Thetoptenshare285successesand51failures,leav- ing164instances that distinguish their outcomes. Frontier solution sets have median nesting0.935against a score-implied baseline of0.774, in- dicating strongly shared successes. Scores also depend on the evaluated model–scaffold pair: observed within-model scaffold ranges reach29.8 percentage points, compared with the8.8-point spread of the top thirty. Six of nine cell-mean interaction tests remain significant after Holm cor- rection, although this observational design does not identify causal scaf- fold effects. Exact paired McNemar tests separate none of the29adjacent Verified top-thirty pairs atα= 0.05, while the larger Test s",
  "excerpts": {
   "contribution": [],
@@ -63,5 +63,5 @@
   ],
   "what to measure": []
  },
- "fetched_utc": "2026-11-05T13:15:06+00:00"
+ "fetched_utc": "2026-11-06T16:39:21+00:00"
 }

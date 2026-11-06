@@ -9,7 +9,7 @@
  ],
  "url": "https://arxiv.org/pdf/2603.28815",
  "sha256": "05b4e03fee47fa2fd83844de13452df6c9806cb70f675ba9ede41cd5d6d0433a",
- "n_chars": 33827,
+ "n_chars": 33853,
  "head": "SkillTester Benchmarking Utility and Security of Agent Skills SkillTesterTeam Leye Wang1∗, Zixing Wang1,2†, Anjie Xu1 Authors are listed in alphabetical order by family name. 1 Key Laboratory of High Confidence Software Technologies, Ministry of Education, Peking University, Beijing, China 2 Northwestern Polytechnical University, Xi’an, China March 2026 Abstract This technical report presentsSkillTester, a tool for evaluating theutilityandsecurity of agent skills. Its evaluation framework combines paired baseline and with-skill execution conditions with a separate security probe suite. Grounded in acomparative utility principle and auser-facing simplicity principle, the framework normalizes raw execution artifacts into a utility score, a security score, and a three-level security status label. More broadly, it can be understood as a comparative quality-assurance harness for agent skills in an agent-first world. The public service is deployed at https://skilltester.ai, and the broader project is maintained athttps://github.com/skilltester-ai/skilltester. 1 Introduction Agent skills have become a widely adopted standard for packaging reusable capabilities in agent systems [1]. This workflow was first popularized in the Claude Code ecosystem through SKILL.md- based reusable skills [2]. Similar skill mechanisms are now exposed across major agent tools, including OpenAI Codex, GitHub Copilot, and OpenClaw [4, 7, 8]. Public distribution services such as “skills.sh” and ClawHub furt",
  "excerpts": {
   "A/A": [],
@@ -39,5 +39,5 @@
   "we find": [],
   "heterogene": []
  },
- "fetched_utc": "2026-11-05T13:15:19+00:00"
+ "fetched_utc": "2026-11-06T16:39:35+00:00"
 }

@@ -9,7 +9,7 @@
  ],
  "url": "https://arxiv.org/pdf/2608.26218",
  "sha256": "2b2d2b919aef103f3b84d3d3a96a3a2ac916156714d5e487cd90237270bfbdda",
- "n_chars": 59791,
+ "n_chars": 59793,
  "head": "Same Model, Different Harness: Different Coding-Agent Results Sydney Lewis August 2026 Abstract A coding agent combines a model with a harness, which decides what the model sees, which tools it can use, and how the work continues. We ask whether changing the harness changes the result when the model and task stay fixed. We compare two configurations of the same harness on three coding benchmarks. The control supplies the full conversation in time order, while the treatment keeps the same record but mechanically shortens older tool results as the context fills and responds to repeated or stalled work. Under tight context, the treatment raises mean per-task fail-to-pass fraction (F2PF) in all three pressure comparisons and increases complete solutions on SWE-bench Verified and SWE-bench Pro. The tight-window Verified comparison uses 169 tasks, a 20,480-token window, and a fixed 480-second attempt endpoint; on this cohort, treatment raises mean per-task F2PF from 28% to 49% and complete solutions from 43 to 72. Without model-specific retuning, the same frozen treatment also raises both endpoints on the same cohort for three additional models with different designs. In the wide-window Qwen3.6 comparisons, observed arm outcomes are close on Verified and Pro, while FeatureBench retains a higher mean per-task F2PF under treatment. On the wide-window Verified cohort, treatment also serves fewer prompt tokens per turn. Because changing the harness changed what unchanged model weights ",
  "excerpts": {
   "contribution": [
@@ -60,5 +60,5 @@
    "he same 169 task IDs at every window. Endpoint We select the best finalized patch within the fixed 480-second budget. Context windows We use 20,480, 43,008, and 262,144 tokens. Within a campaign Control and treatment share one model-facing code state. Across windows We collected campaigns successively. The ordering describes the observed context regimes. Table 6 reports the paired mean-difference intervals for those three comparisons. 16 T able 6:Completed-run paired differences on the same 169-task Verified cohort under the fixed 480-second budget. Each entry gives treatment minus control in percentage points, with paired-task bootstrap 95% intervals. window F2PF difference [95% interval] resolution difference [95% interval] 20,480 (tight) +21.1 [+14.1, +28.3] +17.2 [+10.7, +23.7] 43,008 (pressured) +6.4 [+0.5, +12.4] +6.5 [+0.6, +13.0] 262,144 (effectively unconstrained) -0.3 [-4.5, +3.9] -0.6 [-5.9, +4.7] Tables 7 and 8 add the exact paired outcome tests and the other observed context regimes. Table 7:Complete solutions in the paired Qwen3.6 comparisons. C and T denote control and treatment. The pressure rows are primary. The remaining rows report observed results at larger context windows. Test"
   ]
  },
- "fetched_utc": "2026-11-05T13:15:13+00:00"
+ "fetched_utc": "2026-11-06T16:39:29+00:00"
 }
