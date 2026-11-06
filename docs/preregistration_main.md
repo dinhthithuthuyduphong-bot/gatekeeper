@@ -1107,3 +1107,39 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - **Chấm skill tốt nhất** trên 100 task test (nhánh có skill; nhánh không skill dùng lại F1): 100 × 0,022 = 2,2 USD.
   - **Cận trên:** 13,2 + 10,8 + 2,2 = **26,2 USD**.
   - **Cận dưới tham khảo:** 600 × 0,0144 + 40 lần phản chiếu × 0,1185 + 100 × 0,0144 ≈ 14,8 USD. Số 40 chỉ để minh họa, không phải số đo.
+
+### §25 bước 2: học một skill gskill và chấm nó (@thuthuy 06/11/2026: "Oke, duyệt cho skill đầu tiên"; trần 26,2 USD; đăng ký trước khi chạy)
+
+**Học (nguyên mã gskill, `scripts/gskill_learn.py`):**
+- `train_optimize_anything.main()` của `gepa@8c7b697`, không sửa. Tham số:
+  - `--repo pallets__jinja --train-size 200 --val-size 50 --test-size 100`, seed 42 (mặc định);
+  - `--model vertex_ai/gemini-3.1-flash-lite`;
+  - `--reflection-model vertex_ai/gemini-3.1-pro-preview`;
+  - `--workers 6`; proposer `batch` (mặc định);
+  - dữ liệu tải từ HuggingFace như mã gốc.
+- Cấu hình agent khi học là mặc định của gskill (`mini.yaml`, cost_limit 3, không có model_kwargs). Bộ chấm khi học là bộ chấm lỏng của gskill, như mã gốc.
+- **Hai nửa:** nửa 1 dừng ở 300 lần chạy agent; nửa 2 dùng `--resume` để chạy tới 600. Mỗi nửa có `--timeout 18000` s, để lưu trạng thái trước giới hạn 6 giờ của job.
+- **Trần cứng cho bước học: 23,0 USD**, cộng dồn qua hai nửa.
+  - Đồng hồ chi phí bọc chính `litellm.completion` và kiểm trần **trước** mỗi lần gọi. Gặp lần gọi có chi phí bằng 0 thì dừng (A84).
+  - Lý do bọc hàm: `cost_tracker` của gskill gán đè `litellm.success_callback`, nên đồng hồ chạy bằng callback sẽ bị mù (A92).
+- **Dừng sớm (quy tắc cố định):** sau nửa 1, nếu `summary.json` có `extra_info.num_candidates == 1` (GEPA không nhận ứng viên nào ngoài skill rỗng ban đầu, theo tiêu chí của chính nó), thì không chạy nửa 2. Kết quả khi đó là C.
+
+**Chấm (`scripts/f1_probe.py --skills-file`):**
+- Skill tốt nhất (`best_skills.txt`) được chèn vào `{{ skills }}`.
+- Chạy trên 100 task của tập test, cùng cấu hình với F1 (cost_limit 0,30, seed 41, cùng thứ tự task). Nhánh không skill là F1.
+- **Trần cho bước chấm: 3,2 USD.** Tổng trần của bước 2: 23,0 + 3,2 = 26,2 USD.
+- Nếu `best_skills.txt` rỗng thì không chấm, vì nhánh có skill khi đó giống hệt F1.
+
+**Quy tắc quyết định (cố định trước):**
+- **Kiểm định:** cho mỗi bộ chấm X ∈ {S, L}, dùng kiểm định dấu chính xác một phía trên các cặp lệch nhau, ghép theo task với F1. b = số task chỉ nhánh có skill qua; c = số task chỉ nhánh không skill qua; p = P(Bin(b + c, 1/2) ≥ b).
+- **Hiệu chỉnh:** Holm trên 2 phép kiểm, họ α = 0,025 một phía (ICH E9), nên mức đầu là 0,0125.
+- **Phân loại kết quả:**
+  - **A:** bác bỏ được với S.
+  - **B:** bác bỏ được với L nhưng không với S.
+  - **C:** không bác bỏ được với cả hai.
+- **Báo cáo kèm:** δ̂_S và δ̂_L với khoảng tin cậy (bootstrap theo task), và quyết định của Gatekeeper trên Z_S (e-process §2, θ = 0, α = 0,025, K = 1) theo thứ tự task. Gatekeeper là phần minh họa, không phải kết luận chính.
+- **Power của quy tắc** (`scripts/s25_power.py`, `results/s25_power.json`; nền 0,15; hai nhánh độc lập, là trường hợp bất lợi): δ = 0 → 0,008 (≤ 0,0125); 0,05 → 0,071; 0,10 → 0,268; 0,15 → 0,567; 0,27 → 0,974.
+- **Diễn giải viết trước:**
+  - **A:** skill gskill giúp thật trên Flash-Lite, nên có skill thật cho phần chứng nhận.
+  - **B:** mức tăng mà bộ chấm của gskill thấy chủ yếu là do bộ chấm, đo trên một skill thật. Có thể nói vì skill được tối ưu theo bộ chấm lỏng (ghi chú 25-3).
+  - **C:** không tái hiện được mức tăng, kể cả theo cách chấm của gskill. Không phân biệt được "skill không giúp Flash-Lite" với "thiết lập học của mình khác gskill" (agent Gemini Flash-Lite và model phản chiếu Gemini Pro, thay cho gpt-5-mini và gpt-5.2-pro).

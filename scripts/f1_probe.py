@@ -50,6 +50,7 @@ def main() -> int:
     ap.add_argument("--cost-limit", type=float, required=True)
     ap.add_argument("--cap", type=float, required=True)
     ap.add_argument("--mock-response", help="free dry run: LiteLLM mock_response, cost 0 allowed")
+    ap.add_argument("--skills-file", help="skills text injected into {{ skills }} (default: none)")
     a = ap.parse_args()
     if a.seed == 0:
         raise SystemExit("seed 0 means 'no seed' on Vertex (A14)")
@@ -73,7 +74,15 @@ def main() -> int:
     insts = sorted(
         (r for r in rows if r["_gskill_split"] == a.split), key=lambda r: r["_gskill_order"]
     )
-    out = {"model": a.model, "seed": a.seed, "cost_limit": a.cost_limit, "cap": a.cap, "runs": []}
+    skills = Path(a.skills_file).read_text() if a.skills_file else ""
+    out = {
+        "model": a.model,
+        "seed": a.seed,
+        "cost_limit": a.cost_limit,
+        "cap": a.cap,
+        "skills_chars": len(skills),
+        "runs": [],
+    }
     for inst in insts:
         if _spent + a.cost_limit > a.cap:
             out["stopped"] = f"spent {_spent:.4f} + {a.cost_limit} > {a.cap}"
@@ -84,7 +93,7 @@ def main() -> int:
         try:
             h.setup_task(task_instance=inst)
             patch, trace, metrics = h.run_agent(
-                inst.get("problem_statement", ""), "", model_name=a.model, config_path=str(cfg)
+                inst.get("problem_statement", ""), skills, model_name=a.model, config_path=str(cfg)
             )
             rec["crashed"] = trace.startswith("Agent crashed")
             rec["crash_head"] = trace[:300] if rec["crashed"] else None

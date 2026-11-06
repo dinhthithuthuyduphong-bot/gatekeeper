@@ -606,3 +606,21 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - phần phản chiếu chạy thử bằng `call_llm` giả trên máy này: `extract_skills` trả đúng nội dung khối ```.
 - **Workflow:** plan `swesmith-refl` dùng chung các bước môi trường của F1; có cổng preflight; publish lên `pilot-snapshots`.
 - **Điểm còn mở:** giá Pro cho prompt > 200k token khác bảng giá của mình. Ghi lại số token để tính lại nếu cần.
+
+## R-50. §25 bước 2: học và chấm skill gskill (2026-11-06, trước khi chạy; trần 26,2 USD)
+
+- **Đồng hồ chi phí (lỗi tìm thấy khi review, A92):**
+  - Bản đầu dùng `litellm.success_callback`, nhưng `gskill/cost_tracker.py:48` gán đè danh sách này, nên trần sẽ mù. Đã sửa: bọc `litellm.completion` và chặn `batch_completion` (không đi qua hàm đã bọc).
+  - Kiểm bằng `mock_response`, sau khi đã gán đè `success_callback` như gskill làm: chi phí vẫn được đếm (3,25·10⁻⁵ USD trên 1 lần gọi).
+- **Chạy thử miễn phí:**
+  - `--smoke-test` của gskill với `mock_response` và `--local-rows`: vòng lặp GEPA, `gepa_state.bin`, `summary.json` (có `num_candidates`) đều chạy hết; đồng hồ đếm 20 lần gọi agent và 3 lần gọi phản chiếu.
+  - `--resume` chạy tiếp đúng, từ 20 lên 32 lần gọi.
+- **Workflow:**
+  - plan `swesmith-learn` (input `half`) và `swesmith-eval`;
+  - trạng thái chuyển giữa hai nửa bằng `results/s25_learn_run.tar.gz` trên `pilot-snapshots`;
+  - chỉ publish file có thật (`git add` một đường dẫn không tồn tại sẽ làm hỏng bước publish).
+- **Kiểm §4:**
+  - α = 0,025 một phía và Holm trên 2 phép kiểm, ghi trước;
+  - power đã mô phỏng (L11), mức sai 0,008 ≤ 0,0125;
+  - trần tính từ số đã chi;
+  - không xem kết quả giữa chừng: driver chỉ in chi phí.
