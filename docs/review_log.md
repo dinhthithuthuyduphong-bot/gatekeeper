@@ -635,3 +635,17 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - chạy thử miễn phí trên archive thật cho 109/109 task;
   - preflight đạt.
 - **Bổ sung sau lần chạy 3 (cùng ngày):** kết quả 109 task: 107 cho câu trả lời giống nhau giữa hai lần gọi, 75 trùng E2, 109 trùng trường `model`; `pair_with_e2 = false`. Quy tắc đã đăng ký áp nguyên (R5): không ghép. Để đọc được *chỗ khác* thay vì suy đoán (L1), script lưu thêm `sig_e2` và `sig_new`, gồm chỉ lời gọi tool và nội dung, rồi chạy lại một lần (khoảng 0,10 USD). Lần chạy này không đổi phán quyết. Kiểm miễn phí trước đó: 34 task lệch rải trên 18/20 lô và không do cách lưu `content` (cả 109 task đều có `content` rỗng và 1 lời gọi tool).
+
+## R-52. Ô memgovern có phí: hai nhánh mới (ghi chú M-3, 2026-11-06, trước khi chạy; trần 24,5 USD)
+- **Mã mới:**
+  - các mode `cell-dryrun` và `cell-paid` trong `memgovern-trial.yml`;
+  - `scripts/memgovern_cell.py` (Gatekeeper trên tiền tố theo thứ tự E2, kiểm chi phí);
+  - `scripts/redact_memgovern.py` (che nội dung, fail closed);
+  - `archive_raw.py` coi `memgovern` là nội dung bị giữ lại.
+- **Kiểm §4:**
+  - thiết kế, α, θ, c và các quy tắc dừng giữ nguyên như đã đăng ký; chỉ phần ghép nhánh đổi, theo §5 (R5);
+  - kích thước lô là con số vận hành, có lý do ghi trong M-3;
+  - trần tính từ trường hợp xấu nhất của Bleve, nên hai track chạy song song vẫn an toàn;
+  - test: 5 test cho phân tích (tiền tố, bỏ task lỗi hạ tầng, lượt chạy lại, admit, dừng vì chi phí, tên lô) và 3 test cho phần che (che, fail closed, bắt ID);
+  - định dạng thẻ và đầu ra công cụ đã đối chiếu với mã của MemGovern ở `a845658` (`exp_search.py`, `exp_read.py`, `experience_server.py`);
+  - chạy thử miễn phí `cell-dryrun` trên 2 task thật trước khi chạy có phí.

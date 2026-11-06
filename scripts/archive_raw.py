@@ -36,7 +36,7 @@ from pathlib import Path
 BRANCH = "raw-archive"
 MAX_BYTES = 95 * 1024 * 1024  # GitHub rejects files > 100 MB
 SECRET = ["-" * 5 + "BEGIN " + "PRIVATE KEY" + "-" * 5, '"private' + '_key":']
-WITHHELD_SKILLS = {"xreposkill"}  # third-party text without a licence (docs/preregistration_e2.md)
+WITHHELD_SKILLS = {"xreposkill", "memgovern"}  # third-party text without a licence (E2; MemGovern)
 STAGING = Path(os.environ.get("ARCHIVE_STAGING", "/tmp/gatekeeper-raw-archive"))
 
 
@@ -162,8 +162,9 @@ def main() -> int:
     ap.add_argument(
         "--redacted-ok",
         action="store_true",
-        help="third-party text was already replaced by scripts/redact_third_party.py (which "
-        "exits 1 on any leak, and the caller then deletes the raw files): archive such batches",
+        help="third-party text was already replaced by scripts/redact_third_party.py or "
+        "scripts/redact_memgovern.py (both exit 1 on any leak, and the caller then deletes the "
+        "raw files): archive such batches",
     )
     a = ap.parse_args()
     manifest = load_manifest()
@@ -198,7 +199,11 @@ def main() -> int:
             "result_sha256": res_sha,
         }
         if skills_of(part) & WITHHELD_SKILLS and a.redacted_ok:
-            entry["redacted"] = "XRepoSkill text replaced by <<XREPOSKILL_...>> markers (A55)"
+            entry["redacted"] = (
+                "MemGovern text replaced by <<MEMGOVERN_TEXT ...>> markers (redact_memgovern.py)"
+                if "memgovern" in skills_of(part)
+                else "XRepoSkill text replaced by <<XREPOSKILL_...>> markers (A55)"
+            )
             entry["path"] = f"archive/{stage_of(part)}/{part}.tar.gz"
             new[entry["path"]] = blob
         elif skills_of(part) & WITHHELD_SKILLS:

@@ -1339,4 +1339,31 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - Trường `model` của phản hồi **không** phát hiện được thay đổi này (109/109 trùng).
   - Hệ quả cho paper: ghép một nhánh mới với một nhánh cũ chỉ dựa trên tên model là không an toàn. Phép kiểm §5 cần thiết, và đã bắt được sự thay đổi.
 - **Ngân sách:** chạy cả hai nhánh ước khoảng 21 USD. Theo M-1, trước khi chạy phải báo @thuthuy, kèm số Bleve chi thực tế.
+- **Quyết định của @thuthuy (06/11):** "Có thể bổ sung từ 7 đến 10 đô nếu thiếu". Trần của ô = 50 USD − (chi thật của track Bleve). Phần vượt 40 USD chỉ dùng khi cần. Thiết kế giữ nguyên: hai nhánh mới (`none` và memgovern) trên 109 task theo thứ tự E2, cùng seed 41 và cấu hình như E2, Gatekeeper α_ô = 0,025/9.
+
+### Ô memgovern: ghi chú thực thi M-3 (06/11/2026, trước mọi lần chạy có phí của ô; chưa xem kết quả nào của ô)
+
+- **Hai nhánh mới**, theo §5 khi phép kiểm không đạt:
+  - `none` và `memgovern` (bản gốc) trên 109 task E2, theo thứ tự seed 41 của E2 (`model_unchanged_check.e2_tasks`);
+  - cấu hình như E2: mini-swe-agent 2.4.6, seed model 41, `cost_limit` 1 USD, 250 bước, harness SWE-bench-Live `ad79b85`, 2 worker, chạy song song 2 nhánh;
+  - server của MemGovern loại thẻ của mọi repo trong pool E2, như lần thử 7;
+  - ghim chromadb 1.5.9 và Qwen3-Embedding-0.6B bản `97b0c614`, đúng phiên bản lần thử 7 đã ghi lại (đạt F1–F6 và F4b).
+- **Trial và Z:**
+  - Z = 1[không giải | memgovern] − 1[không giải | none] (`analyze_g1_final.z_resolved`);
+  - e-process BettingEProcess với θ = 0, c = 0,5, α_ô = 0,025/9;
+  - đưa Z vào theo thứ tự E2, trên **tiền tố dài nhất đã chạy xong** của thứ tự đó. Thứ tự đặt cược vì vậy cố định trước, không phụ thuộc shard nào xong trước;
+  - task đã chạy nhưng không có cặp (lỗi hạ tầng) bị bỏ qua, như ở E1/E2 (`scripts/memgovern_cell.py`).
+- **Lô và quy tắc dừng** (như đã đăng ký: kiểm sau mỗi lô, dừng ngay khi admit; kiểm chi phí sau 10 trial):
+  - lô 1 là task 0–9 (10 task). Sau lô 1 kiểm chi phí: nếu chi tới lúc đó + (chi trung bình mỗi task × số task còn lại) > trần của ô thì dừng ô và báo @thuthuy;
+  - các lô sau mỗi lô 20 task: 10–29, 30–49, 50–69, 70–89, 90–108 (lô cuối 19 task). Sau mỗi lô tính lại cả hai quy tắc dừng;
+  - **Lý do chọn 20 task mỗi lô** (vận hành, không phải con số khoa học): đó là số job chạy song song tối đa của GitHub Actions gói Free, đã dùng cho E2 (`e2-shards.yml`). Mỗi shard chạy đúng 1 task, nên khi chạy tiếp, task nào thuộc shard nào không đổi.
+  - Kích thước lô chỉ ảnh hưởng chi phí khi dừng sớm (tối đa thừa một lô). Nó không ảnh hưởng tính hợp lệ: theo bất đẳng thức Ville, dừng ở bất kỳ thời điểm nào vẫn giữ mức sai ≤ α_ô.
+- **Trần ngân sách và chạy song song với Bleve:**
+  - trần của ô (`cap_usd`) = 50 − 25,5 = **24,5 USD**;
+  - 25,5 USD là chi tối đa của track Bleve nếu chạm mọi trần (4a 2,0 + 4b 16,0 + 4c 3,2 + 4d 1,9 + 2,4), nên tổng hai track luôn ≤ 50 USD, kể cả khi hai track chạy cùng lúc;
+  - mỗi task giữ trước chi phí xấu nhất (2 nhánh × 1 USD) trong sổ cái `mg-ledger` (cơ chế của E2, A60);
+  - phép kiểm §5 (0,21 USD) tính vào phần 40 USD.
+- **Không phân phối lại nội dung MemGovern:**
+  - `scripts/redact_memgovern.py` thay hướng dẫn của MemGovern và mọi quan sát chứa thẻ bằng dấu `<<MEMGOVERN_TEXT sha256=…>>`;
+  - sau đó script kiểm rằng không file nào còn cửa sổ 60 ký tự của thẻ nào được tham chiếu. Nếu còn, file gốc không được tải lên (fail closed).
 
