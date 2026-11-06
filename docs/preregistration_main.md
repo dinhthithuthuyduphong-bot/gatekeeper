@@ -1034,3 +1034,17 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 - Thay báo cáo cũ bằng báo cáo mới cho các instance trong tập, rồi tính lại tác dụng (endpoint S, như §26) cho E1, E2, T4.
 - Báo cáo **cả** số cũ (đã đăng ký, phán quyết giữ nguyên theo R5) lẫn số mới.
 - **Diễn giải đặt trước:** nếu số mới khác số cũ về chiều hoặc ý nghĩa thống kê thì đưa lên phần kết quả chính, kèm cả hai số. Nếu không khác thì ghi ở threats to validity.
+
+### Kết quả §28, bước 1 (06/11/2026; `results/harness_gold_net.json`, `results/harness_noop_net.json`)
+
+- **Bản vá gốc, có mạng qua proxy, 1 lần**, trên 6 instance §26 gắn nhãn "hỏng" có dấu hiệu mạng:
+
+  | Instance | Không mạng (§26) | Có mạng (§28) | Host bị chặn (proxy: `connect_rejected`, 403) |
+  | --- | --- | --- | --- |
+  | `ansible-lint-4662` | hỏng 3/3 | **resolved** | — (pypi.org được phép) |
+  | `cfn-lint-3508`, `cfn-lint-3607` | hỏng 3/3 | hỏng | `docs.oasis-open.org` |
+  | `briefcase-1640`, `-1785`, `-1811` | hỏng 3/3 | hỏng | `dl.google.com` |
+
+- **Kiểm âm:** bản vá rỗng có mạng trên 5 task đầu của §27a: **0/5** resolved.
+- **Theo quy tắc đặt trước: ĐẠT.** Có ít nhất 1 instance chuyển sang resolved, và bản vá rỗng vẫn không resolved.
+- **Phần còn hỏng** là do chính sách mạng của môi trường chặn 2 host. Hai host này chỉ dùng được khi môi trường cho phép, và việc đó cần @thuthuy duyệt.
