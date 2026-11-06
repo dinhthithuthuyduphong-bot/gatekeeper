@@ -18,9 +18,9 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 **Định vị:** quản lý vòng đời thư viện skill cho coding agent, với FWER theo từng (skill, scope), bảo đảm cho skill ghép, và so sánh trực tiếp các quy tắc nhận/thu hồi đã công bố trên lần chạy agent thật (`docs/novelty_review.md`, `docs/paper_argument.md`). Ý tưởng lõi anytime-valid đã có ở Qu et al. 2026, nên **không** tuyên bố là "đầu tiên".
 
 ### Ưu tiên 1: tăng sức mạnh, miễn phí
-- [ ] 🤖 **Thu hồi hai bước** (e-SR báo động nhanh → cách ly → e-process xác nhận trên dữ liệu mới, α chia theo 6/(π²k²)): đăng ký §15, kiểm trên nhiễu thật, rà tài liệu tính mới, viết mệnh đề. Có thể là đóng góp phương pháp mới so với Qu et al.
-- [ ] 🤖 Vì sao agent thất bại cả khi có bản vá đúng (T4: 5/11 task).
-- [ ] 🤖 **Đóng T4:** so với dự đoán đăng ký ở D-M6; CI của hiệu ứng; token; lưu dữ liệu gốc.
+- [x] 🤖 **Thu hồi hai bước** (e-SR báo động nhanh → cách ly → e-process xác nhận trên dữ liệu mới, α chia theo 6/(π²k²)): đăng ký §15. **Chỉ kiểm trên plasmode**, không có lần thu hồi trên agent thật (`results/two_stage_retirement.json`, `docs/preregistration_main.md` §15).
+- [ ] 🤖 Vì sao agent thất bại cả khi có bản vá đúng (T4). **Đang làm ở §26:** FAIL_TO_PASS qua nhưng một số PASS_TO_PASS hỏng do môi trường; theo endpoint F, T4 là +0,65 so với +0,55. Đang chấm lại bản vá gốc 3 lần (`results/harness_gold.json`).
+- [x] 🤖 **Đóng T4:** admit ở trial 20; +0,55 [0,35; 0,75]; nằm trong vùng dự đoán D-M6; 42,2 triệu token vào, 0,23 triệu token ra; dữ liệu gốc trên `raw-archive` (`docs/preregistration_main.md` §14).
 - [ ] 🤖 **Phân tích "agent thất bại vì sao"** trên 344 trajectory nhánh không skill của E2 (thăm dò): tìm kiểu thất bại phổ biến mà một skill **thật** (không phải đối chứng) có thể sửa, kèm δ ước tính. Đây là đòn bẩy lớn nhất về ý nghĩa thực tế.
 - [ ] 🤖 **T2:** cài e-detector của Qu et al. để so sánh cách thu hồi một cách công bằng.
 
@@ -756,6 +756,16 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 03/11/2026 | **Rà soát toàn bộ trước khi chạy tiếp** (yêu cầu của @thuthuy): sửa 12 lỗi (A24–A35), trong đó có 3 lỗi lẽ ra làm sai kết quả: ghi đè `g1_final.json`, thứ tự sàng lọc RQ1 lệch bản đăng ký trước, `RepeatedFormatError` bị coi là lỗi hạ tầng. Thêm 2 lỗi lẽ ra làm sai E2: trần ngân sách cố định, xuất dữ liệu Live bị hỏng. Đã kiểm: chưa có dữ liệu nào bị ảnh hưởng. Ghi nhận C7: S2 của E1 có power thấp (G = 8–9 repo) | `docs/audit_pilot.md` |
 | 03/11/2026 | @thuthuy đặt **quy tắc nghiên cứu R1–R5**. Áp dụng ngay: (1) sổ bài học L1–L10 và danh sách review §4; (2) review mã A24–A35 phát hiện thêm lỗi F1 do chính tôi viết, đã sửa; (3) bỏ ngưỡng tự đặt "≥ 10 task mỗi rule"; (4) mốc cắt dữ liệu huấn luyện của Gemini **chưa xác nhận được từ bản gốc**, nên phân tích nhiễm dữ liệu bị treo; (5) n của E2 = 121 theo ràng buộc nguồn lực (Lakens 2022, đã đọc bản gốc), thay cho số 120 tự đặt | `docs/research_rules.md`, `docs/lessons_learned.md`, `docs/review_log.md` |
 | 03/11/2026 | @thuthuy nâng ngân sách E1 lên **91 USD** (đo được 0,0706 USD mỗi lần chạy, cao hơn ước tính 0,0617); trần 122,26. Kiểm định pool E2 khối 1: 79/120 task dùng được (36 task có test PASS_TO_PASS nhạy môi trường); khối 2 (80 task) đang kiểm định. Lưu trữ dữ liệu gốc lên nhánh `raw-archive` (A52). Chạy song song các nhánh: khoảng 20,5 task/giờ | `docs/preregistration_e1.md` ghi chú 6, `docs/raw_archive.md` |
+| 04/11/2026 | E1 xong: 3 skill × 53 task × 3 seed, mọi CI chứa 0; A/A sạch | `results/e1_final.json`, `docs/preregistration_e1.md` |
+| 04/11/2026 | E2 xong: XRepoSkill × 109 task × 3 seed, +2,1 điểm, CI [−1,0; +5,3]; chi 43,04 USD | `results/e2_final.json`, `docs/preregistration_e2.md` |
+| 05/11/2026 | Tái định vị sau G1 (theo quy tắc rẽ nhánh của lịch ngược); bỏ Phase 4, 5b, 6 có ghi lý do | mục ★ ở đầu file, `docs/pilot_postmortem.md` |
+| 05/11/2026 | T1–T4: T4 admit ở trial 20, +0,55; T2b thu hồi hai bước (plasmode) | `docs/preregistration_main.md` §14–§15 |
+| 05/11/2026 | 2.1 dừng (D-M7, cận trên δ ≈ 0,09); §18 placebo cho quy lỗi (R = 1,08); §19 bảng placebo; §20 S3 đối chứng dương; S5 dừng | `docs/preregistration_main.md` §17–§20 |
+| 05/11/2026 | §21: kiểm định hoán vị chính xác (mức 0,042); sửa đếm lặp bằng bootstrap theo task (D-M10) | `results/section21.json` |
+| 06/11/2026 | §22 SSKB trên Flash-Lite: G = 0,064, dừng track C | `results/sskb_probe.json` |
+| 06/11/2026 | §23a Pro: G = 0, 8/8 cặp giống hệt (hiệu ứng trần); §23b Flash dừng theo cổng chi phí. Tổng §23 6,14 USD. Lỗi A83–A85 | `results/sskb_s23a-pro.json`, `results/sskb_s23b-flash-screen.json` |
+| 06/11/2026 | §26 kiểm bộ chấm: E1, E2 null vững theo F và B; T4 bị S đo thấp khoảng 0,10; lỗi A89 bắt được bằng phép tái lập | `results/harness_audit.json` |
+| 06/11/2026 | Kế hoạch tái hiện 60 USD: đã chi khoảng 7,18 USD (§22 1,045 + §23 6,136) | `CLAUDE.md` |
 
 ---
 

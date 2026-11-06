@@ -55,3 +55,31 @@
 - Giả thuyết: một số test PASS_TO_PASS chập chờn hoặc nhạy với môi trường, nên endpoint "resolved" (đòi mọi PASS_TO_PASS phải qua) có nhiễu đo.
 - **Cần kiểm (miễn phí):** chấm lại bản vá gốc của các task này nhiều lần; tính lại với endpoint chỉ xét FAIL_TO_PASS làm phân tích độ nhạy.
 - Đưa vào phần threats to validity.
+
+## Phân loại luận điểm: xác nhận và thăm dò; điều chỉnh (06/11/2026)
+
+**Vì sao:** reviewer sẽ hỏi luận điểm nào đã đăng ký trước. Paper chia phần kết quả thành hai tiểu mục: **Pre-registered confirmatory** và **Exploratory**. Luận điểm thăm dò không được dùng làm đóng góp chính.
+
+| Luận điểm | Loại | Neo đăng ký | Vai trò trong paper |
+| --- | --- | --- | --- |
+| C1 (E1, E2 null) | Xác nhận | `preregistration_e1.md`, `_e2.md` | Chính. §26: vững với lỗi bộ chấm (F, B không đổi kết luận) |
+| C2 (XRepoSkill: bác bỏ 4/6) | Thăm dò; quy tắc SESOI ghi trước khi đọc bảng của họ | §10 | Phụ, ghi rõ là phân tích thêm |
+| C3 (cổng ngây thơ nhận nhầm trên dữ liệu thật) | E1 đăng ký trước; phần SSKB thăm dò | §9 | **Hạ xuống ghi chú** trong phần thảo luận A/A. Lý do: 43–44% so với nền 38,5%, CI chồng nhau |
+| C4–C6 (plasmode) | Xác nhận (plasmode) | §9, §14 | Chính, kèm giới hạn "hiệu ứng được cấy là giả lập" |
+| C7 (độ nhạy truncation) | Độ nhạy đã đăng ký | `_e2.md` | Phụ |
+| C8 (7/13 mức tăng nằm trong nhiễu chạy lại) | Xác nhận | §12 | Chính |
+| §18 (placebo cho quy lỗi) | Xác nhận | §18 | Chính |
+| §19 (bảng placebo cho quy tắc đã công bố) | Xác nhận | §19 | Chính |
+| §20 S3 (đối chứng dương phía "giúp") | Xác nhận | §20 | Chính |
+| §20 S4 (cơ chế đổ lỗi) | Thăm dò | §20 | Phụ |
+| §21 (hoán vị chính xác; bootstrap theo task) | Xác nhận | §21 | Chính |
+| §13 (ô trung tính) | Thăm dò, làm sau khi thấy dữ liệu | §13 | Phụ |
+| §22, §23a (SSKB trên Flash-Lite và Pro) | Đăng ký trước, n nhỏ | §22, §23 | **Nghiên cứu tình huống mô tả**, không phải kiểm định: tác dụng công bố không xuất hiện; trên Pro, 8/8 cặp giống hệt (hiệu ứng trần) |
+| §23b (Flash) | Dừng theo cổng chi phí | §23 | Chỉ nêu ở phần chi phí |
+| §26 (kiểm bộ chấm) | Độ nhạy đã đăng ký | §26 | Threats to validity; T4 bị S đo thấp khoảng 0,10 |
+
+**Threats to validity, thêm từ §26:**
+- Endpoint resolved đòi mọi PASS_TO_PASS qua. Một số test hỏng do môi trường của mình, ví dụ `conan-15705`: FAIL_TO_PASS 1/1 qua, PASS_TO_PASS 5/3.650 trượt.
+- Lỗi này làm task không giải được ở **cả hai nhánh**. Nó pha loãng tác dụng nhưng không tạo ra tác dụng.
+- Kết luận của E1 và E2 không đổi khi chỉ xét FAIL_TO_PASS (F) hoặc khi bỏ test hỏng (B).
+- Kết quả chấm lại bản vá gốc 3 lần: `results/harness_gold.json`. Số liệu sẽ được ghi vào đây khi xong.
