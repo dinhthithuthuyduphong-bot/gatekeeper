@@ -649,3 +649,9 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - test: 5 test cho phân tích (tiền tố, bỏ task lỗi hạ tầng, lượt chạy lại, admit, dừng vì chi phí, tên lô) và 3 test cho phần che (che, fail closed, bắt ID);
   - định dạng thẻ và đầu ra công cụ đã đối chiếu với mã của MemGovern ở `a845658` (`exp_search.py`, `exp_read.py`, `experience_server.py`);
   - chạy thử miễn phí `cell-dryrun` trên 2 task thật trước khi chạy có phí.
+- **Chạy thử miễn phí (06/11):**
+  - run 42300889696: không chạy task nào, lộ A100;
+  - run 42302062618: chạy đủ, nhưng bước che fail closed, lộ A101;
+  - **run 42305733426 đạt:** 2/2 task `Submitted` ở cả hai nhánh, `infra_failures` rỗng; mỗi task 1 lời gọi `/search` và 1 lời gọi `/get_experience`; che xong không còn file nào sót; 2 lô lên `raw-archive`.
+  - **Kiểm độc lập** trên file đã lưu trữ, dùng 660.427 cửa sổ 60 ký tự lấy từ mọi thẻ (121.475 thẻ, 3 trường): chỉ khớp 2 chuỗi chuẩn trong `test_output.txt` của **cả hai** nhánh, gồm thông báo traceback của Python ("During handling of the above exception, another exception occurred") và dòng phân cách của pytest. Không có nội dung MemGovern nào.
+  - Kết luận: được chạy lô có phí 1 (task 0–9, `cap_usd` 24,5).
