@@ -26,11 +26,10 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 import uuid
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-
-NOOP_LINE = "# no-op"
 
 
 def wilson(k: int, n: int, z: float) -> list[float]:
@@ -43,14 +42,26 @@ def wilson(k: int, n: int, z: float) -> list[float]:
     return [max(0.0, c - h), min(1.0, c + h)]
 
 
-def first_source_file(bug_patch: str) -> str:
+_TEST_FILE = re.compile(
+    r"(^|/)(tests?|testing)/|(^|/)test_[^/]*\.py$|_test\.(py|go)$|(^|/)conftest\.py$"
+)
+COMMENT = {".py": "# no-op", ".go": "// no-op"}
+
+
+def first_source_file(bug_patch: str, test_files: list[str]) -> str:
+    """First file of the bug patch that is source code (.py / .go) and not a test file.
+
+    Test files: SWE-smith's own list for the task (F2P and P2P files) plus a path rule
+    (test directories, test_*.py, *_test.py, *_test.go, conftest.py). Version 2 (A90): the
+    first version rejected every file whose name contained "test" (e.g. src/jinja2/tests.py).
+    """
     from unidiff import PatchSet
 
     for f in PatchSet(bug_patch):
         p = f.path
-        if p.endswith(".py") and "test" not in p.split("/")[-1] and "/tests/" not in f"/{p}":
+        if Path(p).suffix in COMMENT and p not in test_files and not _TEST_FILE.search(p):
             return p
-    raise ValueError("no non-test .py file in bug patch")
+    raise ValueError("no non-test source file in bug patch")
 
 
 def build_patches(inst: dict) -> dict[str, str]:
@@ -70,8 +81,9 @@ def build_patches(inst: dict) -> dict[str, str]:
             return r.output.decode()
 
         sh(f"git fetch -q && git checkout -q {inst['instance_id']}")
-        src = first_source_file(inst["patch"])
-        sh(f"printf '\\n{NOOP_LINE}\\n' >> {src}")
+        f2p, p2p = rp.get_test_files(inst)
+        src = first_source_file(inst["patch"], list(f2p) + list(p2p))
+        sh(f"printf '\\n{COMMENT[Path(src).suffix]}\\n' >> {src}")
         noop = sh("git diff")
         sh("git checkout -q -- .")
         c.put_archive("/tmp", _tar("bug.diff", inst["patch"]))
@@ -188,11 +200,14 @@ def main() -> int:
     ap.add_argument("--split", required=True)
     ap.add_argument("--workers", type=int, required=True)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--limit", type=int, help="first N tasks of the split by _gskill_order")
     a = ap.parse_args()
     rows = [json.loads(x) for x in Path(a.rows).read_text().splitlines() if x.strip()]
     insts = sorted(
         (r for r in rows if r["_gskill_split"] == a.split), key=lambda r: r["_gskill_order"]
     )
+    if a.limit:
+        insts = insts[: a.limit]
     with ThreadPoolExecutor(max_workers=a.workers) as ex:
         per = list(ex.map(one, insts))
     out = {"summary": summarise(per), "per_task": per, "split": a.split, "rows": a.rows}

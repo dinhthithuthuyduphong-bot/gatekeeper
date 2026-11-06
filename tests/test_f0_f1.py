@@ -26,7 +26,9 @@ BUG = (
 
 def test_first_source_file_skips_tests():
     pytest.importorskip("unidiff")
-    assert f0.first_source_file(BUG) == "src/jinja2/lexer.py"
+    assert f0.first_source_file(BUG, ["tests/test_x.py"]) == "src/jinja2/lexer.py"
+    tests_mod = BUG.replace("lexer.py", "tests.py")
+    assert f0.first_source_file(tests_mod, ["tests/test_x.py"]) == "src/jinja2/tests.py"  # A90
 
 
 def test_wilson_bounds():

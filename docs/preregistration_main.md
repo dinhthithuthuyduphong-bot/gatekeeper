@@ -1040,3 +1040,21 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - **Nhóm 63 task có problem statement:** L(a) = 63/63.
 - **Lỗi hạ tầng:** 4/100 (≤ 10%). Đây là lỗi của tôi: `first_source_file` loại mọi file có chữ "test" trong tên, nên loại nhầm `src/jinja2/tests.py` (module thật của jinja). 4 task này không được chấm; kết quả trên tính trên 96 task (A90).
 - **Phạm vi kết luận:** chỉ về bộ chấm trong mã công khai. **Không** kết luận gì về con số trong blog (có thể được chấm bằng mã khác), cũng không về tác dụng của skill gskill dưới bộ chấm S.
+
+**Ghi chú thực thi 25-2: F0 mở rộng sang các repo khác** (06/11/2026; @thuthuy: "Oke, chạy F0 trên thêm vài repo đi"; đăng ký trước khi có dữ liệu của các repo này)
+- **Mục đích:** kiểm cơ chế của F0 có tổng quát không, hay chỉ đúng với jinja.
+- **Chọn repo** (quy tắc cố định; danh sách profile lấy từ `swesmith==0.0.9`):
+  1. Hai repo gskill tự nêu tên:
+     - `blevesearch__bleve` (Go, trong blog);
+     - `pygments__pygments` (repo mặc định trong README của gskill).
+  2. Ba repo Python rút ngẫu nhiên: `random.Random("2027-s25-f0x").sample(pool, 3)`, với `pool` = các repo Python (profile `PythonProfile`) có ≥ 100 task SWE-smith, trừ jinja và pygments, sắp xếp theo tên (93 repo).
+     - Kết quả rút: `benoitc__gunicorn` (373 task), `gawel__pyquery` (249), `prettytable__prettytable` (276).
+- **Task:** 30 task đầu (theo `_gskill_order`) của tập test gskill của mỗi repo, cùng cách chia (seed 42, 200/50/100).
+  - Số 30 là số vận hành: jinja tốn khoảng 1 phút mỗi task với 4 luồng.
+  - Với 30/30, cận dưới Wilson 95% là 0,886, đủ để phân biệt với S = 0.
+- **Driver:** `first_source_file` bản 2 (sửa A90). File test được nhận diện bằng danh sách file test của SWE-smith và một quy tắc đường dẫn. Với Go, dòng no-op là `// no-op`.
+  - Kết quả jinja (bản 1) giữ nguyên, không chạy lại.
+- **Dự đoán:**
+  - Python: L(a) ≥ 0,5 và S(a) = 0, cùng cơ chế với jinja.
+  - Go: với `go test -v`, output có "FAIL" chứ không có "FAILED". Mã gskill chỉ tìm "FAILED", "ERROR" và "passed", nên dự đoán L(a) ≥ 0,5 qua một nhánh khác của cùng điều kiện.
+- **Diễn giải:** như F0, áp cho từng repo. Lỗi hạ tầng > 10% ở một repo thì báo riêng và không gộp repo đó.
