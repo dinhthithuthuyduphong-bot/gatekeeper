@@ -37,5 +37,20 @@
    "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids[True]",
    "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids_all_rrevs[True]"
   ]
+ },
+ "pypa__twine-1249": {
+  "dataset": "rows.jsonl",
+  "run_id": "noopnet-pypa__twine-1249-20261106T074443",
+  "report": true,
+  "resolved": false,
+  "f2p_fail": [
+   "tests/test_auth.py::test_inability_to_make_token_raises_error",
+   "tests/test_auth.py::test_resolver_authenticator_config_authentication",
+   "tests/test_auth.py::test_resolver_authenticator_credential_input_authentication",
+   "tests/test_auth.py::test_resolver_authenticator_trusted_publishing_authentication",
+   "tests/test_auth.py::test_trusted_publish_authenticator_refreshes_token",
+   "tests/test_auth.py::test_trusted_publish_authenticator_reuses_token"
+  ],
+  "p2p_fail": []
  }
 }
