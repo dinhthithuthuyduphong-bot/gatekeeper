@@ -85,7 +85,9 @@ def main() -> int:
             out[iid] = {"error": "row not found"}
             continue
         row = rows[iid]
-        live = bool(row.get("image"))  # SWE-bench-Live rows carry their image name
+        live = (row.get("image") or "").startswith(
+            "starryzhang/"
+        )  # Live; Verified: swebench/ (A93)
         failed = prepull([row])
         if failed:
             out[iid] = {"error": f"image pull failed: {failed}"}
