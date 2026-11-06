@@ -593,3 +593,16 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Chạy thử miễn phí trên 1 task thật: container, agent, nộp bài và chấm đều chạy hết.
   - Job `swesmith_f1` trong `pilot.yml` có cổng preflight; mặc định của input `plan` vẫn là pilot cũ.
 - **Kiểm §4:** không ghi đè kết quả khác (file mới); dữ liệu MIT (kiểm bằng dataset card); không có mặc định cho tham số khoa học.
+
+## R-49. Ghi chú 25-3: đo chi phí phản chiếu (2026-11-06, trước khi chạy; trần 1 USD)
+
+- **Mã:**
+  - `scripts/reflection_cost_probe.py` gọi nguyên `create_swe_fitness_fn` và `LoggingProposer` của gskill.
+  - `reflective_item` chép đúng logic của `make_reflective_dataset` (`gepa@8c7b697`); đã kiểm trên một dict mẫu.
+  - Trần kiểm trước mỗi lần chạy agent và trước lần phản chiếu.
+  - Bảng giá Flash-Lite sinh từ `configs/models`, khớp fixture của §22.
+- **Chạy thử miễn phí:**
+  - phần agent đã chạy thử ở F1;
+  - phần phản chiếu chạy thử bằng `call_llm` giả trên máy này: `extract_skills` trả đúng nội dung khối ```.
+- **Workflow:** plan `swesmith-refl` dùng chung các bước môi trường của F1; có cổng preflight; publish lên `pilot-snapshots`.
+- **Điểm còn mở:** giá Pro cho prompt > 200k token khác bảng giá của mình. Ghi lại số token để tính lại nếu cần.

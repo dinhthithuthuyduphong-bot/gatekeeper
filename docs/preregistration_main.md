@@ -1082,3 +1082,14 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - **Diễn giải viết trước, áp cho F1:**
   - Trên cùng các patch, bộ chấm của gskill cho tỉ lệ 0,37, gấp khoảng 2,5 lần tỉ lệ resolved (0,15).
   - **Thăm dò, không phải kết luận:** 62% số lần chạy nộp patch rỗng. Dưới bộ chấm của gskill, một skill chỉ cần làm agent sửa **một thứ gì đó** là đủ để tỉ lệ "resolve" tăng mạnh. Điều này có thể giải thích một phần các mức tăng đã công bố. Chưa kiểm được, vì phải có skill gskill thật.
+
+**Ghi chú thực thi 25-3: đo chi phí một lần phản chiếu của gskill** (06/11/2026; @thuthuy: "ok" cho bước đo chi phí model phản chiếu dưới 1 USD; trước khi có dữ liệu)
+- **Phát hiện khi đọc mã, trước khi đo:** khi học skill, GEPA chấm từng ứng viên bằng `swe_fitness_fn`, mà hàm này dùng **cùng** `verify_with_patch` lỏng. Vậy gskill tối ưu skill theo bộ chấm lỏng. Điều này được ghi trước để diễn giải mọi kết quả của bước học.
+- **Phép đo:** `scripts/reflection_cost_probe.py`.
+  1. `create_swe_fitness_fn` của gskill chạy agent không skill trên **3 task train đầu** (theo `_gskill_order`), cùng cấu hình agent như F1 (cost_limit 0,30, seed 41).
+  2. Dựng dữ liệu phản chiếu đúng như `OptimizeAnythingAdapter.make_reflective_dataset`.
+  3. Gọi `LoggingProposer` của gskill **một lần** với `vertex_ai/gemini-3.1-pro-preview`, theo thiết lập LM mặc định của gskill (không truyền kwargs). 3 task là đúng `reflection_minibatch_size=3` của gskill.
+- **Trần:** 1,0 USD. Trước mỗi lần chạy agent: dừng nếu "đã chi + 0,30 > 1,0".
+- **Đại lượng:** chi phí và token của lần gọi phản chiếu; số ký tự của prompt.
+  - Lưu ý: bảng giá trong `configs/models` chỉ có một mức. Vertex tính giá cao hơn cho prompt dài hơn 200k token, nên nếu prompt vượt mức này thì phải tính lại theo giá thật.
+- **Dùng để làm gì:** tính trần ngân sách cho bước học, bằng công thức số lần phản chiếu × chi phí một lần cộng số lần chạy agent × 0,0144 USD (đo ở F1). Trần đó sẽ trình @thuthuy duyệt. Không có quy tắc dừng nào dựa vào kết quả của phép đo này.
