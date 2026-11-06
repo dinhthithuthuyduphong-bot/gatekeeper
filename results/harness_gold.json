@@ -109,5 +109,38 @@
    }
   ],
   "label": "broken"
+ },
+ "aws-cloudformation__cfn-lint-3607": {
+  "dataset": "rows.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-aws-cloudformation__cfn-lint-3607-20261106T055116-r0",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "test/unit/module/formatters/test_formatters.py::TestFormatters::test_sarif_formatter"
+    ]
+   },
+   {
+    "run_id": "gold-aws-cloudformation__cfn-lint-3607-20261106T055247-r1",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "test/unit/module/formatters/test_formatters.py::TestFormatters::test_sarif_formatter"
+    ]
+   },
+   {
+    "run_id": "gold-aws-cloudformation__cfn-lint-3607-20261106T055413-r2",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "test/unit/module/formatters/test_formatters.py::TestFormatters::test_sarif_formatter"
+    ]
+   }
+  ],
+  "label": "broken"
  }
 }
