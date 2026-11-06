@@ -574,3 +574,22 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Sửa:** `tests/test_sskb_adapter.py` đọc fixture `tests/fixtures/e1_litellm_registry.json` (chép nguyên từ `raw-archive`). Nội dung giống hệt file mà §22 đã dùng, nên phép so vẫn kiểm đúng điều cũ.
 - **Kiểm:** pytest đầy đủ qua trên container mới (trước đó 1 test fail). `ruff check`, `ruff format --check` đều qua.
 - **Tài liệu:** `docs/potential_issues.md` (21 vấn đề, 8 cơ chế); `docs/root_cause.md` §4 bổ sung P2.
+
+## R-48. §25 F0 và F1: mã, môi trường, chạy thử (2026-11-06)
+
+- **Thứ tự, ghi trung thực:** mọi mục kiểm dưới đây được làm trước khi chạy F0 đủ 100 task. Nhưng bản ghi này được viết trong lúc lần chạy đủ đã bắt đầu (0 USD, quy tắc đã đăng ký ở §25). F1 (có phí) chỉ chạy sau bản ghi này.
+- **Đối chiếu bản đăng ký:**
+  - tập task = tập test của gskill (đúng hàm chia, có test so với mã gốc);
+  - patch (a) và (b) như §25;
+  - L gọi nguyên `verify_with_patch`, theo đúng luồng của `evaluate_single_task`;
+  - S = `run_evaluation` của SWE-smith.
+- **Môi trường:** ghi chú thực thi 25-1 (phiên bản kèm căn cứ, image dẫn xuất, `_is_repo_private`).
+- **Lỗi tìm thấy khi chạy thử:** A89 (lỗi hạ tầng bị đếm thành điểm). Đã sửa và có test.
+- **F1:**
+  - Trần đặt trước mỗi lần chạy ("đã chi + 0,30 > 2,0").
+  - Chi phí cộng từ `response_cost` của LiteLLM. Chạy thử bằng `mock_response` ghi được 3,6·10⁻⁵ USD, chứng tỏ callback hoạt động (A84).
+  - Nếu một lần chạy có steps > 0 mà chi phí bằng 0 thì dừng.
+  - Seed 0 bị chặn. Driver chỉ in chi phí và trạng thái (L28).
+  - Chạy thử miễn phí trên 1 task thật: container, agent, nộp bài và chấm đều chạy hết.
+  - Job `swesmith_f1` trong `pilot.yml` có cổng preflight; mặc định của input `plan` vẫn là pilot cũ.
+- **Kiểm §4:** không ghi đè kết quả khác (file mới); dữ liệu MIT (kiểm bằng dataset card); không có mặc định cho tham số khoa học.

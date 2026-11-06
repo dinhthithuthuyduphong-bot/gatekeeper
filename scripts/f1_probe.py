@@ -1,0 +1,125 @@
+"""Section 25 F1 (paid, cap fixed by the registration): no-skill arm of gskill's agent on SWE-smith.
+
+Calls gskill's own SWEHarness.setup_task / run_agent (gepa@8c7b697) with empty skills and a
+copy of gskill's mini.yaml in which only cost_limit and model_kwargs are set to the values
+registered in docs/preregistration_main.md section 25. Every patch is scored with both
+gskill's flow (L, scripts/f0_scorer_check.py::score_lenient) and SWE-smith's grading (S).
+
+Budget: before each run, stop if spent + worst > cap (worst = cost_limit). Spend is summed
+from LiteLLM's per-call response_cost (success callback). Prints only operational fields (L28).
+
+  PYTHONPATH=<gepa>/src/gepa/gskill:<repo>/scripts <venv>/bin/python scripts/f1_probe.py \
+      --rows data/instances/swesmith_pallets__jinja.jsonl --split test \
+      --model vertex_ai/gemini-3.1-flash-lite --seed 41 --cost-limit 0.30 --cap 2.0 \
+      --registry tests/fixtures/e1_litellm_registry.json --out results/f1_probe.json
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import threading
+from pathlib import Path
+
+import yaml
+
+_spent = 0.0
+_lock = threading.Lock()
+
+
+def _track(kwargs, response, start, end):  # LiteLLM success callback signature
+    global _spent
+    with _lock:
+        _spent += float(kwargs.get("response_cost") or 0.0)
+
+
+def make_config(gskill_yaml: Path, out: Path, cost_limit: float, model_kwargs: dict) -> Path:
+    cfg = yaml.safe_load(gskill_yaml.read_text())
+    cfg["agent"]["cost_limit"] = cost_limit
+    cfg.setdefault("model", {})["model_kwargs"] = model_kwargs
+    out.write_text(yaml.safe_dump(cfg, sort_keys=False))
+    return out
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    for k in ("--rows", "--split", "--model", "--registry", "--out", "--gskill-yaml"):
+        ap.add_argument(k, required=True)
+    ap.add_argument("--seed", type=int, required=True)
+    ap.add_argument("--cost-limit", type=float, required=True)
+    ap.add_argument("--cap", type=float, required=True)
+    ap.add_argument("--mock-response", help="free dry run: LiteLLM mock_response, cost 0 allowed")
+    a = ap.parse_args()
+    if a.seed == 0:
+        raise SystemExit("seed 0 means 'no seed' on Vertex (A14)")
+
+    import litellm
+    from f0_scorer_check import infra_reason, score_lenient, score_strict
+    from gskill.swe_harness import SWEHarness
+
+    litellm.register_model(json.loads(Path(a.registry).read_text()))
+    litellm.success_callback = [_track]
+    kwargs = {"seed": a.seed, "drop_params": True, "parallel_tool_calls": True}
+    if a.mock_response:
+        kwargs["mock_response"] = a.mock_response
+    cfg = make_config(
+        Path(a.gskill_yaml), Path(a.out).with_suffix(".mini.yaml"), a.cost_limit, kwargs
+    )
+
+    rows = [json.loads(x) for x in Path(a.rows).read_text().splitlines() if x.strip()]
+    insts = sorted(
+        (r for r in rows if r["_gskill_split"] == a.split), key=lambda r: r["_gskill_order"]
+    )
+    out = {"model": a.model, "seed": a.seed, "cost_limit": a.cost_limit, "cap": a.cap, "runs": []}
+    for inst in insts:
+        if _spent + a.cost_limit > a.cap:
+            out["stopped"] = f"spent {_spent:.4f} + {a.cost_limit} > {a.cap}"
+            break
+        before = _spent
+        rec = {"instance_id": inst["instance_id"], "order": inst["_gskill_order"]}
+        h = SWEHarness()
+        try:
+            h.setup_task(task_instance=inst)
+            patch, trace, metrics = h.run_agent(
+                inst.get("problem_statement", ""), "", model_name=a.model, config_path=str(cfg)
+            )
+            rec["crashed"] = trace.startswith("Agent crashed")
+            rec["crash_head"] = trace[:300] if rec["crashed"] else None
+            rec["steps"] = metrics.get("steps", 0)
+            rec["patch_chars"] = len(patch)
+            rec["L"] = score_lenient(inst, patch)
+            rec["S"] = (
+                score_strict(inst, patch)
+                if patch.strip()
+                else {"resolved": False, "status": "no_patch"}
+            )
+            rec["patch"] = patch
+            if patch.strip():
+                why = infra_reason(rec["L"], rec["S"])
+                if why:
+                    rec["infra_error"] = f"scoring: {why}"
+        except Exception as e:  # noqa: BLE001 - infrastructure, recorded and counted
+            rec["infra_error"] = f"{type(e).__name__}: {str(e)[:300]}"
+        finally:
+            h.cleanup()
+        rec["cost_usd"] = _spent - before
+        out["runs"].append(rec)
+        if not a.mock_response and rec.get("steps", 0) > 0 and rec["cost_usd"] <= 0.0:
+            out["stopped"] = "cost not recorded for a run with steps > 0 (cap would be blind, A84)"
+            Path(a.out).write_text(json.dumps(out, indent=1) + "\n")
+            return 3
+        out["spent_usd"] = _spent
+        Path(a.out).write_text(json.dumps(out, indent=1) + "\n")
+        print(
+            f"[{len(out['runs'])}] {inst['instance_id'][:40]} cost={rec['cost_usd']:.4f}"
+            f" spent={_spent:.4f}"
+            f" infra={'infra_error' in rec}",
+            flush=True,
+        )
+    out["spent_usd"] = _spent
+    Path(a.out).write_text(json.dumps(out, indent=1) + "\n")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

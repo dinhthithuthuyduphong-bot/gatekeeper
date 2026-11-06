@@ -10,6 +10,12 @@ name: Pilot (paid, Vertex AI)
 on:
   workflow_dispatch:
     inputs:
+      plan:
+        description: "r15 = the original pilot job; swesmith-f1 = section 25 F1 (gskill agent, no skill, SWE-smith jinja)"
+        required: true
+        default: "r15"
+        type: choice
+        options: ["r15", "swesmith-f1"]
       name:
         description: "Run name (results/pilot/<name>.json)"
         required: true
@@ -57,6 +63,7 @@ concurrency:
 
 jobs:
   pilot:
+    if: inputs.plan == 'r15'
     runs-on: ubuntu-latest
     timeout-minutes: 360
     env:
@@ -114,3 +121,67 @@ jobs:
       - name: Publish to pilot-snapshots branch
         if: success()
         run: scripts/publish_snapshot.sh pilot-snapshots "Pilot ${{ inputs.name }} (${{ inputs.model }}) run ${GITHUB_RUN_ID}" "results/pilot/${{ inputs.name }}.json" "runs/${{ inputs.name }}/trials.jsonl"
+
+  swesmith_f1:
+    # docs/preregistration_main.md section 25 F1. Cap = inputs.budget_usd (registered: 2.0).
+    if: inputs.plan == 'swesmith-f1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    env:
+      VERTEXAI_PROJECT: ${{ secrets.VERTEXAI_PROJECT }}
+      VERTEXAI_LOCATION: ${{ secrets.VERTEXAI_LOCATION }}
+      HAS_KEY: ${{ secrets.GCP_SA_KEY != '' }}
+      GEPA_COMMIT: 8c7b697a71977980afc7537dac0881e784eef99f
+      IMG: swebench/swesmith.x86_64.pallets_1776_jinja.ada0a9a6
+    steps:
+      - name: Free disk space for Docker images
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          docker system prune -af || true
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Preflight gate
+        run: pip -q install -e . && python scripts/preflight.py --ci || exit 7
+      - name: Fail early without Vertex AI credentials
+        if: env.HAS_KEY != 'true'
+        run: echo "No GCP_SA_KEY" && exit 1
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - name: gskill environment (pinned as in section 25)
+        run: |
+          git clone -q https://github.com/gepa-ai/gepa /tmp/gepa && git -C /tmp/gepa checkout -q "$GEPA_COMMIT"
+          python -m venv /tmp/venv
+          /tmp/venv/bin/pip -q install "swesmith==0.0.9" "swebench==4.1.0" "mini-swe-agent==1.17.5" docker pyyaml unidiff litellm google-auth
+      - name: Task rows (gskill split) and image with the instance branches
+        run: |
+          git fetch -q origin data-snapshots
+          git show origin/data-snapshots:data/instances/swesmith_pallets__jinja.jsonl > /tmp/rows.jsonl
+          wc -l /tmp/rows.jsonl
+          docker pull -q "mirror.gcr.io/$IMG"
+          git clone -q --mirror https://github.com/swesmith/pallets__jinja.ada0a9a6 /tmp/img/mirror.git
+          printf 'FROM mirror.gcr.io/%s\nCOPY mirror.git /opt/mirror.git\nRUN chmod -R a+rX /opt/mirror.git && cd /testbed && git remote set-url origin /opt/mirror.git && git fetch -q origin\n' "$IMG" > /tmp/img/Dockerfile
+          docker build -q -t "$IMG:latest" /tmp/img
+      - name: Run F1 (no-skill arm, capped)
+        run: |
+          mkdir -p /tmp/work results
+          cd /tmp/work
+          PYTHONPATH=/tmp/gepa/src/gepa/gskill:$GITHUB_WORKSPACE/scripts /tmp/venv/bin/python \
+            $GITHUB_WORKSPACE/scripts/f1_probe.py --rows /tmp/rows.jsonl --split test \
+            --model vertex_ai/gemini-3.1-flash-lite --seed 41 --cost-limit 0.30 --cap "${{ inputs.budget_usd }}" \
+            --registry $GITHUB_WORKSPACE/tests/fixtures/e1_litellm_registry.json \
+            --gskill-yaml /tmp/gepa/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml \
+            --out $GITHUB_WORKSPACE/results/f1_probe.json
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: swesmith-f1
+          path: |
+            results/f1_probe.json
+            /tmp/work/logs/
+          if-no-files-found: warn
+      - name: Publish to pilot-snapshots branch
+        if: always()
+        run: scripts/publish_snapshot.sh pilot-snapshots "Section 25 F1 run ${GITHUB_RUN_ID}" results/f1_probe.json

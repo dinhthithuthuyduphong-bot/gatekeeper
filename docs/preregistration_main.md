@@ -1014,3 +1014,15 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - 0,27 là mức tăng nhỏ nhất gskill công bố (Jinja 55% → 82%; nhóm "bên thứ ba").
   - Nếu khoảng trống nhỏ hơn, không thể tái hiện mức tăng có độ lớn như công bố.
 - **Không xem kết quả giữa chừng (L28):** driver chỉ in chi phí và trạng thái.
+
+**Ghi chú thực thi 25-1** (06/11/2026). Ghi khi F0 đã chạy thử trên 1 task, trước khi chạy đủ 100 task và trước F1. Các lựa chọn dưới đây đều không dựa trên kết quả:
+- **Phiên bản:**
+  - **mini-swe-agent 1.17.5**, bản v1 cuối cùng (30/01/2026). Căn cứ: `supported_fields` trong `run_agent` của gskill khớp đúng các trường của `AgentConfig` v1 (`action_observation_template`, `format_error_template`, `timeout_template`, …). Prompt `mini.yaml` cũng yêu cầu khối ```bash. Bản 2.2.4 chỉ có 4 trường, lặng lẽ bỏ qua phần còn lại, và gọi model bằng tool calling.
+  - **swebench 4.1.0:** bản mới nhất trước 02/2026. Bản 5.0.x không có `KEY_INSTANCE_ID`, nên mã gskill không import được.
+  - **swesmith 0.0.9:** theo `uv.lock` của gepa. Lệnh test và `run_patch_in_container` giống 0.0.8 (bản có trước blog), trừ phần SSH cho repo private.
+- **Môi trường:**
+  - Image dẫn xuất từ `swebench/swesmith.x86_64.pallets_1776_jinja.ada0a9a6` (qua `mirror.gcr.io`), chứa mirror của 958 nhánh task. `origin` trỏ tới mirror cục bộ, vì container không có CA của proxy.
+  - Trên máy này, kết quả `_is_repo_private` được gán sẵn bằng False, vì proxy chặn `api.github.com` và mirror là repo công khai. Trên runner của Actions thì để SWE-smith tự hỏi.
+- **Dữ liệu:** 34/100 task của tập test gskill có `problem_statement` rỗng. Giữ nguyên, như gskill. Báo cáo cả nhóm 66 task có problem statement như một phân tích phụ, vì gskill ghi lại trường `has_problem_statement`.
+- **Công khai (R5):** lần chạy thử F0 trên task `func_basic__arv5rwp0` cho L(no-op) qua, S(no-op) không qua; L(gold) và S(gold) đều qua. Quy tắc diễn giải không đổi.
+- **Sửa trước khi chạy đủ (A89):** lỗi hạ tầng (test không chạy) được phân loại thành `infra_error`, không đếm là "không qua".
