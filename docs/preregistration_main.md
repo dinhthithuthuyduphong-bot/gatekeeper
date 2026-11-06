@@ -1058,3 +1058,27 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - Python: L(a) ≥ 0,5 và S(a) = 0, cùng cơ chế với jinja.
   - Go: với `go test -v`, output có "FAIL" chứ không có "FAILED". Mã gskill chỉ tìm "FAILED", "ERROR" và "passed", nên dự đoán L(a) ≥ 0,5 qua một nhánh khác của cùng điều kiện.
 - **Diễn giải:** như F0, áp cho từng repo. Lỗi hạ tầng > 10% ở một repo thì báo riêng và không gộp repo đó.
+
+### Kết quả F1 (06/11/2026; run 42169544117; `results/f1_probe.json`)
+
+- **Chạy:** 100/100 task của tập test gskill; 0 lỗi hạ tầng; 0 lần chạy bị crash.
+- **Chi phí:** 1,438 USD (trần 2,0; không chạm). Trung bình 0,0144 USD mỗi lần chạy, tối đa 0,055.
+
+| Đại lượng | Số | Wilson 95% |
+| --- | --- | --- |
+| **p̂_S** (resolved, SWE-smith) | **15/100 = 0,15** | [0,093; 0,233] |
+| **p̂_L** (luồng chấm của gskill) | **37/100 = 0,37** | [0,282; 0,468] |
+| Patch rỗng (agent nộp mà không sửa gì) | 62/100 | — |
+| L qua mà S không qua | 22/100 | — |
+| S qua mà L không qua | 0/100 | — |
+
+- **Trong 38 patch không rỗng:**
+  - L cho qua 37/38; ca duy nhất không qua là `f2p_failed`.
+  - S cho qua 15/38.
+  - Đúng như F0 dự báo: trên patch thật của agent, bộ chấm của gskill gần như là "có nộp patch hay không".
+- **Nhóm 66 task có problem statement:** S 14/66, L 34/66.
+- **Số bước:** trung bình 12; 1/100 lần chạm trần 50 bước.
+- **Quy tắc §25:** khoảng trống 1 − p̂_S = 0,85 ≥ 0,27, nên **đạt**: được đề xuất bước học skill (cần @thuthuy duyệt ngân sách).
+- **Diễn giải viết trước, áp cho F1:**
+  - Trên cùng các patch, bộ chấm của gskill cho tỉ lệ 0,37, gấp khoảng 2,5 lần tỉ lệ resolved (0,15).
+  - **Thăm dò, không phải kết luận:** 62% số lần chạy nộp patch rỗng. Dưới bộ chấm của gskill, một skill chỉ cần làm agent sửa **một thứ gì đó** là đủ để tỉ lệ "resolve" tăng mạnh. Điều này có thể giải thích một phần các mức tăng đã công bố. Chưa kiểm được, vì phải có skill gskill thật.
