@@ -1,10 +1,10 @@
 {
  "n_tasks": 109,
  "deterministic": 107,
- "matches_e2": 75,
+ "matches_e2": 74,
  "model_same": 109,
  "pair_with_e2": false,
- "spent_usd": 0.10419815,
+ "spent_usd": 0.09457407500000001,
  "rows": [
   {
    "task": "conan-io__conan-18655",
@@ -15,7 +15,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "aws-cloudformation__cfn-lint-3650",
@@ -26,7 +55,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "projectmesa__mesa-2418",
@@ -37,7 +95,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "koxudaxi__datamodel-code-generator-2412",
@@ -48,7 +135,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "python-babel__babel-1104",
@@ -59,7 +175,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R | grep -v 'test' | head -n 20\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R | grep -v 'test' | head -n 20\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R | grep -v 'test' | head -n 20\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "patroni__patroni-3370",
@@ -70,7 +215,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "flexget__flexget-4306",
@@ -81,7 +255,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 4 -name \\\"qbittorrent.py\\\"\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 4 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 4 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "mikedh__trimesh-2126",
@@ -92,7 +295,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "aiogram__aiogram-1469",
@@ -103,7 +335,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -name \\\"message.py\\\"\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -name \\\"message.py\\\"\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "ag2ai__faststream-1589",
@@ -114,7 +375,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "instructlab__instructlab-3045",
@@ -125,7 +415,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "falconry__falcon-2426",
@@ -136,7 +455,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "conan-io__conan-15705",
@@ -147,7 +495,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "pvlib__pvlib-python-2041",
@@ -158,7 +535,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "conan-io__conan-18012",
@@ -169,7 +575,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "pdm-project__pdm-2909",
@@ -180,7 +615,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "pypa__twine-1249",
@@ -191,7 +655,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "python-babel__babel-1163",
@@ -202,7 +695,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "beeware__briefcase-1972",
@@ -213,7 +735,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "piskvorky__smart_open-815",
@@ -224,7 +775,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "python-control__python-control-1012",
@@ -235,7 +815,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "instructlab__instructlab-2119",
@@ -246,7 +855,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "arviz-devs__arviz-2413",
@@ -257,7 +895,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "HypothesisWorks__hypothesis-4419",
@@ -268,7 +935,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "pytorch__torchtune-1806",
@@ -279,7 +975,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "lastmile-ai__mcp-agent-282",
@@ -290,7 +1015,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "aws-cloudformation__cfn-lint-3734",
@@ -301,7 +1055,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "delgan__loguru-1236",
@@ -312,7 +1095,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "Archmonger__django-dbbackup-631",
@@ -323,7 +1135,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "vacanza__holidays-2780",
@@ -334,7 +1175,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "vacanza__holidays-2750",
@@ -345,7 +1215,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "kozea__weasyprint-2231",
@@ -356,7 +1255,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "streamlink__streamlink-5908",
@@ -367,7 +1295,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "a2aproject__a2a-python-279",
@@ -378,7 +1335,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "conan-io__conan-17102",
@@ -389,7 +1375,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "celery__celery-9806",
@@ -400,7 +1415,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R | grep -v 'test' | head -n 20\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "keras-team__keras-19863",
@@ -411,7 +1455,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "reata__sqllineage-593",
@@ -422,7 +1495,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "tox-dev__tox-3246",
@@ -433,7 +1535,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "sissbruecker__linkding-1014",
@@ -444,7 +1575,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "openai__openai-agents-python-998",
@@ -455,7 +1615,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "streamlink__streamlink-6361",
@@ -466,7 +1655,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "hgrecco__pint-2170",
@@ -477,7 +1695,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "falconry__falcon-2475",
@@ -488,7 +1735,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "sissbruecker__linkding-804",
@@ -499,7 +1775,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "shapely__shapely-2120",
@@ -510,7 +1815,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "ag2ai__faststream-1288",
@@ -521,7 +1855,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "authlib__authlib-802",
@@ -532,7 +1895,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "jarun__buku-778",
@@ -543,7 +1935,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "ansible__ansible-lint-4662",
@@ -554,18 +1975,76 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "aws-cloudformation__cfn-lint-3688",
-   "deterministic": false,
+   "deterministic": true,
    "matches_e2": false,
    "model_e2": "gemini-3.1-flash-lite",
    "model_new": [
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 4 -name \\\"*aws_events_rule*\\\"\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "beeware__briefcase-1640",
@@ -576,7 +2055,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "llamastack__llama-stack-2686",
@@ -587,7 +2095,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "beetbox__beets-5153",
@@ -598,7 +2135,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "AgentOps-AI__agentops-1005",
@@ -609,7 +2175,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "deepset-ai__haystack-9679",
@@ -620,7 +2215,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "beeware__briefcase-1811",
@@ -631,7 +2255,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "geopandas__geopandas-3202",
@@ -642,7 +2295,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "commaai__opendbc-2318",
@@ -653,7 +2335,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "python-control__python-control-1145",
@@ -664,7 +2375,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "iterative__dvc-10749",
@@ -675,7 +2415,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "projectmesa__mesa-2351",
@@ -686,7 +2455,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "deepset-ai__haystack-6713",
@@ -697,7 +2495,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "reflex-dev__reflex-3982",
@@ -708,7 +2535,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "lastmile-ai__mcp-agent-367",
@@ -719,7 +2575,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "streamlink__streamlink-6016",
@@ -730,7 +2615,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -name \\\"*twitch*\\\"\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -name \\\"*twitch*\\\"\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -name \\\"*twitch*\\\"\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "dottxt-ai__outlines-1679",
@@ -741,7 +2655,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "pvlib__pvlib-python-1947",
@@ -752,7 +2695,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "instructlab__instructlab-1443",
@@ -763,7 +2735,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "jupyterlab__jupyter-ai-711",
@@ -774,7 +2775,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "instructlab__instructlab-2741",
@@ -785,7 +2815,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "sdv-dev__SDV-2656",
@@ -796,7 +2855,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "deepset-ai__haystack-6987",
@@ -807,7 +2895,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "python-pillow__Pillow-9105",
@@ -818,7 +2935,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -name \\\"ImageStat.py\\\"\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -name \\\"ImageStat.py\\\"\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -name \\\"ImageStat.py\\\"\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "IBM__mcp-context-forge-562",
@@ -829,7 +2975,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "Archmonger__django-dbbackup-626",
@@ -840,7 +3015,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "instructlab__instructlab-1102",
@@ -851,7 +3055,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "jlowin__fastmcp-279",
@@ -862,7 +3095,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 5 -name openapi.py\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 4 -name openapi.py\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 4 -name openapi.py\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "pdm-project__pdm-3250",
@@ -873,7 +3135,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "conan-io__conan-18333",
@@ -884,7 +3175,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "SYSTRAN__faster-whisper-1345",
@@ -895,7 +3215,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "beeware__briefcase-1867",
@@ -906,18 +3255,76 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "kozea__weasyprint-2058",
-   "deterministic": false,
+   "deterministic": true,
    "matches_e2": true,
    "model_e2": "gemini-3.1-flash-lite",
    "model_new": [
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "deepset-ai__haystack-9712",
@@ -928,7 +3335,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "conan-io__conan-17863",
@@ -939,7 +3375,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "jlowin__fastmcp-1397",
@@ -950,7 +3415,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "cyclotruc__gitingest-115",
@@ -961,7 +3455,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "a2aproject__a2a-python-226",
@@ -972,7 +3495,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "albumentations-team__albumentations-2521",
@@ -983,18 +3535,76 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "conan-io__conan-17877",
-   "deterministic": true,
+   "deterministic": false,
    "matches_e2": true,
    "model_e2": "gemini-3.1-flash-lite",
    "model_new": [
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "reflex-dev__reflex-4688",
@@ -1005,7 +3615,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -name \\\"prerequisites.py\\\"\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -name \\\"prerequisites.py\\\"\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "projectmesa__mesa-2755",
@@ -1016,7 +3655,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "sissbruecker__linkding-810",
@@ -1027,7 +3695,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "deepset-ai__haystack-7599",
@@ -1038,7 +3735,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "dynaconf__dynaconf-1241",
@@ -1049,7 +3775,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "conan-io__conan-17092",
@@ -1060,7 +3815,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "streamlink__streamlink-5890",
@@ -1071,7 +3855,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -name \\\"*tv3cat*\\\"\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -name \\\"*tv3*\\\"\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -name \\\"*tv3*\\\"\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "conan-io__conan-18051",
@@ -1082,7 +3895,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "koxudaxi__datamodel-code-generator-2423",
@@ -1093,7 +3935,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "kozea__weasyprint-2387",
@@ -1104,7 +3975,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "ipython__ipython-14872",
@@ -1115,18 +4015,76 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "piskvorky__smart_open-833",
-   "deterministic": true,
-   "matches_e2": true,
+   "deterministic": false,
+   "matches_e2": false,
    "model_e2": "gemini-3.1-flash-lite",
    "model_new": [
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "AgentOps-AI__agentops-1002",
@@ -1137,7 +4095,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "reflex-dev__reflex-4230",
@@ -1148,7 +4135,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"ls -R\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "deepset-ai__haystack-8943",
@@ -1159,7 +4175,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "shapely__shapely-2094",
@@ -1170,7 +4215,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "aws-cloudformation__cfn-lint-3508",
@@ -1181,7 +4255,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"ls -R\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 2 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "sdv-dev__SDV-2658",
@@ -1192,7 +4295,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   },
   {
    "task": "fonttools__fonttools-3581",
@@ -1203,7 +4335,36 @@
     "gemini-3.1-flash-lite",
     "gemini-3.1-flash-lite"
    ],
-   "model_same": true
+   "model_same": true,
+   "sig_e2": {
+    "content": "",
+    "calls": [
+     [
+      "bash",
+      "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+     ]
+    ]
+   },
+   "sig_new": [
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    },
+    {
+     "content": "",
+     "calls": [
+      [
+       "bash",
+       "{\"command\": \"find . -maxdepth 3 -not -path '*/.*'\"}"
+      ]
+     ]
+    }
+   ]
   }
  ]
 }
