@@ -1770,6 +1770,105 @@
     "skill",
     "attribution"
    ]
+  },
+  {
+   "id": "marin_swesmith_git_leak",
+   "claim": "SWE-smith Harbor packages expose the fix through git history in the agent container",
+   "urls": [
+    "https://github.com/marin-community/marin/issues/10212"
+   ],
+   "keywords": [
+    "git history",
+    "SWE-smith"
+   ]
+  },
+  {
+   "id": "debuggym_swesmith_git_leak",
+   "claim": "SWE-smith tasks expose the pre-bug code through git history (git checkout HEAD~1)",
+   "urls": [
+    "https://github.com/microsoft/debug-gym/issues/397"
+   ],
+   "keywords": [
+    "HEAD~1",
+    "Bug Patch"
+   ]
+  },
+  {
+   "id": "debuggym_swesmith_git_fix",
+   "claim": "debug-gym PR: do not keep the original code in the git history of SWE-smith tasks",
+   "urls": [
+    "https://github.com/microsoft/debug-gym/pull/398"
+   ],
+   "keywords": [
+    "git history",
+    "SWE-smith"
+   ]
+  },
+  {
+   "id": "rllm_hide_git_history",
+   "claim": "rllm PR: --hide-git-history keeps the repo history from the agent in eval and training",
+   "urls": [
+    "https://github.com/gumgizoa/rllm/pull/6"
+   ],
+   "keywords": [
+    "hide-git-history",
+    "SWE-smith"
+   ]
+  },
+  {
+   "id": "swebench_git_log_leak",
+   "claim": "SWE-bench issue 465: repo state loopholes (git log --all leaks future commits)",
+   "urls": [
+    "https://github.com/SWE-bench/SWE-bench/issues/465"
+   ],
+   "keywords": [
+    "git log --all",
+    "future commits"
+   ]
+  },
+  {
+   "id": "swebench_git_log_fix",
+   "claim": "SWE-bench PR 471: fix git log leakage in environment images",
+   "urls": [
+    "https://github.com/SWE-bench/SWE-bench/pull/471"
+   ],
+   "keywords": [
+    "leakage",
+    "future"
+   ]
+  },
+  {
+   "id": "swebench_pro_verified",
+   "claim": "SWE-Bench Pro Verified: deleting history alone is not enough; future fixes recoverable from .git/objects",
+   "urls": [
+    "https://arxiv.org/abs/2609.08149"
+   ],
+   "keywords": [
+    "reward hacking",
+    "git"
+   ]
+  },
+  {
+   "id": "cursor_reward_hacking",
+   "claim": "Cursor blog: reward hacking on coding benchmarks via bundled .git history",
+   "urls": [
+    "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+   ],
+   "keywords": [
+    ".git",
+    "history"
+   ]
+  },
+  {
+   "id": "poolside_benchmark_hacking",
+   "claim": "Poolside: task images with unpruned git history mined for the reference solution",
+   "urls": [
+    "https://poolside.ai/blog/through-the-looking-glass"
+   ],
+   "keywords": [
+    "git history",
+    "reference solution"
+   ]
   }
  ]
 }
