@@ -51,13 +51,32 @@ def test_redacts_cards_and_instructions(tmp_path):
     assert FIX[:60] not in log and BUG[:60] not in log
 
 
-def test_fails_closed_when_card_text_is_copied(tmp_path):
+def test_non_trajectory_file_still_carrying_text_is_removed_and_listed(tmp_path):
     f = _traj(tmp_path)
-    # the agent copies card text into a file it writes: not an observation, so it stays and the
-    # leak check must refuse publication
+    # the agent copies card text into a file it writes (not a trajectory string)
     (f.parent / "patch.diff").write_text("+# " + FIX[10:130])
     _, bad = redact([tmp_path / "runs"], {"t": GUIDE}, CARDS)
-    assert any(b.endswith("patch.diff") for b in bad)
+    assert bad == [] and not (f.parent / "patch.diff").exists()
+    assert json.loads((f.parent / "REDACTION.json").read_text())["removed"] == ["patch.diff"]
+
+
+def test_reindented_instructions_and_extra_fields_are_scrubbed(tmp_path):
+    long_guide = GUIDE + " Then read the card and apply its strategy to the repository code."
+    d = tmp_path / "runs" / "p" / "memgovern" / "agent" / "t"
+    d.mkdir(parents=True)
+    msgs = [
+        {"role": "user", "content": "issue\n    " + long_guide.replace(" use ", "\n    use ")},
+        {"role": "assistant", "content": ""},
+        {"role": "tool", "content": "ok", "extra": {"raw_output": f"Repo: x\nContent:\n{FIX}"}},
+    ]
+    f = d / "t.traj.json"
+    f.write_text(json.dumps({"messages": msgs}))
+    _, bad = redact([tmp_path / "runs"], {"t": long_guide}, CARDS)
+    out = json.loads(f.read_text())["messages"]
+    assert bad == []
+    assert out[0]["content"].startswith("<<MEMGOVERN_TEXT")
+    assert out[2]["extra"]["raw_output"].startswith("<<MEMGOVERN_TEXT")
+    assert out[2]["content"] == "ok"
 
 
 def test_card_ids_from_read_output_and_commands(tmp_path):

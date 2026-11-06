@@ -24,6 +24,7 @@ import json
 import re
 import sys
 from pathlib import Path
+from typing import Any
 
 WINDOW = 60  # same window as redact_third_party.py's leak check (A55)
 # card ids ("owner/repo<issue id>") as exp_search and exp_read print them, and as the agent passes
@@ -68,29 +69,44 @@ def card_windows(cards: dict, ids: set[str]) -> list[str]:
     return out
 
 
-def _content(m: dict) -> str:
-    c = m.get("content")
-    if isinstance(c, list):  # content blocks
-        return "\n".join(str(b.get("text", "")) if isinstance(b, dict) else str(b) for b in c)
-    return "" if c is None else str(c)
+def _norm(text: str) -> str:
+    return " ".join(text.split())
 
 
-def observations_to_redact(traj: dict, card_wins: list[str]) -> list[str]:
-    msgs = traj.get("messages") or []
-    first = next((i for i, m in enumerate(msgs) if m.get("role") == "assistant"), len(msgs))
-    out = []
-    for m in msgs[first + 1 :]:
-        if m.get("role") == "assistant":
-            continue
-        text = _content(m)
-        flat = " ".join(text.split())
-        if (
-            "] ID: " in text
-            or ("Content:" in text and "Repo:" in text)
-            or any(w in flat for w in card_wins)
-        ):
-            out.append(text)
-    return out
+def _carries(text: str, wins: list[str]) -> bool:
+    """A string carries MemGovern text: a search-result line, a printed card, or a window of a
+    referenced card or of the instructions (after whitespace normalisation, so a re-indented copy
+    in a prompt template is found too)."""
+    if "] ID: " in text or ("Content:" in text and "Repo:" in text):
+        return True
+    flat = _norm(text)
+    return any(w in flat for w in wins)
+
+
+def scrub(obj: Any, wins: list[str], found: list[str], path: str = "$") -> Any:
+    """Replace, anywhere in a JSON value, every string that carries MemGovern text by a marker.
+    The originals go to `found` (to remove the same text from other files, e.g. the log)."""
+    if isinstance(obj, str):
+        if _carries(obj, wins):
+            found.append(obj)
+            return marker(obj)
+        return obj
+    if isinstance(obj, list):
+        return [scrub(v, wins, found, f"{path}[{i}]") for i, v in enumerate(obj)]
+    if isinstance(obj, dict):
+        return {k: scrub(v, wins, found, f"{path}.{k}") for k, v in obj.items()}
+    return obj
+
+
+def leak_paths(obj: Any, wins: list[str], path: str = "$") -> list[str]:
+    """JSON paths of strings that still carry MemGovern text (for the report; no text printed)."""
+    if isinstance(obj, str):
+        return [path] if _carries(obj, wins) else []
+    if isinstance(obj, list):
+        return [p for i, v in enumerate(obj) for p in leak_paths(v, wins, f"{path}[{i}]")]
+    if isinstance(obj, dict):
+        return [p for k, v in obj.items() for p in leak_paths(v, wins, f"{path}.{k}")]
+    return []
 
 
 def referenced_ids(files: list[Path]) -> set[str]:
@@ -102,42 +118,53 @@ def referenced_ids(files: list[Path]) -> set[str]:
     return ids
 
 
-def leaks(files: list[Path], wins: list[str]) -> list[str]:
-    """Files that still hold a window (as written, whitespace-normalised, or JSON-escaped)."""
-    probes = set()
-    for w in wins:
-        probes.add(w)
-        probes.add(json.dumps(w)[1:-1])
-    bad = []
-    for f in files:
-        raw = f.read_text(errors="replace")
-        flat = " ".join(raw.split())
-        hay = (raw, flat, " ".join(raw.replace("\\n", " ").replace("\\t", " ").split()))
-        if any(p in h for p in probes for h in hay):
-            bad.append(str(f))
-    return bad
+def _file_leaks(f: Path, probes: set[str]) -> bool:
+    raw = f.read_text(errors="replace")
+    hay = (raw, _norm(raw), _norm(raw.replace("\\n", " ").replace("\\t", " ")))
+    return any(p in h for p in probes for h in hay)
 
 
 def redact(paths: list[Path], guidance: dict[str, str], cards: dict) -> tuple[int, list[str]]:
+    """Returns (files changed or removed, files that still carry MemGovern text).
+
+    Trajectories (*.traj.json) are scrubbed structurally. Every other text file gets the scrubbed
+    strings replaced; a non-trajectory file that still carries MemGovern text afterwards (a log
+    that formats the same messages differently) is REMOVED and listed in REDACTION.json next to
+    it: the trajectory holds the same messages. A trajectory that still carries text fails."""
     files = [
         f for p in paths for f in ([p] if p.is_file() else sorted(p.rglob("*"))) if f.is_file()
     ]
     ids = referenced_ids(files)
-    card_wins = card_windows(cards, ids)
-    texts = {g for g in guidance.values() if g}
+    wins = card_windows(cards, ids) + [w for g in guidance.values() for w in windows(g)]
+    found: list[str] = [g for g in guidance.values() if g]
+    changed = 0
     for f in files:
-        if f.name.endswith(".traj.json"):
-            try:
-                texts.update(observations_to_redact(json.loads(f.read_text()), card_wins))
-            except (json.JSONDecodeError, UnicodeDecodeError):
-                pass
+        if not f.name.endswith(".traj.json"):
+            continue
+        try:
+            d = json.loads(f.read_text())
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            continue
+        new = scrub(d, wins, found)
+        if new != d:
+            f.write_text(json.dumps(new, indent=2) + "\n")
+            changed += 1
     reps = sorted(
-        {(v, marker(t)) for t in texts if t.strip() for v in variants(t) if len(v) >= 20},
+        {(v, marker(t)) for t in found if t.strip() for v in variants(t) if len(v) >= 20},
         key=lambda r: len(r[0]),
         reverse=True,
     )
-    changed = 0
+    probes = {w for w in wins} | {json.dumps(w)[1:-1] for w in wins}
+    bad, removed = [], []
     for f in files:
+        if f.name.endswith(".traj.json"):
+            try:
+                left = leak_paths(json.loads(f.read_text()), wins)
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                left = ["$ (unreadable)"] if _file_leaks(f, probes) else []
+            if left:
+                bad.append(f"{f} at {', '.join(left[:5])}")
+            continue
         try:
             s = f.read_text()
         except UnicodeDecodeError:
@@ -149,8 +176,17 @@ def redact(paths: list[Path], guidance: dict[str, str], cards: dict) -> tuple[in
         if new != s:
             f.write_text(new)
             changed += 1
-    check = card_wins + [w for g in guidance.values() for w in windows(g)]
-    return changed, leaks(files, check)
+        if _file_leaks(f, probes):
+            f.unlink()
+            removed.append(f)
+            changed += 1
+    for f in removed:
+        rec = f.parent / "REDACTION.json"
+        d = json.loads(rec.read_text()) if rec.exists() else {"removed": []}
+        d["removed"].append(f.name)
+        d["why"] = "still held MemGovern text after redaction; the trajectory holds the messages"
+        rec.write_text(json.dumps(d, indent=1) + "\n")
+    return changed, bad
 
 
 def main() -> int:
@@ -164,9 +200,7 @@ def main() -> int:
     if isinstance(cards, list):
         cards = {str(c.get("id")): c for c in cards}
     changed, bad = redact(a.paths, guidance, cards)
-    print(
-        f"[redact_memgovern] files changed {changed}, still holding MemGovern text {len(bad)}"
-    )
+    print(f"[redact_memgovern] files changed {changed}, still holding MemGovern text {len(bad)}")
     for b in bad[:20]:
         print("  LEAK:", b)
     return 1 if bad else 0
