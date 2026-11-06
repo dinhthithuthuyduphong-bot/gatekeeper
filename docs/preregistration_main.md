@@ -945,3 +945,27 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 **Diễn giải đặt trước:**
 - Nếu tác dụng theo F hoặc B khác S về chiều hoặc ý nghĩa thống kê thì báo cáo là threat lớn. Phán quyết cũ vẫn giữ (R5), kèm cảnh báo.
 - Nếu không khác thì kết luận null chắc chắn với lỗi bộ chấm.
+
+### Kết quả §26, phần 1: tác dụng theo ba endpoint (06/11/2026; `results/harness_audit.json`, `scripts/harness_audit.py`)
+
+- **Kiểm cách đọc log:**
+  - 1.194/1.194 cặp đã đăng ký được nối đúng với báo cáo chấm của nó, theo giá trị loss.
+  - Cặp không có báo cáo (không nộp, bản vá không áp, quá giờ) có loss 2/3 và được tính là không resolved.
+  - Endpoint S **khớp đúng** số đã đăng ký: E1 +0,019 / 0,000 / −0,013 (53 task); E2 +0,021 (109 task); T4 +0,55.
+- **Lỗi của tôi khi viết script (sửa trước khi dùng số):** bản đầu coi cặp không có báo cáo là "không nối được" khi loss < 1, trong khi loss của cặp đó là 2/3. Phép kiểm S phát hiện lỗi này (37 task thay vì 53).
+- **Tác dụng** (resolved, có skill − không skill; CI 95% bootstrap theo task):
+
+  | Thí nghiệm | S (đăng ký) | F (chỉ FAIL_TO_PASS) | B (bỏ test hỏng) |
+  | --- | --- | --- | --- |
+  | E1 `null-guard` | +0,019 [−0,031; +0,075] | +0,019 [−0,025; +0,069] | +0,013 [−0,044; +0,069] |
+  | E1 `type-guard` | 0,000 [−0,050; +0,057] | −0,013 [−0,075; +0,050] | 0,000 [−0,050; +0,057] |
+  | E1 `exception-handling` | −0,013 [−0,063; +0,038] | −0,006 [−0,057; +0,044] | −0,013 [−0,063; +0,038] |
+  | E2 `xreposkill` | +0,021 [−0,009; +0,052] | +0,012 [−0,021; +0,046] | +0,015 [−0,015; +0,049] |
+  | T4 `control-oracle-patch` | +0,55 [0,35; 0,75] | **+0,65 [0,40; 0,90]** | +0,55 [0,35; 0,75] |
+
+- **Diễn giải theo quy tắc đặt trước:**
+  - E1 và E2 không đổi chiều hay ý nghĩa thống kê ở cả F lẫn B, nên **kết luận null chắc chắn với lỗi bộ chấm**.
+  - T4: endpoint S đo thấp tác dụng của đối chứng dương khoảng 0,10. Đó là các task mà bản vá đúng làm qua FAIL_TO_PASS nhưng một vài PASS_TO_PASS trượt.
+  - B không bắt được các trường hợp T4, vì mỗi instance T4 chỉ có 2 lần chấm (< 3).
+- **Thăm dò, không thuộc họ phép kiểm đã đăng ký:** ba skill gây hại của E1 theo F là −0,067 / −0,067 / −0,092. Hai trong ba có CI không chứa 0; theo S thì cả ba CI đều chứa 0. Chỉ báo cáo mô tả.
+- **Test hỏng theo quy tắc B:** 2 instance ở E1, 6 ở E2.
