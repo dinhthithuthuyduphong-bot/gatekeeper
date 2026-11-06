@@ -365,3 +365,12 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   1. Mọi lần chạy có phí, kể cả `--max-cells 1`, đều đi qua launcher trong scratchpad, vì launcher tự đặt biến.
   2. Mã dựng cấu hình model kiểm `_env` của file cấu hình và dừng trước khi gọi model.
 
+## L43. Lệnh chờ một tiến trình phải chờ theo PID, không theo mẫu chuỗi; kiểm chạy trùng bằng mẫu không tự khớp (A85)
+
+- **Xảy ra:** `pgrep -f "<mẫu>"` khớp cả dòng lệnh của chính shell đang chờ, nên lệnh chờ không bao giờ thấy tiến trình kết thúc như mong đợi. Tôi lại kết luận "lệnh chờ đã mất" khi chưa tìm đúng tiến trình.
+- **Phòng ngừa:**
+  1. Chờ bằng `while kill -0 <PID>`.
+  2. Kiểm trùng bằng mẫu `[x]yz`.
+  3. Trước khi tạo lệnh chờ thay thế, tìm tiến trình cũ bằng ID tác vụ nền hoặc file output của nó, không chỉ bằng `ps | grep`.
+  4. Driver dùng chung một file kết quả không được chạy song song trên cùng plan.
+
