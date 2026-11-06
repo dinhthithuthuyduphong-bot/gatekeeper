@@ -199,6 +199,42 @@
    "total": 14,
    "pass_rate": 0.8571428571428571,
    "returncode": 1
+  },
+  {
+   "skill": "asyncio-patterns",
+   "batch": 3,
+   "arm": "skill",
+   "seed": 41,
+   "model": "gemini-flash-lite",
+   "exit_status": "Submitted",
+   "cost_usd": 0.018262950000000003,
+   "n_calls": 11,
+   "skill_files": 2,
+   "passed": 2,
+   "failed": 12,
+   "skipped": 0,
+   "errors": 0,
+   "total": 14,
+   "pass_rate": 0.14285714285714285,
+   "returncode": 1
+  },
+  {
+   "skill": "viper-configuration",
+   "batch": 4,
+   "arm": "none",
+   "seed": 41,
+   "model": "gemini-flash-lite",
+   "exit_status": "Submitted",
+   "cost_usd": 0.010668775000000002,
+   "n_calls": 12,
+   "skill_files": 0,
+   "passed": 13,
+   "failed": 1,
+   "skipped": 0,
+   "errors": 0,
+   "total": 14,
+   "pass_rate": 0.9285714285714286,
+   "returncode": 1
   }
  ]
 }
