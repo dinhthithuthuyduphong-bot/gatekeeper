@@ -1202,7 +1202,7 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - Nhánh task mà agent làm việc có lịch sử `Initial commit` → `Bug Patch` → `Remove F2P Tests`, tức commit gây lỗi nằm ngay dưới HEAD. Đã kiểm trên mirror `swesmith/pallets__jinja.ada0a9a6`.
   - Skill học được viết rõ: *"Check Git History: If the issue description is empty … Run `git log -n 5` to identify suspicious recent commits (e.g., "Bug Patch"), then use `git show <commit_hash>` … Revert or fix these specific regressions."*
 - **Đo:**
-  - Trong 53 patch resolved của nhánh có skill, **29** là bản hoàn tác đúng từng dòng của commit "Bug Patch". Nhánh không skill có 6/15.
+  - Trong 53 patch resolved của nhánh có skill, **29** là bản hoàn tác đúng từng dòng của commit "Bug Patch". Nhánh không skill có 6/15. ~~Đây là cận dưới của việc dùng chỗ lộ.~~ **Sai, xem A96 ở kết quả bước 3: bản hoàn tác đúng từng dòng xuất hiện cả khi không có chỗ lộ.**
   - Phần resolved **không** phải hoàn tác đúng từng dòng: 24 (có skill) so với 9 (không skill).
   - Đây là cận dưới của việc dùng chỗ lộ, vì agent có thể dùng một phần. Trajectory của bước chấm không được lưu, nên không đo được việc gọi `git log`/`git show`.
 - **Diễn giải (thăm dò):**
@@ -1236,3 +1236,37 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - **LF1:** Holm bác bỏ được với S trong môi trường LF. Skill có tác dụng thật ngoài chỗ lộ; Δ_leak cho biết phần do chỗ lộ.
   - **LF2:** không bác bỏ được với S. Chứng nhận trong scope (bước 2, admit ở trial 29) **không chuyển** sang scope không lộ. Đây là một ví dụ đo được của "Scope before Reuse" trên skill thật.
 - **Giới hạn ghi trước:** môi trường LF xóa luôn lịch sử thật của repo (commit `Initial commit` ban đầu), nên khác repo thật, vốn có lịch sử. Skill có mục "Check Git History"; trong LF, mục đó chỉ còn thấy 1 commit.
+
+### Kết quả §25 bước 3: ngoài scope, không lộ commit gây lỗi (runs 42244574979, 42244580170; `results/s25_leakfree_{none,skill}.json`)
+
+- **Chạy:** 100/100 task ở mỗi nhánh; 0 lỗi hạ tầng; kiểm môi trường không lộ đạt **200/200**.
+- **Chi phí:** none 1,461 + skill 1,867 = **3,33 USD** (≤ 3,5 đã duyệt).
+
+| Nhánh | Môi trường có lộ (bước 2 / F1) | Môi trường không lộ (bước 3) |
+| --- | --- | --- |
+| Không skill, S | 15/100 | 14/100 |
+| Có skill, S | 53/100 | **35/100** |
+| Không skill, L | 37/100 | 40/100 |
+| Có skill, L | 79/100 | 66/100 |
+| Patch rỗng (không skill / có skill) | 62 / 21 | 59 / 34 |
+
+- **Kiểm định trong môi trường không lộ:**
+  - S: b = 21, c = 0, p = 4,8·10⁻⁷.
+  - L: b = 33, c = 7, p = 2,1·10⁻⁵.
+  - **Holm bác bỏ cả hai, nên theo quy tắc đã đăng ký là LF1:** skill có tác dụng thật ngoài chỗ lộ.
+- **Mức tăng S (bootstrap 95% theo task):**
+  - có lộ: δ_S = +0,38 [0,26; 0,49];
+  - không lộ: **δ_S^LF = +0,21 [0,13; 0,29]**;
+  - **phần do chỗ lộ: Δ_leak = +0,17 [0,06; 0,28]**, tức khoảng 45% mức tăng trong scope.
+- **Gatekeeper trên Z_S^LF:** admit ở **trial 50**; trong môi trường có lộ là trial 29.
+- **Phân tích phụ theo problem statement** (đã đăng ký ở ghi chú 25-1):
+
+  | Nhóm | Không skill (lộ / không lộ) | Có skill (lộ / không lộ) |
+  | --- | --- | --- |
+  | 66 task có problem statement | 14 / 14 | 38 / 35 |
+  | 34 task problem statement rỗng | 1 / 0 | **15 / 0** |
+
+  - Toàn bộ mức tăng trên 34 task không có mô tả lỗi đến từ chỗ lộ: 15 → 0 khi bỏ chỗ lộ.
+  - Trên 66 task có mô tả, mức tăng gần như giữ nguyên (+24 → +21) khi bỏ chỗ lộ.
+
+**Sửa một nhận định thăm dò của bước 2 (A96):** câu "ít nhất 29/53 bản vá resolved là bản hoàn tác commit bị lộ, nên là cận dưới của việc dùng chỗ lộ" là **sai**. Trong môi trường không lộ, 18/35 bản vá resolved của nhánh có skill (và 7/14 của nhánh không skill) vẫn là bản hoàn tác đúng từng dòng, vì lỗi SWE-smith là thay đổi nhỏ và sửa đúng thì trùng với hoàn tác. Chỉ số này vì vậy không đo được việc dùng chỗ lộ. Con số đúng là Δ_leak đo bằng thí nghiệm ở trên.

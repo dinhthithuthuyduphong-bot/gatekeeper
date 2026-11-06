@@ -84,7 +84,7 @@ The issue may involve a value that can be None (or missing). Before changing log
 | **control-oracle-tests** (dương) | G1 B3, so với lần chạy lặp không skill | 38 task | +12,5, CI **90%** [+3,1; +22,2] | CI không chứa 0 (quy tắc v2) | `results/g1_decision_b3.json` |
 | **control-oracle-patch** (dương) | T4 | 20 task | **+55** [+35; +75] | Gatekeeper admit ở trial 20 | `results/t4_decision.json` |
 | repo-test-guide | §17 | 4 task (dừng, D-M7) | 0 (4 cặp hòa) | Không kết luận | `docs/preregistration_main.md` §17 |
-| **gskill (jinja)**, skill do máy học | §25, trên task SWE-smith của jinja (đúng scope) | 100 task | **+38** [+26; +50] (resolved 15 → 53); theo bộ chấm của gskill +42 | p = 1,6·10⁻⁸; Holm bác bỏ; **Gatekeeper admit ở trial 29**. Thăm dò: 29/53 resolved là bản hoàn tác commit "Bug Patch" bị lộ trong lịch sử git của task | `results/f1_skill_probe.json`, `docs/skills/gskill/jinja_best_skills.txt` |
+| **gskill (jinja)**, skill do máy học | §25, trên task SWE-smith của jinja (đúng scope) | 100 task | **+38** [+26; +50] (resolved 15 → 53); theo bộ chấm của gskill +42 | p = 1,6·10⁻⁸; Holm bác bỏ; **Gatekeeper admit ở trial 29**. **Ngoài scope** (bỏ commit "Bug Patch" bị lộ khỏi lịch sử git; §25 bước 3): **+21** [+13; +29] (14 → 35), p = 4,8·10⁻⁷, Gatekeeper admit ở trial 50. Phần do chỗ lộ là +17 [+6; +28], tập trung ở 34 task không có mô tả lỗi (15 → 0) | `results/f1_skill_probe.json`, `docs/skills/gskill/jinja_best_skills.txt` |
 
 **Đọc bảng:**
 - Phương pháp đo **có thể thấy** tác dụng khi nó có thật: đối chứng dương cho +12,5 và +55 điểm.

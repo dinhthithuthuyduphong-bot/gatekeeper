@@ -411,3 +411,9 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   1. Một mục của to-do chỉ được tick khi có **phép đo** chứng minh nó, không phải khi có định nghĩa.
   2. Mọi phương án bị loại vì chi phí mà mạnh hơn phương án được chọn phải trình @thuthuy, kèm ba điều (quyền, ảnh hưởng, lời khuyên).
   3. Đọc CI sau mỗi lần push; test không đọc file ngoài git.
+
+## L47t. Chỉ số đại diện cho một cơ chế phải được kiểm trên đối chứng không có cơ chế đó (A96)
+
+- **Xảy ra:** "bản vá trùng với bản hoàn tác commit bị lộ" được dùng làm cận dưới cho việc agent dùng chỗ lộ. Đối chứng không lộ cho thấy chỉ số này vẫn cao khi không có chỗ lộ.
+- **Phòng ngừa:** trước khi dùng một chỉ số làm bằng chứng cho cơ chế, đo nó ở điều kiện không có cơ chế. Ưu tiên thí nghiệm can thiệp (bỏ cơ chế đi) hơn chỉ số đại diện.
+- **Ghi chú đánh số:** phiên trên `main` đã dùng L47 và L48. Số này sẽ được đánh lại khi gộp `trial` vào `main`.
