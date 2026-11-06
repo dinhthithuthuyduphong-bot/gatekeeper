@@ -228,6 +228,10 @@ def arm_config(
         # container settings a tool-based skill needs (e.g. MemGovern's retrieval server on the
         # host): merged into benchmarks/swebench.yaml's `environment` by mini-swe-agent
         overlay["environment"] = expand_env(skill.procedure["environment"])
+    if skill and skill.procedure.get("workflow_step_file"):
+        # a system whose instructions are a step of the agent's workflow (MemGovern, note M-4)
+        step = json.loads(Path(skill.procedure["workflow_step_file"]).read_text())["step"]
+        overlay["agent"]["instance_template"] = insert_workflow_step(base_instance_template(), step)
     if outputs is not None and skill and skill.procedure.get("dry_run_commands"):
         # scripted dry run of a tool-based skill: run the tool commands, then submit as usual
         steps = [
@@ -240,6 +244,46 @@ def arm_config(
         ]
         model["outputs"] = steps + list(outputs)
     return overlay
+
+
+# mini-swe-agent 2.4.6 benchmarks/swebench.yaml, "## Recommended Workflow" (verified verbatim)
+MINI_WORKFLOW = (
+    "1. Analyze the codebase by finding and reading relevant files\n"
+    "2. Create a script to reproduce the issue\n"
+    "3. Edit the source code to resolve the issue\n"
+    "4. Verify your fix works by running your script again\n"
+    "5. Test edge cases to ensure your fix is robust"
+)
+
+
+def insert_workflow_step(template: str, step: str) -> str:
+    """Insert a third-party system's own workflow step as step 3 of mini-swe-agent's recommended
+    workflow, where MemGovern's agent config places it (after reproducing the error, before
+    editing; its step 4 reads "(Apply insights from step 3 if available)"). `step` starts with
+    "3. "; its further lines are indented under it."""
+    if template.count(MINI_WORKFLOW) != 1:
+        raise ValueError("mini-swe-agent's recommended workflow not found exactly once")
+    lines = step.strip().splitlines()
+    if not lines or not lines[0].startswith("3. "):
+        raise ValueError("the inserted step must start with '3. '")
+    block = "\n".join([lines[0]] + [("   " + ln) if ln.strip() else "" for ln in lines[1:]])
+    new = (
+        "1. Analyze the codebase by finding and reading relevant files\n"
+        "2. Create a script to reproduce the issue\n"
+        f"{block}\n"
+        "4. Edit the source code to resolve the issue (Apply insights from step 3 if available)\n"
+        "5. Verify your fix works by running your script again\n"
+        "6. Test edge cases to ensure your fix is robust"
+    )
+    return template.replace(MINI_WORKFLOW, new)
+
+
+def base_instance_template() -> str:
+    import yaml
+    from minisweagent.config import builtin_config_dir
+
+    cfg = yaml.safe_load((builtin_config_dir / "benchmarks" / "swebench.yaml").read_text())
+    return cfg["agent"]["instance_template"]
 
 
 def expand_env(value: Any) -> Any:

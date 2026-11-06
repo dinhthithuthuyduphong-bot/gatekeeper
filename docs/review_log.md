@@ -655,3 +655,18 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - **run 42305733426 đạt:** 2/2 task `Submitted` ở cả hai nhánh, `infra_failures` rỗng; mỗi task 1 lời gọi `/search` và 1 lời gọi `/get_experience`; che xong không còn file nào sót; 2 lô lên `raw-archive`.
   - **Kiểm độc lập** trên file đã lưu trữ, dùng 660.427 cửa sổ 60 ký tự lấy từ mọi thẻ (121.475 thẻ, 3 trường): chỉ khớp 2 chuỗi chuẩn trong `test_output.txt` của **cả hai** nhánh, gồm thông báo traceback của Python ("During handling of the above exception, another exception occurred") và dòng phân cách của pytest. Không có nội dung MemGovern nào.
   - Kết luận: được chạy lô có phí 1 (task 0–9, `cap_usd` 24,5).
+
+## R-53. Ô memgovern bản 2 (sai lệch M-4, 07/11/2026 UTC, trước khi chạy)
+- **Mã:**
+  - `insert_workflow_step`, `base_instance_template` trong `src/gatekeeper/pilot.py`, với khóa `workflow_step_file` của procedure;
+  - cấu hình `configs/skills/memgovern-orig-wf.json`;
+  - workflow: file `orig_step.json`, tên lô `mg2-s41`, bước kiểm `[M-4]` (in vị trí và số lệnh, không in văn bản).
+- **Kiểm §4:**
+  - văn bản chèn vào trùng từng chữ với đoạn của bản 1, chỉ khác vị trí;
+  - vị trí đã đối chiếu với cấu hình gốc (các bước 1–6);
+  - workflow 5 bước của mini-swe-agent 2.4.6 được kiểm từng chữ trên template thật (test chạy trong venv có mini-swe-agent 2.4.6);
+  - thêm 3 test;
+  - quy tắc kiểm thao tác chốt trước dữ liệu bản 2;
+  - không dùng lại nhánh `none` của lô 1, có lý do;
+  - trần có lý do;
+  - chạy thử miễn phí bản 2 trước khi chạy có phí.

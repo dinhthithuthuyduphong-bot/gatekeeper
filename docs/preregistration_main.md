@@ -1368,3 +1368,26 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - sau đó script kiểm rằng không file nào còn cửa sổ 60 ký tự của thẻ nào được tham chiếu. Nếu còn, file gốc không được tải lên (fail closed).
 - **Bộ lọc thẻ cùng repo (kiểm 06/11, A100):** 48 repo của MemGovern không trùng repo nào trong 61 repo của pool E2, nên bộ lọc không loại thẻ nào (121.475 thẻ). Quy tắc vẫn giữ nguyên; điều này ghi vào paper như một sự thật về dữ liệu, không phải một thay đổi.
 
+### Ô memgovern: sai lệch M-4 (07/11/2026 UTC, sau lô có phí 1, trước mọi phân tích Gatekeeper của ô)
+
+- **Đã thấy gì** (chỉ dữ liệu vận hành, chưa tính Z hay E):
+  - ở lô 1 (task 0–9, nhánh memgovern bản 1), model gọi `exp_search`/`exp_read` 0 lần trên 10/10 task (A102);
+  - chi phí lô 1 là 2,19 USD theo litellm.
+- **Thay đổi:** nhánh memgovern **bản 2** (`configs/skills/memgovern-orig-wf.json`).
+  - Cùng đoạn văn bản của MemGovern (bước 3 của cấu hình gốc và docstring của 2 công cụ), cùng server, cùng công cụ, cùng bộ lọc thẻ.
+  - Nhưng đoạn đó được chèn làm **bước 3 của "Recommended Workflow" của mini-swe-agent**, và bước sửa mã thêm "(Apply insights from step 3 if available)". Đây đúng là vị trí và lời của cấu hình gốc (`config/dsv31t_agenticMemSearch_1220_13w.yaml`, các bước 1–6).
+  - Mô tả issue giữ nguyên như nhánh `none`.
+- **Lý do:** §11e định nghĩa "bản gốc" là dùng đúng đoạn hướng dẫn trong cấu hình agent của MemGovern, với agent tự gọi công cụ. Bản 1 đặt đoạn đó sai chỗ so với bản gốc. Vậy đây là sửa một lỗi hiện thực (A102) về phía thiết kế đã đăng ký, không phải đổi câu hỏi.
+- **Thiết kế của ô bản 2:**
+  - chạy lại từ task 0, **cả hai nhánh mới** (tên lô `mg2-s41-*`), cùng thứ tự, cùng các quy tắc dừng của M-3;
+  - không dùng lại nhánh `none` của lô 1. Lý do: §5 vừa cho thấy model thay đổi theo thời gian, nên hai nhánh của một cặp phải chạy cùng lúc. Dùng lại sẽ rẻ hơn khoảng 1,1 USD nhưng hai nửa của cặp chạy ở hai thời điểm.
+- **Quy tắc báo cáo (R5):** lô 1 (bản 1, 10 cặp) được giữ và báo cáo riêng, như một bằng chứng về độ nhạy với vị trí của hướng dẫn. Nó không vào e-process của ô bản 2.
+- **Phép kiểm thao tác (chốt trước khi thấy dữ liệu bản 2):**
+  - sau lô đầu của bản 2 (task 0–9), nếu **0/10** task có ≥ 1 lệnh `exp_search` thì dừng ô và báo @thuthuy, vì nhánh vẫn không phân biệt được với "hướng dẫn không được dùng";
+  - nếu ≥ 1/10, chạy tiếp theo M-3;
+  - tỉ lệ dùng công cụ được báo cáo cho mọi task.
+- **Trần:**
+  - phép kiểm §5 (0,21 USD) và lô 1 (2,19 USD, đã ghi trong sổ cái `mg-ledger`) tính vào trần;
+  - `cap_usd` của sổ cái = 24,5 − 0,21 = **24,29 USD**. Sổ cái đã có 2,19 USD của lô 1, nên tổng của track MemGovern ≤ 24,5 USD;
+  - khi Bleve xong, trần được tính lại theo M-3: 50 − chi thật của Bleve.
+

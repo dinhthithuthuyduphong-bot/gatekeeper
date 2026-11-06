@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "id": "memgovern",
+  "procedure": {
+    "kind": "guidance",
+    "startup": "printf '#!/bin/bash\\nexec bash /mgtools/exp_search/bin/exp_search \"$@\"\\n' > /usr/local/bin/exp_search && chmod +x /usr/local/bin/exp_search && printf '#!/bin/bash\\nexec bash /mgtools/exp_read/bin/exp_read \"$@\"\\n' > /usr/local/bin/exp_read && chmod +x /usr/local/bin/exp_read",
+    "environment": {
+      "run_args": [
+        "--rm",
+        "--add-host=host.docker.internal:host-gateway",
+        "-v",
+        "${MEMGOVERN_TOOLS}:/mgtools:ro"
+      ],
+      "env": {
+        "GRAPH_EXP_SEARCH_URL": "http://host.docker.internal:9030/search",
+        "GRAPH_EXP_READ_URL": "http://host.docker.internal:9030/get_experience"
+      }
+    },
+    "dry_run_commands": [
+      "exp_search \"TypeError when calling a function with wrong arguments\" > /tmp/mg_s.txt; cat /tmp/mg_s.txt; ID=$(grep -o 'ID: [^ ]*' /tmp/mg_s.txt | head -1 | cut -d' ' -f2); exp_read \"$ID\""
+    ],
+    "_comment": "THIRD-PARTY SKILL SYSTEM, ORIGINAL ARM, version 2 (note M-4): as memgovern-orig.json, but MemGovern's retrieval step (and its tools' docstrings) is inserted as step 3 of mini-swe-agent's recommended workflow, where MemGovern's own agent config puts it (config/dsv31t_agenticMemSearch_1220_13w.yaml: after reproducing the error, before editing; its step 4 says '(Apply insights from step 3 if available)'). Version 1 appended the step after the issue text, inside <pr_description>, followed by mini-swe-agent's own 5-step workflow without it; the real model then called exp_search 0 times on 10 of 10 tasks (A102).",
+    "workflow_step_file": "runs/memgovern/orig_step.json"
+  },
+  "fingerprints": {},
+  "input_predicates": [],
+  "postconditions": [],
+  "footprint": {
+    "regions": [],
+    "reads": [],
+    "writes": [],
+    "properties": []
+  },
+  "capability_verdict": "approved",
+  "source": "third-party:memgovern"
+}

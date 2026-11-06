@@ -337,13 +337,15 @@ jobs:
           MODEL_PATH: qwen3emb
         run: |
           mgenv/bin/python scripts/memgovern.py orig --mg-root mg --ids cell.json --out runs/memgovern/orig_guidance.json
+          # version 2 of the arm (note M-4): the same text as step 3 of the agent's workflow
+          python -c "import json; g=json.load(open('runs/memgovern/orig_guidance.json')); t=set(g.values()); assert len(t)==1; json.dump({'step': t.pop()}, open('runs/memgovern/orig_step.json','w'))"
           (mgenv/bin/python scripts/memgovern.py serve --mg-root mg --ids cell.json --port 9030 > mg_server.log 2>&1 &)
           for i in $(seq 1 60); do curl -sf http://localhost:9030/health > health.json && break; sleep 10; done
           cat health.json || { echo "server did not start"; tail -50 mg_server.log; exit 1; }
           grep "\[memgovern\]" mg_server.log
       - name: Earlier results of this batch (resume)
         run: |
-          PREFIX=$([ "${{ inputs.mode }}" = cell-paid ] && echo mg-s41 || echo "mgdry${GITHUB_RUN_ID}-s41")
+          PREFIX=$([ "${{ inputs.mode }}" = cell-paid ] && echo mg2-s41 || echo "mgdry${GITHUB_RUN_ID}-s41")
           NAME="$PREFIX-f$(printf %03d ${{ inputs.first }})-k$K"
           echo "NAME=$NAME" >> "$GITHUB_ENV"
           mkdir -p results/pilot
@@ -375,7 +377,7 @@ jobs:
             --cap "$TOTAL" --deadline-epoch "$DEADLINE" --wait-s 60 || { echo "[stop] budget or time"; exit 0; }
           CAP=$(python -c "import sys; sys.path.insert(0,'scripts'); import run_batched_pilot as r; print(repr(r.pilot_spent_total() + $WORST))")
           python scripts/run_batched_pilot.py --name "$NAME" --model $MODEL --model-seed 41 \
-            --skills configs/skills/memgovern-orig.json --task-sets shard_sets.json --tasks-from shard_pool.json \
+            --skills configs/skills/memgovern-orig-wf.json --task-sets shard_sets.json --tasks-from shard_pool.json \
             --dataset-file e2_rows.jsonl --batch 1 --max-batches 1 --cap-usd "$CAP" --cost-limit $COST_LIMIT \
             --step-limit 250 --workers 2 --arm-parallel $ARMS --keep-images \
             --stop-after-min 330 --batch-min 50 \
@@ -391,6 +393,22 @@ jobs:
           python scripts/e2_ledger.py total --branch "$LEDGER"
           grep -c 'TOOL\] /search' mg_server.log | sed 's/^/server \/search calls: /' || true
           grep -c 'TOOL\] /get_experience' mg_server.log | sed 's/^/server \/get_experience calls: /' || true
+      - name: Placement and tool-use check (booleans and counts only; no MemGovern text printed)
+        if: always()
+        run: |
+          python - <<'EOF'
+          import glob, json
+          for f in glob.glob("runs/*/memgovern/agent/*/*.traj.json"):
+              m = json.load(open(f))["messages"]
+              u = next(x for x in m if x.get("role") == "user")["content"]
+              wf = u.find("## Recommended Workflow"); st = u.find("3. **Search and Retrieve Experience")
+              ed = u.find("4. Edit the source code to resolve the issue (Apply insights from step 3")
+              cmds = [json.loads(c["function"]["arguments"]).get("command", "")
+                      for x in m if x.get("role") == "assistant" for c in (x.get("tool_calls") or [])]
+              print(f"[M-4] {f.split('/')[-2]}: step in workflow {0 <= wf < st < ed}, "
+                    f"in pr_description {0 <= st < u.find('</pr_description>')}, "
+                    f"exp_search cmds {sum('exp_search' in c for c in cmds)}, exp_read cmds {sum('exp_read' in c for c in cmds)}, steps {len(cmds)}")
+          EOF
       - name: Remove MemGovern text from raw files (fails closed)
         if: always()
         run: |

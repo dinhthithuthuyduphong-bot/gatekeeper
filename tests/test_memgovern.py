@@ -103,3 +103,53 @@ def test_filter_keeps_non_result_fields_with_more_results_than_field_chars():
         assert len(r["ids"][0]) == 10 and r["included"] == ["metadatas", "distances"]
     finally:
         ORDER[:] = old
+
+
+def test_base_template_has_the_verified_workflow():
+    pytest.importorskip("minisweagent")
+    from gatekeeper.pilot import MINI_WORKFLOW, base_instance_template
+
+    assert base_instance_template().count(MINI_WORKFLOW) == 1  # mini-swe-agent 2.4.6, verbatim
+
+
+def test_workflow_step_inserted_where_memgovern_puts_it():
+    from gatekeeper.pilot import MINI_WORKFLOW, insert_workflow_step
+
+    base = (
+        "<pr_description>\n{{task}}\n</pr_description>\n## Recommended Workflow\n\n"
+        + MINI_WORKFLOW
+        + "\n\n## Command Execution Rules"
+    )
+    step = "3. **Search and Retrieve Experience (optional, as needed):** use exp_search.\n- sub"
+    t = insert_workflow_step(base, step)
+    wf = t.index("## Recommended Workflow")
+    s3 = t.index("3. **Search and Retrieve Experience")
+    s4 = t.index("4. Edit the source code to resolve the issue (Apply insights from step 3")
+    assert wf < t.index("2. Create a script to reproduce the issue") < s3 < s4
+    assert t.index("6. Test edge cases") > s4 and "\n   - sub" in t
+    assert "{{task}}" in t and t.count("<pr_description>") == base.count("<pr_description>")
+    with pytest.raises(ValueError):
+        insert_workflow_step(t, step)  # already changed: the original workflow is gone
+
+
+def test_v2_overlay_sets_template_and_leaves_issue_unchanged(tmp_path, monkeypatch):
+    import json as _json
+
+    import gatekeeper.pilot as gp
+    from gatekeeper.pilot import MINI_WORKFLOW
+
+    monkeypatch.setattr(gp, "base_instance_template", lambda: "{{task}}\n" + MINI_WORKFLOW)
+
+    from gatekeeper.pilot import arm_rows
+
+    monkeypatch.setenv("MEMGOVERN_TOOLS", "/x")
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / "runs" / "memgovern").mkdir(parents=True)
+    (tmp_path / "runs/memgovern/orig_step.json").write_text(
+        _json.dumps({"step": "3. **Search and Retrieve Experience (optional, as needed):** x"})
+    )
+    sk = Skill.load(Path(__file__).resolve().parents[1] / "configs/skills/memgovern-orig-wf.json")
+    ov = arm_config(sk, "m", {"seed": 41})
+    assert "3. **Search and Retrieve Experience" in ov["agent"]["instance_template"]
+    rows = [{"instance_id": "a__b-1", "problem_statement": "issue"}]
+    assert arm_rows(rows, sk)[0]["problem_statement"] == "issue"

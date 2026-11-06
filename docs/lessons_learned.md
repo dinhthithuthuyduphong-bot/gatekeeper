@@ -417,3 +417,11 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Xảy ra:** "bản vá trùng với bản hoàn tác commit bị lộ" được dùng làm cận dưới cho việc agent dùng chỗ lộ. Đối chứng không lộ cho thấy chỉ số này vẫn cao khi không có chỗ lộ.
 - **Phòng ngừa:** trước khi dùng một chỉ số làm bằng chứng cho cơ chế, đo nó ở điều kiện không có cơ chế. Ưu tiên thí nghiệm can thiệp (bỏ cơ chế đi) hơn chỉ số đại diện.
 - **Ghi chú đánh số:** phiên trên `main` đã dùng L47 và L48. Số này sẽ được đánh lại khi gộp `trial` vào `main`.
+
+## L48t. Hệ thống dựa trên công cụ: kiểm thao tác trên model thật và kiểm vị trí hướng dẫn trong prompt (A102)
+- **Nguyên nhân gốc:** các phép kiểm khả thi chỉ chứng minh đường ống chạy được: model giả lập được lập trình để gọi công cụ. Không phép kiểm nào hỏi model thật có gọi công cụ không. Hướng dẫn của bên thứ ba được đặt khác chỗ so với cấu hình gốc của họ (trong mô tả issue thay vì trong workflow của agent), và workflow của harness cạnh tranh với nó.
+- **Phòng ngừa:**
+  - trước khi chạy cả ô, chạy một lô nhỏ trên model thật và báo **tỉ lệ dùng công cụ**, với một quy tắc dừng chốt trước;
+  - đối chiếu vị trí từng đoạn hướng dẫn với prompt gốc của hệ thống (đoạn nào nằm trong phần nào của template);
+  - mục kiểm tra mới trong `docs/research_rules.md` §4.
+
