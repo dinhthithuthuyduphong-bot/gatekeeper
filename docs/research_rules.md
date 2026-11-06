@@ -146,6 +146,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Quần thể khớp ước lượng (L45)**
 - [ ] Đo được tỉ lệ task của quần thể nằm trong scope của skill (I(x) đúng và skill có thể tác động). Nếu tỉ lệ này < 1, hiệu ứng thiết kế dùng để tính n phải nhân với tỉ lệ đó. Mọi đường dự phòng của to-do gốc cho trường hợp thiếu task (ví dụ SWE-smith) phải được xét trước khi kết luận "không khả thi" (A87).
 
+**Tín hiệu đỏ (L46)**
+- [ ] Sau mỗi lần push: đọc trạng thái CI của commit đó. Test không được đọc file ngoài git (`runs/`, `logs/`); dữ liệu cần cho test thì chép vào `tests/fixtures/`, kèm nguồn (A88).
+
 **Kiểm thử**
 - [ ] Mô phỏng hoặc phép toán mảng: assert kích thước kết quả, vì broadcasting âm thầm làm rộng mẫu (R-6).
 - [ ] Có test cho từng chỗ sửa; `ruff check`, `ruff format --check` và `pytest` đều qua.

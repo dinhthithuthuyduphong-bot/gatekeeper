@@ -568,3 +568,9 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - tên repo SWE-smith được đổi theo mẫu `swesmith/owner__name.hash` → `owner/name`. Đã kiểm thủ công trên 5 tên: pandas, conan, jinja, click, MONAI;
   - không ghi đè file khác.
 - **Đối chiếu nguồn (R1):** câu của gskill trích từ snapshot `gskill`; README của gskill đọc ở commit `8c7b697` (bản clone chỉ đọc, MIT).
+
+## R-47. Rà soát vấn đề tiềm ẩn lần 2 và sửa test làm CI đỏ (2026-11-06; 0 USD)
+
+- **Sửa:** `tests/test_sskb_adapter.py` đọc fixture `tests/fixtures/e1_litellm_registry.json` (chép nguyên từ `raw-archive`). Nội dung giống hệt file mà §22 đã dùng, nên phép so vẫn kiểm đúng điều cũ.
+- **Kiểm:** pytest đầy đủ qua trên container mới (trước đó 1 test fail). `ruff check`, `ruff format --check` đều qua.
+- **Tài liệu:** `docs/potential_issues.md` (21 vấn đề, 8 cơ chế); `docs/root_cause.md` §4 bổ sung P2.

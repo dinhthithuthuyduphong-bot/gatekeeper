@@ -84,7 +84,9 @@ def test_model_config_flash_lite_equals_section22_setting(tmp_path, vertex_env):
     c = sa.model_config("gemini-flash-lite", 41, tmp_path)
     assert c["model_kwargs"] == {"seed": 41, "drop_params": True, "parallel_tool_calls": True}
     reg = json.loads(Path(c["litellm_model_registry"]).read_text())
-    e1 = json.loads(sa.E1_REGISTRY.read_text())
+    # E1's registry (runs/ is not in git); copied from raw-archive
+    # archive/g1-e1-s41/g1-e1-s41-p00.tar.gz -> runs/g1-e1-s41-p00/litellm_registry.json
+    e1 = json.loads((Path(__file__).parent / "fixtures" / "e1_litellm_registry.json").read_text())
     assert reg.keys() == e1.keys()
     for k, v in e1.items():
         for f, x in v.items():

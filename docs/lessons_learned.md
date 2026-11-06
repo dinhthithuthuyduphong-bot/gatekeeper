@@ -399,3 +399,15 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   1. Mục kiểm tra mới ở `docs/research_rules.md` §4.
   2. Mỗi phép tính khả thi ghi rõ quần thể và tỉ lệ task liên quan đã đo.
   3. Trước khi kết luận "không khả thi", liệt kê các đường dự phòng của to-do gốc và lý do loại từng đường.
+
+## L46. Cảnh báo phải thành cổng chặn; tín hiệu đỏ phải được đọc (A88, `docs/potential_issues.md` §1)
+
+- **Xảy ra:**
+  - To-do gốc cảnh báo đúng chỗ sai (pha loãng, SWE-smith, gskill, edit program), nhưng các cảnh báo chỉ là văn bản.
+  - Một cảnh báo bị đóng bằng cách viết định nghĩa (W1).
+  - Lựa chọn quyết định bị loại vì giá mà không trình @thuthuy (W4).
+  - CI đỏ suốt nhiều commit mà không ai đọc (W8).
+- **Phòng ngừa:**
+  1. Một mục của to-do chỉ được tick khi có **phép đo** chứng minh nó, không phải khi có định nghĩa.
+  2. Mọi phương án bị loại vì chi phí mà mạnh hơn phương án được chọn phải trình @thuthuy, kèm ba điều (quyền, ảnh hưởng, lời khuyên).
+  3. Đọc CI sau mỗi lần push; test không đọc file ngoài git.

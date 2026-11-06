@@ -83,6 +83,8 @@
 1. Trên chính task của SWE-Skills-Bench, `viper` không lặp lại trên agent của mình (§22). Dữ liệu của SSKB cũng cho tương quan giữa 4 cấu hình của họ chỉ từ −0,105 đến 0,212. Như vậy **agent và model** cũng là một yếu tố (RC2). RC giải thích vì sao **không thể** chứng nhận, nhưng **không** chứng minh skill sẽ có ích trên P_s.
 2. Mức tăng của gskill chưa được tái hiện độc lập; đây là bài blog, không phải bài bình duyệt.
 
+**Bổ sung sau rà soát lần 2 (`docs/potential_issues.md` P2):** quần thể khớp scope là **cần nhưng chưa đủ**. SWE-Skills-Bench đo trên task viết riêng cho từng skill mà 92/98 skill vẫn không hiệu quả. Tác dụng lớn đã công bố (gskill) đến từ skill **được tối ưu theo kết quả trên chính quần thể đó**. Vì vậy nguyên nhân gốc đầy đủ là: **quần thể sai, và skill không được học trên quần thể của scope.** Mức tăng của gskill cũng có thể là đặc điểm của SWE-smith (P3), và thiết kế sửa phải đo điều này.
+
 **Yếu tố góp phần:**
 - **RC2:** model yếu (Flash-Lite, tỉ lệ giải nền 0,27) làm nhiễu lớn, và nó không làm theo chỉ dẫn (§20 S5).
 - **RC3:** skill viết tay dạng hướng dẫn, thay vì skill học từ trajectory như paper gốc (A86).
