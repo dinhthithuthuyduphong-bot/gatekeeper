@@ -47,15 +47,23 @@ def run_harness(
     split: str = "test",
     namespace: str | None = None,
     python: str | None = None,
+    net: bool = False,
 ) -> None:
-    """`python`: interpreter whose `swebench` package scores the run (default: this one).
+    """`net` (section 28): run the unchanged harness through scripts/harness_net.py, which gives
+    each evaluation container the session proxy and CA bundle (official SWE-bench evaluation
+    containers have network access; ours had none). Default False = every registered result.
+    `python`: interpreter whose `swebench` package scores the run (default: this one).
     SWE-bench-Live must be scored with its own harness fork and its prebuilt images
     (`--namespace starryzhang`, README of the python-only branch), installed in a separate
     environment because the fork is also named `swebench`."""
+    entry = (
+        [str(Path(__file__).resolve().parents[2] / "scripts" / "harness_net.py")]
+        if net
+        else ["-m", "swebench.harness.run_evaluation"]
+    )
     cmd = [
         python or sys.executable,
-        "-m",
-        "swebench.harness.run_evaluation",
+        *entry,
         "--dataset_name",
         dataset,
         "--split",
