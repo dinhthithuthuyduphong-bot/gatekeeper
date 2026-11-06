@@ -1,0 +1,969 @@
+{
+ "django__django-11451": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-django__django-11451-20261106T101717-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-django__django-11451-20261106T101741-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-django__django-11451-20261106T101805-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "deepset-ai__haystack-8943": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-deepset-ai__haystack-8943-20261106T102035-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-deepset-ai__haystack-8943-20261106T102159-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-deepset-ai__haystack-8943-20261106T102324-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "matplotlib__matplotlib-24149": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-matplotlib__matplotlib-24149-20261106T102633-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-matplotlib__matplotlib-24149-20261106T102859-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-matplotlib__matplotlib-24149-20261106T103124-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "streamlink__streamlink-6016": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-streamlink__streamlink-6016-20261106T103429-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-streamlink__streamlink-6016-20261106T103522-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-streamlink__streamlink-6016-20261106T103613-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "conan-io__conan-15705": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-conan-io__conan-15705-20261106T101612-r0",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_all_prevs[True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_latest_prevs[1.0.0-True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_latest_prevs[[>=1.0.0",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids[True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids_all_rrevs[True]"
+    ]
+   },
+   {
+    "run_id": "gold-conan-io__conan-15705-20261106T102527-r1",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_all_prevs[True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_latest_prevs[1.0.0-True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_latest_prevs[[>=1.0.0",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids[True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids_all_rrevs[True]"
+    ]
+   },
+   {
+    "run_id": "gold-conan-io__conan-15705-20261106T103444-r2",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_all_prevs[True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_latest_prevs[1.0.0-True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_latest_prevs[[>=1.0.0",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids[True]",
+     "conans/test/integration/command_v2/list_test.py::TestListPrefs::test_list_pkg_ids_all_rrevs[True]"
+    ]
+   }
+  ],
+  "label": "broken"
+ },
+ "deepset-ai__haystack-8992": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-deepset-ai__haystack-8992-20261106T104606-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-deepset-ai__haystack-8992-20261106T104735-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-deepset-ai__haystack-8992-20261106T104905-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "pylint-dev__pylint-5136": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-pylint-dev__pylint-5136-20261106T105123-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-pylint-dev__pylint-5136-20261106T105146-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-pylint-dev__pylint-5136-20261106T105209-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "sympy__sympy-11831": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-sympy__sympy-11831-20261106T105309-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-sympy__sympy-11831-20261106T105334-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-sympy__sympy-11831-20261106T105400-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "ansible__ansible-lint-4662": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-ansible__ansible-lint-4662-20261106T101818-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-ansible__ansible-lint-4662-20261106T102129-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-ansible__ansible-lint-4662-20261106T102424-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "django__django-12518": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-django__django-12518-20261106T102753-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-django__django-12518-20261106T102815-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-django__django-12518-20261106T102836-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "python-pillow__Pillow-9105": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-python-pillow__Pillow-9105-20261106T102928-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-python-pillow__Pillow-9105-20261106T103037-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-python-pillow__Pillow-9105-20261106T103145-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "sympy__sympy-13346": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-sympy__sympy-13346-20261106T103330-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-sympy__sympy-13346-20261106T103350-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-sympy__sympy-13346-20261106T103410-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "aws-cloudformation__cfn-lint-3508": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-aws-cloudformation__cfn-lint-3508-20261106T101630-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-aws-cloudformation__cfn-lint-3508-20261106T101730-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-aws-cloudformation__cfn-lint-3508-20261106T101830-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "django__django-14170": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-django__django-14170-20261106T102017-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-django__django-14170-20261106T102039-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-django__django-14170-20261106T102101-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "pytorch__torchtune-1806": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-pytorch__torchtune-1806-20261106T102310-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-pytorch__torchtune-1806-20261106T102513-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-pytorch__torchtune-1806-20261106T102716-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "sympy__sympy-18605": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-sympy__sympy-18605-20261106T103007-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-sympy__sympy-18605-20261106T103027-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-sympy__sympy-18605-20261106T103048-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "aws-cloudformation__cfn-lint-3607": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-aws-cloudformation__cfn-lint-3607-20261106T101602-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-aws-cloudformation__cfn-lint-3607-20261106T101704-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-aws-cloudformation__cfn-lint-3607-20261106T101806-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "django__django-15613": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-django__django-15613-20261106T101954-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-django__django-15613-20261106T102015-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-django__django-15613-20261106T102036-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "reflex-dev__reflex-3982": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-reflex-dev__reflex-3982-20261106T102134-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-reflex-dev__reflex-3982-20261106T102204-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-reflex-dev__reflex-3982-20261106T102235-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "vacanza__holidays-2750": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-vacanza__holidays-2750-20261106T102332-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-vacanza__holidays-2750-20261106T102419-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-vacanza__holidays-2750-20261106T102506-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "beeware__briefcase-1640": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-beeware__briefcase-1640-20261106T101740-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-beeware__briefcase-1640-20261106T101826-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-beeware__briefcase-1640-20261106T101910-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "dottxt-ai__outlines-1679": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-dottxt-ai__outlines-1679-20261106T102221-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-dottxt-ai__outlines-1679-20261106T102709-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-dottxt-ai__outlines-1679-20261106T103149-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "scikit-learn__scikit-learn-13142": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-scikit-learn__scikit-learn-13142-20261106T103732-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-scikit-learn__scikit-learn-13142-20261106T103756-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-scikit-learn__scikit-learn-13142-20261106T103819-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "beeware__briefcase-1785": {
+  "dataset": "rows_b.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-beeware__briefcase-1785-20261106T101642-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-beeware__briefcase-1785-20261106T101743-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-beeware__briefcase-1785-20261106T101841-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "iterative__dvc-10822": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-iterative__dvc-10822-20261106T102100-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-iterative__dvc-10822-20261106T103033-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-iterative__dvc-10822-20261106T104037-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "scikit-learn__scikit-learn-13779": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-scikit-learn__scikit-learn-13779-20261106T105114-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-scikit-learn__scikit-learn-13779-20261106T105137-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-scikit-learn__scikit-learn-13779-20261106T105200-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "beeware__briefcase-1811": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-beeware__briefcase-1811-20261106T101651-r0",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "tests/platforms/macOS/app/test_signing.py::test_sign_app[True]"
+    ]
+   },
+   {
+    "run_id": "gold-beeware__briefcase-1811-20261106T101741-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-beeware__briefcase-1811-20261106T101829-r2",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "tests/platforms/macOS/app/test_signing.py::test_sign_app[True]"
+    ]
+   }
+  ],
+  "label": "flaky"
+ },
+ "jlowin__fastmcp-1397": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-jlowin__fastmcp-1397-20261106T101955-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-jlowin__fastmcp-1397-20261106T102107-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-jlowin__fastmcp-1397-20261106T102219-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "scikit-learn__scikit-learn-14710": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-scikit-learn__scikit-learn-14710-20261106T102428-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-scikit-learn__scikit-learn-14710-20261106T102451-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-scikit-learn__scikit-learn-14710-20261106T102513-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "conan-io__conan-17092": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-conan-io__conan-17092-20261106T101623-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-conan-io__conan-17092-20261106T102804-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-conan-io__conan-17092-20261106T103931-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "joke2k__faker-2155": {
+  "dataset": "rows_b.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-joke2k__faker-2155-20261106T105145-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-joke2k__faker-2155-20261106T105244-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-joke2k__faker-2155-20261106T105344-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "sissbruecker__linkding-810": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-sissbruecker__linkding-810-20261106T105517-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-sissbruecker__linkding-810-20261106T105855-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-sissbruecker__linkding-810-20261106T110232-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "conan-io__conan-18655": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-conan-io__conan-18655-20261106T101642-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-conan-io__conan-18655-20261106T102431-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-conan-io__conan-18655-20261106T103214-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "matplotlib__matplotlib-20488": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-matplotlib__matplotlib-20488-20261106T104113-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-matplotlib__matplotlib-20488-20261106T104146-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-matplotlib__matplotlib-20488-20261106T104219-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "sphinx-doc__sphinx-8707": {
+  "dataset": "rows_a.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-sphinx-doc__sphinx-8707-20261106T104332-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-sphinx-doc__sphinx-8707-20261106T104353-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-sphinx-doc__sphinx-8707-20261106T104414-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ }
+}
