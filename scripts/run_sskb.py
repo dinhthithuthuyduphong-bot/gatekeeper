@@ -1,11 +1,17 @@
-"""Runs SWE-Skills-Bench cells with the adapter under a hard spend cap (section 22). Paid.
+"""Runs SWE-Skills-Bench cells with the adapter under a hard spend cap (sections 22, 23). Paid.
 
   python scripts/run_sskb.py --plan probe --model gemini-flash-lite --cap-usd 5.0 --out runs/sskb-p0
+  python scripts/run_sskb.py --plan s23a --model gemini-flash --cap-usd 2.0 --out runs/sskb-s23a
+  python scripts/run_sskb.py --plan s23b-screen --model gemini-flash-lite --cap-usd 5.0 \
+      --out runs/sskb-s23b
+  python scripts/run_sskb.py --plan s23b-confirm --model gemini-flash-lite --cap-usd 5.0 \
+      --out runs/sskb-s23b
 
-The probe plan: skills viper-configuration and asyncio-patterns, batches 1-10, seed 41, both arms,
-interleaved (batch, skill, arm) so a stopped run stays balanced. Before each cell the driver checks
-"spent + worst cell > cap" (worst cell = the agent cost_limit 1.0 USD) and stops if so. Writes
-results/sskb_<plan>.json with one row per cell (no trajectory text).
+Cells are interleaved (seed, batch, skill, arm) so a stopped run stays balanced. Before each cell
+the driver checks "spent + worst cell > cap" (worst cell = the agent cost_limit 1.0 USD) and stops
+if so. Plans in the same cap group share one spend (s23b-screen and s23b-confirm: 5 USD in all).
+Cost gate (sections 22, 23): after the first `gate_after` new cells, stop if the mean cost per cell
+exceeds `gate_usd` (2 x the estimate). Writes results/sskb_<plan>.json, one row per cell.
 """
 
 from __future__ import annotations
@@ -20,12 +26,50 @@ S = Path("/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd21
 SSKB = S / "ext/sskb"
 AGENT_PY = S / "pilotenv/bin/python"
 WORST_CELL = 1.0  # agent cost_limit per run (E1 setting)
+S23B_SKILLS = [  # section 23b: Python/Go skills with |published effect| >= 6 pp, not in section 22
+    "go-fx-di",
+    "langsmith-fetch",
+    "pandas-dataframe-patterns",
+    "scipy-scientific-computing",
+    "sympy-symbolic-math",
+]
 PLANS = {
     "probe": {
+        "model": "gemini-flash-lite",
         "skills": ["viper-configuration", "asyncio-patterns"],
         "batches": list(range(1, 11)),
         "seeds": [41],
-    }
+        "group": "probe",
+        "gate_after": 4,
+        "gate_usd": 0.16,
+    },
+    "s23a": {
+        "model": "gemini-flash",
+        "skills": ["viper-configuration", "asyncio-patterns"],
+        "batches": list(range(1, 11)),
+        "seeds": [41],
+        "group": "s23a",
+        "gate_after": 4,
+        "gate_usd": 0.15,
+    },
+    "s23b-screen": {
+        "model": "gemini-flash-lite",
+        "skills": S23B_SKILLS,
+        "batches": list(range(1, 11)),
+        "seeds": [41],
+        "group": "s23b",
+        "gate_after": 4,
+        "gate_usd": 0.052,
+    },
+    "s23b-confirm": {
+        "model": "gemini-flash-lite",
+        "skills": None,  # chosen by select_confirm() from the screen
+        "batches": list(range(1, 11)),
+        "seeds": [51, 61],
+        "group": "s23b",
+        "gate_after": 0,
+        "gate_usd": 0.0,
+    },
 }
 
 
@@ -37,6 +81,40 @@ def cells(plan: dict) -> list[tuple[str, int, int, str]]:
         for sk in plan["skills"]
         for arm in ("none", "skill")
     ]
+
+
+def skill_means(rows: list[dict]) -> dict[str, float]:
+    """D per skill = mean of (skill pass rate - none pass rate) over complete pairs."""
+    by: dict[tuple, dict[str, float]] = {}
+    for r in rows:
+        if r.get("pass_rate") is not None:
+            by.setdefault((r["skill"], r["batch"], r["seed"]), {})[r["arm"]] = r["pass_rate"]
+    d: dict[str, list[float]] = {}
+    for (sk, _, _), v in by.items():
+        if len(v) == 2:
+            d.setdefault(sk, []).append(v["skill"] - v["none"])
+    return {sk: sum(x) / len(x) for sk, x in d.items()}
+
+
+def select_confirm(screen_rows: list[dict], skills: list[str]) -> tuple[str, int]:
+    """Section 23b rule: the screened skill with the largest |D|; ties go to the first in `skills`.
+    Requires the full screen (10 complete pairs per skill). Returns (skill, direction sign)."""
+    by = {}
+    for r in screen_rows:
+        if r.get("pass_rate") is not None:
+            by.setdefault((r["skill"], r["batch"]), set()).add(r["arm"])
+    for sk in skills:
+        n = sum(1 for (s, _), arms in by.items() if s == sk and arms == {"none", "skill"})
+        if n != 10:
+            raise SystemExit(f"screen incomplete for {sk}: {n}/10 pairs")
+    d = skill_means(screen_rows)
+    best = max(skills, key=lambda s: (abs(d[s]), -skills.index(s)))
+    return best, (1 if d[best] > 0 else -1)
+
+
+def load_rows(plan: str) -> list[dict]:
+    f = Path(f"results/sskb_{plan}.json")
+    return json.loads(f.read_text())["rows"] if f.exists() else []
 
 
 def main() -> int:
@@ -51,21 +129,35 @@ def main() -> int:
         [sys.executable, "scripts/preflight.py", "--ci"], capture_output=True
     ).returncode:
         raise SystemExit(7)  # gate (CLAUDE.md)
+    plan = dict(PLANS[a.plan])
+    if a.model != plan["model"]:
+        raise SystemExit(f"plan {a.plan} is registered for {plan['model']}, not {a.model}")
+    extra = {}
+    if a.plan == "s23b-confirm":
+        sk, sign = select_confirm(load_rows("s23b-screen"), S23B_SKILLS)
+        plan["skills"] = [sk]
+        extra = {"selected": sk, "direction": sign}
+        print(f"[select] {sk} direction {sign:+d}")
     out_file = Path(f"results/sskb_{a.plan}.json")
-    rows = json.loads(out_file.read_text())["rows"] if out_file.exists() else []
+    rows = load_rows(a.plan)
     done = {(r["skill"], r["batch"], r["seed"], r["arm"]) for r in rows}
-    spent = sum(r.get("cost_usd") or 0.0 for r in rows)
-    new = 0
-    for sk, b, s, arm in cells(PLANS[a.plan]):
+    group = [p for p, v in PLANS.items() if v["group"] == plan["group"]]
+    spent = sum(r.get("cost_usd") or 0.0 for p in group for r in load_rows(p))
+    new, new_cost = 0, 0.0
+    for sk, b, s, arm in cells(plan):
         if (sk, b, s, arm) in done:
             continue
         if a.max_cells and new >= a.max_cells:
             print(f"[stop] --max-cells {a.max_cells}")
             break
-        new += 1
+        if plan["gate_after"] and new == plan["gate_after"]:
+            if new_cost / new > plan["gate_usd"]:
+                print(f"[stop] cost gate: {new_cost / new:.4f} USD/cell > {plan['gate_usd']}")
+                break
         if spent + WORST_CELL > a.cap_usd:
             print(f"[stop] cap: spent {spent:.4f} + worst cell {WORST_CELL} > {a.cap_usd}")
             break
+        new += 1
         cmd = [
             str(AGENT_PY),
             "scripts/sskb_adapter.py",
@@ -93,15 +185,16 @@ def main() -> int:
             row = json.loads(line)
         rows.append(row)
         spent += row.get("cost_usd") or 0.0
+        new_cost += row.get("cost_usd") or 0.0
         out_file.write_text(
-            json.dumps({"plan": a.plan, "model": a.model, "rows": rows}, indent=1) + "\n"
+            json.dumps({"plan": a.plan, "model": a.model, **extra, "rows": rows}, indent=1) + "\n"
         )
         print(
-            f"[cell] {sk} b{b} s{s} {arm}: pass_rate={row.get('pass_rate')} "
-            f"cost={row.get('cost_usd')} spent={spent:.4f}",
+            f"[cell] {sk} b{b} s{s} {arm}: cost={row.get('cost_usd')} spent={spent:.4f}"
+            f"{' INFRA' if 'infra_error' in row else ''}",
             flush=True,
         )
-    print(f"[done] {len(rows)} cells, spent {spent:.4f} USD")
+    print(f"[done] {len(rows)} cells, group spent {spent:.4f} USD")
     return 0
 
 

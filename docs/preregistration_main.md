@@ -780,3 +780,79 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
   - Tác dụng có lợi lớn của `viper-configuration` **không xuất hiện** trên agent của mình (+0,015 so với +0,177).
   - Tác dụng có hại của `asyncio-patterns` **cùng chiều** với công bố (−0,113 so với −0,170), nhưng dồn vào 2/10 batch và không có ý nghĩa thống kê (p = 0,44).
 - **Hệ quả cho kế hoạch:** kịch bản "cạnh tranh tốt" (chứng nhận skill thật) **không được ủng hộ** ở phép thử này; không chạy C2 và D2 theo thiết kế đã định.
+
+## 23. Model thứ hai và sàng lọc–xác nhận trên SWE-Skills-Bench (đăng ký 06/11/2026, trước mọi lần chạy có phí)
+
+**Duyệt:** @thuthuy 06/11/2026: "Thử phương án 1 với 2 đô và làm phương án 2 với 5 đô".
+
+**Công khai trước (R5, L12):**
+- Đã thấy kết quả §22 (G = 0,064, dừng track C trên Flash-Lite).
+- Đã thấy dữ liệu công khai của SSKB, gồm cả việc tác dụng gần như không lặp lại giữa 4 cấu hình của họ (tương quan −0,105 đến 0,212; `results/sskb_transfer_power.json`).
+- **Vì vậy:**
+  - §23 là hai giai đoạn **mới**, mỗi giai đoạn có dữ liệu riêng.
+  - Ở §23b, `viper-configuration` và `asyncio-patterns` **không** được chạy thêm trên Flash-Lite, để không "cứu" §22 bằng thêm seed. Đây là thay đổi so với phương án 2 đã trình (7 skill), lý do là quy tắc dừng của §22.
+
+**Thiết lập chung với §22:**
+- adapter `scripts/sskb_adapter.py`, image và test ẩn của SSKB (commit `4d3450d`);
+- mini-swe-agent 2.4.6, 250 bước, cost-limit 1,0 USD;
+- ba khác biệt có chủ đích như §22;
+- đại lượng D = trung bình theo batch của (tỉ lệ pass có skill − tỉ lệ pass không skill).
+
+### 23a. Phép thử trên model thứ hai (`gemini-flash`), trần 2 USD
+
+- **Vì sao:** tác dụng công bố của SSKB đo trên các model mạnh hơn Flash-Lite. Đây là phép thử rẻ nhất cho câu hỏi "có xuất hiện trên một model mạnh hơn không" (TODO, ưu tiên 2: "Model thứ hai").
+- **Model:** `gemini-flash` theo `configs/models/vertex_gemini.json`, với `reasoning_effort: low`, như 10 lần chạy Flash ở pilot.
+  - Đây là định nghĩa can thiệp, đặt trước (checklist B8).
+  - Truy cập Vertex đã kiểm ngày 02/11.
+  - Giá lấy từ bảng của litellm, `_verified: false` như mọi model Gemini trong dự án (C5).
+- **Thiết kế:** `viper-configuration` và `asyncio-patterns`; batch 1–10; seed 41; hai nhánh; xen kẽ (batch, skill, nhánh); plan `s23a`.
+- **Số batch k thực tế do trần quyết định:** driver dừng khi "đã chi + 1,0 > 2,0".
+  - Ước tính 0,075 USD mỗi lần chạy: số token của §22 nhân với tỉ lệ giá Flash / Flash-Lite (×3 đầu vào, ×2,5 đầu ra).
+  - Như vậy được khoảng 13–14 lần chạy, tức k khoảng 3.
+- **Cổng chi phí:** sau 4 lần chạy đầu, trung bình > 0,15 USD (2 × ước tính) thì dừng.
+- **Quy tắc diễn giải** (giữ đúng quy tắc §22, không đặt ngưỡng mới): G = (D_viper − D_asyncio)/2 trên các batch đã đủ cặp của cả hai skill. G ≥ 0,10 là "có tín hiệu". Có tín hiệu thì trình @thuthuy thiết kế đủ trên Flash, kèm ngân sách mới. Không có tín hiệu thì dừng.
+- **Độ tin cậy của quy tắc ở k nhỏ** (`scripts/section23_design.py`, 20.000 lần; mô hình "như công bố" lấy từ 40 hiệu số công khai của từng skill; mô hình "không tác dụng" là cùng phép rút nhưng đổi dấu ngẫu nhiên):
+
+  | k | P(có tín hiệu \| như công bố) | P(có tín hiệu \| không tác dụng) |
+  | --- | --- | --- |
+  | 3 | 0,694 | 0,245 |
+  | 4 | 0,732 | 0,212 |
+  | 5 | 0,756 | 0,188 |
+  | 10 | 0,852 | 0,107 |
+
+  Ở k = 3, khoảng một phần tư số lần "có tín hiệu" là nhiễu. Vì vậy 23a **chỉ là phép thử**, không phải kết luận. Mô hình "như công bố" dùng nhiễu của SSKB; nhiễu của mình lớn hơn, nên hai xác suất này lạc quan.
+
+### 23b. Sàng lọc rồi xác nhận trên Flash-Lite, trần 5 USD cho cả hai bước
+
+- **Vì sao:** cần một skill thật được chứng nhận theo đúng to-do gốc ("Skill thật có δ lớn … rồi chứng nhận trên task mới"). Tách dữ liệu chọn / xác nhận (Cox 1975, `configs/sources.json`) giữ suy luận hợp lệ với mọi quy tắc chọn.
+- **Skill** (quy tắc cố định: image Python hoặc Go, |tác dụng công bố| ≥ 6 điểm, không thuộc §22): `go-fx-di` (+6,1), `langsmith-fetch` (−7,0), `pandas-dataframe-patterns` (+8,2), `scipy-scientific-computing` (−6,5), `sympy-symbolic-math` (+6,7).
+  - Mốc 6 điểm chọn trước khi chạy để có đúng các skill tác dụng lớn nhất còn chạy được (vận hành, R2).
+  - Các skill Node (`vitest`, `zustand`, `tanstack`, `drizzle`) bị loại vì không có image trên Docker Hub.
+- **Bước 1 (sàng lọc, plan `s23b-screen`):** 5 skill × batch 1–10 × seed 41 × 2 nhánh = 100 lần chạy.
+- **Chọn (tự động, `select_confirm`):** skill có |D| lớn nhất. Hòa thì lấy skill đứng trước trong danh sách. Chiều kiểm định = dấu của D. Phải đủ 10 cặp cho mỗi skill thì mới chọn.
+- **Bước 2 (xác nhận, plan `s23b-confirm`):** skill được chọn × batch 1–10 × seed 51 và 61 × 2 nhánh = 40 lần chạy. Không dùng dữ liệu bước 1.
+- **Kiểm định chính:**
+  - 10 hiệu số mức batch, mỗi hiệu số là trung bình của 2 seed;
+  - kiểm định đổi dấu **chính xác** trên đủ 2¹⁰ tổ hợp dấu (có hoán vị đơn vị; Hemerik & Goeman 2018);
+  - **một phía theo chiều sàng lọc**, α = 0,05 (mức quy ước), không có phép kiểm nào khác nên không cần Holm.
+  - Đơn vị là batch, vì hai seed của cùng một yêu cầu không độc lập với nhau.
+- **Phán quyết:** p ≤ 0,05 thì skill đó được **chứng nhận** "có lợi" hoặc "có hại" trên scope (skill × repo × Flash-Lite + mini-swe-agent). p > 0,05 thì không chứng nhận, và báo cáo D cùng CI.
+- **Power đã tính trước** (`scripts/section23_design.py`):
+  - Tác dụng thật δ ~ N(0, τ²), τ ∈ {3, 5, 7} điểm. 7 điểm là cận trên: √49,7, phương sai tác dụng theo cấu hình của SSKB, đã gồm nhiễu của họ.
+  - Nhiễu sàng lọc 9,35 điểm (§22).
+  - Nhiễu xác nhận mức batch nằm giữa 29,6/√2 và 29,6 điểm.
+
+  | τ | P(chứng nhận đúng chiều), nhiễu giữa seed | nhiễu giữa yêu cầu |
+  | --- | --- | --- |
+  | 3 | 0,081 | 0,061 |
+  | 5 | 0,167 | 0,118 |
+  | 7 | 0,286 | 0,193 |
+
+  - Mức khi không có tác dụng: 0,051 (20.000 lần), tức đúng mức danh nghĩa (51/1024).
+  - **Xác suất thành công khoảng 6–29%** đã được báo @thuthuy trước khi duyệt.
+- **Cổng chi phí:** sau 4 lần chạy đầu của bước 1, trung bình > 0,052 USD (2 × 0,026 đo ở §22) thì dừng.
+- **Trần:** "đã chi của cả hai bước + 1,0 > 5,0" thì dừng. Ước tính 140 × 0,026 ≈ 3,7 USD.
+
+**Kiểm sau khi chạy (cả 23a và 23b):** `infra_error`; `skill_files` > 0 ở nhánh skill; `exit_status`. Lỗi hạ tầng > 10% số lần chạy thì dừng và báo. Lỗi do agent **không** chạy lại (L1).
+
+**Không xem kết quả giữa chừng (L28):** driver chỉ in chi phí, không in tỉ lệ pass.

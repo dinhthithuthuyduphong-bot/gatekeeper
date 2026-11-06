@@ -32,7 +32,7 @@ PROXY_VARS = ("HTTPS_PROXY", "HTTP_PROXY", "https_proxy", "http_proxy", "NO_PROX
 CA_VARS = ("GIT_SSL_CAINFO", "SSL_CERT_FILE", "REQUESTS_CA_BUNDLE", "PIP_CERT", "CURL_CA_BUNDLE")
 MSWEA_CFG = "minisweagent/config/benchmarks/swebench.yaml"
 MODELS = Path("configs/models/vertex_gemini.json")
-REGISTRY = Path("runs/g1-e1-s41-p00/litellm_registry.json")  # the price registry E1 used
+E1_REGISTRY = Path("runs/g1-e1-s41-p00/litellm_registry.json")  # section 22 used this; tested equal
 
 # ---------- pure functions (tests/test_sskb_adapter.py) ----------
 
@@ -222,6 +222,31 @@ def score(env, sskb: Path, sc: dict, batch: int) -> dict:
     return res
 
 
+def model_config(model: str, seed: int, out: Path) -> dict:
+    """Model part of the mini-swe-agent config, built as run_pilot.py does: the model's registered
+    kwargs (e.g. reasoning_effort for Flash, section 23 / B8) plus the run seed, and a price
+    registry written from configs/models (so cost_limit and cost_usd use the registered prices).
+    For gemini-flash-lite this equals the E1 setting used in section 22."""
+    import sys
+
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+    from gatekeeper.pilot import litellm_registry, load_model_specs
+
+    if seed == 0:
+        raise ValueError("seed 0 is UNSET on Vertex (configs/models/vertex_gemini.json)")
+    spec = load_model_specs(MODELS)[model]
+    out.mkdir(parents=True, exist_ok=True)
+    reg = out / f"litellm_registry_{model}.json"
+    reg.write_text(json.dumps(litellm_registry(spec), indent=1) + "\n")
+    kwargs = {**spec.kwargs, "drop_params": True, "parallel_tool_calls": True, "seed": seed}
+    return {
+        "model_name": spec.litellm_name,
+        "model_kwargs": kwargs,
+        "litellm_model_registry": str(reg.resolve()),
+        "cost_tracking": "default",
+    }
+
+
 def run(a) -> dict:
     import importlib.resources as ir
 
@@ -254,13 +279,7 @@ def run(a) -> dict:
             ],
         }
     else:
-        spec = json.loads(MODELS.read_text())["models"][a.model]
-        mcfg = dict(base_cfg["model"]) | {
-            "model_name": spec["litellm_name"],
-            "model_kwargs": {"drop_params": True, "parallel_tool_calls": True, "seed": a.seed},
-            "litellm_model_registry": str(REGISTRY.resolve()),
-            "cost_tracking": "default",
-        }
+        mcfg = dict(base_cfg["model"]) | model_config(a.model, a.seed, Path(a.out))
     model = get_model(config=mcfg)
     env = get_environment(env_cfg, default_type="docker")
     agent = get_agent(model, env, agent_cfg, default_type="default")

@@ -510,3 +510,26 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Mã:** `scripts/sskb_transfer_power.py`. Nguồn số liệu: `ALL_combined_cells.csv` của SSKB (bản clone ghim 4d3450d, MIT; 4 cấu hình × 98 skill chung) và 20 hiệu số theo yêu cầu của §22 (`results/sskb_probe.json`).
 - **Kiểm:** α = 0,05 là mức quy ước, truyền bắt buộc qua `--alpha` (không mặc định); xấp xỉ z của Fisher cho tương quan. Số skill 66 = 47 skill image Python + 19 skill image Go trong `tasks/` của SSKB.
 - **Kết quả:** hiệp phương sai chéo 3,34 điểm² (sd chuyển giao 1,83 điểm); tương quan giữa các cấu hình SSKB từ −0,105 tới 0,212; nhiễu của mình 29,6 điểm mỗi yêu cầu (9,35 điểm cho 10 yêu cầu); r kỳ vọng 0,091; power 0,178 (một phía), 0,108 (hai phía). Xác nhận đánh giá của reviewer, bác con số 83% trước đó.
+
+## R-44. §23a (model thứ hai) và §23b (sàng lọc–xác nhận) trên SSKB (2026-11-06, trước khi chạy có phí)
+
+- **Đối chiếu bản đăng ký:** §23 commit trước mọi lần chạy có phí; công khai việc đã thấy §22 và dữ liệu SSKB; không chạy thêm `viper` / `asyncio` trên Flash-Lite (giữ quy tắc dừng của §22).
+- **Mã đã sửa:**
+  1. `sskb_adapter.model_config`: dựng cấu hình model như `run_pilot.py` (kwargs đã đăng ký, gồm `reasoning_effort: low` cho Flash; bảng giá sinh từ `configs/models`).
+     - **Lỗi tìm thấy khi review:** bản cũ bỏ qua kwargs của model, nên Flash sẽ chạy với chế độ suy luận mặc định. Đo ngày 02/11: chế độ này tốn khoảng 11 lần token ra, và khác cấu hình đã dùng.
+     - Test: Flash-Lite cho đúng cấu hình và bảng giá của §22; Flash giữ `reasoning_effort`; chặn seed 0.
+  2. `run_sskb.py`:
+     - plan `s23a`, `s23b-screen`, `s23b-confirm`, mỗi plan gắn một model (chạy sai model thì dừng);
+     - trần chung cho nhóm `s23b`;
+     - cổng chi phí sau 4 lần chạy;
+     - `select_confirm` (|D| lớn nhất, hòa thì theo thứ tự; dừng nếu sàng lọc chưa đủ 10 cặp mỗi skill);
+     - bỏ việc in tỉ lệ pass trong lúc chạy (L28).
+     - Test: số ô, nhóm trần, chọn đúng skill và chiều, chặn khi sàng lọc thiếu.
+  3. `scripts/section23_design.py`: xác suất qua quy tắc của 23a theo k; power của 23b. Mức của kiểm định khi không có tác dụng là 0,051.
+- **Kiểm §4:**
+  - α = 0,05 là mức quy ước, ghi trong bản đăng ký;
+  - mốc 6 điểm và quy tắc chọn đặt trước khi chạy;
+  - đơn vị xác nhận là batch (2 seed của cùng yêu cầu không độc lập);
+  - trần tính từ số đã chi thật;
+  - worst cell = cost-limit 1,0 USD.
+- **Chạy thử miễn phí:** model giả lập trên batch 1 của 5 skill mới, cả hai nhánh (`runs/sskb-s23-dry`). Kết quả ghi bên dưới khi xong.

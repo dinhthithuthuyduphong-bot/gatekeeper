@@ -64,3 +64,77 @@ def test_probe_plan_is_balanced_and_interleaved():
         ("asyncio-patterns", 1, 41, "none"),
         ("asyncio-patterns", 1, 41, "skill"),
     ]
+
+
+def test_model_config_flash_lite_equals_section22_setting(tmp_path):
+    import json
+
+    c = sa.model_config("gemini-flash-lite", 41, tmp_path)
+    assert c["model_kwargs"] == {"seed": 41, "drop_params": True, "parallel_tool_calls": True}
+    reg = json.loads(Path(c["litellm_model_registry"]).read_text())
+    e1 = json.loads(sa.E1_REGISTRY.read_text())
+    assert reg.keys() == e1.keys()
+    for k, v in e1.items():
+        for f, x in v.items():
+            assert reg[k][f] == pytest.approx(x)
+
+
+def test_model_config_flash_keeps_registered_reasoning_effort(tmp_path):
+    import json
+
+    c = sa.model_config("gemini-flash", 51, tmp_path)
+    assert c["model_kwargs"]["reasoning_effort"] == "low"
+    assert c["model_kwargs"]["seed"] == 51
+    reg = json.loads(Path(c["litellm_model_registry"]).read_text())
+    assert reg[c["model_name"]]["input_cost_per_token"] == pytest.approx(0.75e-6)
+    with pytest.raises(ValueError):
+        sa.model_config("gemini-flash", 0, tmp_path)
+
+
+def _rows(skills, diffs_by_skill, seed=41):
+    rows = []
+    for sk in skills:
+        for b in range(1, 11):
+            rows.append({"skill": sk, "batch": b, "seed": seed, "arm": "none", "pass_rate": 0.5})
+            rows.append(
+                {
+                    "skill": sk,
+                    "batch": b,
+                    "seed": seed,
+                    "arm": "skill",
+                    "pass_rate": 0.5 + diffs_by_skill[sk],
+                }
+            )
+    return rows
+
+
+def test_s23_plans_registered_models_and_groups():
+    import run_sskb as rs
+
+    assert rs.PLANS["s23a"]["model"] == "gemini-flash"
+    assert len(rs.cells(rs.PLANS["s23a"])) == 40
+    assert len(rs.cells(rs.PLANS["s23b-screen"])) == 100
+    assert rs.PLANS["s23b-screen"]["group"] == rs.PLANS["s23b-confirm"]["group"]
+    assert not set(rs.S23B_SKILLS) & {"viper-configuration", "asyncio-patterns"}
+
+
+def test_select_confirm_picks_largest_abs_effect_with_sign():
+    import run_sskb as rs
+
+    sk = rs.S23B_SKILLS
+    d = dict(zip(sk, [0.05, -0.20, 0.10, 0.0, 0.15], strict=True))
+    assert rs.select_confirm(_rows(sk, d), sk) == ("langsmith-fetch", -1)
+    tie = dict(zip(sk, [0.1, -0.1, 0.0, 0.0, 0.0], strict=True))
+    assert rs.select_confirm(_rows(sk, tie), sk) == ("go-fx-di", 1)
+
+
+def test_select_confirm_refuses_incomplete_screen():
+    import run_sskb as rs
+
+    sk = rs.S23B_SKILLS
+    rows = _rows(sk, dict.fromkeys(sk, 0.0))
+    rows = [
+        r for r in rows if not (r["skill"] == sk[2] and r["batch"] == 7 and r["arm"] == "skill")
+    ]
+    with pytest.raises(SystemExit):
+        rs.select_confirm(rows, sk)
