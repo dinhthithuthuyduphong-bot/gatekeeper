@@ -116,3 +116,16 @@ Mọi con số khác bên dưới đều được **suy ra từ α**, **suy ra t
 | **32 task của G1** | Suy ra (không chọn trực tiếp) | Số task trong pool G1 đã kiểm định (86/89 task dùng được) mà I(x) của `validation-error` đúng. Pool G1 = hợp các task mà I(x) đúng trên SWE-bench Verified, **tối đa 30 task mỗi skill**, seed 2027 (`scripts/select_activated_pool.py`). Con số 30 được chọn theo ngân sách lúc đầu, và đã bị đánh dấu ⚠️ ở `docs/review_thresholds.md` (nhóm J) |
 | **3 seed của G1** | Suy ra | m = ⌊(33,5 − 22,84) / 2,79⌋ = 3: ngân sách còn lại sau C chia cho chi phí một seed **đo ở C** (bản đăng ký trước G1, Ghi chú thực thi 2) |
 | Power của E1/E2 | Suy ra (mô phỏng) | Plasmode từ q của 32 task trên (Franklin et al. 2014, ⏳ đang lấy nguồn). Khoảng bất định do q: `results/power_input_uncertainty.json` |
+
+## Con số của §23 và §26 (06/11/2026)
+
+| Số | Nhóm | Căn cứ |
+| --- | --- | --- |
+| Mốc 6 điểm chọn skill của §23b | Vận hành | Đặt trước khi chạy, để lấy đúng các skill Python/Go có tác dụng công bố lớn nhất mà image chạy được |
+| Cổng chi phí "2 × ước tính sau 4 ô" (§22, §23) | Vận hành | Dừng khi chi phí thật vượt xa giả định. Ước tính của Flash thấp hơn thật 3–10 lần, nên cổng đã dừng §23b đúng lúc |
+| G ≥ 0,10 (§22, §23a) | Vận hành (chọn bằng mô phỏng, §22) | Cân bằng hai loại sai giữa các quy tắc ứng viên; P(đi tiếp) theo k ở `results/section23_design.json` |
+| τ ≤ 7 điểm (§23b power) | Suy ra | √49,7: phương sai tác dụng theo cấu hình của SSKB, đã gồm nhiễu của họ, nên là cận trên |
+| Nhiễu 29,6 điểm mỗi yêu cầu | Đo | 20 hiệu số của §22 (`results/sskb_transfer_power.json`) |
+| REPS = 3 lần chấm lại bản vá gốc (§26) | Vận hành | Tách lỗi xác định (3/3) khỏi lỗi chập chờn (1–2/3) với chi phí CPU nhỏ; không phát hiện được chập chờn hiếm (ghi trong §26) |
+| MIN_RUNS_B = 3 (§26, endpoint B) | Vận hành | Test được coi là hỏng chỉ khi trượt ở mọi lần chấm của instance, và instance có ít nhất 3 lần chấm, để một hai lần trượt ngẫu nhiên không bị coi là hỏng |
+| Loss của cặp không có báo cáo = 2/3 | Suy ra | `loss_of(None)` = (F + 0,5·R)/1,5 với F = 1, R = 0 (`src/gatekeeper/harness.py`) |

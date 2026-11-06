@@ -533,3 +533,16 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - trần tính từ số đã chi thật;
   - worst cell = cost-limit 1,0 USD.
 - **Chạy thử miễn phí:** model giả lập trên batch 1 của 5 skill mới, cả hai nhánh (`runs/sskb-s23-dry`). Kết quả ghi bên dưới khi xong.
+
+## R-45. §26 kiểm bộ chấm (2026-11-06, 0 USD)
+
+- **Đối chiếu bản đăng ký:** §26 commit (`bb82047`) trước khi tính lại tác dụng nào. Trước đó chỉ mới thấy số đếm.
+- **Mã:**
+  - `scripts/harness_audit.py`: nối từng cặp đã đăng ký với báo cáo chấm qua giá trị loss; ba endpoint S, F, B; bootstrap theo task.
+  - `scripts/gold_rescore.py`: chấm lại bản vá gốc 3 lần, mỗi lần một run id mới để harness không dùng lại báo cáo cũ (A21); xóa image sau mỗi instance.
+- **Kiểm:**
+  - Phép tái lập S khớp đúng số đã đăng ký: E1 53 task, E2 109 task, T4 +0,55.
+  - Lỗi A89 bị phép này bắt và đã sửa.
+  - Test `tests/test_harness_audit.py`: endpoint, quy tắc "trượt ở mọi lần chấm" và ngưỡng ≥ 3 lần, loss 2/3.
+  - Quy tắc B không phụ thuộc nhánh.
+- **Không gọi LLM**; chỉ dùng CPU và tải image.
