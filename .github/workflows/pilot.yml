@@ -15,7 +15,7 @@ on:
         required: true
         default: "r15"
         type: choice
-        options: ["r15", "swesmith-f1", "swesmith-refl", "swesmith-learn", "swesmith-eval"]
+        options: ["r15", "swesmith-f1", "swesmith-refl", "swesmith-learn", "swesmith-eval", "swesmith-republish"]
       name:
         description: "Run name (results/pilot/<name>.json)"
         required: true
@@ -62,6 +62,7 @@ on:
 permissions:
   contents: write
   id-token: write
+  actions: read
 
 concurrency:
   group: pilot-paid
@@ -130,7 +131,7 @@ jobs:
 
   swesmith_f1:
     # docs/preregistration_main.md section 25 F1. Cap = inputs.budget_usd (registered: 2.0).
-    if: startsWith(inputs.plan, 'swesmith-')
+    if: startsWith(inputs.plan, 'swesmith-') && inputs.plan != 'swesmith-republish'
     runs-on: ubuntu-latest
     timeout-minutes: 355
     env:
@@ -260,6 +261,30 @@ jobs:
         if: always()
         run: |
           # only files that exist: git add of a missing path fails the publish
-          files=$(ls results/f1_probe.json results/reflection_cost_probe.json results/s25_learn_run.tar.gz results/s25_best_skills.txt results/s25_learn_ledger_h1.json results/s25_learn_ledger_h2.json results/s25_learn_summary_h1.json results/s25_learn_summary_h2.json results/f1_skill_probe.json 2>/dev/null)
+          files=$(ls results/f1_probe.json results/reflection_cost_probe.json results/s25_learn_run.tar.gz results/s25_best_skills.txt results/s25_learn_ledger_h1.json results/s25_learn_ledger_h2.json results/s25_learn_summary_h1.json results/s25_learn_summary_h2.json results/f1_skill_probe.json 2>/dev/null || true)
           echo "publishing: $files"
           scripts/publish_snapshot.sh pilot-snapshots "Section 25 ${{ inputs.plan }} ${{ inputs.half }} run ${GITHUB_RUN_ID}" $files
+
+  swesmith_republish:
+    # A94: re-publish the results of an earlier swesmith run from its artifact (no model call).
+    # inputs.name = the run id; inputs.half = which learning half the artifact belongs to.
+    if: inputs.plan == 'swesmith-republish'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v5
+        with:
+          name: swesmith-swesmith-learn-${{ inputs.half }}
+          run-id: ${{ inputs.name }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: /tmp/art
+      - name: Publish results/s25_* from the artifact
+        run: |
+          find /tmp/art -maxdepth 4 -name 's25_*' | head -20
+          mkdir -p results
+          src=$(find /tmp/art -type d -name results | head -1)
+          cp "$src"/s25_* results/
+          ls -la results/s25_*
+          files=$(ls results/s25_learn_run.tar.gz results/s25_best_skills.txt results/s25_learn_ledger_h1.json results/s25_learn_ledger_h2.json results/s25_learn_summary_h1.json results/s25_learn_summary_h2.json 2>/dev/null || true)
+          scripts/publish_snapshot.sh pilot-snapshots "Section 25 republish of run ${{ inputs.name }} (half ${{ inputs.half }})" $files
