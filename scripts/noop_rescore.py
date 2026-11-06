@@ -68,6 +68,9 @@ def main() -> int:
     ap.add_argument("--verified-python", required=True)
     # section 28 step 1 negative control: first N tasks, with network, separate output
     ap.add_argument("--net", action="store_true")
+    # GitHub Actions shards (note 26-2): this shard takes items k, k+of, k+2*of, ...
+    ap.add_argument("--shard", type=int, default=0)
+    ap.add_argument("--of", type=int, default=1)
     ap.add_argument("--first", type=int, default=0)
     ap.add_argument("--out", type=Path, default=OUT)
     a = ap.parse_args()
@@ -81,7 +84,7 @@ def main() -> int:
     out = json.loads(a.out.read_text()) if a.out.exists() else {}
     work = Path("runs/noop-rescore")
     work.mkdir(parents=True, exist_ok=True)
-    for iid in targets()[: a.first or None]:
+    for iid in targets()[: a.first or None][a.shard :: a.of]:
         if iid in out:
             continue
         if iid not in rows:

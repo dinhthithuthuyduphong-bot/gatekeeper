@@ -1048,3 +1048,14 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 - **Kiểm âm:** bản vá rỗng có mạng trên 5 task đầu của §27a: **0/5** resolved.
 - **Theo quy tắc đặt trước: ĐẠT.** Có ít nhất 1 instance chuyển sang resolved, và bản vá rỗng vẫn không resolved.
 - **Phần còn hỏng** là do chính sách mạng của môi trường chặn 2 host. Hai host này chỉ dùng được khi môi trường cho phép, và việc đó cần @thuthuy duyệt.
+
+**Ghi chú thực thi 26-2 / 27-2 / 28-1** (06/11/2026, trước khi có kết quả nào trên GitHub Actions):
+- **Lý do:** lượt chấm cục bộ dừng ở giới hạn 2 giờ của tác vụ nền, sau 20/35 instance của §26. @thuthuy chọn chạy tiếp trên GitHub Actions ("Số 2").
+- **Môi trường khác nhau:** container chấm trên runner GitHub **có mạng đầy đủ**, như khi E2 được chấm. Container chấm cục bộ thì không có mạng (§26, §28).
+- **Vì vậy:**
+  1. Chạy **toàn bộ** 35 instance của §26 (bản vá gốc × 3) và 40 task của §27a (bản vá rỗng × 1) trên runner. Kết quả ghi vào file **riêng**: `results/harness_gold_gh.json`, `results/harness_noop_gh.json`.
+  2. Kết quả cục bộ (20 instance, không mạng) giữ nguyên, báo cáo riêng.
+  3. So sánh hai môi trường trên cùng instance là một phép đo trực tiếp cho §28: môi trường có mạng không bị chặn host nào.
+- **Dữ liệu task** lấy từ `data-snapshots` (`verified_pools.jsonl`, `live_blocks_cd.jsonl`). Đã kiểm khớp tuyệt đối với file đã dùng cục bộ: 816 dòng; `patch`, `FAIL_TO_PASS`, `PASS_TO_PASS`, `base_commit` không khác.
+- **Phiên bản:** `swebench==5.0.2` cho Verified, bản fork SWE-bench-Live `ad79b85` cho Live, `docker==7.2.0`, như E2.
+- **Chia việc:** 10 shard. Shard k nhận instance thứ k, k+10, … của mỗi danh sách. Không gọi LLM, không cần khóa.

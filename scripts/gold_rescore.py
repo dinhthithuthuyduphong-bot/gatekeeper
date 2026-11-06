@@ -63,6 +63,9 @@ def main() -> int:
     ap.add_argument("--verified-python", required=True)
     # section 28 step 1: same gold scoring with network (proxy + CA); separate output file
     ap.add_argument("--net", action="store_true")
+    # GitHub Actions shards (note 26-2): this shard takes items k, k+of, k+2*of, ...
+    ap.add_argument("--shard", type=int, default=0)
+    ap.add_argument("--of", type=int, default=1)
     ap.add_argument("--targets", type=Path, default=Path("results/harness_gold_targets.json"))
     ap.add_argument("--out", type=Path, default=OUT)
     ap.add_argument("--reps", type=int, default=REPS)
@@ -74,7 +77,7 @@ def main() -> int:
                 r = json.loads(line)
                 rows.setdefault(r["instance_id"], r)
                 src.setdefault(r["instance_id"], f)
-    targets = json.loads(a.targets.read_text())
+    targets = json.loads(a.targets.read_text())[a.shard :: a.of]
     out = json.loads(a.out.read_text()) if a.out.exists() else {}
     work = Path("runs/gold-rescore")
     work.mkdir(parents=True, exist_ok=True)
