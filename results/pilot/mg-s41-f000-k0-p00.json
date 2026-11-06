@@ -1,0 +1,62 @@
+{
+  "generated_utc": "2026-11-06T23:28:36+00:00",
+  "format_version": 2,
+  "name": "mg-s41-f000-k0-p00",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "conan-io__conan-18655"
+  ],
+  "spent_usd": 0.114,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.07092540000000001,
+      "tokens_in_per_run": 1051845.0,
+      "tokens_out_per_run": 11669.0,
+      "cached_share": 0.8853833026729223,
+      "api_calls_per_run": 56.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "memgovern": {
+      "runs": 1,
+      "usd_per_run": 0.04310025000000001,
+      "tokens_in_per_run": 775011.0,
+      "tokens_out_per_run": 4493.0,
+      "cached_share": 0.9025936406063914,
+      "api_calls_per_run": 44.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "conan-io__conan-18655": "Submitted"
+    },
+    "memgovern": {
+      "conan-io__conan-18655": "Submitted"
+    }
+  },
+  "skills": {
+    "memgovern": {
+      "pairs": [
+        {
+          "instance_id": "conan-io__conan-18655",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.6666666666666666,
+      "variance_components": null
+    }
+  },
+  "reused_none": null
+}
