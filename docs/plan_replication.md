@@ -76,7 +76,7 @@ Q0 (hỏi Model Garden) ─────────────> D1             
 | # | Rủi ro | Mức | Cách sửa |
 | --- | --- | --- | --- |
 | R1 | Adapter chấm điểm sai hoặc khác cách của họ | Cao | Chạy `test_command` trên repo **chưa sửa** để kiểm đọc điểm; chạy thử bằng model giả lập; kiểm nhánh không skill **không** chứa `SKILL.md`; test cho từng bước |
-| R2 | Không đủ power để chứng nhận (30 cặp: 0,5% và 1,5%) | Cao, **đã sửa** | 6 seed cho 2 skill chính: 60 cặp, chứng nhận khoảng 83% (`viper`) và 49% (`asyncio`) theo bootstrap từ hiệu số thật. Báo cáo thêm kiểm định hoán vị cỡ mẫu cố định làm phân tích phụ |
+| R2 | Không đủ power để chứng nhận (30 cặp: 0,5% và 1,5%) | Cao, **đã sửa** | 6 seed cho 2 skill chính: 60 cặp, chứng nhận khoảng 83% (`viper`) và 49% (`asyncio`) theo bootstrap từ hiệu số thật. **Lỗi thời (06/11, A83):** hai con số này lấy tác dụng công bố của SSKB làm giá trị thật; §22 cho thấy trên agent của mình `viper` +1,5 điểm, `asyncio` −11,3 điểm (10 cặp), và phần chuyển giao giữa các agent chỉ có sd 1,83 điểm, nên không dùng được nữa. Báo cáo thêm kiểm định hoán vị cỡ mẫu cố định làm phân tích phụ |
 | R3 | Cách đưa skill khác họ | Vừa | Đặt câu hỏi rõ: "tác dụng có chuyển sang agent khác không" là một câu hỏi về scope. Có thể thêm: cài `SKILL.md` vào container và bảo agent đọc (gần cách của họ hơn) |
 | R4 | Chi phí MemGovern chưa đo (prompt dài, gọi công cụ) | Vừa | Quy tắc §11e: đo trên 10 trial đầu, vượt trần dự kiến thì dừng và hỏi |
 | R5 | Model khác hãng chưa được bật hoặc không tương thích | Vừa | Q0 hỏi trước; D1 thử 4 lần. Không được thì dùng Gemini Flash (cùng hãng, đắt hơn) với số seed ít hơn, và báo cáo giới hạn |
@@ -100,7 +100,7 @@ Q0 (hỏi Model Garden) ─────────────> D1             
 
 **Điểm mạnh:**
 1. **Ba hệ thống đã công bố**, ba loại skill, đúng các baseline của paper gốc.
-2. **Skill thật có tác dụng thật** nên có thể chứng nhận được. Xác suất chứng nhận đã tính trước: khoảng 83% và 49%.
+2. **Skill thật có tác dụng thật** nên có thể chứng nhận được. ~~Xác suất chứng nhận đã tính trước: khoảng 83% và 49%.~~ Lỗi thời, xem A83 và R2.
 3. **Phương pháp đã kiểm sẵn:** placebo, Mệnh đề P, hoán vị (mức 0,042), Gatekeeper (T4).
 4. **Nhiều model:** 4 cấu hình của SWE-Skills-Bench, cộng 2 cấu hình của mình.
 5. **Kết quả nào cũng diễn giải được**, đã viết trước.
