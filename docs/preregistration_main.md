@@ -1093,3 +1093,17 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - **Đại lượng:** chi phí và token của lần gọi phản chiếu; số ký tự của prompt.
   - Lưu ý: bảng giá trong `configs/models` chỉ có một mức. Vertex tính giá cao hơn cho prompt dài hơn 200k token, nên nếu prompt vượt mức này thì phải tính lại theo giá thật.
 - **Dùng để làm gì:** tính trần ngân sách cho bước học, bằng công thức số lần phản chiếu × chi phí một lần cộng số lần chạy agent × 0,0144 USD (đo ở F1). Trần đó sẽ trình @thuthuy duyệt. Không có quy tắc dừng nào dựa vào kết quả của phép đo này.
+
+**Kết quả ghi chú 25-3** (run 42182744008; `results/reflection_cost_probe.json`):
+- **3 lần chạy agent:** 0,0661 USD, tức 0,022 mỗi lần chạy; 149.002 token vào, 32.131 token ra.
+- **1 lần phản chiếu (Gemini Pro):** **0,1185 USD**; 46.867 token vào (dưới mức 200k, nên giá trong bảng là đúng), 2.067 token ra. Prompt dài 142.955 ký tự; skill mới dài 2.247 ký tự (lần phản chiếu cho ra kết quả).
+- **Tổng:** 0,1846 USD trên trần 1,0.
+- **Trần ngân sách suy ra cho bước học** (mặc định của gskill, 600 lần chạy agent, minibatch 3):
+  - **Số lần chạy agent:** ≤ 600. Tính với 0,022 USD mỗi lần (mức cao hơn trong hai số đo, cao hơn F1 là 0,0144): ≤ 13,2 USD.
+  - **Số lần phản chiếu:** ≤ ⌊(600 − 50) / 6⌋ = 91.
+    - 50 là lần chấm ban đầu trên tập validation.
+    - Mỗi vòng có ít nhất 6 lần chạy: 3 cho ứng viên hiện tại, 3 cho ứng viên mới.
+    - Chi phí: 91 × 0,1185 ≈ 10,8 USD.
+  - **Chấm skill tốt nhất** trên 100 task test (nhánh có skill; nhánh không skill dùng lại F1): 100 × 0,022 = 2,2 USD.
+  - **Cận trên:** 13,2 + 10,8 + 2,2 = **26,2 USD**.
+  - **Cận dưới tham khảo:** 600 × 0,0144 + 40 lần phản chiếu × 0,1185 + 100 × 0,0144 ≈ 14,8 USD. Số 40 chỉ để minh họa, không phải số đo.
