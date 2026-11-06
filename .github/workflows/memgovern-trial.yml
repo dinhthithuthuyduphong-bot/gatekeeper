@@ -347,9 +347,9 @@ jobs:
           NAME="$PREFIX-f$(printf %03d ${{ inputs.first }})-k$K"
           echo "NAME=$NAME" >> "$GITHUB_ENV"
           mkdir -p results/pilot
-          if git fetch -q origin mg-results 2>/dev/null; then
-            for f in $(git ls-tree --name-only origin/mg-results results/pilot/ | grep -E "/$NAME-p[0-9]+\.json$"); do
-              git show "origin/mg-results:$f" > "$f"; echo "resumed: $f"
+          if git fetch -q origin mg-cell-results 2>/dev/null; then
+            for f in $(git ls-tree --name-only origin/mg-cell-results results/pilot/ | grep -E "/$NAME-p[0-9]+\.json$"); do
+              git show "origin/mg-cell-results:$f" > "$f"; echo "resumed: $f"
             done
           fi
       - name: Gate (preflight)
@@ -403,9 +403,9 @@ jobs:
         with:
           name: mg-shard-${{ matrix.shard }}
           path: |
-            results/pilot/*-k${{ matrix.shard }}-p*.json
-            runs/*-k${{ matrix.shard }}-p*/
-            logs/run_evaluation/*-k${{ matrix.shard }}-p*/
+            results/pilot/mg*-k${{ matrix.shard }}-p*.json
+            runs/mg*-k${{ matrix.shard }}-p*/
+            logs/run_evaluation/mg*-k${{ matrix.shard }}-p*/
             mg_versions.txt
           if-no-files-found: warn
 
@@ -429,10 +429,14 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           [ -d runs ] && python scripts/archive_raw.py --redacted-ok || echo "no raw files"
-      - name: Results to the mg-results branch (a later dispatch resumes from it)
+          ls -d runs/*/ 2>/dev/null | grep -v '^runs/mg' && { echo "unexpected run dirs"; exit 1; } || true
+      - name: Results to the mg-cell-results branch (a later dispatch resumes from it)
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          ls results/pilot/ 2>/dev/null | head -40
-          [ -d results/pilot ] && scripts/publish_snapshot.sh mg-results "MemGovern cell (${{ inputs.mode }}) first ${{ inputs.first }} run ${GITHUB_RUN_ID}" results/pilot || echo "no results"
+          # ONLY this cell's part files: the checkout also holds the repository's own results/pilot
+          # files, which must not be copied onto mg-cell-results (A100)
+          files=$(ls results/pilot/mg*-k*-p[0-9][0-9].json 2>/dev/null || true)
+          echo "$files"
+          [ -n "$files" ] && scripts/publish_snapshot.sh mg-cell-results "MemGovern cell (${{ inputs.mode }}) first ${{ inputs.first }} run ${GITHUB_RUN_ID}" $files || echo "no results"

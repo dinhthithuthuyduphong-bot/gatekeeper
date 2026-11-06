@@ -1366,4 +1366,5 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - **Không phân phối lại nội dung MemGovern:**
   - `scripts/redact_memgovern.py` thay hướng dẫn của MemGovern và mọi quan sát chứa thẻ bằng dấu `<<MEMGOVERN_TEXT sha256=…>>`;
   - sau đó script kiểm rằng không file nào còn cửa sổ 60 ký tự của thẻ nào được tham chiếu. Nếu còn, file gốc không được tải lên (fail closed).
+- **Bộ lọc thẻ cùng repo (kiểm 06/11, A100):** 48 repo của MemGovern không trùng repo nào trong 61 repo của pool E2, nên bộ lọc không loại thẻ nào (121.475 thẻ). Quy tắc vẫn giữ nguyên; điều này ghi vào paper như một sự thật về dữ liệu, không phải một thay đổi.
 
