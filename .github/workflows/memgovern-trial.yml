@@ -193,7 +193,7 @@ jobs:
           python-version: "3.11"
       - name: Install (E2 versions) and preflight gate
         run: |
-          pip install -q -e . "mini-swe-agent==2.4.6" "litellm==1.106.6" "google-auth==2.62.0"
+          pip install -q -e . "mini-swe-agent==2.4.6" "litellm==1.106.6" "google-auth==2.62.0" mcp  # litellm imports mcp on tool calls (A97)
           python scripts/preflight.py --ci || exit 7
       - uses: google-github-actions/auth@v2
         with:
