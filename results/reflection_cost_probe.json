@@ -1,0 +1,28 @@
+{
+ "model": "vertex_ai/gemini-3.1-flash-lite",
+ "reflection_model": "vertex_ai/gemini-3.1-pro-preview",
+ "n_rollouts": 3,
+ "lenient_scores": [
+  1.0,
+  0.0,
+  0.0
+ ],
+ "agent_cost_usd": 0.066050875,
+ "reflection_cost_usd": 0.11853799999999999,
+ "per_model_cost_usd": {
+  "gemini-3.1-flash-lite": 0.066050875,
+  "gemini-3.1-pro-preview": 0.118538
+ },
+ "per_model_tokens_in_out": {
+  "gemini-3.1-flash-lite": [
+   149002,
+   32131
+  ],
+  "gemini-3.1-pro-preview": [
+   46867,
+   2067
+  ]
+ },
+ "reflection_prompt_chars": 142955,
+ "new_skills_chars": 2247
+}
