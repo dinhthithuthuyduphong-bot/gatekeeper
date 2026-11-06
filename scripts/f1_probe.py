@@ -17,6 +17,7 @@ from LiteLLM's per-call response_cost (success callback). Prints only operationa
 from __future__ import annotations
 
 import argparse
+import gzip
 import json
 import threading
 from pathlib import Path
@@ -66,7 +67,9 @@ def main() -> int:
         Path(a.gskill_yaml), Path(a.out).with_suffix(".mini.yaml"), a.cost_limit, kwargs
     )
 
-    rows = [json.loads(x) for x in Path(a.rows).read_text().splitlines() if x.strip()]
+    raw = Path(a.rows).read_bytes()
+    text = (gzip.decompress(raw) if a.rows.endswith(".gz") else raw).decode("utf-8")
+    rows = [json.loads(x) for x in text.splitlines() if x.strip()]
     insts = sorted(
         (r for r in rows if r["_gskill_split"] == a.split), key=lambda r: r["_gskill_order"]
     )

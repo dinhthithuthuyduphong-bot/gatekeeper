@@ -64,8 +64,9 @@ jobs:
         run: python scripts/survey_edit_shapes.py --alpha 0.025 --theta 0 --c 0.5 --out data/survey/edit_shapes.json
       - name: SWE-smith rows with gskill split (section 25, execution notes 25-1 and 25-2)
         run: |
-          for r in pallets__jinja blevesearch__bleve pygments__pygments benoitc__gunicorn gawel__pyquery prettytable__prettytable; do
-            python scripts/export_swesmith.py --repo "$r" --train 200 --val 50 --test 100 --seed 42 --out "data/instances/swesmith_$r.jsonl"
+          python scripts/export_swesmith.py --repo pallets__jinja --train 200 --val 50 --test 100 --seed 42 --out data/instances/swesmith_pallets__jinja.jsonl
+          for r in blevesearch__bleve pygments__pygments benoitc__gunicorn gawel__pyquery prettytable__prettytable; do
+            python scripts/export_swesmith.py --repo "$r" --train 200 --val 50 --test 100 --seed 42 --out "data/instances/swesmith_$r.jsonl.gz"
           done
       - name: Summarise
         run: |

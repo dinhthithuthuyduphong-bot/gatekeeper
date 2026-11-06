@@ -13,6 +13,7 @@ Usage: python scripts/export_swesmith.py --repo pallets__jinja --train 200 --val
 from __future__ import annotations
 
 import argparse
+import gzip
 import json
 import random
 from pathlib import Path
@@ -69,7 +70,9 @@ def main() -> int:
     out = gskill_split(rows, a.train, a.val, a.test, a.seed)
     p = Path(a.out)
     p.parent.mkdir(parents=True, exist_ok=True)
-    with p.open("w", encoding="utf-8") as fh:
+    # .gz output: GitHub rejects files over 100 MB (pygments rows: 102 MB uncompressed, A91)
+    opener = gzip.open if p.suffix == ".gz" else open
+    with opener(p, "wt", encoding="utf-8") as fh:
         for r in out:
             fh.write(json.dumps(r, default=str) + "\n")
     meta = {
@@ -82,7 +85,8 @@ def main() -> int:
         "seed": a.seed,
         "reproduces": "gepa@8c7b697 gskill/train_optimize_anything.py::load_and_split_data",
     }
-    p.with_suffix(".meta.json").write_text(json.dumps(meta, indent=1) + "\n")
+    meta_path = Path(str(p).removesuffix(".gz").removesuffix(".jsonl") + ".meta.json")
+    meta_path.write_text(json.dumps(meta, indent=1) + "\n")
     print(json.dumps(meta))
     return 0
 

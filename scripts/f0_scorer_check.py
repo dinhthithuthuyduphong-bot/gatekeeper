@@ -24,6 +24,7 @@ Each patch is scored by
 from __future__ import annotations
 
 import argparse
+import gzip
 import json
 import math
 import re
@@ -202,7 +203,9 @@ def main() -> int:
     ap.add_argument("--out", required=True)
     ap.add_argument("--limit", type=int, help="first N tasks of the split by _gskill_order")
     a = ap.parse_args()
-    rows = [json.loads(x) for x in Path(a.rows).read_text().splitlines() if x.strip()]
+    raw = Path(a.rows).read_bytes()
+    text = (gzip.decompress(raw) if a.rows.endswith(".gz") else raw).decode("utf-8")
+    rows = [json.loads(x) for x in text.splitlines() if x.strip()]
     insts = sorted(
         (r for r in rows if r["_gskill_split"] == a.split), key=lambda r: r["_gskill_order"]
     )
