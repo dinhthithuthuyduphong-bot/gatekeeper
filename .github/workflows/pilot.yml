@@ -15,7 +15,7 @@ on:
         required: true
         default: "r15"
         type: choice
-        options: ["r15", "swesmith-f1", "swesmith-refl", "swesmith-learn", "swesmith-eval", "swesmith-republish"]
+        options: ["r15", "swesmith-f1", "swesmith-refl", "swesmith-learn", "swesmith-eval", "swesmith-republish", "swesmith-leakfree"]
       name:
         description: "Run name (results/pilot/<name>.json)"
         required: true
@@ -54,6 +54,12 @@ on:
         default: "1"
         type: choice
         options: ["1", "2"]
+      arm:
+        description: "swesmith-leakfree only: none = no skill, skill = learned gskill skill"
+        required: true
+        default: "none"
+        type: choice
+        options: ["none", "skill"]
       budget_usd:
         description: "Hard budget for the whole run (USD)"
         required: true
@@ -245,10 +251,27 @@ jobs:
             --registry $GITHUB_WORKSPACE/tests/fixtures/e1_litellm_registry.json \
             --gskill-yaml /tmp/gepa/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml \
             --out $GITHUB_WORKSPACE/results/f1_skill_probe.json
+      - name: Leak-free arm (section 25 step 3, capped)
+        if: inputs.plan == 'swesmith-leakfree'
+        run: |
+          mkdir -p /tmp/work results && cd /tmp/work
+          SK=""
+          if [ "${{ inputs.arm }}" = "skill" ]; then
+            git -C $GITHUB_WORKSPACE fetch -q origin pilot-snapshots
+            git -C $GITHUB_WORKSPACE show origin/pilot-snapshots:results/s25_best_skills.txt > /tmp/skills.txt
+            cmp /tmp/skills.txt $GITHUB_WORKSPACE/docs/skills/gskill/jinja_best_skills.txt
+            SK="--skills-file /tmp/skills.txt"
+          fi
+          PYTHONPATH=/tmp/gepa/src/gepa/gskill:$GITHUB_WORKSPACE/scripts /tmp/venv/bin/python \
+            $GITHUB_WORKSPACE/scripts/f1_probe.py --rows /tmp/rows.jsonl --split test --leak-free $SK \
+            --model vertex_ai/gemini-3.1-flash-lite --seed 41 --cost-limit 0.30 --cap "${{ inputs.budget_usd }}" \
+            --registry $GITHUB_WORKSPACE/tests/fixtures/e1_litellm_registry.json \
+            --gskill-yaml /tmp/gepa/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml \
+            --out $GITHUB_WORKSPACE/results/s25_leakfree_${{ inputs.arm }}.json
       - uses: actions/upload-artifact@v6
         if: always()
         with:
-          name: swesmith-${{ inputs.plan }}-${{ inputs.half }}
+          name: swesmith-${{ inputs.plan }}-${{ inputs.half }}-${{ inputs.arm }}
           path: |
             results/f1_probe.json
             results/reflection_cost_probe.json
@@ -256,12 +279,13 @@ jobs:
             /tmp/work/refl/
             /tmp/work/gepa_results/
             results/s25_*
+            results/s25_leakfree_*
           if-no-files-found: warn
       - name: Publish to pilot-snapshots branch
         if: always()
         run: |
           # only files that exist: git add of a missing path fails the publish
-          files=$(ls results/f1_probe.json results/reflection_cost_probe.json results/s25_learn_run.tar.gz results/s25_best_skills.txt results/s25_learn_ledger_h1.json results/s25_learn_ledger_h2.json results/s25_learn_summary_h1.json results/s25_learn_summary_h2.json results/f1_skill_probe.json 2>/dev/null || true)
+          files=$(ls results/f1_probe.json results/reflection_cost_probe.json results/s25_learn_run.tar.gz results/s25_best_skills.txt results/s25_learn_ledger_h1.json results/s25_learn_ledger_h2.json results/s25_learn_summary_h1.json results/s25_learn_summary_h2.json results/f1_skill_probe.json results/s25_leakfree_none.json results/s25_leakfree_skill.json 2>/dev/null || true)
           echo "publishing: $files"
           scripts/publish_snapshot.sh pilot-snapshots "Section 25 ${{ inputs.plan }} ${{ inputs.half }} run ${GITHUB_RUN_ID}" $files
 

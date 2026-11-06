@@ -1209,3 +1209,30 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - Ít nhất một phần lớn mức tăng trong scope đến từ việc skill học cách khai thác một đặc điểm của môi trường đánh giá (commit gây lỗi bị lộ), chứ không phải tri thức về jinja.
   - Phần còn lại gồm sửa định dạng của agent (ít patch rỗng hơn) và tri thức thật về repo (mục 4 của skill).
   - Hệ quả có thể kiểm: trên task tự nhiên (không có commit "Bug Patch"), phần khai thác chỗ lộ không thể chuyển giao. Điều này phải đăng ký trước khi đo.
+
+### §25 bước 3: cùng skill, ngoài scope (môi trường không lộ commit gây lỗi) (@thuthuy 06/11/2026: "Ok, duyệt ngoài scope"; khoảng 3,5 USD; đăng ký trước khi chạy)
+
+**Lý do:** phân tích thăm dò của bước 2 cho thấy ít nhất 29/53 bản vá resolved là bản hoàn tác commit "Bug Patch" bị lộ trong lịch sử git. Bước 3 kiểm điều đó bằng một thí nghiệm, thay cho phân tích sau khi có dữ liệu.
+
+**Thiết kế:**
+- **Can thiệp duy nhất: lịch sử git.** Ngay sau `setup_task` của gskill, trong container **của agent**, chạy `LEAK_FREE_SH` (`scripts/f1_probe.py --leak-free`):
+  - thay lịch sử bằng **một commit không có cha**, chứa đúng cây có lỗi;
+  - xóa mọi ref khác, remote `origin`, `/opt/mirror.git` và reflog; chạy `git gc --prune=now`.
+- **Kiểm sau khi viết lại** (bắt buộc; sai thì ghi `infra_error`): `commits=1 refs=1 remotes=0 objects_with_bug_msg=0`.
+- **Container chấm điểm** vẫn mới cho mỗi lần chấm, như cũ. Chạy thử: bản gold tạo trong môi trường này được S cho resolved và L cho qua.
+- **Hai nhánh mới**, cùng 100 task test, seed 41, cùng cấu hình F1 (cost_limit 0,30):
+  - `none`: không skill;
+  - `skill`: đúng skill của bước 2. Workflow kiểm `cmp` với `docs/skills/gskill/jinja_best_skills.txt`.
+- **Trần:** nhánh none 1,9 USD; nhánh skill 2,4 USD.
+  - Chi phí dự kiến: 1,44 + 1,94 ≈ 3,4 USD (theo F1 và bước 2).
+  - Trần là chặn trường hợp xấu nhất ("đã chi + 0,30 > trần"). Nếu tổng thực tế vượt 3,5 USD thì báo @thuthuy.
+
+**Đại lượng và quy tắc (cố định trước):**
+- **δ_S^LF** = p_S(skill, LF) − p_S(none, LF), trong đó LF là môi trường không lộ (leak-free). Kiểm định dấu chính xác một phía trên cặp lệch, cho S và L; Holm, họ α = 0,025 (như bước 2).
+- **Phần do chỗ lộ:** Δ_leak = δ_S(bước 2, có lộ) − δ_S^LF, kèm bootstrap 95% theo task (4 nhánh trên cùng 100 task). Báo cáo, không kiểm định.
+- **Gatekeeper** trên Z_S^LF (θ = 0, α = 0,025, K = 1, theo thứ tự task): báo cáo có admit hay không, và ở trial nào.
+- **Dự đoán viết trước (chỉ hướng):** δ_S^LF < 0,38; p_S(none, LF) ≤ 0,15.
+- **Diễn giải viết trước:**
+  - **LF1:** Holm bác bỏ được với S trong môi trường LF. Skill có tác dụng thật ngoài chỗ lộ; Δ_leak cho biết phần do chỗ lộ.
+  - **LF2:** không bác bỏ được với S. Chứng nhận trong scope (bước 2, admit ở trial 29) **không chuyển** sang scope không lộ. Đây là một ví dụ đo được của "Scope before Reuse" trên skill thật.
+- **Giới hạn ghi trước:** môi trường LF xóa luôn lịch sử thật của repo (commit `Initial commit` ban đầu), nên khác repo thật, vốn có lịch sử. Skill có mục "Check Git History"; trong LF, mục đó chỉ còn thấy 1 commit.

@@ -24,6 +24,23 @@ from pathlib import Path
 
 import yaml
 
+# Section 25 step 3 (out of scope: no leaked bug commit). Run in the AGENT container only, after
+# gskill's setup_task: one parentless commit with the buggy tree; every other ref, the remote, the
+# mirror, reflogs and unreachable objects removed. Scoring containers are fresh and unaffected.
+LEAK_FREE_SH = (
+    "set -e; cd /testbed; "
+    "git checkout -q --orphan gk_clean; git add -A; "
+    "git -c user.name=gk -c user.email=gk@local commit -q -m 'Initial commit'; "
+    "for r in $(git for-each-ref --format='%(refname)' | grep -v '^refs/heads/gk_clean$'); "
+    'do git update-ref -d "$r"; done; '
+    "git remote remove origin 2>/dev/null || true; rm -rf /opt/mirror.git; "
+    "git reflog expire --expire=now --all; git gc -q --prune=now; "
+    "echo commits=$(git rev-list --all | wc -l) refs=$(git for-each-ref | wc -l) "
+    "remotes=$(git remote | wc -l) "
+    "objects_with_bug_msg=$(git log --all --format=%s | grep -c 'Bug Patch' || true)"
+)
+LEAK_FREE_OK = "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+
 _spent = 0.0
 _lock = threading.Lock()
 
@@ -51,6 +68,11 @@ def main() -> int:
     ap.add_argument("--cap", type=float, required=True)
     ap.add_argument("--mock-response", help="free dry run: LiteLLM mock_response, cost 0 allowed")
     ap.add_argument("--skills-file", help="skills text injected into {{ skills }} (default: none)")
+    ap.add_argument(
+        "--leak-free",
+        action="store_true",
+        help="remove the bug commit from the agent's git history",
+    )
     a = ap.parse_args()
     if a.seed == 0:
         raise SystemExit("seed 0 means 'no seed' on Vertex (A14)")
@@ -81,6 +103,7 @@ def main() -> int:
         "cost_limit": a.cost_limit,
         "cap": a.cap,
         "skills_chars": len(skills),
+        "leak_free": a.leak_free,
         "runs": [],
     }
     for inst in insts:
@@ -92,6 +115,11 @@ def main() -> int:
         h = SWEHarness()
         try:
             h.setup_task(task_instance=inst)
+            if a.leak_free:
+                r = h.container.exec_run(["bash", "-lc", LEAK_FREE_SH])
+                rec["leak_free_check"] = r.output.decode().strip().splitlines()[-1:]
+                if r.exit_code != 0 or rec["leak_free_check"] != [LEAK_FREE_OK]:
+                    raise RuntimeError(f"leak-free rewrite failed: {r.output.decode()[-300:]}")
             patch, trace, metrics = h.run_agent(
                 inst.get("problem_statement", ""), skills, model_name=a.model, config_path=str(cfg)
             )
