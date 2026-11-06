@@ -2,6 +2,9 @@
 
 ## 1. Skill là gì?
 
+> **Cập nhật 06/11/2026:** mục 1 đã được thay bằng `docs/skill_catalog.md`. Catalog có định nghĩa kèm trích nguồn, 4 nhóm skill đã kiểm, nội dung nguyên văn trong `docs/skills/`, và tác dụng đo được kèm CI. Câu "π là đoạn hướng dẫn chèn vào đề bài" chỉ đúng cho nhóm A. Paper gốc định nghĩa π là chương trình sửa code học từ trajectory (A86).
+
+
 **Định nghĩa vận hành (paper, `docs/theory/corrections.md`):** skill là bộ 5 thành phần ⟨π, D, I, P, K⟩:
 - **π:** quy trình tái sử dụng. Ở pilot, π là **đoạn hướng dẫn bằng ngôn ngữ tự nhiên** chèn vào đề bài. Trong paper gốc π còn có thể là chương trình sửa code (edit program).
 - **D:** dấu vân tay môi trường áp dụng được (ngôn ngữ, phiên bản…).
