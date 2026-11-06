@@ -856,3 +856,25 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 **Kiểm sau khi chạy (cả 23a và 23b):** `infra_error`; `skill_files` > 0 ở nhánh skill; `exit_status`. Lỗi hạ tầng > 10% số lần chạy thì dừng và báo. Lỗi do agent **không** chạy lại (L1).
 
 **Không xem kết quả giữa chừng (L28):** driver chỉ in chi phí, không in tỉ lệ pass.
+
+**Sai lệch D-M11 (06/11/2026, trước khi có kết quả nào của §23):**
+- **Lý do:** @thuthuy 06/11: "Tăng phương án 1 lên 3 đô thử với model mạnh là pro. Tăng phương án 2 lên 7 đô với model mạnh hơn là flash".
+- **Lúc đổi:** chưa có ô nào xong ở 23a; 23b có đúng 1 ô xong ở nhánh không skill (`go-fx-di` b1, Flash-Lite, 0,030 USD), chưa xem tỉ lệ pass.
+- Hai driver đã dừng. Hai ô đang chạy dở được để chạy xong để ghi đủ chi phí (L8).
+- Theo L12, đây là hai giai đoạn **mới**. Dữ liệu của các ô cũ không được gộp vào, nhưng vẫn được báo cáo (R5).
+- **23a → plan `s23a-pro`:**
+  - model `gemini-pro` (`reasoning_effort: low` theo `configs/models/vertex_gemini.json`), trần **3 USD**;
+  - thiết kế và quy tắc G ≥ 0,10 giữ nguyên như 23a.
+  - Ước tính 0,21 USD mỗi lần chạy: token của §22 × giá Pro, ×8 cả đầu vào lẫn đầu ra. Cổng chi phí là 0,42 USD sau 4 lần chạy.
+  - Trần 3 USD với "đã chi + 1,0" cho khoảng 10 lần chạy, tức k khoảng 2. Ở k = 2: P(có tín hiệu | như công bố) = 0,650, P(có tín hiệu | không tác dụng) = 0,281 (`results/section23_design.json`, `c_dm11`).
+  - Gọi công cụ với Pro chưa được kiểm (checklist B5). Ô đầu tiên là phép kiểm; nếu lỗi thì quy tắc dừng của driver sẽ dừng.
+- **23b → plan `s23b-flash-screen` + `s23b-flash-confirm`:**
+  - model `gemini-flash`, trần **7 USD cho cả hai bước**; ước tính 0,075 USD mỗi lần chạy, cổng chi phí 0,15 USD.
+  - 140 lần chạy (khoảng 10,5 USD) không vừa trần, nên thiết kế được thu nhỏ:
+    - sàng lọc 5 skill × batch 1–6 × seed 41 × 2 nhánh = 60 lần chạy;
+    - xác nhận skill được chọn × batch 1–10 × seed 51 × 2 nhánh = 20 lần chạy;
+    - tổng khoảng 6,0 USD.
+  - Quy tắc chọn và kiểm định như 23b: 10 hiệu số mức batch, kiểm định đổi dấu chính xác một phía, α = 0,05.
+  - **Quy tắc mới (vận hành):** bước xác nhận chỉ bắt đầu khi "đã chi + (số ô xác nhận × chi phí trung bình của bước sàng lọc) + 1,0 ≤ 7,0". Không đủ thì dừng, và sàng lọc chỉ được báo cáo mô tả.
+  - **Power:** P(chứng nhận đúng chiều) = 0,057 / 0,106 / 0,172 ở τ = 3 / 5 / 7 điểm. Mô phỏng dùng nhiễu của Flash-Lite, vì nhiễu của Flash chưa đo.
+  - Con số này thấp hơn bản Flash-Lite 5 USD (0,061–0,286), vì bước xác nhận chỉ có 1 seed. Đổi lại, bản này đo trên model mạnh hơn.

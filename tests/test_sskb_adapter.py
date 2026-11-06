@@ -135,9 +135,9 @@ def test_select_confirm_picks_largest_abs_effect_with_sign():
 
     sk = rs.S23B_SKILLS
     d = dict(zip(sk, [0.05, -0.20, 0.10, 0.0, 0.15], strict=True))
-    assert rs.select_confirm(_rows(sk, d), sk) == ("langsmith-fetch", -1)
+    assert rs.select_confirm(_rows(sk, d), sk, 10) == ("langsmith-fetch", -1)
     tie = dict(zip(sk, [0.1, -0.1, 0.0, 0.0, 0.0], strict=True))
-    assert rs.select_confirm(_rows(sk, tie), sk) == ("go-fx-di", 1)
+    assert rs.select_confirm(_rows(sk, tie), sk, 10) == ("go-fx-di", 1)
 
 
 def test_select_confirm_refuses_incomplete_screen():
@@ -149,7 +149,7 @@ def test_select_confirm_refuses_incomplete_screen():
         r for r in rows if not (r["skill"] == sk[2] and r["batch"] == 7 and r["arm"] == "skill")
     ]
     with pytest.raises(SystemExit):
-        rs.select_confirm(rows, sk)
+        rs.select_confirm(rows, sk, 10)
 
 
 def test_health_stop_rules():
@@ -161,3 +161,16 @@ def test_health_stop_rules():
     assert "unreachable" in rs.health_stop({**ok, "exit_status": "APIConnectionError"}, 1, 0)
     assert rs.health_stop({"infra_error": "x"}, 3, 1) is None
     assert "infra" in rs.health_stop({"infra_error": "x"}, 5, 1)
+
+
+def test_dm11_plans():
+    import run_sskb as rs
+
+    assert rs.PLANS["s23a-pro"]["model"] == "gemini-pro"
+    assert len(rs.cells(rs.PLANS["s23b-flash-screen"])) == 60
+    assert rs.PLANS["s23b-flash-confirm"]["seeds"] == [51]
+    g = {p for p, v in rs.PLANS.items() if v["group"] == "s23b-flash"}
+    assert g == {"s23b-flash-screen", "s23b-flash-confirm"}
+    sk = rs.S23B_SKILLS
+    rows = [r for r in _rows(sk, dict.fromkeys(sk, 0.0)) if r["batch"] <= 6]
+    assert rs.select_confirm(rows, sk, 6)[0] == sk[0]

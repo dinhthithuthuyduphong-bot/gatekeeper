@@ -61,6 +61,33 @@ PLANS = {
         "gate_after": 4,
         "gate_usd": 0.052,
     },
+    "s23a-pro": {  # D-M11: section 23a moved to gemini-pro, cap 3 USD
+        "model": "gemini-pro",
+        "skills": ["viper-configuration", "asyncio-patterns"],
+        "batches": list(range(1, 11)),
+        "seeds": [41],
+        "group": "s23a-pro",
+        "gate_after": 4,
+        "gate_usd": 0.42,
+    },
+    "s23b-flash-screen": {  # D-M11: section 23b moved to gemini-flash, cap 7 USD for both steps
+        "model": "gemini-flash",
+        "skills": S23B_SKILLS,
+        "batches": list(range(1, 7)),
+        "seeds": [41],
+        "group": "s23b-flash",
+        "gate_after": 4,
+        "gate_usd": 0.15,
+    },
+    "s23b-flash-confirm": {
+        "model": "gemini-flash",
+        "skills": None,
+        "batches": list(range(1, 11)),
+        "seeds": [51],
+        "group": "s23b-flash",
+        "gate_after": 0,
+        "gate_usd": 0.0,
+    },
     "s23b-confirm": {
         "model": "gemini-flash-lite",
         "skills": None,  # chosen by select_confirm() from the screen
@@ -96,17 +123,17 @@ def skill_means(rows: list[dict]) -> dict[str, float]:
     return {sk: sum(x) / len(x) for sk, x in d.items()}
 
 
-def select_confirm(screen_rows: list[dict], skills: list[str]) -> tuple[str, int]:
+def select_confirm(screen_rows: list[dict], skills: list[str], n_batches: int) -> tuple[str, int]:
     """Section 23b rule: the screened skill with the largest |D|; ties go to the first in `skills`.
-    Requires the full screen (10 complete pairs per skill). Returns (skill, direction sign)."""
+    Requires the full screen (n_batches complete pairs per skill). Returns (skill, sign)."""
     by = {}
     for r in screen_rows:
         if r.get("pass_rate") is not None:
             by.setdefault((r["skill"], r["batch"]), set()).add(r["arm"])
     for sk in skills:
         n = sum(1 for (s, _), arms in by.items() if s == sk and arms == {"none", "skill"})
-        if n != 10:
-            raise SystemExit(f"screen incomplete for {sk}: {n}/10 pairs")
+        if n != n_batches:
+            raise SystemExit(f"screen incomplete for {sk}: {n}/{n_batches} pairs")
     d = skill_means(screen_rows)
     best = max(skills, key=lambda s: (abs(d[s]), -skills.index(s)))
     return best, (1 if d[best] > 0 else -1)
@@ -144,8 +171,9 @@ def main() -> int:
     if a.model != plan["model"]:
         raise SystemExit(f"plan {a.plan} is registered for {plan['model']}, not {a.model}")
     extra = {}
-    if a.plan == "s23b-confirm":
-        sk, sign = select_confirm(load_rows("s23b-screen"), S23B_SKILLS)
+    if a.plan.endswith("-confirm"):
+        screen = a.plan.replace("-confirm", "-screen")
+        sk, sign = select_confirm(load_rows(screen), S23B_SKILLS, len(PLANS[screen]["batches"]))
         plan["skills"] = [sk]
         extra = {"selected": sk, "direction": sign}
         print(f"[select] {sk} direction {sign:+d}")
@@ -154,6 +182,12 @@ def main() -> int:
     done = {(r["skill"], r["batch"], r["seed"], r["arm"]) for r in rows}
     group = [p for p, v in PLANS.items() if v["group"] == plan["group"]]
     spent = sum(r.get("cost_usd") or 0.0 for p in group for r in load_rows(p))
+    if a.plan.endswith("-confirm"):  # D-M11: start only if the whole confirmation fits the cap
+        costs = [r.get("cost_usd") or 0.0 for r in load_rows(screen)]
+        need = len(cells(plan)) * sum(costs) / len(costs)
+        if spent + need + WORST_CELL > a.cap_usd:
+            print(f"[stop] confirmation needs ~{need:.2f} USD; spent {spent:.2f}, cap {a.cap_usd}")
+            return 0
     new, new_cost, infra_new = 0, 0.0, 0
     for sk, b, s, arm in cells(plan):
         if (sk, b, s, arm) in done:

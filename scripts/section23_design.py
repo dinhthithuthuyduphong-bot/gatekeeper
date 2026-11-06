@@ -96,9 +96,39 @@ def part_b(rng: np.random.Generator) -> dict:
     return out
 
 
+def part_c_dm11(rng: np.random.Generator) -> dict:
+    """D-M11 (gemini-flash, 7 USD): screen 5 skills x 6 batches x 1 seed; confirm the selected
+    skill on 10 batches x 1 fresh seed (batch-level noise sd 29.6 pp). Noise of Flash-Lite is used
+    because Flash has not been measured. Also P(go) of the section 22 rule at k = 2 (Pro, 3 USD)."""
+    out = {}
+    for tau in (3.0, 5.0, 7.0):
+        delta = rng.normal(0, tau, size=(N_SIM, 5))
+        screen = delta + rng.normal(0, SD_REQ / np.sqrt(6), size=(N_SIM, 5))
+        pick = np.abs(screen).argmax(1)
+        d_sel = delta[np.arange(N_SIM), pick]
+        sign = np.sign(screen[np.arange(N_SIM), pick])
+        conf = d_sel[:, None] + rng.normal(0, SD_REQ, size=(N_SIM, 10))
+        p = exact_p_one_sided(conf * sign[:, None])
+        out[f"tau{tau:g}"] = float(((p <= 0.05) & (sign * d_sel > 0)).mean())
+    v, a = public_diffs("viper-configuration"), public_diffs("asyncio-patterns")
+    g_pub = (rng.choice(v, size=(N_SIM, 2)).mean(1) - rng.choice(a, size=(N_SIM, 2)).mean(1)) / 2
+    sv = rng.choice((-1, 1), size=(N_SIM, 2)) * rng.choice(v, size=(N_SIM, 2))
+    sa = rng.choice((-1, 1), size=(N_SIM, 2)) * rng.choice(a, size=(N_SIM, 2))
+    out["a_k2"] = {
+        "p_go_published": float(((g_pub) >= 0.10).mean()),
+        "p_go_null": float(((sv.mean(1) - sa.mean(1)) / 2 >= 0.10).mean()),
+    }
+    return out
+
+
 def main() -> int:
     rng = np.random.default_rng(SEED)
-    res = {"a_flash_probe": part_a(rng), "b_screen_confirm": part_b(rng), "n_sim": N_SIM}
+    res = {
+        "a_flash_probe": part_a(rng),
+        "b_screen_confirm": part_b(rng),
+        "c_dm11": part_c_dm11(rng),
+        "n_sim": N_SIM,
+    }
     Path("results/section23_design.json").write_text(json.dumps(res, indent=1) + "\n")
     print(json.dumps(res, indent=1))
     return 0
