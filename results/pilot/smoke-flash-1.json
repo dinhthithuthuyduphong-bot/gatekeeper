@@ -1,0 +1,50 @@
+{
+  "generated_utc": "2026-11-02T03:39:13+00:00",
+  "name": "smoke-flash-1",
+  "model": "vertex_ai/gemini-3.8-flash",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "psf__requests-1142"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.2586,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.133737525,
+      "tokens_in_per_run": 475584.0,
+      "tokens_out_per_run": 9000.0,
+      "cached_share": 0.7996421242093931,
+      "api_calls_per_run": 30.0,
+      "solve_rate": 0.0
+    },
+    "control-oracle-files": {
+      "runs": 1,
+      "usd_per_run": 0.124882425,
+      "tokens_in_per_run": 384782.0,
+      "tokens_out_per_run": 3653.0,
+      "cached_share": 0.6830335098835184,
+      "api_calls_per_run": 30.0,
+      "solve_rate": 0.0
+    }
+  },
+  "skills": {
+    "control-oracle-files": {
+      "pairs": [
+        {
+          "instance_id": "psf__requests-1142",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 1,
+        "log_e": 0.0
+      }
+    }
+  }
+}

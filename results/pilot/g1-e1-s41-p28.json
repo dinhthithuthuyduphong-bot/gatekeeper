@@ -1,0 +1,92 @@
+{
+  "generated_utc": "2026-11-03T14:12:21+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s41-p28",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "sympy__sympy-15523",
+    "sympy__sympy-16106",
+    "sympy__sympy-16943",
+    "sympy__sympy-17139"
+  ],
+  "spent_usd": 0.8036,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.11449605000000002,
+      "tokens_in_per_run": 2452758.75,
+      "tokens_out_per_run": 9032.75,
+      "cached_share": 0.9281934067098935,
+      "api_calls_per_run": 157.75,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 4
+    },
+    "type-guard": {
+      "runs": 4,
+      "usd_per_run": 0.08640171874999998,
+      "tokens_in_per_run": 1634819.75,
+      "tokens_out_per_run": 7705.5,
+      "cached_share": 0.9076405823944811,
+      "api_calls_per_run": 105.25,
+      "solve_rate": 0.25,
+      "solved": 1,
+      "scored": 4
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "sympy__sympy-15523": "LimitsExceeded",
+      "sympy__sympy-16106": "LimitsExceeded",
+      "sympy__sympy-16943": "Submitted",
+      "sympy__sympy-17139": "Submitted"
+    },
+    "type-guard": {
+      "sympy__sympy-15523": "Submitted",
+      "sympy__sympy-16106": "LimitsExceeded",
+      "sympy__sympy-16943": "Submitted",
+      "sympy__sympy-17139": "Submitted"
+    }
+  },
+  "skills": {
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-15523",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-16106",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-16943",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-17139",
+          "loss_with": 0.3333333333333333,
+          "loss_without": 0.3333333333333333
+        }
+      ],
+      "mean_Z": -0.16666666666666666,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": -0.16666666666666666,
+        "sigma_S2": 0.11111111111111112,
+        "sigma_T2": 0.009259259259259257,
+        "unpaired_over_paired": 1.1666666666666665
+      }
+    }
+  }
+}

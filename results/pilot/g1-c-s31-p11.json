@@ -1,0 +1,55 @@
+{
+  "generated_utc": "2026-11-03T01:53:45+00:00",
+  "name": "g1-c-s31-p11",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "sympy__sympy-24443"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.1289,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.05812955,
+      "tokens_in_per_run": 817619.0,
+      "tokens_out_per_run": 8847.0,
+      "cached_share": 0.8672645816694573,
+      "api_calls_per_run": 76.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "validation-error": {
+      "runs": 1,
+      "usd_per_run": 0.07074992499999999,
+      "tokens_in_per_run": 870112.0,
+      "tokens_out_per_run": 12282.0,
+      "cached_share": 0.8438304494134089,
+      "api_calls_per_run": 74.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "validation-error": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-24443",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 1,
+        "log_e": 0.0
+      }
+    }
+  }
+}

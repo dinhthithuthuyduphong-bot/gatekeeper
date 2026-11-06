@@ -1,0 +1,84 @@
+{
+  "generated_utc": "2026-11-04T07:24:17+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s51-p33",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "sympy__sympy-16106",
+    "sympy__sympy-16943",
+    "sympy__sympy-17139"
+  ],
+  "spent_usd": 0.5467,
+  "usage": {
+    "none": {
+      "runs": 3,
+      "usd_per_run": 0.067168925,
+      "tokens_in_per_run": 1203620.0,
+      "tokens_out_per_run": 6204.0,
+      "cached_share": 0.8974485302670278,
+      "api_calls_per_run": 113.0,
+      "solve_rate": 0.3333333333333333,
+      "solved": 1,
+      "scored": 3
+    },
+    "type-guard": {
+      "runs": 3,
+      "usd_per_run": 0.11505347499999995,
+      "tokens_in_per_run": 2250796.0,
+      "tokens_out_per_run": 11862.0,
+      "cached_share": 0.919059597878558,
+      "api_calls_per_run": 145.66666666666666,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 3
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "sympy__sympy-16106": "LimitsExceeded",
+      "sympy__sympy-16943": "Submitted",
+      "sympy__sympy-17139": "Submitted"
+    },
+    "type-guard": {
+      "sympy__sympy-16106": "LimitsExceeded",
+      "sympy__sympy-16943": "Submitted",
+      "sympy__sympy-17139": "Submitted"
+    }
+  },
+  "skills": {
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-16106",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-16943",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-17139",
+          "loss_with": 0.3333333333333333,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.1111111111111111,
+      "variance_components": {
+        "n": 3,
+        "n_tasks": 3,
+        "mean_Z": 0.1111111111111111,
+        "sigma_S2": 0.037037037037037035,
+        "sigma_T2": 0.07407407407407407,
+        "unpaired_over_paired": 5.0
+      }
+    }
+  }
+}

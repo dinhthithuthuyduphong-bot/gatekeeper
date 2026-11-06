@@ -1,0 +1,104 @@
+{
+  "generated_utc": "2026-11-03T17:08:17+00:00",
+  "format_version": 2,
+  "name": "g1-e1x-s41-p04",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "django__django-16560",
+    "django__django-16693",
+    "django__django-16802",
+    "django__django-16948"
+  ],
+  "spent_usd": 0.261,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.037884375,
+      "tokens_in_per_run": 505962.75,
+      "tokens_out_per_run": 7422.25,
+      "cached_share": 0.8761267504376558,
+      "api_calls_per_run": 36.0,
+      "solve_rate": 0.25,
+      "solved": 1,
+      "scored": 4
+    },
+    "type-guard": {
+      "runs": 2,
+      "usd_per_run": 0.012764600000000001,
+      "tokens_in_per_run": 124628.0,
+      "tokens_out_per_run": 1948.5,
+      "cached_share": 0.7601341592579517,
+      "api_calls_per_run": 18.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "exception-handling": {
+      "runs": 2,
+      "usd_per_run": 0.04195524999999999,
+      "tokens_in_per_run": 817747.0,
+      "tokens_out_per_run": 5049.0,
+      "cached_share": 0.9242467413515427,
+      "api_calls_per_run": 45.0,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "django__django-16560": "Submitted",
+      "django__django-16693": "Submitted",
+      "django__django-16802": "Submitted",
+      "django__django-16948": "Submitted"
+    },
+    "type-guard": {
+      "django__django-16693": "Submitted",
+      "django__django-16948": "Submitted"
+    },
+    "exception-handling": {
+      "django__django-16560": "Submitted",
+      "django__django-16802": "Submitted"
+    }
+  },
+  "skills": {
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "django__django-16693",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-16948",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "django__django-16560",
+          "loss_with": 0.5883838383838383,
+          "loss_without": 1.0
+        },
+        {
+          "instance_id": "django__django-16802",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": -0.20580808080808083,
+      "variance_components": null
+    }
+  }
+}

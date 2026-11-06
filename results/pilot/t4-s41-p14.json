@@ -1,0 +1,62 @@
+{
+  "generated_utc": "2026-11-05T08:32:30+00:00",
+  "format_version": 2,
+  "name": "t4-s41-p14",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/pd/rows.jsonl",
+  "instances": [
+    "python-pillow__Pillow-9105"
+  ],
+  "spent_usd": 0.0529,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.036129524999999996,
+      "tokens_in_per_run": 209922.0,
+      "tokens_out_per_run": 4452.0,
+      "cached_share": 0.4875668105296253,
+      "api_calls_per_run": 31.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "control-oracle-patch": {
+      "runs": 1,
+      "usd_per_run": 0.016770024999999997,
+      "tokens_in_per_run": 136537.0,
+      "tokens_out_per_run": 2596.0,
+      "cached_share": 0.6919809282465559,
+      "api_calls_per_run": 13.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "python-pillow__Pillow-9105": "Submitted"
+    },
+    "control-oracle-patch": {
+      "python-pillow__Pillow-9105": "Submitted"
+    }
+  },
+  "skills": {
+    "control-oracle-patch": {
+      "pairs": [
+        {
+          "instance_id": "python-pillow__Pillow-9105",
+          "loss_with": 7.32922896511287e-05,
+          "loss_without": 7.32922896511287e-05
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  },
+  "reused_none": null
+}

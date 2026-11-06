@@ -1,0 +1,171 @@
+{
+  "generated_utc": "2026-11-04T03:14:48+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s51-p21",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "pallets__flask-4992",
+    "psf__requests-5087",
+    "pydata__xarray-3156"
+  ],
+  "spent_usd": 0.5946,
+  "usage": {
+    "none": {
+      "runs": 3,
+      "usd_per_run": 0.05578364166666666,
+      "tokens_in_per_run": 863091.6666666666,
+      "tokens_out_per_run": 8367.333333333334,
+      "cached_share": 0.8884869316700621,
+      "api_calls_per_run": 64.33333333333333,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 3
+    },
+    "type-guard": {
+      "runs": 1,
+      "usd_per_run": 0.015877625,
+      "tokens_in_per_run": 126530.0,
+      "tokens_out_per_run": 3428.0,
+      "cached_share": 0.7340156484628152,
+      "api_calls_per_run": 18.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "exception-handling": {
+      "runs": 2,
+      "usd_per_run": 0.0388245125,
+      "tokens_in_per_run": 454995.5,
+      "tokens_out_per_run": 7118.0,
+      "cached_share": 0.8361632148010255,
+      "api_calls_per_run": 50.5,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    },
+    "harm-swallow-exceptions": {
+      "runs": 1,
+      "usd_per_run": 0.04786167500000001,
+      "tokens_in_per_run": 767528.0,
+      "tokens_out_per_run": 5434.0,
+      "cached_share": 0.8811626416234978,
+      "api_calls_per_run": 65.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "harm-minimal-edit": {
+      "runs": 1,
+      "usd_per_run": 0.044413400000000006,
+      "tokens_in_per_run": 345725.0,
+      "tokens_out_per_run": 9009.0,
+      "cached_share": 0.7138795285270084,
+      "api_calls_per_run": 39.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "harm-skip-verification": {
+      "runs": 1,
+      "usd_per_run": 0.2414540749999999,
+      "tokens_in_per_run": 6225497.0,
+      "tokens_out_per_run": 14627.0,
+      "cached_share": 0.9543981789726989,
+      "api_calls_per_run": 250.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "pallets__flask-4992": "Submitted",
+      "psf__requests-5087": "Submitted",
+      "pydata__xarray-3156": "Submitted"
+    },
+    "type-guard": {
+      "pallets__flask-4992": "Submitted"
+    },
+    "exception-handling": {
+      "psf__requests-5087": "Submitted",
+      "pydata__xarray-3156": "Submitted"
+    },
+    "harm-swallow-exceptions": {
+      "pydata__xarray-3156": "Submitted"
+    },
+    "harm-minimal-edit": {
+      "pydata__xarray-3156": "Submitted"
+    },
+    "harm-skip-verification": {
+      "pydata__xarray-3156": "LimitsExceeded"
+    }
+  },
+  "skills": {
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "pallets__flask-4992",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "psf__requests-5087",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pydata__xarray-3156",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.3333333333333333,
+      "variance_components": null
+    },
+    "harm-swallow-exceptions": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-3156",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-minimal-edit": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-3156",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-skip-verification": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-3156",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

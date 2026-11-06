@@ -1,0 +1,123 @@
+{
+  "generated_utc": "2026-11-02T06:38:05+00:00",
+  "name": "g1-b-p08",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "sphinx-doc__sphinx-8721",
+    "sphinx-doc__sphinx-9711",
+    "sympy__sympy-13852",
+    "sympy__sympy-14711"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.3374,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.0318488,
+      "tokens_in_per_run": 478270.25,
+      "tokens_out_per_run": 3596.75,
+      "cached_share": 0.8652838013654414,
+      "api_calls_per_run": 40.0,
+      "solve_rate": 0.5
+    },
+    "control-none-seed1": {
+      "runs": 4,
+      "usd_per_run": 0.033211649999999995,
+      "tokens_in_per_run": 436823.25,
+      "tokens_out_per_run": 5110.0,
+      "cached_share": 0.851187522642167,
+      "api_calls_per_run": 37.75,
+      "solve_rate": 0.75
+    },
+    "control-oracle-files": {
+      "runs": 4,
+      "usd_per_run": 0.01927933125,
+      "tokens_in_per_run": 233871.0,
+      "tokens_out_per_run": 2390.25,
+      "cached_share": 0.8128658533978134,
+      "api_calls_per_run": 26.5,
+      "solve_rate": 0.75
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "control-none-seed1": {
+      "pairs": [
+        {
+          "instance_id": "sphinx-doc__sphinx-8721",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-9711",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-13852",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-14711",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": -0.16666666666666666,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": -0.16666666666666666,
+        "sigma_S2": 0.11111111111111112,
+        "sigma_T2": 0.07407407407407407,
+        "unpaired_over_paired": 2.333333333333333
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": -0.0722926547371815
+      }
+    },
+    "control-oracle-files": {
+      "pairs": [
+        {
+          "instance_id": "sphinx-doc__sphinx-8721",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-9711",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sympy__sympy-13852",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-14711",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": -0.16666666666666666,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": -0.16666666666666666,
+        "sigma_S2": 0.11111111111111112,
+        "sigma_T2": 0.07407407407407407,
+        "unpaired_over_paired": 2.333333333333333
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": -0.0722926547371815
+      }
+    }
+  }
+}

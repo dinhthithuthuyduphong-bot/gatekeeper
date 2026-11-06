@@ -1,0 +1,129 @@
+{
+  "generated_utc": "2026-11-02T20:41:45+00:00",
+  "name": "g1-c-p14",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "pallets__flask-5014",
+    "psf__requests-5414",
+    "pydata__xarray-6721",
+    "pydata__xarray-6992"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.4313,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.05278021874999998,
+      "tokens_in_per_run": 796685.25,
+      "tokens_out_per_run": 9404.5,
+      "cached_share": 0.8953645746547962,
+      "api_calls_per_run": 54.0,
+      "solve_rate": 0.5,
+      "solved": 2,
+      "scored": 4
+    },
+    "type-guard": {
+      "runs": 1,
+      "usd_per_run": 0.10076920000000002,
+      "tokens_in_per_run": 1777696.0,
+      "tokens_out_per_run": 17225.0,
+      "cached_share": 0.9237732435692042,
+      "api_calls_per_run": 86.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "exception-handling": {
+      "runs": 1,
+      "usd_per_run": 0.025654175,
+      "tokens_in_per_run": 259925.0,
+      "tokens_out_per_run": 2661.0,
+      "cached_share": 0.7407021256131576,
+      "api_calls_per_run": 36.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "validation-error": {
+      "runs": 3,
+      "usd_per_run": 0.03124450833333334,
+      "tokens_in_per_run": 417915.3333333333,
+      "tokens_out_per_run": 3163.6666666666665,
+      "cached_share": 0.8292995550932964,
+      "api_calls_per_run": 51.333333333333336,
+      "solve_rate": 0.3333333333333333,
+      "solved": 1,
+      "scored": 3
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "pydata__xarray-6721",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.6666666666666666,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 1,
+        "log_e": 0.0
+      }
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "psf__requests-5414",
+          "loss_with": 0.03076923076923077,
+          "loss_without": 0.03076923076923077
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 1,
+        "log_e": 0.0
+      }
+    },
+    "validation-error": {
+      "pairs": [
+        {
+          "instance_id": "pallets__flask-5014",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "psf__requests-5414",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.03076923076923077
+        },
+        {
+          "instance_id": "pydata__xarray-6992",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.21196581196581196,
+      "variance_components": {
+        "n": 3,
+        "n_tasks": 3,
+        "mean_Z": 0.21196581196581196,
+        "sigma_S2": 0.13478851632697783,
+        "sigma_T2": 0.07749287749287749,
+        "unpaired_over_paired": 2.1498439125910513
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 3,
+        "log_e": 0.0
+      }
+    }
+  }
+}

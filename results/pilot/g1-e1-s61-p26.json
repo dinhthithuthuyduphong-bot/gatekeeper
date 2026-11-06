@@ -1,0 +1,208 @@
+{
+  "generated_utc": "2026-11-04T07:54:53+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s61-p26",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "scikit-learn__scikit-learn-13142",
+    "scikit-learn__scikit-learn-13328",
+    "scikit-learn__scikit-learn-13618"
+  ],
+  "spent_usd": 0.4223,
+  "usage": {
+    "none": {
+      "runs": 3,
+      "usd_per_run": 0.0292688,
+      "tokens_in_per_run": 412817.0,
+      "tokens_out_per_run": 4307.0,
+      "cached_share": 0.8655538248990069,
+      "api_calls_per_run": 29.666666666666668,
+      "solve_rate": 0.6666666666666666,
+      "solved": 2,
+      "scored": 3
+    },
+    "null-guard": {
+      "runs": 1,
+      "usd_per_run": 0.020979425,
+      "tokens_in_per_run": 251309.0,
+      "tokens_out_per_run": 4660.0,
+      "cached_share": 0.8637056372831853,
+      "api_calls_per_run": 23.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "type-guard": {
+      "runs": 1,
+      "usd_per_run": 0.04388845,
+      "tokens_in_per_run": 732508.0,
+      "tokens_out_per_run": 5793.0,
+      "cached_share": 0.8975437810918107,
+      "api_calls_per_run": 51.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "exception-handling": {
+      "runs": 1,
+      "usd_per_run": 0.021589524999999995,
+      "tokens_in_per_run": 201148.0,
+      "tokens_out_per_run": 2257.0,
+      "cached_share": 0.7088859943921888,
+      "api_calls_per_run": 27.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "harm-swallow-exceptions": {
+      "runs": 2,
+      "usd_per_run": 0.0357420875,
+      "tokens_in_per_run": 462422.0,
+      "tokens_out_per_run": 4380.0,
+      "cached_share": 0.8307314530883046,
+      "api_calls_per_run": 37.5,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    },
+    "harm-minimal-edit": {
+      "runs": 2,
+      "usd_per_run": 0.0322305125,
+      "tokens_in_per_run": 319133.0,
+      "tokens_out_per_run": 6895.5,
+      "cached_share": 0.8062954943550181,
+      "api_calls_per_run": 30.5,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    },
+    "harm-skip-verification": {
+      "runs": 2,
+      "usd_per_run": 0.056038225,
+      "tokens_in_per_run": 977146.0,
+      "tokens_out_per_run": 7905.0,
+      "cached_share": 0.9101597918837103,
+      "api_calls_per_run": 59.5,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "scikit-learn__scikit-learn-13142": "Submitted",
+      "scikit-learn__scikit-learn-13328": "Submitted",
+      "scikit-learn__scikit-learn-13618": "Submitted"
+    },
+    "null-guard": {
+      "scikit-learn__scikit-learn-13618": "Submitted"
+    },
+    "type-guard": {
+      "scikit-learn__scikit-learn-13328": "Submitted"
+    },
+    "exception-handling": {
+      "scikit-learn__scikit-learn-13142": "Submitted"
+    },
+    "harm-swallow-exceptions": {
+      "scikit-learn__scikit-learn-13142": "Submitted",
+      "scikit-learn__scikit-learn-13618": "Submitted"
+    },
+    "harm-minimal-edit": {
+      "scikit-learn__scikit-learn-13142": "Submitted",
+      "scikit-learn__scikit-learn-13618": "Submitted"
+    },
+    "harm-skip-verification": {
+      "scikit-learn__scikit-learn-13142": "Submitted",
+      "scikit-learn__scikit-learn-13618": "Submitted"
+    }
+  },
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-13618",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-13328",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-13142",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-swallow-exceptions": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-13142",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13618",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-minimal-edit": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-13142",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13618",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-skip-verification": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-13142",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-13618",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

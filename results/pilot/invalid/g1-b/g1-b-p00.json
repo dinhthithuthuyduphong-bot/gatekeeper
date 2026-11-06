@@ -1,0 +1,123 @@
+{
+  "generated_utc": "2026-11-02T05:11:22+00:00",
+  "name": "g1-b-p00",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "astropy__astropy-13579",
+    "astropy__astropy-7166",
+    "astropy__astropy-7606",
+    "django__django-10973"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.3986,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.0339485125,
+      "tokens_in_per_run": 411807.25,
+      "tokens_out_per_run": 7162.75,
+      "cached_share": 0.8606769307728313,
+      "api_calls_per_run": 35.75,
+      "solve_rate": 1.0
+    },
+    "control-none-seed1": {
+      "runs": 4,
+      "usd_per_run": 0.029889137500000006,
+      "tokens_in_per_run": 320668.75,
+      "tokens_out_per_run": 5530.5,
+      "cached_share": 0.8118284054807337,
+      "api_calls_per_run": 35.0,
+      "solve_rate": 0.75
+    },
+    "control-oracle-files": {
+      "runs": 4,
+      "usd_per_run": 0.035824575,
+      "tokens_in_per_run": 389609.25,
+      "tokens_out_per_run": 7383.25,
+      "cached_share": 0.8287803741825945,
+      "api_calls_per_run": 31.75,
+      "solve_rate": 0.75
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "control-none-seed1": {
+      "pairs": [
+        {
+          "instance_id": "astropy__astropy-13579",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "astropy__astropy-7166",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "astropy__astropy-7606",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-10973",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.16666666666666666,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": 0.16666666666666666,
+        "sigma_S2": 0.11111111111111112,
+        "sigma_T2": 0.0,
+        "unpaired_over_paired": 1.0
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": 0.0
+      }
+    },
+    "control-oracle-files": {
+      "pairs": [
+        {
+          "instance_id": "astropy__astropy-13579",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "astropy__astropy-7166",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "astropy__astropy-7606",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-10973",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.16666666666666666,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": 0.16666666666666666,
+        "sigma_S2": 0.11111111111111112,
+        "sigma_T2": 0.0,
+        "unpaired_over_paired": 1.0
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": 0.0
+      }
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "generated_utc": "2026-11-03T00:46:48+00:00",
+  "name": "g1-c-s31-p01",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "django__django-11740",
+    "django__django-11815",
+    "django__django-12708",
+    "django__django-13012"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.3679,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.050417025000000004,
+      "tokens_in_per_run": 759053.25,
+      "tokens_out_per_run": 8793.25,
+      "cached_share": 0.8931369439495845,
+      "api_calls_per_run": 51.0,
+      "solve_rate": 0.75,
+      "solved": 3,
+      "scored": 4
+    },
+    "validation-error": {
+      "runs": 4,
+      "usd_per_run": 0.041561481250000004,
+      "tokens_in_per_run": 546031.75,
+      "tokens_out_per_run": 7836.0,
+      "cached_share": 0.8684920794440982,
+      "api_calls_per_run": 41.0,
+      "solve_rate": 0.75,
+      "solved": 3,
+      "scored": 4
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "validation-error": {
+      "pairs": [
+        {
+          "instance_id": "django__django-11740",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-11815",
+          "loss_with": 0.34848484848484845,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-12708",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-13012",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": -0.07954545454545454,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": -0.07954545454545454,
+        "sigma_S2": 0.025309917355371903,
+        "sigma_T2": 0.05808080808080807,
+        "unpaired_over_paired": 5.589569160997732
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": -0.013328450486697115
+      }
+    }
+  }
+}

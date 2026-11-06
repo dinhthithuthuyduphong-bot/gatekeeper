@@ -1,0 +1,171 @@
+{
+  "generated_utc": "2026-11-04T07:03:43+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s51-p32",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "sympy__sympy-13286",
+    "sympy__sympy-13346",
+    "sympy__sympy-15523"
+  ],
+  "spent_usd": 1.3876,
+  "usage": {
+    "none": {
+      "runs": 3,
+      "usd_per_run": 0.096515825,
+      "tokens_in_per_run": 1842681.0,
+      "tokens_out_per_run": 12830.333333333334,
+      "cached_share": 0.9247393697914433,
+      "api_calls_per_run": 78.33333333333333,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 3
+    },
+    "null-guard": {
+      "runs": 1,
+      "usd_per_run": 0.046161575,
+      "tokens_in_per_run": 824840.0,
+      "tokens_out_per_run": 4687.0,
+      "cached_share": 0.900263081324863,
+      "api_calls_per_run": 59.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "type-guard": {
+      "runs": 2,
+      "usd_per_run": 0.2936327,
+      "tokens_in_per_run": 7562399.0,
+      "tokens_out_per_run": 14743.0,
+      "cached_share": 0.9515390552653993,
+      "api_calls_per_run": 250.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "harm-swallow-exceptions": {
+      "runs": 1,
+      "usd_per_run": 0.046640925,
+      "tokens_in_per_run": 851271.0,
+      "tokens_out_per_run": 3635.0,
+      "cached_share": 0.8960683495620079,
+      "api_calls_per_run": 67.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "harm-minimal-edit": {
+      "runs": 1,
+      "usd_per_run": 0.20466165,
+      "tokens_in_per_run": 4953516.0,
+      "tokens_out_per_run": 11485.0,
+      "cached_share": 0.9429395201307516,
+      "api_calls_per_run": 250.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "harm-skip-verification": {
+      "runs": 1,
+      "usd_per_run": 0.21331719999999996,
+      "tokens_in_per_run": 5563189.0,
+      "tokens_out_per_run": 6653.0,
+      "cached_share": 0.9486641564757192,
+      "api_calls_per_run": 250.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 51,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "sympy__sympy-13286": "Submitted",
+      "sympy__sympy-13346": "Submitted",
+      "sympy__sympy-15523": "Submitted"
+    },
+    "null-guard": {
+      "sympy__sympy-13286": "Submitted"
+    },
+    "type-guard": {
+      "sympy__sympy-13346": "LimitsExceeded",
+      "sympy__sympy-15523": "LimitsExceeded"
+    },
+    "harm-swallow-exceptions": {
+      "sympy__sympy-13346": "Submitted"
+    },
+    "harm-minimal-edit": {
+      "sympy__sympy-13346": "LimitsExceeded"
+    },
+    "harm-skip-verification": {
+      "sympy__sympy-13346": "LimitsExceeded"
+    }
+  },
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-13286",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-13346",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.007246376811594203
+        },
+        {
+          "instance_id": "sympy__sympy-15523",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.3297101449275362,
+      "variance_components": null
+    },
+    "harm-swallow-exceptions": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-13346",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.007246376811594203
+        }
+      ],
+      "mean_Z": 0.6594202898550724,
+      "variance_components": null
+    },
+    "harm-minimal-edit": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-13346",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.007246376811594203
+        }
+      ],
+      "mean_Z": 0.6594202898550724,
+      "variance_components": null
+    },
+    "harm-skip-verification": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-13346",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.007246376811594203
+        }
+      ],
+      "mean_Z": 0.6594202898550724,
+      "variance_components": null
+    }
+  }
+}

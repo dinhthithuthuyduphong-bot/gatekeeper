@@ -1,0 +1,94 @@
+{
+  "generated_utc": "2026-11-03T21:28:20+00:00",
+  "format_version": 2,
+  "name": "g1-e1x-s61-p09",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "sympy__sympy-18137",
+    "sympy__sympy-21849"
+  ],
+  "spent_usd": 0.1617,
+  "usage": {
+    "none": {
+      "runs": 2,
+      "usd_per_run": 0.04679156250000001,
+      "tokens_in_per_run": 734989.5,
+      "tokens_out_per_run": 4573.5,
+      "cached_share": 0.8696484779714541,
+      "api_calls_per_run": 66.5,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "null-guard": {
+      "runs": 2,
+      "usd_per_run": 0.0271992625,
+      "tokens_in_per_run": 282823.0,
+      "tokens_out_per_run": 2588.0,
+      "cached_share": 0.7446901418908646,
+      "api_calls_per_run": 48.5,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "type-guard": {
+      "runs": 1,
+      "usd_per_run": 0.013670949999999998,
+      "tokens_in_per_run": 139552.0,
+      "tokens_out_per_run": 1485.0,
+      "cached_share": 0.746660742948865,
+      "api_calls_per_run": 25.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "sympy__sympy-18137": "Submitted",
+      "sympy__sympy-21849": "Submitted"
+    },
+    "null-guard": {
+      "sympy__sympy-18137": "Submitted",
+      "sympy__sympy-21849": "Submitted"
+    },
+    "type-guard": {
+      "sympy__sympy-18137": "Submitted"
+    }
+  },
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-18137",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-21849",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-18137",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

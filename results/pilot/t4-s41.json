@@ -1,0 +1,225 @@
+{
+  "name": "t4-s41",
+  "merged_from": [
+    "t4-s41-p00",
+    "t4-s41-p01",
+    "t4-s41-p02",
+    "t4-s41-p03",
+    "t4-s41-p04",
+    "t4-s41-p05",
+    "t4-s41-p06",
+    "t4-s41-p07",
+    "t4-s41-p08",
+    "t4-s41-p09",
+    "t4-s41-p10",
+    "t4-s41-p11",
+    "t4-s41-p12",
+    "t4-s41-p13",
+    "t4-s41-p14",
+    "t4-s41-p15",
+    "t4-s41-p16",
+    "t4-s41-p17",
+    "t4-s41-p18",
+    "t4-s41-p19"
+  ],
+  "skills": {
+    "control-oracle-patch": {
+      "pairs": [
+        {
+          "instance_id": "conan-io__conan-18655",
+          "loss_with": 0.0,
+          "loss_without": 0.6667390517553384
+        },
+        {
+          "instance_id": "mikedh__trimesh-2126",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "conan-io__conan-15705",
+          "loss_with": 0.00045662100456621003,
+          "loss_without": 0.6671232876712329
+        },
+        {
+          "instance_id": "pypa__twine-1249",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "arviz-devs__arviz-2413",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "Archmonger__django-dbbackup-631",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "conan-io__conan-17102",
+          "loss_with": 0.6675717929729285,
+          "loss_without": 0.6667489508763268
+        },
+        {
+          "instance_id": "openai__openai-agents-python-998",
+          "loss_with": 1.0,
+          "loss_without": 1.0
+        },
+        {
+          "instance_id": "falconry__falcon-2475",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "ansible__ansible-lint-4662",
+          "loss_with": 1.0,
+          "loss_without": 0.00036350418029807346
+        },
+        {
+          "instance_id": "beeware__briefcase-1640",
+          "loss_with": 0.00276789244760775,
+          "loss_without": 0.6694345591142744
+        },
+        {
+          "instance_id": "geopandas__geopandas-3202",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "reflex-dev__reflex-3982",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "pvlib__pvlib-python-1947",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "python-pillow__Pillow-9105",
+          "loss_with": 7.32922896511287e-05,
+          "loss_without": 7.32922896511287e-05
+        },
+        {
+          "instance_id": "conan-io__conan-18333",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "jlowin__fastmcp-1397",
+          "loss_with": 0.0004297378599054577,
+          "loss_without": 0.6670964045265722
+        },
+        {
+          "instance_id": "projectmesa__mesa-2755",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "conan-io__conan-18051",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "reflex-dev__reflex-4230",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.4166473190252852,
+      "n": 20,
+      "solve_rate_with": 0.65,
+      "solve_rate_without": 0.1
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 20,
+      "usd": 1.6476944,
+      "solved": 2,
+      "scored": 20,
+      "usd_per_run": 0.08238472
+    },
+    "control-oracle-patch": {
+      "runs": 20,
+      "usd": 0.511690075,
+      "solved": 13,
+      "scored": 20,
+      "usd_per_run": 0.025584503749999998
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "conan-io__conan-18655": "Submitted",
+      "mikedh__trimesh-2126": "LimitsExceeded",
+      "conan-io__conan-15705": "Submitted",
+      "pypa__twine-1249": "Submitted",
+      "arviz-devs__arviz-2413": "Submitted",
+      "Archmonger__django-dbbackup-631": "Submitted",
+      "conan-io__conan-17102": "Submitted",
+      "openai__openai-agents-python-998": "Submitted",
+      "falconry__falcon-2475": "Submitted",
+      "ansible__ansible-lint-4662": "Submitted",
+      "beeware__briefcase-1640": "Submitted",
+      "geopandas__geopandas-3202": "Submitted",
+      "reflex-dev__reflex-3982": "LimitsExceeded",
+      "pvlib__pvlib-python-1947": "Submitted",
+      "python-pillow__Pillow-9105": "Submitted",
+      "conan-io__conan-18333": "Submitted",
+      "jlowin__fastmcp-1397": "Submitted",
+      "projectmesa__mesa-2755": "Submitted",
+      "conan-io__conan-18051": "Submitted",
+      "reflex-dev__reflex-4230": "LimitsExceeded"
+    },
+    "control-oracle-patch": {
+      "conan-io__conan-18655": "Submitted",
+      "mikedh__trimesh-2126": "Submitted",
+      "conan-io__conan-15705": "Submitted",
+      "pypa__twine-1249": "Submitted",
+      "arviz-devs__arviz-2413": "Submitted",
+      "Archmonger__django-dbbackup-631": "Submitted",
+      "conan-io__conan-17102": "Submitted",
+      "openai__openai-agents-python-998": "Submitted",
+      "falconry__falcon-2475": "Submitted",
+      "ansible__ansible-lint-4662": "Submitted",
+      "beeware__briefcase-1640": "Submitted",
+      "geopandas__geopandas-3202": "Submitted",
+      "reflex-dev__reflex-3982": "Submitted",
+      "pvlib__pvlib-python-1947": "Submitted",
+      "python-pillow__Pillow-9105": "Submitted",
+      "conan-io__conan-18333": "Submitted",
+      "jlowin__fastmcp-1397": "Submitted",
+      "projectmesa__mesa-2755": "Submitted",
+      "conan-io__conan-18051": "Submitted",
+      "reflex-dev__reflex-4230": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 2.1595,
+  "instances": [
+    "conan-io__conan-18655",
+    "mikedh__trimesh-2126",
+    "conan-io__conan-15705",
+    "pypa__twine-1249",
+    "arviz-devs__arviz-2413",
+    "Archmonger__django-dbbackup-631",
+    "conan-io__conan-17102",
+    "openai__openai-agents-python-998",
+    "falconry__falcon-2475",
+    "ansible__ansible-lint-4662",
+    "beeware__briefcase-1640",
+    "geopandas__geopandas-3202",
+    "reflex-dev__reflex-3982",
+    "pvlib__pvlib-python-1947",
+    "python-pillow__Pillow-9105",
+    "conan-io__conan-18333",
+    "jlowin__fastmcp-1397",
+    "projectmesa__mesa-2755",
+    "conan-io__conan-18051",
+    "reflex-dev__reflex-4230"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/pd/rows.jsonl"
+}

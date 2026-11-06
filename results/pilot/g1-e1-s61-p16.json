@@ -1,0 +1,136 @@
+{
+  "generated_utc": "2026-11-04T02:59:45+00:00",
+  "format_version": 2,
+  "name": "g1-e1-s61-p16",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "matplotlib__matplotlib-24149"
+  ],
+  "spent_usd": 0.1124,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.030909149999999996,
+      "tokens_in_per_run": 293028.0,
+      "tokens_out_per_run": 5786.0,
+      "cached_share": 0.7739396917700697,
+      "api_calls_per_run": 36.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "exception-handling": {
+      "runs": 1,
+      "usd_per_run": 0.013952574999999998,
+      "tokens_in_per_run": 127990.0,
+      "tokens_out_per_run": 2024.0,
+      "cached_share": 0.7320337526369247,
+      "api_calls_per_run": 21.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "harm-swallow-exceptions": {
+      "runs": 1,
+      "usd_per_run": 0.028695499999999995,
+      "tokens_in_per_run": 406865.0,
+      "tokens_out_per_run": 4163.0,
+      "cached_share": 0.8658645988227053,
+      "api_calls_per_run": 36.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "harm-minimal-edit": {
+      "runs": 1,
+      "usd_per_run": 0.02330985,
+      "tokens_in_per_run": 168549.0,
+      "tokens_out_per_run": 1333.0,
+      "cached_share": 0.5491815436460614,
+      "api_calls_per_run": 32.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "harm-skip-verification": {
+      "runs": 1,
+      "usd_per_run": 0.015523299999999997,
+      "tokens_in_per_run": 116479.0,
+      "tokens_out_per_run": 1778.0,
+      "cached_share": 0.6205582122099262,
+      "api_calls_per_run": 25.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 61,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "matplotlib__matplotlib-24149": "Submitted"
+    },
+    "exception-handling": {
+      "matplotlib__matplotlib-24149": "Submitted"
+    },
+    "harm-swallow-exceptions": {
+      "matplotlib__matplotlib-24149": "Submitted"
+    },
+    "harm-minimal-edit": {
+      "matplotlib__matplotlib-24149": "Submitted"
+    },
+    "harm-skip-verification": {
+      "matplotlib__matplotlib-24149": "Submitted"
+    }
+  },
+  "skills": {
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "matplotlib__matplotlib-24149",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-swallow-exceptions": {
+      "pairs": [
+        {
+          "instance_id": "matplotlib__matplotlib-24149",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-minimal-edit": {
+      "pairs": [
+        {
+          "instance_id": "matplotlib__matplotlib-24149",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    },
+    "harm-skip-verification": {
+      "pairs": [
+        {
+          "instance_id": "matplotlib__matplotlib-24149",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "generated_utc": "2026-11-05T06:27:03+00:00",
+  "format_version": 2,
+  "name": "t4-s41-p03",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/pd/rows.jsonl",
+  "instances": [
+    "pypa__twine-1249"
+  ],
+  "spent_usd": 0.0933,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.05274432500000002,
+      "tokens_in_per_run": 720830.0,
+      "tokens_out_per_run": 12255.0,
+      "cached_share": 0.8992453144291996,
+      "api_calls_per_run": 42.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "control-oracle-patch": {
+      "runs": 1,
+      "usd_per_run": 0.04055795,
+      "tokens_in_per_run": 340049.0,
+      "tokens_out_per_run": 13772.0,
+      "cached_share": 0.8510185296824869,
+      "api_calls_per_run": 17.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "pypa__twine-1249": "Submitted"
+    },
+    "control-oracle-patch": {
+      "pypa__twine-1249": "Submitted"
+    }
+  },
+  "skills": {
+    "control-oracle-patch": {
+      "pairs": [
+        {
+          "instance_id": "pypa__twine-1249",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.6666666666666666,
+      "variance_components": null
+    }
+  },
+  "reused_none": null
+}

@@ -1,0 +1,129 @@
+{
+  "generated_utc": "2026-11-03T19:57:24+00:00",
+  "format_version": 2,
+  "name": "g1-e1x-s41-p09",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "sympy__sympy-13678",
+    "sympy__sympy-14085",
+    "sympy__sympy-16864",
+    "sympy__sympy-18137"
+  ],
+  "spent_usd": 1.3605,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.20506855000000002,
+      "tokens_in_per_run": 4826251.75,
+      "tokens_out_per_run": 21364.25,
+      "cached_share": 0.9517768110625394,
+      "api_calls_per_run": 185.5,
+      "solve_rate": 0.25,
+      "solved": 1,
+      "scored": 4
+    },
+    "null-guard": {
+      "runs": 2,
+      "usd_per_run": 0.05069133750000001,
+      "tokens_in_per_run": 687007.5,
+      "tokens_out_per_run": 9253.0,
+      "cached_share": 0.8729649967431214,
+      "api_calls_per_run": 55.5,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    },
+    "type-guard": {
+      "runs": 2,
+      "usd_per_run": 0.09669647499999999,
+      "tokens_in_per_run": 1892267.5,
+      "tokens_out_per_run": 12025.0,
+      "cached_share": 0.9263616269898416,
+      "api_calls_per_run": 93.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "exception-handling": {
+      "runs": 1,
+      "usd_per_run": 0.24542269999999997,
+      "tokens_in_per_run": 6760370.0,
+      "tokens_out_per_run": 10304.0,
+      "cached_share": 0.9599249745206253,
+      "api_calls_per_run": 250.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "sympy__sympy-13678": "Submitted",
+      "sympy__sympy-14085": "Submitted",
+      "sympy__sympy-16864": "LimitsExceeded",
+      "sympy__sympy-18137": "LimitsExceeded"
+    },
+    "null-guard": {
+      "sympy__sympy-13678": "Submitted",
+      "sympy__sympy-18137": "Submitted"
+    },
+    "type-guard": {
+      "sympy__sympy-16864": "Submitted",
+      "sympy__sympy-18137": "Submitted"
+    },
+    "exception-handling": {
+      "sympy__sympy-14085": "LimitsExceeded"
+    }
+  },
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-13678",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-18137",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.3333333333333333,
+      "variance_components": null
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-16864",
+          "loss_with": 0.6153846153846154,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "sympy__sympy-18137",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.025641025641025605,
+      "variance_components": null
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "sympy__sympy-14085",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.6666666666666666,
+      "variance_components": null
+    }
+  }
+}

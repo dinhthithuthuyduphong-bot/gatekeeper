@@ -1,0 +1,74 @@
+{
+  "generated_utc": "2026-11-02T22:14:14+00:00",
+  "name": "g1-c-s11-p01",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "django__django-11087",
+    "django__django-11734",
+    "django__django-11740"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.333,
+  "usage": {
+    "none": {
+      "runs": 3,
+      "usd_per_run": 0.05157742500000001,
+      "tokens_in_per_run": 840382.0,
+      "tokens_out_per_run": 7506.333333333333,
+      "cached_share": 0.897885723397217,
+      "api_calls_per_run": 53.333333333333336,
+      "solve_rate": 0.3333333333333333,
+      "solved": 1,
+      "scored": 3
+    },
+    "validation-error": {
+      "runs": 3,
+      "usd_per_run": 0.05940900833333332,
+      "tokens_in_per_run": 948218.3333333334,
+      "tokens_out_per_run": 7092.666666666667,
+      "cached_share": 0.8825186182507193,
+      "api_calls_per_run": 56.666666666666664,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 3
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "validation-error": {
+      "pairs": [
+        {
+          "instance_id": "django__django-11087",
+          "loss_with": 0.6747967479674797,
+          "loss_without": 0.6747967479674797
+        },
+        {
+          "instance_id": "django__django-11734",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-11740",
+          "loss_with": 0.7247706422018348,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.2415902140672783,
+      "variance_components": {
+        "n": 3,
+        "n_tasks": 3,
+        "mean_Z": 0.2415902140672783,
+        "sigma_S2": 0.17509749459922003,
+        "sigma_T2": 0.0,
+        "unpaired_over_paired": 1.0
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 3,
+        "log_e": 0.0
+      }
+    }
+  }
+}

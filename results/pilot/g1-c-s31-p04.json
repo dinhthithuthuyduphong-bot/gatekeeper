@@ -1,0 +1,80 @@
+{
+  "generated_utc": "2026-11-03T01:12:11+00:00",
+  "name": "g1-c-s31-p04",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "matplotlib__matplotlib-24026",
+    "matplotlib__matplotlib-25479",
+    "pallets__flask-5014",
+    "psf__requests-5414"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.283,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.034600818750000005,
+      "tokens_in_per_run": 416541.75,
+      "tokens_out_per_run": 5131.5,
+      "cached_share": 0.8240536512846551,
+      "api_calls_per_run": 47.75,
+      "solve_rate": 0.5,
+      "solved": 2,
+      "scored": 4
+    },
+    "validation-error": {
+      "runs": 4,
+      "usd_per_run": 0.03614341874999999,
+      "tokens_in_per_run": 422674.5,
+      "tokens_out_per_run": 5695.25,
+      "cached_share": 0.8208899519606695,
+      "api_calls_per_run": 42.25,
+      "solve_rate": 0.5,
+      "solved": 2,
+      "scored": 4
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "validation-error": {
+      "pairs": [
+        {
+          "instance_id": "matplotlib__matplotlib-24026",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "matplotlib__matplotlib-25479",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6679340937896071
+        },
+        {
+          "instance_id": "pallets__flask-5014",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "psf__requests-5414",
+          "loss_with": 0.03076923076923077,
+          "loss_without": 0.03076923076923077
+        }
+      ],
+      "mean_Z": -0.0003168567807351197,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": -0.0003168567807351197,
+        "sigma_S2": 4.0159287799129477e-07,
+        "sigma_T2": 0.1081369821235279,
+        "unpaired_over_paired": 538541.3379881252
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": 0.0
+      }
+    }
+  }
+}

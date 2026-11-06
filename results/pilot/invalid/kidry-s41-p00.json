@@ -1,0 +1,69 @@
+{
+  "generated_utc": "2026-11-03T13:27:55+00:00",
+  "format_version": 2,
+  "name": "kidry-s41-p00",
+  "model": "deterministic",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl",
+  "instances": [
+    "psf__requests-1142",
+    "pallets__flask-5014"
+  ],
+  "spent_usd": 0.0,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.0,
+      "tokens_in_per_run": 0.0,
+      "tokens_out_per_run": 0.0,
+      "cached_share": null,
+      "api_calls_per_run": 1.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 2
+    },
+    "oracle-gold": {
+      "runs": 1,
+      "usd_per_run": 0.0,
+      "tokens_in_per_run": 0.0,
+      "tokens_out_per_run": 0.0,
+      "cached_share": null,
+      "api_calls_per_run": 1.0,
+      "solve_rate": 0.5,
+      "solved": 1,
+      "scored": 2
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "psf__requests-1142": null,
+      "pallets__flask-5014": "Submitted"
+    },
+    "oracle-gold": {
+      "psf__requests-1142": "Submitted",
+      "pallets__flask-5014": null
+    }
+  },
+  "skills": {
+    "oracle-gold": {
+      "pairs": [
+        {
+          "instance_id": "pallets__flask-5014",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "psf__requests-1142",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.3333333333333333,
+      "variance_components": null
+    }
+  }
+}

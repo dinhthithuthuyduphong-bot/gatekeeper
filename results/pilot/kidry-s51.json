@@ -1,0 +1,62 @@
+{
+  "name": "kidry-s51",
+  "merged_from": [
+    "kidry-s51-p00"
+  ],
+  "skills": {
+    "oracle-gold": {
+      "pairs": [
+        {
+          "instance_id": "pallets__flask-5014",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "psf__requests-1142",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.6666666666666666,
+      "n": 2,
+      "solve_rate_with": 1.0,
+      "solve_rate_without": 0.0
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 2,
+      "usd": 0.0,
+      "solved": 0,
+      "scored": 2,
+      "usd_per_run": 0.0
+    },
+    "oracle-gold": {
+      "runs": 2,
+      "usd": 0.0,
+      "solved": 2,
+      "scored": 2,
+      "usd_per_run": 0.0
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "none": {
+      "psf__requests-1142": "Submitted",
+      "pallets__flask-5014": "Submitted"
+    },
+    "oracle-gold": {
+      "psf__requests-1142": "Submitted",
+      "pallets__flask-5014": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.0,
+  "instances": [
+    "psf__requests-1142",
+    "pallets__flask-5014"
+  ],
+  "model": "deterministic",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
+}

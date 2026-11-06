@@ -1,0 +1,156 @@
+{
+  "generated_utc": "2026-11-02T21:20:44+00:00",
+  "name": "g1-c-p18",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "scikit-learn__scikit-learn-25747",
+    "scikit-learn__scikit-learn-25973",
+    "sphinx-doc__sphinx-7454",
+    "sphinx-doc__sphinx-7889"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.3802,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.03929983125,
+      "tokens_in_per_run": 498179.25,
+      "tokens_out_per_run": 4451.5,
+      "cached_share": 0.8200727950832958,
+      "api_calls_per_run": 40.75,
+      "solve_rate": 0.5,
+      "solved": 2,
+      "scored": 4
+    },
+    "null-guard": {
+      "runs": 1,
+      "usd_per_run": 0.09686215000000001,
+      "tokens_in_per_run": 1834588.0,
+      "tokens_out_per_run": 12863.0,
+      "cached_share": 0.9231969248681448,
+      "api_calls_per_run": 79.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    },
+    "type-guard": {
+      "runs": 3,
+      "usd_per_run": 0.025951208333333333,
+      "tokens_in_per_run": 323688.3333333333,
+      "tokens_out_per_run": 4095.0,
+      "cached_share": 0.8391250843146443,
+      "api_calls_per_run": 33.0,
+      "solve_rate": 0.6666666666666666,
+      "solved": 2,
+      "scored": 3
+    },
+    "exception-handling": {
+      "runs": 1,
+      "usd_per_run": 0.0157458,
+      "tokens_in_per_run": 132351.0,
+      "tokens_out_per_run": 2125.0,
+      "cached_share": 0.6893941111136297,
+      "api_calls_per_run": 17.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "validation-error": {
+      "runs": 1,
+      "usd_per_run": 0.03252605,
+      "tokens_in_per_run": 246179.0,
+      "tokens_out_per_run": 9852.0,
+      "cached_share": 0.7906929510640631,
+      "api_calls_per_run": 24.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "null-guard": {
+      "pairs": [
+        {
+          "instance_id": "sphinx-doc__sphinx-7454",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.6666666666666666,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 1,
+        "log_e": 0.0
+      }
+    },
+    "type-guard": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-25747",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "scikit-learn__scikit-learn-25973",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "sphinx-doc__sphinx-7889",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": {
+        "n": 3,
+        "n_tasks": 3,
+        "mean_Z": 0.0,
+        "sigma_S2": 0.0,
+        "sigma_T2": 0.14814814814814814,
+        "unpaired_over_paired": Infinity
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 3,
+        "log_e": 0.0
+      }
+    },
+    "exception-handling": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-25747",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 1,
+        "log_e": 0.0
+      }
+    },
+    "validation-error": {
+      "pairs": [
+        {
+          "instance_id": "scikit-learn__scikit-learn-25747",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null,
+      "eprocess": {
+        "admitted": false,
+        "n": 1,
+        "log_e": 0.0
+      }
+    }
+  }
+}

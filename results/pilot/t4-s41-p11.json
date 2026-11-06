@@ -1,0 +1,62 @@
+{
+  "generated_utc": "2026-11-05T08:13:32+00:00",
+  "format_version": 2,
+  "name": "t4-s41-p11",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/pd/rows.jsonl",
+  "instances": [
+    "geopandas__geopandas-3202"
+  ],
+  "spent_usd": 0.0839,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.042317724999999994,
+      "tokens_in_per_run": 330604.0,
+      "tokens_out_per_run": 7242.0,
+      "cached_share": 0.688252410739132,
+      "api_calls_per_run": 42.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "control-oracle-patch": {
+      "runs": 1,
+      "usd_per_run": 0.041544025,
+      "tokens_in_per_run": 511486.0,
+      "tokens_out_per_run": 10100.0,
+      "cached_share": 0.8817660698435539,
+      "api_calls_per_run": 38.0,
+      "solve_rate": 1.0,
+      "solved": 1,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "geopandas__geopandas-3202": "Submitted"
+    },
+    "control-oracle-patch": {
+      "geopandas__geopandas-3202": "Submitted"
+    }
+  },
+  "skills": {
+    "control-oracle-patch": {
+      "pairs": [
+        {
+          "instance_id": "geopandas__geopandas-3202",
+          "loss_with": 0.0,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": -0.6666666666666666,
+      "variance_components": null
+    }
+  },
+  "reused_none": null
+}

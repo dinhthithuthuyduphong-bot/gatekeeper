@@ -1,0 +1,80 @@
+{
+  "generated_utc": "2026-11-03T00:54:17+00:00",
+  "name": "g1-c-s31-p02",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/verified_pools.jsonl",
+  "instances": [
+    "django__django-13112",
+    "django__django-13513",
+    "django__django-13933",
+    "django__django-14170"
+  ],
+  "theta": 0.05,
+  "alpha": 0.05,
+  "spent_usd": 0.3869,
+  "usage": {
+    "none": {
+      "runs": 4,
+      "usd_per_run": 0.047140856249999995,
+      "tokens_in_per_run": 634749.75,
+      "tokens_out_per_run": 6258.25,
+      "cached_share": 0.8467655954177217,
+      "api_calls_per_run": 56.0,
+      "solve_rate": 0.25,
+      "solved": 1,
+      "scored": 4
+    },
+    "validation-error": {
+      "runs": 4,
+      "usd_per_run": 0.04958114374999999,
+      "tokens_in_per_run": 782534.0,
+      "tokens_out_per_run": 5330.5,
+      "cached_share": 0.8749246039149736,
+      "api_calls_per_run": 63.75,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 4
+    }
+  },
+  "infra_failures": {},
+  "skills": {
+    "validation-error": {
+      "pairs": [
+        {
+          "instance_id": "django__django-13112",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-13513",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-13933",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-14170",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.039473684210526314
+        }
+      ],
+      "mean_Z": 0.32346491228070173,
+      "variance_components": {
+        "n": 4,
+        "n_tasks": 4,
+        "mean_Z": 0.32346491228070173,
+        "sigma_S2": 0.13976576125987483,
+        "sigma_T2": 0.0,
+        "unpaired_over_paired": 1.0
+      },
+      "eprocess": {
+        "admitted": false,
+        "n": 4,
+        "log_e": 0.0
+      }
+    }
+  }
+}

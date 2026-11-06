@@ -1,0 +1,65 @@
+{
+  "name": "g5h-probe-s41",
+  "merged_from": [
+    "g5h-probe-s41-p00"
+  ],
+  "skills": {
+    "control-harm-submit-unchanged": {
+      "pairs": [
+        {
+          "instance_id": "astropy__astropy-13731",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        },
+        {
+          "instance_id": "django__django-10853",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        },
+        {
+          "instance_id": "django__django-11451",
+          "loss_with": 0.0,
+          "loss_without": 0.0
+        }
+      ],
+      "mean_Z": 0.0,
+      "n": 3,
+      "solve_rate_with": 0.6666666666666666,
+      "solve_rate_without": 0.6666666666666666
+    }
+  },
+  "usage": {
+    "none": {
+      "runs": 0,
+      "usd": 0.0,
+      "solved": 2,
+      "scored": 3,
+      "usd_per_run": null
+    },
+    "control-harm-submit-unchanged": {
+      "runs": 3,
+      "usd": 0.13050725000000002,
+      "solved": 2,
+      "scored": 3,
+      "usd_per_run": 0.043502416666666675
+    }
+  },
+  "infra_failures": {},
+  "exit_status": {
+    "control-harm-submit-unchanged": {
+      "astropy__astropy-13731": "Submitted",
+      "django__django-10853": "Submitted",
+      "django__django-11451": "Submitted"
+    }
+  },
+  "patch_apply_failed": {},
+  "harness_test_timeout": {},
+  "spent_usd": 0.1305,
+  "instances": [
+    "astropy__astropy-13731",
+    "django__django-10853",
+    "django__django-11451"
+  ],
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "/tmp/claude-0/-home-user-gatekeeper/cfb16e31-7b52-5c1a-8071-d03b24bd210f/scratchpad/e1_rows.jsonl"
+}
