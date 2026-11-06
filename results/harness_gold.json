@@ -1043,5 +1043,104 @@
    }
   ],
   "label": "ok"
+ },
+ "jlowin__fastmcp-1397": {
+  "dataset": "rows.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-jlowin__fastmcp-1397-20261106T093907-r0",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "tests/client/transports/test_uv_transport.py::test_uv_transport",
+     "tests/client/transports/test_uv_transport.py::test_uv_transport_module",
+     "tests/experimental/server/test_openapi_performance.py::TestOpenAPIPerformance::test_github_api_schema_performance"
+    ]
+   },
+   {
+    "run_id": "gold-jlowin__fastmcp-1397-20261106T094035-r1",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "tests/client/transports/test_uv_transport.py::test_uv_transport",
+     "tests/client/transports/test_uv_transport.py::test_uv_transport_module",
+     "tests/experimental/server/test_openapi_performance.py::TestOpenAPIPerformance::test_github_api_schema_performance"
+    ]
+   },
+   {
+    "run_id": "gold-jlowin__fastmcp-1397-20261106T094205-r2",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "tests/client/transports/test_uv_transport.py::test_uv_transport",
+     "tests/client/transports/test_uv_transport.py::test_uv_transport_module",
+     "tests/experimental/server/test_openapi_performance.py::TestOpenAPIPerformance::test_github_api_schema_performance"
+    ]
+   }
+  ],
+  "label": "broken"
+ },
+ "joke2k__faker-2155": {
+  "dataset": "live_rows.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-joke2k__faker-2155-20261106T094403-r0",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-joke2k__faker-2155-20261106T094503-r1",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   },
+   {
+    "run_id": "gold-joke2k__faker-2155-20261106T094600-r2",
+    "report": true,
+    "resolved": true,
+    "f2p_fail": [],
+    "p2p_fail": []
+   }
+  ],
+  "label": "ok"
+ },
+ "matplotlib__matplotlib-20488": {
+  "dataset": "e1_rows.jsonl",
+  "runs": [
+   {
+    "run_id": "gold-matplotlib__matplotlib-20488-20261106T094806-r0",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "lib/matplotlib/tests/test_image.py::test_https_imread_smoketest"
+    ]
+   },
+   {
+    "run_id": "gold-matplotlib__matplotlib-20488-20261106T094845-r1",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "lib/matplotlib/tests/test_image.py::test_https_imread_smoketest"
+    ]
+   },
+   {
+    "run_id": "gold-matplotlib__matplotlib-20488-20261106T094923-r2",
+    "report": true,
+    "resolved": false,
+    "f2p_fail": [],
+    "p2p_fail": [
+     "lib/matplotlib/tests/test_image.py::test_https_imread_smoketest"
+    ]
+   }
+  ],
+  "label": "broken"
  }
 }
