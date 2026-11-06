@@ -902,3 +902,16 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 - **Kiểm sau khi chạy:** 17/17 `Submitted`; 0 lỗi hạ tầng; `skill_files` > 0 ở mọi lần chạy nhánh skill (7 với `viper`, 2 với `asyncio`).
 - **Chi và token:** 4,059 USD trên trần 5 USD; 3.715.909 token vào (2.348.518 cache), 71.175 token ra.
 - **Giai đoạn bỏ dở trước D-M11** (không gộp): `viper` b1 nhánh không skill trên Flash, và `go-fx-di` b1 nhánh không skill trên Flash-Lite (0,030 USD). Chi phí ô Flash được báo cùng §23b.
+
+### Kết quả §23b sau D-M11 (06/11/2026; `results/sskb_s23b-flash-screen.json`)
+
+- **Dừng theo cổng chi phí đã đăng ký:** sau 4 ô, trung bình 0,392 USD/ô > 0,15. Sàng lọc chưa đủ (1/6 cặp mỗi skill cho 2/5 skill), nên **không chọn skill và không xác nhận**. `select_confirm` dừng đúng với thông báo "screen incomplete".
+- **Mô tả 2 cặp có được** (không kết luận):
+  - `go-fx-di` b1: 1,00 so với 1,00;
+  - `langsmith-fetch` b1: 1,00 so với 1,00.
+  - Nhánh không skill đã đạt trần ở cả hai.
+- **Kiểm sau khi chạy:** 4/4 `Submitted`, 0 lỗi hạ tầng.
+- **Chi và token:** 1,568 USD; 6.011.743 token vào (5.074.200 cache), 129.006 token ra.
+- **Bài học cho ước tính:** ước tính 0,075 USD/ô (token của §22 × giá) thấp hơn thật 3–10 lần. Với Flash, agent dùng nhiều lời gọi hơn và token suy luận chiếm phần lớn token ra.
+- **Giai đoạn bỏ dở trước D-M11:** `viper` b1 nhánh không skill trên Flash, 0,480 USD (`runs/sskb-s23a/`); `go-fx-di` b1 nhánh không skill trên Flash-Lite, 0,030 USD (`runs/sskb-s23b/`). Không gộp vào giai đoạn nào.
+- **Tổng §23:** 4,059 (23a Pro) + 1,568 (23b Flash) + 0,510 (bỏ dở) = **6,136 USD**.
