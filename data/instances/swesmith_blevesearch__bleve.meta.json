@@ -1,0 +1,14 @@
+{
+ "hf_id": "SWE-bench/SWE-smith",
+ "fingerprint": "7e75b7f644fe5b29",
+ "license": "mit",
+ "repo_pattern": "swesmith/blevesearch__bleve",
+ "n_rows": 350,
+ "splits": {
+  "train": 200,
+  "val": 50,
+  "test": 100
+ },
+ "seed": 42,
+ "reproduces": "gepa@8c7b697 gskill/train_optimize_anything.py::load_and_split_data"
+}
