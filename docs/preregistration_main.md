@@ -1302,3 +1302,19 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - `setup_task` → môi trường không lộ (`commits=1 refs=1 remotes=0`) → agent giả lập → `no_patch`, chi phí được ghi.
 - Bản gold tạo trong môi trường không lộ: S resolved, L qua.
 - Phần đặt biến theo repo của workflow được chạy thử cho cả jinja và bleve.
+
+### Ô memgovern: ghi chú thực thi M-1 (06/11/2026; @thuthuy: "Chọn cả bleve và Memgovern, ngân sách mới là 40 đô", "Xác nhận để trial chạy"; trước mọi lần chạy có phí của ô này)
+
+- **Thiết kế giữ nguyên như đã đăng ký** (§3, §4, §5, §11e):
+  - bản gốc (agent tự gọi `exp_search`/`exp_read`; F1–F6 và F4b đạt ở lần thử 7);
+  - 109 task E2, theo thứ tự seed 41 của E2;
+  - ghép với nhánh `none` seed 41 của E2 **nếu** §5 đạt;
+  - Gatekeeper với α_ô = 0,025/9 (K = 9), kiểm sau mỗi lô và dừng ngay khi admit;
+  - kiểm chi phí sau 10 trial đầu.
+- **Chỉ thay ngân sách:** trần của ô = 40 USD − (chi thật của track Bleve), thay cho 20 USD. Quy tắc kiểm chi phí: sau 10 trial, nếu chi phí trung bình × 109 vượt phần trần còn lại thì dừng ô.
+- **§5 viết lại** (`scripts/model_unchanged_check.py`), vì script của ngày 04/11 không còn trong lịch sử repo (repo được tạo lại ngày 06/11):
+  - gửi lại lời gọi đầu tiên của agent cho 109 task bằng `LitellmModel` của mini-swe-agent 2.4.6, với `model_name` và `model_kwargs` ghi trong trajectory E2, **hai lần**;
+  - so tên và đối số của tool call cùng nội dung, và trường `model` của phản hồi;
+  - quy tắc như draft §10: ghép chỉ khi **mọi** task đạt cả hai bước.
+  - Trajectory lấy từ `raw-archive` (`g2-e2-s41-*`, nhánh `none`). Chi phí ước khoảng 0,1 USD (218 lời gọi, khoảng 1.400 token vào mỗi lời gọi).
+- **Nếu §5 không đạt:** theo §5 phải chạy cả hai nhánh mới, ước khoảng 21 USD, có thể vượt phần trần còn lại. Khi đó báo @thuthuy trước khi chạy.

@@ -13,12 +13,19 @@ on:
         description: "chromadb version, or auto = last patch of every minor release, newest first"
         required: true
         default: "auto"
+      mode:
+        description: "trial = free feasibility trial (default); model-check = section 5 check (PAID, ~0.1 USD)"
+        required: true
+        default: "trial"
+        type: choice
+        options: ["trial", "model-check"]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   trial:
+    if: inputs.mode == 'trial'
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
@@ -169,3 +176,41 @@ jobs:
         with:
           name: memgovern-trial
           path: out/
+
+  model_check:
+    # docs/preregistration_main.md section 5 / draft section 10, before pairing memgovern with E2's
+    # none arm (seed 41). Resends the first agent call of the 109 E2 tasks twice. PAID (~0.1 USD).
+    if: inputs.mode == 'model-check'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      VERTEXAI_PROJECT: ${{ secrets.VERTEXAI_PROJECT }}
+      VERTEXAI_LOCATION: ${{ secrets.VERTEXAI_LOCATION }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Install (E2 versions) and preflight gate
+        run: |
+          pip install -q -e . "mini-swe-agent==2.4.6" "litellm==1.106.6" "google-auth==2.62.0"
+          python scripts/preflight.py --ci || exit 7
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - name: E2 seed-41 trajectories from raw-archive
+        run: |
+          git fetch -q origin raw-archive
+          mkdir -p /tmp/e2
+          for f in $(git ls-tree -r --name-only origin/raw-archive | grep -E '^archive/g2-e2-s41-k[0-9]+/.*\.tar\.gz$'); do
+            git show "origin/raw-archive:$f" | tar -xz -C /tmp/e2 --wildcards '*/none/agent/*.traj.json' 2>/dev/null || true
+          done
+          echo "trajectories: $(find /tmp/e2 -name '*.traj.json' | wc -l)"
+      - name: Model check (section 5)
+        run: |
+          python -c "import json; from gatekeeper.pilot import litellm_registry, load_model_specs; json.dump(litellm_registry(load_model_specs('configs/models/vertex_gemini.json')['gemini-flash-lite']), open('/tmp/reg.json','w'))"
+          python scripts/model_unchanged_check.py --runs-dir /tmp/e2/runs --registry /tmp/reg.json --out results/model_unchanged_check.json
+      - name: Publish
+        if: always()
+        run: |
+          [ -f results/model_unchanged_check.json ] && scripts/publish_snapshot.sh pilot-snapshots "Section 5 model check run ${GITHUB_RUN_ID}" results/model_unchanged_check.json || echo "no result"
