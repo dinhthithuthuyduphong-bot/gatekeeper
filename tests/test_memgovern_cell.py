@@ -73,3 +73,13 @@ def test_phase_names_are_separate_shards(tmp_path):
     _part(tmp_path, "mgdry-s41-f000-k0-p00", [_pair("o__r-1", False, False)])  # other prefix
     out = mc.analyse(order, mc.merged_runs(tmp_path, "mg-s41"), A, 0.0, 0.5, 20.0)
     assert out["n_run"] == 2 and out["b_helps"] == 1 and out["n_trials"] == 2
+
+
+def test_analysis_writes_nothing_outside(tmp_path):
+    import run_batched_pilot as rbp
+
+    before = set(rbp.RESULTS.glob("*")) if rbp.RESULTS.exists() else set()
+    _part(tmp_path, "mg-s41-f000-k0-p00", [_pair("o__r-1", True, False)])
+    mc.merged_runs(tmp_path, "mg-s41")
+    after = set(rbp.RESULTS.glob("*")) if rbp.RESULTS.exists() else set()
+    assert after == before  # A99

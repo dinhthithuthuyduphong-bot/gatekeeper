@@ -35,17 +35,31 @@ SKILL = "memgovern"
 
 
 def merged_runs(results_dir: Path, prefix: str) -> list[dict]:
-    """One merged result per shard (run_batched_pilot.merge: a later part replaces a re-run)."""
-    from run_batched_pilot import merge
+    """One merged result per shard (run_batched_pilot.merge: a later part replaces a re-run).
+
+    merge() also WRITES <RESULTS>/<name>.json; the analysis only reads, so RESULTS is pointed at a
+    temporary directory while merging (A99: a test had written fake merged files into results/)."""
+    import tempfile
+
+    import run_batched_pilot as rbp
 
     shards: dict[str, list[tuple[int, Path]]] = defaultdict(list)
-    # <prefix>-f<first task index of the dispatch>-k<shard>-p<part> (memgovern-trial.yml, cell modes)
+    # <prefix>-f<first task of the dispatch>-k<shard>-p<part> (memgovern-trial.yml, cell modes)
     pat = re.compile(rf"^({re.escape(prefix)}(?:-f\d+)?-k\d+)-p(\d+)\.json$")
     for f in results_dir.iterdir():
         m = pat.match(f.name)
         if m:
             shards[m.group(1)].append((int(m.group(2)), f))
-    return [merge(name, [f for _, f in sorted(parts)]) for name, parts in sorted(shards.items())]
+    saved = rbp.RESULTS
+    with tempfile.TemporaryDirectory() as tmp:
+        rbp.RESULTS = Path(tmp)
+        try:
+            return [
+                rbp.merge(name, [f for _, f in sorted(parts)])
+                for name, parts in sorted(shards.items())
+            ]
+        finally:
+            rbp.RESULTS = saved
 
 
 def analyse(
