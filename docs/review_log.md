@@ -481,3 +481,26 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - `loss_without` khớp E1;
   - văn bản skill có trong trajectory;
   - `infra_failures`, `endpoint_mismatch`, `patch_apply_failed` đều rỗng.
+
+## R-42. Adapter SWE-Skills-Bench và phép thử tín hiệu §22 (2026-11-06, trước khi chạy có phí)
+
+- **Đối chiếu với mã của họ** (commit `4d3450d`):
+  - repo clone vào `/workspace/<tên-repo>`, như `lifecycle._clone_repository`;
+  - bỏ "cd /workspace/<x> &&" ở đầu lệnh setup, như `lifecycle`;
+  - test ẩn chép vào `/workspace/tests/`, như `eval.py`;
+  - tỉ lệ pass = passed / (passed + failed + skipped + errors), lấy từ dòng tổng kết của pytest, có cách dự phòng như `_parse_pytest_output`; có test.
+- **Lỗi bắt được khi review và chạy thử, trước khi tốn tiền:**
+  1. Template SWE-bench của mini-swe-agent cấm sửa test, mà yêu cầu của họ bắt tạo file test. Đã sửa bằng 3 chỗ sửa có kiểm "đúng một lần".
+  2. Nộp bằng `git diff` thì mất file mới. Đã chuyển sang chấm ngay trong container.
+  3. `docker commit` giữ user root của container dựng. Đã giữ đúng `USER dev` của image gốc.
+  4. Ban đầu chỉ chèn `SKILL.md`. Đã cài cả thư mục skill như chế độ "one" của họ; ghi `skill_files`.
+  5. Model giả lập thiếu `model_name`. Đã thêm.
+- **Chạy thử miễn phí** (model giả lập, nộp ngay):
+
+  | Skill | Kết quả trên repo chưa sửa | Ghi chú |
+  | --- | --- | --- |
+  | `asyncio-patterns` | 1/15 test qua (batch 1), giống nhau ở hai nhánh | — |
+  | `viper-configuration` | 0/15 | `skill_files` = 7 ở nhánh skill |
+
+  - Nhánh không skill không chứa văn bản skill (đếm marker: 0).
+- **Proxy:** biến proxy truyền qua `docker exec` lúc dựng, nên không nằm trong image; CA được gắn chỉ đọc.

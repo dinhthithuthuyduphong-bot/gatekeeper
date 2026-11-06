@@ -729,3 +729,38 @@ Trong mô hình của D1, tính tỉ lệ dương tính giả và độ nhạy c
 
 - **Hiệu chỉnh nhiều phép kiểm:** với Holm trên 7 phép kiểm, p nhỏ nhất (0,045) không đạt mức 0,05/7, nên **không có skill nào bị kết luận gây hại**. Riêng `harm-swallow-exceptions`, skill được dựng để gây hại, có tín hiệu danh nghĩa.
 - **S3 (chiều giúp):** T = 10, p = 1,0·10⁻⁴, tức số nhỏ nhất có thể với 10.000 hoán vị.
+
+## 22. Phép thử tín hiệu cho kế hoạch tái hiện (đăng ký 06/11/2026, trước mọi lần chạy có phí; `docs/plan_replication.md`)
+
+**Mục đích:** kịch bản "cạnh tranh tốt" phụ thuộc trước hết vào việc tác dụng lớn đã công bố của hai skill SWE-Skills-Bench **có xuất hiện trên agent của mình không**. Phép thử nhỏ này quyết định có chạy đủ track C hay không (@thuthuy 06/11: "Kịch bản cạnh tranh tốt phụ thuộc điều gì thì thử cái đó trước để dự đoán, tích cực thì mới đi tốt").
+
+**Thiết kế:**
+- Skill `viper-configuration` (hugo, công bố +17,7 điểm) và `asyncio-patterns` (aiohttp, công bố −17,0 điểm); 10 yêu cầu (batch 1–10); seed 41; hai nhánh; tổng 40 lần chạy, xen kẽ (batch, skill, nhánh).
+- Agent: mini-swe-agent 2.4.6, model `gemini-flash-lite`, thiết lập như E1 (250 bước, cost-limit 1,0).
+- Adapter `scripts/sskb_adapter.py` chạy trong image của họ (commit `4d3450d`), chấm bằng test ẩn và đúng quy tắc tỉ lệ pass của họ (`_parse_pytest_output`).
+
+**Ba khác biệt có chủ đích so với SWE-Skills-Bench** (là một phần của scope, ghi trong paper):
+1. agent là mini-swe-agent, không phải Claude Code hay Codex;
+2. nhánh skill nhận nội dung `SKILL.md` trong prompt, **và** cả thư mục skill được cài ở `/home/dev/skills/<id>/`. Họ dùng lệnh `/skill-id`;
+3. template là template SWE-bench của mini-swe-agent với 3 chỗ sửa: bỏ "non-test files", bỏ "DO NOT MODIFY: Tests", nộp bằng lệnh kết thúc thay vì `patch.txt`. Lý do: yêu cầu của họ bắt tạo file test, và điểm được chấm ngay trong container.
+
+Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiết lập của họ.
+
+**Đại lượng:** với mỗi skill, D = trung bình trên 10 yêu cầu của (tỉ lệ pass có skill − tỉ lệ pass không skill). G = (D_viper − D_asyncio) / 2.
+
+**Quy tắc đi tiếp (chọn trước bằng mô phỏng trên 40 hiệu số công khai của họ, 20.000 lần):** **đi tiếp khi G ≥ 0,10.**
+
+| Quy tắc ứng viên | P(đi tiếp \| tác dụng như công bố) | P(đi tiếp \| không có tác dụng) |
+| --- | --- | --- |
+| Cả hai skill cùng chiều, \|D\| ≥ 0,085 | 0,663 | 0,049 |
+| Cả hai skill cùng chiều công bố | 0,929 | 0,251 |
+| G ≥ 0,085 | 0,894 | 0,153 |
+| **G ≥ 0,10 (chọn)** | **0,847** | **0,114** |
+
+- **Lý do chọn** (vận hành, R2): cân bằng hai loại sai giữa các ứng viên đã tính; quy tắc thứ nhất bỏ lỡ một phần ba trường hợp có tác dụng thật, quy tắc thứ hai cho đi tiếp sai một phần tư số lần.
+- **Nếu G < 0,10:** dừng track C và báo cáo, không chạy thêm seed để "cứu".
+- **Nếu G ≥ 0,10:** đăng ký §23 (thiết kế đủ: 6 seed cho 2 skill chính, 2 skill đối chứng) trước khi chạy.
+
+**Chi phí:** trần **5 USD** cho phép thử, nằm trong 60 USD @thuthuy chấp nhận ngày 06/11. Driver dừng khi "đã chi + 1,0 USD > trần". Nếu sau 4 lần chạy đầu, chi phí trung bình mỗi lần chạy > 0,16 USD (gấp 2 lần ước tính 0,08 từ E1) thì dừng và báo.
+
+**Kiểm sau khi chạy:** số lần chạy lỗi hạ tầng (`infra_error`); `skill_files` > 0 ở mọi lần chạy nhánh skill; `exit_status`.
