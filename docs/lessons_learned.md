@@ -373,6 +373,8 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   2. Kiểm trùng bằng mẫu `[x]yz`.
   3. Trước khi tạo lệnh chờ thay thế, tìm tiến trình cũ bằng ID tác vụ nền hoặc file output của nó, không chỉ bằng `ps | grep`.
   4. Driver dùng chung một file kết quả không được chạy song song trên cùng plan.
+  5. **Bổ sung (A92):** nối các bước trong một script thay vì dùng lệnh chờ. Sau mỗi lần dừng, kiểm lại bằng `/proc/<pid>/cmdline` rằng không còn tiến trình nào.
+  6. Xóa image phải xóa mọi tên (tag) của nó, nếu không đĩa không được giải phóng.
 
 ## L47. Mọi phân tích lại trên dữ liệu đã có phải tái lập đúng số đã đăng ký trước khi tính cái mới (A89)
 

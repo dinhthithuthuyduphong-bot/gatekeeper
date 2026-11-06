@@ -53,6 +53,13 @@ def targets() -> list[str]:
     return list(t4) + e1_tasks()
 
 
+def drop_image(name: str) -> None:
+    """Remove the image under BOTH names: prepull tags the mirror copy with its docker.io name, so
+    removing one name alone frees no layers and the disk fills up (A92)."""
+    mirror = "mirror.gcr.io/" + name.removeprefix("docker.io/")
+    subprocess.run(["docker", "rmi", "-f", name, mirror], capture_output=True)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--rows", nargs="+", type=Path, required=True)
@@ -106,7 +113,7 @@ def main() -> int:
         out[iid] = {"dataset": src[iid].name, "run_id": rid, **failures(read_report(rid, "", iid))}
         a.out.write_text(json.dumps(out, indent=1) + "\n")
         print(f"[noop] {iid}: resolved={out[iid].get('resolved')}", flush=True)
-        subprocess.run(["docker", "rmi", "-f", image_name(row)], capture_output=True)
+        drop_image(image_name(row))
     print("[noop] done", flush=True)
     return 0
 
