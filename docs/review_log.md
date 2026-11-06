@@ -634,3 +634,4 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - test 3 trường hợp (một lượt; lượt sau thắng, so theo số chứ không theo chữ; thiếu hoặc nằm ở hai lô);
   - chạy thử miễn phí trên archive thật cho 109/109 task;
   - preflight đạt.
+- **Bổ sung sau lần chạy 3 (cùng ngày):** kết quả 109 task: 107 cho câu trả lời giống nhau giữa hai lần gọi, 75 trùng E2, 109 trùng trường `model`; `pair_with_e2 = false`. Quy tắc đã đăng ký áp nguyên (R5): không ghép. Để đọc được *chỗ khác* thay vì suy đoán (L1), script lưu thêm `sig_e2` và `sig_new`, gồm chỉ lời gọi tool và nội dung, rồi chạy lại một lần (khoảng 0,10 USD). Lần chạy này không đổi phán quyết. Kiểm miễn phí trước đó: 34 task lệch rải trên 18/20 lô và không do cách lưu `content` (cả 109 task đều có `content` rỗng và 1 lời gọi tool).

@@ -111,6 +111,10 @@ def main() -> int:
                 "model_e2": old_model,
                 "model_new": new_models,
                 "model_same": all(m == old_model for m in new_models),
+                # the compared outputs themselves (tool calls and content only), so that a
+                # mismatch can be read rather than inferred (R-51)
+                "sig_e2": signature(old),
+                "sig_new": sigs,
             }
         )
         print(f"{len(rows)}/{len(tasks)} spent {spent:.4f}", flush=True)
