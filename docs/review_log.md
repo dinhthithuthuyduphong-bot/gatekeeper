@@ -546,3 +546,12 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Test `tests/test_harness_audit.py`: endpoint, quy tắc "trượt ở mọi lần chấm" và ngưỡng ≥ 3 lần, loss 2/3.
   - Quy tắc B không phụ thuộc nhánh.
 - **Không gọi LLM**; chỉ dùng CPU và tải image.
+
+## R-46. §28 bước 2: chấm lại bản vá của agent với mạng (2026-11-06, 0 USD)
+
+- **Mã:**
+  - `scripts/s28_manifest.py`: nối cặp đã đăng ký với báo cáo, rồi với bản vá đã chấm, dùng lại `harness_audit.link`.
+  - `scripts/s28_rescore.py`: chia shard theo instance; tải image một lần; xóa cả hai tên image (A92).
+  - `.github/workflows/s28.yml`: dựng từ `rescore.yml` (đã chạy thành công, run 42200960814).
+- **Kiểm:** 1.200/1.200 bản vá tìm được; chạy thử cục bộ đạt cho Verified và Live; YAML hợp lệ; preflight.
+- **Theo quy tắc §4:** quy tắc tập instance được dùng nguyên văn (R5); cách xử lý "không có báo cáo" đặt trước khi có dữ liệu.

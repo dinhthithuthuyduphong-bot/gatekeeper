@@ -1080,3 +1080,15 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
   - T4 được chấm cục bộ trên task SWE-bench-Live, nên **bị** ảnh hưởng.
   - E1 (Verified) chấm cục bộ: mọi instance Verified đã kiểm đều ổn ở cả hai môi trường.
 - **Việc kế tiếp (§28 bước 2):** chấm lại bản vá đã lưu của T4 (40 lần chạy) trên runner. Miễn phí, không gọi model.
+
+**Ghi chú thực thi 28-2** (06/11/2026, @thuthuy "đồng ý"; trước khi có kết quả chấm lại nào của bản vá agent):
+- **Tập instance theo đúng quy tắc đã đăng ký** (`results/s28_rescore_set.json`): E1 144/144, E2 6, T4 3.
+  - Quy tắc bắt **mọi** instance E1, vì bước `pip install` trong script chấm của SWE-bench in `CERTIFICATE_VERIFY_FAILED` / `Max retries exceeded` ở gần như mọi lần chấm cục bộ.
+  - Quy tắc rộng hơn cần thiết nhưng giữ nguyên (R5). Nó chỉ tốn thêm CPU, không làm sai kết quả.
+- **Danh sách bản vá** (`scripts/s28_manifest.py`, `results/s28_manifest.json.gz`): 1.200 bản vá (E1 1.164, E2 30, T4 6). Mỗi bản vá là đúng bản trong `preds_scored.json` của lần chạy đã sinh báo cáo được nối với cặp đã đăng ký. 0 bản vá bị thiếu. Cặp không có báo cáo (loss 2/3) không được chấm lại.
+- **Môi trường:** GitHub runner có mạng đầy đủ (như ghi chú 28-1), thay cho wrapper proxy. Lý do: §28 bước 1 cho thấy proxy cục bộ chặn host cần dùng, còn runner thì không (§26 trên runner: 33/35 ổn). 20 shard theo instance (`.github/workflows/s28.yml`).
+- **Chạy thử cục bộ (L48):** 1 bản vá Verified và 1 bản vá Live đều có báo cáo. Kết quả thử không dùng.
+- **Phân tích (đặt trước):**
+  - Thay báo cáo gốc bằng báo cáo mới cho từng bản vá đã chấm lại.
+  - Bản vá mà lần chấm mới **không có báo cáo** (quá giờ, lỗi hạ tầng) thì giữ báo cáo gốc, và đếm số trường hợp này.
+  - Tính lại tác dụng theo endpoint S như §26 cho E1, E2, T4; báo cáo số cũ và số mới cạnh nhau.
