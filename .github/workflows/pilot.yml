@@ -227,7 +227,7 @@ jobs:
             --model vertex_ai/gemini-3.1-flash-lite --reflection-model vertex_ai/gemini-3.1-pro-preview \
             --workers 6 --max-metric-calls $CALLS --timeout 18000 $EXTRA || rc=$?
           echo "exit $rc"
-          RUN=$(ls -d gepa_results/logs/run_jinja_* | head -1)
+          RUN=$(ls -d gepa_results/logs/run_jinja_* | sort | tail -1)  # newest: --resume writes a new run dir (A95)
           tar -czf $GITHUB_WORKSPACE/results/s25_learn_run.tar.gz gepa_results/logs/$(basename $RUN)
           cp $RUN/prompts/best_skills.txt $GITHUB_WORKSPACE/results/s25_best_skills.txt || true
           cp $RUN/summary.json $GITHUB_WORKSPACE/results/s25_learn_summary_h${{ inputs.half }}.json || true
@@ -284,7 +284,13 @@ jobs:
           find /tmp/art -maxdepth 4 -name 's25_*' | head -20
           mkdir -p results
           src=$(find /tmp/art -type d -name results | head -1)
-          cp "$src"/s25_* results/
+          cp "$src"/s25_learn_ledger_h* results/
+          RUN=$(find /tmp/art -type d -path '*gepa_results/logs/run_jinja_*' -prune | sort | tail -1)  # newest (A95)
+          echo "newest run dir: $RUN"
+          cp "$RUN/summary.json" "results/s25_learn_summary_h${{ inputs.half }}.json"
+          cp "$RUN/prompts/best_skills.txt" results/s25_best_skills.txt
+          (cd "$(dirname "$(dirname "$(dirname "$RUN")")")" && tar -czf "$GITHUB_WORKSPACE/results/s25_learn_run.tar.gz" "gepa_results/logs/$(basename "$RUN")")
+          python -c "import json; print(json.load(open('results/s25_learn_summary_h${{ inputs.half }}.json'))['extra_info'])"
           ls -la results/s25_*
           files=$(ls results/s25_learn_run.tar.gz results/s25_best_skills.txt results/s25_learn_ledger_h1.json results/s25_learn_ledger_h2.json results/s25_learn_summary_h1.json results/s25_learn_summary_h2.json 2>/dev/null || true)
           scripts/publish_snapshot.sh pilot-snapshots "Section 25 republish of run ${{ inputs.name }} (half ${{ inputs.half }})" $files
