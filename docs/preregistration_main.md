@@ -764,3 +764,19 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 **Chi phí:** trần **5 USD** cho phép thử, nằm trong 60 USD @thuthuy chấp nhận ngày 06/11. Driver dừng khi "đã chi + 1,0 USD > trần". Nếu sau 4 lần chạy đầu, chi phí trung bình mỗi lần chạy > 0,16 USD (gấp 2 lần ước tính 0,08 từ E1) thì dừng và báo.
 
 **Kiểm sau khi chạy:** số lần chạy lỗi hạ tầng (`infra_error`); `skill_files` > 0 ở mọi lần chạy nhánh skill; `exit_status`.
+
+### Kết quả §22 (06/11/2026; `results/sskb_probe.json`)
+
+- **G = 0,064 < 0,10, nên DỪNG track C theo quy tắc đăng ký.** Không chạy thêm seed để "cứu".
+
+| Skill | Hiệu số theo 10 batch (có skill − không skill) | D | Họ công bố | p đổi dấu chính xác, hai phía (mô tả) |
+| --- | --- | --- | --- | --- |
+| `viper-configuration` | 0; −0,53; +0,53; +0,07; +0,20; 0; +0,21; 0; −0,33; 0 | **+0,015** | +0,177 | 0,94 |
+| `asyncio-patterns` | +0,07; +0,14; −0,71; −0,62; −0,08; +0,08; 0; 0; 0; 0 | **−0,113** | −0,170 | 0,44 |
+
+- **Kiểm sau khi chạy:** 40/40 lần chạy `Submitted`; 0 lỗi hạ tầng; `skill_files` > 0 ở mọi lần chạy nhánh skill.
+- **Chi và token:** 1,045 USD trên trần 5 USD; 11.484.069 token vào, 172.559 token ra (40 trajectory).
+- **Diễn giải đúng** (mô tả, không phải xác nhận; mỗi skill chỉ có 10 cặp):
+  - Tác dụng có lợi lớn của `viper-configuration` **không xuất hiện** trên agent của mình (+0,015 so với +0,177).
+  - Tác dụng có hại của `asyncio-patterns` **cùng chiều** với công bố (−0,113 so với −0,170), nhưng dồn vào 2/10 batch và không có ý nghĩa thống kê (p = 0,44).
+- **Hệ quả cho kế hoạch:** kịch bản "cạnh tranh tốt" (chứng nhận skill thật) **không được ủng hộ** ở phép thử này; không chạy C2 và D2 theo thiết kế đã định.
