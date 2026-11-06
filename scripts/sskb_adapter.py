@@ -234,6 +234,9 @@ def model_config(model: str, seed: int, out: Path) -> dict:
 
     if seed == 0:
         raise ValueError("seed 0 is UNSET on Vertex (configs/models/vertex_gemini.json)")
+    missing = [v for v in json.loads(MODELS.read_text())["_env"] if not os.environ.get(v)]
+    if missing:  # A84: a run without credentials ends in APIConnectionError at cost 0
+        raise SystemExit(f"missing environment variables {missing}; no model call made")
     spec = load_model_specs(MODELS)[model]
     out.mkdir(parents=True, exist_ok=True)
     reg = out / f"litellm_registry_{model}.json"

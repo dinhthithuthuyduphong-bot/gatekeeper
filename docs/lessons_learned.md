@@ -358,3 +358,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   2. Mọi con số power phải ra từ một script đã commit, không tính nhẩm trong trao đổi.
   3. Power dưới 0,8 thì câu hỏi đó không được làm kết luận chính; chỉ báo cáo mô tả, kèm power đã nêu trước.
 
+## L42. Lần chạy có phí luôn khởi chạy bằng launcher tự đặt môi trường; mã gọi model phải tự dừng khi thiếu khóa (A84)
+
+- **Xảy ra:** tôi gọi driver trực tiếp từ shell của phiên, mà shell này không có biến Vertex. Lời gọi thất bại với chi phí ghi 0, nên trần và cổng chi phí không nhận ra gì.
+- **Phòng ngừa:**
+  1. Mọi lần chạy có phí, kể cả `--max-cells 1`, đều đi qua launcher trong scratchpad, vì launcher tự đặt biến.
+  2. Mã dựng cấu hình model kiểm `_env` của file cấu hình và dừng trước khi gọi model.
+

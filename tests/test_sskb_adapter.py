@@ -66,7 +66,19 @@ def test_probe_plan_is_balanced_and_interleaved():
     ]
 
 
-def test_model_config_flash_lite_equals_section22_setting(tmp_path):
+@pytest.fixture
+def vertex_env(monkeypatch):
+    for v in ("VERTEXAI_PROJECT", "VERTEXAI_LOCATION", "GOOGLE_APPLICATION_CREDENTIALS"):
+        monkeypatch.setenv(v, "x")
+
+
+def test_model_config_refuses_without_credentials(tmp_path, monkeypatch):
+    monkeypatch.delenv("VERTEXAI_PROJECT", raising=False)
+    with pytest.raises(SystemExit):
+        sa.model_config("gemini-flash", 41, tmp_path)
+
+
+def test_model_config_flash_lite_equals_section22_setting(tmp_path, vertex_env):
     import json
 
     c = sa.model_config("gemini-flash-lite", 41, tmp_path)
@@ -79,7 +91,7 @@ def test_model_config_flash_lite_equals_section22_setting(tmp_path):
             assert reg[k][f] == pytest.approx(x)
 
 
-def test_model_config_flash_keeps_registered_reasoning_effort(tmp_path):
+def test_model_config_flash_keeps_registered_reasoning_effort(tmp_path, vertex_env):
     import json
 
     c = sa.model_config("gemini-flash", 51, tmp_path)
