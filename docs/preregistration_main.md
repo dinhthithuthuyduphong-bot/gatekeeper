@@ -878,3 +878,9 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
   - **Quy tắc mới (vận hành):** bước xác nhận chỉ bắt đầu khi "đã chi + (số ô xác nhận × chi phí trung bình của bước sàng lọc) + 1,0 ≤ 7,0". Không đủ thì dừng, và sàng lọc chỉ được báo cáo mô tả.
   - **Power:** P(chứng nhận đúng chiều) = 0,057 / 0,106 / 0,172 ở τ = 3 / 5 / 7 điểm. Mô phỏng dùng nhiễu của Flash-Lite, vì nhiễu của Flash chưa đo.
   - Con số này thấp hơn bản Flash-Lite 5 USD (0,061–0,286), vì bước xác nhận chỉ có 1 seed. Đổi lại, bản này đo trên model mạnh hơn.
+
+**Ghi chú thực thi 23-1 (06/11/2026, trước khi xem tỉ lệ pass nào của `s23a-pro`):**
+- @thuthuy: "Tăng 2 đô cho phương án 1 nếu cần". Trần của `s23a-pro` nâng từ 3 lên **5 USD**.
+- Driver đang chạy dừng ở trần 3 USD; sau đó chạy tiếp cùng plan với trần 5 USD (driver bỏ qua các ô đã có).
+- Chi phí đo được ở 2 ô đầu: 0,147 và 0,127 USD. Với trần 5 USD, dự kiến khoảng 29 lần chạy, tức k khoảng 7. Ở k = 7: P(có tín hiệu | như công bố) = 0,799, P(có tín hiệu | không tác dụng) = 0,155 (`results/section23_design.json`, `a_flash_probe`; cùng phép rút).
+- Quy tắc G ≥ 0,10 không đổi.
