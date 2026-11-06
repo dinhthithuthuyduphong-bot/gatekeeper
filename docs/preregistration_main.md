@@ -1005,3 +1005,32 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
   - **ngược chiều** và |Δ| ≥ 6: **0,187** [0,116; 0,255].
 - **Sửa một con số tôi nói trong trao đổi:** "khoảng 22% chuyển giao" là sai mẫu số. Con số 14,9 là phương sai của trung bình 4 cấu hình, không phải phương sai trong từng cấu hình. Số đúng là 0,067.
 - **Diễn giải (theo giới hạn đã ghi):** trên dữ liệu công khai của SSKB, nhãn và cỡ tác dụng của một skill gần như không lặp lại khi đổi agent hay model. Dữ liệu một lần chạy không tách được phần do scope và phần do nhiễu.
+
+## 28. Chấm lại với mạng qua proxy cho các task có test cần mạng (đăng ký 06/11/2026, trước khi chấm lại bản vá nào của agent; 0 USD)
+
+**Phát hiện dẫn tới mục này** (§26, 8 instance SWE-bench-Live đã chấm lại bản vá gốc):
+- 7 instance "hỏng". Ở 6 trong 7, log test có dấu hiệu mạng: `Name or service not known`, `gaierror`, `URLError`, `CERTIFICATE_VERIFY_FAILED`, `Max retries exceeded`. Ví dụ: `pip install` tới pypi.org bị lỗi chứng chỉ; không phân giải được `dl.google.com`.
+- Container chấm của harness **không có mạng ra ngoài và không tin CA của proxy** trong môi trường này.
+- Môi trường chấm chính thức có mạng, nên kết quả cũ chấm test cần mạng là trượt ở **cả hai nhánh**. Đây là lỗi của môi trường của mình, không phải của agent.
+
+**Thay đổi:**
+- Mỗi container chấm được tạo với `network_mode=host`.
+- Biến proxy của phiên được truyền vào (`HTTPS_PROXY`, `HTTP_PROXY`, `NO_PROXY` và dạng chữ thường).
+- CA của phiên (`/root/.ccr/ca-bundle.crt`) được gắn chỉ đọc. `REQUESTS_CA_BUNDLE`, `SSL_CERT_FILE`, `PIP_CERT`, `CURL_CA_BUNDLE` trỏ tới CA đó.
+- Cách làm giống adapter SSKB (§22). Mọi thứ khác của harness giữ nguyên.
+- **Thực hiện:** `scripts/harness_net.py` vá `docker.models.containers.ContainerCollection.create` rồi chạy `swebench.harness.run_evaluation` không đổi gì khác.
+
+**Bước 1, kiểm cách sửa:**
+- Chấm lại bản vá gốc 1 lần với mạng cho các instance §26 gắn nhãn "hỏng" có dấu hiệu mạng.
+- **Đạt** nếu ≥ 1 instance chuyển sang resolved và **không** instance nào khác trước bị đổi kết quả. Không đạt thì dừng §28 và ghi A#.
+- **Kiểm âm (§27a dùng lại):** bản vá rỗng vẫn phải không resolved khi có mạng, chấm trên 5 task đầu của danh sách §27a.
+
+**Bước 2, chấm lại bản vá của agent:**
+- **Tập instance (quy tắc cố định):** mọi instance của E1, E2, T4 mà ở ít nhất một lần chấm gốc (mọi nhánh, mọi seed), `test_output.txt` có một trong các dấu hiệu mạng ở trên.
+- Với mỗi instance trong tập, chấm lại **mọi** bản vá đã lưu của agent: cả hai nhánh, mọi seed, đúng file `preds_scored.json` đã chấm lần đầu. Mỗi bản vá chấm 1 lần.
+- **Không** gọi model, **không** chạy lại agent.
+
+**Phân tích:**
+- Thay báo cáo cũ bằng báo cáo mới cho các instance trong tập, rồi tính lại tác dụng (endpoint S, như §26) cho E1, E2, T4.
+- Báo cáo **cả** số cũ (đã đăng ký, phán quyết giữ nguyên theo R5) lẫn số mới.
+- **Diễn giải đặt trước:** nếu số mới khác số cũ về chiều hoặc ý nghĩa thống kê thì đưa lên phần kết quả chính, kèm cả hai số. Nếu không khác thì ghi ở threats to validity.
