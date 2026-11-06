@@ -374,3 +374,8 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   3. Trước khi tạo lệnh chờ thay thế, tìm tiến trình cũ bằng ID tác vụ nền hoặc file output của nó, không chỉ bằng `ps | grep`.
   4. Driver dùng chung một file kết quả không được chạy song song trên cùng plan.
 
+## L47. Mọi phân tích lại trên dữ liệu đã có phải tái lập đúng số đã đăng ký trước khi tính cái mới (A89)
+
+- **Xảy ra:** script phân tích lại có một giả định sai về giá trị loss của cặp không có báo cáo. Chỉ phép kiểm "endpoint cũ phải ra đúng số cũ" mới bắt được lỗi này.
+- **Phòng ngừa:** mỗi phân tích lại có một bước tái lập bắt buộc: số cũ, cỡ mẫu cũ, số cặp nối được. Chỉ đọc số mới khi bước này khớp tuyệt đối.
+
