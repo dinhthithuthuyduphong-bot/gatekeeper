@@ -90,9 +90,18 @@ def main() -> int:
         if ov:
             # every override must be read off the saved original: each author name and the title
             # must occur verbatim in the snapshot's text, or the script stops
-            text = " ".join(json.dumps(snap).split())
+            # only the source's own text: the snapshot's `claim` is our wording (A108)
+            text = " ".join(
+                (
+                    snap.get("head", "")
+                    + " "
+                    + json.dumps(snap.get("excerpts", {}), ensure_ascii=False)
+                ).split()
+            )
             names = [n.strip("{} ") for n in ov.get("author", "").split(" and ") if n.strip()]
-            missing = [n for n in names + [ov.get("title", "")] if n and n not in text]
+            # `verify`: verbatim strings of the source when its spelling differs from BibTeX form
+            need = ov.get("verify") or (names + [ov.get("title", "")])
+            missing = [n for n in need if n and n not in text]
             if missing:
                 raise SystemExit(f"{k}: override not found in the saved original: {missing}")
             authors = ov.get("author") or authors
