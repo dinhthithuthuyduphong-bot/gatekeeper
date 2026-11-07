@@ -77,3 +77,37 @@ jobs:
                   acts = sorted((m.get("supportedActions") or {}).keys())
                   print(f"  {m.get('name')} | version {m.get('versionId')} | {m.get('launchStage')} | {m.get('openSourceCategory')} | actions {acts}")
           EOF
+      - name: Second-model probe, Claude Haiku 5.5 (item 2.3; a few calls, < 0.01 USD)
+        if: env.HAS_KEY == 'true'
+        run: |
+          python - <<'EOF'
+          # Checks the conditions registered for the second model (docs/model_switch_checklist.md B4,
+          # B5; cache for the cost estimate): reachable, tool calls (parallel), seed, prompt caching.
+          # Prints outcomes and token counts only.
+          import json, os
+          import litellm
+          M = "vertex_ai/claude-haiku-5-5"
+          kw = dict(vertex_project=os.environ.get("VERTEXAI_PROJECT"), vertex_location="global")
+          def run(name, **a):
+              try:
+                  r = litellm.completion(model=M, **kw, **a)
+                  u = r.usage
+                  extra = {k: getattr(u, k, None) for k in ("cache_creation_input_tokens", "cache_read_input_tokens")}
+                  return r, f"{name}: OK | in {u.prompt_tokens} out {u.completion_tokens} {extra}"
+              except Exception as e:  # noqa: BLE001
+                  return None, f"{name}: ERROR {type(e).__name__}: {str(e)[:300]}"
+          r, s = run("1 reachable", messages=[{"role": "user", "content": "Reply with the single word OK."}], max_tokens=5); print(s)
+          tool = {"type": "function", "function": {"name": "bash", "description": "Run a bash command",
+                  "parameters": {"type": "object", "properties": {"command": {"type": "string"}}, "required": ["command"]}}}
+          r, s = run("2 tools", messages=[{"role": "user", "content": "Use the bash tool twice in parallel: run `ls` and run `pwd`. Call both tools in this one response."}],
+                     tools=[tool], parallel_tool_calls=True, max_tokens=200); print(s)
+          if r is not None:
+              calls = r.choices[0].message.tool_calls or []
+              print("  tool calls in one response:", len(calls), [json.loads(c.function.arguments) for c in calls])
+          r, s = run("3 seed (no drop_params)", messages=[{"role": "user", "content": "Say hi."}], max_tokens=5, seed=41); print(s)
+          long = "Reference text for caching. " + " ".join(f"item-{i} alpha beta gamma delta" for i in range(900))
+          msgs = [{"role": "system", "content": [{"type": "text", "text": long, "cache_control": {"type": "ephemeral"}}]},
+                  {"role": "user", "content": "Reply OK."}]
+          r, s = run("4a cache write", messages=msgs, max_tokens=5); print(s)
+          r, s = run("4b cache read", messages=msgs, max_tokens=5); print(s)
+          EOF
