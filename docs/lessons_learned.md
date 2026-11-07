@@ -396,3 +396,11 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   1. Mỗi câu mô tả thiết lập (dataset, n, seed, ngân sách) trong paper phải dẫn được tới một file: `configs/pools/*.json` hoặc bản đăng ký trước, kể cả các ghi chú thực thi.
   2. Ưu tiên macro sinh từ file (như `paper/numbers.tex`) cho mọi con số thiết lập.
   3. Comment trong mã không được gọi tên dataset chung chung khi nhiều thí nghiệm dùng các dataset khác nhau.
+
+## L50. Sau mỗi push phải đọc kết luận CI; test không được phụ thuộc vào `runs/` hay `logs/` (A112)
+
+- **Xảy ra:** một test đọc file trong `runs/`. Ở máy làm việc file có sẵn nên preflight qua; trên runner file không có nên CI đỏ suốt 28 giờ. Tôi chỉ chạy preflight cục bộ mà không đọc kết luận CI.
+- **Phòng ngừa:**
+  1. Sau mỗi push lên `main`, đọc kết luận của workflow CI. CI đỏ thì sửa trước mọi việc khác.
+  2. Test cần dữ liệu thật thì dùng bản cố định nhỏ trong `tests/fixtures/`, kèm phép kiểm "bản cố định trùng bản gốc" khi có bản gốc; hoặc dùng `skipif` có lý do rõ khi dữ liệu không thể cố định.
+  3. Trước khi commit một test mới, chạy nó một lần khi đã tạm cất `runs/`.

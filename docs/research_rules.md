@@ -144,6 +144,7 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 - [ ] Mỗi câu về dataset, n, seed, ngân sách trong paper dẫn được tới `configs/pools/*.json` hoặc bản đăng ký trước (kể cả ghi chú thực thi); con số thiết lập là macro sinh từ file khi có thể.
 
 **Kiểm thử**
+- [ ] Test không đọc `runs/` hay `logs/` (dữ liệu cục bộ, không có trên CI); dùng `tests/fixtures/` (L50). Sau push, đọc kết luận CI.
 - [ ] Mô phỏng hoặc phép toán mảng: assert kích thước kết quả, vì broadcasting âm thầm làm rộng mẫu (R-6).
 - [ ] Có test cho từng chỗ sửa; `ruff check`, `ruff format --check` và `pytest` đều qua.
 - [ ] Chạy thử miễn phí (mô hình giả lập, không gọi LLM) trên ít nhất một task thật của bộ dữ liệu mới trước khi chạy có chi phí.
