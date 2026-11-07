@@ -8,7 +8,7 @@
   }
  ],
  "url": "https://github.com/microsoft/debug-gym/issues/397",
- "sha256": "f8fce53c06a146a3781841bae769e9b70094193ed5533251e062ef4953434036",
+ "sha256": "3e4de9eb69cb69bcd2d034e9ebbf03c263770816e3d17392fde06344255c7537",
  "n_chars": 11047,
  "head": " SWE-smith tasks expose the pre-bug code through git history (`git checkout HEAD~1 -- .`) · Issue #397 · microsoft/debug-gym · GitHub Skip to content Navigation Menu Sign in Products Platform GitHub Repository hosting, code review, and collaboration Copilot AI coding agent for tasks, projects, and automated work Build & Ship Actions CI/CD and automation Code Quality Quality analysis, fixes, and enforcement Codespaces Cloud development environments Secure Code Security Vulnerability detection and remediation Secret Protection Secret scanning a",
  "excerpts": {
@@ -22,5 +22,5 @@
    "it apply --reverse . swe_smith.py#L149-L155 : eval() restores the test files from the index, then runs the tests in the same container. git checkout HEAD~1 -- . updates the index too, so that reset does not undo it, and calculate_score grades the same code the gold patch would produce. test_swe_smith.py#L103-L110 asserts that git show HEAD equals the bug patch. In the container, git log --oneline shows: a53785d Applying bug patch for john-kurkowski__tldextract.3d1bf184.combine_file__1vnuqpt4 50ed423 Initial commit The image's .git also keeps the commit objects of the SWE-smith task branches ( Bug Patch / Remove F2P Tests ) after git remote remove origin . That is 202 commit objects in the tldextract image and 1,882 in the oauthlib image, with 2 reachable. So amending the commit or deleting refs would not be enough on its own. Reproduction The tasks are built through debug_gym.experiment.create_env with the shipped configs/swesmith.yaml (Docker terminal; bash, view, edit, submit). They are driven by scripted tool calls through env.step . Results on 3f72ecc , Docker 29.1.3: Task no-op, then submit env.apply_gold_patch() , then submit bash git checkout HEAD~1 -- . , then submit john-kurkowski_"
   ]
  },
- "fetched_utc": "2026-11-07T10:49:36+00:00"
+ "fetched_utc": "2026-11-07T13:45:10+00:00"
 }

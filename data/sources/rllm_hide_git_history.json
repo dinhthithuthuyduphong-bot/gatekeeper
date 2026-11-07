@@ -8,7 +8,7 @@
   }
  ],
  "url": "https://github.com/gumgizoa/rllm/pull/6",
- "sha256": "553c109a8b3ec62b4d76c289fc5d83f39a1ce5b8e7147b0e0aa466c57e8585ab",
+ "sha256": "afc2988a15a9ea3166dd271c5d96d6754ae7e1f8e25a93c718d80ec82ad51584",
  "n_chars": 22397,
  "head": " feat: --hide-git-history keeps the repo history from the agent in eval and training by gumgizoa · Pull Request #6 · gumgizoa/rllm · GitHub Skip to content Navigation Menu Sign in Products Platform GitHub Repository host",
  "excerpts": {
@@ -24,5 +24,5 @@
    "create_*_sandbox gained mounts ( 1265ce5 ); the test doubles did not accept them, failing 21 tests. The sandboxed-flow test still expected the old max_concurrent of 4 ( rllm-org#661 ). Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com> style: drop an unused import and match the pinned ruff format … 8079eed Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com> feat(eval): --hide-git-history keeps the repo history from the agent … b251c80 SWE task images ship commits past the base commit. SWE-rebench, SWE-Gym and R2E-Gym keep the upstream fix on a branch or tag; SWE-smith's HEAD is the bug-injection commit, so `git show HEAD` prints the answer. In 7,200 openhands-sdk rollouts on SWE-rebench, 16% ran commands such as `git log --all --grep=<issue>` against that history. With the flag (or RLLM_HIDE_GIT_HISTORY=1), SandboxTaskHooks streams <workdir>/.git to a host file after setup, leaves a one-commit repository of the current tree for the agent, and restores the original before the verifier. Verifiers depend on that history (git checkout <base_commit> -- tests, git checkout HEAD~1 -- <tests>), so it is moved, not deleted. The host copy is removed on teardown. Onl"
   ]
  },
- "fetched_utc": "2026-11-07T10:49:38+00:00"
+ "fetched_utc": "2026-11-07T13:45:12+00:00"
 }

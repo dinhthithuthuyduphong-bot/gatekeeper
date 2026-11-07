@@ -73,5 +73,5 @@
    "al language queries. Therefore, we choose to use BM25 retrieval (Robertson et al., 2009) to retrieve relevant files to provide as context for each task instance. We experiment with three different maximum context limits, and simply retrieve as many files as fits within the specified limit. We evaluate each model on all limits that fit within its context window and report the best performance. From observation, models perform best on the shortest context window, as shown in Table 2. “Oracle” retrieval. For analysis purposes we also consider a setting where we “retrieve” the files edited by the reference patch that solved the issue on GitHub. This “oracle” setting is less realistic, since an engineer working on addressing an issue may not know a priori which files need to be modified. In addition, this setting is also not necessarily comprehensive since edited files alone may not include all the required context to understand exactly how software will behave when interacting with unseen parts of the code. We compare the BM25 retrieval results with those of the “oracle” retrieval setting, as shown in Table 3. We observe that in approximately 40% of instances, BM25 retrieves a superset of the oracle "
   ]
  },
- "fetched_utc": "2026-11-07T10:46:40+00:00"
+ "fetched_utc": "2026-11-07T13:41:45+00:00"
 }

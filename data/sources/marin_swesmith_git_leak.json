@@ -8,7 +8,7 @@
   }
  ],
  "url": "https://github.com/marin-community/marin/issues/10212",
- "sha256": "82d12fcbe591778e78c19134b51c7c4d9ad6d992127ee1c5e85c660674a3830d",
+ "sha256": "5d6034bf2272318033270d08a0f8e5dc0ceb221797cceef183697f97bd6f66a3",
  "n_chars": 37532,
  "head": " SWE-smith Harbor packages expose the fix through git history in the agent container · Issue #10212 · marin-community/marin · GitHub Skip to content Navigation Menu Sign in Products Platform GitHub Repository hosting, code review, and collaboration Copilot AI coding agent for tasks, projects, and automated work Build & Ship Actions CI/CD and automation Code Quality Quality analysis, fixes, and enforcement Codespaces Cloud development environments Secure Code Security Vulnerability detection and remediation Secret Protection Secret scanning an",
  "excerpts": {
@@ -25,5 +25,5 @@
    "refresh your session. Dismiss alert {{ message }} marin-community marin Repository navigation Code Issues 463 ( 463 ) Pull requests 301 ( 301 ) Discussions Actions Projects Security and quality Insights More items SWE-smith Harbor packages expose the fix through git history in the agent container #10212 New issue Copy link New issue Copy link Open Open SWE-smith Harbor packages expose the fix through git history in the agent container #10212 Copy link Labels agent-generated Automated failure tracking Automated failure tracking Description karansag opened on Oct 16, 2026 Issue body actions The SWE-smith Harbor task packages in DCAgent/swesmith-sandboxes-with_tests-oracle_verified_120s (and the same layout in mlfoundations-dev/swesmith-sandboxes-with_tests ) leave the repository's full git history in the agent's container. The image built from environment/Dockerfile keeps a local main branch with the unbroken code and about 944 other branches, so the agent can print the fix with git diff HEAD main -- <package> or git show main:<file> . /tests and /solution are correctly absent from the image. Reproduce: build swesmith-00003 's environment/Dockerfile from the package, run it with no network, t"
   ]
  },
- "fetched_utc": "2026-11-07T10:49:36+00:00"
+ "fetched_utc": "2026-11-07T13:45:09+00:00"
 }
