@@ -28,5 +28,5 @@
    "ts produce higher-quality outputs than unaugmented baselines on a representative task set. Whetherskillsimproveagentoutcomesinpracticeisanempiricalquestionthatthisroadmap is designed to answer. 7 Limitations We state the main limitations of this work explicitly so that the released artifacts are not over-interpreted. Scope of the downstream evaluation.The controlled A/B (§4) establisheswhenskills help: a precisely targeted skill is decisive on tasks whose knowledge the solver lacks, while keyword-retrieved injection over already-solvable tasks is statistically indistinguishable from injecting irrelevant text. The evaluation uses single-shot LLM solvers on a pool that skews toward algorithmic problems where strong models are near ceiling; extending it to a broad, 29 human-validated, multi-turn agentic benchmark on domains with scarce operational knowledge is a natural next step (§6.5). Quality rests on an internal signal.Every quality figure in this paper derives from a single-LLM scorer, and roughly 82% of scored skills receive the same score of 4 (§2.6). We therefore treat the 3.91 average as an internal QA signal, not external validation, and report no human evaluation, no inter-annotator "
   ]
  },
- "fetched_utc": "2026-11-07T07:31:34+00:00"
+ "fetched_utc": "2026-11-07T07:36:04+00:00"
 }
