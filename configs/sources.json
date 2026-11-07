@@ -1869,6 +1869,45 @@
     "git history",
     "reference solution"
    ]
+  },
+  {
+   "id": "gskill_seed_candidate",
+   "claim": "gskill training: seed candidate (initial skills text) given to GEPA; pinned 8c7b697",
+   "urls": [
+    "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/gskill/gskill/train_optimize_anything.py"
+   ],
+   "keywords": [
+    "seed_candidate",
+    "seed",
+    "initial",
+    "skills\": ",
+    "git"
+   ]
+  },
+  {
+   "id": "gskill_mini_yaml",
+   "claim": "gskill agent config mini.yaml with the {{ skills }} placeholder: does it mention git history? pinned 8c7b697",
+   "urls": [
+    "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml"
+   ],
+   "keywords": [
+    "skills",
+    "git",
+    "instance_template",
+    "system_template"
+   ]
+  },
+  {
+   "id": "gskill_original_mini_yaml",
+   "claim": "gskill original mini-swe-agent config (no skills placeholder); pinned 8c7b697",
+   "urls": [
+    "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/gskill/gskill/mini_swe_agent_config/original_mini.yaml"
+   ],
+   "keywords": [
+    "git",
+    "instance_template",
+    "system_template"
+   ]
   }
  ]
 }
