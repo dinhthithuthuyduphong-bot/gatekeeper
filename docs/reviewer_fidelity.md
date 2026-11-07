@@ -58,6 +58,20 @@ Không.
 - Cùng mã, cùng quy trình, cùng các trần như jinja (§25 bước 4).
 - Bleve là Go. Các bộ chấm vẫn là của gskill và SWE-smith; F0 trên Bleve: 30/30 qua bộ chấm L, 0/30 qua bộ chấm S.
 
+### A7. "Skill Bleve ghi 'lệnh `go` không có'. Có phải môi trường của các tác giả làm agent thiếu công cụ không?"
+Không. Đây là đặc điểm của chính image SWE-smith khi chạy qua cách gọi lệnh của mini-swe-agent. Đã kiểm thật ngày 07/11/2026 trên image gốc `swebench/swesmith.x86_64.blevesearch_1776_bleve.f2876b5e`, **chưa có thay đổi nào của mình**:
+- image khai báo `PATH=/go/bin:/usr/local/go/bin:…` (Go 1.24.5);
+- `docker exec … bash -lc 'which go'` cho **không thấy `go`**, vì login shell đặt lại `PATH` thành `/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin`;
+- `docker exec … sh -c 'which go'` cho `/usr/local/go/bin/go`;
+- mini-swe-agent 1.17.5 gọi mọi lệnh bằng `bash -lc` (viết cứng trong `environments/docker.py`). Bản ghim này có lý do riêng: README của gskill không ghim phiên bản, và mã của gskill dùng trường cấu hình v1 (`docs/preregistration_main.md` §25);
+- image mình dựng thêm (`FROM` image gốc, rồi chép mirror và `git fetch`) không đổi `PATH` hay biến môi trường nào.
+
+Hệ quả:
+- cả hai nhánh, cũng như lúc gskill tự học, đều không chạy được `go test`;
+- skill học được đã tự ghi lại điều này. Việc chấm điểm vẫn chạy test Go trong container chấm riêng của SWE-smith và gskill.
+
+**Viết trong paper:** "In the SWE-smith Go image, the agent's login shell (`bash -lc`, as mini-swe-agent runs commands) does not have `go` on PATH; this holds for both arms and for gskill's own training, and the learned Bleve skill records it."
+
 ## B. MemGovern
 
 ### B1. "Ô MemGovern có phải là MemGovern thật không?"
