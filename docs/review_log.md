@@ -670,3 +670,16 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - không dùng lại nhánh `none` của lô 1, có lý do;
   - trần có lý do;
   - chạy thử miễn phí bản 2 trước khi chạy có phí.
+
+## R-54. Rà soát độ trung thành với mã gốc (07/11/2026, câu hỏi của @thuthuy: "tự implement lại hay xài nguồn public?")
+Đối chiếu từng dòng với gepa@8c7b697 (bản clone tạm, không commit) và MemGovern@a845658.
+
+| Thành phần | Nguồn | Kết luận |
+| --- | --- | --- |
+| Học skill (GEPA, reflection, chọn ứng viên) | `train_optimize_anything.main()` của gskill, gọi nguyên bản; mình chỉ bọc đồng hồ tiền (`gskill_learn.py`) | mã gốc |
+| Chạy agent | `SWEHarness.setup_task` / `run_agent` của gskill, `mini.yaml` của gskill; chỉ đổi `cost_limit` (3,0 → 0,30) và `model_kwargs` (seed 41) | mã gốc. Trần 0,30 chưa từng chặn lượt nào: lượt đắt nhất 0,127 USD trên 500 lượt (F1, chấm, hai nhánh không rò rỉ, Bleve 4a). Giới hạn 50 bước do `swe_harness.py:177` của gskill đặt |
+| Bộ chấm L | `verify_with_patch` của gskill; luồng điều khiển chép từ `evaluate/mini_swe_agent.py::evaluate_single_task` (no_patch → F2P → cả bộ test) | viết lại luồng 10 dòng, **khớp từng nhánh** (đã so dòng 92–115) |
+| Bộ chấm S | `run_evaluation` của SWE-smith | mã gốc |
+| Chia train/val/test | `export_swesmith.py::gskill_split` chép lại số học của `load_and_split_data` (`train_optimize_anything.py:381–434`) | viết lại, **khớp từng bước** (lọc `swesmith/<repo>`, dừng khi đủ, seed, shuffle, thu nhỏ theo tỉ lệ, cắt lát) |
+| Nhánh không rò rỉ (§25 bước 3) | can thiệp của mình (một commit mồ côi) | không thuộc gskill; ghi rõ là ngoài phạm vi |
+| MemGovern | thẻ, chỉ mục, model embedding, server, `exp_search`/`exp_read` và đoạn hướng dẫn: của MemGovern | **harness không phải của họ**: chạy trên mini-swe-agent thay vì SWE-agent; bản 1 đặt hướng dẫn sai chỗ (A102). Kết quả 0/20 chỉ nói về harness này, không được viết là "MemGovern không hiệu quả" |
