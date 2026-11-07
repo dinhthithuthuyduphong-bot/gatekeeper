@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-11-07T10:50:07+00:00",
+  "generated_utc": "2026-11-07T14:31:19+00:00",
   "arxiv_status": "ok",
   "arxiv": [
     {
@@ -668,6 +668,60 @@
       "updated": "2026-06-14"
     },
     {
+      "key": "anytime_referee_2026",
+      "arxiv_id": "2609.27051v1",
+      "draft_title": null,
+      "draft_uses_placeholder_authors": false,
+      "exists_on_arxiv": true,
+      "title_similarity": null,
+      "title": "Propose, Don't Judge: An Anytime-Valid Referee for LLM Agents That Mine Investment Factors",
+      "authors": [
+        "Bo Qu",
+        "Mingguang Chen",
+        "Licheng Wang"
+      ],
+      "published": "2026-09-22",
+      "abstract": "Language-model agents now run the whole of quantitative factor research: they propose investment factors, backtest them, select the survivors and retire them. We ask which of those jobs an agent should keep. Our answer is governed self-evolution: the agent may propose, and a frozen statistical referee that the agent cannot touch must judge. The referee scores each candidate only on market outcomes revealed after submission, by betting, so its false-discovery guarantee holds at every stopping time for any proposal policy. We cross three proposers (a script, a bandit and a language model) with this referee and with three deliberately leaky ones, in a synthetic world with planted truth, a probe-authoring environment and a ten-year walk-forward on the CSI 500. Who judges sets the number of false admissions: the frozen referee admits 5-11 times fewer sub-threshold factors than the leaky referees under a scripted proposer, and no proposer closes that gap. Who proposes sets the yield: the language model beats the script, matches the bandit, and adds the one capability a bandit lacks, writing its own diagnostic probes. The certificate's price is time: an admitted true factor waits about 500 trading days, and the certified portfolio's Sharpe ratio therefore trails an ungated one. Judging belongs to the procedure; proposing and instrument-making belong to the agent.",
+      "updated": "2026-09-22"
+    },
+    {
+      "key": "library_drift_2026",
+      "arxiv_id": "2605.19576v3",
+      "draft_title": null,
+      "draft_uses_placeholder_authors": false,
+      "exists_on_arxiv": true,
+      "title_similarity": null,
+      "title": "Library Drift: Diagnosing and Fixing a Silent Failure Mode in Self-Evolving LLM Skill Libraries",
+      "authors": [
+        "Xing Zhang",
+        "Yanwei Cui",
+        "Guanghui Wang",
+        "Ziyuan Li",
+        "Wei Qiu",
+        "Bing Zhu",
+        "Peiyang He"
+      ],
+      "published": "2026-05-19",
+      "abstract": "Self-evolving skill libraries face a silent failure mode we term \\emph{library drift}: unbounded skill accumulation without outcome-driven lifecycle management causes retrieval degradation, false-positive injections, and performance stagnation. Recent evaluation confirms the symptom (LLM-authored skills deliver +0.0pp gain while human-curated ones deliver +16.2pp (SkillsBench)), yet the underlying mechanism has not been isolated. We provide (1) a reproducible trigger: ablations that isolate drift: one disables skill injection (flat floor, +0.002), one imposes premature retirement (active harm, $-$0.019); (2) trace-level diagnostics: an append-only evidence log with per-skill contribution scores, attribution verdicts, and router engagement metrics that make the failure visible before it reaches end-task scores; and (3) a verified fix: a minimal governance recipe (outcome-driven retirement + bounded active-cap + meta-skill authoring prior) that lifts held-out pass@1 from a 0.258 baseline to a late-window mean of 0.584 (rolling gain $+$0.328) on MBPP+ hard-100 over 100 rounds. Eight ablations decompose which governance mechanisms are load-bearing and which are subsumed, providing a concrete playbook for diagnosing library drift in any self-evolving agent.",
+      "updated": "2026-07-29"
+    },
+    {
+      "key": "hdso_2026",
+      "arxiv_id": "2606.22330v1",
+      "draft_title": null,
+      "draft_uses_placeholder_authors": false,
+      "exists_on_arxiv": true,
+      "title_similarity": null,
+      "title": "Hypothesis-Driven Skill Optimization for LLM Agents",
+      "authors": [
+        "Fangxin Shang",
+        "Yehui Yang"
+      ],
+      "published": "2026-06-21",
+      "abstract": "External skills can improve action-oriented LLM agents without changing model weights, but persistent skill updates are risky when they are distilled from sparse or noisy trajectories. A plausible reflection may encode a useful procedure, a spurious shortcut, or a rule that the target executor cannot reliably follow. We propose Hypothesis-Driven Skill Optimization (HDSO), a train-free framework in which both the skill curator and the agent executor are frozen inference endpoints. The curator observes executor traces, proposes a falsifiable hypothesis with an explicit validation plan, instantiates the hypothesis as a candidate skill package, validates the package through paired control/treatment executions, reviews behavior differences, and consolidates only supported candidates into an approved repository. The executor consumes approved skills through progressive disclosure, preserving the executor-only path when no skill is selected. On ALFWorld, HDSO improves executor-only baselines by +6.9 Avg. SR points for Qwen3-8B and +4.0 points for Qwen3.6-27B. Under 20% randomly flipped success/failure feedback during skill discovery and validation, HDSO preserves a +7.1-point gain for Qwen3-8B. Transfer and heterogeneous-pair diagnostics further show that validated repositories can be useful beyond the run that produced them, but cross-model curation succeeds only when curator diagnosis, executor capability, and validation evidence align. HDSO provides an auditable skill lifecycle for frozen action agents rather than an unconstrained memory accumulation procedure.",
+      "updated": "2026-06-21"
+    },
+    {
       "key": "test_overfitting_2025",
       "arxiv_id": "2511.16858v3",
       "draft_title": null,
@@ -751,7 +805,22 @@
     ],
     "SWE-smith": [
       {
-        "error": "dblp: https://dblp.org: JSONDecodeError: Expecting value: line 1 column 1 (char 0); https://dblp.uni-trier.de: JSONDecodeError: Expecting value: line 1 column 1 (char 0); https://dblp.dagstuhl.de: JSONDecodeError: Expecting value: line 1 column 1 (char 0); s2: RuntimeError('semantic scholar: rate limited (429) after retries')"
+        "title": "SWE-smith: Scaling Data for Software Engineering Agents",
+        "venue": "Neural Information Processing Systems",
+        "year": 2025,
+        "type": "semantic-scholar"
+      },
+      {
+        "title": "SWE-Dev: Building Software Engineering Agents with Training and Inference Scaling",
+        "venue": "Annual Meeting of the Association for Computational Linguistics",
+        "year": 2025,
+        "type": "semantic-scholar"
+      },
+      {
+        "title": "Skywork-SWE: Unveiling Data Scaling Laws for Software Engineering in LLMs",
+        "venue": "arXiv.org",
+        "year": 2025,
+        "type": "semantic-scholar"
       }
     ],
     "SWE-bench-Live": [
