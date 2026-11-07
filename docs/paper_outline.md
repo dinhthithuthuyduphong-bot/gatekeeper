@@ -248,5 +248,5 @@ Giữ của paper gốc: e-process ghép cặp, cách chia α, thu hồi. Chỉ 
 - **Phạm vi:** hai đoạn lý thuyết cũ được giữ, kèm câu nói rõ là không có đánh giá thực nghiệm.
 - **Model thứ hai:** tạm ngưng (@thuthuy 07/11). Paper nêu ở Threats.
 - **Tên model:** ghi một lần trong macro `\agentmodel`.
-- **`refs.bib`:** 36/36 mục có tiêu đề và tác giả lấy từ bản lưu nguồn. Mục ngoài arXiv đi qua `configs/bib_overrides.json`, và mỗi chuỗi trong đó được kiểm nguyên văn với văn bản nguồn (A108).
+- **`refs.bib`:** 36/36 mục có tiêu đề và tác giả lấy từ bản lưu nguồn. Mục ngoài arXiv đi qua `configs/bib_overrides.json`, và mỗi chuỗi trong đó được kiểm nguyên văn với văn bản nguồn (A110).
 - **Còn `\todo`:** 27b (pygments) và bleve 4d, đang chạy ở nhánh `trial`.
