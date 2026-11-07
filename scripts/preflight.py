@@ -176,6 +176,18 @@ def check_secrets() -> list[str]:
     return bad
 
 
+def check_workflow_deps(wf_dir: Path = Path(".github/workflows")) -> list[str]:
+    """A97, A103: litellm 1.106.6 imports `mcp` inside completion() when tools are passed. Every
+    workflow line that pip-installs this litellm must also install `mcp` on the same line."""
+    bad = []
+    for f in sorted(wf_dir.glob("*.yml")):
+        for n, line in enumerate(f.read_text().splitlines(), 1):
+            if "pip" in line and "install" in line and "litellm==1.106.6" in line:
+                if not re.search(r"(^|[\s\"'])mcp([\s\"'<>=]|$)", line.split("#")[0]):
+                    bad.append(f"{f}:{n}: installs litellm 1.106.6 without mcp (A97, A103)")
+    return bad
+
+
 def run(cmd: list[str]) -> bool:
     return subprocess.run(cmd, check=False).returncode == 0
 
@@ -192,6 +204,9 @@ def main() -> int:
     t = check_terms()
     print(f"[terms] {'ok' if not t else 'FAIL'}")
     failures += t
+    w = check_workflow_deps()
+    print(f"[workflow deps] {'ok' if not w else 'FAIL'}")
+    failures += w
     s = check_secrets()
     print(f"[secrets] {'ok' if not s else 'FAIL'}")
     failures += s

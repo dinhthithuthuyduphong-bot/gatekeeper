@@ -425,3 +425,9 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - đối chiếu vị trí từng đoạn hướng dẫn với prompt gốc của hệ thống (đoạn nào nằm trong phần nào của template);
   - mục kiểm tra mới trong `docs/research_rules.md` §4.
 
+## L49t. Sửa một lỗi phụ thuộc thì sửa ở mọi nơi, và biến nó thành phép kiểm tự động (A97 → A103)
+- **Nguyên nhân gốc:** A97 được sửa ở đúng job bị hỏng. Một workflow khác có cùng dòng cài đặt thì không được kiểm, nên lỗi lặp lại ở lần dùng tiếp theo.
+- **Phòng ngừa:**
+  - khi sửa lỗi thiếu gói, `grep` mọi workflow có cùng phiên bản thư viện;
+  - thêm một phép kiểm vào preflight (CLAUDE.md, cơ chế 5), ở đây là `[workflow deps]`.
+
