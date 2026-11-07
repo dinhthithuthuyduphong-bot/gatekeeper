@@ -257,6 +257,27 @@ def main() -> int:
         for k in bad2:
             print("MISMATCH", k, N[k], CHECKS[k])
         return 1
+    pro = load(Path("results/sskb_s23a-pro.json"))["rows"]
+    pb = {}
+    for r in pro:
+        pb.setdefault((r["skill"], r["batch"]), {})[r["arm"]] = r.get("pass_rate")
+    full = [v for v in pb.values() if len(v) == 2]
+    N["proPairs"] = len(full)
+    N["proSame"] = sum(1 for v in full if v["skill"] == v["none"])
+    N["proNoneMedian"] = float(np.median([v["none"] for v in full]))
+    N["sskbSame"] = sskb["point"]["same_sign_big"]
+    N["sskbSamePct"] = round(100 * N["sskbSame"])
+    N["sskbConfigs"] = len(sskb["configs"])
+    N["sskbSkills"] = sskb["n_skills"]
+    for k, v in {"proPairs": 8, "proSame": 8}.items():
+        if N[k] != v:
+            print("MISMATCH", k, N[k], v)
+            return 1
+    mu = load(t / "model_unchanged_check.json")
+    N["driftMatch"], N["driftTasks"] = mu["matches_e2"], mu["n_tasks"]
+    gn = load(Path("results/harness_gold_net.json"))
+    N["blockedGold"] = sum(1 for v in gn.values() if v.get("label") == "broken")
+    N["sskbThr"] = int(sskb["thr_pp"])
     N["leakSharePct"] = round(100 * N["leakShare"])
     N["fzeroGoldMinPct"] = int(100 * f0["S_gold_min"])  # floor: "at least"
     for k in ("sskbOpp", "sskbRho"):

@@ -318,13 +318,90 @@ positive control rises from \ntfourS{} to \ntfourF{} under the second endpoint.
 \todo{MemGovern: 0/20 runs invoked the memory tools (branch trial, cell M-4); add after the merge.}
 
 \subsection{RQ2: Can a learned skill be certified, and where does its gain come from?}\label{sec:rq2}
-\todo{docs/paper\_outline.md section 7.}
+\begin{table}[t]\centering
+\caption{Resolved tasks out of 100 (scorer $S$) for the skills learned by gskill, without and with
+the skill. Gain with task-level 95\% bootstrap interval; ``admit'' is the trial at which
+Gatekeeper's e-process crosses its threshold ($\theta=0$, $\alpha=0.025$).}
+\label{tab:rq2}
+\begin{tabular}{@{}llrrcr@{}}\toprule
+Repository & History & None & Skill & Gain [95\% CI] & Admit\\\midrule
+Jinja (Python) & as shipped & \njinjaNone & \njinjaSkill & \njinjaGain{} [\njinjaGainLo, \njinjaGainHi] & \njinjaAdmit\\
+Jinja (Python) & single commit & \njinjaLFNone & \njinjaLFSkill & \njinjaLFGain{} [\njinjaLFGainLo, \njinjaLFGainHi] & \njinjaLFAdmit\\
+Bleve (Go) & as shipped & \nbleveNone & \nbleveSkill & \nbleveGain{} [\nbleveGainLo, \nbleveGainHi] & \nbleveAdmit\\
+Bleve (Go) & single commit & \multicolumn{4}{c}{\todo{step 4d}}\\\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Both learned skills are certified in scope}
+Table~\ref{tab:rq2} reports the registered comparison. On Jinja the skill resolves \njinjaSkill{}
+tasks against \njinjaNone{}; on Bleve \nbleveSkill{} against \nbleveNone{}. Both exact sign tests
+reject under Holm's procedure, and Gatekeeper admits each skill after \njinjaAdmit{} and
+\nbleveAdmit{} tasks. These are skills produced by a published pipeline, used verbatim.
+
+\paragraph{Part of the gain comes from the environment}
+Both learned skills tell the agent to read recent commits when the issue is unclear. The seed
+from which gskill starts is empty, and its agent configuration does not mention version
+history\todo{reflection prompt: confirm from the saved original that it lists \texttt{git} only
+as an available command}. Changing only the history of the Jinja tasks, to a single commit that
+holds the buggy tree, leaves the no-skill arm unchanged (\njinjaNone{} and \njinjaLFNone{}) and
+lowers the skill arm from \njinjaSkill{} to \njinjaLFSkill{}. The difference of the two gains,
+estimated jointly over the same 100 tasks, is \nleak{} [\nleakLo{}, \nleakHi{}], about
+\nleakSharePct\% of the in-scope gain. The tasks without an issue description show where it goes:
+there the skill solves \njinjaNoPSn{} of \njinjaNoPSTasks{} tasks with the history and
+\njinjaNoPSLF{} without it, while on the tasks with a description the gain barely moves
+(\njinjaWithPSGain{} and \njinjaWithPSLFGain{} tasks). On Bleve, where we have not yet removed the
+history, the skill solves \nbleveNoPS{} tasks without a description against \nbleveNoPSNone{}.
+\todo{27c: commands \texttt{git log}/\texttt{git show} in the traces of the 34 Jinja tasks; 4d:
+Bleve with a single-commit history.}
+
+\paragraph{The rest of the gain is genuine}
+Without the leak, the Jinja skill still raises the resolved count from \njinjaLFNone{} to
+\njinjaLFSkill{} ($p=\njinjaLFp$, one-sided), and Gatekeeper still admits it, after
+\njinjaLFAdmit{} tasks instead of \njinjaAdmit{}: a smaller effect needs more evidence, as the
+e-process is designed to require. \todo{27a: learned skill against a length-matched irrelevant
+skill, to separate content from length.}
+
 \subsection{RQ3: Does a certification carry over to another scope?}\label{sec:rq3}
-\todo{docs/paper\_outline.md section 8.}
-\todo{Only measured results.}
+\paragraph{Across environments}
+The Jinja result above is one answer: the same skill, on the same tasks, is worth \njinjaGain{} in
+one environment and \njinjaLFGain{} in another that differs only in the repository history.
+\paragraph{Across repositories}
+\todo{27b: the Jinja skill, verbatim, on 100 Pygments tasks, both arms in one job; two-sided test.}
+\paragraph{Across agents and models}
+SWE-Skills-Bench publishes one run per skill for \nsskbConfigs{} agent--model
+configurations~\cite{sskb_paper}. On its \nsskbSkills{} common skills, only about
+\nsskbRhoPct\% of the variance of skill effects is shared between configurations
+($\rho=\nsskbRho$). Where a skill changes the pass rate by at least \nsskbThr{} points in one
+configuration, another configuration shows a change of at least \nsskbThr{} points in the same direction
+in \nsskbSamePct\% of cases and in the opposite direction in \nsskbOppPct\%. With one run per
+configuration, these figures cannot separate scope from noise; they show that a label measured in
+one configuration does not predict another. In our own runs, two SWE-Skills-Bench skills on a larger
+Gemini model gave identical pass rates with and without the skill in \nproSame{} of \nproPairs{}
+pairs, with a median no-skill pass rate of \nproNoneMedian: there was nothing left for the skill to
+change.
 
 \section{Threats to Validity}\label{sec:threats}
-\todo{Meaning of ``safe''; test-suite strength; single LLM vendor; scope family declared by us.}
+\paragraph{One model family}
+Our agent runs use one model, \agentmodel{}, apart from the descriptive comparison with a larger
+Gemini model. The model behind the same name changed between our earlier and later runs (a
+registered check found identical first responses on \ndriftMatch{} of \ndriftTasks{} tasks), so we never pair runs from
+different periods. \todo{second model: Mistral Small 3.1 if access is granted (branch trial).}
+\paragraph{Synthetic tasks and two repositories}
+The learned skills are evaluated on SWE-smith's synthetic tasks for two repositories, one seed per
+arm, 100 paired tasks each. The single-commit history also removes the repository's real history,
+so the leak-free environment is not a real repository either.
+\paragraph{The pipeline's own numbers}
+We tested gskill's public code at a pinned commit, not the code behind its announcement.
+\paragraph{Contamination}
+We could not verify the training cutoff of the model from an official page; we therefore make no
+claim that the tasks are unseen.
+\paragraph{Scoring environment}
+Our local scoring environment had no network access; we measured the effect and rescored every
+affected patch (Section~\ref{sec:rq1}). \nblockedGold{} gold patches still fail locally because they need
+hosts that our network policy blocks; they pass on the hosted runner.
+\paragraph{Exploratory analyses}
+Analyses not registered in advance (the SWE-Skills-Bench transfer figures, the model comparison,
+the subgroup reading of the leak) are labelled as such and are not used as confirmatory evidence.
 
 \section{Related Work}
 \todo{GSE, XRepoSkill, HSE, SWE-Skills-Bench, MemGovern, CODESKILL, formal capability verification;
