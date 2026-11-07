@@ -1433,4 +1433,13 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - skill tốt nhất dài 3.009 ký tự;
   - chi 5,701 USD (trần cộng dồn 16,0).
   - **Theo quy tắc dừng sớm (6 > 1): chạy nửa 2.** Run được dispatch ngày 07/11 với `--resume` và trần cộng dồn 16,0.
+- **4b nửa 2** (run 42328337599):
+  - `num_candidates` = 10, `total_metric_calls` = 626;
+  - `best_score` vẫn 0,86: skill tốt nhất **không đổi** so với nửa 1 (3.009 ký tự, `docs/skills/gskill/bleve_best_skills.txt`);
+  - chi nửa 2 4,745 USD. **Cộng dồn bước học 10,446 USD** (trần 16,0).
+- **Quan sát về skill học được** (đọc văn bản, chưa chấm):
+  - dòng 36 của skill viết: "If the issue description is missing or vague, inspect the target file carefully for obvious logical errors or look at recent git commits (`git log -p -n 3`) to deduce what broke";
+  - đây là cùng loại chỉ dẫn như skill jinja ("Check Git History… 'Bug Patch'"), xuất hiện lại trên một repo khác, viết bằng ngôn ngữ khác (Go);
+  - bước 4c và 4d sẽ đo xem chỉ dẫn này có được dùng không, và đóng góp bao nhiêu.
+- **Tiếp theo:** 4c (chấm skill trên 100 task test, trần 3,2 USD), rồi 4d.
 
