@@ -17,7 +17,6 @@ import re
 import subprocess
 from pathlib import Path
 
-
 # text of arXiv page chrome that must never end up in a title (A113)
 CHROME = ("Skip to main content", "Report GitHub Issue", "Back to arXiv")
 
