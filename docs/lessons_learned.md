@@ -414,3 +414,4 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   3. Sau mỗi lần sinh bib, đọc toàn bộ các tiêu đề đã đổi (`diff`).
   4. **Bổ sung:** `preflight.py --ci` bỏ lint và test (CI chạy chúng thành bước riêng), nên trước commit phải chạy `python scripts/preflight.py` **đầy đủ**. Commit `45e10d1` chỉ qua `--ci` và làm CI đỏ vì một dòng dài 116 ký tự; đã sửa ở commit sau.
   5. **Tái phạm L40 (07/11):** lệnh `python scripts/preflight.py 2>&1 | tail -2 && git commit` commit và push dù preflight FAIL, vì mã thoát của ống là của `tail`. Commit `effa2de` lên `main` với lỗi sắp xếp import. Từ đây: preflight ghi ra file, lấy `rc=$?`, chỉ commit khi `rc = 0`; không bao giờ đặt preflight trước dấu `|`.
+  6. **Phòng ngừa bằng máy:** git hook `pre-commit` (`scripts/git-hooks/pre-commit`) chạy preflight **đầy đủ**, kể cả ruff và pytest, nên lỗi lint chặn được commit dù lệnh gọi có bị ống làm mất mã thoát.
