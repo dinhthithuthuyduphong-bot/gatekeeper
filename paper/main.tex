@@ -404,8 +404,40 @@ Analyses not registered in advance (the SWE-Skills-Bench transfer figures, the m
 the subgroup reading of the leak) are labelled as such and are not used as confirmatory evidence.
 
 \section{Related Work}
-\todo{GSE, XRepoSkill, HSE, SWE-Skills-Bench, MemGovern, CODESKILL, formal capability verification;
-real titles and authors from data/citations.json.}
+\paragraph{Learning and reusing skills}
+Skill libraries for agents go back to executable skills in Voyager~\cite{voyager}; for coding
+agents, skills are mined from trajectories~\cite{xreposkill}, stored as experience
+cards~\cite{memgovern_repo} or optimised against a benchmark~\cite{gskill}. Benchmarks measure
+whether skills help: SWE-Skills-Bench runs ``every task once without the skill and once with
+it''~\cite{sskb_paper}; SkillsBench~\cite{skillsbench_2026} and SkillJuror~\cite{skilljuror_2026}
+study which skills and which organisations of a skill change behaviour, the latter with five trials
+per condition. We add an admission decision with an error guarantee, controls for the measurement
+itself, and a test of whether the decision carries over to another scope.
+\todo{Read the originals of SkillsBench and SkillJuror before stating their findings beyond the
+quoted design.}
+
+\paragraph{Attributing failures to skills}
+Dong et al.\ attribute a failure to a skill by comparing the run with the skill to ``a no-skill or
+semantically matched-skill reference run that solves the same task'', without rerunning the
+benchmark tasks~\cite{skill_induced_failures_2026}. Our A/A control applies their rule to two runs
+without any skill.
+
+\paragraph{Reliability of coding-agent evaluation}
+Run-to-run variance~\cite{randomness_agentic_evals_2026}, the harness around the
+model~\cite{same_model_harness_2026}, and tests that accept incorrect
+patches~\cite{patchdiff_2025,utboost_2025,test_overfitting_2025} all move reported resolve rates.
+Git-history leaks have been documented for SWE-bench~\cite{swebench_git_log_leak,swebench_git_log_fix},
+SWE-Bench Pro~\cite{swebench_pro_verified}, other agent benchmarks~\cite{cursor_reward_hacking,
+poolside_benchmark_hacking} and, recently, SWE-smith~\cite{marin_swesmith_git_leak,
+debuggym_swesmith_git_leak,debuggym_swesmith_git_fix,rllm_hide_git_history}. These works study
+agents that find a leak; we show that a skill \emph{learner} can turn the leak into a reusable
+instruction, and measure how much of a certified gain it accounts for.
+
+\paragraph{Sequential and anytime-valid evaluation}
+Gatekeeper's test is a betting e-process~\cite{waudby_smith_ramdas}. E-processes have recently been
+used to certify LLM evaluation scores~\cite{celeus_2026} and to calibrate agent
+verifiers~\cite{evaluator_2025}; we use one to admit a skill in a scope, paired against the agent
+without it. \todo{Read CELEUS and E-valuator in full before comparing guarantees.}
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
