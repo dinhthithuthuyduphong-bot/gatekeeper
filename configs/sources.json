@@ -587,8 +587,8 @@
    "id": "gemini_31_flash_lite_cutoff",
    "claim": "Knowledge cutoff of gemini-3.1-flash-lite (E2 contamination sensitivity)",
    "urls": [
-    "https://ai.google.dev/gemini-api/docs/gemini-3",
-    "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite"
+    "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite",
+    "https://ai.google.dev/gemini-api/docs/gemini-3"
    ],
    "keywords": [
     "knowledge cutoff of January 2025",
@@ -596,7 +596,7 @@
     "Jan 2025",
     "January 2025"
    ],
-   "note": "Google's Vertex page did not state a cutoff (snapshot 07/11/2026); the Gemini API guide and model page do."
+   "note": "Google's Vertex page did not state a cutoff (snapshot 07/11/2026); the Gemini API guide and model page do. The /docs/gemini-3 URL redirected to a Gemini 3.6 page on 07/11/2026, so the model page comes first."
   },
   {
    "id": "swebench_live_python_only",
@@ -1880,15 +1880,14 @@
    "id": "webdev_skills_bench_2026",
    "claim": "Length-matched irrelevant-skill control C2 (+-5% bytes) separates skill content from prompt length (placebo for section 27a)",
    "urls": [
-    "https://arxiv.org/abs/2608.23067",
-    "https://arxiv.org/pdf/2608.23067"
+    "https://arxiv.org/pdf/2608.23067",
+    "https://arxiv.org/abs/2608.23067"
    ],
    "keywords": [
     "C2",
-    "length-matched",
-    "irrelevant",
     "5%",
-    "byte",
+    "byte length",
+    "length-matched irrelevant",
     "length-distracted",
     "content-misled"
    ]
@@ -1897,14 +1896,13 @@
    "id": "skillcenter_2026",
    "claim": "Placebo arm of fixed length-matched irrelevant skills in skill evaluation",
    "urls": [
-    "https://arxiv.org/abs/2607.07676",
-    "https://arxiv.org/pdf/2607.07676"
+    "https://arxiv.org/pdf/2607.07676",
+    "https://arxiv.org/abs/2607.07676"
    ],
    "keywords": [
     "placebo",
     "length-matched",
-    "irrelevant",
-    "baseline"
+    "irrelevant"
    ]
   }
  ]
