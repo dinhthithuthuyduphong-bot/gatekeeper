@@ -285,7 +285,7 @@ def main() -> int:
     for k, v in N.items():
         if isinstance(v, float) and v != 0 and abs(v) < 1e-3:
             m, e = f"{v:.1e}".split("e")
-            s = rf"${m}\times10^{{{int(e)}}}$"
+            s = rf"\ensuremath{{{m}\times10^{{{int(e)}}}}}"  # safe in text and in math
         elif isinstance(v, float) and abs(v) < 0.01:
             s = f"{v:.4f}"
         elif isinstance(v, float):
