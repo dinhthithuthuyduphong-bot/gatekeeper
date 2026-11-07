@@ -38,7 +38,9 @@ in the repository history. Reducing the history to a single commit lowers the ga
 \njinjaGain{} to \njinjaLFGain{}: \nleak{} [\nleakLo{}, \nleakHi{}], about \nleakSharePct\% of the
 in-scope gain, comes from the leak, and on tasks without an issue description all of it does
 (\njinjaNoPSn{} versus \njinjaNoPSLF{} tasks solved). The remaining gain is real and is still
-admitted, after \njinjaLFAdmit{} tasks. A second learned skill, for a Go repository, repeats the
+admitted, after \njinjaLFAdmit{} tasks, and it is due to the skill's content: against an irrelevant
+skill of the same length, the learned skill resolves \njinjaSkill{} tasks against \nplcS{}. In the
+traces of all \ntrTasks{} tasks without a description, the agent reads the bug-injecting commit. A second learned skill, for a Go repository, repeats the
 pattern (\nbleveNone{} to \nbleveSkill{} resolved; admitted after \nbleveAdmit{} tasks). The
 public scorer of the same learning pipeline accepts patches that change nothing on \nfzeroLNoop{}
 of \nfzeroN{} tasks, against \nfzeroSNoop{} for the benchmark's own scorer. We argue that a skill
@@ -117,16 +119,24 @@ measurements, the controls pass: no-op patches resolve \nnoopOurs{} of \nnoopOur
 patches \ngoldOursOk{} of \ngoldOursN{}. Applied to published practice, they do not: the comparison
 of a single run with a plug-in threshold admits a skill with no effect in \npluginOnce{} of A/A
 streams (\npluginMonitored{} when monitored), and GEPA's acceptance rule accepts \ngepaNoop{} of
-no-op proposals, while Gatekeeper's rate is \ngkAdmitAA{}. \todo{Section 27 of branch trial:
-length-matched control (27a), reuse of the Jinja skill on Pygments (27b), traces (27c); Bleve
-leak-free (4d). Add one sentence each when the registered results exist.}
+no-op proposals, while Gatekeeper's rate is \ngkAdmitAA{}. The controls also separate what the
+learned skill contributes. Against a skill of the same length with nothing to say about the
+repository, the learned skill still resolves \njinjaSkill{} tasks against \nplcS{}, a content
+effect of \nconGain{} [\nconGainLo{}, \nconGainHi{}], while length alone adds \nlenGain{}
+[\nlenGainLo{}, \nlenGainHi{}] ($p=\nlenP$). And in the traces of every one of the
+\ntrTasks{} Jinja tasks without an issue description, the agent runs \texttt{git log} or
+\texttt{git show} and reads the bug-injecting commit (\ntrBugPatch{} of \ntrTasks{}).
+\todo{27b (reuse of the Jinja skill on Pygments) and Bleve 4d (single-commit history): one sentence
+each when the registered results exist.}
 
 \paragraph{Contributions}
 \begin{itemize}
   \item The first anytime-valid certification of skills produced by a published learning pipeline,
         on two repositories in two languages, under the benchmark's own scorer (Section~\ref{sec:rq2}).
   \item A controlled measurement showing that the learner wrote an instruction to use an
-        evaluation leak into both skills, unprompted, and that the leak accounts for \nleak{} [\nleakLo{}, \nleakHi{}] of the
+        evaluation leak into both skills, unprompted, that the agent follows it on every task
+        without an issue description (\ntrBugPatch{} of \ntrTasks{} traces), and that the leak
+        accounts for \nleak{} [\nleakLo{}, \nleakHi{}] of the
         gain (Section~\ref{sec:rq2}).
   \item Evidence that the certification is specific to its scope: the gain changes with the
         environment's history \todo{and with the repository (27b)}; across four published agent--model
@@ -358,15 +368,31 @@ there the skill solves \njinjaNoPSn{} of \njinjaNoPSTasks{} tasks with the histo
 \njinjaNoPSLF{} without it, while on the tasks with a description the gain barely moves
 (\njinjaWithPSGain{} and \njinjaWithPSLFGain{} tasks). On Bleve, where we have not yet removed the
 history, the skill solves \nbleveNoPS{} tasks without a description against \nbleveNoPSNone{}.
-\todo{27c: commands \texttt{git log}/\texttt{git show} in the traces of the 34 Jinja tasks; 4d:
-Bleve with a single-commit history.}
+The traces confirm the mechanism directly. We reran the skill on the \ntrTasks{} Jinja tasks
+without a description and kept every message: in all \ntrGitCmd{} the agent ran \texttt{git log}
+or \texttt{git show}, and in all \ntrBugPatch{} its observations contained the ``Bug Patch''
+commit; it resolved \ntrSolved{} of them, as in the original run, and \ntrSame{} of the
+\ntrN{} tasks had the same outcome a day apart. Without the skill, the agent resolves
+\njinjaNoPSNoneBase{} of these tasks. \todo{Bleve 4d: single-commit history.}
 
 \paragraph{The rest of the gain is genuine}
 Without the leak, the Jinja skill still raises the resolved count from \njinjaLFNone{} to
 \njinjaLFSkill{} ($p=\njinjaLFp$, one-sided), and Gatekeeper still admits it, after
 \njinjaLFAdmit{} tasks instead of \njinjaAdmit{}: a smaller effect needs more evidence, as the
-e-process is designed to require. \todo{27a: learned skill against a length-matched irrelevant
-skill, to separate content from length.}
+e-process is designed to require.
+
+\paragraph{It is the content of the skill, not its length}
+A longer prompt could help by itself. Following the length-matched irrelevant-skill control of
+WebDev-Skills-Bench~\cite{webdev_skills_bench_2026}, we replaced the learned skill with the only
+public SWE-Skills-Bench skill whose length is within $\pm5\%$ of it, a Go concurrency guide that
+says nothing about Jinja. With it the agent resolves \nplcS{} tasks. The learned skill's content
+effect is \nconGain{} [\nconGainLo{}, \nconGainHi{}] ($p=\nconP$, one-sided), and Gatekeeper
+admits the learned skill against the placebo after \nconAdmit{} tasks; the effect of length alone,
+\nlenGain{} [\nlenGainLo{}, \nlenGainHi{}], is not significant ($p=\nlenP$, two-sided). The
+content effect holds on the tasks that have a description, where the leak hardly matters
+(\nconWithPSSkill{} against \nconWithPSPlc{}; $p=\nconWithPSp$), and on the tasks without one the
+placebo solves \nplcNoPS{}. The placebo arm ran a day after the arms it is compared with; the
+\ntrSame{}-of-\ntrN{} agreement above indicates how much a day can change.
 
 \subsection{RQ3: Does a certification carry over to another scope?}\label{sec:rq3}
 \paragraph{Across environments}

@@ -278,6 +278,71 @@ def main() -> int:
     gn = load(Path("results/harness_gold_net.json"))
     N["blockedGold"] = sum(1 for v in gn.values() if v.get("label") == "broken")
     N["sskbThr"] = int(sskb["thr_pp"])
+    # section 27 (branch `trial`): length-matched placebo (27a) and traces (27c)
+    import gzip
+    import re
+
+    from scipy.stats import binomtest
+
+    con, ln = load(t / "s27a_content.json"), load(t / "s27a_length.json")
+    N.update(
+        {
+            "plcS": con["all"]["S"]["none"],
+            "conGain": con["all"]["S"]["gain"],
+            "conGainLo": con["all"]["S"]["boot95"][0],
+            "conGainHi": con["all"]["S"]["boot95"][1],
+            "conP": con["all"]["S"]["p_one_sided"],
+            "conAdmit": con["all"]["gatekeeper_admit_trial"],
+            "conWithPSSkill": con["with_problem_statement"]["S"]["skill"],
+            "conWithPSPlc": con["with_problem_statement"]["S"]["none"],
+            "conWithPSp": con["with_problem_statement"]["S"]["p_one_sided"],
+            "plcNoPS": con["no_problem_statement"]["S"]["none"],
+            "lenGain": ln["all"]["S"]["gain"],
+            "lenGainLo": ln["all"]["S"]["boot95"][0],
+            "lenGainHi": ln["all"]["S"]["boot95"][1],
+            # registered as two-sided: exact binomial on the discordant pairs
+            "lenP": binomtest(
+                ln["all"]["S"]["b"], ln["all"]["S"]["b"] + ln["all"]["S"]["c"]
+            ).pvalue,
+        }
+    )
+    recs = [
+        json.loads(x)
+        for f in ("s27_trace34.traces.jsonl.gz", "s27_trace34b.traces.jsonl.gz")
+        for x in gzip.open(t / f, "rt")
+    ]
+    g1 = g2 = 0
+    for r in recs:
+        ms = r["messages"]
+        obs = [m for m in ms if m["role"] == "user"][1:]  # the first user message is the task
+        cmds = " ".join(str(m.get("content", "")) for m in ms if m["role"] == "assistant")
+        g1 += bool(re.search(r"git (log|show)", cmds))
+        g2 += any("Bug Patch" in str(m.get("content", "")) for m in obs)
+    tr = {
+        r["instance_id"]: r
+        for f in ("s27_trace34.json", "s27_trace34b.json")
+        for r in load(t / f)["runs"]
+        if "infra_error" not in r
+    }
+    old = {r["instance_id"]: r for r in load(t / "f1_skill_probe.json")["runs"]}
+    same = sum(
+        1 for i, r in tr.items() if bool(r["S"]["resolved"]) == bool(old[i]["S"]["resolved"])
+    )
+    N.update(
+        {
+            "trTasks": len(recs),
+            "trGitCmd": g1,
+            "trBugPatch": g2,
+            "trSolved": sum(1 for r in tr.values() if r["S"]["resolved"]),
+            "trSame": same,
+            "trN": len(tr),
+            "jinjaNoPSNoneBase": j_in["nops"]["none"],
+        }
+    )
+    for k, v in {"plcS": 24, "trGitCmd": 34, "trBugPatch": 34, "trTasks": 34, "trSame": 30}.items():
+        if N[k] != v:
+            print("MISMATCH", k, N[k], v)
+            return 1
     N["leakSharePct"] = round(100 * N["leakShare"])
     N["fzeroGoldMinPct"] = int(100 * f0["S_gold_min"])  # floor: "at least"
     for k in ("sskbOpp", "sskbRho"):
