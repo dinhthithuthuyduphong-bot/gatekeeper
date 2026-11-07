@@ -96,7 +96,8 @@ jobs:
                   return r, f"{name}: OK | in {u.prompt_tokens} out {u.completion_tokens} {extra}"
               except Exception as e:  # noqa: BLE001
                   msg = str(e).replace(os.environ.get("VERTEXAI_PROJECT") or "\0", "<PROJECT>")
-                  return None, f"{name}: ERROR {type(e).__name__}: {msg[:700]}"
+                  msg = " ".join(msg.split())  # one line, so the log filter keeps the provider's reason
+                  return None, f"{name}: ERROR {type(e).__name__}: {msg[:900]}"
           r, s = run("1 reachable", messages=[{"role": "user", "content": "Reply with the single word OK."}], max_tokens=5); print(s)
           tool = {"type": "function", "function": {"name": "bash", "description": "Run a bash command",
                   "parameters": {"type": "object", "properties": {"command": {"type": "string"}}, "required": ["command"]}}}
