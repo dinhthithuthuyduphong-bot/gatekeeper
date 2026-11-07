@@ -85,7 +85,9 @@ def main() -> int:
         authors = None
         if ax and ax in by_arxiv:
             authors = " and ".join(by_arxiv[ax]["authors"])
-            title = title or by_arxiv[ax]["title"]
+            # arXiv's own title (checked by check_citations.py) over text cut from the page head,
+            # which can carry page chrome ("Skip to main content") or lost spaces (A113)
+            title = " ".join(by_arxiv[ax]["title"].split()) or title
         ov = overrides.get(k, {})
         if ov:
             # every override must be read off the saved original: each author name and the title
@@ -106,6 +108,9 @@ def main() -> int:
                 raise SystemExit(f"{k}: override not found in the saved original: {missing}")
             authors = ov.get("author") or authors
             title = ov.get("title") or title
+        chrome = [w for w in ("Skip to main content", "Report GitHub Issue", "Back to arXiv") if w in (title or "")]
+        if chrome:
+            raise SystemExit(f"{k}: title carries page chrome {chrome}: {title}")  # A113
         fields = {"title": "{" + bib_escape(title) + "}" if title else "{VERIFY: title}"}
         if authors:
             fields["author"] = "{" + authors + "}"

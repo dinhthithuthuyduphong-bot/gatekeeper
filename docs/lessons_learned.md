@@ -404,3 +404,11 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   1. Sau mỗi push lên `main`, đọc kết luận của workflow CI. CI đỏ thì sửa trước mọi việc khác.
   2. Test cần dữ liệu thật thì dùng bản cố định nhỏ trong `tests/fixtures/`, kèm phép kiểm "bản cố định trùng bản gốc" khi có bản gốc; hoặc dùng `skipif` có lý do rõ khi dữ liệu không thể cố định.
   3. Trước khi commit một test mới, chạy nó một lần khi đã tạm cất `runs/`.
+
+## L51. Văn bản sinh tự động từ trang web phải được đọc lại bằng mắt ít nhất một lần, và quy tắc trích phải có phép kiểm âm (A113)
+
+- **Xảy ra:** `make_bib.py` cắt tiêu đề từ phần đầu trang bằng một mẫu chuỗi; mẫu đúng cho vài trang, sai cho trang HTML của arXiv. Phép kiểm "không còn VERIFY" qua, nên tôi coi bib là xong mà không đọc các tiêu đề.
+- **Phòng ngừa:**
+  1. Ưu tiên metadata có cấu trúc đã kiểm (arXiv API) hơn văn bản cắt từ trang.
+  2. Script trích văn bản phải dừng khi gặp chữ của giao diện trang.
+  3. Sau mỗi lần sinh bib, đọc toàn bộ các tiêu đề đã đổi (`diff`).
