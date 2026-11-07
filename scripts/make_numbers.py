@@ -343,6 +343,9 @@ def main() -> int:
         if N[k] != v:
             print("MISMATCH", k, N[k], v)
             return 1
+    mg = load(Path("results/mg_tool_use.json"))["summary"]
+    N["mgUsed"] = mg["v1"]["used"] + mg["v2"]["used"]
+    N["mgRuns"] = mg["v1"]["tasks"] + mg["v2"]["tasks"]
     N["leakSharePct"] = round(100 * N["leakShare"])
     N["fzeroGoldMinPct"] = int(100 * f0["S_gold_min"])  # floor: "at least"
     for k in ("sskbOpp", "sskbRho"):

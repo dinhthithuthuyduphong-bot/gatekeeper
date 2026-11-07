@@ -17,7 +17,8 @@
 \newtheorem{assumption}{Assumption}
 \newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
 \newcommand{\STR}{\mathrm{STR}}
-\newcommand{\agentmodel}{\todo{agent model name}}
+% The one place where the agent's model is named in the text (exact version: artifact).
+\newcommand{\agentmodel}{Gemini~3.1 Flash-Lite}
 % Every number in the text is a macro generated from results/ by scripts/make_numbers.py.
 \input{numbers}
 
@@ -174,8 +175,9 @@ A pair (skill, context) is \emph{harmful} if $\STR>0$, \emph{neutral} if $-\thet
 admission pool. Harmful acceptance is the fraction of harmful pairs admitted; clean-reuse coverage
 the fraction of beneficial pairs admitted; systems are compared at matched coverage on the
 harm--coverage curve.
-\todo{The harm--coverage comparison across systems (Phase~6) was dropped; harmful acceptance and
-coverage are measured only in the plasmode study. Rephrase or cut (scope decision, @thuthuy).}
+In this paper harmful acceptance and clean-reuse coverage are estimated by simulation on measured
+agent noise (plasmode~\cite{franklin_2014_plasmode}); we did not compare systems on real skill
+pairs along the harm--coverage curve.
 
 \section{Admission with Anytime-Valid Guarantees}\label{sec:admission}
 For paired differences $Z_i=\ell(x_i,\pi)-\ell(x_i,\varnothing)\in[-1,1]$ and the null
@@ -213,12 +215,25 @@ The factor $2$ is tight: moving mass $\xi$ from $Z=-1$ to $Z=+1$ has total varia
 the mean by $2\xi$.
 
 \begin{proposition}[No distribution-free transfer guarantee]
-\todo{As in the draft; add: for randomised procedures the decision \emph{distribution} is identical.}
+Fix any admission procedure using $n$ trials from repositories $\mathcal{R}_{\mathrm{obs}}$. For any
+$\alpha<1$ there is a target repository $R^\dagger\notin\mathcal{R}_{\mathrm{obs}}$ and a skill $S$
+admitted by the procedure with $\STR(S,\{R^\dagger\})=1$.
 \end{proposition}
+\begin{proof}
+Construct $R^\dagger$ agreeing with the observed repositories on every feature the procedure
+examines (fingerprints, predicates, trial outcomes on $\mathcal{R}_{\mathrm{obs}}$) and differing in
+a behaviour the skill depends on. The procedure's inputs are identical, so its decision is
+identical; on $R^\dagger$ the skill maximises loss. If the procedure is randomised, its inputs are
+still identical, so the \emph{distribution} of its decision is identical: the probability of
+admitting the skill for $R^\dagger$ equals the probability of admitting it on the observed
+repositories, which may be close to $1$.
+\end{proof}
+The learned skills of Section~\ref{sec:rq2} are a measured instance: on the same tasks, a change
+the trials never observe (the repository history) changes what the admitted skill is worth.
 
 \section{Composition}
-\todo{No composition experiment was run (Phase~4 dropped). Keep as theory with this caveat, or move
-to an appendix (scope decision, @thuthuy).}
+We state the composition results for completeness; they are not evaluated empirically in this
+paper.
 $S_1\circ S_2$ applies $S_2$'s edit first, then $S_1$.
 \begin{theorem}[Composition risk is not bounded by individual risks]
 For every $\theta\in(0,1)$ there are skills $S_1,S_2,S_1'$ and a scope $s$ with
@@ -331,7 +346,14 @@ changed \neoneFlips{} of \neoneSides{} outcomes for our own skills and \netwoFli
 \netwoSides{} for XRepoSkill, and no conclusion. The XRepoSkill effect is \netwoS{} under $S$, \netwoF{} when only
 \texttt{FAIL\_TO\_PASS} tests count and \netwoB{} when tests broken in every run are dropped; the
 positive control rises from \ntfourS{} to \ntfourF{} under the second endpoint.
-\todo{MemGovern: 0/20 runs invoked the memory tools (branch trial, cell M-4); add after the merge.}
+\paragraph{A manipulation check that failed}
+For MemGovern~\cite{memgovern_repo} we installed its released experience cards, retrieval server
+and tools unchanged, and registered a check before any comparison: the agent must call the memory
+tools. It never did. Over two placements of MemGovern's own retrieval instruction, \nmgUsed{} of
+\nmgRuns{} runs issued a single \texttt{exp\_search} or \texttt{exp\_read} call (for the second placement the retrieval server also logged none), so the
+registered rule stopped the experiment before any effect was
+computed. With our agent and model, a skill library that is never read cannot be evaluated, and its
+reported gains cannot be checked in this setting.
 
 \subsection{RQ2: Can a learned skill be certified, and where does its gain come from?}\label{sec:rq2}
 \begin{table}[t]\centering
@@ -418,7 +440,11 @@ change.
 Our agent runs use one model, \agentmodel{}, apart from the descriptive comparison with a larger
 Gemini model. The model behind the same name changed between our earlier and later runs (a
 registered check found identical first responses on \ndriftMatch{} of \ndriftTasks{} tasks), so we never pair runs from
-different periods. \todo{second model: Mistral Small 3.1 if access is granted (branch trial).}
+different periods. We did not run a model from another vendor: of the per-token models available
+to our account, one had no quota, one had been retired, one lacked tool calling in our agent
+framework, and the remaining one was experimental and too costly for this study; a request for an
+open-weight model was pending when we stopped. Whether the leak-seeking instruction is learned, and
+followed, with other models is open.
 \paragraph{Synthetic tasks and two repositories}
 The learned skills are evaluated on SWE-smith's synthetic tasks for two repositories, one seed per
 arm, 100 paired tasks each. The single-commit history also removes the repository's real history,
@@ -442,12 +468,12 @@ Skill libraries for agents go back to executable skills in Voyager~\cite{voyager
 agents, skills are mined from trajectories~\cite{xreposkill}, stored as experience
 cards~\cite{memgovern_repo} or optimised against a benchmark~\cite{gskill}. Benchmarks measure
 whether skills help: SWE-Skills-Bench runs ``every task once without the skill and once with
-it''~\cite{sskb_paper}; SkillsBench~\cite{skillsbench_2026} and SkillJuror~\cite{skilljuror_2026}
-study which skills and which organisations of a skill change behaviour, the latter with five trials
-per condition. We add an admission decision with an error guarantee, controls for the measurement
-itself, and a test of whether the decision carries over to another scope.
-\todo{Read the originals of SkillsBench and SkillJuror before stating their findings beyond the
-quoted design.}
+it''~\cite{sskb_paper}; SkillsBench benchmarks how well skills work across diverse
+tasks~\cite{skillsbench_2026}; and SkillJuror, observing that ``current benchmarks rarely
+distinguish what a Skill says from how it is organized'', measures how a skill's organisation
+changes the agent's behaviour, with five trials per condition~\cite{skilljuror_2026}. We add an
+admission decision with an error guarantee, controls for the measurement itself, and a test of
+whether the decision carries over to another scope.
 
 \paragraph{Attributing failures to skills}
 Dong et al.\ attribute a failure to a skill by comparing the run with the skill to ``a no-skill or
@@ -467,10 +493,11 @@ agents that find a leak; we show that a skill \emph{learner} can turn the leak i
 instruction, and measure how much of a certified gain it accounts for.
 
 \paragraph{Sequential and anytime-valid evaluation}
-Gatekeeper's test is a betting e-process~\cite{waudby_smith_ramdas}. E-processes have recently been
-used to certify LLM evaluation scores~\cite{celeus_2026} and to calibrate agent
-verifiers~\cite{evaluator_2025}; we use one to admit a skill in a scope, paired against the agent
-without it. \todo{Read CELEUS and E-valuator in full before comparing guarantees.}
+Gatekeeper's test is a betting e-process~\cite{waudby_smith_ramdas}. CELEUS uses e-processes for
+certifiable LLM evaluation, noting that existing sequential methods ``are not generally
+anytime-valid''~\cite{celeus_2026}, and E-valuator applies sequential hypothesis testing to agent
+verifiers~\cite{evaluator_2025}. Both certify the performance of one system; Gatekeeper certifies a
+paired difference, a skill against the same agent without it, in a declared scope.
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
