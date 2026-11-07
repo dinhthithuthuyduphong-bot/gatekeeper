@@ -305,7 +305,7 @@ jobs:
         if: always()
         run: |
           # only files that exist: git add of a missing path fails the publish
-          files=$(ls results/f1_probe.json results/f1_skill_probe.json results/reflection_cost_probe.json results/s25_* results/s25bleve_* 2>/dev/null || true)
+          files=$(ls results/f1_probe.json results/f1_skill_probe.json results/reflection_cost_probe.json results/s25_* results/s25bleve_* results/*.traces.jsonl.gz 2>/dev/null || true)
           echo "publishing: $files"
           scripts/publish_snapshot.sh pilot-snapshots "Section 25 ${{ inputs.plan }} ${{ inputs.half }} run ${GITHUB_RUN_ID}" $files
 

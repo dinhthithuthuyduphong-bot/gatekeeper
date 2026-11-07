@@ -97,6 +97,8 @@ def main() -> int:
         (r for r in rows if r["_gskill_split"] == a.split), key=lambda r: r["_gskill_order"]
     )
     skills = Path(a.skills_file).read_text() if a.skills_file else ""
+    traces_path = Path(a.out).with_suffix(".traces.jsonl.gz")
+    traces_path.unlink(missing_ok=True)  # the result file is rewritten, so are its traces
     out = {
         "model": a.model,
         "seed": a.seed,
@@ -123,6 +125,15 @@ def main() -> int:
             patch, trace, metrics = h.run_agent(
                 inst.get("problem_statement", ""), skills, model_name=a.model, config_path=str(cfg)
             )
+            # raw evidence (A52, A104): every agent message, gzip JSONL next to the result file
+            with gzip.open(traces_path, "at", encoding="utf-8") as tf:
+                tf.write(
+                    json.dumps(
+                        {"instance_id": inst["instance_id"], "messages": metrics.get("messages")},
+                        default=str,
+                    )
+                    + "\n"
+                )
             rec["crashed"] = trace.startswith("Agent crashed")
             rec["crash_head"] = trace[:300] if rec["crashed"] else None
             rec["steps"] = metrics.get("steps", 0)
