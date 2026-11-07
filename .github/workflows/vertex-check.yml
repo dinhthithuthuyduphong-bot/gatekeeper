@@ -51,3 +51,29 @@ jobs:
           )
           print("model call OK:", r.choices[0].message.content, "| tokens", r.usage.prompt_tokens, r.usage.completion_tokens)
           EOF
+      - name: List partner and open models in Model Garden (no model call, no endpoint, 0 USD)
+        if: env.HAS_KEY == 'true'
+        run: |
+          python - <<'EOF'
+          # ListPublisherModels (Vertex AI v1beta1): names, launch stage, open-source category and the
+          # supported actions of each model card, to pick a per-token (MaaS) model without guessing
+          # its id. Read-only; deploys nothing.
+          import json, os, urllib.request
+          import google.auth, google.auth.transport.requests
+          creds, proj = google.auth.default(scopes=["https://www.googleapis.com/auth/cloud-platform"])
+          creds.refresh(google.auth.transport.requests.Request())
+          project = os.environ.get("VERTEXAI_PROJECT") or proj
+          for pub in ("deepseek-ai", "qwen", "meta", "mistralai", "anthropic"):
+              url = f"https://aiplatform.googleapis.com/v1beta1/publishers/{pub}/models?pageSize=200&listAllVersions=false"
+              req = urllib.request.Request(url, headers={"Authorization": f"Bearer {creds.token}", "x-goog-user-project": project})
+              try:
+                  d = json.load(urllib.request.urlopen(req, timeout=60))
+              except Exception as e:  # noqa: BLE001
+                  print(f"[{pub}] list failed: {type(e).__name__}: {str(e)[:200]}")
+                  continue
+              ms = d.get("publisherModels", [])
+              print(f"[{pub}] {len(ms)} models")
+              for m in ms:
+                  acts = sorted((m.get("supportedActions") or {}).keys())
+                  print(f"  {m.get('name')} | version {m.get('versionId')} | {m.get('launchStage')} | {m.get('openSourceCategory')} | actions {acts}")
+          EOF
