@@ -1,0 +1,270 @@
+{
+ "model": "vertex_ai/gemini-3.1-flash-lite",
+ "seed": 41,
+ "cost_limit": 0.3,
+ "cap": 0.9,
+ "skills_chars": 2675,
+ "leak_free": false,
+ "subset": "all",
+ "n_tasks": 21,
+ "runs": [
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__xs063jk5",
+   "order": 329,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 16,
+   "patch_chars": 457,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/pygments/lexers/lilypond.py b/pygments/lexers/lilypond.py\nindex 91b9db4..17e28bc 100644\n--- a/pygments/lexers/lilypond.py\n+++ b/pygments/lexers/lilypond.py\n@@ -41,7 +41,7 @@ def builtin_words(names, backslash, suffix=NAME_END_RE):\n         prefix += r\"\\\\\"\n     else:\n         assert backslash == \"disallowed\"\n-    return words(suffix, prefix, names)\n+    return words(names, prefix=prefix, suffix=suffix)\n \n \n class LilyPondLexer(SchemeLexer):\n",
+   "cost_usd": 0.01305975
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__1uyxj5ej",
+   "order": 330,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 913,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/pygments/lexers/objective.py b/pygments/lexers/objective.py\nindex a1ed8eb..87a7874 100644\n--- a/pygments/lexers/objective.py\n+++ b/pygments/lexers/objective.py\n@@ -167,13 +167,11 @@ def objective(baselexer):\n         def analyse_text(text):\n             if _oc_message.search(text):\n                 return 0.7\n-            elif '@' in text:  # changed condition here\n+            if _oc_keywords.search(text):\n                 return 0.8\n-            elif re.search('@[a-z]+', text):  # amended regex pattern\n-                return 1.0\n-            elif _oc_keywords.search(text):\n-                return 0.8\n-            return 1  # altered return value\n+            if re.search(r'@[a-zA-Z]+', text):\n+                return 0.4\n+            return 0\n \n         def get_tokens_unprocessed(self, text, stack=('root',)):\n             from pygments.lexers._cocoa_builtins import COCOA_INTERFACES, \\\n",
+   "cost_usd": 0.009556025000000001
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_module__0pdwzpjj",
+   "order": 331,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.006582250000000001
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__uvimh1b2",
+   "order": 332,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 28,
+   "patch_chars": 4146,
+   "L": {
+    "passed": false,
+    "status": "f2p_failed",
+    "f2p_tail": "============================\nERROR tests/test_basic_api.py -   File \"/testbed/pygments/lexers/int_fiction....\n!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!\n=============================== 1 error in 0.41s ===============================\n+ : '>>>>> End Test Output'\n"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/pygments/lexers/int_fiction.py b/pygments/lexers/int_fiction.py\nindex 89ce418..71b58bd 100644\n--- a/pygments/lexers/int_fiction.py\n+++ b/pygments/lexers/int_fiction.py\n@@ -524,6 +524,30 @@ class Inform6Lexer(RegexLexer):\n         while objectloop_queue:\n             yield objectloop_queue.pop()\n \n+    tokens = {\n+        'root': [\n+            include('_whitespace'),\n+            (r'//.*', Comment.Single),\n+            (r'/\\*.*?\\*/', Comment.Multiline),\n+            (r'\\b(class|object|function|method|property|var|local|new|if|else|while|for|do|switch|case|default|break|continue|return|try|catch|finally|throw|enum)\\b', Keyword),\n+            (r'\\b(true|false|nil)\\b', Keyword.Constant),\n+            (rf'\\b{_name}\\b', Name),\n+            (r'\\d+', Number.Integer),\n+            (r'\"', String.Double, 'dqs'),\n+            (r\"'\", String.Single, 'sqs'),\n+            (rf'{_operator}', Operator),\n+            (r'[{};(),.\\[\\]]', Punctuation)\n+        ],\n+        '_whitespace': [\n+            (r'\\s+', Text),\n+        ],\n+        'dqs': _make_string_state(False, True),\n+        'sqs': _make_string_state(False, False),\n+        's/verbatim': [],\n+        's/escape': [(r'\\\\.', String.Escape)],\n+        's/entity': []\n+    }\n+\n     def analyse_text(text):\n         \"\"\"We try to find a keyword which seem relatively common, unfortunately\n         there is a decent overlap with Smalltalk keywords otherwise here..\"\"\"\n@@ -864,6 +888,53 @@ class Tads3Lexer(RegexLexer):\n             (r'[\"\\'\\s&{<}\\\\]', String.Interpol)  # Modified token \n         ]\n \n+    tokens = {\n+        'root': [\n+            include('_whitespace'),\n+            (r'//.*', Comment.Single),\n+            (r'/\\*.*?\\*/', Comment.Multiline),\n+            (r'\\b(class|object|function|method|property|var|local|new|if|else|while|for|do|switch|case|default|break|continue|return|try|catch|finally|throw|enum)\\b', Keyword),\n+            (r'\\b(true|false|nil)\\b', Keyword.Constant),\n+            (rf'\\b{_name}\\b', Name),\n+            (r'\\d+', Number.Integer),\n+            (r'\"', String.Double, 'dqs'),\n+            (r\"'\", String.Single, 'sqs'),\n+            (rf'{_operator}', Operator),\n+            (r'[{};(),.\\[\\]]', Punctuation)\n+        ],\n+        '_whitespace': [\n+            (r'\\s+', Text),\n+        ],\n+        'dqs': _make_string_state(False, True),\n+        'sqs': _make_string_state(False, False),\n+        's/verbatim': [],\n+        's/escape': [(r'\\\\.', String.Escape)],\n+        's/entity': []\n+    }\n+\n+    tokens = {\n+        'root': [\n+            include('_whitespace'),\n+            (r'//.*', Comment.Single),\n+            (r'/\\*.*?\\*/', Comment.Multiline),\n+            (r'\\b(class|object|function|method|property|var|local|new|if|else|while|for|do|switch|case|default|break|continue|return|try|catch|finally|throw|enum)\\b', Keyword),\n+            (r'\\b(true|false|nil)\\b', Keyword.Constant),\n+            (rf'\\b{_name}\\b', Name),\n+            (r'\\d+', Number.Integer),\n+            (r'\"'', String.Double, 'dqs'),\n+            (r\"'\", String.Single, 'sqs'),\n+            (rf'{_operator}', Operator),\n+            (r'[{};(),.\\[\\]]', Punctuation)\n+        ],\n+        '_whitespace': [\n+            (r'\\s+', Text),\n+        ],\n+        'dqs': _make_string_state(False, True),\n+        'sqs': _make_string_state(False, False),\n+        's/verbatim': [],\n+        's/escape': [(r'\\\\.', String.Escape)],\n+        's/entity': []\n+    }\n     tokens = {\n         'root': [\n             ('\\ufeff', Text),\n@@ -1351,16 +1422,3 @@ class Tads3Lexer(RegexLexer):\n                     token = Comment\n             yield index, token, value\n \n-    def analyse_text(text):\n-        \"\"\"This is a rather generic descriptive language without strong\n-        identifiers. It looks like a 'GameMainDef' has to be present,\n-        and/or a 'versionInfo' with an 'IFID' field.\"\"\"\n-        result = 0\n-        if '__TADS' in text or 'GameMainDef' in text:\n-            result += 0.2\n-\n-        # This is a fairly unique keyword which is likely used in source as well\n-        if 'versionInfo' in text and 'IFID' in text:\n-            result += 0.1\n-\n-        return result\n",
+   "cost_usd": 0.32644552499999996
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__g5fu546t",
+   "order": 333,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 21,
+   "patch_chars": 858,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/pygments/util.py b/pygments/util.py\nindex 42f120f..3c9f36c 100644\n--- a/pygments/util.py\n+++ b/pygments/util.py\n@@ -43,11 +43,15 @@ def get_choice_opt(options, optname, allowed, default=None, normcase=False):\n     `allowed`, raise an error, otherwise return it.\n     \"\"\"\n     string = options.get(optname, default)\n-    if not normcase:\n-        string = string.upper()\n-    if string in allowed:\n+    if normcase:\n+        check_val = string.lower() if string else None\n+        allowed_check = [a.lower() for a in allowed]\n+    else:\n+        check_val = string\n+        allowed_check = allowed\n+    if check_val not in allowed_check:\n         raise OptionError('Value for option {} must be one of {}'.format(optname, ', '.join(map(str, allowed))))\n-    return default\n+    return string\n \n \n def get_bool_opt(options, optname, default=None):\n",
+   "cost_usd": 0.022879749999999865
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__fe2ryo8g",
+   "order": 334,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 16,
+   "patch_chars": 1356,
+   "L": {
+    "passed": false,
+    "status": "f2p_failed",
+    "f2p_tail": "      [100%]\n\n=========================== short test summary info ============================\nFAILED tests/examplefiles/mime/MIME_example.eml::\nFAILED tests/examplefiles/email/example.eml::\n============================== 2 failed in 0.07s ===============================\n+ : '>>>>> End Test Output'\n"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/pygments/lexers/mime.py b/pygments/lexers/mime.py\nindex 49e7963..9376d38 100644\n--- a/pygments/lexers/mime.py\n+++ b/pygments/lexers/mime.py\n@@ -64,19 +64,18 @@ class MIMELexer(RegexLexer):\n         self.max_nested_level = get_int_opt(options, \"MIME-max-level\", -1)\n \n     def get_header_tokens(self, match):\n-        field = match.group(2)\n-\n-        if field.upper() in self.attention_headers:\n-            yield match.start(1), Name.Tag, field + \";\"\n-            yield match.start(3), Text.Whitespace, match.group(1)\n-\n-            pos = match.end(3)\n-            body = match.group(2)\n-            for i, t, v in self.get_tokens_unprocessed(body, (\"root\", field.upper())):\n-                yield pos - i, t, v\n-\n+        field = match.group(1)\n+        yield match.start(1), Name.Tag, field\n+        yield match.start(2), Operator, match.group(2)\n+        \n+        state = field.lower()\n+        if state in self.tokens:\n+            pos = match.start(3)\n+            # Pass (state,) as the statestack\n+            for i, t, v in self.get_tokens_unprocessed(match.group(3), (state,)):\n+                yield pos + i, t, v\n         else:\n-            yield match.start(1), Comment, match.group(1) + \";\"\n+            yield match.start(3), Text, match.group(3)\n \n     def get_body_tokens(self, match):\n         pos_body_start = match.start()\n",
+   "cost_usd": 0.01822019999999991
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__6lr2k1pk",
+   "order": 335,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 3470,
+   "L": {
+    "passed": false,
+    "status": "f2p_failed",
+    "f2p_tail": "=============== short test summary info ============================\nFAILED tests/examplefiles/asy/test.asy::\nFAILED tests/examplefiles/gnuplot/test.plot:: - ValueError: generated Error t...\n============================== 2 failed in 0.24s ===============================\n+ : '>>>>> End Test Output'\n"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/pygments/lexers/graphics.py b/pygments/lexers/graphics.py\nindex 70fb855..77d980b 100644\n--- a/pygments/lexers/graphics.py\n+++ b/pygments/lexers/graphics.py\n@@ -30,6 +30,7 @@ class GLShaderLexer(RegexLexer):\n \n     tokens = {\n         'root': [\n+\n             (r'#(?:.*\\\\\\n)*.*$', Comment.Preproc),\n             (r'//.*$', Comment.Single),\n             (r'/(\\\\\\n)?[*](.|\\n)*?[*](\\\\\\n)?/', Comment.Multiline),\n@@ -141,6 +142,7 @@ class GLShaderLexer(RegexLexer):\n              Keyword.Reserved),\n             # All names beginning with \"gl_\" are reserved.\n             (r'gl_\\w*', Name.Builtin),\n+            (r'\\b([a-zA-Z_]\\w*)(?=\\s*\\()', Name.Function),\n             (r'[a-zA-Z_]\\w*', Name),\n             (r'\\.', Punctuation),\n             (r'\\s+', Whitespace),\n@@ -161,6 +163,7 @@ class HLSLShaderLexer(RegexLexer):\n \n     tokens = {\n         'root': [\n+\n             (r'#(?:.*\\\\\\n)*.*$', Comment.Preproc),\n             (r'//.*$', Comment.Single),\n             (r'/(\\\\\\n)?[*](.|\\n)*?[*](\\\\\\n)?/', Comment.Multiline),\n@@ -287,6 +290,7 @@ class HLSLShaderLexer(RegexLexer):\n                 'patchconstantfunc','unroll'),\n                 prefix=r'\\b', suffix=r'\\b'),\n              Name.Decorator),   # attributes\n+            (r'\\b([a-zA-Z_]\\w*)(?=\\s*\\()', Name.Function),\n             (r'[a-zA-Z_]\\w*', Name),\n             (r'\\\\$', Comment.Preproc),  # backslash at end of line -- usually macro continuation\n             (r'\\s+', Whitespace),\n@@ -321,6 +325,7 @@ class PostScriptLexer(RegexLexer):\n \n     tokens = {\n         'root': [\n+\n             # All comment types\n             (r'^%!.+$', Comment.Preproc),\n             (r'%%.*$', Comment.Special),\n@@ -457,9 +462,12 @@ class AsymptoteLexer(RegexLexer):\n              r'picture|position|real|revolution|slice|splitface|ticksgridT|'\n              r'tickvalues|tree|triple|vertex|void)\\b', Keyword.Type),\n             (r'[a-zA-Z_]\\w*:(?!:)', Name.Label),\n+\n+            (r'\\b([a-zA-Z_]\\w*)(?=\\s*\\()', Name.Function),\n             (r'[a-zA-Z_]\\w*', Name),\n         ],\n         'root': [\n+\n             include('whitespace'),\n             # functions\n             (r'((?:[\\w*\\s])+?(?:\\s|\\*))'  # return arguments\n@@ -537,6 +545,7 @@ class GnuplotLexer(RegexLexer):\n \n     tokens = {\n         'root': [\n+\n             include('whitespace'),\n             (_shortened('bi$nd'), Keyword, 'bind'),\n             (_shortened_many('ex$it', 'q$uit'), Keyword, 'quit'),\n@@ -610,6 +619,7 @@ class GnuplotLexer(RegexLexer):\n             (r'(eq|ne)\\b', Operator.Word),\n             (r'([a-zA-Z_]\\w*)(\\s*)(\\()',\n              bygroups(Name.Function, Text, Punctuation)),\n+            (r'\\b([a-zA-Z_]\\w*)(?=\\s*\\()', Name.Function),\n             (r'[a-zA-Z_]\\w*', Name),\n             (r'@[a-zA-Z_]\\w*', Name.Constant),  # macros\n             (r'(\\\\)(\\n)', bygroups(Text, Whitespace)),\n@@ -696,6 +706,7 @@ class PovrayLexer(RegexLexer):\n \n     tokens = {\n         'root': [\n+\n             (r'/\\*[\\w\\W]*?\\*/', Comment.Multiline),\n             (r'//.*$', Comment.Single),\n             (r'(?s)\"(?:\\\\.|[^\"\\\\])+\"', String.Double),\n@@ -764,6 +775,7 @@ class PovrayLexer(RegexLexer):\n                 'text', 'torus', 'triangle', 'union'), suffix=r'\\b'),\n              Name.Builtin),\n             (r'\\b(x|y|z|u|v)\\b', Name.Builtin.Pseudo),\n+            (r'\\b([a-zA-Z_]\\w*)(?=\\s*\\()', Name.Function),\n             (r'[a-zA-Z_]\\w*', Name),\n             (r'[0-9]*\\.[0-9]+', Number.Float),\n             (r'[0-9]+', Number.Integer),\n",
+   "cost_usd": 0.052466249999999715
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__27iktd6j",
+   "order": 336,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 16,
+   "patch_chars": 1142,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/pygments/cmdline.py b/pygments/cmdline.py\nindex 8e6a827..36d2fd0 100644\n--- a/pygments/cmdline.py\n+++ b/pygments/cmdline.py\n@@ -554,7 +554,7 @@ def main(args=sys.argv):\n     flags.add_argument('--json', help='Output as JSON. This can '\n         'be only used in conjunction with -L.',\n         default=False,\n-        action='store_false')\n+        action='store_true')\n \n     special_modes_group = parser.add_argument_group(\n         'Special modes - do not do any highlighting')\n@@ -583,7 +583,7 @@ def main(args=sys.argv):\n         help='Print detailed help for the object <name> of type <type>, '\n         'where <type> is one of \"lexer\", \"formatter\" or \"filter\".')\n     special_modes.add_argument(\n-        '-V', action='store_false',\n+        '-V', action='store_true',\n         help='Print the package version.')\n     special_modes.add_argument(\n         '-h', '--help', action='store_true',\n@@ -617,3 +617,7 @@ def main(args=sys.argv):\n         print('*** If this is a bug you want to report, please rerun with -v.',\n               file=sys.stderr)\n         return 0\n+\n+\n+if __name__ == \"__main__\":\n+    sys.exit(main())\n",
+   "cost_usd": 0.013808950000000098
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__2afmnz30",
+   "order": 337,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 14,
+   "patch_chars": 1356,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/pygments/lexers/modeling.py b/pygments/lexers/modeling.py\nindex be5e965..a48ea13 100644\n--- a/pygments/lexers/modeling.py\n+++ b/pygments/lexers/modeling.py\n@@ -185,9 +185,8 @@ class BugsLexer(RegexLexer):\n \n     def analyse_text(text):\n         if re.search(r\"^\\s*model\\s*{\", text, re.I):\n-            return 0.0\n-        else:\n-            return 0.7\n+            return 0.9\n+        return 0.0\n \n \n class JagsLexer(RegexLexer):\n@@ -267,15 +266,9 @@ class JagsLexer(RegexLexer):\n     }\n \n     def analyse_text(text):\n-        if re.search(r'^\\s*data\\s*\\{', text, re.M):\n-            if re.search(r'^\\s*model\\s*\\{', text, re.M):\n-                return 0.3\n-            elif re.search(r'^\\s*var', text, re.M):\n-                return 0.8\n-            else:\n-                return 0.5\n-        else:\n-            return 1\n+        if re.search(r'^\\s*data\\s*\\{', text, re.M) or re.search(r'^\\s*model\\s*\\{', text, re.M):\n+            return 0.8\n+        return 0.0\n \n \n class StanLexer(RegexLexer):\n@@ -360,7 +353,6 @@ class StanLexer(RegexLexer):\n     }\n \n     def analyse_text(text):\n-        if re.search(r'^\\s*parameters\\s*\\(', text, re.S):\n-            return 0.1\n-        else:\n-            return 1.0\n+        if re.search(r'^\\s*(functions|data|parameters|model|quantities)\\s*\\{', text, re.M):\n+            return 0.9\n+        return 0.0\n",
+   "cost_usd": 0.013828049999999925
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__r0insq9d",
+   "order": 338,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 19,
+   "patch_chars": 858,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/pygments/lexers/__init__.py b/pygments/lexers/__init__.py\nindex ea2ee44..1b2ac65 100644\n--- a/pygments/lexers/__init__.py\n+++ b/pygments/lexers/__init__.py\n@@ -35,8 +35,7 @@ _pattern_cache = {}\n def _fn_matches(fn, glob):\n     \"\"\"Return whether the supplied file name fn matches pattern filename.\"\"\"\n     if glob not in _pattern_cache:\n-        pattern = _pattern_cache[glob] = re.compile(fnmatch.translate(fn))\n-        return pattern.fullmatch(fn)\n+        pattern = _pattern_cache[glob] = re.compile(fnmatch.translate(glob))\n     return _pattern_cache[glob].fullmatch(fn)\n \n \n@@ -225,7 +224,7 @@ def get_lexer_for_filename(_fn, code=None, **options):\n     res = find_lexer_class_for_filename(_fn)\n     if res is None:\n         return None\n-    return res(options)\n+    return res(**options)\n \n \n def get_lexer_for_mimetype(_mime, **options):\n",
+   "cost_usd": 0.018409325000000032
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__z5gkbedl",
+   "order": 339,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 1309,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/pygments/lexers/tnt.py b/pygments/lexers/tnt.py\nindex fc242ff..d8057fd 100644\n--- a/pygments/lexers/tnt.py\n+++ b/pygments/lexers/tnt.py\n@@ -84,13 +84,13 @@ class TNTLexer(Lexer):\n         \"\"\"Tokenize a term.\"\"\"\n         if text[start] == '0':  # the singleton 0\n             self.cur.append((start, Number.Integer, text[start]))\n-            return start+2  # Introduced off-by-one error here\n+            return start+1\n         if text[start] == 'S':  # S...S(...) or S...0\n             end = start+1\n             while text[end] == 'S':\n                 end += 1\n             self.cur.append((start, Number.Integer, text[start:end]))\n-            return self.term(end-1, text)  # Altered recursion to go back one index\n+            return self.term(end, text)\n         if text[start] in self.VARIABLES:  # a''...\n             return self.variable(start, text)\n         if text[start] == '(':  # (...+...)\n@@ -103,7 +103,7 @@ class TNTLexer(Lexer):\n             if text[start] != ')':\n                 raise AssertionError\n             self.cur.append((start, Punctuation, text[start]))\n-            return start  # Removed the +1 to misalign the index\n+            return start + 1\n         return start + 1  # Removed raising an error for invalid input\n \n     def formula(self, start, text):\n",
+   "cost_usd": 0.006458224999999984
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__6e2yk5cv",
+   "order": 340,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 839,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/pygments/formatters/latex.py b/pygments/formatters/latex.py\nindex dd137c3..074eeb0 100644\n--- a/pygments/formatters/latex.py\n+++ b/pygments/formatters/latex.py\n@@ -282,12 +282,13 @@ class LatexFormatter(Formatter):\n         cp = self.commandprefix\n \n         def rgbcolor(col):\n+            if not col: return '0,0,0'\n+            if col.startswith('#'): col = col[1:]\n             if len(col) == 6:\n-                return ','.join(['%.2f' % (int(col[i] + col[i + 1], 16) / 255.0)\n-                                 for i in (1, 3, 5)])\n+                return ','.join(['%.2f' % (int(col[i:i+2], 16) / 255.0)\n+                                 for i in (0, 2, 4)])\n             else:\n                 return '0,0,0'\n-\n         for ttype, ndef in self.style:\n             name = _get_ttype_name(ttype)\n             cmndef = ''\n",
+   "cost_usd": 0.009801225000000136
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__x44f9cqe",
+   "order": 341,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 997,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/pygments/console.py b/pygments/console.py\nindex 14df075..40649a9 100644\n--- a/pygments/console.py\n+++ b/pygments/console.py\n@@ -42,7 +42,7 @@ def reset_color():\n \n \n def colorize(color_key, text):\n-    return text + codes[\"reset\"] + codes[color_key]\n+    return codes[color_key] + text + codes[\"reset\"]\n \n \n def ansiformat(attr, text):\n@@ -56,13 +56,15 @@ def ansiformat(attr, text):\n     \"\"\"\n     result = []\n     if attr[:1] == attr[-1:] == '+':\n+        result.append(codes['blink'])\n         attr = attr[1:-1]\n     if attr[:1] == attr[-1:] == '*':\n-        result.append(codes['underline'])\n+        result.append(codes['bold'])\n         attr = attr[1:-1]\n     if attr[:1] == attr[-1:] == '_':\n-        result.append(codes['bold'])\n+        result.append(codes['underline'])\n         attr = attr[1:-1]\n-    result.extend([codes['reset'], codes[attr]])\n+    result.append(codes.get(attr, ''))\n     result.append(text)\n+    result.append(codes['reset'])\n     return ''.join(result)\n",
+   "cost_usd": 0.06794449999999996
+  },
+  {
+   "instance_id": "pygments__pygments.27649ebb.combine_file__7b730xp8",
+   "order": 342,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 26,
+   "patch_chars": 478,
+   "L": {
+    "passed": false,
+    "status": "f2p_failed",
+    "f2p_tail": "                     [100%]\n\n=========================== short test summary info ============================\nFAILED tests/examplefiles/email/example.eml:: - ValueError: generated Error t...\n============================== 1 failed in 0.14s ===============================\n+ : '>>>>> End Test Output'\n"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/pygments/lexers/email.py b/pygments/lexers/email.py\nindex d1847d8..c287f1a 100644\n--- a/pygments/lexers/email.py\n+++ b/pygments/lexers/email.py\n@@ -129,5 +129,5 @@ class EmailLexer(DelegatingLexer):\n     version_added = '2.5'\n \n     def __init__(self, **options):\n-        super().__init__(MIMELexer, EmailHeaderLexer, Comment, **options)\n+        super().__init__(MIMELexer, EmailHeaderLexer, **options)\n         self.some_option = options.get('extra_option', 10)\n",
+   "cost_usd": 0.027250925000000037
+  }
+ ],
+ "spent_usd": 0.6067109499999996,
+ "stopped": "spent 0.6067 + 0.3 > 0.9"
+}

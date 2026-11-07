@@ -65,7 +65,7 @@ on:
         required: true
         default: "none"
         type: choice
-        options: ["none", "skill", "placebo", "trace34", "trace34b", "pair", "skillb"]
+        options: ["none", "skill", "placebo", "trace34", "trace34b", "pair", "skillb", "skillc"]
       dryrun:
         description: "swesmith-s27 only: true = scripted model (0 USD) on the first task of each arm"
         required: false
@@ -349,6 +349,9 @@ jobs:
             pygments:skillb) run_probe s27pyg_skillb.json "${{ inputs.budget_usd }}" \
                              --skills-file /tmp/jinja_skill.txt \
                              --skip-done "$GITHUB_WORKSPACE/results/s27pyg_skill.json" ;;
+            pygments:skillc) run_probe s27pyg_skillc.json "${{ inputs.budget_usd }}" \
+                             --skills-file /tmp/jinja_skill.txt \
+                             --skip-done "$GITHUB_WORKSPACE/results/s27pyg_skill.json" "$GITHUB_WORKSPACE/results/s27pyg_skillb.json" ;;
             pygments:pair)
               half=$(python -c "print(round(float('${{ inputs.budget_usd }}') / 2, 4))")
               mkdir -p /tmp/work/none /tmp/work/skill

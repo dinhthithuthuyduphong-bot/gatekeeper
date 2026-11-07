@@ -77,6 +77,7 @@ def main() -> int:
     )
     ap.add_argument(
         "--skip-done",
+        nargs="+",
         help="result file of an earlier, capped run of the same arm: its tasks are not run again "
         "(task selection only; A107)",
     )
@@ -111,7 +112,9 @@ def main() -> int:
     if a.subset == "no-problem-statement":
         insts = [r for r in insts if not (r.get("problem_statement") or "").strip()]
     if a.skip_done:
-        done = {r["instance_id"] for r in json.loads(Path(a.skip_done).read_text())["runs"]}
+        done = {
+            r["instance_id"] for f in a.skip_done for r in json.loads(Path(f).read_text())["runs"]
+        }
         insts = [r for r in insts if r["instance_id"] not in done]
     skills = Path(a.skills_file).read_text() if a.skills_file else ""
     traces_path = Path(a.out).with_suffix(".traces.jsonl.gz")
