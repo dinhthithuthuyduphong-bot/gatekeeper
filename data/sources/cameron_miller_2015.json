@@ -37,5 +37,5 @@
    "In principle it is possible to directly use a bootstrap for bias -reduction, such as to remove bias in standard errors. In practice this is not done, however, as in practice any bias reduction comes at the expense of considerably greater variability. A conservative estimate of the standard error equals the width of a 95% confidence interval, obtained using asymptotic refinement, divided by 2 × 1.96. Note that for the wild cluster bootstrap the resamples {(𝒚1 ∗, 𝑿1), . . . , (𝒚𝐺 ∗ , 𝑿𝐺)} have the same 𝑿 in each resample, whereas for pairs cluster both 𝒚∗ and 𝑿∗ vary across the 𝐵 resamples. The wild cluster bootstrap is an extension of the wild bootstrap proposed for heteroskedastic data. It works essentially becaus e the two -point distribution for forming 𝒖𝑔 ∗ ensures that E[𝒖𝑔 ∗ ] = 𝟎 and V[𝒖𝑔 ∗ ] = 𝒖�𝑔𝒖�𝑔 ′ . There are other two -point distributions that also do so, but Davidson and Flachaire (2008) show that in the heteroskedastic case it is best to use the weights 𝑑𝑔 = {−1,1}, called Rademacher weights. The wild cluster bootstrap essentially replaces 𝒚𝑔 in each resample with one of two values 𝒚𝑔 ∗ = 𝑿𝜷�H0 + 𝒖�𝑔 or 𝒚𝑔 ∗ = 𝑿𝜷�H0 − 𝒖�𝑔. Because this is done across 𝐺 clusters, there are at mos"
   ]
  },
- "fetched_utc": "2026-11-06T16:41:42+00:00"
+ "fetched_utc": "2026-11-07T05:49:43+00:00"
 }
