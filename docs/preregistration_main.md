@@ -1545,3 +1545,16 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - Tổng trần §27 thành 0,505 (đã chi) + 0,6 + 2,2 + 3,6 = 6,9 USD, vẫn trong mức 7 USD.
 - **Kiểm trần cho các nhánh còn lại:** 27a cần khoảng 1,94 + 0,30 = 2,24 USD, nên nâng trần từ 2,2 lên **2,3**. 27b cần mỗi nhánh khoảng 1,4–1,9 + 0,30 ≤ 2,2 USD, nên nâng trần từ 3,6 lên **4,4**, tức 2,2 USD cho mỗi nhánh. Tổng trần §27 thành 0,505 + 0,6 + 2,3 + 4,4 = **7,8 USD**, vượt 7 USD. Nhưng chi dự kiến chỉ khoảng 0,505 + 0,18 + 1,94 + 3,3 ≈ **5,9 USD**: phần vượt chỉ là khoảng đệm cho lượt xấu nhất, không phải tiền dự kiến chi. Chi thật sẽ được báo, và dừng ngay nếu tổng chi thật của §27 sắp vượt 7 USD.
 
+### Kết quả 27c (run 42362204332 cho 25 task và 42365104656 cho 9 task; `results/s27_trace34*.json`, `*.traces.jsonl.gz`)
+- 34/34 task không có mô tả issue của tập test jinja; môi trường gốc của gskill; skill jinja nguyên văn; 0 lỗi hạ tầng; chi 0,753 USD.
+- **G1 = 34/34:** agent chạy `git log` hoặc `git show` ở mọi task.
+- **G2 = 34/34:** quan sát của agent chứa "Bug Patch" ở mọi task.
+- **G3:** không tính được, vì không có task nào thiếu G2. S = 15/34 (đều có G2).
+- **So với 06/11** (`f1_skill_probe`, cùng 34 task):
+  - S 15/34 lúc đó, 15/34 bây giờ;
+  - 30/34 task cùng kết quả S; 22/34 task có patch giống hệt;
+  - nhánh không skill (F1) trên 34 task này: S 1/34.
+- **Diễn giải (mô tả):**
+  - Trên mọi task không có mô tả issue, skill học được dẫn agent tới đọc commit "Bug Patch". Đây là bằng chứng trực tiếp cho cơ chế mà §25 bước 3 suy ra từ Δ_leak.
+  - Mức lặp lại 30/34 sau 1 ngày được báo cáo kèm phép so khác thời điểm của 27a.
+
