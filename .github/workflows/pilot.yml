@@ -348,7 +348,7 @@ jobs:
               mkdir -p /tmp/work/none /tmp/work/skill
               (cd /tmp/work/none && run_probe s27pyg_none.json "$half") > /tmp/none.log 2>&1 &
               (cd /tmp/work/skill && run_probe s27pyg_skill.json "$half" --skills-file /tmp/jinja_skill.txt) > /tmp/skill.log 2>&1 &
-              wait; tail -3 /tmp/none.log /tmp/skill.log ;;
+              wait; tail -n 3 /tmp/none.log /tmp/skill.log ;;
             *) echo "section 27: no run for ${{ inputs.repo }}:${{ inputs.arm }}"; exit 1 ;;
           esac
       - uses: actions/upload-artifact@v6
