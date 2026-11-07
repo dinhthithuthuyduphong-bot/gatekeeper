@@ -46,5 +46,5 @@
    "ves the desired error control, while standard approaches are either overly conservative or fail to adequately control false alarms. Finally, we apply the procedure to smartphone-based mHealth data to illustrate its use in practice. 2 Methods 2.1 Sequential testing problem Consider an online change point detection setting where we let r r be the number of run-in days before daily sequential testing begins. On each day t > r t>r , test statistic S t S_{t} is computed and the null hypothesis H 0 ​ t H_{0t} , corresponding to no change point detected on day t t , is tested. Consider a moving time window of length Δ \\Delta over which a practitioner wants to control the probability of a false alarm, where a false alarm corresponds to rejecting H 0 ​ t H_{0t} . For example, a practitioner might want to control the probability of having at least one false alarm over a Δ = 30 \\Delta=30 -day period. In traditional multiple testing settings, the family-wise error rate (FWER) is defined as the probability of at least one false alarm over a fixed set of tests. In the change point detection context, controlling the FWER means controlling the probability of at least one false positive across all monito"
   ]
  },
- "fetched_utc": "2026-11-07T05:55:31+00:00"
+ "fetched_utc": "2026-11-07T07:23:05+00:00"
 }

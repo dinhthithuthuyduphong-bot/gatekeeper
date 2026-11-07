@@ -8,7 +8,7 @@
   }
  ],
  "url": "https://arxiv.org/html/2503.15223v2",
- "sha256": "ccec65419a6bf971317ce8e479c4c9e1d297e350b01d14e49709996f7faac83a",
+ "sha256": "822bc91b4e549b9839e5a373c31e8405066fd0c652c05af7d974bc2b38451b9a",
  "n_chars": 89732,
  "head": " Are “Solved Issues” in SWE-bench Really Solved Correctly? An Empirical Study Report GitHub Issue × Title: Content selection saved. Describe the issue below: Description: Submit without GitHub Submit in GitHub arXiv is now an independent nonprofit! Learn more × Back to arXiv Why HTML? Report Issue Back to Abstract Download PDF Abstract. 1 Introduction 2 Background and Motivating Example 2.1 SWE-bench and SWE-bench Verified 2.2 Motivating Example 3 Methodology 3.1 Issue Solving Tools and Patches 3.2 Differential Patch Testing 3.2.1 Target Function Identification 3.2.2 Contextual Code Extraction 3.2.3 LLM-Based Test Generation 3.2.4 Unqualified Test Filtering 4 Empirical Study ",
  "excerpts": {
@@ -81,5 +81,5 @@
    "each generated plausible patch, we first apply the test patch to the repository and collect all available test files from the repository. Next, we run these test files sequentially after applying the generated patch or the oracle patch separately. We then compare the test results of the two patches and record any generated patch that shows inconsistent behavior with the corresponding oracle patch, i.e., at least one test passes with the oracle patch but fails with the generated patch. We further execute the tests that trigger inconsistent behaviors 20 times with the oracle patch to filter out flaky tests. We observe that some developer tests focus on coding conventions rather than functionality, e.g., detecting trailing whitespace or ensuring files end with no more than one newline. To prioritize functional correctness, we exclude the generated patches that only show inconsistencies related to coding conventions. The remaining generated patches introduce regression errors and are therefore incorrect. Table 1 . Incorrect patches detected by running all developer tests Tool %Resolved #Incorrect Updated %Resolved CodeStory 62.2% (311/500) 26 (8.4%) 57.0% ( ↓ \\downarrow 5.2%) LearnByInterac"
   ]
  },
- "fetched_utc": "2026-11-07T05:55:38+00:00"
+ "fetched_utc": "2026-11-07T07:23:11+00:00"
 }

@@ -37,5 +37,5 @@
    ".txt # 📦 Runtime deps (installs SWE-agent + utilities) ``` --- ## ⚙️ Reproducing MemGovern (Linux + Docker) MemGovern is implemented as **memory tools + configs** on top of **SWE-agent**. A full run uses **two terminals**: - **Terminal A**: start the *Experience Server* (vector search + experience lookup) - **Terminal B**: run SWE-agent on SWE-bench with a MemGovern config that calls the server tools > Requirements: **Linux (or WSL2)**, **Python ≥ 3.11**, **Git**, **Docker**. > > WSL2 note: Windows drives are mounted under `/mnt/` (e.g., `E:\\` → `/mnt/e/`). ### 1) Install (this also downloads SWE-agent code) ```bash git clone https://github.com/QuantaAlpha/MemGovern.git cd MemGovern python3 -m venv SWE source SWE/bin/activate pip install -U pip pip install -r requirements.txt ``` ### 2) Prepare MemGovern experience data The Experience Server needs **two artifacts**: - **`experience_data.json`**: governed experience cards (key → structured fields, including `bug_description` / `fix_experience`) - **`chroma_db_experience/`**: a persistent ChromaDB store used for semantic retrieval In this repository, we provide them under: - `data/agentic_exp_data_1220_13w_DSnewPrompt/` (tracked via **Git LFS"
   ]
  },
- "fetched_utc": "2026-11-07T05:54:50+00:00"
+ "fetched_utc": "2026-11-07T07:22:26+00:00"
 }
