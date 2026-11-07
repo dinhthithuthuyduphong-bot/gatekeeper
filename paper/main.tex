@@ -17,6 +17,7 @@
 \newtheorem{assumption}{Assumption}
 \newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
 \newcommand{\STR}{\mathrm{STR}}
+\newcommand{\agentmodel}{\todo{agent model name}}
 % Every number in the text is a macro generated from results/ by scripts/make_numbers.py.
 \input{numbers}
 
@@ -232,15 +233,90 @@ $n_{\mathrm{unpaired}}/n_{\mathrm{paired}}=1+2\sigma_T^2/\sigma_S^2$; both desig
 \resizebox{\linewidth}{!}{\input{tables/design.tex}}\end{table}
 
 \section{Evaluation Design}\label{sec:design}
-\todo{SWE-Gym (train) $\to$ SWE-bench / Verified / Live (test), split by repository; mini-swe-agent;
-Gemini on Vertex AI (two backends); baselines XRepoSkill, MemGovern, gskill, B1, B2, B8, B9.}
+\paragraph{Agent and tasks}
+All runs use mini-swe-agent~2.4.6 with one model, \agentmodel{}, at fixed settings (step and cost
+limits, seed). Three task sources are used: SWE-bench Verified~\cite{swebench_verified} for our own
+skills, SWE-bench-Live~\cite{swe_bench_live} for XRepoSkill~\cite{xreposkill} and the positive
+control, and the 100-task test split that gskill~\cite{gskill} draws from SWE-smith for the two
+learned skills. For the latter we run gskill's own environment, configuration and learned skill
+files unchanged, and check them byte for byte before each run.
 
-\begin{table}[t]\centering\caption{Power of the primary endpoint under the draft's projected rates (11.5\% $\to$ 5.1\%).}
-\input{tables/power.tex}\end{table}
+\paragraph{Scorers}
+$S$ is the benchmark's own notion of \emph{resolved}: every \texttt{FAIL\_TO\_PASS} and every
+\texttt{PASS\_TO\_PASS} test passes~\cite{swebench}; for SWE-smith tasks we use SWE-smith's
+grading. $L$ is the scorer in gskill's public code (\texttt{verify\_with\_patch}), which the
+learning loop optimises against.
+
+\paragraph{Controls}
+Each control asks whether the measurement could produce the observed result when the claimed cause
+is absent.
+\begin{itemize}
+  \item \emph{A/A}: two runs without any skill on the same task~\cite{kohavi_aa}; used to measure
+        what admission and attribution rules report when there is no effect.
+  \item \emph{Sham skill}: a skill with no effect, for LLM-based attribution.
+  \item \emph{No-op and gold patches}: a patch that changes nothing, and the reference fix; the
+        first must not pass, the second must.
+  \item \emph{Length-matched irrelevant skill}: a skill unrelated to the repository whose length is
+        within $\pm5\%$ of the learned skill's~\cite{webdev_skills_bench_2026}.
+  \item \emph{Single-commit history}: the repository history replaced by one commit holding the
+        buggy tree~\cite{debuggym_swesmith_git_fix}; nothing else changes.
+\end{itemize}
+
+\paragraph{Analysis}
+Skill and no-skill arms are paired by task. The primary test is an exact one-sided sign test on
+discordant pairs; families of tests use Holm's procedure~\cite{holm}; intervals are task-level
+bootstrap intervals. Admission uses the e-process of Section~\ref{sec:admission} with $\theta=0$,
+$\alpha=0.025$ and $c=0.5$~\cite{waudby_smith_ramdas}, run over tasks in a fixed order. Every
+confirmatory analysis, threshold and decision rule was registered before the data it applies to
+were seen~\cite{nosek_2018}; exploratory analyses are labelled as such.
 
 \section{Results}
 \subsection{RQ1: Do skill-evaluation numbers survive controls?}\label{sec:rq1}
-\todo{docs/paper\_outline.md section 6.}
+\paragraph{The scorer of a learning pipeline}
+gskill's public scorer marks a patch as passing whenever the test output contains the word
+``passed''. A no-op patch therefore passes on \nfzeroLNoop{} of \nfzeroN{} tasks across
+\nfzeroRepos{} SWE-smith repositories, including the two repositories used to demonstrate the
+pipeline; SWE-smith's grading passes \nfzeroSNoop{} of them and passes the gold patch on at least
+\nfzeroGoldMinPct\% of the tasks of every repository. On the agent's own patches the gap persists: without a skill,
+$L$ reports \njinjaLNone{} passing tasks on Jinja where $S$ finds \njinjaNone{} resolved, and
+\nbleveLNone{} versus \nbleveNone{} on Bleve; with the learned skills, \njinjaLSkill{} versus
+\njinjaSkill{} and \nbleveLSkill{} versus \nbleveSkill{}. We make no claim about the numbers in the
+pipeline's announcement, which may have been produced with other code.
+
+\paragraph{Attribution of failures to skills}
+A published procedure flags a failure as skill-induced when the run with the skill fails a task
+that a reference run solves~\cite{skill_induced_failures_2026}. Applied to two runs \emph{without}
+any skill, the procedure flags as many candidates as it does with the skill: \nattrPlacebo{} versus
+\nattrSkill{} on \nattrTasks{} SWE-bench-Live tasks, a ratio of \nattrR{}
+[\nattrRLo{}, \nattrRHi{}]. LLM auditors, asked whether a sham skill caused a failure, blame it;
+the lower bounds on their false-attribution rates are \nshamLite{}, \nshamFlash{} and \nshamPro{}
+for three auditor models.
+
+\paragraph{Admission rules under A/A}
+On real no-skill run pairs with no effect by construction, a single comparison with a plug-in
+threshold admits in \npluginOnce{} of streams, and \npluginMonitored{} when checked every ten
+trials. A fixed-sample statistic of the kind XRepoSkill reports, which we turned into a gate
+ourselves, keeps \nbxOnce{} at one look but reaches \nbxMonitored{} when monitored; XRepoSkill does
+not use it as a threshold. GEPA's acceptance criterion, used inside gskill's optimisation loop and
+not designed for error control, accepts \ngepaNoop{} of no-op proposals. Gatekeeper admits in
+\ngkAdmitAA{} of streams.
+
+\paragraph{Published gains against rerun noise}
+Rerunning the same agent without a skill on \nnoiseTasks{} tasks gives a noise level for each
+sample size. \nnoiseWithin{} of the \nnoiseClaims{} gains reported for XRepoSkill and MemGovern lie
+within it: a single run cannot distinguish them from rerunning the baseline. This does not mean the
+skills have no effect.
+
+\paragraph{Our own measurements pass the controls}
+On our harness, no-op patches resolve \nnoopOurs{} of \nnoopOursN{} tasks and gold patches
+\ngoldOursOk{} of \ngoldOursN{}. A local scoring environment without network access had made some
+tests fail in both arms; rescoring all \nrescoredPatches{} affected patches with network access
+changed \neoneFlips{} of \neoneSides{} outcomes for our own skills and \netwoFlips{} of
+\netwoSides{} for XRepoSkill, and no conclusion. The XRepoSkill effect is \netwoS{} under $S$, \netwoF{} when only
+\texttt{FAIL\_TO\_PASS} tests count and \netwoB{} when tests broken in every run are dropped; the
+positive control rises from \ntfourS{} to \ntfourF{} under the second endpoint.
+\todo{MemGovern: 0/20 runs invoked the memory tools (branch trial, cell M-4); add after the merge.}
+
 \subsection{RQ2: Can a learned skill be certified, and where does its gain come from?}\label{sec:rq2}
 \todo{docs/paper\_outline.md section 7.}
 \subsection{RQ3: Does a certification carry over to another scope?}\label{sec:rq3}
@@ -253,5 +329,8 @@ Gemini on Vertex AI (two backends); baselines XRepoSkill, MemGovern, gskill, B1,
 \section{Related Work}
 \todo{GSE, XRepoSkill, HSE, SWE-Skills-Bench, MemGovern, CODESKILL, formal capability verification;
 real titles and authors from data/citations.json.}
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
 
 \end{document}
