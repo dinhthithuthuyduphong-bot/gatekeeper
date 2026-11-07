@@ -84,6 +84,14 @@ ARXIV = [
     ),
     ("SWE-Gym", "2412.21139", None, False),
     ("SWE-smith", "2504.21798", None, False),
+    # paper (07/11/2026): arXiv ids from the URLs of configs/sources.json (scripts/make_bib.py)
+    ("xreposkill", "2609.36807", None, False),
+    ("randomness_agentic_evals_2026", "2602.07150", None, False),
+    ("patchdiff_2025", "2503.15223", None, False),
+    ("utboost_2025", "2506.09289", None, False),
+    ("swebench_pro_verified", "2609.08149", None, False),
+    ("waudby_smith_ramdas", "2010.09686", None, False),
+    ("webdev_skills_bench_2026", "2608.23067", None, False),
 ]
 DBLP_TITLES = {
     "SWE-bench": "SWE-bench: Can Language Models Resolve Real-world Github Issues?",
