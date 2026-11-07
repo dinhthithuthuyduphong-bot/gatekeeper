@@ -389,3 +389,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   2. Nhãn kết luận chỉ được gán khi mọi lần chấm có báo cáo; còn lại ghi `no_report`.
   3. Chạy thử script trên **mỗi loại** dataset trước khi chạy hàng loạt.
 
+## L49. Mô tả dataset, cỡ mẫu và thiết lập trong paper phải đọc từ file cấu hình của thí nghiệm, không từ trí nhớ hay từ thí nghiệm gần nhất (A111)
+
+- **Xảy ra:** paper ghi E1 dùng SWE-bench Verified vì pilot G1 và nhiều script chấm lại gọi chung là "Verified". Thật ra E1 dùng bộ test đầy đủ. Cùng lúc, bản nháp ghi E1 có 40 task mỗi skill, trong khi giai đoạn mở rộng đã nâng lên 53.
+- **Phòng ngừa:**
+  1. Mỗi câu mô tả thiết lập (dataset, n, seed, ngân sách) trong paper phải dẫn được tới một file: `configs/pools/*.json` hoặc bản đăng ký trước, kể cả các ghi chú thực thi.
+  2. Ưu tiên macro sinh từ file (như `paper/numbers.tex`) cho mọi con số thiết lập.
+  3. Comment trong mã không được gọi tên dataset chung chung khi nhiều thí nghiệm dùng các dataset khác nhau.

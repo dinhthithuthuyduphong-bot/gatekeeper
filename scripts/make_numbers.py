@@ -346,6 +346,37 @@ def main() -> int:
     mg = load(Path("results/mg_tool_use.json"))["summary"]
     N["mgUsed"] = mg["v1"]["used"] + mg["v2"]["used"]
     N["mgRuns"] = mg["v1"]["tasks"] + mg["v2"]["tasks"]
+    for tag, f in (
+        ("Lite", "sham_audit.json"),
+        ("Flash", "sham_audit_flash.json"),
+        ("Pro", "sham_audit_pro.json"),
+    ):
+        rows = [r for r in load(Path("results") / f)["rows"] if r["condition"] == "sham"]
+        N[f"sham{tag}K"] = sum(1 for r in rows if (r.get("decision") or {}).get("attributed"))
+        N[f"sham{tag}N"] = len(rows)
+    l1, l2 = load(t / "s25_learn_ledger_h1.json"), load(t / "s25_learn_ledger_h2.json")
+    av = l2["argv"]
+    N["learnTrain"] = int(av[av.index("--train-size") + 1])
+    N["learnVal"] = int(av[av.index("--val-size") + 1])
+    N["learnTest"] = int(av[av.index("--test-size") + 1])
+    N["learnBudget"] = int(av[av.index("--max-metric-calls") + 1])
+    refl = av[av.index("--reflection-model") + 1]
+    N["learnReflCalls"] = l1["calls_by_model"][refl] + l2["calls_by_model"][refl]
+    rs = load(t / "rescore_jinja_summary.json")
+    N["rsPatches"] = sum(v["patches"] for v in rs.values())
+    N["rsScorings"] = sum(v["repeats_scored"] for v in rs.values())
+    N["rsFlips"] = sum(v["tasks_with_any_flip"] for v in rs.values())
+    for k, v in {
+        "shamLiteK": 25,
+        "shamFlashK": 3,
+        "shamProK": 5,
+        "learnBudget": 600,
+        "rsScorings": 448,
+        "rsFlips": 0,
+    }.items():
+        if N[k] != v:
+            print("MISMATCH", k, N[k], v)
+            return 1
     N["leakSharePct"] = round(100 * N["leakShare"])
     N["fzeroGoldMinPct"] = int(100 * f0["S_gold_min"])  # floor: "at least"
     for k in ("sskbOpp", "sskbRho"):

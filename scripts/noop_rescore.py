@@ -3,7 +3,7 @@
   python scripts/noop_rescore.py --rows <e1_rows.jsonl> <live rows.jsonl> ... \
       --live-python <livenv python>
 
-Tasks: all 20 T4 tasks (SWE-bench-Live) and 20 E1 tasks (SWE-bench Verified) drawn with
+Tasks: all 20 T4 tasks (SWE-bench-Live) and 20 E1 tasks (SWE-bench test split, A111) drawn with
 random.Random(27).sample from the sorted union of E1 task sets (execution note 27-1). A no-op
 patch leaves every FAIL_TO_PASS test failing, so the expected resolved rate is 0. Writes
 results/harness_noop.json after every task (resumable).
@@ -64,7 +64,8 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--rows", nargs="+", type=Path, required=True)
     ap.add_argument("--live-python", required=True)
-    # SWE-bench Verified is scored with swebench 5.0.2 in the agent env, as E1 was (A90 below)
+    # SWE-bench (E1: full test split; G1 pilot: Verified) is scored with swebench 5.0.2 in the agent
+    # env, as E1 was (A90 below; A111: E1 is not Verified)
     ap.add_argument("--verified-python", required=True)
     # section 28 step 1 negative control: first N tasks, with network, separate output
     ap.add_argument("--net", action="store_true")

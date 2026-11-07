@@ -555,3 +555,20 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - `.github/workflows/s28.yml`: dựng từ `rescore.yml` (đã chạy thành công, run 42200960814).
 - **Kiểm:** 1.200/1.200 bản vá tìm được; chạy thử cục bộ đạt cho Verified và Live; YAML hợp lệ; preflight.
 - **Theo quy tắc §4:** quy tắc tập instance được dùng nguyên văn (R5); cách xử lý "không có báo cáo" đặt trước khi có dữ liệu.
+
+## R-47. Review paper lần 2 (2026-11-07, 0 USD)
+
+- **Phạm vi:** `paper/main.tex` toàn bộ; đối chiếu từng câu mô tả thiết lập với file cấu hình và bản đăng ký trước (L49).
+- **Sửa:**
+  - Dataset của E1 (A111).
+  - E1: n = 53 mỗi skill (bản đăng ký E1, giai đoạn mở rộng).
+  - Thêm đoạn "Experiments" định nghĩa E1, E2, T4, bước học của gskill và scope.
+  - Sham: thay cụm "blame it" bằng số đếm 25/25, 3/25, 5/25; giải thích cận dưới là phần vượt quá tỉ lệ do skill tối đa mà dữ liệu cho phép (`scripts/section21.py`, `lower_bound_new`).
+  - Gold 33/35: nói rõ là 35 instance có báo cáo đáng ngờ, chấm 3 lần (§26).
+  - Noise floor: đo trên agent và model của mình, nên chỉ là dấu hiệu.
+  - RQ3: bỏ cách nói tuyệt đối ("does not predict", "nothing left").
+  - Related work: cổng nhận của Qu et al., HDSO, Library Drift, mọi câu trích đều có trong bản lưu.
+  - Threats: độ lặp của bộ chấm, model reflection.
+- **Kiểm:**
+  - Mọi macro mới sinh từ file kết quả, có CHECKS.
+  - Ba mục bib mới chờ tác giả từ arXiv (workflow `data`).

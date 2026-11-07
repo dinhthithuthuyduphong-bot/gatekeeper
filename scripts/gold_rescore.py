@@ -59,7 +59,8 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--rows", nargs="+", type=Path, required=True)
     ap.add_argument("--live-python", required=True)
-    # SWE-bench Verified is scored with swebench 5.0.2 in the agent env, as E1 was (A90 below)
+    # SWE-bench (E1: full test split; G1 pilot: Verified) is scored with swebench 5.0.2 in the agent
+    # env, as E1 was (A90 below; A111: E1 is not Verified)
     ap.add_argument("--verified-python", required=True)
     # section 28 step 1: same gold scoring with network (proxy + CA); separate output file
     ap.add_argument("--net", action="store_true")

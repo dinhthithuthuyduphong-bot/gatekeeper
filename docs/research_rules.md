@@ -140,6 +140,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Power của tương quan và chuyển giao (L41)**
 - [ ] r kỳ vọng tính từ hiệp phương sai giữa các cấu hình (phần chuyển giao được) và nhiễu đo được của chính phép đo sẽ chạy; con số power ra từ script đã commit. Power < 0,8 thì câu hỏi chỉ là mô tả.
 
+**Mô tả thiết lập trong paper (L49)**
+- [ ] Mỗi câu về dataset, n, seed, ngân sách trong paper dẫn được tới `configs/pools/*.json` hoặc bản đăng ký trước (kể cả ghi chú thực thi); con số thiết lập là macro sinh từ file khi có thể.
+
 **Kiểm thử**
 - [ ] Mô phỏng hoặc phép toán mảng: assert kích thước kết quả, vì broadcasting âm thầm làm rộng mẫu (R-6).
 - [ ] Có test cho từng chỗ sửa; `ruff check`, `ruff format --check` và `pytest` đều qua.

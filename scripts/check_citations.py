@@ -98,6 +98,9 @@ ARXIV = [
     ("skill_induced_failures_2026", "2608.11888", None, False),
     ("skilljuror_2026", "2606.11543", None, False),
     ("skillsbench_2026", "2602.12670", None, False),
+    ("anytime_referee_2026", "2609.27051", None, False),
+    ("library_drift_2026", "2605.19576", None, False),
+    ("hdso_2026", "2606.22330", None, False),
     ("test_overfitting_2025", "2511.16858", None, False),
     ("voyager", "2305.16291", None, False),
 ]
