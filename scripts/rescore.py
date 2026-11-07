@@ -32,7 +32,8 @@ def done_keys(out: Path) -> set[tuple[str, str, int]]:
     for line in out.read_text().splitlines():
         if line.strip():
             d = json.loads(line)
-            keys.add((d["file"], d["instance_id"], d["repeat"]))
+            if d.get("status") == "completed":  # an infrastructure error is retried (A105)
+                keys.add((d["file"], d["instance_id"], d["repeat"]))
     return keys
 
 

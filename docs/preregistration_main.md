@@ -1520,3 +1520,19 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 **Họ phép kiểm:** P27a và P27b, Holm ở mức 0,025. 27c chỉ mô tả.
 **Tổng trần: 6,6 USD**, trong mức 7 USD. Thứ tự chạy: chạy thử miễn phí (`dryrun`) cho cả ba, rồi 27c, 27a, 27b. Bleve 4c/4d vẫn theo §25.
 
+### §25 bước 4c (Bleve): kết quả chấm skill (run 42342066372; `results/s25bleve_skill_probe.json`; nhánh không skill là 4a)
+- **Chạy:** 100/100 task; 0 lỗi hạ tầng; 0 lần crash; chi 1,724 USD (trần 3,2).
+- **Phân tích theo quy tắc đã đăng ký** (`scripts/s25_ab.py`). Trước khi dùng, script được kiểm lại trên jinja và tái hiện đúng: 53/15, 44/6, p = 1,6·10⁻⁸, L 49/7, A, admit ở trial 29.
+
+| Bộ chấm | Có skill | Không skill | b / c | p một phía | Mức tăng, bootstrap 95% |
+| --- | --- | --- | --- | --- | --- |
+| **S** | **43/100** | 13/100 | 34 / 4 | 3,0·10⁻⁷ | **+0,30** [0,19; 0,40] |
+| L | 73/100 | 30/100 | 48 / 5 | 3,5·10⁻¹⁰ | +0,43 [0,31; 0,54] |
+
+- **Holm (họ 0,025):** bác bỏ cả S lẫn L. **Kết quả: A.** **Gatekeeper admit ở trial 34.**
+- **Nhóm theo mô tả issue (mô tả, không phải phép kiểm đăng ký):**
+  - không có mô tả (42 task): S 11 so với 0 (b/c 11/0);
+  - có mô tả (58 task): S 32 so với 13 (b/c 23/4).
+  - Cùng hình mẫu với jinja (nhóm không có mô tả: 15 so với 1): skill lại chứa chỉ dẫn đọc git (`git log -p -n 3`).
+- **Chi phí Bleve đến giờ:** 4a 0,786 + học 10,446 + 4c 1,724 = **12,956 USD.**
+

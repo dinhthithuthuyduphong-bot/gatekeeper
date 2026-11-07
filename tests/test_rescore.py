@@ -46,3 +46,16 @@ def test_summary_counts_flips_and_infra(tmp_path):
     s = summarise(out)["a.json"]
     assert s["patches"] == 2 and s["tasks_with_any_flip"] == 1 and s["flipped_tasks"] == ["t1"]
     assert s["infra_not_completed"] == 1 and s["orig_resolved"] == 1
+
+
+def test_infra_errors_are_not_done(tmp_path):
+    from rescore import done_keys
+
+    out = tmp_path / "r.jsonl"
+    out.write_text(
+        json.dumps({"file": "a", "instance_id": "t", "repeat": 0, "status": "completed"})
+        + "\n"
+        + json.dumps({"file": "a", "instance_id": "u", "repeat": 0, "status": "error: X"})
+        + "\n"
+    )
+    assert done_keys(out) == {("a", "t", 0)}
