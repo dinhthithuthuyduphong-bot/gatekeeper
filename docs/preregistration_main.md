@@ -1443,3 +1443,24 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - bước 4c và 4d sẽ đo xem chỉ dẫn này có được dùng không, và đóng góp bao nhiêu.
 - **Tiếp theo:** 4c (chấm skill trên 100 task test, trần 3,2 USD), rồi 4d.
 
+## 26. Mục 2.3: chọn model thứ hai (07/11/2026, trước mọi lần chạy agent với model này)
+
+- **Quy tắc chọn** (nêu trước khi có giá hay số đo nào):
+  1. **Điều kiện bắt buộc:** kênh gọi tính theo token (MaaS, serverless), không thuê máy chủ theo giờ; gọi tool song song.
+  2. **Ưu tiên** model có trọng số mở.
+  3. **Phá hòa** bằng giá đã kiểm trên trang chính thức, tính theo hồ sơ token đo được (91% input là cache, output khoảng 0,3% so với input).
+- **Hai điều chỉnh trước khi có dữ liệu agent nào:**
+  - "Nhận seed" không còn là điều kiện bắt buộc, theo `docs/model_switch_checklist.md` mục B4: nếu API bỏ qua seed, paper phải ghi seed chỉ là nhãn của lần lặp.
+  - "Ngữ cảnh ≥ 131k token" chuyển thành điều kiện phải báo cáo, theo mục B6: lời gọi lớn nhất đo được trên 2.748 lời gọi gần nhất là 77.997 token, và chỉ 1/1.071 lượt chạy pilot vượt 128k.
+- **Kiểm tài khoản** (`vertex-check.yml`, ngày 07/11, tổng chi phí < 0,01 USD):
+  - Qwen, DeepSeek, Llama: chỉ có dạng thuê máy chủ theo giờ trên project này. **Loại.**
+  - Claude Haiku 5.5: bật được, nhưng hạn mức `global_online_prediction_requests_per_base_model` (anthropic-claude-haiku) bằng 0, và Google **từ chối** yêu cầu tăng. **Loại.** Ghi thêm: API không nhận seed.
+  - Grok 4.1 Fast: Google đã ngừng phục vụ từ 20/08/2026. **Loại.**
+  - Codestral 2: LiteLLM không hỗ trợ tool cho model này. **Loại.**
+  - Grok 4.20 Non-Reasoning: gọi được và gọi được 2 tool song song. Nhưng đang ở trạng thái EXPERIMENTAL, và khoảng 0,97 USD mỗi lượt (input 1,25, cache 0,20, output 2,50). Riêng mục 2.4 đã khoảng 200 USD. **Không chọn.**
+  - Mistral Small 3.1 (25.03): trọng số mở; input 0,10, output 0,30, không ghi giá cache, nên khoảng 0,33 USD mỗi lượt. Hiện báo 404 (chưa có quyền truy cập).
+- **Quyết định của @thuthuy (07/11): "theo lời khuyên của bạn".**
+  - Xin quyền Mistral Small 3.1 (phương án A).
+  - Nếu bị từ chối: dùng Gemini Flash (phương án C). Khi đó paper chỉ được viết "trong họ Gemini".
+- **Ngân sách mục 2.3:** đã duyệt khoảng 1 USD. Ước tính 5 task × 2 nhánh với Mistral là khoảng 3,3 USD. Đề xuất nâng lên 3,5 USD, đang chờ @thuthuy.
+
