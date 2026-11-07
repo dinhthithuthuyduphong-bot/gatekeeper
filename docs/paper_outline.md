@@ -236,3 +236,17 @@ Giữ của paper gốc: e-process ghép cặp, cách chia α, thu hồi. Chỉ 
 | `refs.bib` | Sinh tự động (`scripts/make_bib.py`). Mục `VERIFY` là mục chưa có tác giả từ nguồn đã lưu |
 
 **Phát hiện mới khi viết (đã đưa vào paper):** chỉ dẫn đọc lịch sử git **không có** trong skill khởi đầu, cấu hình agent hay prompt của gskill. Quá trình tối ưu đã đưa nó vào (`docs/novelty_review.md`, bổ sung 07/11).
+
+### Cập nhật 07/11/2026 (chiều)
+
+- **Đã đưa vào paper:**
+  - 27a: tác dụng của nội dung +0,29 so với placebo cùng độ dài; độ dài một mình +0,09, không có ý nghĩa thống kê;
+  - 27c: 34/34 trajectory đọc commit "Bug Patch", đếm lại từ trajectory;
+  - MemGovern: 0/20 lượt chạy gọi công cụ, đếm từ lệnh của agent trong bản lưu (`scripts/mg_tool_use.py`).
+- **Kiểm mã gskill:** skill khởi đầu rỗng; cấu hình và prompt không nhắc lịch sử hay commit. Paper viết: chỉ dẫn đọc git do quá trình tối ưu đưa vào.
+- **Mệnh đề 6:** lấy nguyên văn bản gốc, kèm chứng minh của bản gốc và câu bổ sung trong `docs/theory/corrections.md`.
+- **Phạm vi:** hai đoạn lý thuyết cũ được giữ, kèm câu nói rõ là không có đánh giá thực nghiệm.
+- **Model thứ hai:** tạm ngưng (@thuthuy 07/11). Paper nêu ở Threats.
+- **Tên model:** ghi một lần trong macro `\agentmodel`.
+- **`refs.bib`:** 36/36 mục có tiêu đề và tác giả lấy từ bản lưu nguồn. Mục ngoài arXiv đi qua `configs/bib_overrides.json`, và mỗi chuỗi trong đó được kiểm nguyên văn với văn bản nguồn (A108).
+- **Còn `\todo`:** 27b (pygments) và bleve 4d, đang chạy ở nhánh `trial`.
