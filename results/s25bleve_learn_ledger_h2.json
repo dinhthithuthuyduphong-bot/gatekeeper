@@ -1,0 +1,36 @@
+{
+ "spent_before": 5.700719899999993,
+ "spent_this_run": 4.744824875000002,
+ "spent_total": 10.445544774999995,
+ "cap": 16.0,
+ "by_model_usd": {
+  "vertex_ai/gemini-3.1-flash-lite": 3.811328875000002,
+  "vertex_ai/gemini-3.1-pro-preview": 0.933496
+ },
+ "calls_by_model": {
+  "vertex_ai/gemini-3.1-flash-lite": 2483,
+  "vertex_ai/gemini-3.1-pro-preview": 7
+ },
+ "argv": [
+  "--repo",
+  "blevesearch__bleve",
+  "--train-size",
+  "200",
+  "--val-size",
+  "50",
+  "--test-size",
+  "100",
+  "--model",
+  "vertex_ai/gemini-3.1-flash-lite",
+  "--reflection-model",
+  "vertex_ai/gemini-3.1-pro-preview",
+  "--workers",
+  "6",
+  "--max-metric-calls",
+  "600",
+  "--timeout",
+  "18000",
+  "--resume",
+  "gepa_results/logs/run_bleve_20261106_231026_27f143"
+ ]
+}
