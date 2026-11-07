@@ -77,3 +77,42 @@ jobs:
                   acts = sorted((m.get("supportedActions") or {}).keys())
                   print(f"  {m.get('name')} | version {m.get('versionId')} | {m.get('launchStage')} | {m.get('openSourceCategory')} | actions {acts}")
           EOF
+      - name: Second-model probe, direction 1 (Mistral Small 3.1, Codestral 2, Grok 4.20; a few calls, < 0.01 USD)
+        if: env.HAS_KEY == 'true'
+        run: |
+          python - <<'EOF'
+          # Model ids are those returned by ListPublisherModels above. Two call routes per model:
+          # LiteLLM (what the agent would use) and Vertex's OpenAI-compatible MaaS endpoint.
+          # Prints outcomes and token counts only; the project id is redacted.
+          import json, os, urllib.request
+          import google.auth, google.auth.transport.requests
+          import litellm
+          P = os.environ.get("VERTEXAI_PROJECT")
+          def red(m):
+              return " ".join(str(m).replace(P or "\0", "<PROJECT>").split())[:600]
+          tool = {"type": "function", "function": {"name": "bash", "description": "Run a bash command",
+                  "parameters": {"type": "object", "properties": {"command": {"type": "string"}}, "required": ["command"]}}}
+          ask = [{"role": "user", "content": "Use the bash tool twice in parallel: run `ls` and run `pwd`. Call both tools in this one response."}]
+          creds, _ = google.auth.default(scopes=["https://www.googleapis.com/auth/cloud-platform"])
+          creds.refresh(google.auth.transport.requests.Request())
+          for mid in ("mistralai/mistral-small-2503", "mistralai/codestral-2", "xai/grok-4.20-non-reasoning"):
+              for route in ("litellm", "openapi"):
+                  try:
+                      if route == "litellm":
+                          r = litellm.completion(model=f"vertex_ai/{mid.split('/')[1]}", messages=ask, tools=[tool],
+                                                 max_tokens=200, vertex_project=P, vertex_location="global")
+                          calls = r.choices[0].message.tool_calls or []
+                          out = f"OK | in {r.usage.prompt_tokens} out {r.usage.completion_tokens} | tool calls {len(calls)}"
+                      else:
+                          url = f"https://aiplatform.googleapis.com/v1/projects/{P}/locations/global/endpoints/openapi/chat/completions"
+                          body = json.dumps({"model": mid, "messages": ask, "tools": [tool], "max_tokens": 200}).encode()
+                          req = urllib.request.Request(url, data=body, headers={"Authorization": f"Bearer {creds.token}", "Content-Type": "application/json"})
+                          d = json.load(urllib.request.urlopen(req, timeout=120))
+                          calls = d["choices"][0]["message"].get("tool_calls") or []
+                          out = f"OK | usage {d.get('usage')} | tool calls {len(calls)}"
+                  except urllib.error.HTTPError as e:
+                      out = f"ERROR HTTP {e.code}: {red(e.read().decode(errors='replace'))}"
+                  except Exception as e:  # noqa: BLE001
+                      out = f"ERROR {type(e).__name__}: {red(e)}"
+                  print(f"[probe] {mid} via {route}: {out}")
+          EOF
