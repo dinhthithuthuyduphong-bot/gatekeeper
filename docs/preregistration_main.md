@@ -902,6 +902,7 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 - **Kiểm sau khi chạy:** 17/17 `Submitted`; 0 lỗi hạ tầng; `skill_files` > 0 ở mọi lần chạy nhánh skill (7 với `viper`, 2 với `asyncio`).
 - **Chi và token:** 4,059 USD trên trần 5 USD; 3.715.909 token vào (2.348.518 cache), 71.175 token ra.
 - **Giai đoạn bỏ dở trước D-M11** (không gộp): `viper` b1 nhánh không skill trên Flash, và `go-fx-di` b1 nhánh không skill trên Flash-Lite (0,030 USD). Chi phí ô Flash được báo cùng §23b.
+- **§23b (P17, ghi ngày 07/11/2026): bỏ dở, không phân tích** (L12). Có 3 dòng kết quả (0,777 USD); driver không còn chạy. Không chạy tiếp vì hướng chính đã chuyển sang §25–§27. Các dòng này không vào bất kỳ phép kiểm nào.
 
 ## 24. Khảo sát khả năng áp dụng của skill dạng chương trình sửa code (edit program) (đăng ký 06/11/2026, trước khi có kết quả; 0 USD)
 
