@@ -90,7 +90,7 @@ def main() -> int:
         if ov:
             # every override must be read off the saved original: each author name and the title
             # must occur verbatim in the snapshot's text, or the script stops
-            # only the source's own text: the snapshot's `claim` is our wording (A108)
+            # only the source's own text: the snapshot's `claim` is our wording (A110)
             text = " ".join(
                 (
                     snap.get("head", "")
