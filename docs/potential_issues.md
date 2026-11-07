@@ -83,3 +83,29 @@
   - (b) tác dụng đó có theo skill sang quần thể khác không: task tự nhiên của cùng repo, và task SWE-smith của repo khác.
 - Nếu (a) đạt mà (b) không đạt, đó đúng là luận điểm "should this skill run here?" của paper gốc, đo trên skill thật.
 - **Rủi ro lớn nhất:** P6 (model yếu). Phải đo thử trên 1 repo trước khi chi nhiều.
+
+## 4. Rà soát lần 3 (07/11/2026): vấn đề sửa được dưới 5 USD
+
+Phạm vi: model khác hãng tạm dừng, chờ thầy duyệt đề tài (@thuthuy 07/11). Bleve 4c và 4d đã có ngân sách riêng (tối đa 7,5 USD), không tính vào đây. Chi phí ước tính lấy từ số đo của chính các nhánh jinja: 1,44 USD (F1), 1,94 USD (chấm skill), 1,46 và 1,87 USD (hai nhánh không rò rỉ), mỗi nhánh 100 task.
+
+### 4a. Có chi phí (chọn trong 5 USD)
+
+| # | Vấn đề | Ảnh hưởng tới luận điểm | Cách sửa | Chi phí |
+| --- | --- | --- | --- | --- |
+| P23 | **Quỹ đạo của §25 đã mất (A104).** Luận điểm "skill khai thác commit 'Bug Patch'" mới dựa trên Δ_leak = +0,17 và văn bản của skill, chưa có bằng chứng từ hành vi agent | Reviewer: "các tác giả không chứng minh agent đọc lịch sử git" | Chạy lại nhánh chấm skill jinja (seed 41, cấu hình y hệt, lần này có lưu quỹ đạo). Đo: số lượt chạy dùng `git log` / `git show` / đọc "Bug Patch", và tỉ lệ giải có điều kiện theo việc đó. Đồng thời đo **độ lặp lại** so với lần đầu (seed tất định 107/109 ở §5) | khoảng 1,9 USD |
+| P24 | **Chưa tách được phần nào của skill gây ra Δ_leak.** Skill có nhiều chỉ dẫn; chỉ một chỉ dẫn nói về lịch sử git | Reviewer: "+0,17 có thể do phần khác của skill tương tác với rò rỉ" | Thí nghiệm bỏ một phần (ablation): bỏ đúng đoạn "Check Git History… 'Bug Patch'", giữ nguyên phần còn lại, chạy trên thiết lập có rò rỉ. Nếu mức tăng tụt về gần mức không rò rỉ (+0,21), phần chênh do chỉ dẫn đó. Đăng ký trước là phân tích **thăm dò** | khoảng 1,9 USD |
+| P25 | **Chưa có A/A trên harness gskill.** Không biết hai lượt chạy không skill khác seed lệch nhau bao nhiêu task | Yếu; phép kiểm đổi dấu trên cặp lệch vẫn hợp lệ, A/A chỉ là kiểm chứng phụ | Chạy lại nhánh không skill jinja với seed 42 | khoảng 1,4 USD |
+
+**Đề xuất:** P23 + P24 ≈ 3,8 USD. Thêm P25 thành khoảng 5,2 USD, vượt 5 USD, nên để sau.
+
+### 4b. Miễn phí
+
+| # | Vấn đề | Cách sửa |
+| --- | --- | --- |
+| P26 | **Bộ chấm SWE-smith có thể chập chờn** (P9: ở T4 có bản sửa giống hệt bản gốc vẫn bị chấm trượt). Các con số S 53/15/35/14 chưa được chấm lại lần nào | Chấm lại mọi patch đã có (4 nhánh jinja và Bleve) thêm 2 lần, chỉ cần Docker, không gọi model; báo tỉ lệ đổi kết quả |
+| P27 | Kết quả Bleve chưa phân tích | Khi 4c/4d xong: A/B/C, LF1/LF2, Δ_leak, Gatekeeper, nhóm có hoặc không có mô tả issue, như jinja |
+| P19 | Nguồn chưa xác minh: `steegen_2016`, `gemini_31_flash_lite_cutoff` | Tìm và chụp bản gốc, hoặc bỏ câu dùng chúng |
+| P17 | §23b dừng dở | Ghi "bỏ dở, không phân tích" (L12) |
+| P18 | `TODO.md` dừng ở 03/11 | Cập nhật |
+| P20 | `trial` chưa nhập vào `main`; số A/L/R trùng (A89, A91, L47, R-45, R-46) | Đánh số lại khi nhập; đối chiếu T4 (0,55 so với 0,60) |
+
