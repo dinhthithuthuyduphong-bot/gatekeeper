@@ -162,6 +162,8 @@ A pair (skill, context) is \emph{harmful} if $\STR>0$, \emph{neutral} if $-\thet
 admission pool. Harmful acceptance is the fraction of harmful pairs admitted; clean-reuse coverage
 the fraction of beneficial pairs admitted; systems are compared at matched coverage on the
 harm--coverage curve.
+\todo{The harm--coverage comparison across systems (Phase~6) was dropped; harmful acceptance and
+coverage are measured only in the plasmode study. Rephrase or cut (scope decision, @thuthuy).}
 
 \section{Admission with Anytime-Valid Guarantees}\label{sec:admission}
 For paired differences $Z_i=\ell(x_i,\pi)-\ell(x_i,\varnothing)\in[-1,1]$ and the null
@@ -203,6 +205,8 @@ the mean by $2\xi$.
 \end{proposition}
 
 \section{Composition}
+\todo{No composition experiment was run (Phase~4 dropped). Keep as theory with this caveat, or move
+to an appendix (scope decision, @thuthuy).}
 $S_1\circ S_2$ applies $S_2$'s edit first, then $S_1$.
 \begin{theorem}[Composition risk is not bounded by individual risks]
 For every $\theta\in(0,1)$ there are skills $S_1,S_2,S_1'$ and a scope $s$ with
