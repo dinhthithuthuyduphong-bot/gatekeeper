@@ -1415,4 +1415,9 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - Với model của thí nghiệm, bước tìm kinh nghiệm "optional, as needed" của MemGovern **không bao giờ được dùng** trong 20 lượt chạy. Vậy trên harness này, nhánh MemGovern gốc không khác nhánh không skill ở hành vi dùng công cụ.
   - Gatekeeper trên ô này không có thông tin: Z chỉ phản ánh tác động của phần văn bản thêm vào prompt.
   - Hướng đi tiếp theo là việc thêm hoặc đổi thí nghiệm, thuộc quyền @thuthuy.
+- **Quyết định của @thuthuy (07/11/2026): "Dừng memgorven".**
+  - Ô memgovern đóng ở đây; không chạy B-M, không chạy bản bắt buộc tìm kinh nghiệm.
+  - Báo cáo trong paper: 0/20 lượt chạy dùng công cụ, kèm token, và lô bản 1 riêng.
+  - Track MemGovern đã chi 5,28 USD. Phần bổ sung 7–10 USD (dành cho MemGovern) không dùng.
+  - Track Bleve giữ các trần của §25 bước 4 (tối đa 25,5 USD), trong phần 40 − 5,28 = 34,72 USD.
 
