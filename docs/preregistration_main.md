@@ -1391,3 +1391,28 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - `cap_usd` của sổ cái = 24,5 − 0,21 = **24,29 USD**. Sổ cái đã có 2,19 USD của lô 1, nên tổng của track MemGovern ≤ 24,5 USD;
   - khi Bleve xong, trần được tính lại theo M-3: 50 − chi thật của Bleve.
 
+### Ô memgovern: kết quả phép kiểm thao tác M-4 (07/11/2026 UTC), ô dừng
+
+- **Lô 1 của bản 2** (run 42315998541, task 0–9, `mg2-s41-*`):
+  - bước MemGovern nằm đúng trong workflow của agent ở 10/10 task, và không nằm trong mô tả issue;
+  - **0/10 task có lệnh `exp_search` hay `exp_read`**; server ghi 0 lời gọi;
+  - trong các tin nhắn của agent không có lần nào nhắc "exp_search", "exp_read" hay "experience";
+  - bước che nội dung không thay tin nhắn nào của agent;
+  - lệnh đầu tiên luôn là `ls` hoặc `find`, tức bước 1 của workflow.
+- **Cộng cả bản 1:** 0/20 lượt chạy của nhánh memgovern dùng công cụ, ở hai vị trí đặt hướng dẫn.
+- **Theo quy tắc chốt trước ở M-4: ô dừng.** Chưa tính Z hay e-process nào của ô.
+- **Token** (đếm từ `usage` của API, cả hai nhánh, trên 10 task mỗi bản):
+
+  | Bản | Nhánh | Input | Cache | Output |
+  | --- | --- | --- | --- | --- |
+  | 1 | memgovern | 14.412.115 | 13.216.858 | 54.732 |
+  | 1 | none | 34.097.461 | 32.042.944 | 84.492 |
+  | 2 | memgovern | 29.315.599 | 27.208.694 | 78.741 |
+  | 2 | none | 32.729.242 | 29.886.393 | 88.605 |
+
+- **Chi phí** (USD, chỉ để kiểm soát ngân sách): phép kiểm §5 0,21; bản 1 2,15; bản 2 2,92. Tổng track MemGovern **5,28 USD**.
+- **Diễn giải:**
+  - Với model của thí nghiệm, bước tìm kinh nghiệm "optional, as needed" của MemGovern **không bao giờ được dùng** trong 20 lượt chạy. Vậy trên harness này, nhánh MemGovern gốc không khác nhánh không skill ở hành vi dùng công cụ.
+  - Gatekeeper trên ô này không có thông tin: Z chỉ phản ánh tác động của phần văn bản thêm vào prompt.
+  - Hướng đi tiếp theo là việc thêm hoặc đổi thí nghiệm, thuộc quyền @thuthuy.
+
