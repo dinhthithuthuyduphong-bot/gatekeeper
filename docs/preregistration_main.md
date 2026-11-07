@@ -1535,4 +1535,8 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - có mô tả (58 task): S 32 so với 13 (b/c 23/4).
   - Cùng hình mẫu với jinja (nhóm không có mô tả: 15 so với 1): skill lại chứa chỉ dẫn đọc git (`git log -p -n 3`).
 - **Chi phí Bleve đến giờ:** 4a 0,786 + học 10,446 + 4c 1,724 = **12,956 USD.**
+- **4d giữ nguyên như đã đăng ký** (07/11, sau trao đổi với @thuthuy: "số tiền đó tôi không tiếc nhưng nếu không làm paper mạnh thêm thì thôi").
+  - Lý do giữ: phân tích theo nhóm "có / không có mô tả issue" ở trên chỉ là quan sát, có thể bị nhiễu bởi độ khó khác nhau giữa hai nhóm. 4d là can thiệp trên cùng 100 task, cho Δ_leak đo trực tiếp trên repo thứ hai. Lần này có lưu quỹ đạo (A104).
+  - 4d không đổi gì của gskill: skill, mã và cấu hình giữ nguyên; môi trường được đổi như nhau cho cả hai nhánh. Kết quả chính vẫn là kết quả trong môi trường gốc (4c); 4d báo cáo riêng (`docs/reviewer_fidelity.md` A5).
+  - Thứ tự: chạy sau §27.
 
