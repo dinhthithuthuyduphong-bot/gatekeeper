@@ -1831,18 +1831,45 @@
    "id": "vertex_partner_pricing",
    "claim": "Vertex AI / Agent Platform pricing for partner and open MaaS models (per 1M tokens, cached input)",
    "urls": [
-    "https://cloud.google.com/vertex-ai/generative-ai/pricing",
-    "https://cloud.google.com/model-garden/pricing"
+    "https://cloud.google.com/model-garden/partner-models/pricing",
+    "https://docs.cloud.google.com/vertex-ai/generative-ai/pricing"
+   ],
+   "keywords": [
+    "DeepSeek-V4.1-Flash",
+    "Qwen3-Coder",
+    "Llama 4 Maverick",
+    "Claude",
+    "cache",
+    "input",
+    "output"
+   ]
+  },
+  {
+   "id": "vertex_maas_deepseek",
+   "claim": "DeepSeek models on Vertex AI MaaS (ids, features, regions)",
+   "urls": [
+    "https://docs.cloud.google.com/vertex-ai/generative-ai/docs/maas/deepseek"
    ],
    "keywords": [
     "DeepSeek",
-    "Qwen",
-    "Llama",
-    "Claude",
-    "per 1M",
-    "input",
-    "output",
-    "cache"
+    "maas",
+    "function calling",
+    "context",
+    "region"
+   ]
+  },
+  {
+   "id": "vertex_maas_open_models",
+   "claim": "Using open models as MaaS on Vertex AI (endpoint, enable, ids)",
+   "urls": [
+    "https://docs.cloud.google.com/vertex-ai/generative-ai/docs/maas/use-open-models"
+   ],
+   "keywords": [
+    "Qwen3",
+    "maas",
+    "chat/completions",
+    "enable",
+    "function calling"
    ]
   }
  ]
