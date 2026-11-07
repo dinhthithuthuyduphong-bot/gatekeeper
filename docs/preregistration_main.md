@@ -1558,3 +1558,17 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - Trên mọi task không có mô tả issue, skill học được dẫn agent tới đọc commit "Bug Patch". Đây là bằng chứng trực tiếp cho cơ chế mà §25 bước 3 suy ra từ Δ_leak.
   - Mức lặp lại 30/34 sau 1 ngày được báo cáo kèm phép so khác thời điểm của 27a.
 
+### Kết quả 27a (run 42366671200; `results/s27_placebo.json`; phân tích `results/s27a_content.json`, `results/s27a_length.json`)
+- 100/100 task; 0 lỗi hạ tầng; chi 1,051 USD. Placebo: S 24/100; 54 patch không rỗng.
+- **P27a, ∆Content** (skill thật so với placebo, một phía): S 53 so với 24; b/c = 35/6; **p = 2,4·10⁻⁶**; +0,29 [0,18; 0,40].
+  - p ≤ 0,0125 (mức đầu của Holm trên P27a và P27b), nên **bác bỏ H₀ bất kể P27b**.
+- **Phụ:**
+  - ∆Length (placebo so với không skill, hai phía): 24 so với 15; b/c = 16/7; p = 0,093; +0,09 [0,00; 0,18]. Không bác bỏ ở mức 0,025.
+  - Nhóm có mô tả issue (66 task): ∆Content 38 so với 24 (b/c 20/6, p một phía 0,0047); ∆Length 24 so với 14 (b/c 16/6).
+  - Nhóm không có mô tả (34 task): skill thật 15, placebo 0.
+- **Diễn giải:**
+  - Trong mức tăng +0,38 của skill gskill trên jinja, phần do "thêm một đoạn hướng dẫn dài" nhỏ và chưa có ý nghĩa thống kê (+0,09). Phần do nội dung là +0,29.
+  - Phần nội dung vẫn có ý nghĩa trên nhóm có mô tả issue, nơi rò rỉ gần như không có tác dụng.
+  - Ở nhóm không có mô tả, toàn bộ mức tăng đi cùng chỉ dẫn đọc git (27c: 34/34 task đọc "Bug Patch"); placebo đạt 0/34.
+- **Giới hạn:** nhánh placebo chạy ngày 07/11, các nhánh so sánh chạy ngày 06/11. 27c cho thấy 30/34 task cùng kết quả khi chạy lại sau 1 ngày.
+
