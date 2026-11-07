@@ -72,6 +72,11 @@ Hệ quả:
 
 **Viết trong paper:** "In the SWE-smith Go image, the agent's login shell (`bash -lc`, as mini-swe-agent runs commands) does not have `go` on PATH; this holds for both arms and for gskill's own training, and the learned Bleve skill records it."
 
+### A8. "Bộ chấm SWE-smith có chập chờn không, có làm sai số liệu S không?"
+Không, trên dữ liệu của mình: 224 patch của 4 nhánh jinja được chấm lại 2 lần mỗi patch (448 lần), **0 lần** cho kết quả khác lần đầu (`results/rescore_jinja_summary.json`, P26).
+
+**Viết trong paper:** "Re-scoring all 224 non-empty jinja patches twice with SWE-smith's harness changed no outcome."
+
 ## B. MemGovern
 
 ### B1. "Ô MemGovern có phải là MemGovern thật không?"

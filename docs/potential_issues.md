@@ -114,6 +114,9 @@ Phạm vi: model khác hãng tạm dừng, chờ thầy duyệt đề tài (@thu
   - `steegen_2016`: **đã xác minh** từ bản sao bài báo lưu ở errorstatistics.com, vì trang của nhà xuất bản trả 403.
   - `gemini_31_flash_lite_cutoff`: **vẫn chưa xác minh**. Trang model trên ai.google.dev không có chữ "2025". Trang Vertex không ghi mốc cắt. URL hướng dẫn Gemini 3, nơi kết quả tìm kiếm trích câu "Gemini 3 models have a knowledge cutoff of January 2025", nay đã chuyển sang một trang khác. **Hệ quả:** paper không được viết "không nhiễm dữ liệu", cũng không dùng mốc 01/2025, cho tới khi có bản chụp chứa đúng câu.
 - **P17, P18, P20:** đã làm. Chi tiết ở §23b của bản đăng ký trước, `TODO.md` và `docs/merge_plan_trial.md` (chưa nhập vào `main`).
-- **P26:** đang chạy (`scripts/rescore.py`, 448 lần chấm lại, `results/rescore_jinja.jsonl`).
+- **P26: xong.** 224 patch không rỗng của 4 nhánh jinja, mỗi patch chấm lại 2 lần bằng bộ chấm SWE-smith (448 lần; `results/rescore_jinja.jsonl`, `results/rescore_jinja_summary.json`).
+  - **0 task đổi kết quả** ở mọi nhánh. 0 lỗi hạ tầng (sau khi bỏ 39 lần chấm hỏng do Docker chưa bật, A105).
+  - Bốn nhánh: không skill (38 patch, S 15), có skill (79, S 53), không rò rỉ không skill (41, S 14), không rò rỉ có skill (66, S 35).
+  - **Kết luận:** các con số S chính không bị ảnh hưởng bởi bộ chấm chập chờn (P9 không xảy ra trên dữ liệu này).
 - Placebo C2 của §27a: đã có nguyên văn định nghĩa trong bản chụp.
 
