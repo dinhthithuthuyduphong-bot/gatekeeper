@@ -1572,3 +1572,17 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - Ở nhóm không có mô tả, toàn bộ mức tăng đi cùng chỉ dẫn đọc git (27c: 34/34 task đọc "Bug Patch"); placebo đạt 0/34.
 - **Giới hạn:** nhánh placebo chạy ngày 07/11, các nhánh so sánh chạy ngày 06/11. 27c cho thấy 30/34 task cùng kết quả khi chạy lại sau 1 ngày.
 
+### Kết quả 27b (run 42374323315 cho cặp, 42393651143 cho 14 task bù, 42397649759 cho 7 task bù; `results/s27pyg_*_all.json`, `results/s27b_reuse.json`)
+- **Hoàn tất:** 100/100 task ở cả hai nhánh.
+  - Nhánh skill dừng sớm hai lần vì đặt trần thiếu (A108). 21 task được chạy bù bằng `--skip-done`, cùng cấu hình, cùng ngày; với các task này, hai nửa của cặp không chạy cùng lúc.
+  - 4 lần bộ chấm báo `timeout` (A108) được chấm lại tại máy (`results/s27pyg_timeouts_rescore.jsonl`): 3 lần chấm xong, đều không giải được. 1 patch của nhánh không skill vẫn timeout, nên tính là không giải được trong phân tích chính (theo SWE-bench, A56) và bị bỏ ra trong phân tích độ nhạy.
+- **Chi:** 1,324 + 1,902 + 0,607 + 0,135 = 3,968 USD. **Tổng §27: 0,753 + 1,051 + 3,968 = 5,772 USD** (mức duyệt 7 USD).
+- **P27b** (skill jinja so với không skill trên pygments, hai phía, endpoint S): 6 so với 5; b/c = 2/1; **p = 1,0; không bác bỏ.** Mức chênh +0,01 [−0,02; 0,05].
+- **Holm trên họ {P27a, P27b} ở mức 0,025:** P27a bác bỏ (p = 2,4·10⁻⁶ ≤ 0,0125). P27b không bác bỏ (p = 1,0 > 0,025).
+- **Gatekeeper** (θ = 0, c = 0,5, α = 0,025): **không admit.** Cùng skill đó được admit trên jinja ở trial 29.
+- **Bộ chấm L của gskill** (mô tả): 70 so với 42; b/c = 34/6; +0,28 [0,17; 0,39]. Theo bộ chấm lỏng, skill "mang sang được" pygments; theo bộ chấm SWE-smith thì không.
+- **Phân tích độ nhạy** (bỏ task timeout, n = 99): S 6 so với 5, không đổi.
+- **Nhóm theo mô tả issue:** có mô tả 92 task (6 so với 5); không có mô tả 8 task (0 so với 0).
+- **Giới hạn:** tỉ lệ giải nền trên pygments rất thấp (5/100), nên phép kiểm có ít power để phát hiện tác hại.
+- **Diễn giải:** một skill được chứng nhận ở scope của nó (jinja) không cho mức tăng đo được khi dùng lại ở repo khác (pygments), và Gatekeeper không chứng nhận nó ở đó. Bộ chấm lỏng của gskill sẽ báo sai một mức chuyển giao +0,28. Đây là một ví dụ trên skill thật của "Scope before Reuse".
+
