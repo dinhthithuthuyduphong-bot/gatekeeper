@@ -92,6 +92,14 @@ ARXIV = [
     ("swebench_pro_verified", "2609.08149", None, False),
     ("waudby_smith_ramdas", "2010.09686", None, False),
     ("webdev_skills_bench_2026", "2608.23067", None, False),
+    ("celeus_2026", "2606.20820", None, False),
+    ("evaluator_2025", "2512.03109", None, False),
+    ("same_model_harness_2026", "2608.26218", None, False),
+    ("skill_induced_failures_2026", "2608.11888", None, False),
+    ("skilljuror_2026", "2606.11543", None, False),
+    ("skillsbench_2026", "2602.12670", None, False),
+    ("test_overfitting_2025", "2511.16858", None, False),
+    ("voyager", "2305.16291", None, False),
 ]
 DBLP_TITLES = {
     "SWE-bench": "SWE-bench: Can Language Models Resolve Real-world Github Issues?",
