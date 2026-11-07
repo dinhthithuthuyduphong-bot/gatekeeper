@@ -1,0 +1,24 @@
+{
+ "id": "gskill_original_mini_yaml",
+ "claim": "gskill original mini-swe-agent config (no skills placeholder); pinned 8c7b697",
+ "attempts": [
+  {
+   "url": "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/gskill/gskill/mini_swe_agent_config/original_mini.yaml",
+   "ok": true
+  }
+ ],
+ "url": "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/gskill/gskill/mini_swe_agent_config/original_mini.yaml",
+ "sha256": "79e38ee9592689071d53975d74449752918a15c488da0057b1abcd9e2e179a28",
+ "n_chars": 4764,
+ "head": "agent: system_template: | You are a helpful assistant that can interact with a computer. Your response must contain exactly ONE bash code block with ONE command (or commands connected with && or ||). Include a THOUGHT section before your command where you explain your reasoning process. Format your response as shown in . Your reasoning and analysis here. Explain why you want to perform the action. ```bash your_command_here ``` Failure to follow these rules will cause your response to be rejected. instance_template: | Please solve this issue: {{task}} You can execute bash commands and edit files to implement the necessary changes. ## Recommended Workflow This workflows should be done step-by-step so that you can iterate on your changes and any possible problems. 1. Analyze the codebase by finding and reading relevant files 2. Create a script to reproduce the issue 3. Edit the source code to resolve the issue 4. Verify your fix works by running your script again 5. Test edge cases to ensure your fix is robust 6. Submit your changes and finish your work by issuing the following command: `echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT`. Do not combine it with any other command. After this command, you cannot continue working on this task. ## Important Rules 1. Every response must contain exactly one action 2. The action must be enclosed in triple backticks 3",
+ "excerpts": {
+  "git": [],
+  "instance_template": [
+   "agent: system_template: | You are a helpful assistant that can interact with a computer. Your response must contain exactly ONE bash code block with ONE command (or commands connected with && or ||). Include a THOUGHT section before your command where you explain your reasoning process. Format your response as shown in . Your reasoning and analysis here. Explain why you want to perform the action. ```bash your_command_here ``` Failure to follow these rules will cause your response to be rejected. instance_template: | Please solve this issue: {{task}} You can execute bash commands and edit files to implement the necessary changes. ## Recommended Workflow This workflows should be done step-by-step so that you can iterate on your changes and any possible problems. 1. Analyze the codebase by finding and reading relevant files 2. Create a script to reproduce the issue 3. Edit the source code to resolve the issue 4. Verify your fix works by running your script again 5. Test edge cases to ensure your fix is robust 6. Submit your changes and finish your work by issuing the following command: `echo COMPLETE_TAS"
+  ],
+  "system_template": [
+   "agent: system_template: | You are a helpful assistant that can interact with a computer. Your response must contain exactly ONE bash code block with ONE command (or commands connected with && or ||). Include a THOUGHT section before your command where you explain your reasoning process. Format your response as shown in . Your reasoning and analysis here. Explain why you want to perform the action. ```bash your_command_here ``` Failure to follow these rules will cause your response to be rejected. instance_template: | Please solve this issue: {{task}} You can execute bash commands and edit files to implement the nec"
+  ]
+ },
+ "fetched_utc": "2026-11-07T10:40:05+00:00"
+}

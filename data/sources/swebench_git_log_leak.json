@@ -8,9 +8,9 @@
   }
  ],
  "url": "https://github.com/SWE-bench/SWE-bench/issues/465",
- "sha256": "7687326acabbe1e0139936892cb0445cf471684168386e6c877f8e66122b575a",
- "n_chars": 32310,
- "head": " Repo State Loopholes During Agentic Evaluation · Issue #465 · SWE-bench/SWE-bench · GitHub Skip to content Navigation Menu Sign in Products Platform GitHub Repository hosting, code review, and collaboration Copilot AI coding agent for tasks, projects, and automated work Build & Ship Actions CI/CD and automation Code Quality Quality analysis, fixes, and enforcement Codespaces Cloud development environments Secure Code Security Vulnerability detection and remediation Secret Protection Secret scanning and leak pr",
+ "sha256": "22384177a65809bd511ffcc9964c3577bdd85c5f7bfa7ba5f66b30a29832ca89",
+ "n_chars": 32214,
+ "head": " Repo State Loopholes During Agentic Evaluation · Issue #465 · SWE-bench/SWE-bench · GitHub Skip to content Navigation Menu Sign in Products Platform GitHub Repository hosting, code review, and collaboration Copilot AI coding agent for tasks, projects, and automated work Build & Ship Actions CI/CD and automation Code Quality Quality analysis, fixes, and enforcement Codespaces Cloud development environments Secure Code Security Vulnerability detection and remediation Secret Protection Secret scanning and leak prevention All Feature",
  "excerpts": {
   "git log --all": [
    "asks#4 Closed Repo State Loopholes During Agentic Evaluation #465 SWE-bench/swe-bench-multilingual-tasks # 4 Copy link Description jacobkahn opened on Sep 3, 2025 Issue body actions We've identified multiple loopholes with SWE Bench Verified where agents may look at future repository state (by querying it directly or through a variety of methods), and cases in which future repository state includes either solutions or detailed approaches to solving problems (commit messages and more). Examples: A trajectory with Claude 4 Sonnet, Pytest-dev__pytest-6202 ( complete output here ), the agent uses git log --all which leaks future commits that directly fix the issue: <antml:parameter name=\"command\">cd /testbed && git log --oneline --all | grep -i \"bracket|parametrize|modpath\" | head -10</antml:parameter> The results of which directly reveal the fix: Fix incorrect result of getmodpath method. diff --git a/src/_pytest/python.py b/src/_pytest/python.py index b8b365ad3..734a92f9b 100644 --- a/src/_pytest/python.py +++ b/src/_pytest/python.py @@ -285,8 +285,7 @@ class PyobjMixin(PyobjContext): break parts.append(name) parts.reverse() - s = \".\".join(parts) - return s.replace(\".[\", \"[\") + return \".\".join(pa",
@@ -25,5 +25,5 @@
    "cted by Bram Wasti, ngoyal2707, Aman Rangapur, Floof, Jodh Singh, Sanyam Bhutani, Alex Palcuie, jain-essential, Joseph Selvaraaj, Lucas Caccia and 22 more Activity ofirpress commented on Sep 3, 2025 ofirpress on Sep 3, 2025 Last edited by ofirpress Member More actions Thanks! cc: @carlosejimenez who is working on this. ❤️ React with ❤️ 2 Reacted by rtaylorgarlock and efecan-fragile UniverseFly commented on Sep 3, 2025 UniverseFly on Sep 3, 2025 More actions Thanks @jacobkahn . I think it's pretty detailed! The TL;DR is that even without internet access, the agent can still cheat by peeking at future commits using git , because such information is retained in the current eval images. 👍 React with 👍 12 Reacted by Keyur Muzumdar, Dmitrii Pedchenko, Floof, Arka Sadhu, Sida Wang, rahidz, jain-essential, David Zhang, Jesse Hu, Hibiki and 2 more ❤️ React with ❤️ 4 Reacted by Jacob Kahn, Emily McMilin, jain-essential and Philipp Meyer 2dot71mily commented on Sep 3, 2025 2dot71mily on Sep 3, 2025 Last edited by 2dot71mily More actions Potential (example of) fix: https://gist.github.com/2dot71mily/52bf0a22bc816a9ab592840ce16b0f6b 👍 React with 👍 2 Reacted by carlos and Zach Wentz closji commented on Sep 4,"
   ]
  },
- "fetched_utc": "2026-11-06T16:43:43+00:00"
+ "fetched_utc": "2026-11-07T10:40:02+00:00"
 }

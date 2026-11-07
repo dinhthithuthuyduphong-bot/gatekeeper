@@ -1,0 +1,28 @@
+{
+ "id": "gskill_mini_yaml",
+ "claim": "gskill agent config mini.yaml with the {{ skills }} placeholder: does it mention git history? pinned 8c7b697",
+ "attempts": [
+  {
+   "url": "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml",
+   "ok": true
+  }
+ ],
+ "url": "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml",
+ "sha256": "e85601870fd7e100f7cab331f9aad0ab581c95c6407f5f7ead16f1ec9062de45",
+ "n_chars": 2166,
+ "head": "agent: system_template: | You are a helpful assistant that can interact with a computer. Here are some of the skills you learned while working with similar problems. {{ skills }} Your reasoning and analysis here. Explain why you want to perform the action. ```bash your_command_here ``` Failure to follow these rules will cause your response to be rejected. instance_template: | Please solve this issue: {{task}} action_observation_template: | {{output.returncode}} {% if output.output | length {{ output.output -}} {%- else -%} The output of your last command was too long. Please try a different command that produces less output. If you're looking at a file you can try use head, tail or sed to view a smaller number of lines selectively. If you're using grep or find and it produced too much output, you can use a more selective search pattern. If you really need to see something from the full command's output, you can redirect output to a file and then search in that file. {%- set elided_chars = output.output | length - 10000 -%} {{ output.output[:5000] }} {{ elided_chars }} characters elided {{ output.output[-5000:] }} {%- endif -%} format_error_template: | Please always provide EXACTLY ONE action in triple backticks, found {{actions|length}} actions. If you want to end the task, please issue the foll",
+ "excerpts": {
+  "skills": [
+   "agent: system_template: | You are a helpful assistant that can interact with a computer. Here are some of the skills you learned while working with similar problems. {{ skills }} Your reasoning and analysis here. Explain why you want to perform the action. ```bash your_command_here ``` Failure to follow these rules will cause your response to be rejected. instance_template: | Please solve this issue: {{task}} action_observation_template: | {{output.returncode}} {% if output.output | length {{ output.output -}} {%- else -%} The output of your last command was too long. Please try a different command that produces less output. If you're looking at a file you can try use head, tail or sed to view a smaller num",
+   "agent: system_template: | You are a helpful assistant that can interact with a computer. Here are some of the skills you learned while working with similar problems. {{ skills }} Your reasoning and analysis here. Explain why you want to perform the action. ```bash your_command_here ``` Failure to follow these rules will cause your response to be rejected. instance_template: | Please solve this issue: {{task}} action_observation_template: | {{output.returncode}} {% if output.output | length {{ output.output -}} {%- else -%} The output of your last command was too long. Please try a different command that produces less output. If you're looking at a file you can try use head, tail or sed to view a smaller number of lines selectively. If you're using grep or find and "
+  ],
+  "git": [],
+  "instance_template": [
+   "agent: system_template: | You are a helpful assistant that can interact with a computer. Here are some of the skills you learned while working with similar problems. {{ skills }} Your reasoning and analysis here. Explain why you want to perform the action. ```bash your_command_here ``` Failure to follow these rules will cause your response to be rejected. instance_template: | Please solve this issue: {{task}} action_observation_template: | {{output.returncode}} {% if output.output | length {{ output.output -}} {%- else -%} The output of your last command was too long. Please try a different command that produces less output. If you're looking at a file you can try use head, tail or sed to view a smaller number of lines selectively. If you're using grep or find and it produced too much output, you can use a more selective search pattern. If you really need to see something from the full command's output, you can redirect output to a file and then search in that "
+  ],
+  "system_template": [
+   "agent: system_template: | You are a helpful assistant that can interact with a computer. Here are some of the skills you learned while working with similar problems. {{ skills }} Your reasoning and analysis here. Explain why you want to perform the action. ```bash your_command_here ``` Failure to follow these rules will cause your response to be rejected. instance_template: | Please solve this issue: {{task}} action_observation_template: | {{output.returncode}} {% if output.output | length {{ output.output -}} {%- else -%} The output of your last command was too long. Please try a different command that produces le"
+  ]
+ },
+ "fetched_utc": "2026-11-07T10:40:05+00:00"
+}

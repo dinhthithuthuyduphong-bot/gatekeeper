@@ -8,9 +8,9 @@
   }
  ],
  "url": "https://github.com/microsoft/debug-gym/pull/398",
- "sha256": "778bff23e5d9fe84e10be41a6d6dc5b7045647fbaff9fe388d62b8bc51b6e1c4",
- "n_chars": 19258,
- "head": " Do not keep the original code in the git history of SWE-smith tasks by jimmy-holdout · Pull Request #398 · microsoft/debug-gym · GitHub Skip to content Na",
+ "sha256": "5b938be469e25532b55c3d5d7759cd08ec6eb644d70fedef4912eed1a0421d47",
+ "n_chars": 19114,
+ "head": " Do not keep the original code in the git history of SWE-smith tasks by jimmy-holdout · Pull Request #398 · microsoft/debug-gym · GitHub Skip to content Navigation Menu Sign in Products Platform GitHub Repository hosting, ",
  "excerpts": {
   "git history": [
    " Do not keep the original code in the git history of SWE-smith tasks by jimmy-holdout · Pull Request #398 · microsoft/debug-gym · GitHub Skip to content Navigation Menu Sign in Products Platform GitHub Repository hosting, code review, and collaboration Copilot AI coding agent for tasks, projects, and automated work Build & Ship Actions CI/CD and automation Code Quality Quality analysis, fixes, and enforcement Codespaces Cloud development environments Secure Code Security Vulnerability detection and remediation Secret Protection Secret scanning and leak prevention All Features Developers Learn Documentation Training Certifications Build Build",
@@ -25,5 +25,5 @@
    "g-gym:fix/swesmith-git-history Copy head branch name to clipboard Conversation Jimmy (jimmy-holdout) commented Nov 2, 2026 Copy link Copy Markdown What SWESmithEnv.setup_terminal committed the bug patch on top of the code from before the bug. For bug patches that only modify or delete tracked files, git checkout HEAD~1 -- . therefore gave back exactly the code the gold patch produces. (Files a patch adds stayed untracked and are left in place.) In the tasks below, that followed by submit scored the same as the gold patch, without debugging. The image's .git also kept the commit objects of the SWE-smith task branches after the remote was removed. After applying the bug patch, the env now replaces .git with a new repository whose only commit is the buggy code: git apply --index stages the bug patch, so files it adds are tracked. Before, git commit -am left them untracked. The index is refreshed first ( git update-index -q --refresh ), because --index compares stat info. In the tldextract image the cached stat info is stale (all 28 tracked files are stat-dirty with no content change); before, the bug's git commit -am refreshed it as a side effect. The new repository tracks the files the old in"
   ]
  },
- "fetched_utc": "2026-11-06T16:43:41+00:00"
+ "fetched_utc": "2026-11-07T10:40:00+00:00"
 }
