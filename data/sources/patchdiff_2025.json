@@ -81,5 +81,5 @@
    "each generated plausible patch, we first apply the test patch to the repository and collect all available test files from the repository. Next, we run these test files sequentially after applying the generated patch or the oracle patch separately. We then compare the test results of the two patches and record any generated patch that shows inconsistent behavior with the corresponding oracle patch, i.e., at least one test passes with the oracle patch but fails with the generated patch. We further execute the tests that trigger inconsistent behaviors 20 times with the oracle patch to filter out flaky tests. We observe that some developer tests focus on coding conventions rather than functionality, e.g., detecting trailing whitespace or ensuring files end with no more than one newline. To prioritize functional correctness, we exclude the generated patches that only show inconsistencies related to coding conventions. The remaining generated patches introduce regression errors and are therefore incorrect. Table 1 . Incorrect patches detected by running all developer tests Tool %Resolved #Incorrect Updated %Resolved CodeStory 62.2% (311/500) 26 (8.4%) 57.0% ( ↓ \\downarrow 5.2%) LearnByInterac"
   ]
  },
- "fetched_utc": "2026-11-07T13:45:02+00:00"
+ "fetched_utc": "2026-11-07T13:50:09+00:00"
 }

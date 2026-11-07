@@ -8,7 +8,7 @@
   }
  ],
  "url": "https://github.com/microsoft/debug-gym/pull/398",
- "sha256": "7adfad765045d83975ecc30ccb793b5123eedd3fdb58f3a1a08893dd1a312cb0",
+ "sha256": "72e7425ef097d8c19316d7a3b8c6292347ed7b94f7578c23fbdfa9711ab8a690",
  "n_chars": 19114,
  "head": " Do not keep the original code in the git history of SWE-smith tasks by jimmy-holdout · Pull Request #398 · microsoft/debug-gym · GitHub Skip to content Navigation Menu Sign in Products Platform GitHub Repository hosting, ",
  "excerpts": {
@@ -25,5 +25,5 @@
    "g-gym:fix/swesmith-git-history Copy head branch name to clipboard Conversation Jimmy (jimmy-holdout) commented Nov 2, 2026 Copy link Copy Markdown What SWESmithEnv.setup_terminal committed the bug patch on top of the code from before the bug. For bug patches that only modify or delete tracked files, git checkout HEAD~1 -- . therefore gave back exactly the code the gold patch produces. (Files a patch adds stayed untracked and are left in place.) In the tasks below, that followed by submit scored the same as the gold patch, without debugging. The image's .git also kept the commit objects of the SWE-smith task branches after the remote was removed. After applying the bug patch, the env now replaces .git with a new repository whose only commit is the buggy code: git apply --index stages the bug patch, so files it adds are tracked. Before, git commit -am left them untracked. The index is refreshed first ( git update-index -q --refresh ), because --index compares stat info. In the tldextract image the cached stat info is stale (all 28 tracked files are stat-dirty with no content change); before, the bug's git commit -am refreshed it as a side effect. The new repository tracks the files the old in"
   ]
  },
- "fetched_utc": "2026-11-07T13:45:11+00:00"
+ "fetched_utc": "2026-11-07T13:50:17+00:00"
 }

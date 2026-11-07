@@ -37,5 +37,5 @@
    "c SWE-Gym SWE-Gym Lite Size # Instances 2,438 (2,294) 230 (300) # Repos 11 (12) 11 (12) Issue Text Length by Words 239.8 (195.1) 186.2 (175.9) Codebase # Non-test Files 971.2 (2944.2) 818.8 (2988.5) # Non-test Lines 340675.0 (363728.4) 340626.2 (377562.4) Gold Patch # Lines edited 69.8 (32.8) 10.6 (10.1) # Files edited 2.5 (1.7) 1.0 (1.0) # Func. edited 4.1 (3.0) 1.4 (1.34) Tests # Fail to Pass 10.0 (9.0) 2.04 (3.5) # Total 760.8 (132.5) 99.9 (85.2) Table 2: Statistics comparing SWE-Gym with the SWE-Bench test split (in parenthesis). Except for size metrics, we report the average value across instances. pandas (737) MONAI (374) moto (343) mypy (257) dvc (225) dask (145) modin (107) pydantic (83) conan (75) hydra (66) bokeh (26) SWE­Gym (2438) moto (59)mypy (40) dvc (36) MONAI (27) pydantic (20) dask (14) conan (12) hydra (11) pandas (5) modin (5)bokeh (1)SWE­Gym Lite (230) Figure 2: Repository distribu- tion of SWE-Gym instances. GitHub issue including the natural language description of the issue, a snapshot of the repository in which the issue was created, and a set of unit tests. Over the 358 repositories, we extract 64,689 task instances. We refer to this dataset as SWE-Gym Raw, which i"
   ]
  },
- "fetched_utc": "2026-11-07T13:43:33+00:00"
+ "fetched_utc": "2026-11-07T13:48:30+00:00"
 }
