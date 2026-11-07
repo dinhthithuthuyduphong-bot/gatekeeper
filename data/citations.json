@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-11-06T07:03:12+00:00",
+  "generated_utc": "2026-11-07T10:38:43+00:00",
   "arxiv_status": "ok",
   "arxiv": [
     {
@@ -348,6 +348,136 @@
       "published": "2025-04-30",
       "abstract": "Despite recent progress in Language Models (LMs) for software engineering, collecting training data remains a significant pain point. Existing datasets are small, with at most 1,000s of training instances from 11 or fewer GitHub repositories. The procedures to curate such datasets are often complex, necessitating hundreds of hours of human labor; companion execution environments also take up several terabytes of storage, severely limiting their scalability and usability. To address this pain point, we introduce SWE-smith, a novel pipeline for generating software engineering training data at scale. Given any Python codebase, SWE-smith constructs a corresponding execution environment, then automatically synthesizes 100s to 1,000s of task instances that break existing test(s) in the codebase. Using SWE-smith, we create a dataset of 50k instances sourced from 128 GitHub repositories, an order of magnitude larger than all previous works. We train SWE-agent-LM-32B, achieving 40.2% Pass@1 resolve rate on the SWE-bench Verified benchmark, state of the art among open source models. We open source SWE-smith (collection procedure, task instances, trajectories, models) to lower the barrier of entry for research in LM systems for automated software engineering. All assets available at https://swesmith.com.",
       "updated": "2025-05-21"
+    },
+    {
+      "key": "xreposkill",
+      "arxiv_id": "2609.36807v1",
+      "draft_title": null,
+      "draft_uses_placeholder_authors": false,
+      "exists_on_arxiv": true,
+      "title_similarity": null,
+      "title": "XRepoSkill: Learning Transferable Skills for Software Engineering Agents",
+      "authors": [
+        "Yaoqi Guo",
+        "Haoyang Zhou",
+        "Jiayi Zhang",
+        "Yiran Zhang",
+        "Yang Liu",
+        "Qiuyuan Chen",
+        "Qiang Lin",
+        "Hande Dong",
+        "Jie M. Zhang",
+        "Zhenpeng Chen"
+      ],
+      "published": "2026-09-29",
+      "abstract": "Software engineering agents increasingly use reusable skills distilled from prior experience to resolve repository-level issues, yet such skills often fail to transfer across repositories. A central challenge is that a behavior appearing in a successful trajectory is not necessarily responsible for the successful outcome: it may be genuinely useful, merely incidental, or simply a recurring habit of the model. We introduce XRepoSkill, a trajectory-based approach for learning transferable skills. We represent a skill as a collection of rules, each specifying what action to take and when to take it during issue resolution. XRepoSkill first contrasts successful and failed trajectories of the same agent on the same issue and derives candidate rules from where their execution paths diverge. Each rule is paired with an executable predicate that enables its prescribed behavior to be evaluated systematically on other trajectories. A rule is verified based on its association with successful issue resolution and retained only when its prescribed behavior recurs across multiple repositories; repository-specific variants of the same behavior are then consolidated into transferable rules. For a new issue, XRepoSkill selects relevant rules to guide the agent. We learn skills from publicly released trajectories on the official SWE-bench Verified leaderboard and evaluate them on SWE-bench Pro and DeepSWE using three backbone LLMs from different vendors; none of the evaluation repositories appears in the skill-learning trajectory pool. Against three recent skill learning methods, XRepoSkill achieves the highest issue resolution rate in all six benchmark--LLM combinations. In particular, on the challenging long-horizon DeepSWE benchmark, XRepoSkill improves issue resolution by 10.3 percentage points over the same agent without learned skills and by 5.0 points over the strongest skill-learning baseline.",
+      "updated": "2026-09-29"
+    },
+    {
+      "key": "randomness_agentic_evals_2026",
+      "arxiv_id": "2602.07150v3",
+      "draft_title": null,
+      "draft_uses_placeholder_authors": false,
+      "exists_on_arxiv": true,
+      "title_similarity": null,
+      "title": "On Randomness in Agentic Evals",
+      "authors": [
+        "Bjarni Haukur Bjarnason",
+        "André Silva",
+        "Martin Monperrus"
+      ],
+      "published": "2026-02-06",
+      "abstract": "Agentic systems are evaluated on benchmarks where agents interact with environments to solve tasks. Most papers report a pass@1 score computed from a single run per task, assuming this gives a reliable performance estimate. We test this assumption by collecting 60,000 agentic trajectories on SWE-Bench-Verified, spanning three models and two scaffolds. We find substantial variance: single-run pass@1 estimates vary by 2.2 to 6.0 percentage points depending on which run is selected, with standard deviations exceeding 1.5 percentage points even at temperature 0. This variance has critical implications: reported improvements of 2--3 percentage points may reflect evaluation noise rather than genuine algorithmic progress. Through token-level analysis, we show that trajectories diverge early, often within the first few percent of tokens, and that these small differences cascade into different solution strategies. To enable reliable evaluation of agentic systems, we recommend three concrete practices: (1) estimate pass@1 from multiple independent runs per task, especially when measuring small improvements, (2) use statistical power analysis to determine the number of runs needed to detect expected effect sizes, and (3) consider metrics like pass@k (optimistic bound) and pass^k (pessimistic bound) with k>1 to better characterize the full performance envelope. While these practices increase evaluation cost, they are essential for distinguishing genuine scientific progress from statistical noise.",
+      "updated": "2026-03-25"
+    },
+    {
+      "key": "patchdiff_2025",
+      "arxiv_id": "2503.15223v2",
+      "draft_title": null,
+      "draft_uses_placeholder_authors": false,
+      "exists_on_arxiv": true,
+      "title_similarity": null,
+      "title": "Are \"Solved Issues\" in SWE-bench Really Solved Correctly? An Empirical Study",
+      "authors": [
+        "You Wang",
+        "Michael Pradel",
+        "Zhongxin Liu"
+      ],
+      "published": "2025-03-19",
+      "abstract": "Automated issue solving aims to resolve real-world issues in software repositories. The most popular benchmarks for automated issue solving are SWE-bench and its human-filtered subset SWE-bench Verified. These benchmarks leverage testing to validate generated patches. However, because testing is rarely exhaustive, a patch may pass the tests but nevertheless fail to match the developers' expectations. Unfortunately, it is currently unclear to what extent evaluations performed with SWE-bench suffer from such plausible but incorrect patches. This paper presents an in-depth empirical study of the correctness of plausible patches generated by three state-of-the-art issue-solving tools evaluated on SWE-bench Verified. We extensively test and inspect generated patches, and compare them against human-written ground truth patches. The core of our methodology is a novel technique PatchDiff for differential patch testing, which automatically exposes behavioral discrepancies between two patches. Our findings reveal critical weaknesses in SWE-bench's patch validation mechanism, which causes 7.8% of all patches to count as correct while failing the developer-written test suite. Moreover, our novel automated technique reveals that even more (29.6%) plausible patches induce different behavior than the ground truth patches. These behavioral differences are often due to similar, but divergent implementations (46.8%) and due to generated patches that adapt more behavior than the ground truth patches (27.3%). Our manual inspection shows that 28.6% of behaviorally divergent patches are certainly incorrect. Combined, the different weaknesses lead to an inflation of reported resolution rates by 6.2 absolute percent points. Our findings are a call to arms for more robust and reliable evaluation of issue-solving tools. We envision our automated differential patch testing technique to be useful for this purpose.",
+      "updated": "2025-09-09"
+    },
+    {
+      "key": "utboost_2025",
+      "arxiv_id": "2506.09289v1",
+      "draft_title": null,
+      "draft_uses_placeholder_authors": false,
+      "exists_on_arxiv": true,
+      "title_similarity": null,
+      "title": "UTBoost: Rigorous Evaluation of Coding Agents on SWE-Bench",
+      "authors": [
+        "Boxi Yu",
+        "Yuxuan Zhu",
+        "Pinjia He",
+        "Daniel Kang"
+      ],
+      "published": "2025-06-10",
+      "abstract": "The advent of Large Language Models (LLMs) has spurred the development of coding agents for real-world code generation. As a widely used benchmark for evaluating the code generation capabilities of these agents, SWE-Bench uses real-world problems based on GitHub issues and their corresponding pull requests. However, the manually written test cases included in these pull requests are often insufficient, allowing generated patches to pass the tests without resolving the underlying issue. To address this challenge, we introduce UTGenerator, an LLM-driven test case generator that automatically analyzes codebases and dependencies to generate test cases for real-world Python projects. Building on UTGenerator, we propose UTBoost, a comprehensive framework for test case augmentation. In our evaluation, we identified 36 task instances with insufficient test cases and uncovered 345 erroneous patches incorrectly labeled as passed in the original SWE Bench. These corrections, impacting 40.9% of SWE-Bench Lite and 24.4% of SWE-Bench Verified leaderboard entries, yield 18 and 11 ranking changes, respectively.",
+      "updated": "2025-06-10"
+    },
+    {
+      "key": "swebench_pro_verified",
+      "arxiv_id": "2609.08149v3",
+      "draft_title": null,
+      "draft_uses_placeholder_authors": false,
+      "exists_on_arxiv": true,
+      "title_similarity": null,
+      "title": "SWE-Bench Pro Verified: A Reliable Benchmark for Software Engineering Agents",
+      "authors": [
+        "Pujun Zheng",
+        "Zixin Shang",
+        "Shufan Jiang",
+        "Wenhui Tian",
+        "Dongsheng Zhu",
+        "Zerun Ma",
+        "Dingbo Yuan",
+        "Qi Zhang"
+      ],
+      "published": "2026-09-08",
+      "abstract": "SWE-Bench Pro has emerged as a standard benchmark for evaluating software engineering agents on challenging repository-level tasks. However, our analysis work show that its evaluation is undermined by two sources of unreliability: reward hacking, enabled by leakage of gold solutions or hidden evaluation information, and task quality issues, including misleading problem statements and improperly scoped tests. These issues can inflate benchmark performance and obscure agents' true coding ability. We present SWE-Bench Pro Verified, a verified version of SWE-Bench Pro that addresses both problems. Our approach combines anti-hacking safeguards that eliminate major leakage channels without disrupting normal agent functionality, with task refinement that minimally corrects inconsistencies within flawed instances. Evaluations on SWE-Bench Pro Verified reveal that some models perform substantially worse than previously evaluated, suggesting that existing results on SWE-Bench Pro may overestimate real software engineering capability. SWE-Bench Pro Verified offers a more trustworthy benchmark for assessing software engineering agents.",
+      "updated": "2026-10-09"
+    },
+    {
+      "key": "waudby_smith_ramdas",
+      "arxiv_id": "2010.09686v7",
+      "draft_title": null,
+      "draft_uses_placeholder_authors": false,
+      "exists_on_arxiv": true,
+      "title_similarity": null,
+      "title": "Estimating means of bounded random variables by betting",
+      "authors": [
+        "Ian Waudby-Smith",
+        "Aaditya Ramdas"
+      ],
+      "published": "2020-10-19",
+      "abstract": "This paper derives confidence intervals (CI) and time-uniform confidence sequences (CS) for the classical problem of estimating an unknown mean from bounded observations. We present a general approach for deriving concentration bounds, that can be seen as a generalization and improvement of the celebrated Chernoff method. At its heart, it is based on a class of composite nonnegative martingales, with strong connections to testing by betting and the method of mixtures. We show how to extend these ideas to sampling without replacement, another heavily studied problem. In all cases, our bounds are adaptive to the unknown variance, and empirically vastly outperform existing approaches based on Hoeffding or empirical Bernstein inequalities and their recent supermartingale generalizations. In short, we establish a new state-of-the-art for four fundamental problems: CSs and CIs for bounded means, when sampling with and without replacement.",
+      "updated": "2022-08-25"
+    },
+    {
+      "key": "webdev_skills_bench_2026",
+      "arxiv_id": "2608.23067v1",
+      "draft_title": null,
+      "draft_uses_placeholder_authors": false,
+      "exists_on_arxiv": true,
+      "title_similarity": null,
+      "title": "Signal or Noise? A Benchmark Study of Agent Skills in Web Development",
+      "authors": [
+        "Ziyue Yang",
+        "Fan Ding"
+      ],
+      "published": "2026-08-24",
+      "abstract": "Agent Skills are reusable procedural modules that are increasingly injected into coding-agent sessions to encode framework conventions, anti-patterns, and reusable tools. However, because each injected Skill expands the prompt of every query, an effective Skill benchmark must determine not only whether an agent can solve a task, but whether the Skill should have been injected at all. We introduce WebDev-Skills-Bench and use it for a controlled empirical study of 31 public WebDev Skills on 50 Web-Bench projects and 1,000 ordered tasks. The benchmark compares four matched conditions, including a length-matched irrelevant control and leave-one-out component ablations. To isolate Skill effects from prompt-length artifacts, we place only SKILL.md in the prompt while mounting auxiliary files into the agent workspace. Across four models, target Skill injection reduces mean Pass@2 by 1.3% to 4.2%, lowers task completion depth, and increases token cost by 72% to 394%, with gains in only 17% to 36% of Skill-project pairs. Length-matched controls reveal two failure modes: some models are length-distracted, where an equally long irrelevant Skill reproduces most of the loss, while others are content-misled, where prompt length is neutral but Skill content still lowers Pass@2 by 1.1% to 1.4%. Further analysis shows that losses concentrate on easy early tasks, Skill rankings transfer weakly across models, and anti-pattern rules outperform example-heavy content within helpful Skills. These findings recast a matched Skill as a hypothesis about a particular Skill-project-model triple rather than a portable asset, reframing injection as a per-deployment routing decision and making length-matched controls and per-model audits a minimum standard for Agent-Skill evaluation.",
+      "updated": "2026-08-24"
     }
   ],
   "dblp": {
@@ -443,22 +573,7 @@
     ],
     "Conformal risk control": [
       {
-        "title": "Conformal Risk Control",
-        "venue": "International Conference on Learning Representations",
-        "year": 2022,
-        "type": "semantic-scholar"
-      },
-      {
-        "title": "Conformal Risk Training: End-to-End Optimization of Conformal Risk Control",
-        "venue": "Neural Information Processing Systems",
-        "year": 2025,
-        "type": "semantic-scholar"
-      },
-      {
-        "title": "Selective Conformal Risk Control",
-        "venue": "arXiv.org",
-        "year": 2025,
-        "type": "semantic-scholar"
+        "error": "dblp: https://dblp.org: JSONDecodeError: Expecting value: line 1 column 1 (char 0); https://dblp.uni-trier.de: JSONDecodeError: Expecting value: line 1 column 1 (char 0); https://dblp.dagstuhl.de: JSONDecodeError: Expecting value: line 1 column 1 (char 0); s2: RuntimeError('semantic scholar: rate limited (429) after retries')"
       }
     ],
     "OpenHands": [
