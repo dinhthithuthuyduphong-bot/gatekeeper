@@ -1464,3 +1464,56 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - Nếu bị từ chối: dùng Gemini Flash (phương án C). Khi đó paper chỉ được viết "trong họ Gemini".
 - **Ngân sách mục 2.3:** đã duyệt khoảng 1 USD. Ước tính 5 task × 2 nhánh với Mistral là khoảng 3,3 USD. Đề xuất nâng lên 3,5 USD, đang chờ @thuthuy.
 
+## 27. Ba phép thử trên skill jinja: placebo, dùng lại ở repo khác, quỹ đạo (đăng ký 07/11/2026, trước mọi lần chạy có phí; trần 7 USD)
+
+**Quyết định của @thuthuy (07/11):**
+- "Ok, lên 7usd vẫn được, chọn phương án tốt nhất cho paper".
+- "lưu ý là dùng của người ta không chỉnh sửa gì để chắc chắn mình k can thiệp vào chiến thắng".
+
+**Quy tắc chung rút từ yêu cầu thứ hai:**
+- Mọi nhánh chạy trong **môi trường gốc của gskill**: không dùng `--leak-free`, không đổi image hay lịch sử git.
+- Skill jinja học được và skill placebo được dùng **nguyên văn**, kiểm bằng `cmp` và `sha256sum -c` trước khi chạy.
+- Vì vậy thí nghiệm bỏ một phần skill (P24, cắt một dòng khỏi skill của gskill) **bị bỏ**.
+- Phần đổi duy nhất, áp như nhau cho mọi nhánh: seed 41 và trần 0,30 USD mỗi lượt (`docs/reviewer_fidelity.md` A2, A3).
+
+### 27a. Đối chứng placebo cùng độ dài (2a), trần 2,2 USD
+- **Can thiệp (R2, nhóm "định nghĩa can thiệp" có nguồn):** đối chứng C2 của WebDev-Skills-Bench (arXiv 2608.23067): thay skill bằng một skill **không liên quan** có độ dài byte trong ±5%.
+- **Chọn skill placebo bằng quy tắc, không có lựa chọn tự do:**
+  - nguồn: 98 skill công khai của SWE-Skills-Bench@4d3450d (MIT);
+  - điều kiện: độ dài trong ±5% của skill jinja (2.681 byte, tức 2.547–2.815);
+  - **đúng một skill thỏa:** `skills/go-concurrency-patterns/SKILL.md` (2.771 byte; Go, không liên quan tới jinja);
+  - sha256 `a66d04f2…b36b2`, lưu ở `docs/skills/swe_skills_bench/`.
+- **Thiết kế:** 100 task test của jinja, theo thứ tự `_gskill_order`, cấu hình như §25.
+- **So sánh:**
+  - skill thật: `results/f1_skill_probe.json` (S 53/100);
+  - không skill: `results/f1_probe.json` (S 15/100);
+  - cả hai cùng môi trường gốc, chạy ngày 06/11.
+- **Phép kiểm chính P27a** (một phía, α = 0,025): skill thật > placebo. Kiểm định dấu chính xác trên cặp lệch theo task, endpoint S.
+- **Phụ:**
+  - placebo so với không skill (hai phía, mô tả);
+  - cùng phép kiểm P27a trên **nhóm có mô tả issue** (66 task), nơi rò rỉ gần như không có tác dụng (§25: 15 → 0 chỉ ở nhóm không có mô tả).
+- **Giới hạn đã biết:** nhánh placebo chạy sau hai nhánh so sánh khoảng 1 ngày. §5 cho thấy model có thể đổi theo thời gian. Phép thử 27c đo trực tiếp mức lặp lại của nhánh skill sau 1 ngày, để báo cáo kèm.
+
+### 27b. Dùng lại skill jinja ở repo khác (2b), trần 3,6 USD
+- **Chọn repo bằng quy tắc:** `pygments__pygments`, là repo mặc định trong README của gskill (§25, mục F0).
+  - F0 trên repo này: patch không làm gì đạt S 0/30; bản sửa gốc đạt S 29/30; 0 lỗi hạ tầng.
+- **Thiết kế:**
+  - 100 task test của pygments, chia theo đúng cách của gskill (`data/instances/swesmith_pygments__pygments.jsonl.gz`, seed 42);
+  - hai nhánh, không skill và skill jinja nguyên văn, **chạy song song trong cùng một job**, để hai nửa của mỗi cặp chạy cùng thời điểm;
+  - mỗi nhánh trần 1,8 USD.
+- **Phép kiểm chính P27b** (hai phía, α = 0,025, vì cả "có hại" và "có ích" đều là kết quả có ý nghĩa): skill jinja khác không skill. Kiểm định dấu chính xác trên cặp lệch, endpoint S.
+- **Phụ:**
+  - Gatekeeper trên ô (skill jinja, pygments) với θ = 0, c = 0,5, α = 0,025: admit hay không;
+  - nhóm có mô tả issue (92 task); pygments chỉ có 8 task không có mô tả.
+
+### 27c. Quỹ đạo của skill jinja trên 34 task không có mô tả issue (2c), trần 0,8 USD
+- **Thiết kế:** 34 task test của jinja có `problem_statement` rỗng; skill jinja nguyên văn; môi trường gốc; lưu mọi tin nhắn (A104).
+- **Đại lượng** (định nghĩa trước khi xem quỹ đạo):
+  - **G1:** số task có ít nhất một lệnh agent chạy chứa `git log` hoặc `git show`;
+  - **G2:** số task có quan sát chứa chuỗi "Bug Patch";
+  - **G3:** tỉ lệ giải (S) khi có G2 và khi không có G2.
+- **Độ lặp lại** (thay cho phép kiểm drift, vì quỹ đạo cũ đã mất): trên 34 task, so S và patch với `results/f1_skill_probe.json` (06/11), báo số task cùng S và số task có patch giống hệt.
+
+**Họ phép kiểm:** P27a và P27b, Holm ở mức 0,025. 27c chỉ mô tả.
+**Tổng trần: 6,6 USD**, trong mức 7 USD. Thứ tự chạy: chạy thử miễn phí (`dryrun`) cho cả ba, rồi 27c, 27a, 27b. Bleve 4c/4d vẫn theo §25.
+

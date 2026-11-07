@@ -69,6 +69,13 @@ def main() -> int:
     ap.add_argument("--mock-response", help="free dry run: LiteLLM mock_response, cost 0 allowed")
     ap.add_argument("--skills-file", help="skills text injected into {{ skills }} (default: none)")
     ap.add_argument(
+        "--subset",
+        choices=["all", "no-problem-statement"],
+        default="all",
+        help="task selection only (tasks are never changed): the tasks whose problem statement is "
+        "empty (section 27, 2c)",
+    )
+    ap.add_argument(
         "--leak-free",
         action="store_true",
         help="remove the bug commit from the agent's git history",
@@ -96,6 +103,8 @@ def main() -> int:
     insts = sorted(
         (r for r in rows if r["_gskill_split"] == a.split), key=lambda r: r["_gskill_order"]
     )
+    if a.subset == "no-problem-statement":
+        insts = [r for r in insts if not (r.get("problem_statement") or "").strip()]
     skills = Path(a.skills_file).read_text() if a.skills_file else ""
     traces_path = Path(a.out).with_suffix(".traces.jsonl.gz")
     traces_path.unlink(missing_ok=True)  # the result file is rewritten, so are its traces
@@ -106,6 +115,8 @@ def main() -> int:
         "cap": a.cap,
         "skills_chars": len(skills),
         "leak_free": a.leak_free,
+        "subset": a.subset,
+        "n_tasks": len(insts),
         "runs": [],
     }
     for inst in insts:

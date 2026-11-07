@@ -683,3 +683,19 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 | Chia train/val/test | `export_swesmith.py::gskill_split` chép lại số học của `load_and_split_data` (`train_optimize_anything.py:381–434`) | viết lại, **khớp từng bước** (lọc `swesmith/<repo>`, dừng khi đủ, seed, shuffle, thu nhỏ theo tỉ lệ, cắt lát) |
 | Nhánh không rò rỉ (§25 bước 3) | can thiệp của mình (một commit mồ côi) | không thuộc gskill; ghi rõ là ngoài phạm vi |
 | MemGovern | thẻ, chỉ mục, model embedding, server, `exp_search`/`exp_read` và đoạn hướng dẫn: của MemGovern | **harness không phải của họ**: chạy trên mini-swe-agent thay vì SWE-agent; bản 1 đặt hướng dẫn sai chỗ (A102). Kết quả 0/20 chỉ nói về harness này, không được viết là "MemGovern không hiệu quả" |
+
+## R-55. §27 (07/11/2026, trước khi chạy; trần 6,6 USD trong 7 USD)
+- **Mã:**
+  - `f1_probe.py --subset no-problem-statement`: chỉ chọn task, không đổi task;
+  - lưu quỹ đạo (A104);
+  - `pilot.yml` plan `swesmith-s27` (repo jinja/pygments; nhánh placebo/trace34/pair; `dryrun`).
+- **Kiểm §4:**
+  - tài nguyên bên thứ ba dùng nguyên văn: `cmp` với skill gskill đã lưu, `sha256sum -c` với skill placebo;
+  - không `--leak-free` (yêu cầu của @thuthuy);
+  - quy tắc chọn placebo có nguồn (WebDev-Skills-Bench C2) và chỉ có một ứng viên;
+  - quy tắc chọn repo cố định trước (README của gskill);
+  - hai nhánh của 27b chạy cùng lúc (§5);
+  - phép kiểm chính, chiều và α đã ghi;
+  - 27c chỉ mô tả, đại lượng định nghĩa trước;
+  - giới hạn khác thời điểm của 27a đã ghi;
+  - chạy thử miễn phí trên GitHub Actions cho cả ba nhánh trước khi chạy có phí.
