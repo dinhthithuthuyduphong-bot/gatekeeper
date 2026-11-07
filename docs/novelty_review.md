@@ -36,3 +36,11 @@
 **Hệ quả cho cách định vị:**
 - **Không** viết "chúng tôi phát hiện SWE-smith lộ đáp án qua git". Viết: "chỗ lộ đã được báo (trích dẫn); đóng góp của chúng tôi là cho thấy **một bộ học skill tự động khai thác nó**, đo phần mức tăng do nó gây ra, và cho thấy chứng nhận trong scope không chuyển sang scope không lộ".
 - Rủi ro thời điểm: các báo cáo về SWE-smith mới xuất hiện trong vài tuần gần đây, nên có thể sớm có bài khác về đúng chủ đề "skill học được khai thác chỗ lộ". Nên viết và đăng sớm.
+
+**Bổ sung (07/11/2026): chỉ dẫn đọc lịch sử git do quá trình tối ưu đưa vào, không có sẵn.** Kiểm trên mã ghim `gepa@8c7b697` (bản lưu `gskill_seed_candidate`, `gskill_mini_yaml`, `gskill_original_mini_yaml`):
+- Skill khởi đầu là rỗng: *"# 3. Initial Candidate (Baseline Prompt) # Start with empty skills - GEPA will learn a…"*.
+- `mini.yaml` (2.166 ký tự) không chứa "git".
+- Prompt viết skill và prompt gộp skill trong `train_optimize_anything.py` (31.634 ký tự) chỉ chứa "git" **1 lần**, trong danh sách lệnh: *"Access to bash commands (grep, find, cat, sed, python, pytest, git, etc.)"*.
+- Các chuỗi `history`, `History`, `HISTORY`, `commit`, `Commit`, `COMMIT`, `git log`, `log -`, `recent`, `Bug Patch` đều có **0** lần xuất hiện. Phép tìm phân biệt chữ hoa (`scripts/fetch_sources.py::excerpts`), nên đã kiểm từng biến thể.
+- **Hệ quả:** câu "Check Git History … 'Bug Patch'" trong skill jinja và câu "look at recent git commits (`git log -p -n 3`)" trong skill bleve do bộ phản chiếu viết ra từ dữ liệu đánh giá. Điều này làm mạnh ứng viên đóng góp "bộ học skill tự khai thác chỗ lộ".
+- **Giới hạn:** chỉ kiểm mã của gskill. Thư viện GEPA bên dưới có thể có prompt riêng; gskill dùng proposer tự định nghĩa (`LoggingProposer`, `LoopProposer`) trong chính file này.
