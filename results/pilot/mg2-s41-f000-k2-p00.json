@@ -1,0 +1,66 @@
+{
+  "generated_utc": "2026-11-07T00:18:34+00:00",
+  "format_version": 2,
+  "name": "mg2-s41-f000-k2-p00",
+  "model": "vertex_ai/gemini-3.1-flash-lite",
+  "dataset": "e2_rows.jsonl",
+  "instances": [
+    "projectmesa__mesa-2418"
+  ],
+  "spent_usd": 0.3756,
+  "usage": {
+    "none": {
+      "runs": 1,
+      "usd_per_run": 0.2172318249999999,
+      "tokens_in_per_run": 5607016.0,
+      "tokens_out_per_run": 8571.0,
+      "cached_share": 0.9491114346739871,
+      "api_calls_per_run": 250.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    },
+    "memgovern": {
+      "runs": 1,
+      "usd_per_run": 0.15833057499999997,
+      "tokens_in_per_run": 2201656.0,
+      "tokens_out_per_run": 18354.0,
+      "cached_share": 0.8470682976813817,
+      "api_calls_per_run": 94.0,
+      "solve_rate": 0.0,
+      "solved": 0,
+      "scored": 1
+    }
+  },
+  "infra_failures": {},
+  "model_seed": 41,
+  "endpoint_mismatch": {},
+  "patch_apply_failed": {
+    "memgovern": [
+      "projectmesa__mesa-2418"
+    ]
+  },
+  "harness_test_timeout": {},
+  "exit_status": {
+    "none": {
+      "projectmesa__mesa-2418": "LimitsExceeded"
+    },
+    "memgovern": {
+      "projectmesa__mesa-2418": "Submitted"
+    }
+  },
+  "skills": {
+    "memgovern": {
+      "pairs": [
+        {
+          "instance_id": "projectmesa__mesa-2418",
+          "loss_with": 0.6666666666666666,
+          "loss_without": 0.6666666666666666
+        }
+      ],
+      "mean_Z": 0.0,
+      "variance_components": null
+    }
+  },
+  "reused_none": null
+}
