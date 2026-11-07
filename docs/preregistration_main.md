@@ -1421,3 +1421,16 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - Track MemGovern đã chi 5,28 USD. Phần bổ sung 7–10 USD (dành cho MemGovern) không dùng.
   - Track Bleve giữ các trần của §25 bước 4 (tối đa 25,5 USD), trong phần 40 − 5,28 = 34,72 USD.
 
+### §25 bước 4 (Bleve): kết quả 4a và 4b nửa 1 (07/11/2026)
+
+- **4a** (run 42292893852, nhánh không skill, 100 task test của gskill):
+  - S (thang chấm SWE-smith) 13/100; L (thang chấm gskill) 30/100;
+  - 70 task không có patch;
+  - 0 lỗi hạ tầng, 0 lần crash;
+  - chi 0,786 USD (trần 2,0).
+- **4b nửa 1** (run 42292899150):
+  - `num_candidates` = 6, `total_metric_calls` = 354, `best_score` 0,86 (điểm của chính gskill trên tập val);
+  - skill tốt nhất dài 3.009 ký tự;
+  - chi 5,701 USD (trần cộng dồn 16,0).
+  - **Theo quy tắc dừng sớm (6 > 1): chạy nửa 2.** Run được dispatch ngày 07/11 với `--resume` và trần cộng dồn 16,0.
+
