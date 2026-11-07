@@ -65,7 +65,7 @@ on:
         required: true
         default: "none"
         type: choice
-        options: ["none", "skill", "placebo", "trace34", "pair"]
+        options: ["none", "skill", "placebo", "trace34", "trace34b", "pair"]
       dryrun:
         description: "swesmith-s27 only: true = scripted model (0 USD) on the first task of each arm"
         required: false
@@ -343,6 +343,9 @@ jobs:
                              --skills-file "$GITHUB_WORKSPACE/docs/skills/swe_skills_bench/go-concurrency-patterns.SKILL.md" ;;
             jinja:trace34) run_probe s27_trace34.json "${{ inputs.budget_usd }}" \
                              --skills-file /tmp/jinja_skill.txt --subset no-problem-statement ;;
+            jinja:trace34b) run_probe s27_trace34b.json "${{ inputs.budget_usd }}" \
+                             --skills-file /tmp/jinja_skill.txt --subset no-problem-statement \
+                             --skip-done "$GITHUB_WORKSPACE/results/s27_trace34.json" ;;
             pygments:pair)
               half=$(python -c "print(round(float('${{ inputs.budget_usd }}') / 2, 4))")
               mkdir -p /tmp/work/none /tmp/work/skill

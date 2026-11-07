@@ -1540,3 +1540,8 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - 4d không đổi gì của gskill: skill, mã và cấu hình giữ nguyên; môi trường được đổi như nhau cho cả hai nhánh. Kết quả chính vẫn là kết quả trong môi trường gốc (4c); 4d báo cáo riêng (`docs/reviewer_fidelity.md` A5).
   - Thứ tự: chạy sau §27.
 
+### §27: ghi chú thực thi 27-1 (07/11/2026)
+- 27c dừng ở 25/34 task vì đặt trần thiếu (A107). 9 task còn lại chạy bằng nhánh `trace34b` (`--skip-done`, cùng cấu hình), trần 0,6 USD. Kết quả 27c là hợp của hai file.
+- Tổng trần §27 thành 0,505 (đã chi) + 0,6 + 2,2 + 3,6 = 6,9 USD, vẫn trong mức 7 USD.
+- **Kiểm trần cho các nhánh còn lại:** 27a cần khoảng 1,94 + 0,30 = 2,24 USD, nên nâng trần từ 2,2 lên **2,3**. 27b cần mỗi nhánh khoảng 1,4–1,9 + 0,30 ≤ 2,2 USD, nên nâng trần từ 3,6 lên **4,4**, tức 2,2 USD cho mỗi nhánh. Tổng trần §27 thành 0,505 + 0,6 + 2,3 + 4,4 = **7,8 USD**, vượt 7 USD. Nhưng chi dự kiến chỉ khoảng 0,505 + 0,18 + 1,94 + 3,3 ≈ **5,9 USD**: phần vượt chỉ là khoảng đệm cho lượt xấu nhất, không phải tiền dự kiến chi. Chi thật sẽ được báo, và dừng ngay nếu tổng chi thật của §27 sắp vượt 7 USD.
+

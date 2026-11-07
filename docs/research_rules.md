@@ -168,4 +168,6 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 - **(L48t, A102)** Hệ thống bên thứ ba dựa trên công cụ: (a) phép kiểm thao tác trên model thật (tỉ lệ task có ≥ 1 lời gọi công cụ), có quy tắc dừng chốt trước; (b) vị trí của hướng dẫn trong prompt khớp với cấu hình gốc của hệ thống (trích dòng).
 - **(R-54)** Hệ thống bên thứ ba: dùng mã gốc. Phần chép lại phải được đối chiếu từng dòng (ghi số dòng của bản gốc); mọi thay đổi cấu hình được liệt kê, và trần hay giới hạn nào có thể làm hệ thống đó thua phải kèm số đo chứng minh nó không chặn (`docs/reviewer_fidelity.md` §C).- **(A104)** Script chạy agent có phí: chỉ ra **file nào lưu quỹ đạo** (mọi tin nhắn) của từng lượt chạy, và kiểm file đó trong lần chạy thử miễn phí.
 
+- **(A107)** Trần của mỗi lần chạy có phí ≥ chi phí dự kiến + chi phí xấu nhất của một lượt (`cost_limit`), vì bộ chặn dừng khi "đã chi + lượt xấu nhất > trần".
+
 
