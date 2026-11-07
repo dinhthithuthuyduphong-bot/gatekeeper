@@ -29,6 +29,11 @@ def snapshot(key: str) -> dict | None:
 
 def title_from(url: str, head: str) -> str | None:
     h = " ".join(head.split())
+    m = re.match(
+        r"https://raw\.githubusercontent\.com/([^/]+/[^/]+)/([0-9a-f]{7})[0-9a-f]*/(.+)", url
+    )
+    if m:  # a source file pinned to a commit: the citation is the file itself
+        return f"{m.group(1)}: {m.group(3)} (commit {m.group(2)})"
     if "github.com" in url and " · " in h:
         parts = h.split(" · ")
         if len(parts) >= 3 and re.match(r"(Issue|Pull Request) #\d+", parts[1]):
@@ -58,7 +63,11 @@ def main() -> int:
     keys = sorted({k.strip() for g in re.findall(r"\\cite\{([^}]*)\}", tex) for k in g.split(",")})
     src = json.loads(Path("configs/sources.json").read_text())
     ids = {s["id"] for s in (src if isinstance(src, list) else src["sources"])}
-    cit = json.loads(Path("data/citations.json").read_text()).get("arxiv", [])
+    r = subprocess.run(
+        ["git", "show", "origin/data-snapshots:data/citations.json"], capture_output=True, text=True
+    )
+    cit = json.loads(r.stdout if r.returncode == 0 else Path("data/citations.json").read_text())
+    cit = cit.get("arxiv", [])
     by_arxiv = {c["arxiv_id"].split("v")[0]: c for c in cit if c.get("exists_on_arxiv")}
     out, verify = [], []
     for k in keys:
@@ -81,7 +90,9 @@ def main() -> int:
         fields["howpublished"] = "{\\url{" + url + "}}"
         if snap.get("fetched_utc"):
             fields["note"] = "{Accessed " + snap["fetched_utc"][:10] + "}"
-        if not title or (not authors and "github.com" not in url):
+        if not title or (
+            not authors and not re.match(r"https://(github\.com|raw\.githubusercontent\.com)/", url)
+        ):
             verify.append(k)
             fields["note"] = "{VERIFY title/authors from the saved original}"
         body = ",\n".join(f"  {f} = {v}" for f, v in fields.items())

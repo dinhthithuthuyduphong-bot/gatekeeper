@@ -75,9 +75,11 @@ to identify suspicious recent commits (e.g., `Bug Patch'), then use \texttt{git 
 SWE-smith tasks keep the commit that injected the bug just below the head of the repository; this
 leak has recently been reported for SWE-smith environments~\cite{marin_swesmith_git_leak,
 debuggym_swesmith_git_leak}, and leaks of the same kind are documented for SWE-bench and its
-derivatives~\cite{swebench_git_log_leak,swebench_pro_verified}. The instruction is part of the learned
-skill\todo{check whether gskill's seed skill or reflection prompt already mentions git history; if
-not, state that the optimiser introduced it}. We therefore repeated the evaluation with
+derivatives~\cite{swebench_git_log_leak,swebench_pro_verified}. Nothing in the pipeline put it there:
+at the commit we ran, the seed skill is empty, the agent configuration does not contain the word
+``git'', and the prompts that write and merge skills name \texttt{git} only in a list of available
+commands, never mentioning history or commits~\cite{gskill_seed_candidate,gskill_mini_yaml}. The
+instruction was introduced during optimisation. We therefore repeated the evaluation with
 \emph{only} the history changed, replacing it with a single commit that holds the buggy tree, the
 mitigation proposed in~\cite{debuggym_swesmith_git_fix}. The gain falls to \njinjaLFGain{}
 [\njinjaLFGainLo{}, \njinjaLFGainHi{}]. The difference, \nleak{} [\nleakLo{}, \nleakHi{}], is about
@@ -123,8 +125,8 @@ leak-free (4d). Add one sentence each when the registered results exist.}
 \begin{itemize}
   \item The first anytime-valid certification of skills produced by a published learning pipeline,
         on two repositories in two languages, under the benchmark's own scorer (Section~\ref{sec:rq2}).
-  \item A controlled measurement showing that the learned skills instruct the agent to use an
-        evaluation leak, and that the leak accounts for \nleak{} [\nleakLo{}, \nleakHi{}] of the
+  \item A controlled measurement showing that the learner wrote an instruction to use an
+        evaluation leak into both skills, unprompted, and that the leak accounts for \nleak{} [\nleakLo{}, \nleakHi{}] of the
         gain (Section~\ref{sec:rq2}).
   \item Evidence that the certification is specific to its scope: the gain changes with the
         environment's history \todo{and with the repository (27b)}; across four published agent--model
@@ -344,9 +346,10 @@ reject under Holm's procedure, and Gatekeeper admits each skill after \njinjaAdm
 
 \paragraph{Part of the gain comes from the environment}
 Both learned skills tell the agent to read recent commits when the issue is unclear. The seed
-from which gskill starts is empty, and its agent configuration does not mention version
-history\todo{reflection prompt: confirm from the saved original that it lists \texttt{git} only
-as an available command}. Changing only the history of the Jinja tasks, to a single commit that
+from which gskill starts is empty, its agent configuration does not contain ``git'', and its
+skill-writing prompts mention \texttt{git} once, as an available command, and never history or
+commits~\cite{gskill_seed_candidate,gskill_mini_yaml}: the instruction was introduced by the
+optimisation itself. Changing only the history of the Jinja tasks, to a single commit that
 holds the buggy tree, leaves the no-skill arm unchanged (\njinjaNone{} and \njinjaLFNone{}) and
 lowers the skill arm from \njinjaSkill{} to \njinjaLFSkill{}. The difference of the two gains,
 estimated jointly over the same 100 tasks, is \nleak{} [\nleakLo{}, \nleakHi{}], about
