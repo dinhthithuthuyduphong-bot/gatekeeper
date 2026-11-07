@@ -109,3 +109,11 @@ Phạm vi: model khác hãng tạm dừng, chờ thầy duyệt đề tài (@thu
 | P18 | `TODO.md` dừng ở 03/11 | Cập nhật |
 | P20 | `trial` chưa nhập vào `main`; số A/L/R trùng (A89, A91, L47, R-45, R-46) | Đánh số lại khi nhập; đối chiếu T4 (0,55 so với 0,60) |
 
+### 4c. Kết quả các việc miễn phí (07/11/2026)
+- **P19:**
+  - `steegen_2016`: **đã xác minh** từ bản sao bài báo lưu ở errorstatistics.com, vì trang của nhà xuất bản trả 403.
+  - `gemini_31_flash_lite_cutoff`: **vẫn chưa xác minh**. Trang model trên ai.google.dev không có chữ "2025". Trang Vertex không ghi mốc cắt. URL hướng dẫn Gemini 3, nơi kết quả tìm kiếm trích câu "Gemini 3 models have a knowledge cutoff of January 2025", nay đã chuyển sang một trang khác. **Hệ quả:** paper không được viết "không nhiễm dữ liệu", cũng không dùng mốc 01/2025, cho tới khi có bản chụp chứa đúng câu.
+- **P17, P18, P20:** đã làm. Chi tiết ở §23b của bản đăng ký trước, `TODO.md` và `docs/merge_plan_trial.md` (chưa nhập vào `main`).
+- **P26:** đang chạy (`scripts/rescore.py`, 448 lần chấm lại, `results/rescore_jinja.jsonl`).
+- Placebo C2 của §27a: đã có nguyên văn định nghĩa trong bản chụp.
+

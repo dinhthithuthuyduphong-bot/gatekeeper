@@ -1479,6 +1479,8 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 
 ### 27a. Đối chứng placebo cùng độ dài (2a), trần 2,2 USD
 - **Can thiệp (R2, nhóm "định nghĩa can thiệp" có nguồn):** đối chứng C2 của WebDev-Skills-Bench (arXiv 2608.23067): thay skill bằng một skill **không liên quan** có độ dài byte trong ±5%.
+  - Nguyên văn (bản chụp `sources-snapshots`, `webdev_skills_bench_2026`): *"C2 (length-matched irrelevant Skill) replaces the target SKILL.md with a skip-tier Skill of approximately equal byte length (±5%), which separates the target-content effect from the effect of adding a length-matched Skill block and gives ∆Length = C2−C0 and ∆Content = C1−C2."*
+  - Ánh xạ sang §27: C0 là `f1_probe` (không skill), C1 là `f1_skill_probe` (skill jinja), C2 là nhánh placebo. **P27a đo ∆Content; phép phụ đo ∆Length.**
 - **Chọn skill placebo bằng quy tắc, không có lựa chọn tự do:**
   - nguồn: 98 skill công khai của SWE-Skills-Bench@4d3450d (MIT);
   - điều kiện: độ dài trong ±5% của skill jinja (2.681 byte, tức 2.547–2.815);
