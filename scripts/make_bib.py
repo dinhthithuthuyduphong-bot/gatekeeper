@@ -69,6 +69,8 @@ def main() -> int:
     cit = json.loads(r.stdout if r.returncode == 0 else Path("data/citations.json").read_text())
     cit = cit.get("arxiv", [])
     by_arxiv = {c["arxiv_id"].split("v")[0]: c for c in cit if c.get("exists_on_arxiv")}
+    ov_path = Path("configs/bib_overrides.json")
+    overrides = json.loads(ov_path.read_text()) if ov_path.exists() else {}
     out, verify = [], []
     for k in keys:
         if k not in ids:
@@ -84,10 +86,24 @@ def main() -> int:
         if ax and ax in by_arxiv:
             authors = " and ".join(by_arxiv[ax]["authors"])
             title = title or by_arxiv[ax]["title"]
+        ov = overrides.get(k, {})
+        if ov:
+            # every override must be read off the saved original: each author name and the title
+            # must occur verbatim in the snapshot's text, or the script stops
+            text = " ".join(json.dumps(snap).split())
+            names = [n.strip("{} ") for n in ov.get("author", "").split(" and ") if n.strip()]
+            missing = [n for n in names + [ov.get("title", "")] if n and n not in text]
+            if missing:
+                raise SystemExit(f"{k}: override not found in the saved original: {missing}")
+            authors = ov.get("author") or authors
+            title = ov.get("title") or title
         fields = {"title": "{" + bib_escape(title) + "}" if title else "{VERIFY: title}"}
         if authors:
             fields["author"] = "{" + authors + "}"
-        fields["howpublished"] = "{\\url{" + url + "}}"
+        if ov.get("year"):
+            fields["year"] = "{" + ov["year"] + "}"
+        fields["howpublished"] = "{" + (ov["howpublished"] + ", " if ov.get("howpublished") else "")
+        fields["howpublished"] += "\\url{" + url + "}}"
         if snap.get("fetched_utc"):
             fields["note"] = "{Accessed " + snap["fetched_utc"][:10] + "}"
         if not title or (
