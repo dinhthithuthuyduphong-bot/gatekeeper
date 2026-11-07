@@ -412,3 +412,4 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   1. Ưu tiên metadata có cấu trúc đã kiểm (arXiv API) hơn văn bản cắt từ trang.
   2. Script trích văn bản phải dừng khi gặp chữ của giao diện trang.
   3. Sau mỗi lần sinh bib, đọc toàn bộ các tiêu đề đã đổi (`diff`).
+  4. **Bổ sung:** `preflight.py --ci` bỏ lint và test (CI chạy chúng thành bước riêng), nên trước commit phải chạy `python scripts/preflight.py` **đầy đủ**. Commit `45e10d1` chỉ qua `--ci` và làm CI đỏ vì một dòng dài 116 ký tự; đã sửa ở commit sau.

@@ -18,6 +18,10 @@ import subprocess
 from pathlib import Path
 
 
+# text of arXiv page chrome that must never end up in a title (A113)
+CHROME = ("Skip to main content", "Report GitHub Issue", "Back to arXiv")
+
+
 def snapshot(key: str) -> dict | None:
     r = subprocess.run(
         ["git", "show", f"origin/sources-snapshots:data/sources/{key}.json"],
@@ -108,7 +112,7 @@ def main() -> int:
                 raise SystemExit(f"{k}: override not found in the saved original: {missing}")
             authors = ov.get("author") or authors
             title = ov.get("title") or title
-        chrome = [w for w in ("Skip to main content", "Report GitHub Issue", "Back to arXiv") if w in (title or "")]
+        chrome = [w for w in CHROME if w in (title or "")]
         if chrome:
             raise SystemExit(f"{k}: title carries page chrome {chrome}: {title}")  # A113
         fields = {"title": "{" + bib_escape(title) + "}" if title else "{VERIFY: title}"}
