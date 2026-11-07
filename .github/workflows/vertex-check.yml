@@ -84,12 +84,14 @@ jobs:
           # Model ids are those returned by ListPublisherModels above. Two call routes per model:
           # LiteLLM (what the agent would use) and Vertex's OpenAI-compatible MaaS endpoint.
           # Prints outcomes and token counts only; the project id is redacted.
-          import json, os, urllib.request
+          import json, os, re, urllib.request
           import google.auth, google.auth.transport.requests
           import litellm
           P = os.environ.get("VERTEXAI_PROJECT")
           def red(m):
-              return " ".join(str(m).replace(P or "\0", "<PROJECT>").split())[:600]
+              m = str(m).replace(P or "\0", "<PROJECT>")
+              m = re.sub(r"projects/\d+", "projects/<PROJECT_NUMBER>", m)  # the MaaS error names the project number
+              return " ".join(m.split())[:600]
           tool = {"type": "function", "function": {"name": "bash", "description": "Run a bash command",
                   "parameters": {"type": "object", "properties": {"command": {"type": "string"}}, "required": ["command"]}}}
           ask = [{"role": "user", "content": "Use the bash tool twice in parallel: run `ls` and run `pwd`. Call both tools in this one response."}]
