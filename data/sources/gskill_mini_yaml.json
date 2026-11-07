@@ -24,5 +24,5 @@
    "agent: system_template: | You are a helpful assistant that can interact with a computer. Here are some of the skills you learned while working with similar problems. {{ skills }} Your reasoning and analysis here. Explain why you want to perform the action. ```bash your_command_here ``` Failure to follow these rules will cause your response to be rejected. instance_template: | Please solve this issue: {{task}} action_observation_template: | {{output.returncode}} {% if output.output | length {{ output.output -}} {%- else -%} The output of your last command was too long. Please try a different command that produces le"
   ]
  },
- "fetched_utc": "2026-11-07T10:45:35+00:00"
+ "fetched_utc": "2026-11-07T10:49:41+00:00"
 }
