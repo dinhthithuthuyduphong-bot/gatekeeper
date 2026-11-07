@@ -94,3 +94,4 @@ Gửi yêu cầu **sớm nhất có thể**, kèm hạn cần trả lời, để
 | Kiểm tra tự động trước khi chạy | `scripts/preflight.py` (chạy cả trong CI) |
 | Đổi hoặc thêm model (chỉ khi @thuthuy ra lệnh) | `docs/model_switch_checklist.md` |
 | Lưu trữ và kiểm tra dữ liệu gốc | `docs/raw_archive.md`, nhánh `raw-archive` |
+| Độ trung thành với hệ thống bên thứ ba (gskill, MemGovern), câu chữ được phép dùng trong paper | `docs/reviewer_fidelity.md` |
