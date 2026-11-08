@@ -343,6 +343,111 @@ def main() -> int:
         if N[k] != v:
             print("MISMATCH", k, N[k], v)
             return 1
+    # Bleve step 4d (branch `trial`): leak-free environment, and Delta_leak as for jinja
+    b_lf = ab(mod, t / "s25bleve_leakfree_skill_all.json", t / "s25bleve_leakfree_none.json", bleve)
+    bdl = delta_leak(mod, b_in, b_lf)
+    brecs = [
+        json.loads(x)
+        for f in (
+            "s25bleve_leakfree_skill.traces.jsonl.gz",
+            "s25bleve_leakfree_skillb.traces.jsonl.gz",
+        )
+        for x in gzip.open(t / f, "rt")
+    ]
+    bg1 = bg2 = 0
+    for r in brecs:
+        ms = r["messages"] or []  # two runs crashed on a rate limit before any step (A114)
+        obs = [m for m in ms if m["role"] == "user"][1:]
+        cmds = " ".join(str(m.get("content", "")) for m in ms if m["role"] == "assistant")
+        bg1 += bool(re.search(r"git (log|show)", cmds))
+        bg2 += any("Bug Patch" in str(m.get("content", "")) for m in obs)
+    # S-infra sensitivity (registered): the two runs that crashed on a rate limit are missing data
+    bsk = load(t / "s25bleve_leakfree_skill_all.json")
+    crashed = {r["instance_id"] for r in bsk["runs"] if r.get("crashed")}
+    keep = [q for q in b_lf["pairs"] if q[0] not in crashed]
+    bsi = mod.analyse(keep, ALPHA, THETA, C, REPS, SEED)["S"]
+    bsl = delta_leak(mod, b_in, {"pairs": keep})
+    N.update(
+        {
+            "bleveCrash": len(crashed),
+            "bleveSiN": len(keep),
+            "bleveSiB": bsi["b"],
+            "bleveSiC": bsi["c"],
+            "bleveSiGain": bsi["gain"],
+            "bleveSiLeak": bsl["d"],
+        }
+    )
+    # 27b: the jinja skill reused verbatim on pygments; registered two-sided
+    pyg = mod.paired(load(t / "s27pyg_skill_all.json"), load(t / "s27pyg_none_all.json"))
+    pa = mod.analyse(pyg, ALPHA, THETA, C, REPS, SEED)
+    N.update(
+        {
+            "bleveLFNone": b_lf["all"]["S"]["none"],
+            "bleveLFSkill": b_lf["all"]["S"]["skill"],
+            "bleveLFGain": b_lf["all"]["S"]["gain"],
+            "bleveLFGainLo": b_lf["all"]["S"]["boot95"][0],
+            "bleveLFGainHi": b_lf["all"]["S"]["boot95"][1],
+            "bleveLFp": b_lf["all"]["S"]["p_one_sided"],
+            "bleveLFAdmit": b_lf["all"]["gatekeeper_admit_trial"],
+            "bleveLFLNone": b_lf["all"]["L"]["none"],
+            "bleveLFLSkill": b_lf["all"]["L"]["skill"],
+            "bleveNoPSLF": b_lf["nops"]["skill"],
+            "bleveNoPSN": b_lf["nops"]["n"],
+            "bleveLeak": bdl["d"],
+            "bleveLeakLo": bdl["ci"][0],
+            "bleveLeakHi": bdl["ci"][1],
+            "bleveLeakSharePct": round(100 * bdl["d"] / b_in["all"]["S"]["gain"]),
+            "bleveTrTasks": len(brecs),
+            "bleveTrGitCmd": bg1,
+            "bleveTrBugPatch": bg2,
+            "pygN": len(pyg),
+            "pygSkill": pa["S"]["skill"],
+            "pygNone": pa["S"]["none"],
+            "pygB": pa["S"]["b"],
+            "pygC": pa["S"]["c"],
+            "pygGain": pa["S"]["gain"],
+            "pygGainLo": pa["S"]["boot95"][0],
+            "pygGainHi": pa["S"]["boot95"][1],
+            "pygP": binomtest(pa["S"]["b"], pa["S"]["b"] + pa["S"]["c"]).pvalue,
+            "pygLSkill": pa["L"]["skill"],
+            "pygLNone": pa["L"]["none"],
+            "pygLGain": pa["L"]["gain"],
+            "pygAdmit": "no" if pa["gatekeeper_admit_trial"] is None else "yes",
+            "pygLate": sum(
+                len(load(t / f)["runs"]) for f in ("s27pyg_skillb.json", "s27pyg_skillc.json")
+            ),
+        }
+    )
+    # registered results of branch `trial` (preregistration_main.md, 27b and step 4d)
+    for k, v in {
+        "bleveLFSkill": 31,
+        "bleveLFNone": 14,
+        "bleveLFAdmit": 61,
+        "bleveNoPSLF": 0,
+        "bleveNoPSN": 42,
+        "bleveTrTasks": 100,
+        "bleveTrGitCmd": 31,
+        "bleveTrBugPatch": 0,
+        "pygN": 100,
+        "pygSkill": 6,
+        "pygNone": 5,
+        "pygB": 2,
+        "pygC": 1,
+        "pygLSkill": 70,
+        "pygLNone": 42,
+        "pygAdmit": "no",
+        "pygLate": 21,
+        "bleveCrash": 2,
+        "bleveSiB": 19,
+        "bleveSiC": 2,
+    }.items():
+        if N[k] != v:
+            print("MISMATCH", k, N[k], v)
+            return 1
+    for k, v in {"bleveLFGain": 0.17, "bleveLeak": 0.13, "pygP": 1.0}.items():
+        if abs(N[k] - v) > 0.005:
+            print("MISMATCH", k, N[k], v)
+            return 1
     mg = load(Path("results/mg_tool_use.json"))["summary"]
     N["mgUsed"] = mg["v1"]["used"] + mg["v2"]["used"]
     N["mgRuns"] = mg["v1"]["tasks"] + mg["v2"]["tasks"]

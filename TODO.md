@@ -766,6 +766,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 06/11/2026 | §23a Pro: G = 0, 8/8 cặp giống hệt (hiệu ứng trần); §23b Flash dừng theo cổng chi phí. Tổng §23 6,14 USD. Lỗi A83–A85 | `results/sskb_s23a-pro.json`, `results/sskb_s23b-flash-screen.json` |
 | 06/11/2026 | §26 kiểm bộ chấm: E1, E2 null vững theo F và B; T4 bị S đo thấp khoảng 0,10; lỗi A89 bắt được bằng phép tái lập | `results/harness_audit.json` |
 | 06/11/2026 | Kế hoạch tái hiện 60 USD: đã chi khoảng 7,18 USD (§22 1,045 + §23 6,136) | `CLAUDE.md` |
+| 08/11/2026 | Paper: điền 27b (Pygments: S 6 so với 5, p 1,0, không admit; L báo +0,28) và Bleve 4d (31 so với 14, admit ở trial 61, Δ_leak 0,13 ≈ 43%); không còn `\todo`. Số tái lập từ file gốc của `trial` và khớp tuyệt đối; A114 (2 lần crash 429 không được nêu) | `scripts/make_numbers.py`, `paper/numbers.tex` |
 
 ---
 
