@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-11-08T05:17:09+00:00",
+  "generated_utc": "2026-11-08T06:27:36+00:00",
   "arxiv_status": "ok",
   "arxiv": [
     {
@@ -722,6 +722,59 @@
       "updated": "2026-06-21"
     },
     {
+      "key": "skill_issue_2026",
+      "arxiv_id": "2609.12742v1",
+      "draft_title": null,
+      "draft_uses_placeholder_authors": false,
+      "exists_on_arxiv": true,
+      "title_similarity": null,
+      "title": "Skill Issue: Lessons from Optimizing Repository SKILLs for Coding Agents",
+      "authors": [
+        "Mykhailo Kozyrev",
+        "Andrei Kozyrev",
+        "Anton Podkopaev"
+      ],
+      "published": "2026-09-11",
+      "abstract": "Coding agents increasingly read repository knowledge from SKILLs --- plain \\texttt{.md} files versioned alongside the code. Recent work synthesizes these files automatically, by optimizing the document against a benchmark. A bare repository comes with no benchmark, and the synthetic tasks prior work builds are small enough that a capable agent saturates them with no document at all. We mine harder tasks --- merged pull requests of the repository, reverted at a single frozen base commit; and score a candidate document by whether the same agent does better with it than without it. On three Kotlin repositories, the documents GEPA finds raise this score by $4.9$pp on average, and the ones SkillOpt finds leave it where it started, $0.1$pp above the seed. The GEPA gain matches what prior work reports with the same optimizer, and at the dataset size a single repository supplies it cannot be separated from the agent's run-to-run variance; settling that would take more tasks than one repository's history yields. The documents themselves read better than the score: a maintainer of one repository found in them knowledge one only gets by working in the project.",
+      "updated": "2026-09-11"
+    },
+    {
+      "key": "hack_verifiable_2026",
+      "arxiv_id": "2605.20744v1",
+      "draft_title": null,
+      "draft_uses_placeholder_authors": false,
+      "exists_on_arxiv": true,
+      "title_similarity": null,
+      "title": "Hack-Verifiable Environments: Towards Evaluating Reward Hacking at Scale",
+      "authors": [
+        "Amit Roth",
+        "Ankur Samanta",
+        "Matan Halevy",
+        "Yoav Levine",
+        "Yonathan Efroni"
+      ],
+      "published": "2026-05-20",
+      "abstract": "Aligning autonomous agents with human intent remains a central challenge in modern AI. A key manifestation of this challenge is reward hacking, whereby agents appear successful under the evaluation signal while violating the intended objective. Reward hacking has been observed across a wide range of settings, yet methods for reliably measuring it at scale remain lacking. In this work, we introduce a new evaluation paradigm for measuring reward hacking. Whereas prior studies have primarily analyzed it post hoc by inspecting agent trajectories, we instead embed detectable reward hacking opportunities directly into environments. This makes their exploitation verifiable by design, enabling deterministic and automated measurement of whether and how agents exploit such vulnerabilities. We instantiate this approach in $\\textit{TextArena}$ and release $\\textit{Hack-Verifiable TextArena}$, a testbed in which reward hacking can be measured reliably. Using this benchmark, we analyze reward hacking behavior across language models in diverse environments and settings. We open source the code at https://github.com/MajoRoth/hack-verifiable-environments/.",
+      "updated": "2026-05-20"
+    },
+    {
+      "key": "paichecker_2026",
+      "arxiv_id": "2607.28587v2",
+      "draft_title": null,
+      "draft_uses_placeholder_authors": false,
+      "exists_on_arxiv": true,
+      "title_similarity": null,
+      "title": "PAIChecker: Uncovering and Checking PR-Issue Misalignment in SWE-Bench-Like Benchmarks",
+      "authors": [
+        "Manyi Wang",
+        "Junjielong Xu",
+        "Pinjia He"
+      ],
+      "published": "2026-07-30",
+      "abstract": "SWE-bench-like benchmarks are widely used for evaluating LLM's issue resolution capability. They typically follow a common construction pipeline: each PR (Pull Request) is paired with its linked issue by extracting issue references from the PR description; the issue description is used as the problem statement, and the PR patch serves as the test oracle. However, due to the inherent complexity of developing and maintaining large repositories, such PR-Issue pairings are often misaligned in practice. In this work, we systematically study SWE-bench Verified instances, finding that 13.6% exhibit misalignment across five patterns in eleven fine-grained scenarios. To enable reliable and scalable construction of those benchmarks in the future, we propose PAIChecker, a multi-agent system for checking PR-Issue misalignment in SWE-bench-like benchmarks. Specifically, PAIChecker adopts a three-phase design that combines specific pattern identification, cross-agent label synthesis, and code-level validation, thereby enabling more accurate, generalizable, and progressively verified detection. Experiments on SWE-Gym and SWE-bench Multilingual show that PAIchecker achieves the best performance across all four LLM backbones, reaching up to 92.12% and 91.67% binary accuracy, respectively.",
+      "updated": "2026-08-04"
+    },
+    {
       "key": "test_overfitting_2025",
       "arxiv_id": "2511.16858v3",
       "draft_title": null,
@@ -855,22 +908,7 @@
     ],
     "Conformal risk control": [
       {
-        "title": "Conformal Risk Control",
-        "venue": "International Conference on Learning Representations",
-        "year": 2022,
-        "type": "semantic-scholar"
-      },
-      {
-        "title": "Conformal Risk Training: End-to-End Optimization of Conformal Risk Control",
-        "venue": "Neural Information Processing Systems",
-        "year": 2025,
-        "type": "semantic-scholar"
-      },
-      {
-        "title": "Selective Conformal Risk Control",
-        "venue": "arXiv.org",
-        "year": 2025,
-        "type": "semantic-scholar"
+        "error": "dblp: https://dblp.org: JSONDecodeError: Expecting value: line 1 column 1 (char 0); https://dblp.uni-trier.de: JSONDecodeError: Expecting value: line 1 column 1 (char 0); https://dblp.dagstuhl.de: JSONDecodeError: Expecting value: line 1 column 1 (char 0); s2: RuntimeError('semantic scholar: rate limited (429) after retries')"
       }
     ],
     "OpenHands": [
