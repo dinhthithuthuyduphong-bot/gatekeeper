@@ -1871,3 +1871,17 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - **Đính chính:** ước tính 2,1 USD báo @thuthuy trước đó là sai, vì lấy chi phí của nhánh placebo (1,05). Chỉ chạy có phí sau khi @thuthuy xác nhận mức 4,00 USD. **@thuthuy xác nhận 08/11/2026: "Duyệt 4 đô".**
 
 **Chạy thử miễn phí:** `dryrun=true`, task đầu tiên, model giả lập (`--mock-response`), cả hai nhánh.
+
+### Kết quả §29 (run 42459831026, 08/11/2026; `results/s29_none.json`, `results/s29_ablate.json`; phân tích `scripts/s29_analysis.py` → `results/s29_analysis.json`)
+- **Hoàn tất:** 100/100 task mỗi nhánh; 0 lỗi hạ tầng, 0 crash, 0 lượt chạm cost_limit. Chi **2,980 USD** (trần 4,00).
+- **P29** (một phía, α = 0,025, S): skill đã bỏ chỉ dẫn **40** so với không skill **17**; b/c = 25/2; **p = 2,8·10⁻⁶; bác bỏ H₀.** Mức tăng +0,23 [0,14; 0,32].
+- **Phụ (mô tả):**
+  1. Gatekeeper admit sau **24** task.
+  2. Bộ chấm L: 71 so với 39.
+  3. Nhóm 34 task không có mô tả: 2 so với 0. Skill đầy đủ ở môi trường gốc: 15 so với 1. Đúng dự đoán đã đăng ký.
+  4. So với skill đầy đủ trong môi trường một commit (+0,21): hiệu số mức tăng **+0,02** [−0,08; 0,12].
+  5. So với skill đầy đủ trong môi trường gốc (06/11): chỉ dẫn đọc lịch sử đáng **0,15** [0,01; 0,29]. Phép so khác ngày.
+  6. Quỹ đạo: 6/100 lượt chạy vẫn tự gọi `git log`/`git show` và thấy "Bug Patch".
+- **Diễn giải (theo diễn giải đặt trước):**
+  - Phần mức tăng không phụ thuộc chỉ dẫn đọc lịch sử được chứng nhận ngay trong môi trường gốc.
+  - Hai cách gỡ rò rỉ (bỏ lịch sử khỏi môi trường, hoặc bỏ chỉ dẫn khỏi skill) cho cùng một mức tăng còn lại.

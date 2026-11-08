@@ -1,0 +1,72 @@
+{
+ "checks": {
+  "n": [
+   100,
+   100
+  ],
+  "infra_error": 0,
+  "crashed": 0,
+  "capped": 0,
+  "spent_usd": 2.9798502749999987
+ },
+ "P29": {
+  "skill": 40,
+  "none": 17,
+  "b": 25,
+  "c": 2,
+  "p_one_sided": 2.823770046234131e-06,
+  "gain": 0.23,
+  "boot95": [
+   0.14,
+   0.32
+  ],
+  "reject": true
+ },
+ "L": {
+  "skill": 71,
+  "none": 39,
+  "b": 37,
+  "c": 5,
+  "p_one_sided": 2.2168524083099328e-07,
+  "gain": 0.32,
+  "boot95": [
+   0.21,
+   0.43
+  ]
+ },
+ "gatekeeper_admit_trial": 24,
+ "no_problem_statement": {
+  "skill": 2,
+  "none": 0,
+  "b": 2,
+  "c": 0,
+  "p_one_sided": 0.25,
+  "gain": 0.058823529411764705,
+  "boot95": [
+   0.0,
+   0.14705882352941177
+  ],
+  "n": 34
+ },
+ "vs_full_single_commit": {
+  "n": 100,
+  "d": 0.02,
+  "ci95": [
+   -0.08,
+   0.12
+  ]
+ },
+ "vs_full_as_shipped": {
+  "n": 100,
+  "d": -0.15,
+  "ci95": [
+   -0.29,
+   -0.01
+  ]
+ },
+ "traces": {
+  "runs": 100,
+  "git_log_or_show": 6,
+  "bug_patch_seen": 6
+ }
+}

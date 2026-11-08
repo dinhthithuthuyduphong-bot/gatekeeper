@@ -576,6 +576,50 @@ def main() -> int:
         if N[k] != v:
             print("MISMATCH", k, N[k], v)
             return 1
+    # section 29 (registered 08/11): the jinja skill without its history instruction, as shipped
+    s29 = load(Path("results/s29_analysis.json"))
+    N.update(
+        {
+            "abSkill": s29["P29"]["skill"],
+            "abNone": s29["P29"]["none"],
+            "abB": s29["P29"]["b"],
+            "abC": s29["P29"]["c"],
+            "abP": s29["P29"]["p_one_sided"],
+            "abGain": s29["P29"]["gain"],
+            "abGainLo": s29["P29"]["boot95"][0],
+            "abGainHi": s29["P29"]["boot95"][1],
+            "abAdmit": s29["gatekeeper_admit_trial"],
+            "abLSkill": s29["L"]["skill"],
+            "abLNone": s29["L"]["none"],
+            "abNoPS": s29["no_problem_statement"]["skill"],
+            "abNoPSNone": s29["no_problem_statement"]["none"],
+            "abVsLF": s29["vs_full_single_commit"]["d"],
+            "abVsLFLo": s29["vs_full_single_commit"]["ci95"][0],
+            "abVsLFHi": s29["vs_full_single_commit"]["ci95"][1],
+            "abVsFull": -s29["vs_full_as_shipped"]["d"],
+            "abVsFullLo": -s29["vs_full_as_shipped"]["ci95"][1],
+            "abVsFullHi": -s29["vs_full_as_shipped"]["ci95"][0],
+            "abTrGit": s29["traces"]["git_log_or_show"],
+            "abTrBug": s29["traces"]["bug_patch_seen"],
+            "abTrRuns": s29["traces"]["runs"],
+            "abInfra": s29["checks"]["infra_error"]
+            + s29["checks"]["crashed"]
+            + s29["checks"]["capped"],
+        }
+    )
+    for k, v in {
+        "abSkill": 40,
+        "abNone": 17,
+        "abB": 25,
+        "abC": 2,
+        "abAdmit": 24,
+        "abNoPS": 2,
+        "abTrBug": 6,
+        "abInfra": 0,
+    }.items():
+        if N[k] != v:
+            print("MISMATCH", k, N[k], v)
+            return 1
     mg = load(Path("results/mg_tool_use.json"))["summary"]
     N["mgUsed"] = mg["v1"]["used"] + mg["v2"]["used"]
     N["mgRuns"] = mg["v1"]["tasks"] + mg["v2"]["tasks"]

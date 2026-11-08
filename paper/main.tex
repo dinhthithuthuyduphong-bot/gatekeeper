@@ -43,7 +43,9 @@ in the repository history. Reducing the history to a single commit lowers the ga
 in-scope gain, comes from the leak; on the \njinjaNoPSTasks{} tasks without an issue description the
 skill's whole gain disappears (it solves \njinjaNoPSn{} of them with the history and \njinjaNoPSLF{}
 without). The remaining gain is real and is still
-admitted, after \njinjaLFAdmit{} tasks, and prompt length does not explain it: an irrelevant skill
+admitted, after \njinjaLFAdmit{} tasks; deleting only the history instruction from the skill, in the
+original environment, leaves a gain of the same size (\nabNone{} to \nabSkill{} resolved). Prompt
+length does not explain it: an irrelevant skill
 of the same length resolves \nplcS{} tasks, against \njinjaNone{} without a skill and \njinjaSkill{} with
 the learned one. In the traces of all \ntrTasks{} Jinja tasks without
 a description, the agent reads the bug-injecting commit. A second learned skill, for a Go repository,
@@ -156,7 +158,9 @@ it; gskill's scorer would report \npygLSkill{} against \npygLNone{}, a gain of \
         evaluation leak into both skills, unprompted, that the agent follows it on every Jinja
         task without an issue description (\ntrBugPatch{} of \ntrTasks{} traces), and that the
         leak accounts for \nleak{} [\nleakLo{}, \nleakHi{}] of the Jinja gain and \nbleveLeak{}
-        [\nbleveLeakLo{}, \nbleveLeakHi{}] of the Bleve gain (Section~\ref{sec:rq2}).
+        [\nbleveLeakLo{}, \nbleveLeakHi{}] of the Bleve gain; deleting the instruction from the skill
+        instead of the history from the environment gives the same remaining gain
+        (Section~\ref{sec:rq2}).
   \item Evidence that the certification is specific to its scope: the gain changes with the
         environment's history and
         vanishes on another repository; across four published agent--model
@@ -427,7 +431,8 @@ source; this says nothing about MemGovern with its own harness and model.
 \caption{Resolved tasks out of 100 (scorer $S$) for the skills learned by gskill, without and with
 the skill. Gain with task-level 95\% bootstrap interval; ``admit'' is the number of tasks after
 which Gatekeeper's e-process first reaches $1/\alpha=40$ ($\theta=0$, $\alpha=0.025$); ``--'': not
-admitted within the 100 tasks. $^{*}$The Jinja skill reused verbatim on Pygments (Python);
+admitted within the 100 tasks. $^{\dagger}$The Jinja skill without its history instruction.
+$^{*}$The Jinja skill reused verbatim on Pygments (Python);
 Jinja is Python, Bleve is Go.}
 \label{tab:rq2}
 \setlength{\tabcolsep}{4pt}
@@ -436,7 +441,8 @@ Repository & History & None & Skill & Gain [95\% CI] & Admit\\\midrule
 Jinja & as shipped & \njinjaNone & \njinjaSkill & \njinjaGain{} [\njinjaGainLo, \njinjaGainHi] & \njinjaAdmit\\
 Jinja & single commit & \njinjaLFNone & \njinjaLFSkill & \njinjaLFGain{} [\njinjaLFGainLo, \njinjaLFGainHi] & \njinjaLFAdmit\\
 Bleve & as shipped & \nbleveNone & \nbleveSkill & \nbleveGain{} [\nbleveGainLo, \nbleveGainHi] & \nbleveAdmit\\
-Bleve & single commit & \nbleveLFNone & \nbleveLFSkill & \nbleveLFGain{} [\nbleveLFGainLo, \nbleveLFGainHi] & \nbleveLFAdmit\\\midrule
+Bleve & single commit & \nbleveLFNone & \nbleveLFSkill & \nbleveLFGain{} [\nbleveLFGainLo, \nbleveLFGainHi] & \nbleveLFAdmit\\
+Jinja$^{\dagger}$ & as shipped & \nabNone & \nabSkill & \nabGain{} [\nabGainLo, \nabGainHi] & \nabAdmit\\\midrule
 Pygments$^{*}$ & as shipped & \npygNone & \npygSkill & \npygGain{} [\npygGainLo, \npygGainHi] & --\\\bottomrule
 \end{tabular}
 \end{table}
@@ -493,6 +499,22 @@ e-process is designed to require. The Bleve skill does the same: \nbleveLFNone{}
 \nbleveAdmit{}. In the skill arm, \nbleveCrash{} runs crashed on a rate limit before their first
 step and count as unresolved, as registered; treating them as missing data leaves the discordant
 pairs at \nbleveSiB{}/\nbleveSiC{} and the difference of the gains at \nbleveSiLeak{}.
+
+\paragraph{Removing the instruction instead of the history}
+A second, registered test removes the leak from the other side: the environment keeps its history
+and the skill loses its history instruction. A fixed rule deletes every line of the skill that
+mentions a commit or the history; on the Jinja skill it deletes exactly one line, the ``Check Git
+History'' bullet, and keeps every other byte. Both arms ran in one job, at the same time. The
+skill without the instruction resolves \nabSkill{} tasks against \nabNone{} ($b/c=\nabB/\nabC$,
+$p=\nabP$, one-sided), a gain of \nabGain{} [\nabGainLo{}, \nabGainHi{}], and Gatekeeper admits it
+after \nabAdmit{} tasks. On the \njinjaNoPSTasks{} tasks without a description it solves \nabNoPS{},
+against \njinjaNoPSn{} for the full skill. Its gain differs from that of the full skill in the
+single-commit environment by \nabVsLF{} [\nabVsLFLo{}, \nabVsLFHi{}]: removing the instruction and
+removing the history leave the same remaining gain. Against the full skill as shipped, run two days
+earlier, the instruction is worth \nabVsFull{} [\nabVsFullLo{}, \nabVsFullHi{}], close to the leak's
+share measured with the history removed. Without the instruction, the agent still ran
+\texttt{git log} or \texttt{git show} on its own in \nabTrGit{} of \nabTrRuns{} runs and saw the
+``Bug Patch'' commit in \nabTrBug{}.
 
 \paragraph{It is the content of the skill, not its length}
 A longer prompt could help by itself. Following the length-matched irrelevant-skill control of
@@ -566,12 +588,12 @@ arm were run again later the same day after the run stopped at its cost cap, so 
 arms did not run at the same time. The single-commit history also removes the repository's real history,
 so the leak-free environment is not a real repository either; we did not test a history that keeps
 the real commits and drops only the bug-injecting one.
-\paragraph{One leak channel, one ablation}
+\paragraph{One leak channel}
 We measured one leak channel, the bug-injecting commit in the history. Other channels, such as
 artefacts in the image, file names or timestamps, were not probed, and the single-commit control
 removes only the history; opportunities planted by design~\cite{hack_verifiable_2026} would extend
-the controls to such channels. We also did not edit the learned skill to remove its history
-instruction; the share of the remaining gain carried by its other instructions is not measured.
+the controls to such channels. The ablation removes one instruction, the one that names the leak; we did not
+measure which of the remaining instructions carry the remaining gain.
 \paragraph{The pipeline's own numbers}
 We tested gskill's public code at a pinned commit, not the code behind its announcement.
 \paragraph{Contamination}

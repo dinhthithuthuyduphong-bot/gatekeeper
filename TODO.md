@@ -771,6 +771,7 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 07/11/2026 | Model khác hãng: tạm dừng, chờ thầy duyệt đề tài (§26; hạn mức Claude Haiku bị từ chối). Rà soát lần 3 (`docs/potential_issues.md` §4); §27 (placebo, dùng lại skill trên pygments, quỹ đạo; trần 7 USD; tài nguyên của người khác dùng nguyên văn). Tài liệu cho reviewer: `docs/reviewer_fidelity.md`. |
 | 08/11/2026 | Paper: điền 27b (Pygments: S 6 so với 5, p 1,0, không admit; L báo +0,28) và Bleve 4d (31 so với 14, admit ở trial 61, Δ_leak 0,13 ≈ 43%); không còn `\todo`. Số tái lập từ file gốc của `trial` và khớp tuyệt đối; A114m (2 lần crash 429 không được nêu) | `scripts/make_numbers.py`, `paper/numbers.tex` |
 | 08/11/2026 | Paper: cắt mục Composition và số hạng α của composite; giữ tên model một lần (@thuthuy: "1 với 3 bạn tự quyết") | `paper/main.tex`, `docs/paper_outline.md` |
+| 08/11/2026 | §29 ablation: skill jinja bỏ chỉ dẫn đọc lịch sử, môi trường gốc: 40 so với 17, p = 2,8·10⁻⁶, admit ở task 24; bằng mức tăng khi bỏ lịch sử (+0,02 [−0,08; 0,12]). Chi 2,98 USD | `results/s29_analysis.json` |
 
 ---
 

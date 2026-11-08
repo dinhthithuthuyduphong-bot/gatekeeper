@@ -790,3 +790,4 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Prompt thật của nhánh ablation chứa "Look for Logic Inversions" và không chứa "git log -n 5" hay "Check Git History".
   - File ghi ra dưới tên `s29dry_*`, không đụng tên thật.
   - Chi phí ghi 3,25·10⁻⁵ USD mỗi nhánh: tính từ token của câu trả lời giả lập, không có lời gọi model.
+- **Sau khi chạy (R-58):** 100/100 task mỗi nhánh; `infra_error` 0, `crashed` 0, lượt chạm cost_limit 0. Phân tích chạy đúng script đã commit trước khi có dữ liệu; số khớp CHECKS của `make_numbers.py`.
