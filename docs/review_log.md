@@ -785,4 +785,8 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - trần có nguồn (L53);
   - hai nhánh chạy cùng lúc;
   - test không đọc `runs/` (L50).
-- **Chạy thử miễn phí:** ghi bên dưới khi xong.
+- **Chạy thử miễn phí** (run 42458146477, model giả lập): **đạt.**
+  - 1 task mỗi nhánh; `s29dry_none` có `skills_chars` = 0; `s29dry_ablate` có 2.421 ký tự (2.427 byte, hai emoji 4 byte), trần 1,75 / 2,25.
+  - Prompt thật của nhánh ablation chứa "Look for Logic Inversions" và không chứa "git log -n 5" hay "Check Git History".
+  - File ghi ra dưới tên `s29dry_*`, không đụng tên thật.
+  - Chi phí ghi 3,25·10⁻⁵ USD mỗi nhánh: tính từ token của câu trả lời giả lập, không có lời gọi model.
