@@ -206,7 +206,9 @@ def main() -> int:
     ra = load(Path("results/replicate_attribution.json"))["stages"]["e2"]["xreposkill"]
     fa = ra["attribution"]["functional"]
     sa = load(Path("results/section21.json"))["P_A"]["auditors"]
+    sa_up = load(Path("results/section21.json"))["P_A"]["upper95_task_cluster"]
     nf = load(Path("results/noise_floor_audit.json"))
+    nf_base = nf["base_solve_rate"]
     au = load(Path("results/harness_audit.json"))
     cnt = load(Path("results/s28_effects.json"))["counts"]
     N.update(
@@ -446,6 +448,81 @@ def main() -> int:
             return 1
     for k, v in {"bleveLFGain": 0.17, "bleveLeak": 0.13, "pygP": 1.0}.items():
         if abs(N[k] - v) > 0.005:
+            print("MISMATCH", k, N[k], v)
+            return 1
+    # cost cap and step limit of the SWE-smith runs (docs/reviewer_fidelity.md A2; A121)
+    sws = [
+        "f1_probe.json",
+        "f1_skill_probe.json",
+        "s25_leakfree_skill.json",
+        "s25_leakfree_none.json",
+        "s25bleve_f1_probe.json",
+        "s25bleve_skill_probe.json",
+        "s25bleve_leakfree_none.json",
+        "s25bleve_leakfree_skill_all.json",
+        "s27_placebo.json",
+        "s27pyg_skill_all.json",
+        "s27pyg_none_all.json",
+        "s27_trace34.json",
+        "s27_trace34b.json",
+    ]
+    runs = [(f, r, load(t / f)["cost_limit"]) for f in sws for r in load(t / f)["runs"]]
+    capped = [(f, r) for f, r, lim in runs if r.get("cost_usd", 0) >= lim]
+    pyg_none = {r["instance_id"]: r for r in load(t / "s27pyg_none_all.json")["runs"]}
+    # worst case for 27b: every capped skill-arm run would have resolved
+    extra = sum(
+        1
+        for f, r in capped
+        if f == "s27pyg_skill_all.json"
+        and not r["S"]["resolved"]
+        and not pyg_none[r["instance_id"]]["S"]["resolved"]
+    )
+    steps = {
+        f: [r.get("steps", 0) for r in load(t / f)["runs"]]
+        for f in ("f1_skill_probe.json", "f1_probe.json")
+    }
+    ps_src = Path("scripts/placebo_suite.py").read_text()
+    n_stream, look = (
+        int(x) for x in re.search(r"N_STREAM, LOOK, N_RETIRE = (\d+), (\d+)", ps_src).groups()
+    )
+    pls = load(Path("results/placebo_suite.json"))
+    N.update(
+        {
+            "swsRuns": len(runs),
+            "swsCapLimit": runs[0][2],
+            "swsCapped": len(capped),
+            "pygWorstSkill": pa["S"]["skill"] + extra,
+            "pygWorstB": pa["S"]["b"] + extra,
+            "pygWorstP": binomtest(
+                pa["S"]["b"] + extra, pa["S"]["b"] + extra + pa["S"]["c"]
+            ).pvalue,
+            "jinjaStepSkill": sum(s >= 50 for s in steps["f1_skill_probe.json"]),
+            "jinjaStepNone": sum(s >= 50 for s in steps["f1_probe.json"]),
+            "aaStreams": pls["args"]["reps"],
+            "aaTrials": n_stream,
+            "aaLook": look,
+            "aaTasks": pls["aa_tasks"],
+            "shamShareUp": sa_up,
+            "noiseBase": nf_base,
+            # pairing saving, from the generated table (scripts/make_tables.py)
+            "pairSaving": float(
+                re.search(
+                    r"pairing saving .*? & ([0-9.]+)", Path("paper/tables/sskb.tex").read_text()
+                )[1]
+            ),
+        }
+    )
+    for k, v in {
+        "swsRuns": 1134,
+        "swsCapped": 1,
+        "pygWorstSkill": 7,
+        "aaTrials": 200,
+        "aaLook": 10,
+        "aaTasks": 221,
+        "jinjaStepSkill": 14,
+        "jinjaStepNone": 1,
+    }.items():
+        if N[k] != v:
             print("MISMATCH", k, N[k], v)
             return 1
     mg = load(Path("results/mg_tool_use.json"))["summary"]

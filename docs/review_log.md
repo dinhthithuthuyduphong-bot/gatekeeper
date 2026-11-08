@@ -738,3 +738,17 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Kiểm:**
   - Mọi macro mới sinh từ file kết quả, có CHECKS.
   - Ba mục bib mới chờ tác giả từ arXiv (workflow `data`).
+
+## R-56. Review paper lần 3: không còn chỗ mơ hồ (2026-11-08, 0 USD)
+
+- **Yêu cầu của @thuthuy:** "Review paper, không được còn chỗ mơ hồ".
+- **Cách làm:**
+  - đọc toàn bộ `paper/main.tex`;
+  - đối chiếu từng câu về gskill và MemGovern với `docs/reviewer_fidelity.md`;
+  - đối chiếu từng định nghĩa với mã đã chạy: `scripts/s25_ab.py`, `src/gatekeeper/eprocess.py`, `scripts/placebo_suite.py`, `scripts/gates.py`, `scripts/noise_floor_audit.py`, `scripts/sham_audit.py`, `scripts/section21.py`, `.github/workflows/pilot.yml`;
+  - quét các từ mơ hồ ("about", "barely", "hardly", "nearly", "few", "some") và các câu tuyệt đối.
+- **Sửa:**
+  - các lỗi của A121;
+  - mọi ngưỡng có giá trị, chiều và đại lượng: 1/α = 40; Holm ở mức họ 0,025 trên {S, L} và trên {nội dung, dùng lại}; test dùng lại hai phía; z = 1,96 cho cổng B-X2;
+  - các mô hình được gọi tên qua macro.
+- **Kiểm:** mọi macro có định nghĩa; CHECKS mới khớp (1.134 lượt, 1 lượt chạm trần, 221 task A/A, 200 trial, 10 trial mỗi lần nhìn, 14/1 lượt chạm 50 bước).

@@ -31,6 +31,10 @@ Không. Trần này **chưa từng chặn lượt nào**.
 
 **Viết trong paper:** "A per-run cost cap of 0.30 USD was never binding (maximum observed 0.127 USD over 500 runs)."
 
+**Đính chính 08/11/2026 (A121):** câu trên chỉ đúng với 500 lượt đầu. Trên toàn bộ 1.134 lượt chạy SWE-smith (thêm Bleve 4b–4d, §27a, §27b, §27c), **1 lượt** chạm trần: nhánh skill của §27b (Pygments), task `combine_file__uvimh1b2`, 0,326 USD, 28 bước, có patch, không giải được; nhánh không skill của task này cũng không giải được. Trường hợp xấu nhất (lượt này lẽ ra giải được): 7 so với 5, b/c 3/1, p hai phía 0,62, vẫn không bác bỏ.
+
+**Viết trong paper (thay câu trên):** "The cap stopped at most 1 of the 1,134 SWE-smith runs"; kèm phép kiểm trường hợp xấu nhất của Pygments. Các con số sinh từ file kết quả (`make_numbers.py`: `swsRuns`, `swsCapped`, `pygWorst*`).
+
 ### A3. "Seed 41 có làm sai lệch so với gskill không?"
 - Cả hai nhánh dùng cùng seed.
 - Trên Vertex AI, seed 0 nghĩa là "không đặt" (A14). Seed ≥ 1 cho đầu ra gần như tất định, đo được 107/109 ở phép kiểm §5.
