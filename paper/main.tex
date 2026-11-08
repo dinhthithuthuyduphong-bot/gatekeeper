@@ -352,7 +352,8 @@ were seen~\cite{nosek_2018}; exploratory analyses are labelled as such.
 \paragraph{The scorer of a learning pipeline}
 gskill's public scorer (\texttt{verify\_with\_patch} in \texttt{swe\_harness.py} at commit
 8c7b697~\cite{gskill_swe_harness}) marks a patch as passing whenever the test output contains the
-string ``passed'' in any letter case; we tested only this commit. A no-op patch therefore passes on \nfzeroLNoop{} of \nfzeroN{} tasks across
+string ``passed'' in any letter case, unless it also contains ``Patch Apply Failed''; we tested only
+this commit. A no-op patch therefore passes on \nfzeroLNoop{} of \nfzeroN{} tasks across
 \nfzeroRepos{} SWE-smith repositories, including Jinja and Bleve, the two repositories used to
 demonstrate the pipeline~\cite{gskill}; SWE-smith's grading passes \nfzeroSNoop{} of them and passes the gold patch on at least
 \nfzeroGoldMinPct\% of the tasks of every repository. On the agent's own patches the gap persists: without a skill,

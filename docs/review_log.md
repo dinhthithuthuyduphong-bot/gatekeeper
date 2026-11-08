@@ -752,3 +752,22 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - mọi ngưỡng có giá trị, chiều và đại lượng: 1/α = 40; Holm ở mức họ 0,025 trên {S, L} và trên {nội dung, dùng lại}; test dùng lại hai phía; z = 1,96 cho cổng B-X2;
   - các mô hình được gọi tên qua macro.
 - **Kiểm:** mọi macro có định nghĩa; CHECKS mới khớp (1.134 lượt, 1 lượt chạm trần, 221 task A/A, 200 trial, 10 trial mỗi lần nhìn, 14/1 lượt chạm 50 bước).
+
+## R-57. Trả lời một review bên ngoài (2026-11-08, 0 USD)
+
+- **Nguồn mới:** đã đọc bản lưu trước khi trích (R1):
+  - `skill_issue_2026`, `hack_verifiable_2026`, `paichecker_2026`;
+  - `gskill_swe_harness`: câu điều kiện của bộ chấm, nguyên văn `if "PASSED" in test_output or "passed" in test_output.lower(): passed = True`, kèm ngoại lệ "Patch Apply Failed".
+- **Tên không tìm được nguồn:** SAVI, SKILLER, PACE. Không trích.
+- **Sửa paper (miễn phí):**
+  - ξ_s dùng trong thực tế thế nào (Q1);
+  - commit và câu điều kiện của bộ chấm (Q2);
+  - chỉ đo một kênh rò rỉ (Q3);
+  - chỉ có một placebo vì quy tắc chọn ra đúng một skill (Q4);
+  - chưa thử lịch sử viết lại; Δ_leak là cận trên (Q5);
+  - giá của việc dùng Gatekeeper trong vòng học, và nó không tự chặn được chỉ dẫn khai thác rò rỉ (Q6);
+  - chưa làm ablation sửa skill (Q7);
+  - auditor đơn lẻ (Q8);
+  - đếm lỗi `go` theo nhánh, thăm dò (Q9; macro `go*`);
+  - tính đối xứng dưới A/A làm tỉ lệ nhận nhầm của GEPA tăng về 1/2 khi minibatch lớn hơn (Q10).
+- **Cần @thuthuy quyết (có phí):** ablation bỏ chỉ dẫn git khỏi skill; thêm placebo; thêm model hoặc repo.
