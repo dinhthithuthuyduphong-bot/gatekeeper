@@ -488,3 +488,11 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   1. Mỗi con số chi phí gửi đi kèm tên file kết quả và trường `spent_usd` của nhánh tương ứng.
   2. Trần = chi phí đo được + 1 lượt xấu nhất (cost_limit), cho từng nhánh (A107, A108).
   3. Đọc lại con số trước khi gửi yêu cầu duyệt.
+
+## L54. Sửa paper xong phải nhìn PDF, không chỉ xem build có xanh không; tràn lề là lỗi chặn build (A123)
+
+- **Xảy ra:** tôi thêm một dòng vào bảng và chỉ kiểm workflow `paper` biên dịch thành công. Bảng tràn sang cột bên cạnh, và khung liên kết đỏ đè lên chữ trong mọi bản build, mà không bước nào bắt được.
+- **Phòng ngừa:**
+  1. Workflow `paper` dừng khi `main.log` có `Overfull \hbox`.
+  2. Sau mỗi lần sửa bảng, hình hay đoạn dài, build cục bộ (`latexmk`) và xem ảnh trang có thay đổi (`pdftoppm`).
+  3. Bản nộp dùng `\hypersetup{hidelinks}`.

@@ -9,6 +9,7 @@
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\hypersetup{hidelinks}  % links stay clickable; no coloured boxes over the text
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}[theorem]{Proposition}
@@ -426,15 +427,17 @@ source; this says nothing about MemGovern with its own harness and model.
 \caption{Resolved tasks out of 100 (scorer $S$) for the skills learned by gskill, without and with
 the skill. Gain with task-level 95\% bootstrap interval; ``admit'' is the number of tasks after
 which Gatekeeper's e-process first reaches $1/\alpha=40$ ($\theta=0$, $\alpha=0.025$); ``--'': not
-admitted within the 100 tasks.}
+admitted within the 100 tasks. $^{*}$The Jinja skill reused verbatim on Pygments (Python);
+Jinja is Python, Bleve is Go.}
 \label{tab:rq2}
+\setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}llrrcr@{}}\toprule
 Repository & History & None & Skill & Gain [95\% CI] & Admit\\\midrule
-Jinja (Python) & as shipped & \njinjaNone & \njinjaSkill & \njinjaGain{} [\njinjaGainLo, \njinjaGainHi] & \njinjaAdmit\\
-Jinja (Python) & single commit & \njinjaLFNone & \njinjaLFSkill & \njinjaLFGain{} [\njinjaLFGainLo, \njinjaLFGainHi] & \njinjaLFAdmit\\
-Bleve (Go) & as shipped & \nbleveNone & \nbleveSkill & \nbleveGain{} [\nbleveGainLo, \nbleveGainHi] & \nbleveAdmit\\
-Bleve (Go) & single commit & \nbleveLFNone & \nbleveLFSkill & \nbleveLFGain{} [\nbleveLFGainLo, \nbleveLFGainHi] & \nbleveLFAdmit\\\midrule
-Pygments (Python), Jinja skill & as shipped & \npygNone & \npygSkill & \npygGain{} [\npygGainLo, \npygGainHi] & --\\\bottomrule
+Jinja & as shipped & \njinjaNone & \njinjaSkill & \njinjaGain{} [\njinjaGainLo, \njinjaGainHi] & \njinjaAdmit\\
+Jinja & single commit & \njinjaLFNone & \njinjaLFSkill & \njinjaLFGain{} [\njinjaLFGainLo, \njinjaLFGainHi] & \njinjaLFAdmit\\
+Bleve & as shipped & \nbleveNone & \nbleveSkill & \nbleveGain{} [\nbleveGainLo, \nbleveGainHi] & \nbleveAdmit\\
+Bleve & single commit & \nbleveLFNone & \nbleveLFSkill & \nbleveLFGain{} [\nbleveLFGainLo, \nbleveLFGainHi] & \nbleveLFAdmit\\\midrule
+Pygments$^{*}$ & as shipped & \npygNone & \npygSkill & \npygGain{} [\npygGainLo, \npygGainHi] & --\\\bottomrule
 \end{tabular}
 \end{table}
 
