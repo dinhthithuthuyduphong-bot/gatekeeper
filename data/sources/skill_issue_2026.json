@@ -85,5 +85,5 @@
    "et items are pull requests, a natural choice for the problem description is the corresponding issue. However, issues are not always available: many changes are opened without one, and repositories that track work in an external tracker leave nothing linked on GitHub. The pull request’s own description is the obvious fallback, but it is writtenafterthe work is completed and often leaks the solution to the agent. When no issue is linked we therefore synthesise the statement instead, rewriting the pull request description into issue-style text with a single LLM call at collection time, following SWE-smith’s finding that model-written issue text performs comparably to real issue text. Each synthesised statement is then checked against the gold patch for leakage. The repository leaks the solution as well, so links into the pull request are scrubbed, and each container strips .git and re-initialises a single commit before the agent starts. Validation and grading.A mined task is only worth a rollout if reverting its implementation actually breaks the tests meant to grade it. A task that already passes at the reverted base gives every candidate a score of 1, and one that already fails for unrelated"
   ]
  },
- "fetched_utc": "2026-11-08T06:25:54+00:00"
+ "fetched_utc": "2026-11-08T06:29:33+00:00"
 }

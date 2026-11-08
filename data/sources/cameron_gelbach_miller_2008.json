@@ -37,5 +37,5 @@
    " 2.3 Cluster-Robust W ald T ests W e consider two-sided W ald tests ofH0 : β1 = β0 1 against Ha : β1 6= β0 1 where β1 is a scalar component of β.4 W e use the W ald test statistic w = ³ bβ1 − β0 1 ´ /sbβ1 , (4) where sbβ1 is the square root of the appropriate diagonal entry in bVCR [bβ]. This “t” test statistic is asymptotically normal under H0, and we reject H0 at signiﬁcance level α if |w| >z α/2,w h e r ezα/2 is a standard normal critical value. Under standard assumptions the W ald test is of correct size as the num- ber of clusters G →∞ . The problem we focus on in this paper is that with few clusters the asymptotic normal critical values can provide a poor ap- proximation to the correct, ﬁnite-G critical values for w, even if an unbiased variance matrix estimator is used in calculating sbβ . General small sample results are not possible even if the (clustered) errors are normally distributed. In practice, as a small sample correction some pro- grams use a T distribution to form critical values and p-values. STATA uses 4 The generalization to single hypothesis c0β − r =0 where c is a k × 1 vector is trivial. For multiple hypotheses Cβ − r = 0 the Wald asympototic chisquare test would be us"
   ]
  },
- "fetched_utc": "2026-11-08T06:23:38+00:00"
+ "fetched_utc": "2026-11-08T06:27:41+00:00"
 }

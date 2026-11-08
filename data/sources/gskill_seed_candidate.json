@@ -56,5 +56,5 @@
    "OPOSER] Call {call_num} - Item {item_idx + 1}/{total_items} for '{component}': {'OK' if result else 'FAIL'}\" ) return result def _merge_skills(self, component: str, curr_skills: str, intermediate_skills: list) -> str: \"\"\"Merge intermediate skills into final skill set.\"\"\" self.call_counter += 1 call_num = self.call_counter formatted = \"\\n\\n\".join(f\"### Evaluation {i}\\n```\\n{s}\\n```\" for i, s in enumerate(intermediate_skills, 1)) merge_prompt = self.MERGE_TEMPLATE.format(intermediate_skills=formatted) log_entry = { \"call_num\": call_num, \"component\": component, \"type\": \"merge\", \"num_intermediate_skills\": len(intermediate_skills), \"intermediate_skills\": intermediate_skills, \"full_prompt\": merge_prompt, } try: response_text = self.call_llm(merge_prompt) final_skills = self.extract_skills(response_text) log_entry.update({\"llm_response\": response_text, \"final_skills\": final_skills, \"success\": True}) except Exception as e: log_entry.update({\"error\": str(e), \"success\": False}) final_skills = \"\\n\\n---\\n\\n\".join(intermediate_skills) # Fallback self.log_call(call_num, log_entry) print( f\"\\n[LOOP PROPOSER] Merge call {call_num} for '{component}': {len(intermediate_skills)} items -> {len(final_skills)} c"
   ]
  },
- "fetched_utc": "2026-11-08T06:25:46+00:00"
+ "fetched_utc": "2026-11-08T06:29:23+00:00"
 }
