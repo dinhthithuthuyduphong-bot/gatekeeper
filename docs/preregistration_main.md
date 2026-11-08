@@ -916,9 +916,9 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 - **Giai đoạn bỏ dở trước D-M11:** `viper` b1 nhánh không skill trên Flash, 0,480 USD (`runs/sskb-s23a/`); `go-fx-di` b1 nhánh không skill trên Flash-Lite, 0,030 USD (`runs/sskb-s23b/`). Không gộp vào giai đoạn nào.
 - **Tổng §23:** 4,059 (23a Pro) + 1,568 (23b Flash) + 0,510 (bỏ dở) = **6,136 USD**.
 
-## 26. Kiểm bộ chấm: test PASS_TO_PASS hỏng do môi trường (đăng ký 06/11/2026, trước khi tính lại tác dụng nào; 0 USD)
+## 26m. Kiểm bộ chấm: test PASS_TO_PASS hỏng do môi trường (đăng ký 06/11/2026, trước khi tính lại tác dụng nào; 0 USD)
 
-**Đánh số:** §24 và §25 đã được dùng trên nhánh `trial`, nên mục này là §26 để không trùng.
+**Đánh số:** §24 và §25 đã được dùng trên nhánh `trial`, nên mục này là §26 để không trùng. Sau đó nhánh `trial` cũng dùng §26 và §27, nên khi gộp (08/11/2026) các mục của nhánh này được đổi thành §26m, §27m, §28m (các ghi chú thực thi tương ứng: 26m-2, 27m-1, 27m-2, 28m-1, 28m-2). Tên file (`s28_*`) giữ nguyên.
 
 **Đã thấy trước khi đăng ký** (chỉ số đếm, không phải tác dụng):
 - Quét 1.911 báo cáo chấm điểm cục bộ (E1, pilot, T4): 76 lần chấm có mọi FAIL_TO_PASS qua nhưng không resolved, thuộc 26 instance.
@@ -946,7 +946,7 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 - Nếu tác dụng theo F hoặc B khác S về chiều hoặc ý nghĩa thống kê thì báo cáo là threat lớn. Phán quyết cũ vẫn giữ (R5), kèm cảnh báo.
 - Nếu không khác thì kết luận null chắc chắn với lỗi bộ chấm.
 
-### Kết quả §26, phần 1: tác dụng theo ba endpoint (06/11/2026; `results/harness_audit.json`, `scripts/harness_audit.py`)
+### Kết quả §26m, phần 1: tác dụng theo ba endpoint (06/11/2026; `results/harness_audit.json`, `scripts/harness_audit.py`)
 
 - **Kiểm cách đọc log:**
   - 1.194/1.194 cặp đã đăng ký được nối đúng với báo cáo chấm của nó, theo giá trị loss.
@@ -970,9 +970,9 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 - **Thăm dò, không thuộc họ phép kiểm đã đăng ký:** ba skill gây hại của E1 theo F là −0,067 / −0,067 / −0,092. Hai trong ba có CI không chứa 0; theo S thì cả ba CI đều chứa 0. Chỉ báo cáo mô tả.
 - **Test hỏng theo quy tắc B:** 2 instance ở E1, 6 ở E2.
 
-## 27. Đối chứng bản vá rỗng cho harness của mình, và tỉ lệ chuyển giao trên SSKB (đăng ký 06/11/2026, trước khi có dữ liệu của (a); 0 USD)
+## 27m. Đối chứng bản vá rỗng cho harness của mình, và tỉ lệ chuyển giao trên SSKB (đăng ký 06/11/2026, trước khi có dữ liệu của (a); 0 USD)
 
-**Vì sao:** §26 kiểm harness có từ chối bản vá **đúng** không (bản vá gốc). Nửa còn lại là harness có nhận bản vá **không sửa gì** không. Nhánh `trial` (§25 F0) cho thấy bộ chấm công khai của gskill nhận bản vá rỗng ở 96/96 task. Paper cần cùng phép kiểm đó cho chính harness mà E1, E2 và T4 đã dùng.
+**Vì sao:** §26m kiểm harness có từ chối bản vá **đúng** không (bản vá gốc). Nửa còn lại là harness có nhận bản vá **không sửa gì** không. Nhánh `trial` (§25 F0) cho thấy bộ chấm công khai của gskill nhận bản vá rỗng ở 96/96 task. Paper cần cùng phép kiểm đó cho chính harness mà E1, E2 và T4 đã dùng.
 
 **(a) Bản vá rỗng trên harness SWE-bench (Verified) và SWE-bench-Live:**
 - **Bản vá:** tạo một file mới `gk_noop.py` chứa đúng một dòng comment. Bản vá áp được nhưng không đổi hành vi nào. Cách này khác cách của §25, vốn thêm dòng vào file có sẵn, vì mình không cần đọc nội dung file gốc.
@@ -980,7 +980,7 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
   - T4: toàn bộ 20 task (Live);
   - E1: 20 task rút bằng `random.Random(27).sample` từ 53 task của E1 (Verified), sắp theo tên trước khi rút.
   - Con số 20 là vận hành: với 0/20, cận trên Wilson 95% là 0,161. Đủ để phát hiện một bộ chấm nhận bản vá rỗng ở tỉ lệ cỡ của gskill (≈ 1,0), với chi phí CPU nhỏ.
-- **Một lần chấm mỗi task.** Chạy **sau khi** §26 chấm xong, để hai việc không tranh CPU và làm test quá giờ.
+- **Một lần chấm mỗi task.** Chạy **sau khi** §26m chấm xong, để hai việc không tranh CPU và làm test quá giờ.
 - **Đại lượng:** tỉ lệ resolved của bản vá rỗng, kèm Wilson 95%.
 - **Dự đoán:** 0, vì FAIL_TO_PASS phải fail khi không sửa gì.
 - **Diễn giải đặt trước:** nếu có task resolved với bản vá rỗng thì task đó có test FAIL_TO_PASS không bắt được lỗi. Liệt kê các task đó, và tính lại E1/E2/T4 khi bỏ chúng (độ nhạy).
@@ -992,11 +992,11 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 - **CI:** bootstrap theo skill, 10.000 lần.
 - **Giới hạn:** dữ liệu một lần chạy không tách được "do scope" và "do nhiễu". Kết luận chỉ là "nhãn và cỡ tác dụng không lặp lại giữa các cấu hình".
 
-**Ghi chú thực thi 27-1** (06/11/2026, trước khi chạy (a)):
+**Ghi chú thực thi 27m-1** (06/11/2026, trước khi chạy (a)):
 - "53 task của E1" ở trên là chưa chính xác. Mỗi skill có tập 53 task kích hoạt riêng; hợp của ba tập là **144 task**.
 - 20 task E1 được rút từ hợp 144 task này, sắp theo tên, bằng `random.Random(27).sample` (`scripts/noop_rescore.py::e1_tasks`).
 
-### Kết quả §27b (06/11/2026; `results/sskb_transfer.json`; thăm dò)
+### Kết quả §27m-b (06/11/2026; `results/sskb_transfer.json`; thăm dò)
 
 - **ρ = 0,067, CI 95% [−0,10; 0,25]** (bootstrap theo skill, 98 skill, 4 cấu hình).
   - ρ là phần phương sai tác dụng chung giữa các cấu hình: hiệp phương sai chéo 3,34 điểm², chia cho phương sai trong từng cấu hình 49,7 điểm².
@@ -1006,9 +1006,9 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 - **Sửa một con số tôi nói trong trao đổi:** "khoảng 22% chuyển giao" là sai mẫu số. Con số 14,9 là phương sai của trung bình 4 cấu hình, không phải phương sai trong từng cấu hình. Số đúng là 0,067.
 - **Diễn giải (theo giới hạn đã ghi):** trên dữ liệu công khai của SSKB, nhãn và cỡ tác dụng của một skill gần như không lặp lại khi đổi agent hay model. Dữ liệu một lần chạy không tách được phần do scope và phần do nhiễu.
 
-## 28. Chấm lại với mạng qua proxy cho các task có test cần mạng (đăng ký 06/11/2026, trước khi chấm lại bản vá nào của agent; 0 USD)
+## 28m. Chấm lại với mạng qua proxy cho các task có test cần mạng (đăng ký 06/11/2026, trước khi chấm lại bản vá nào của agent; 0 USD)
 
-**Phát hiện dẫn tới mục này** (§26, 8 instance SWE-bench-Live đã chấm lại bản vá gốc):
+**Phát hiện dẫn tới mục này** (§26m, 8 instance SWE-bench-Live đã chấm lại bản vá gốc):
 - 7 instance "hỏng". Ở 6 trong 7, log test có dấu hiệu mạng: `Name or service not known`, `gaierror`, `URLError`, `CERTIFICATE_VERIFY_FAILED`, `Max retries exceeded`. Ví dụ: `pip install` tới pypi.org bị lỗi chứng chỉ; không phân giải được `dl.google.com`.
 - Container chấm của harness **không có mạng ra ngoài và không tin CA của proxy** trong môi trường này.
 - Môi trường chấm chính thức có mạng, nên kết quả cũ chấm test cần mạng là trượt ở **cả hai nhánh**. Đây là lỗi của môi trường của mình, không phải của agent.
@@ -1021,9 +1021,9 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 - **Thực hiện:** `scripts/harness_net.py` vá `docker.models.containers.ContainerCollection.create` rồi chạy `swebench.harness.run_evaluation` không đổi gì khác.
 
 **Bước 1, kiểm cách sửa:**
-- Chấm lại bản vá gốc 1 lần với mạng cho các instance §26 gắn nhãn "hỏng" có dấu hiệu mạng.
-- **Đạt** nếu ≥ 1 instance chuyển sang resolved và **không** instance nào khác trước bị đổi kết quả. Không đạt thì dừng §28 và ghi A#.
-- **Kiểm âm (§27a dùng lại):** bản vá rỗng vẫn phải không resolved khi có mạng, chấm trên 5 task đầu của danh sách §27a.
+- Chấm lại bản vá gốc 1 lần với mạng cho các instance §26m gắn nhãn "hỏng" có dấu hiệu mạng.
+- **Đạt** nếu ≥ 1 instance chuyển sang resolved và **không** instance nào khác trước bị đổi kết quả. Không đạt thì dừng §28m và ghi A#.
+- **Kiểm âm (§27m-a dùng lại):** bản vá rỗng vẫn phải không resolved khi có mạng, chấm trên 5 task đầu của danh sách §27m-a.
 
 **Bước 2, chấm lại bản vá của agent:**
 - **Tập instance (quy tắc cố định):** mọi instance của E1, E2, T4 mà ở ít nhất một lần chấm gốc (mọi nhánh, mọi seed), `test_output.txt` có một trong các dấu hiệu mạng ở trên.
@@ -1031,36 +1031,36 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 - **Không** gọi model, **không** chạy lại agent.
 
 **Phân tích:**
-- Thay báo cáo cũ bằng báo cáo mới cho các instance trong tập, rồi tính lại tác dụng (endpoint S, như §26) cho E1, E2, T4.
+- Thay báo cáo cũ bằng báo cáo mới cho các instance trong tập, rồi tính lại tác dụng (endpoint S, như §26m) cho E1, E2, T4.
 - Báo cáo **cả** số cũ (đã đăng ký, phán quyết giữ nguyên theo R5) lẫn số mới.
 - **Diễn giải đặt trước:** nếu số mới khác số cũ về chiều hoặc ý nghĩa thống kê thì đưa lên phần kết quả chính, kèm cả hai số. Nếu không khác thì ghi ở threats to validity.
 
-### Kết quả §28, bước 1 (06/11/2026; `results/harness_gold_net.json`, `results/harness_noop_net.json`)
+### Kết quả §28m, bước 1 (06/11/2026; `results/harness_gold_net.json`, `results/harness_noop_net.json`)
 
-- **Bản vá gốc, có mạng qua proxy, 1 lần**, trên 6 instance §26 gắn nhãn "hỏng" có dấu hiệu mạng:
+- **Bản vá gốc, có mạng qua proxy, 1 lần**, trên 6 instance §26m gắn nhãn "hỏng" có dấu hiệu mạng:
 
-  | Instance | Không mạng (§26) | Có mạng (§28) | Host bị chặn (proxy: `connect_rejected`, 403) |
+  | Instance | Không mạng (§26m) | Có mạng (§28m) | Host bị chặn (proxy: `connect_rejected`, 403) |
   | --- | --- | --- | --- |
   | `ansible-lint-4662` | hỏng 3/3 | **resolved** | — (pypi.org được phép) |
   | `cfn-lint-3508`, `cfn-lint-3607` | hỏng 3/3 | hỏng | `docs.oasis-open.org` |
   | `briefcase-1640`, `-1785`, `-1811` | hỏng 3/3 | hỏng | `dl.google.com` |
 
-- **Kiểm âm:** bản vá rỗng có mạng trên 5 task đầu của §27a: **0/5** resolved.
+- **Kiểm âm:** bản vá rỗng có mạng trên 5 task đầu của §27m-a: **0/5** resolved.
 - **Theo quy tắc đặt trước: ĐẠT.** Có ít nhất 1 instance chuyển sang resolved, và bản vá rỗng vẫn không resolved.
 - **Phần còn hỏng** là do chính sách mạng của môi trường chặn 2 host. Hai host này chỉ dùng được khi môi trường cho phép, và việc đó cần @thuthuy duyệt.
 
-**Ghi chú thực thi 26-2 / 27-2 / 28-1** (06/11/2026, trước khi có kết quả nào trên GitHub Actions):
-- **Lý do:** lượt chấm cục bộ dừng ở giới hạn 2 giờ của tác vụ nền, sau 20/35 instance của §26. @thuthuy chọn chạy tiếp trên GitHub Actions ("Số 2").
-- **Môi trường khác nhau:** container chấm trên runner GitHub **có mạng đầy đủ**, như khi E2 được chấm. Container chấm cục bộ thì không có mạng (§26, §28).
+**Ghi chú thực thi 26m-2 / 27m-2 / 28m-1** (06/11/2026, trước khi có kết quả nào trên GitHub Actions):
+- **Lý do:** lượt chấm cục bộ dừng ở giới hạn 2 giờ của tác vụ nền, sau 20/35 instance của §26m. @thuthuy chọn chạy tiếp trên GitHub Actions ("Số 2").
+- **Môi trường khác nhau:** container chấm trên runner GitHub **có mạng đầy đủ**, như khi E2 được chấm. Container chấm cục bộ thì không có mạng (§26m, §28m).
 - **Vì vậy:**
-  1. Chạy **toàn bộ** 35 instance của §26 (bản vá gốc × 3) và 40 task của §27a (bản vá rỗng × 1) trên runner. Kết quả ghi vào file **riêng**: `results/harness_gold_gh.json`, `results/harness_noop_gh.json`.
+  1. Chạy **toàn bộ** 35 instance của §26m (bản vá gốc × 3) và 40 task của §27m-a (bản vá rỗng × 1) trên runner. Kết quả ghi vào file **riêng**: `results/harness_gold_gh.json`, `results/harness_noop_gh.json`.
   2. Kết quả cục bộ (20 instance, không mạng) giữ nguyên, báo cáo riêng.
-  3. So sánh hai môi trường trên cùng instance là một phép đo trực tiếp cho §28: môi trường có mạng không bị chặn host nào.
+  3. So sánh hai môi trường trên cùng instance là một phép đo trực tiếp cho §28m: môi trường có mạng không bị chặn host nào.
 - **Dữ liệu task** lấy từ `data-snapshots` (`verified_pools.jsonl`, `live_blocks_cd.jsonl`). Đã kiểm khớp tuyệt đối với file đã dùng cục bộ: 816 dòng; `patch`, `FAIL_TO_PASS`, `PASS_TO_PASS`, `base_commit` không khác.
 - **Phiên bản:** `swebench==5.0.2` cho Verified, bản fork SWE-bench-Live `ad79b85` cho Live, `docker==7.2.0`, như E2.
 - **Chia việc:** 10 shard. Shard k nhận instance thứ k, k+10, … của mỗi danh sách. Không gọi LLM, không cần khóa.
 
-### Kết quả §26 phần 2 và §27a trên GitHub Actions (06/11/2026; run 42200960814; `results/harness_gold_gh.json`, `results/harness_noop_gh.json`)
+### Kết quả §26m phần 2 và §27m-a trên GitHub Actions (06/11/2026; run 42200960814; `results/harness_gold_gh.json`, `results/harness_noop_gh.json`)
 
 - **Bản vá gốc × 3, môi trường runner (có mạng đầy đủ), 35 instance:**
   - **33 ổn**;
@@ -1071,7 +1071,7 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
   - ổn → ổn: 8;
   - hỏng → hỏng: 1 (`conan-15705`);
   - hỏng → chập chờn: 1.
-  - Như vậy **mọi trường hợp hỏng do mạng ở cục bộ đều hết khi có mạng đầy đủ**, kể cả 5 trường hợp cần host bị chặn ở §28.
+  - Như vậy **mọi trường hợp hỏng do mạng ở cục bộ đều hết khi có mạng đầy đủ**, kể cả 5 trường hợp cần host bị chặn ở §28m.
 - **Bản vá rỗng × 1, môi trường runner, 40 task: 0/40 resolved** (cận trên Wilson 95%: 0,088). Không có lỗi hạ tầng hay thiếu báo cáo.
   - Harness của mình qua cả đối chứng bản vá rỗng lẫn đối chứng bản vá gốc.
   - Đối chiếu: bộ chấm công khai của gskill cho bản vá rỗng qua 206/216 (§25, nhánh `trial`).
@@ -1079,21 +1079,21 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
   - E2 được chấm trên GitHub Actions (có mạng), nên **không** bị lỗi mạng.
   - T4 được chấm cục bộ trên task SWE-bench-Live, nên **bị** ảnh hưởng.
   - E1 (Verified) chấm cục bộ: mọi instance Verified đã kiểm đều ổn ở cả hai môi trường.
-- **Việc kế tiếp (§28 bước 2):** chấm lại bản vá đã lưu của T4 (40 lần chạy) trên runner. Miễn phí, không gọi model.
+- **Việc kế tiếp (§28m bước 2):** chấm lại bản vá đã lưu của T4 (40 lần chạy) trên runner. Miễn phí, không gọi model.
 
-**Ghi chú thực thi 28-2** (06/11/2026, @thuthuy "đồng ý"; trước khi có kết quả chấm lại nào của bản vá agent):
+**Ghi chú thực thi 28m-2** (06/11/2026, @thuthuy "đồng ý"; trước khi có kết quả chấm lại nào của bản vá agent):
 - **Tập instance theo đúng quy tắc đã đăng ký** (`results/s28_rescore_set.json`): E1 144/144, E2 6, T4 3.
   - Quy tắc bắt **mọi** instance E1, vì bước `pip install` trong script chấm của SWE-bench in `CERTIFICATE_VERIFY_FAILED` / `Max retries exceeded` ở gần như mọi lần chấm cục bộ.
   - Quy tắc rộng hơn cần thiết nhưng giữ nguyên (R5). Nó chỉ tốn thêm CPU, không làm sai kết quả.
 - **Danh sách bản vá** (`scripts/s28_manifest.py`, `results/s28_manifest.json.gz`): 1.200 bản vá (E1 1.164, E2 30, T4 6). Mỗi bản vá là đúng bản trong `preds_scored.json` của lần chạy đã sinh báo cáo được nối với cặp đã đăng ký. 0 bản vá bị thiếu. Cặp không có báo cáo (loss 2/3) không được chấm lại.
-- **Môi trường:** GitHub runner có mạng đầy đủ (như ghi chú 28-1), thay cho wrapper proxy. Lý do: §28 bước 1 cho thấy proxy cục bộ chặn host cần dùng, còn runner thì không (§26 trên runner: 33/35 ổn). 20 shard theo instance (`.github/workflows/s28.yml`).
+- **Môi trường:** GitHub runner có mạng đầy đủ (như ghi chú 28m-1), thay cho wrapper proxy. Lý do: §28m bước 1 cho thấy proxy cục bộ chặn host cần dùng, còn runner thì không (§26m trên runner: 33/35 ổn). 20 shard theo instance (`.github/workflows/s28.yml`).
 - **Chạy thử cục bộ (L48):** 1 bản vá Verified và 1 bản vá Live đều có báo cáo. Kết quả thử không dùng.
 - **Phân tích (đặt trước):**
   - Thay báo cáo gốc bằng báo cáo mới cho từng bản vá đã chấm lại.
   - Bản vá mà lần chấm mới **không có báo cáo** (quá giờ, lỗi hạ tầng) thì giữ báo cáo gốc, và đếm số trường hợp này.
-  - Tính lại tác dụng theo endpoint S như §26 cho E1, E2, T4; báo cáo số cũ và số mới cạnh nhau.
+  - Tính lại tác dụng theo endpoint S như §26m cho E1, E2, T4; báo cáo số cũ và số mới cạnh nhau.
 
-### Kết quả §28 bước 2 (06/11/2026; run 42213980589; `results/s28_rescored.json`, `results/s28_effects.json`)
+### Kết quả §28m bước 2 (06/11/2026; run 42213980589; `results/s28_rescored.json`, `results/s28_effects.json`)
 
 - **Chấm lại:** 1.200/1.200 bản vá có báo cáo mới. 0 lỗi hạ tầng; 0 trường hợp phải giữ báo cáo gốc.
 - **Số mặt cặp (một nhánh của một cặp) đổi kết quả:**
@@ -1114,7 +1114,7 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 - **Theo quy tắc đặt trước:**
   - E1 và E2 không đổi chiều hay ý nghĩa thống kê, nên ghi ở threats to validity. **Phán quyết đã đăng ký giữ nguyên.**
   - T4 tăng 0,05 (1 task trên 20). Đối chứng dương vẫn có ý nghĩa và mạnh hơn một chút.
-- **Kết luận của chuỗi §26–§28:**
+- **Kết luận của chuỗi §26m–§28m:**
   - Container chấm cục bộ không có mạng làm một số test trượt ở cả hai nhánh.
   - Lỗi này **không** làm sai kết luận nào của E1 hay E2.
   - Nó làm T4 bị đo thấp một chút.

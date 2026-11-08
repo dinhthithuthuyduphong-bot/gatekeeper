@@ -1,9 +1,9 @@
-"""Section 28 step 2: rescore the saved agent patches of results/s28_manifest.json.gz (0 USD).
+"""Section 28m step 2: rescore the saved agent patches of results/s28_manifest.json.gz (0 USD).
 
   python scripts/s28_rescore.py --rows a.jsonl b.jsonl --live-python ... --verified-python ... \
       --shard K --of N
 
-Run on a GitHub runner (evaluation containers with full network, execution note 28-1). This shard
+Run on a GitHub runner (evaluation containers with full network, execution note 28m-1). This shard
 takes the instances sorted by name at positions K, K+N, ...; each image is pulled once and
 removed afterwards. Each patch is scored once under a fresh run id. Writes
 results/s28_rescored_k<K>.json (resumable).

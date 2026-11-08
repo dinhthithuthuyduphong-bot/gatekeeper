@@ -1,4 +1,4 @@
-"""Section 28: run swebench.harness.run_evaluation unchanged, except that every container it
+"""Section 28m: run swebench.harness.run_evaluation unchanged, except that every container it
 creates gets the session proxy, the session CA bundle (read-only) and host networking - the same
 setup as the SWE-Skills-Bench adapter (section 22). Arguments are passed through unchanged.
 
@@ -45,6 +45,6 @@ def patch() -> None:
 
 if __name__ == "__main__":
     if not os.path.exists(CA) or "HTTPS_PROXY" not in os.environ:
-        raise SystemExit("section 28 needs the session CA bundle and HTTPS_PROXY")
+        raise SystemExit("section 28m needs the session CA bundle and HTTPS_PROXY")
     patch()
     runpy.run_module("swebench.harness.run_evaluation", run_name="__main__")

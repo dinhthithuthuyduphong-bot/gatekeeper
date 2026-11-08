@@ -534,37 +534,37 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - worst cell = cost-limit 1,0 USD.
 - **Chạy thử miễn phí:** model giả lập trên batch 1 của 5 skill mới, cả hai nhánh (`runs/sskb-s23-dry`). Kết quả ghi bên dưới khi xong.
 
-## R-45. §26 kiểm bộ chấm (2026-11-06, 0 USD)
+## R-45m. §26m kiểm bộ chấm (2026-11-06, 0 USD)
 
-- **Đối chiếu bản đăng ký:** §26 commit (`bb82047`) trước khi tính lại tác dụng nào. Trước đó chỉ mới thấy số đếm.
+- **Đối chiếu bản đăng ký:** §26m commit (`bb82047`) trước khi tính lại tác dụng nào. Trước đó chỉ mới thấy số đếm.
 - **Mã:**
   - `scripts/harness_audit.py`: nối từng cặp đã đăng ký với báo cáo chấm qua giá trị loss; ba endpoint S, F, B; bootstrap theo task.
   - `scripts/gold_rescore.py`: chấm lại bản vá gốc 3 lần, mỗi lần một run id mới để harness không dùng lại báo cáo cũ (A21); xóa image sau mỗi instance.
 - **Kiểm:**
   - Phép tái lập S khớp đúng số đã đăng ký: E1 53 task, E2 109 task, T4 +0,55.
-  - Lỗi A89 bị phép này bắt và đã sửa.
+  - Lỗi A89m bị phép này bắt và đã sửa.
   - Test `tests/test_harness_audit.py`: endpoint, quy tắc "trượt ở mọi lần chấm" và ngưỡng ≥ 3 lần, loss 2/3.
   - Quy tắc B không phụ thuộc nhánh.
 - **Không gọi LLM**; chỉ dùng CPU và tải image.
 
-## R-46. §28 bước 2: chấm lại bản vá của agent với mạng (2026-11-06, 0 USD)
+## R-46m. §28m bước 2: chấm lại bản vá của agent với mạng (2026-11-06, 0 USD)
 
 - **Mã:**
   - `scripts/s28_manifest.py`: nối cặp đã đăng ký với báo cáo, rồi với bản vá đã chấm, dùng lại `harness_audit.link`.
-  - `scripts/s28_rescore.py`: chia shard theo instance; tải image một lần; xóa cả hai tên image (A92).
+  - `scripts/s28_rescore.py`: chia shard theo instance; tải image một lần; xóa cả hai tên image (A92m).
   - `.github/workflows/s28.yml`: dựng từ `rescore.yml` (đã chạy thành công, run 42200960814).
 - **Kiểm:** 1.200/1.200 bản vá tìm được; chạy thử cục bộ đạt cho Verified và Live; YAML hợp lệ; preflight.
 - **Theo quy tắc §4:** quy tắc tập instance được dùng nguyên văn (R5); cách xử lý "không có báo cáo" đặt trước khi có dữ liệu.
 
-## R-47. Review paper lần 2 (2026-11-07, 0 USD)
+## R-47m. Review paper lần 2 (2026-11-07, 0 USD)
 
 - **Phạm vi:** `paper/main.tex` toàn bộ; đối chiếu từng câu mô tả thiết lập với file cấu hình và bản đăng ký trước (L49).
 - **Sửa:**
-  - Dataset của E1 (A111).
+  - Dataset của E1 (A111m).
   - E1: n = 53 mỗi skill (bản đăng ký E1, giai đoạn mở rộng).
   - Thêm đoạn "Experiments" định nghĩa E1, E2, T4, bước học của gskill và scope.
   - Sham: thay cụm "blame it" bằng số đếm 25/25, 3/25, 5/25; giải thích cận dưới là phần vượt quá tỉ lệ do skill tối đa mà dữ liệu cho phép (`scripts/section21.py`, `lower_bound_new`).
-  - Gold 33/35: nói rõ là 35 instance có báo cáo đáng ngờ, chấm 3 lần (§26).
+  - Gold 33/35: nói rõ là 35 instance có báo cáo đáng ngờ, chấm 3 lần (§26m).
   - Noise floor: đo trên agent và model của mình, nên chỉ là dấu hiệu.
   - RQ3: bỏ cách nói tuyệt đối ("does not predict", "nothing left").
   - Related work: cổng nhận của Qu et al., HDSO, Library Drift, mọi câu trích đều có trong bản lưu.

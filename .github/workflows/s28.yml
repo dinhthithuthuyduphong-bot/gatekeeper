@@ -1,6 +1,6 @@
-name: Section 28 step 2 - rescore saved agent patches with network (no LLM)
+name: Section 28m step 2 - rescore saved agent patches with network (no LLM)
 
-# Section 28 step 2 (docs/preregistration_main.md): the saved agent patches listed in
+# Section 28m step 2 (docs/preregistration_main.md): the saved agent patches listed in
 # results/s28_manifest.json.gz, scored once each on a GitHub runner (evaluation containers with full
 # network access, as when E2 was scored). Same harness versions as E2. No model calls, no secrets.
 
@@ -53,12 +53,12 @@ jobs:
           pip install -e . "swebench==5.0.2" "docker==7.2.0" "pyyaml==6.0.3"
           python -m venv livenv
           livenv/bin/pip install "swebench @ git+https://github.com/microsoft/SWE-bench-Live@ad79b850f15e33992e96f03f6e97f05ddf9aa0be" "docker==7.2.0"
-      - name: Task rows (data-snapshots; identical to the local files, note 26-2)
+      - name: Task rows (data-snapshots; identical to the local files, note 26m-2)
         run: |
           git fetch -q origin data-snapshots
           git show origin/data-snapshots:data/instances/verified_pools.jsonl > rows_a.jsonl
           git show origin/data-snapshots:data/instances/live_blocks_cd.jsonl > rows_b.jsonl
-      - name: Rescore saved agent patches (section 28 step 2)
+      - name: Rescore saved agent patches (section 28m step 2)
         run: |
           python scripts/s28_rescore.py --rows rows_a.jsonl rows_b.jsonl \
             --live-python livenv/bin/python --verified-python "$(which python)" \
@@ -105,5 +105,5 @@ jobs:
           find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
           cp /tmp/pub/* .
           git add s28_rescored.json s28_logs.tar.gz
-          git commit -qm "Section 28 step 2 run ${GITHUB_RUN_ID}"
+          git commit -qm "Section 28m step 2 run ${GITHUB_RUN_ID}"
           git push -f origin HEAD:s28-results

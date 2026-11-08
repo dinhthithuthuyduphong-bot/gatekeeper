@@ -1,7 +1,7 @@
 name: Harness rescoring (sections 26-28, no LLM)
 
-# Execution note 26-2 / 27-2 / 28-1 (docs/preregistration_main.md): gold patch x3 (section 26) and
-# no-op patch x1 (section 27a) on a GitHub runner, whose evaluation containers have full network
+# Execution note 26m-2 / 27m-2 / 28m-1 (docs/preregistration_main.md): gold patch x3 (section 26m) and
+# no-op patch x1 (section 27m-a) on a GitHub runner, whose evaluation containers have full network
 # access (as when E2 was scored). Same harness versions as E2. No model calls, no secrets.
 # Results and a tarball of the harness logs go to the rescore-results branch.
 
@@ -54,17 +54,17 @@ jobs:
           pip install -e . "swebench==5.0.2" "docker==7.2.0" "pyyaml==6.0.3"
           python -m venv livenv
           livenv/bin/pip install "swebench @ git+https://github.com/microsoft/SWE-bench-Live@ad79b850f15e33992e96f03f6e97f05ddf9aa0be" "docker==7.2.0"
-      - name: Task rows (data-snapshots; identical to the local files, note 26-2)
+      - name: Task rows (data-snapshots; identical to the local files, note 26m-2)
         run: |
           git fetch -q origin data-snapshots
           git show origin/data-snapshots:data/instances/verified_pools.jsonl > rows_a.jsonl
           git show origin/data-snapshots:data/instances/live_blocks_cd.jsonl > rows_b.jsonl
-      - name: Gold patch x3 (section 26, runner environment)
+      - name: Gold patch x3 (section 26m, runner environment)
         run: |
           python scripts/gold_rescore.py --rows rows_a.jsonl rows_b.jsonl \
             --live-python livenv/bin/python --verified-python "$(which python)" \
             --shard "$K" --of "$N" --out "results/harness_gold_gh_k$K.json"
-      - name: No-op patch x1 (section 27a, runner environment)
+      - name: No-op patch x1 (section 27m-a, runner environment)
         if: always()
         run: |
           python scripts/noop_rescore.py --rows rows_a.jsonl rows_b.jsonl \

@@ -19,7 +19,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 ### Ưu tiên 1: tăng sức mạnh, miễn phí
 - [x] 🤖 **Thu hồi hai bước** (e-SR báo động nhanh → cách ly → e-process xác nhận trên dữ liệu mới, α chia theo 6/(π²k²)): đăng ký §15. **Chỉ kiểm trên plasmode**, không có lần thu hồi trên agent thật (`results/two_stage_retirement.json`, `docs/preregistration_main.md` §15).
-- [ ] 🤖 Vì sao agent thất bại cả khi có bản vá đúng (T4). **Đang làm ở §26:** FAIL_TO_PASS qua nhưng một số PASS_TO_PASS hỏng do môi trường; theo endpoint F, T4 là +0,65 so với +0,55. Đang chấm lại bản vá gốc 3 lần (`results/harness_gold.json`).
+- [ ] 🤖 Vì sao agent thất bại cả khi có bản vá đúng (T4). **Đang làm ở §26m:** FAIL_TO_PASS qua nhưng một số PASS_TO_PASS hỏng do môi trường; theo endpoint F, T4 là +0,65 so với +0,55. Đang chấm lại bản vá gốc 3 lần (`results/harness_gold.json`).
 - [x] 🤖 **Đóng T4:** admit ở trial 20; +0,55 [0,35; 0,75]; nằm trong vùng dự đoán D-M6; 42,2 triệu token vào, 0,23 triệu token ra; dữ liệu gốc trên `raw-archive` (`docs/preregistration_main.md` §14).
 - [ ] 🤖 **Phân tích "agent thất bại vì sao"** trên 344 trajectory nhánh không skill của E2 (thăm dò): tìm kiểu thất bại phổ biến mà một skill **thật** (không phải đối chứng) có thể sửa, kèm δ ước tính. Đây là đòn bẩy lớn nhất về ý nghĩa thực tế.
 - [ ] 🤖 **T2:** cài e-detector của Qu et al. để so sánh cách thu hồi một cách công bằng.
@@ -764,9 +764,9 @@ Mỗi việc có tiêu chí xong sau dấu →. Thời gian là ước lượng 
 | 05/11/2026 | §21: kiểm định hoán vị chính xác (mức 0,042); sửa đếm lặp bằng bootstrap theo task (D-M10) | `results/section21.json` |
 | 06/11/2026 | §22 SSKB trên Flash-Lite: G = 0,064, dừng track C | `results/sskb_probe.json` |
 | 06/11/2026 | §23a Pro: G = 0, 8/8 cặp giống hệt (hiệu ứng trần); §23b Flash dừng theo cổng chi phí. Tổng §23 6,14 USD. Lỗi A83–A85 | `results/sskb_s23a-pro.json`, `results/sskb_s23b-flash-screen.json` |
-| 06/11/2026 | §26 kiểm bộ chấm: E1, E2 null vững theo F và B; T4 bị S đo thấp khoảng 0,10; lỗi A89 bắt được bằng phép tái lập | `results/harness_audit.json` |
+| 06/11/2026 | §26m kiểm bộ chấm: E1, E2 null vững theo F và B; T4 bị S đo thấp khoảng 0,10; lỗi A89m bắt được bằng phép tái lập | `results/harness_audit.json` |
 | 06/11/2026 | Kế hoạch tái hiện 60 USD: đã chi khoảng 7,18 USD (§22 1,045 + §23 6,136) | `CLAUDE.md` |
-| 08/11/2026 | Paper: điền 27b (Pygments: S 6 so với 5, p 1,0, không admit; L báo +0,28) và Bleve 4d (31 so với 14, admit ở trial 61, Δ_leak 0,13 ≈ 43%); không còn `\todo`. Số tái lập từ file gốc của `trial` và khớp tuyệt đối; A114 (2 lần crash 429 không được nêu) | `scripts/make_numbers.py`, `paper/numbers.tex` |
+| 08/11/2026 | Paper: điền 27b (Pygments: S 6 so với 5, p 1,0, không admit; L báo +0,28) và Bleve 4d (31 so với 14, admit ở trial 61, Δ_leak 0,13 ≈ 43%); không còn `\todo`. Số tái lập từ file gốc của `trial` và khớp tuyệt đối; A114m (2 lần crash 429 không được nêu) | `scripts/make_numbers.py`, `paper/numbers.tex` |
 | 08/11/2026 | Paper: cắt mục Composition và số hạng α của composite; giữ tên model một lần (@thuthuy: "1 với 3 bạn tự quyết") | `paper/main.tex`, `docs/paper_outline.md` |
 
 ---

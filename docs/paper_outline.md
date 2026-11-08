@@ -99,8 +99,8 @@ Giữ của paper gốc: e-process ghép cặp, cách chia α, thu hồi. Chỉ 
 | --- | --- | --- | --- |
 | A/A (hai lần chạy không skill) | Nhiễu của agent; quy tắc quy lỗi | `kohavi_aa` | §18, §19, E1, E2 |
 | Skill giả (sham) | Auditor LLM có đổ lỗi cho skill không có tác dụng không | `negative_controls_llm_2026` | §19–§21 |
-| Bản vá rỗng (no-op) | Bộ chấm có nhận bản vá không sửa gì không | (đối chứng âm; `negative_controls_llm_2026`) | §25 F0, §27a của nhánh này |
-| Bản vá gốc (gold) | Bộ chấm có từ chối bản vá đúng không | `swebench` (định nghĩa resolved) | §25 F0, §26 |
+| Bản vá rỗng (no-op) | Bộ chấm có nhận bản vá không sửa gì không | (đối chứng âm; `negative_controls_llm_2026`) | §25 F0, §27m-a của nhánh này |
+| Bản vá gốc (gold) | Bộ chấm có từ chối bản vá đúng không | `swebench` (định nghĩa resolved) | §25 F0, §26m |
 | Skill không liên quan cùng độ dài (C2) | Tác dụng của nội dung so với độ dài | `webdev_skills_bench_2026` | §27a ([CHỜ]) |
 | Lịch sử git một commit | Phần tác dụng do chỗ lộ | `debuggym_swesmith_git_fix` | §25 bước 3, bước 4d |
 
@@ -155,7 +155,7 @@ Giữ của paper gốc: e-process ghép cặp, cách chia α, thu hồi. Chỉ 
 | --- | --- | --- |
 | Môi trường (có lộ → không lộ), cùng repo | +0,38 → +0,21; trial admit 29 → 50 | §25 bước 3 |
 | Repo (jinja → pygments), cùng skill nguyên văn | [CHỜ] P27b, kiểm định hai phía | §27b |
-| Cấu hình agent–model, dữ liệu công khai của SWE-Skills-Bench | ρ = 0,067 [−0,10; 0,25]; trong các skill có \|Δ\| ≥ 6 điểm, cấu hình khác cho kết quả cùng chiều 25%, ngược chiều 19% | `results/sskb_transfer.json`, §27b của nhánh này (thăm dò) |
+| Cấu hình agent–model, dữ liệu công khai của SWE-Skills-Bench | ρ = 0,067 [−0,10; 0,25]; trong các skill có \|Δ\| ≥ 6 điểm, cấu hình khác cho kết quả cùng chiều 25%, ngược chiều 19% | `results/sskb_transfer.json`, §27m-b của nhánh này (thăm dò) |
 | Model (Flash-Lite → Pro), 2 skill SWE-Skills-Bench | Pro: 8/8 cặp giống hệt, vì tỉ lệ nền đã gần trần; mô tả | §23a |
 
 ---
@@ -164,13 +164,13 @@ Giữ của paper gốc: e-process ghép cặp, cách chia α, thu hồi. Chỉ 
 
 | Kiểm | Kết quả | Mục |
 | --- | --- | --- |
-| Endpoint S, F (chỉ FAIL_TO_PASS), B (bỏ test hỏng) cho E1, E2, T4 | E1, E2 không đổi kết luận; T4 +0,55 → +0,65 theo F | §26 phần 1 |
-| Bản vá gốc × 3 trên runner có mạng | 33/35 ổn | §26 phần 2 |
-| Bản vá rỗng trên harness của mình | **0/40** | §27a của nhánh này |
-| Chấm lại 1.200 bản vá của agent với mạng | E1: 3/1.540 mặt cặp đổi; E2: 0/30; T4: +0,55 → +0,60 | §28 |
+| Endpoint S, F (chỉ FAIL_TO_PASS), B (bỏ test hỏng) cho E1, E2, T4 | E1, E2 không đổi kết luận; T4 +0,55 → +0,65 theo F | §26m phần 1 |
+| Bản vá gốc × 3 trên runner có mạng | 33/35 ổn | §26m phần 2 |
+| Bản vá rỗng trên harness của mình | **0/40** | §27m-a của nhánh này |
+| Chấm lại 1.200 bản vá của agent với mạng | E1: 3/1.540 mặt cặp đổi; E2: 0/30; T4: +0,55 → +0,60 | §28m |
 | Chấm lại 224 bản vá jinja, mỗi bản 2 lần | 0 kết quả đổi | P26 (nhánh `trial`) |
-| E1, E2 (skill tự viết; XRepoSkill) | mọi CI chứa 0; E2 +2,1 điểm, CI t [−1,0; +5,3] (đã đăng ký), bootstrap theo task [−0,9; +5,5] (§28) | `results/e1_final.json`, `results/e2_final.json`, `results/s28_effects.json` |
-| Đối chứng dương T4 | admit ở trial 20; +0,60 sau §28 | §14, §28 |
+| E1, E2 (skill tự viết; XRepoSkill) | mọi CI chứa 0; E2 +2,1 điểm, CI t [−1,0; +5,3] (đã đăng ký), bootstrap theo task [−0,9; +5,5] (§28m) | `results/e1_final.json`, `results/e2_final.json`, `results/s28_effects.json` |
+| Đối chứng dương T4 | admit ở trial 20; +0,60 sau §28m | §14, §28m |
 
 ---
 
@@ -181,9 +181,9 @@ Giữ của paper gốc: e-process ghép cặp, cách chia α, thu hồi. Chỉ 
 3. **Môi trường SWE-smith là task tổng hợp.** Môi trường không lộ cũng xóa lịch sử thật của repo, nên khác repo thật (đã ghi ở §25 bước 3).
 4. **Chưa biết blog gskill dùng mã nào.** Mọi kết luận về bộ chấm chỉ nói về `gepa@8c7b697`.
 5. **Mốc dữ liệu huấn luyện của Gemini chưa xác minh được**, nên không tuyên bố "không nhiễm dữ liệu" (P19 của nhánh `trial`).
-6. **Harness cục bộ không có mạng** ở E1 và T4. Đã đo và sửa (§26–§28); kết luận không đổi.
+6. **Harness cục bộ không có mạng** ở E1 và T4. Đã đo và sửa (§26m–§28m); kết luận không đổi.
 7. **Thu hồi** chỉ được kiểm trên plasmode.
-8. **Phân tích thăm dò** (§10, §13, §20 S4, §22–§23, §27b của nhánh này) được tách khỏi phân tích xác nhận (`nosek_2018`).
+8. **Phân tích thăm dò** (§10, §13, §20 S4, §22–§23, §27m-b của nhánh này) được tách khỏi phân tích xác nhận (`nosek_2018`).
 
 ---
 
@@ -248,5 +248,5 @@ Giữ của paper gốc: e-process ghép cặp, cách chia α, thu hồi. Chỉ 
 - **Phạm vi:** hai đoạn lý thuyết cũ được giữ, kèm câu nói rõ là không có đánh giá thực nghiệm.
 - **Model thứ hai:** tạm ngưng (@thuthuy 07/11). Paper nêu ở Threats.
 - **Tên model:** ghi một lần trong macro `\agentmodel`.
-- **`refs.bib`:** 36/36 mục có tiêu đề và tác giả lấy từ bản lưu nguồn. Mục ngoài arXiv đi qua `configs/bib_overrides.json`, và mỗi chuỗi trong đó được kiểm nguyên văn với văn bản nguồn (A110).
+- **`refs.bib`:** 36/36 mục có tiêu đề và tác giả lấy từ bản lưu nguồn. Mục ngoài arXiv đi qua `configs/bib_overrides.json`, và mỗi chuỗi trong đó được kiểm nguyên văn với văn bản nguồn (A110m).
 - **Còn `\todo`:** 27b (pygments) và bleve 4d, đang chạy ở nhánh `trial`.

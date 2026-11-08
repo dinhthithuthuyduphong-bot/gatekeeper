@@ -373,15 +373,15 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   2. Kiểm trùng bằng mẫu `[x]yz`.
   3. Trước khi tạo lệnh chờ thay thế, tìm tiến trình cũ bằng ID tác vụ nền hoặc file output của nó, không chỉ bằng `ps | grep`.
   4. Driver dùng chung một file kết quả không được chạy song song trên cùng plan.
-  5. **Bổ sung (A92):** nối các bước trong một script thay vì dùng lệnh chờ. Sau mỗi lần dừng, kiểm lại bằng `/proc/<pid>/cmdline` rằng không còn tiến trình nào.
+  5. **Bổ sung (A92m):** nối các bước trong một script thay vì dùng lệnh chờ. Sau mỗi lần dừng, kiểm lại bằng `/proc/<pid>/cmdline` rằng không còn tiến trình nào.
   6. Xóa image phải xóa mọi tên (tag) của nó, nếu không đĩa không được giải phóng.
 
-## L47. Mọi phân tích lại trên dữ liệu đã có phải tái lập đúng số đã đăng ký trước khi tính cái mới (A89)
+## L47. Mọi phân tích lại trên dữ liệu đã có phải tái lập đúng số đã đăng ký trước khi tính cái mới (A89m)
 
 - **Xảy ra:** script phân tích lại có một giả định sai về giá trị loss của cặp không có báo cáo. Chỉ phép kiểm "endpoint cũ phải ra đúng số cũ" mới bắt được lỗi này.
 - **Phòng ngừa:** mỗi phân tích lại có một bước tái lập bắt buộc: số cũ, cỡ mẫu cũ, số cặp nối được. Chỉ đọc số mới khi bước này khớp tuyệt đối.
 
-## L48. Script gọi harness phải nhận interpreter của từng benchmark làm tham số bắt buộc, và "không có báo cáo" không bao giờ được gộp vào một kết luận (A91)
+## L48. Script gọi harness phải nhận interpreter của từng benchmark làm tham số bắt buộc, và "không có báo cáo" không bao giờ được gộp vào một kết luận (A91m)
 
 - **Xảy ra:** script chấm lại dùng interpreter mặc định, mà môi trường đó không có `swebench`. Hàm gán nhãn lại coi "không chấm được" là "hỏng".
 - **Phòng ngừa:**
@@ -389,7 +389,7 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   2. Nhãn kết luận chỉ được gán khi mọi lần chấm có báo cáo; còn lại ghi `no_report`.
   3. Chạy thử script trên **mỗi loại** dataset trước khi chạy hàng loạt.
 
-## L49. Mô tả dataset, cỡ mẫu và thiết lập trong paper phải đọc từ file cấu hình của thí nghiệm, không từ trí nhớ hay từ thí nghiệm gần nhất (A111)
+## L49. Mô tả dataset, cỡ mẫu và thiết lập trong paper phải đọc từ file cấu hình của thí nghiệm, không từ trí nhớ hay từ thí nghiệm gần nhất (A111m)
 
 - **Xảy ra:** paper ghi E1 dùng SWE-bench Verified vì pilot G1 và nhiều script chấm lại gọi chung là "Verified". Thật ra E1 dùng bộ test đầy đủ. Cùng lúc, bản nháp ghi E1 có 40 task mỗi skill, trong khi giai đoạn mở rộng đã nâng lên 53.
 - **Phòng ngừa:**
@@ -397,7 +397,7 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   2. Ưu tiên macro sinh từ file (như `paper/numbers.tex`) cho mọi con số thiết lập.
   3. Comment trong mã không được gọi tên dataset chung chung khi nhiều thí nghiệm dùng các dataset khác nhau.
 
-## L50. Sau mỗi push phải đọc kết luận CI; test không được phụ thuộc vào `runs/` hay `logs/` (A112)
+## L50. Sau mỗi push phải đọc kết luận CI; test không được phụ thuộc vào `runs/` hay `logs/` (A112m)
 
 - **Xảy ra:** một test đọc file trong `runs/`. Ở máy làm việc file có sẵn nên preflight qua; trên runner file không có nên CI đỏ suốt 28 giờ. Tôi chỉ chạy preflight cục bộ mà không đọc kết luận CI.
 - **Phòng ngừa:**
@@ -405,7 +405,7 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   2. Test cần dữ liệu thật thì dùng bản cố định nhỏ trong `tests/fixtures/`, kèm phép kiểm "bản cố định trùng bản gốc" khi có bản gốc; hoặc dùng `skipif` có lý do rõ khi dữ liệu không thể cố định.
   3. Trước khi commit một test mới, chạy nó một lần khi đã tạm cất `runs/`.
 
-## L51. Văn bản sinh tự động từ trang web phải được đọc lại bằng mắt ít nhất một lần, và quy tắc trích phải có phép kiểm âm (A113)
+## L51. Văn bản sinh tự động từ trang web phải được đọc lại bằng mắt ít nhất một lần, và quy tắc trích phải có phép kiểm âm (A113m)
 
 - **Xảy ra:** `make_bib.py` cắt tiêu đề từ phần đầu trang bằng một mẫu chuỗi; mẫu đúng cho vài trang, sai cho trang HTML của arXiv. Phép kiểm "không còn VERIFY" qua, nên tôi coi bib là xong mà không đọc các tiêu đề.
 - **Phòng ngừa:**

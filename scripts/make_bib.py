@@ -17,7 +17,7 @@ import re
 import subprocess
 from pathlib import Path
 
-# text of arXiv page chrome that must never end up in a title (A113)
+# text of arXiv page chrome that must never end up in a title (A113m)
 CHROME = ("Skip to main content", "Report GitHub Issue", "Back to arXiv")
 
 
@@ -89,13 +89,13 @@ def main() -> int:
         if ax and ax in by_arxiv:
             authors = " and ".join(by_arxiv[ax]["authors"])
             # arXiv's own title (checked by check_citations.py) over text cut from the page head,
-            # which can carry page chrome ("Skip to main content") or lost spaces (A113)
+            # which can carry page chrome ("Skip to main content") or lost spaces (A113m)
             title = " ".join(by_arxiv[ax]["title"].split()) or title
         ov = overrides.get(k, {})
         if ov:
             # every override must be read off the saved original: each author name and the title
             # must occur verbatim in the snapshot's text, or the script stops
-            # only the source's own text: the snapshot's `claim` is our wording (A110)
+            # only the source's own text: the snapshot's `claim` is our wording (A110m)
             text = " ".join(
                 (
                     snap.get("head", "")
@@ -113,7 +113,7 @@ def main() -> int:
             title = ov.get("title") or title
         chrome = [w for w in CHROME if w in (title or "")]
         if chrome:
-            raise SystemExit(f"{k}: title carries page chrome {chrome}: {title}")  # A113
+            raise SystemExit(f"{k}: title carries page chrome {chrome}: {title}")  # A113m
         fields = {"title": "{" + bib_escape(title) + "}" if title else "{VERIFY: title}"}
         if authors:
             fields["author"] = "{" + authors + "}"

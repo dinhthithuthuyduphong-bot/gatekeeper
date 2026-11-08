@@ -1,4 +1,4 @@
-"""Section 27b: how much of a skill's effect carries over between SWE-Skills-Bench configurations.
+"""Section 27m-b: how much of a skill's effect carries over between SWE-Skills-Bench configurations.
 Exploratory (the point values were seen before, results/sskb_transfer_power.json). Free.
 
   python scripts/sskb_transfer.py
@@ -23,7 +23,7 @@ import numpy as np
 SRC = Path("data/external/swe-skills-bench/ALL_combined_cells.csv")
 N_BOOT = 10_000
 SEED = 2727
-THR = 6.0  # pp; the section 23b selection mark, fixed before section 27
+THR = 6.0  # pp; the section 23b selection mark, fixed before section 27m
 
 
 def effects() -> tuple[list[str], np.ndarray]:

@@ -356,7 +356,7 @@ def main() -> int:
     ]
     bg1 = bg2 = 0
     for r in brecs:
-        ms = r["messages"] or []  # two runs crashed on a rate limit before any step (A114)
+        ms = r["messages"] or []  # two runs crashed on a rate limit before any step (A114m)
         obs = [m for m in ms if m["role"] == "user"][1:]
         cmds = " ".join(str(m.get("content", "")) for m in ms if m["role"] == "assistant")
         bg1 += bool(re.search(r"git (log|show)", cmds))

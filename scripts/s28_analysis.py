@@ -1,10 +1,10 @@
-"""Section 28 step 2 analysis: effects (endpoint S) with the network rescoring substituted (0 USD).
+"""Section 28m step 2 analysis: effects (endpoint S) with the network rescoring substituted (0 USD).
 
   python scripts/s28_analysis.py --e2-logs <dir> --rescored results/s28_rescored.json
 
 For each registered pair (harness_audit.py linking), each side's resolved flag is taken from the
 rescored report when the rescore produced one (results/s28_rescored.json, key exp|run|arm|iid);
-otherwise the original report is kept (note 28-2) and the case is counted. Sides with no original
+otherwise the original report is kept (note 28m-2) and the case is counted. Sides with no original
 report stay unresolved. Effect and task-level bootstrap CI exactly as harness_audit.py. Writes
 results/s28_effects.json with old and new numbers side by side.
 """

@@ -62,7 +62,7 @@
 
 | Luận điểm | Loại | Neo đăng ký | Vai trò trong paper |
 | --- | --- | --- | --- |
-| C1 (E1, E2 null) | Xác nhận | `preregistration_e1.md`, `_e2.md` | Chính. §26: vững với lỗi bộ chấm (F, B không đổi kết luận) |
+| C1 (E1, E2 null) | Xác nhận | `preregistration_e1.md`, `_e2.md` | Chính. §26m: vững với lỗi bộ chấm (F, B không đổi kết luận) |
 | C2 (XRepoSkill: bác bỏ 4/6) | Thăm dò; quy tắc SESOI ghi trước khi đọc bảng của họ | §10 | Phụ, ghi rõ là phân tích thêm |
 | C3 (cổng ngây thơ nhận nhầm trên dữ liệu thật) | E1 đăng ký trước; phần SSKB thăm dò | §9 | **Hạ xuống ghi chú** trong phần thảo luận A/A. Lý do: 43–44% so với nền 38,5%, CI chồng nhau |
 | C4–C6 (plasmode) | Xác nhận (plasmode) | §9, §14 | Chính, kèm giới hạn "hiệu ứng được cấy là giả lập" |
@@ -76,9 +76,9 @@
 | §13 (ô trung tính) | Thăm dò, làm sau khi thấy dữ liệu | §13 | Phụ |
 | §22, §23a (SSKB trên Flash-Lite và Pro) | Đăng ký trước, n nhỏ | §22, §23 | **Nghiên cứu tình huống mô tả**, không phải kiểm định: tác dụng công bố không xuất hiện; trên Pro, 8/8 cặp giống hệt (hiệu ứng trần) |
 | §23b (Flash) | Dừng theo cổng chi phí | §23 | Chỉ nêu ở phần chi phí |
-| §26 (kiểm bộ chấm) | Độ nhạy đã đăng ký | §26 | Threats to validity; T4 bị S đo thấp khoảng 0,10 |
+| §26m (kiểm bộ chấm) | Độ nhạy đã đăng ký | §26m | Threats to validity; T4 bị S đo thấp khoảng 0,10 |
 
-**Threats to validity, thêm từ §26:**
+**Threats to validity, thêm từ §26m:**
 - Endpoint resolved đòi mọi PASS_TO_PASS qua. Một số test hỏng do môi trường của mình, ví dụ `conan-15705`: FAIL_TO_PASS 1/1 qua, PASS_TO_PASS 5/3.650 trượt.
 - Lỗi này làm task không giải được ở **cả hai nhánh**. Nó pha loãng tác dụng nhưng không tạo ra tác dụng.
 - Kết luận của E1 và E2 không đổi khi chỉ xét FAIL_TO_PASS (F) hoặc khi bỏ test hỏng (B).

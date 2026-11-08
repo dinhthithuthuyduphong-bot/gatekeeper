@@ -1,4 +1,4 @@
-"""Section 28 step 2: the exact agent patches to rescore with network (0 USD).
+"""Section 28m step 2: the exact agent patches to rescore with network (0 USD).
 
   python scripts/s28_manifest.py --e2-logs <dir> --e2-runs <dir>
 

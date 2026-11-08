@@ -1,4 +1,4 @@
-"""Section 26: harness audit - environment-broken PASS_TO_PASS tests (0 USD, no LLM).
+"""Section 26m: harness audit - environment-broken PASS_TO_PASS tests (0 USD, no LLM).
 
   python scripts/harness_audit.py --e2-logs <dir with logs/run_evaluation from raw-archive>
 

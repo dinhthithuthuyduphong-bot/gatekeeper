@@ -1,10 +1,10 @@
-"""Section 27a: score a NO-OP patch (adds an unused one-line file) once per task with our harness.
+"""Section 27m-a: score a NO-OP patch (adds an unused one-line file) once per task with our harness.
 
   python scripts/noop_rescore.py --rows <e1_rows.jsonl> <live rows.jsonl> ... \
       --live-python <livenv python>
 
-Tasks: all 20 T4 tasks (SWE-bench-Live) and 20 E1 tasks (SWE-bench test split, A111) drawn with
-random.Random(27).sample from the sorted union of E1 task sets (execution note 27-1). A no-op
+Tasks: all 20 T4 tasks (SWE-bench-Live) and 20 E1 tasks (SWE-bench test split, A111m) drawn with
+random.Random(27).sample from the sorted union of E1 task sets (execution note 27m-1). A no-op
 patch leaves every FAIL_TO_PASS test failing, so the expected resolved rate is 0. Writes
 results/harness_noop.json after every task (resumable).
 """
@@ -35,7 +35,7 @@ NOOP_PATCH = (
     "@@ -0,0 +1 @@\n"
     "+# no-op\n"
 )
-N_E1 = 20  # section 27: 0/20 gives a Wilson 95% upper bound of 0.161
+N_E1 = 20  # section 27m: 0/20 gives a Wilson 95% upper bound of 0.161
 SEED = 27
 
 
@@ -55,7 +55,7 @@ def targets() -> list[str]:
 
 def drop_image(name: str) -> None:
     """Remove the image under BOTH names: prepull tags the mirror copy with its docker.io name, so
-    removing one name alone frees no layers and the disk fills up (A92)."""
+    removing one name alone frees no layers and the disk fills up (A92m)."""
     mirror = "mirror.gcr.io/" + name.removeprefix("docker.io/")
     subprocess.run(["docker", "rmi", "-f", name, mirror], capture_output=True)
 
@@ -65,11 +65,11 @@ def main() -> int:
     ap.add_argument("--rows", nargs="+", type=Path, required=True)
     ap.add_argument("--live-python", required=True)
     # SWE-bench (E1: full test split; G1 pilot: Verified) is scored with swebench 5.0.2 in the agent
-    # env, as E1 was (A90 below; A111: E1 is not Verified)
+    # env, as E1 was (A90 below; A111m: E1 is not Verified)
     ap.add_argument("--verified-python", required=True)
-    # section 28 step 1 negative control: first N tasks, with network, separate output
+    # section 28m step 1 negative control: first N tasks, with network, separate output
     ap.add_argument("--net", action="store_true")
-    # GitHub Actions shards (note 26-2): this shard takes items k, k+of, k+2*of, ...
+    # GitHub Actions shards (note 26m-2): this shard takes items k, k+of, k+2*of, ...
     ap.add_argument("--shard", type=int, default=0)
     ap.add_argument("--of", type=int, default=1)
     ap.add_argument("--first", type=int, default=0)
@@ -94,7 +94,7 @@ def main() -> int:
         row = rows[iid]
         live = (row.get("image") or "").startswith(
             "starryzhang/"
-        )  # Live; Verified: swebench/ (A93)
+        )  # Live; Verified: swebench/ (A93m)
         failed = prepull([row])
         if failed:
             out[iid] = {"error": f"image pull failed: {failed}"}

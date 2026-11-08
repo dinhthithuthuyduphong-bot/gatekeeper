@@ -1,4 +1,4 @@
-"""Section 26: score the GOLD patch of each audit target 3 times with the same harness (0 USD).
+"""Section 26m: score the GOLD patch of each audit target 3 times with the same harness (0 USD).
 
   python scripts/gold_rescore.py --rows <e1_rows.jsonl> <live rows.jsonl> ... \
       --live-python <livenv python>
@@ -25,7 +25,7 @@ from run_pilot import image_name, prepull  # noqa: E402
 
 from gatekeeper.harness import read_report, run_harness  # noqa: E402
 
-REPS = 3  # section 26: operational, separates deterministic (3/3) from intermittent (1-2/3)
+REPS = 3  # section 26m: operational, separates deterministic (3/3) from intermittent (1-2/3)
 OUT = Path("results/harness_gold.json")
 
 
@@ -50,7 +50,7 @@ def label(runs: list[dict]) -> str:
 
 def drop_image(name: str) -> None:
     """Remove the image under BOTH names: prepull tags the mirror copy with its docker.io name, so
-    removing one name alone frees no layers and the disk fills up (A92)."""
+    removing one name alone frees no layers and the disk fills up (A92m)."""
     mirror = "mirror.gcr.io/" + name.removeprefix("docker.io/")
     subprocess.run(["docker", "rmi", "-f", name, mirror], capture_output=True)
 
@@ -60,11 +60,11 @@ def main() -> int:
     ap.add_argument("--rows", nargs="+", type=Path, required=True)
     ap.add_argument("--live-python", required=True)
     # SWE-bench (E1: full test split; G1 pilot: Verified) is scored with swebench 5.0.2 in the agent
-    # env, as E1 was (A90 below; A111: E1 is not Verified)
+    # env, as E1 was (A90 below; A111m: E1 is not Verified)
     ap.add_argument("--verified-python", required=True)
-    # section 28 step 1: same gold scoring with network (proxy + CA); separate output file
+    # section 28m step 1: same gold scoring with network (proxy + CA); separate output file
     ap.add_argument("--net", action="store_true")
-    # GitHub Actions shards (note 26-2): this shard takes items k, k+of, k+2*of, ...
+    # GitHub Actions shards (note 26m-2): this shard takes items k, k+of, k+2*of, ...
     ap.add_argument("--shard", type=int, default=0)
     ap.add_argument("--of", type=int, default=1)
     ap.add_argument("--targets", type=Path, default=Path("results/harness_gold_targets.json"))
@@ -91,7 +91,7 @@ def main() -> int:
         row = rows[iid]
         live = (row.get("image") or "").startswith(
             "starryzhang/"
-        )  # Live; Verified: swebench/ (A93)
+        )  # Live; Verified: swebench/ (A93m)
         failed = prepull([row])
         if failed:
             out[iid] = {"error": f"image pull failed: {failed}"}
