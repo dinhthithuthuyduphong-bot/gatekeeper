@@ -287,14 +287,18 @@ jobs:
         run: |
           mkdir -p /tmp/work results && cd /tmp/work
           SK=""
-          if [ "${{ inputs.arm }}" = "skill" ]; then
+          EXTRA=""
+          if [ "${{ inputs.arm }}" = "skillb" ]; then  # the tasks a capped skill run did not reach (A107)
+            EXTRA="--skip-done $GITHUB_WORKSPACE/results/${TAG}_leakfree_skill.json"
+          fi
+          if [ "${{ inputs.arm }}" = "skill" ] || [ "${{ inputs.arm }}" = "skillb" ]; then
             git -C $GITHUB_WORKSPACE fetch -q origin pilot-snapshots
             git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/${TAG}_best_skills.txt" > /tmp/skills.txt
             cmp /tmp/skills.txt "$GITHUB_WORKSPACE/$SKILLREF"
             SK="--skills-file /tmp/skills.txt"
           fi
           PYTHONPATH=/tmp/gepa/src/gepa/gskill:$GITHUB_WORKSPACE/scripts /tmp/venv/bin/python \
-            $GITHUB_WORKSPACE/scripts/f1_probe.py --rows "$ROWSLOCAL" --split test --leak-free $SK \
+            $GITHUB_WORKSPACE/scripts/f1_probe.py --rows "$ROWSLOCAL" --split test --leak-free $SK $EXTRA \
             --model vertex_ai/gemini-3.1-flash-lite --seed 41 --cost-limit 0.30 --cap "${{ inputs.budget_usd }}" \
             --registry $GITHUB_WORKSPACE/tests/fixtures/e1_litellm_registry.json \
             --gskill-yaml /tmp/gepa/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml \
