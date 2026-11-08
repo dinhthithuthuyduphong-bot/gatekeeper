@@ -480,3 +480,11 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   1. Mỗi câu tuyệt đối trong paper ("never", "every", "unchanged", "all") phải đi kèm một macro đếm sinh từ file kết quả, và một giá trị kiểm trong CHECKS của `make_numbers.py`.
   2. Khi thêm file kết quả mới, chạy lại các phép đếm của `docs/reviewer_fidelity.md`.
   3. Phiên bản phần mềm ghi trong paper phải đọc từ workflow đã chạy, theo từng loại thí nghiệm.
+
+## L53. Ước tính chi phí gửi @thuthuy phải lấy từ lượt chạy cùng cấu hình (cùng repo, cùng loại skill, cùng môi trường), và ghi rõ file nguồn (A122)
+
+- **Xảy ra:** tôi lấy chi phí của nhánh placebo (một skill ngắn, không liên quan) làm chi phí cho nhánh không skill và nhánh có skill. Hai nhánh này tốn nhiều hơn, vì agent chạy nhiều bước hơn.
+- **Phòng ngừa:**
+  1. Mỗi con số chi phí gửi đi kèm tên file kết quả và trường `spent_usd` của nhánh tương ứng.
+  2. Trần = chi phí đo được + 1 lượt xấu nhất (cost_limit), cho từng nhánh (A107, A108).
+  3. Đọc lại con số trước khi gửi yêu cầu duyệt.

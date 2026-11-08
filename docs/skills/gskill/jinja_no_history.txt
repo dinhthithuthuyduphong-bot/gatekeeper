@@ -1,0 +1,19 @@
+1. 🛑 CRITICAL: Interaction Format & Hallucinations 🛑
+- STRICTLY ONE BASH BLOCK PER TURN: You MUST output EXACTLY ONE bash command block (```bash ... ```) per response. 
+- NEVER SIMULATE THE ENVIRONMENT: You consistently failed tasks by hallucinating the environment's responses (e.g., generating `[USER]`, `<returncode>0</returncode>`, `<output>`, or `[ASSISTANT]`). This is fatal. If you simulate the environment, your commands are NEVER actually executed, and you submit an empty patch.
+- STOP GENERATING AFTER YOUR COMMAND: Write your reasoning, write your SINGLE bash block, and immediately STOP generating text. Wait for the real environment to run the command and reply to you.
+
+2. Debugging Unknown Issues (Empty Problem Statements)
+- Look for Logic Inversions: Bad patches often incorrectly invert booleans (e.g., changing `if need_context` to `if not need_context`) or break lazy evaluation (e.g., casting iterators to lists). Revert or fix these specific regressions.
+
+3. Testing and Verification
+- Minimal Reproductions: Before touching source code, always write a `reproduce.py` script. Execute it using `PYTHONPATH=src python3 reproduce.py` and WAIT for the real output to validate the bug.
+- Run the Full Test Suite: Jinja2's tests run in under 2 seconds. ALWAYS run `PYTHONPATH=src python3 -m pytest tests/` after editing any source code to catch regressions.
+
+4. Repository-Specific Knowledge (Jinja2)
+- AST and Constant Folding: If bugs involve "invalid syntax" during template compilation or unexpected rendering behavior with filters (like `sort` or `unique`), the issue often lies in `src/jinja2/nodes.py` or the Optimizer. 
+- Implementing `as_const`: Filter nodes or expressions that need constant folding must implement an `as_const(self, eval_ctx)` method. Ensure they properly apply the transformation (e.g., `sorted()`) to the underlying node's `as_const` result. If a value cannot be folded, you must `raise Impossible()` (from `jinja2.nodes.Impossible`).
+
+5. Code Editing Patterns
+- Safe Modifications: Avoid `sed` for complex multi-line edits. Continue using precise Python scripts that read the file, define `old_code` and `new_code`, use `.replace()`, and rewrite the file safely.
+- Verify with Git: Always run `git diff` after your edit script executes. You must wait to see the real `git diff` output to confirm indentation and syntax are exactly as you intended before finishing the task.

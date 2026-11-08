@@ -771,3 +771,18 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - đếm lỗi `go` theo nhánh, thăm dò (Q9; macro `go*`);
   - tính đối xứng dưới A/A làm tỉ lệ nhận nhầm của GEPA tăng về 1/2 khi minibatch lớn hơn (Q10).
 - **Cần @thuthuy quyết (có phí):** ablation bỏ chỉ dẫn git khỏi skill; thêm placebo; thêm model hoặc repo.
+
+## R-58. §29 ablation: mã, workflow, bản đăng ký (2026-11-08, trước khi chạy)
+
+- **Đối chiếu bản đăng ký:** §29 được commit trước mọi lần chạy.
+- **Mã:**
+  - `scripts/make_ablation.py`: quy tắc bằng regex, chặn nếu số dòng bị bỏ khác [7];
+  - `tests/test_make_ablation.py`;
+  - `pilot.yml` plan `swesmith-s29`: hai nhánh song song, trần riêng 1,75 / 2,25 USD, kiểm file và sha256, dừng nếu `budget_usd` < 4,00.
+- **Lỗi bắt được trước khi chạy:** bước workflow gọi `make_ablation.py --check` sau `cd /tmp/work`, mà script dùng đường dẫn tương đối. Đã sửa: chạy từ thư mục repo.
+- **Theo danh sách §4:**
+  - quy tắc can thiệp cố định trước khi có dữ liệu;
+  - trần có nguồn (L53);
+  - hai nhánh chạy cùng lúc;
+  - test không đọc `runs/` (L50).
+- **Chạy thử miễn phí:** ghi bên dưới khi xong.

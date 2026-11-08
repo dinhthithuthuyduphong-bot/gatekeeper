@@ -1827,3 +1827,47 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - Lỗi này **không** làm sai kết luận nào của E1 hay E2.
   - Nó làm T4 bị đo thấp một chút.
   - Harness, khi có mạng, qua cả đối chứng bản vá gốc (33/35) lẫn bản vá rỗng (0/40).
+
+## 29. Ablation: skill jinja bỏ chỉ dẫn đọc lịch sử (đăng ký 08/11/2026, trước mọi lần chạy)
+
+**Lý do:** câu hỏi Q7 của review bên ngoài (`docs/review_log.md` R-57): khi bỏ chỉ dẫn đọc lịch sử git, phần còn lại của skill có tác dụng bao nhiêu trong chính môi trường gốc. @thuthuy 08/11: "Làm".
+
+**Câu hỏi:** trong môi trường gốc của gskill (còn commit "Bug Patch"), skill jinja đã bỏ chỉ dẫn đọc lịch sử có làm tăng số task giải được so với không skill không?
+
+**Can thiệp (định nghĩa can thiệp, có quy tắc, không chọn tay):**
+- Quy tắc: bỏ mọi dòng của skill khớp `commit|history|git log|git show`, không phân biệt hoa thường; mọi byte khác giữ nguyên (`scripts/make_ablation.py`, test `tests/test_make_ablation.py`).
+- Áp lên `docs/skills/gskill/jinja_best_skills.txt` (2.681 byte), quy tắc bỏ **đúng 1 dòng**, dòng 7 ("Check Git History… `git log -n 5`… `git show`"). Dòng `git diff` (mục 5) được giữ, vì không nói về lịch sử.
+- Kết quả: `docs/skills/gskill/jinja_no_history.txt`, 2.427 byte, sha256 `b90e246f…065078`. Workflow kiểm lại file và sha256 trước khi chạy.
+- Skill mới ngắn hơn 254 byte (9,5%). §27a cho thấy tác dụng của độ dài trên jinja nhỏ và không có ý nghĩa thống kê (+0,09, p = 0,093).
+
+**Thiết kế:**
+- 100 task test jinja theo `_gskill_order`; môi trường gốc của gskill (không `--leak-free`).
+- Agent, model, seed 41, cost_limit 0,30, giới hạn 50 bước: như §25.
+- **Hai nhánh chạy song song trong cùng một job:** không skill (`results/s29_none.json`) và skill đã bỏ chỉ dẫn (`results/s29_ablate.json`). Như vậy hai nửa của mỗi cặp chạy cùng thời điểm (§5: model có thể đổi theo ngày).
+
+**Phép thử chính P29** (một phía, α = 0,025, endpoint S):
+- skill đã bỏ chỉ dẫn > không skill;
+- kiểm định dấu chính xác trên các cặp lệch;
+- một phép thử xác nhận duy nhất, nên không cần Holm.
+
+**Phụ (mô tả, không dùng làm bằng chứng xác nhận):**
+1. Gatekeeper (θ = 0, c = 0,5, α = 0,025): admit hay không, và sau bao nhiêu task.
+2. Bộ chấm L của gskill trên cùng patch.
+3. Nhóm 34 task không có mô tả issue: số task giải được ở mỗi nhánh. Dự đoán từ §25 bước 3: skill đã bỏ chỉ dẫn giải gần bằng nhánh không skill ở nhóm này.
+4. So với skill đầy đủ trong môi trường một commit (§25 bước 3: +0,21): hiệu số mức tăng, bootstrap theo task. Hai lượt chạy khác ngày.
+5. So với skill đầy đủ trong môi trường gốc (`f1_skill_probe`, 06/11): khác ngày; 27c cho thấy 30/34 task giữ kết quả khi chạy lại sau 1 ngày.
+6. Quỹ đạo: số lượt chạy của nhánh đã bỏ chỉ dẫn có gọi `git log` hoặc `git show`, và số lượt có quan sát chứa "Bug Patch".
+
+**Diễn giải đặt trước:**
+- P29 bác bỏ: phần mức tăng không phụ thuộc chỉ dẫn đọc lịch sử được chứng nhận trong môi trường gốc.
+- P29 không bác bỏ: không chứng nhận được phần đó ở n = 100. Kết quả không cho thấy phần đó bằng 0; báo cáo kèm khoảng tin cậy.
+- Ở cả hai trường hợp, kết luận của §25 bước 3 (môi trường một commit) không đổi.
+
+**Kiểm sau khi chạy:** `infra_error`, `crashed`, lượt chạm cost_limit, 100/100 task ở mỗi nhánh. Lỗi hạ tầng là dữ liệu thiếu (S-infra, độ nhạy). Không chạy lại lỗi do agent (L1).
+
+**Ngân sách:**
+- Dự kiến 1,44 + 1,94 = **3,38 USD**, theo chi phí đo được của hai nhánh tương ứng (`f1_probe`, `f1_skill_probe`).
+- Trần mỗi nhánh = chi phí dự kiến + 1 lượt xấu nhất (0,30), theo bài học A107/A108: không skill 1,75; bỏ chỉ dẫn 2,25; tổng **4,00 USD**.
+- **Đính chính:** ước tính 2,1 USD báo @thuthuy trước đó là sai, vì lấy chi phí của nhánh placebo (1,05). Chỉ chạy có phí sau khi @thuthuy xác nhận mức 4,00 USD.
+
+**Chạy thử miễn phí:** `dryrun=true`, task đầu tiên, model giả lập (`--mock-response`), cả hai nhánh.
