@@ -1868,6 +1868,6 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 **Ngân sách:**
 - Dự kiến 1,44 + 1,94 = **3,38 USD**, theo chi phí đo được của hai nhánh tương ứng (`f1_probe`, `f1_skill_probe`).
 - Trần mỗi nhánh = chi phí dự kiến + 1 lượt xấu nhất (0,30), theo bài học A107/A108: không skill 1,75; bỏ chỉ dẫn 2,25; tổng **4,00 USD**.
-- **Đính chính:** ước tính 2,1 USD báo @thuthuy trước đó là sai, vì lấy chi phí của nhánh placebo (1,05). Chỉ chạy có phí sau khi @thuthuy xác nhận mức 4,00 USD.
+- **Đính chính:** ước tính 2,1 USD báo @thuthuy trước đó là sai, vì lấy chi phí của nhánh placebo (1,05). Chỉ chạy có phí sau khi @thuthuy xác nhận mức 4,00 USD. **@thuthuy xác nhận 08/11/2026: "Duyệt 4 đô".**
 
 **Chạy thử miễn phí:** `dryrun=true`, task đầu tiên, model giả lập (`--mock-response`), cả hai nhánh.
