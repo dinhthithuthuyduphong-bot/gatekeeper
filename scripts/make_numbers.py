@@ -363,6 +363,57 @@ def main() -> int:
         cmds = " ".join(str(m.get("content", "")) for m in ms if m["role"] == "assistant")
         bg1 += bool(re.search(r"git (log|show)", cmds))
         bg2 += any("Bug Patch" in str(m.get("content", "")) for m in obs)
+    # exploratory (review Q9): `go` absent from the login PATH, by arm, single-commit Bleve
+    gonf = re.compile(r"go: (command )?not found|command not found: go|bash: go:")
+    gocmd = re.compile(r"\bgo (test|build|run|vet)\b")
+
+    def go_stats(files):
+        recs = {}
+        for f in files:
+            for x in gzip.open(t / f, "rt"):
+                r = json.loads(x)
+                if r.get("messages"):
+                    recs[r["instance_id"]] = r
+        out = {}
+        for i, r in recs.items():
+            obs = [str(m.get("content", "")) for m in r["messages"] if m["role"] == "user"][1:]
+            cmd = " ".join(
+                str(m.get("content", "")) for m in r["messages"] if m["role"] == "assistant"
+            )
+            out[i] = (bool(gocmd.search(cmd)), any(gonf.search(o) for o in obs))
+        return out
+
+    gn = go_stats(["s25bleve_leakfree_none.traces.jsonl.gz"])
+    gs = go_stats(
+        ["s25bleve_leakfree_skill.traces.jsonl.gz", "s25bleve_leakfree_skillb.traces.jsonl.gz"]
+    )
+    lf_none = {r["instance_id"]: r for r in load(t / "s25bleve_leakfree_none.json")["runs"]}
+    lf_skill = {r["instance_id"]: r for r in load(t / "s25bleve_leakfree_skill_all.json")["runs"]}
+    hit = [i for i, v in gn.items() if v[1]]
+    rest = [i for i in gn if i not in set(hit)]
+
+    def solved(d, ids):
+        return sum(bool(d[i]["S"]["resolved"]) for i in ids)
+
+    N.update(
+        {
+            "goNoneTraced": len(gn),
+            "goNoneCmd": sum(v[0] for v in gn.values()),
+            "goNoneErr": len(hit),
+            "goSkillTraced": len(gs),
+            "goSkillCmd": sum(v[0] for v in gs.values()),
+            "goSkillErr": sum(v[1] for v in gs.values()),
+            "goHitNone": solved(lf_none, hit),
+            "goHitSkill": solved(lf_skill, hit),
+            "goRestN": len(rest),
+            "goRestNone": solved(lf_none, rest),
+            "goRestSkill": solved(lf_skill, rest),
+        }
+    )
+    for k, v in {"goNoneErr": 68, "goSkillErr": 3, "goHitSkill": 14, "goRestSkill": 17}.items():
+        if N[k] != v:
+            print("MISMATCH", k, N[k], v)
+            return 1
     # S-infra sensitivity (registered): the two runs that crashed on a rate limit are missing data
     bsk = load(t / "s25bleve_leakfree_skill_all.json")
     crashed = {r["instance_id"] for r in bsk["runs"] if r.get("crashed")}

@@ -2127,6 +2127,20 @@
     "PAIChecker",
     "pattern"
    ]
+  },
+  {
+   "id": "gskill_swe_harness",
+   "claim": "gskill's harness at the pinned commit: verify_with_patch (the lenient scorer) and the hard-coded step limit (review 08/11/2026, question 2)",
+   "urls": [
+    "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/gskill/gskill/swe_harness.py"
+   ],
+   "keywords": [
+    "def verify_with_patch",
+    "passed",
+    "PASSED",
+    "step_limit",
+    "bash -lc"
+   ]
   }
  ]
 }
