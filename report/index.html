@@ -2,221 +2,250 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Gatekeeper Research Report</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Báo cáo Gatekeeper</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap">
 <style>
-:root{--bg:#fbfaf7;--fg:#1d1f23;--muted:#5d636e;--card:#ffffff;--line:#e3e1db;--accent:#2f5d9c;
---good:#2e7d4f;--bad:#b3261e;--warn:#9a6700;--code:#f2f0ea}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15171a;--fg:#e7e5e0;
---muted:#a3a8b1;--card:#1d2024;--line:#30343a;--accent:#86aee6;--good:#6cc08f;--bad:#f08a80;
---warn:#e2b45a;--code:#24272c}}
-:root[data-theme="dark"]{--bg:#15171a;--fg:#e7e5e0;--muted:#a3a8b1;--card:#1d2024;--line:#30343a;
---accent:#86aee6;--good:#6cc08f;--bad:#f08a80;--warn:#e2b45a;--code:#24272c}
-*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Segoe UI",
-Roboto,"Noto Sans",sans-serif}
-main{max-width:900px;margin:0 auto;padding:32px 16px 64px}
-h1{font-size:1.9rem;line-height:1.25;margin:0 0 8px}h2{font-size:1.35rem;margin:40px 0 12px;
-padding-top:8px;border-top:1px solid var(--line)}h3{font-size:1.08rem;margin:24px 0 8px}
-p,li{max-width:72ch}.muted{color:var(--muted)}a{color:var(--accent)}
-.banner{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--warn);
-padding:12px 16px;border-radius:6px;margin:16px 0}
-.math{font-family:"STIX Two Math","Cambria Math",Georgia,serif;background:var(--code);padding:10px 14px;
-border-radius:6px;overflow-x:auto;white-space:nowrap;margin:8px 0}
-code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:.92em}
-.tbl{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.94rem}
+:root{--bg:#f8f8f6;--fg:#1c1f24;--muted:#5b616b;--card:#ffffff;--line:#dfe1dc;--accent:#2b5b8f;
+--good:#2c7a4b;--bad:#a8322a;--warn:#8a6100;--code:#eef0ec;--bar0:#a9b4bf;--bar1:#2b5b8f;
+--serif:"Source Serif 4",Georgia,"Times New Roman",serif;--sans:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16181b;--fg:#e6e6e2;--muted:#a2a8b0;
+--card:#1e2125;--line:#33373d;--accent:#8db4e2;--good:#6fc292;--bad:#ef8a80;--warn:#e0b45c;--code:#25282d;
+--bar0:#5c6670;--bar1:#8db4e2;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#16181b;--fg:#e6e6e2;--muted:#a2a8b0;--card:#1e2125;--line:#33373d;
+--accent:#8db4e2;--good:#6fc292;--bad:#ef8a80;--warn:#e0b45c;--code:#25282d;--bar0:#5c6670;--bar1:#8db4e2;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 var(--sans);
+padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:880px;margin:0 auto;padding-block:36px 72px}
+h1,h2,h3{font-family:var(--serif);text-wrap:balance;line-height:1.25}
+h1{font-size:2rem;margin:4px 0 6px}h2{font-size:1.4rem;margin:44px 0 12px;padding-top:14px;border-top:1px solid var(--line)}
+h3{font-size:1.1rem;margin:26px 0 8px}
+p,li{max-width:70ch}.muted{color:var(--muted)}a{color:var(--accent)}
+.meta{font-size:.88rem;color:var(--muted);letter-spacing:.02em}
+.lead{font-size:1.06rem}
+.key{display:grid;gap:10px;margin:14px 0;padding:0;list-style:none}
+.key li{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:10px 14px;max-width:none}
+.key b{color:var(--accent)}
+.tbl{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.93rem}
 th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-weight:600;color:var(--muted)}td.n{text-align:right;font-variant-numeric:tabular-nums}
-.ok{color:var(--good);font-weight:600}.bad{color:var(--bad);font-weight:600}
-.warn{color:var(--warn);font-weight:600}
-.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;min-width:80px}
-.bar>span{display:block;height:100%;background:var(--accent)}
-.chart svg{width:100%;height:auto;max-width:560px}.chart .gl{stroke:var(--line)}
-.chart .line{fill:none;stroke:var(--accent);stroke-width:2.5}.chart .dot{fill:var(--accent)}
-.chart .tick,.chart .axis{fill:var(--muted);font-size:12px}figcaption{color:var(--muted);font-size:.9rem}
-.toc{columns:2;font-size:.95rem}@media (max-width:600px){.toc{columns:1}h1{font-size:1.5rem}}
-footer{margin-top:48px;color:var(--muted);font-size:.85rem}
+th{font-weight:600;color:var(--muted);font-size:.85rem;letter-spacing:.02em}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+caption{caption-side:top;text-align:left;font-size:.88rem;color:var(--muted);padding-bottom:6px}
+.ok{color:var(--good);font-weight:600}.bad{color:var(--bad);font-weight:600}.warn{color:var(--warn);font-weight:600}
+code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:.9em}
+figure{margin:14px 0}.chart{overflow-x:auto}.chart svg{width:100%;max-width:600px;height:auto}
+.chart .gl{stroke:var(--line)}.chart .tick,.chart .axis,.chart .val{fill:var(--muted);font:12px var(--sans)}
+.chart .axis{fill:var(--fg)}.chart .b0{fill:var(--bar0)}.chart .b1{fill:var(--bar1)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
+.sw{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:-1px;margin-right:6px}
+figcaption{font-size:.88rem;color:var(--muted)}
+.note{border-left:3px solid var(--warn);padding:8px 14px;background:var(--card);border-radius:0 6px 6px 0}
+.ask{border-left:3px solid var(--accent);padding:10px 14px;background:var(--card);border-radius:0 6px 6px 0}
+.toc{columns:2;font-size:.94rem}@media (max-width:600px){.toc{columns:1}h1{font-size:1.55rem}}
+footer{margin-top:52px;color:var(--muted);font-size:.84rem}
 </style>
 </head>
 <body>
 <main>
-<p class="muted">FSE-2027-13 · Gatekeeper · mục tiêu <b>ASE 2027</b> · LLM: Gemini qua Vertex AI · Build local · 2026-11-03 02:00 UTC</p>
-<h1>Scope before Reuse: từ lý thuyết đến thực nghiệm</h1>
-<p>Báo cáo sống của dự án Gatekeeper: kiểm soát rủi ro khi tái sử dụng skill đã học của coding agent.
-Trang này tự sinh lại mỗi lần push, từ <code>TODO.md</code>, <code>results/</code> và kết quả test.</p>
-<div class="banner"><b>Trạng thái.</b> Chưa chạy thí nghiệm nào với LLM. Số trong paper đều là <i>dự kiến</i>.
-Phần "Thực nghiệm" dưới đây chỉ gồm mô phỏng thống kê và test của code lõi, chưa phải kết quả trên benchmark.</div>
+<p class="meta">Dự án Gatekeeper · mục tiêu ASE 2027 · bản cập nhật 08/11/2026 10:21 UTC · commit <code>a42e40f</code></p>
+<h1>Scope before Reuse: chứng nhận skill đã học cho coding agent theo phạm vi</h1>
+<p class="lead">Báo cáo tiến độ gửi thầy. Mọi con số dưới đây được sinh tự động từ cùng tệp kết quả
+với bản thảo (<code>paper/numbers.tex</code>), nên báo cáo và bản thảo không thể lệch nhau.
+Mọi phân tích xác nhận đều được đăng ký trước khi có dữ liệu.</p>
 
-<nav class="toc"><ol>
-<li><a href="#tien-do">Tiến độ theo TODO.md</a></li>
-<li><a href="#van-de">Vấn đề</a></li>
-<li><a href="#ly-thuyet">Lý thuyết (đã sửa)</a></li>
-<li><a href="#kiem-tra">Kiểm tra số liệu paper</a></li>
-<li><a href="#thuc-nghiem">Thực nghiệm hiện có</a></li>
-<li><a href="#benchmark">Benchmark chuẩn</a></li>
-<li><a href="#code">Thành phần đã cài</a></li>
-<li><a href="#chua-co">Thực nghiệm chưa chạy</a></li>
-<li><a href="#tai-lieu">Tài liệu</a></li>
-</ol></nav>
+<ol class="toc">
+<li><a href="#tom-tat">Tóm tắt</a></li><li><a href="#cau-hoi">Câu hỏi nghiên cứu</a></li>
+<li><a href="#phuong-phap">Phương pháp</a></li><li><a href="#rq1">RQ1: Đối chứng của phép đo</a></li>
+<li><a href="#rq2">RQ2: Chứng nhận và nguồn gốc mức tăng</a></li><li><a href="#rq3">RQ3: Chuyển giao sang phạm vi khác</a></li>
+<li><a href="#han-che">Độ tin cậy và hạn chế</a></li><li><a href="#ban-thao">Tình trạng bản thảo</a></li>
+<li><a href="#chi-phi">Ngân sách và chi phí</a></li><li><a href="#xin-y-kien">Việc cần thầy cho ý kiến</a></li>
+</ol>
 
-<h2 id="tien-do">1. Tiến độ theo TODO.md</h2>
-<p>Tổng: <b>68/188</b> việc đã xong. Việc chỉ được tick khi có bằng chứng (commit, log CI, file).</p>
-<div class="tbl"><table><thead><tr><th>Phase</th><th>Xong</th><th>Tiến độ</th></tr></thead>
-<tbody><tr><td>Phase H – Hạ tầng repo, CI, report (mới)</td><td class='n'>8/11</td><td><div class='bar'><span style='width:73%'></span></div></td></tr><tr><td>Phase 0 – Học nền</td><td class='n'>3/24</td><td><div class='bar'><span style='width:12%'></span></div></td></tr><tr><td>Phase 1 – Sửa lý thuyết &amp; paper</td><td class='n'>18/26</td><td><div class='bar'><span style='width:69%'></span></div></td></tr><tr><td>Phase 5a – Lõi Gatekeeper (chuyển lên sớm, không cần LLM)</td><td class='n'>8/8</td><td><div class='bar'><span style='width:100%'></span></div></td></tr><tr><td>Phase 2 – Môi trường &amp; tái hiện baseline</td><td class='n'>15/27</td><td><div class='bar'><span style='width:56%'></span></div></td></tr><tr><td>Phase 3 – Pilot &amp; go/no-go</td><td class='n'>1/17</td><td><div class='bar'><span style='width:6%'></span></div></td></tr><tr><td>Phase 4 – SkillShift-SE: giao thức đánh giá trên benchmark chuẩn</td><td class='n'>4/28</td><td><div class='bar'><span style='width:14%'></span></div></td></tr><tr><td>Phase 5b – Gatekeeper đầy đủ</td><td class='n'>10/13</td><td><div class='bar'><span style='width:77%'></span></div></td></tr><tr><td>Phase 6 – Chạy thí nghiệm</td><td class='n'>1/15</td><td><div class='bar'><span style='width:7%'></span></div></td></tr><tr><td>Phase 7 – Phân tích &amp; viết</td><td class='n'>0/12</td><td><div class='bar'><span style='width:0%'></span></div></td></tr><tr><td>Phase 8 – Artifact &amp; nộp</td><td class='n'>0/7</td><td><div class='bar'><span style='width:0%'></span></div></td></tr></tbody></table></div>
-
-<h2 id="van-de">2. Vấn đề</h2>
-<p>Một skill (quy trình sửa code agent đã học) có thể <b>hợp lệ về quyền</b>, <b>pass replay test</b> ở repo
-gốc, mà vẫn sai ở repo mới. Ví dụ trong paper: skill bọc lệnh ghi DB bằng retry đúng với client at-least-once,
-nhưng gây ghi trùng với client exactly-once. Hai skill tốt riêng lẻ cũng có thể hỏng khi ghép.</p>
-<p>Gatekeeper trả lời câu "skill này có nên chạy <i>ở đây</i> không" bằng 4 bước: scope screen (cần nhưng
-không đủ) → paired trial có/không skill trên chính repo đích → e-process tuần tự, admit khi đủ bằng chứng
-skill <b>giúp</b> ít nhất θ → kiểm tra riêng các cặp skill có footprint giao nhau.</p>
-
-<h2 id="ly-thuyet">3. Lý thuyết (bản đã sửa)</h2>
-<h3>Selective transfer risk</h3>
-<div class="math">STR(S, s) = E<sub>x∼P<sub>s</sub></sub>[ ℓ(x, π) − ℓ(x, ∅) ],&nbsp;&nbsp; admit nếu STR ≤ −θ,&nbsp;&nbsp; ℓ ∈ [0, 1]</div>
-<p>P<sub>s</sub> là phân phối các task trong scope s mà điều kiện đầu vào I(x) của skill đúng.</p>
-<h3>E-process (cài trong <code>src/gatekeeper/eprocess.py</code>)</h3>
-<div class="math">E<sub>n</sub> = ∏<sub>i≤n</sub> (1 + λ<sub>i</sub>(−θ − Z<sub>i</sub>)),&nbsp;&nbsp;
-0 ≤ λ<sub>i</sub> ≤ c/(1+θ),&nbsp;&nbsp; admit khi E<sub>n</sub> ≥ 1/α<sub>S,s</sub></div>
-<p>λ<sub>i</sub> chỉ dùng dữ liệu trước trial i. Dưới H0: E[Z] ≥ −θ, E<sub>n</sub> là supermartingale
-không âm, nên bất đẳng thức Ville cho Pr[∃n: E<sub>n</sub> ≥ 1/α] ≤ α, kể cả khi dừng sớm.</p>
-<h3>Theorem 4 (đã sửa)</h3>
-<div class="math">Pr[ ∃ (S,s) được admit: STR<sub>Q<sub>s</sub></sub>(S,s) &gt; −θ + 2ξ<sub>s</sub> ]
-≤ Σ α<sub>S,s</sub> + Σ α<sub>S∘S′,s</sub> + α<sub>re</sub> ≤ α</div>
-<p>Hệ số 2 vì Z ∈ [−1, 1]. Phần composite và re-admission chi tiêu α theo dãy α·6/(π²k²)
-(<code>src/gatekeeper/alpha_ledger.py</code>). Mục tiêu "không admit skill có hại" chỉ đạt khi 2ξ<sub>s</sub> ≤ θ.</p>
-<h3>Theorem 7 (đã sửa)</h3>
-<p>Có S1, S2 với STR(S1) = STR(S2) = −θ mà STR(S1∘S2) = 1 − θ (cận chặt). Cặp S1′, S2 có cùng STR riêng lẻ
-nhưng STR(S1′∘S2) = −θ, nên không tồn tại hàm g nào của rủi ro riêng lẻ chặn được rủi ro ghép. Cơ chế
-chạy được: S2 chuyển lệnh ghi sang <code>async</code>, retry đồng bộ của S1 gọi mà không <code>await</code>,
-nhận về coroutine, không raise, lệnh ghi không bao giờ chạy (<code>tests/test_composition_theorem7.py</code>).</p>
-<h3>Prop. 9 (đã sửa)</h3>
-<div class="math">n<sub>unpaired</sub> / n<sub>paired</sub> = 1 + 2σ<sub>T</sub>²/σ<sub>S</sub>²</div>
-<p>Với σ<sub>T</sub>²/σ<sub>S</sub>² = 2,1 (số dự kiến của paper): paper ghi tiết kiệm 3,1×, công thức đúng cho <b>5,2×</b>.</p>
-
-<h2 id="kiem-tra">4. Kiểm tra số liệu paper</h2>
-<p>Sinh tự động từ <code>src/gatekeeper/paper_checks.py</code> (test: <code>tests/test_paper_checks.py</code>).
-Số của paper là số <i>dự kiến</i>; đây chỉ kiểm tra tính nhất quán nội bộ.</p>
-<div class='tbl'><table><thead><tr><th>Chỗ</th><th>Paper</th><th>Tính lại</th><th>Kết luận</th></tr></thead><tbody><tr><td>Tổng cặp A+B+C</td><td>180</td><td>180</td><td class='ok'>Đúng</td></tr><tr><td>Tỉ lệ harm A/B/C (%)</td><td>20.6 / 36.5 / 57.9</td><td>20.6 / 36.5 / 57.9</td><td class='ok'>Đúng</td></tr><tr><td>Chênh lệch regime C/A</td><td>2.8×</td><td>2.81×</td><td class='ok'>Đúng</td></tr><tr><td>Margin vs B6</td><td>6.4</td><td>6.4</td><td class='ok'>Đúng</td></tr><tr><td>Margin vs B2</td><td>17.6</td><td>17.6</td><td class='ok'>Đúng</td></tr><tr><td>Phần đã đạt bởi B6</td><td>~64%</td><td>63.6%</td><td class='ok'>Đúng</td></tr><tr><td>Cost B8/Gatekeeper</td><td>1.9×</td><td>1.92×</td><td class='ok'>Đúng</td></tr><tr><td>Composition 41/46</td><td>89.1%</td><td>89.1%</td><td class='ok'>Đúng</td></tr><tr><td>Ablation +8.8 / +7.5 / ×1.45 / ×1.34 / +7.8 / +0.8</td><td>như paper</td><td>+8.8 / +7.5 / ×1.46 / ×1.34 / +7.8 / +0.8</td><td class='ok'>Đúng</td></tr><tr><td>Repair GK−B9, GK−B1</td><td>2.5 / 8.2</td><td>2.5 / 8.2</td><td class='ok'>Đúng</td></tr><tr><td>Phân loại lỗi 58+27+15</td><td>100%</td><td>100%</td><td class='ok'>Đúng</td></tr><tr><td>B2 harmful acceptance</td><td>22.7%</td><td>100% (theo định nghĩa) hoặc 35.0% (trên mọi cặp)</td><td class='bad'>Mâu thuẫn<br><span class='muted'>B2 admit mọi skill (clean reuse 100%), nên không thể là 22,7%</span></td></tr><tr><td>CI margin vs B6 vượt 5 điểm</td><td>[3.1, 9.8] vượt</td><td>cận dưới 3.1 &lt; 5.0</td><td class='bad'>Sai<br><span class='muted'>Chỉ ước lượng điểm vượt 5, CI thì không</span></td></tr><tr><td>So sánh &#x27;at matched clean reuse&#x27;</td><td>84.3 vs 86.0</td><td>không bằng nhau</td><td class='bad'>Sai<br><span class='muted'>Cần đường harm–coverage và so tại cùng coverage</span></td></tr><tr><td>d̄ (partner giao footprint)</td><td>0.34</td><td>10.6 nếu tính toàn library</td><td class='warn'>Cần giải thích<br><span class='muted'>Chỉ đúng nếu tính trong từng scope L_s; phải ghi rõ</span></td></tr><tr><td>Prop. 9 mức tiết kiệm của pairing</td><td>3.1× (net 1.55×)</td><td>5.2×</td><td class='bad'>Sai<br><span class='muted'>Đúng là 1 + 2σ_T²/σ_S²; unpaired cũng tốn 2 lần chạy/mẫu</span></td></tr></tbody></table></div>
-
-<h2 id="thuc-nghiem">5. Thực nghiệm hiện có</h2>
-<h3>5.1 Test code lõi</h3>
-<p><span class='ok'>84/84 test pass</span>, 0 lỗi, 0 bỏ qua.</p><h3>Test phản ví dụ Theorem 7</h3><div class='tbl'><table><thead><tr><th>Test</th><th>Kết quả</th></tr></thead><tbody><tr><td><code>test_each_skill_alone_fixes_the_transient_failure[S1]</code></td><td class='ok'>pass</td></tr><tr><td><code>test_each_skill_alone_fixes_the_transient_failure[S2]</code></td><td class='ok'>pass</td></tr><tr><td><code>test_each_skill_alone_fixes_the_transient_failure[S1prime]</code></td><td class='ok'>pass</td></tr><tr><td><code>test_composition_fails_silently</code></td><td class='ok'>pass</td></tr><tr><td><code>test_str_values_match_corrected_statement</code></td><td class='ok'>pass</td></tr><tr><td><code>test_no_function_g_of_individual_risks</code></td><td class='ok'>pass</td></tr></tbody></table></div>
-<h3>5.2 Mô phỏng khả thi của e-process</h3>
-<p>Z ∈ {−1, 0, 1}, θ = 0,05. Câu hỏi: cần bao nhiêu cặp trial để admit một skill, khi α được chia cho
-khoảng 1.600 ô (94 skill × 17 scope)?</p>
-<div class='tbl'><table><thead><tr><th>STR thật</th><th>α mỗi ô</th><th>Review bản 1: % admit / trung vị trial</th><th>Code này: % admit / trung vị trial</th></tr></thead><tbody><tr><td class='n'>-0,25</td><td class='n'>0,05</td><td class='n'>100,0% / 52</td><td class='n'>100,0% / 72</td></tr><tr><td class='n'>-0,25</td><td class='n'>3,1e-5</td><td class='n'>100,0% / 167</td><td class='n'>100,0% / 221</td></tr><tr><td class='n'>-0,15</td><td class='n'>3,1e-5</td><td class='n'>100,0% / 491</td><td class='n'>99,7% / 751</td></tr><tr><td class='n'>-0,1</td><td class='n'>3,1e-5</td><td class='n'>64,0% / 1.405</td><td class='n'>26,1% / 1.553</td></tr><tr><td class='n'>-0,08</td><td class='n'>3,1e-5</td><td class='n'>24,0% / 1.361</td><td class='n'>1,6% / 1.657</td></tr><tr><td class='n'>-0,05</td><td class='n'>3,1e-5</td><td class='n'>— / —</td><td class='n'>0,0% / —</td></tr></tbody></table></div><p class='muted'>1000 lần lặp mỗi dòng, budget 2000, chế độ <code>full</code>, Python 3.11.18, numpy 2.4.6, sinh lúc 2026-11-02T23:47:23+00:00.</p>
-
-<figure class="chart">
-<svg viewBox="0 0 560 260" role="img" aria-label="Tỉ lệ admit theo STR thật">
-<line x1="48" x2="544" y1="220.0" y2="220.0" class="gl"/><text x="40" y="224.0" class="tick" text-anchor="end">0%</text><line x1="48" x2="544" y1="169.0" y2="169.0" class="gl"/><text x="40" y="173.0" class="tick" text-anchor="end">25%</text><line x1="48" x2="544" y1="118.0" y2="118.0" class="gl"/><text x="40" y="122.0" class="tick" text-anchor="end">50%</text><line x1="48" x2="544" y1="67.0" y2="67.0" class="gl"/><text x="40" y="71.0" class="tick" text-anchor="end">75%</text><line x1="48" x2="544" y1="16.0" y2="16.0" class="gl"/><text x="40" y="20.0" class="tick" text-anchor="end">100%</text><text x="48.0" y="238" class="tick" text-anchor="middle">-0,25</text><text x="296.0" y="238" class="tick" text-anchor="middle">-0,15</text><text x="420.0" y="238" class="tick" text-anchor="middle">-0,1</text><text x="469.6" y="238" class="tick" text-anchor="middle">-0,08</text><text x="544.0" y="238" class="tick" text-anchor="middle">-0,05</text>
-<path d="M48.0,16.0 L296.0,16.6 L420.0,166.8 L469.6,216.7 L544.0,220.0" class="line"/><circle cx="48.0" cy="16.0" r="4" class="dot"><title>STR -0.25: 100,0%</title></circle><circle cx="296.0" cy="16.6" r="4" class="dot"><title>STR -0.15: 99,7%</title></circle><circle cx="420.0" cy="166.8" r="4" class="dot"><title>STR -0.1: 26,1%</title></circle><circle cx="469.6" cy="216.7" r="4" class="dot"><title>STR -0.08: 1,6%</title></circle><circle cx="544.0" cy="220.0" r="4" class="dot"><title>STR -0.05: 0,0%</title></circle>
-<text x="296.0" y="256" class="axis" text-anchor="middle">STR thật của skill (θ = 0,05)</text>
-</svg>
-<figcaption>Tỉ lệ skill tốt được admit với α mỗi ô = 3,1e-5 (Bonferroni trên ~1.600 ô),
-budget 2.000 cặp trial. Skill phải tốt hơn khoảng 3θ mới gần như chắc được admit.</figcaption>
-</figure>
-<p>Kiểm tra sai loại I tại biên H0 (STR = −θ, α = 0,05, 5.000 lần): tỉ lệ admit sai <b>2,9%</b> → <span class='ok'>hợp lệ (≤ α)</span>.</p>
-<p><b>Hệ quả.</b> Skill có hiệu ứng cỡ −0,05 đến −0,10 (thường gặp theo SWE-Skills-Bench) hầu như không được admit
-trong 2.000 cặp trial. Mỗi ô cần hàng trăm task khác nhau, nhiều hơn số task mỗi repo của SWE-bench.
-Đây là rủi ro lớn nhất, phải đo ở pilot (Phase 3).</p>
-<h3>5.3 Bảng thiết kế: số trial theo số ô và θ</h3>
-<div class='tbl'><table><thead><tr><th>θ</th><th>Số ô chia α</th><th>α mỗi ô</th><th>STR -0,25</th><th>STR -0,15</th><th>STR -0,1</th></tr></thead><tbody><tr><td class='n'>0,05</td><td class='n'>10</td><td class='n'>3.5e-03</td><td class='n'>193</td><td class='n'>696</td><td class='n'>2.521</td></tr><tr><td class='n'>0,05</td><td class='n'>50</td><td class='n'>7.0e-04</td><td class='n'>236</td><td class='n'>828</td><td class='n'>&gt; 3.000</td></tr><tr><td class='n'>0,05</td><td class='n'>100</td><td class='n'>3.5e-04</td><td class='n'>266</td><td class='n'>892</td><td class='n'>&gt; 3.000</td></tr><tr><td class='n'>0,05</td><td class='n'>300</td><td class='n'>1.2e-04</td><td class='n'>283</td><td class='n'>969</td><td class='n'>&gt; 3.000</td></tr><tr><td class='n'>0,05</td><td class='n'>1.600</td><td class='n'>2.2e-05</td><td class='n'>327</td><td class='n'>1.138</td><td class='n'>&gt; 3.000</td></tr><tr><td class='n'>0,02</td><td class='n'>10</td><td class='n'>3.5e-03</td><td class='n'>141</td><td class='n'>390</td><td class='n'>960</td></tr><tr><td class='n'>0,02</td><td class='n'>50</td><td class='n'>7.0e-04</td><td class='n'>174</td><td class='n'>464</td><td class='n'>1.220</td></tr><tr><td class='n'>0,02</td><td class='n'>100</td><td class='n'>3.5e-04</td><td class='n'>188</td><td class='n'>514</td><td class='n'>1.285</td></tr><tr><td class='n'>0,02</td><td class='n'>300</td><td class='n'>1.2e-04</td><td class='n'>216</td><td class='n'>570</td><td class='n'>1.377</td></tr><tr><td class='n'>0,02</td><td class='n'>1.600</td><td class='n'>2.2e-05</td><td class='n'>241</td><td class='n'>662</td><td class='n'>1.581</td></tr></tbody></table></div><p>Số cặp trial mỗi ô để admit với power 80%. <b>Đọc bảng:</b> số ô chỉ ảnh hưởng theo log(1/α), nên gộp scope giúp ít. Khoảng cách |STR| − θ mới quyết định chi phí: hạ θ từ 0,05 xuống 0,02 giảm khoảng 2 lần số trial với hiệu ứng nhỏ. Mỗi cặp trial là 2 lần chạy agent + test.</p>
-<h3>5.4 Power của endpoint chính</h3>
-<p>Giả sử đúng như số dự kiến của paper: baseline 11,5% → Gatekeeper 5,1% (margin thật 6,4 điểm).</p><div class='tbl'><table><thead><tr><th>Cặp harmful</th><th>Cận dưới &gt; 5 điểm<br>(độc lập)</th><th>Cận dưới &gt; 5 điểm<br>(nested)</th><th>Ưu thế &gt; 0<br>(độc lập)</th><th>Ưu thế &gt; 0<br>(nested)</th></tr></thead><tbody><tr><td class='n'>63</td><td class='n'>4,4%</td><td class='n'>3,1%</td><td class='n'>26,0%</td><td class='n'>56,0%</td></tr><tr><td class='n'>200</td><td class='n'>6,2%</td><td class='n'>8,9%</td><td class='n'>65,0%</td><td class='n'>99,8%</td></tr><tr><td class='n'>500</td><td class='n'>13,2%</td><td class='n'>21,4%</td><td class='n'>97,0%</td><td class='n'>100,0%</td></tr><tr><td class='n'>1.000</td><td class='n'>19,5%</td><td class='n'>47,5%</td><td class='n'>100,0%</td><td class='n'>100,0%</td></tr><tr><td class='n'>2.000</td><td class='n'>38,4%</td><td class='n'>75,0%</td><td class='n'>100,0%</td><td class='n'>100,0%</td></tr></tbody></table></div><p><b>R14.</b> Endpoint như paper đăng ký (cận dưới &gt; 5 điểm, 63 cặp harmful) gần như không thể đạt kể cả khi Gatekeeper đúng là tốt hơn 6,4 điểm. Đề xuất: giả thuyết ưu thế và 200–500 cặp harmful (<code>docs/preregistration.md</code>).</p>
-<h3>5.5 Paired trial end-to-end qua harness SWE-bench</h3>
-<p>Harness SWE-bench chính thức, dataset <code>SWE-bench/SWE-bench_Verified</code>, chạy trong GitHub Actions (không cần LLM). Gold patch giải <b>5/5</b> task.</p><div class='tbl'><table><thead><tr><th>Task</th><th>Gold resolved</th><th>ℓ có skill (gold)</th><th>ℓ không skill (noop)</th><th>Z</th><th>Nhánh không skill</th></tr></thead><tbody><tr><td><code>psf__requests-1142</code></td><td class='ok'>có</td><td class='n'>0.000</td><td class='n'>0.667</td><td class='n'>-0.667</td><td>đo thật</td></tr><tr><td><code>psf__requests-2931</code></td><td class='ok'>có</td><td class='n'>0.000</td><td class='n'>0.667</td><td class='n'>-0.667</td><td>đo thật</td></tr><tr><td><code>pallets__flask-5014</code></td><td class='ok'>có</td><td class='n'>0.000</td><td class='n'>0.667</td><td class='n'>-0.667</td><td>đo thật</td></tr><tr><td><code>pydata__xarray-3677</code></td><td class='ok'>có</td><td class='n'>0.000</td><td class='n'>0.667</td><td class='n'>-0.667</td><td>đo thật</td></tr><tr><td><code>pylint-dev__pylint-6386</code></td><td class='ok'>có</td><td class='n'>0.000</td><td class='n'>0.667</td><td class='n'>-0.667</td><td>đo thật</td></tr></tbody></table></div>
-<h3>5.6 Pilot với agent (mini-swe-agent + Gemini qua Vertex AI)</h3>
-<p><b>Phán quyết G1:</b> G1 FAIL: no skill rejects H0 (effects smaller than the critical effect ~0.09 cannot be declared with these data)</p><div class='tbl'><table><thead><tr><th>Skill</th><th>Task</th><th>Ẑ (resolved)</th><th>CI 95%</th><th>p chính xác</th><th>p (S1: t)</th><th>p (S2: cụm)</th></tr></thead><tbody><tr><td>validation-error</td><td class='n'>32</td><td class='n'>+0.031</td><td class='n'>[-0.057; +0.120]</td><td class='n'>0.830</td><td class='n'>0.762</td><td class='n'>0.688</td></tr></tbody></table></div><p class='muted'>Quy tắc đã đăng ký trước: <code>docs/preregistration_g1_v2.md</code>; chi tiết: <code>docs/g1_verdict.md</code>.</p><div class='tbl'><table><thead><tr><th>Giai đoạn</th><th>Lần chạy agent</th><th>Token input</th><th>Cache</th><th>Token output</th><th>Mỗi lần chạy (in / out)</th></tr></thead><tbody><tr><td>A (model choice)</td><td class='n'>16</td><td class='n'>8.4M</td><td class='n'>79%</td><td class='n'>0.17M</td><td class='n'>527k / 10.5k</td></tr><tr><td>B1 (invalid, seed 0)</td><td class='n'>113</td><td class='n'>51.8M</td><td class='n'>85%</td><td class='n'>0.59M</td><td class='n'>459k / 5.3k</td></tr><tr><td>B2</td><td class='n'>114</td><td class='n'>51.3M</td><td class='n'>85%</td><td class='n'>0.59M</td><td class='n'>450k / 5.1k</td></tr><tr><td>B3</td><td class='n'>117</td><td class='n'>73.6M</td><td class='n'>87%</td><td class='n'>0.76M</td><td class='n'>629k / 6.5k</td></tr><tr><td>C (screening)</td><td class='n'>204</td><td class='n'>97.2M</td><td class='n'>85%</td><td class='n'>1.10M</td><td class='n'>476k / 5.4k</td></tr><tr><td>Confirmation (seeds 11/21/31)</td><td class='n'>192</td><td class='n'>122.5M</td><td class='n'>87%</td><td class='n'>1.15M</td><td class='n'>638k / 6.0k</td></tr></tbody></table></div>
-<h4>Pool task đã kiểm định cho pilot</h4>
-<h5>Pool <code>default</code></h5><p>Pool cho pilot G1: <b>38/40</b> task dùng được (gold giải được ở cả 2 lần chạy, kết quả ổn định, nhánh no-op chấm sạch F = 1, R = 0). Pilot trả phí chỉ lấy task trong danh sách này.</p><p>Bị loại:</p><ul><li><code>psf__requests-1921</code>: gold not resolved;noop arm not clean</li><li><code>pylint-dev__pylint-8898</code>: noop arm not clean</li></ul><h5>Pool <code>g1</code></h5><p>Pool cho pilot G1: <b>86/89</b> task dùng được (gold giải được ở cả 2 lần chạy, kết quả ổn định, nhánh no-op chấm sạch F = 1, R = 0). Pilot trả phí chỉ lấy task trong danh sách này.</p><p>Bị loại:</p><ul><li><code>django__django-7530</code>: noop arm not clean</li><li><code>django__django-10097</code>: noop arm not clean</li><li><code>django__django-14238</code>: noop arm not clean</li></ul>
-<h4>Độ chính xác của predicate kích hoạt I(x)</h4>
-<p>Predicate I(x) trên nội dung issue so với "gold patch có họ mẫu sửa đó" (oracle), trên 3.991 task test.</p><div class='tbl'><table><thead><tr><th>Skill</th><th>Họ</th><th>Tỉ lệ kích hoạt</th><th>Tỉ lệ có họ (oracle)</th><th>Precision</th><th>Recall</th><th>Lift</th></tr></thead><tbody><tr><td><code>exception-handling</code></td><td><code>exception_handling</code></td><td class='n'>5,2%</td><td class='n'>11,5%</td><td class='n'>0.21</td><td class='n'>0.10</td><td class='n'>1.85</td></tr><tr><td><code>null-guard</code></td><td><code>null_guard</code></td><td class='n'>3,2%</td><td class='n'>18,4%</td><td class='n'>0.31</td><td class='n'>0.05</td><td class='n'>1.67</td></tr><tr><td><code>type-guard</code></td><td><code>type_guard</code></td><td class='n'>8,0%</td><td class='n'>19,1%</td><td class='n'>0.34</td><td class='n'>0.14</td><td class='n'>1.77</td></tr><tr><td><code>validation-error</code></td><td><code>raise_error</code></td><td class='n'>10,5%</td><td class='n'>15,9%</td><td class='n'>0.23</td><td class='n'>0.15</td><td class='n'>1.46</td></tr></tbody></table></div><p>Lift &gt; 1 nghĩa là predicate chọn được task nhiều khả năng cần đúng loại sửa đó hơn ngẫu nhiên.</p><p>Predicate chọn trên <b>train</b> (SWE-Gym) trong danh sách biến thể, đánh giá trên <b>test</b>:</p><div class='tbl'><table><thead><tr><th>Họ</th><th>Mẫu được chọn</th><th>Lift train</th><th>Lift test</th><th>Precision test</th><th>Recall test</th></tr></thead><tbody><tr><td><code>null_guard</code></td><td><code>\bis None\b|\bNone\b.*(passed|given|returned)|returns? None</code></td><td class='n'>1.71</td><td class='n'>1.67</td><td class='n'>0.31</td><td class='n'>0.05</td></tr><tr><td><code>type_guard</code></td><td><code>TypeError|isinstance|not supported between|unsupported operand</code></td><td class='n'>1.61</td><td class='n'>1.77</td><td class='n'>0.34</td><td class='n'>0.14</td></tr><tr><td><code>exception_handling</code></td><td><code>\braises?\b.*\b(should|instead|unexpected)\b|\bcatch\b|\bexcept\b</code></td><td class='n'>1.83</td><td class='n'>1.85</td><td class='n'>0.21</td><td class='n'>0.10</td></tr><tr><td><code>raise_error</code></td><td><code>\binvalid\b|\bValueError\b</code></td><td class='n'>1.38</td><td class='n'>1.46</td><td class='n'>0.23</td><td class='n'>0.15</td></tr></tbody></table></div>
-<h4>Ước tính chi phí (Gemini qua Vertex AI)</h4>
-<div class='tbl'><table><thead><tr><th>Khối lượng</th><th>Lần chạy agent</th><th>gemini-flash (USD)</th><th>gemini-pro (USD)</th></tr></thead><tbody><tr><td>G1 mini-pilot: 4 skills x 30 pairs (+ shared none arm)</td><td class='n'>150</td><td class='n'>43–394</td><td class='n'>59–540</td></tr><tr><td>Phase 3 pilot (preregistration §8)</td><td class='n'>3.900</td><td class='n'>1.112–10.238</td><td class='n'>1.544–14.040</td></tr><tr><td>Phase 6 study: 180 pairs x 8 systems x 3 runs x 2 backends (rough)</td><td class='n'>8.640</td><td class='n'>2.462–22.680</td><td class='n'>3.421–31.104</td></tr></tbody></table></div><p>Dải theo giả định 150k–1,5M token input mỗi lần chạy. <span class='warn'>Giá chưa xác minh.</span> Bước đầu tiên khi có credential: chạy n = 2 để đo token thật.</p>
-<h3>5.7 Pilot ngoài trên dữ liệu paired thật (SWE-Skills-Bench)</h3>
-
-<p>Dữ liệu paired thật, công khai (MIT): 3.920 cặp có/không skill, 98 skill ×
-4 cấu hình agent × model (<code>data/external/swe-skills-bench/</code>). Chỉ dùng để ước lượng
-tham số cho pilot, <b>không</b> phải benchmark đánh giá.</p>
-<div class="tbl"><table><thead><tr><th>Đại lượng</th><th>Giá trị</th><th>Ý nghĩa</th></tr></thead><tbody>
-<tr><td>σ<sub>T</sub>² (độ khó task, chung 2 nhánh)</td><td class="n">0.067</td><td rowspan="3">Pairing tiết kiệm
-<b>4.3×</b> số trial (Prop. 9 đã sửa). Paper dự kiến 3,1× (công thức sai).</td></tr>
-<tr><td>σ<sub>S</sub>² (nhiễu của hiệu số)</td><td class="n">0.040</td></tr>
-<tr><td>1 + 2σ<sub>T</sub>²/σ<sub>S</sub>²</td><td class="n">4.31</td></tr>
-<tr><td>Cặp có Z = 0 đúng tuyệt đối</td><td class="n">69,2%</td><td>Phần lớn skill không đổi kết quả</td></tr>
-<tr><td>SD thật của STR giữa các ô (đã trừ nhiễu)</td><td class="n">0.032</td><td>Chỉ 20,2% phương sai quan sát là tín hiệu thật</td></tr>
-<tr><td>Tương quan hiệu ứng giữa cấu hình / độ tin cậy trong cấu hình</td><td class="n">0.07 / 0.16</td><td>Quá nhiễu để kết luận về phụ thuộc ngữ cảnh</td></tr>
-</tbody></table></div>
-<p>Số trial tối thiểu để admit ngay cả skill hoàn hảo (Z = −1 mọi lần): theta=0.02, single cell (0.05): <b>9</b>, theta=0.02, 98 skills x 1 scope: <b>22</b>, theta=0.05, single cell (0.05): <b>10</b>, theta=0.05, 98 skills x 1 scope: <b>23</b>.</p>
-<div class="tbl"><table><thead><tr><th>Admission trên 5 requirement, chấm trên 5 còn lại</th><th>Ô harmful / beneficial</th>
-<th>Plug-in "trung bình ≤ −θ": harmful acc. / coverage</th><th>E-process (hợp lệ): số ô admit</th></tr></thead>
-<tbody><tr><td>theta=0.02, 98 skills x 1 scope</td><td class='n'>151/94</td><td class='n'>29,8% / 36,2%</td><td class='n'>0</td></tr><tr><td>theta=0.05, 98 skills x 1 scope</td><td class='n'>151/61</td><td class='n'>18,5% / 39,3%</td><td class='n'>0</td></tr></tbody></table></div>
-<p><b>Hệ quả cho go/no-go.</b> Với skill dạng tài liệu (<code>SKILL.md</code>), hiệu ứng thật quá nhỏ: admission hợp lệ
-cần hàng nghìn trial mỗi ô (bảng thiết kế 5.3), còn admission plug-in thì admit nhầm nhiều skill có hại.
-Đề tài chỉ khả thi nếu skill dạng <i>edit program</i> của Gatekeeper có hiệu ứng lớn hơn rõ rệt. Đây là điều
-đầu tiên pilot phải đo.</p>
-<h3>5.8 Đối chiếu với confseq</h3>
-<div class='tbl'><table><thead><tr><th>Tình huống</th><th>STR</th><th>Gatekeeper admit</th><th>confseq admit</th><th>Đồng ý</th></tr></thead><tbody><tr><td>boundary_null</td><td class='n'>-0,05</td><td class='n'>5,0%</td><td class='n'>2,0%</td><td class='n'>97,0%</td></tr><tr><td>strong_skill</td><td class='n'>-0,25</td><td class='n'>100,0%</td><td class='n'>100,0%</td><td class='n'>100,0%</td></tr></tbody></table></div>
-
-<h2 id="benchmark">6. Benchmark chuẩn được dùng</h2>
-<p>Task và test chỉ lấy từ benchmark có thật, được công nhận rộng. Test chính thức giữ nguyên; test
-fault-injection tự thêm chỉ cho phân tích phụ.</p>
-<div class="tbl"><table><thead><tr><th>Benchmark</th><th>Công nhận</th><th>Vai trò</th></tr></thead><tbody>
-<tr><td>SWE-bench (2.294 task, 12 repo)</td><td>ICLR 2024</td><td>Task đích chính, regime A</td></tr>
-<tr><td>SWE-bench Verified (500 task)</td><td>Tập con người duyệt, leaderboard chính</td><td>Pilot, tái hiện baseline, endpoint chính</td></tr>
-<tr><td>SWE-Gym (2.438 task, 11 repo khác)</td><td>ICML 2025</td><td>Train split: induce skill</td></tr>
-<tr><td>SWE-bench-Live</td><td>Microsoft, cập nhật hàng tháng</td><td>Regime B, task sau cutoff model</td></tr>
-<tr><td>SWE-smith (tập đã công bố)</td><td>NeurIPS 2025 D&amp;B</td><td>Chỉ bổ sung khi thiếu task</td></tr>
-<tr><td>BugsInPy (493 bug)</td><td>ESEC/FSE 2020</td><td>Kiểm tra độ bền</td></tr>
-</tbody></table></div>
-<p class="muted">Venue phải kiểm lại trên DBLP trước khi trích dẫn (mục 6.3).</p>
-<h3>6.1 Số task thật trong các benchmark</h3>
-<div class='tbl'><table><thead><tr><th>Benchmark</th><th>Task</th><th>Repo</th><th>(repo, version)</th><th>Task nhiều nhất / scope</th><th>Ngày tạo</th><th>Scope ≥ 221 task</th></tr></thead><tbody><tr><td>swe-bench</td><td class='n'>2.294</td><td class='n'>12</td><td class='n'>126</td><td class='n'>157</td><td>2012-08-10 → 2023-08-15</td><td class='n'>0</td></tr><tr><td>swe-bench-verified</td><td class='n'>500</td><td class='n'>12</td><td class='n'>80</td><td class='n'>43</td><td>2013-01-25 → 2023-08-07</td><td class='n'>0</td></tr><tr><td>swe-gym</td><td class='n'>2.438</td><td class='n'>11</td><td class='n'>200</td><td class='n'>223</td><td>2018-09-13 → 2024-05-28</td><td class='n'>1</td></tr><tr><td>swe-bench-live</td><td class='n'>1.888</td><td class='n'>223</td><td class='n'>0</td><td class='n'>—</td><td>2021-07-22 → 2025-09-02</td><td class='n'>0</td></tr><tr><td>swe-smith</td><td class='n'>59.136</td><td class='n'>222</td><td class='n'>0</td><td class='n'>—</td><td> → </td><td class='n'>0</td></tr></tbody></table></div><p>Cột cuối: số scope (repo, version) có đủ task khác nhau cho trung vị số trial nhỏ nhất trong mô phỏng (221 cặp, STR = −0,25). Đây là kiểm tra R2: nếu gần 0 thì phải rút có hoàn lại từ pool hoặc gộp scope.</p><p>Repo trùng giữa các benchmark (cần cho split theo repo):</p><ul><li><code>swe-bench|swe-bench-verified</code>: 12 repo chung</li><li><code>swe-bench|swe-gym</code>: 0 repo chung</li><li><code>swe-bench|swe-bench-live</code>: 8 repo chung</li><li><code>swe-bench|swe-smith</code>: 0 repo chung</li><li><code>swe-bench-verified|swe-gym</code>: 0 repo chung</li><li><code>swe-bench-verified|swe-bench-live</code>: 8 repo chung</li><li><code>swe-bench-verified|swe-smith</code>: 0 repo chung</li><li><code>swe-gym|swe-bench-live</code>: 4 repo chung</li><li><code>swe-gym|swe-smith</code>: 0 repo chung</li><li><code>swe-bench-live|swe-smith</code>: 0 repo chung</li></ul><p class='muted'>Sinh lúc 2026-11-01T22:45:36+00:00.</p>
-<h3>6.2 Split theo repo và số task mỗi scope</h3>
-<p>Train: 11 repo SWE-Gym, 2.438 task. Test: 223 repo, 3.991 task (SWE-bench ∪ Verified ∪ SWE-bench-Live, bỏ 4 repo trùng train: conan-io/conan, facebookresearch/hydra, iterative/dvc, python/mypy). Hash split <code>fb74140ef67fe769</code>.</p><div class='tbl'><table><thead><tr><th>Số task khác nhau</th><th>Scope (repo, version)</th><th>Repo</th></tr></thead><tbody><tr><td class='n'>≥ 30</td><td class='n'>32</td><td class='n'>19</td></tr><tr><td class='n'>≥ 50</td><td class='n'>19</td><td class='n'>12</td></tr><tr><td class='n'>≥ 100</td><td class='n'>7</td><td class='n'>9</td></tr><tr><td class='n'>≥ 219</td><td class='n'>0</td><td class='n'>5</td></tr><tr><td class='n'>≥ 500</td><td class='n'>0</td><td class='n'>1</td></tr><tr><td class='n'>≥ 752</td><td class='n'>0</td><td class='n'>1</td></tr></tbody></table></div><p>Scope lớn nhất: <code>django/django@3.2</code> 157, <code>django/django@3.0</code> 137, <code>django/django@3.1</code> 128, <code>django/django@4.1</code> 124, <code>django/django@4.0</code> 123, <code>aws-cloudformation/cfn-lint@unknown</code> 109, <code>matplotlib/matplotlib@unknown</code> 102, <code>sympy/sympy@1.1</code> 89.</p><p><b>Kết luận R2.</b> Không scope (repo, version) nào có đủ task khác nhau cho số trial mô phỏng yêu cầu (≥ 219 cho skill rất mạnh). Mỗi trial một task mới là không khả thi trên benchmark chuẩn; phải rút có hoàn lại từ pool (bound theo pool, chênh lệch vào ξ<sub>s</sub>) hoặc gộp scope theo repo/framework.</p>
-<h3>6.3 Ứng viên skill và cặp composition từ gold patch</h3>
-<p>Khai thác metadata gold patch (không giữ code): họ mẫu sửa nào lặp lại ở nhiều repo <b>train</b> (SWE-Gym) thì là ứng viên skill chuyển giao được; số task <b>test</b> có cùng mẫu cho biết skill đó có thể áp dụng ở bao nhiêu nơi.</p><div class='tbl'><table><thead><tr><th>Họ mẫu sửa</th><th>Repo train</th><th>Task train</th><th>Task test</th><th>Tỉ lệ test</th></tr></thead><tbody><tr><td><code>type_guard</code></td><td class='n'>11/11</td><td class='n'>573</td><td class='n'>762</td><td class='n'>19,1%</td></tr><tr><td><code>null_guard</code></td><td class='n'>11/11</td><td class='n'>533</td><td class='n'>736</td><td class='n'>18,4%</td></tr><tr><td><code>raise_error</code></td><td class='n'>11/11</td><td class='n'>413</td><td class='n'>635</td><td class='n'>15,9%</td></tr><tr><td><code>kwarg_default</code></td><td class='n'>11/11</td><td class='n'>222</td><td class='n'>357</td><td class='n'>8,9%</td></tr><tr><td><code>exception_handling</code></td><td class='n'>11/11</td><td class='n'>194</td><td class='n'>459</td><td class='n'>11,5%</td></tr><tr><td><code>empty_check</code></td><td class='n'>11/11</td><td class='n'>153</td><td class='n'>243</td><td class='n'>6,1%</td></tr><tr><td><code>defensive_copy</code></td><td class='n'>10/11</td><td class='n'>77</td><td class='n'>122</td><td class='n'>3,1%</td></tr><tr><td><code>path_handling</code></td><td class='n'>8/11</td><td class='n'>78</td><td class='n'>116</td><td class='n'>2,9%</td></tr><tr><td><code>regex_change</code></td><td class='n'>8/11</td><td class='n'>34</td><td class='n'>114</td><td class='n'>2,9%</td></tr><tr><td><code>deprecation_warning</code></td><td class='n'>6/11</td><td class='n'>164</td><td class='n'>163</td><td class='n'>4,1%</td></tr><tr><td><code>dtype_cast</code></td><td class='n'>5/11</td><td class='n'>406</td><td class='n'>172</td><td class='n'>4,3%</td></tr><tr><td><code>encoding</code></td><td class='n'>5/11</td><td class='n'>29</td><td class='n'>65</td><td class='n'>1,6%</td></tr></tbody></table></div><p>Ứng viên cặp composition (cùng repo, gold patch sửa chung một hàm): <b>3.690</b> cặp, 2.243 task. Đủ để chọn 46 cặp theo 4 cơ chế tương tác (cần lọc tay).</p><p class='muted'>Lưu ý: "có cùng mẫu trong gold patch" là kích hoạt <i>oracle</i>; trong Gatekeeper, I(x) phải dự đoán từ issue và repo. Nếu định nghĩa scope theo (họ skill, framework) thay vì (repo, version), mỗi scope có hàng trăm task, giảm vấn đề R2.</p>
-<h3>6.4 Kiểm tra trích dẫn (arXiv, DBLP)</h3>
-<div class='tbl'><table><thead><tr><th>Trích dẫn</th><th>arXiv</th><th>Tồn tại</th><th>Khớp tiêu đề</th><th>Tiêu đề thật, tác giả, ngày</th></tr></thead><tbody><tr><td>LTT [1]<br><span class='muted'>paper ghi: Learn then test: Calibrating predictive algorithms to achieve risk control</span></td><td><code>2110.01052v5</code></td><td class='ok'>có</td><td class='ok'>1.00</td><td>Learn then Test: Calibrating Predictive Algorithms to Achieve Risk Control<br><span class='muted'>Anastasios N. Angelopoulos, Stephen Bates, Emmanuel J. Candès … · 2021-10-03</span></td></tr><tr><td>CooperBench [6] <span class='warn'>(paper đang ghi tác giả giả)</span><br><span class='muted'>paper ghi: CooperBench: Measuring collaborative conflicts between coding agents</span></td><td><code>2601.13295v2</code></td><td class='ok'>có</td><td class='bad'>0.38<br>tiêu đề trong paper sai</td><td>CooperBench: Why Coding Agents Cannot be Your Teammates Yet<br><span class='muted'>Arpandeep Khatua, Hao Zhu, Peter Tran … · 2026-01-19</span></td></tr><tr><td>Formal skill verification [7] <span class='warn'>(paper đang ghi tác giả giả)</span><br><span class='muted'>paper ghi: Formal verification of learned agent skills and capability containment</span></td><td><code>2605.23951v1</code></td><td class='ok'>có</td><td class='bad'>0.56<br>tiêu đề trong paper sai</td><td>Methods for Formal Verification of Agent Skills: Three Layers Toward a Mechanically Checkable Capability-Containment Proof<br><span class='muted'>Alfredo Metere · 2026-05-09</span></td></tr><tr><td>GEM/MemState [8] <span class='warn'>(paper đang ghi tác giả giả)</span><br><span class='muted'>paper ghi: GEM/MemState: Dependency-aware correctness for agent memory</span></td><td><code>2605.26252v1</code></td><td class='ok'>có</td><td class='bad'>0.18<br>tiêu đề trong paper sai</td><td>Is Agent Memory a Database? Rethinking Data Foundations for Long-Term AI Agent Memory<br><span class='muted'>Abdelghny Orogat, Essam Mansour · 2026-05-25</span></td></tr><tr><td>GSE [9] <span class='warn'>(paper đang ghi tác giả giả)</span><br><span class='muted'>paper ghi: GSE: Globally reusable skill evolution for coding agents</span></td><td><code>2608.06153v1</code></td><td class='ok'>có</td><td class='bad'>0.67<br>tiêu đề trong paper sai</td><td>Learning Globally Reusable Skills for Coding Agents<br><span class='muted'>Chen Yang, Jiashuo Tian, Ziqi Wang … · 2026-08-06</span></td></tr><tr><td>MemCoder [12] <span class='warn'>(paper đang ghi tác giả giả)</span><br><span class='muted'>paper ghi: MemCoder: Structured intent-to-code experience memory for coding agents</span></td><td><code>2603.13258v1</code></td><td class='ok'>có</td><td class='bad'>0.20<br>tiêu đề trong paper sai</td><td>Your Code Agent Can Grow Alongside You with Structured Memory<br><span class='muted'>Yi-Xuan Deng, Xiaoqin Liu, Yi Zhang … · 2026-02-25</span></td></tr><tr><td>MemGovern [13] <span class='warn'>(paper đang ghi tác giả giả)</span><br><span class='muted'>paper ghi: MemGovern: Governed development histories as reusable experience cards</span></td><td><code>2601.06789v2</code></td><td class='ok'>có</td><td class='bad'>0.22<br>tiêu đề trong paper sai</td><td>MemGovern: Enhancing Code Agents through Learning from Governed Human Experiences<br><span class='muted'>Qihao Wang, Ziming Cheng, Shuo Zhang … · 2026-01-11</span></td></tr><tr><td>SWE-bench-Live [22]<br><span class='muted'>paper ghi: SWE-bench-Live: A continuously updated benchmark for LLM-based software engineering</span></td><td><code>2505.23419v2</code></td><td class='ok'>có</td><td class='bad'>0.38<br>tiêu đề trong paper sai</td><td>SWE-bench Goes Live!<br><span class='muted'>Linghao Zhang, Shilin He, Chaoyun Zhang … · 2025-05-29</span></td></tr><tr><td>XRepoSkill<br><span class='muted'>paper ghi: XRepoSkill: Learning Transferable Skills for SWE Agents</span></td><td><code>2609.36807v1</code></td><td class='ok'>có</td><td class='ok'>0.80</td><td>XRepoSkill: Learning Transferable Skills for Software Engineering Agents<br><span class='muted'>Yaoqi Guo, Haoyang Zhou, Jiayi Zhang … · 2026-09-29</span></td></tr><tr><td>SWE-Skills-Bench<br><span class='muted'>paper ghi: —</span></td><td><code>2603.15401v2</code></td><td class='ok'>có</td><td>—</td><td>SWE-Skills-Bench: Do Agent Skills Actually Help in Real-World Software Engineering?<br><span class='muted'>Tingxu Han, Yi Zhang, Wei Song … · 2026-03-16</span></td></tr><tr><td>ASI<br><span class='muted'>paper ghi: Inducing Programmatic Skills for Agentic Tasks</span></td><td><code>2504.06821v2</code></td><td class='ok'>có</td><td class='ok'>1.00</td><td>Inducing Programmatic Skills for Agentic Tasks<br><span class='muted'>Zora Zhiruo Wang, Apurva Gandhi, Graham Neubig … · 2025-04-09</span></td></tr><tr><td>CODESKILL<br><span class='muted'>paper ghi: —</span></td><td><code>2605.25430v2</code></td><td class='ok'>có</td><td>—</td><td>CODESKILL: Learning Self-Evolving Skills for Coding Agents<br><span class='muted'>Yanzhou Li, Yiran Zhang, Xiaoyu Zhang … · 2026-05-25</span></td></tr><tr><td>Hierarchical Skill Evolution<br><span class='muted'>paper ghi: Hierarchical Skill Evolution for Coding Agent</span></td><td><code>2610.35616v1</code></td><td class='ok'>có</td><td class='ok'>1.00</td><td>Hierarchical Skill Evolution for Coding Agent<br><span class='muted'>Jun Gao, Yun Peng, Changhai Zhou … · 2026-10-26</span></td></tr><tr><td>SWE-bench [11]<br><span class='muted'>paper ghi: SWE-bench: Can language models resolve real-world GitHub issues?</span></td><td><code>2310.06770v3</code></td><td class='ok'>có</td><td class='ok'>1.00</td><td>SWE-bench: Can Language Models Resolve Real-World GitHub Issues?<br><span class='muted'>Carlos E. Jimenez, John Yang, Alexander Wettig … · 2023-10-10</span></td></tr><tr><td>SWE-Gym<br><span class='muted'>paper ghi: —</span></td><td><code>2412.21139v2</code></td><td class='ok'>có</td><td>—</td><td>Training Software Engineering Agents and Verifiers with SWE-Gym<br><span class='muted'>Jiayi Pan, Xingyao Wang, Graham Neubig … · 2024-12-30</span></td></tr><tr><td>SWE-smith<br><span class='muted'>paper ghi: —</span></td><td><code>2504.21798v2</code></td><td class='ok'>có</td><td>—</td><td>SWE-smith: Scaling Data for Software Engineering Agents<br><span class='muted'>John Yang, Kilian Lieret, Carlos E. Jimenez … · 2025-04-30</span></td></tr></tbody></table></div><p>Venue theo DBLP (ưu tiên bản đã peer review):</p><div class='tbl'><table><thead><tr><th>Công trình</th><th>Venue</th><th>Năm</th><th>Loại</th></tr></thead><tbody><tr><td>SWE-bench</td><td>International Conference on Learning Representations</td><td>2023</td><td>semantic-scholar</td></tr><tr><td>SWE-Gym</td><td>International Conference on Machine Learning</td><td>2024</td><td>semantic-scholar</td></tr><tr><td>SWE-smith</td><td>—</td><td></td><td>dblp: https://dblp.org: HTTPError: HTTP Error 500: Internal Server Error; https://dblp.uni-trier.de: JSONDecodeError: Expecting value: line 1 column 1 (char 0); https://dblp.dagstuhl.de: JSONDecodeError: Expecting value: line 1 column 1 (char 0); s2: RuntimeError(&#x27;semantic scholar: rate limited (429) after retries&#x27;)</td></tr><tr><td>SWE-bench-Live</td><td>Neural Information Processing Systems</td><td>2025</td><td>semantic-scholar</td></tr><tr><td>BugsInPy</td><td>—</td><td></td><td>dblp: https://dblp.org: JSONDecodeError: Expecting value: line 1 column 1 (char 0); https://dblp.uni-trier.de: JSONDecodeError: Expecting value: line 1 column 1 (char 0); https://dblp.dagstuhl.de: JSONDecodeError: Expecting value: line 1 column 1 (char 0); s2: RuntimeError(&#x27;semantic scholar: rate limited (429) after retries&#x27;)</td></tr><tr><td>Betting CS</td><td>Journal of The Royal Statistical Society Series B-statistical Methodology</td><td>2020</td><td>semantic-scholar</td></tr><tr><td>Conformal risk control</td><td>—</td><td></td><td>dblp: https://dblp.org: JSONDecodeError: Expecting value: line 1 column 1 (char 0); https://dblp.uni-trier.de: JSONDecodeError: Expecting value: line 1 column 1 (char 0); https://dblp.dagstuhl.de: JSONDecodeError: Expecting value: line 1 column 1 (char 0); s2: RuntimeError(&#x27;semantic scholar: rate limited (429) after retries&#x27;)</td></tr><tr><td>OpenHands</td><td>International Conference on Learning Representations</td><td>2024</td><td>semantic-scholar</td></tr></tbody></table></div><p class='muted'>Sinh lúc 2026-11-01T22:37:41+00:00.</p>
-
-<h2 id="code">7. Thành phần đã cài</h2>
-<div class="tbl"><table><thead><tr><th>Module</th><th>Vai trò</th><th>Phase</th></tr></thead><tbody>
-<tr><td><code>eprocess</code></td><td>Betting e-process, log-space, λ predictable</td><td>5a</td></tr>
-<tr><td><code>alpha_ledger</code></td><td>Sổ α: ô, composite, re-admission (dãy 6/π²k²)</td><td>5a</td></tr>
-<tr><td><code>skill</code>, <code>scope</code></td><td>Schema ⟨π, D, I, P, K⟩, fingerprint repo, predicate I, scope screen</td><td>5a/5b</td></tr>
-<tr><td><code>footprint</code></td><td>Phân tích read/write AST, kiểm tra giao footprint</td><td>5a/5b</td></tr>
-<tr><td><code>admission</code></td><td>Algorithm 1, hàng đợi composite, phân bổ theo độ bất định, retirement, certificate</td><td>5a/5b</td></tr>
-<tr><td><code>loss</code></td><td>Loss chuẩn hoá (F + wR)/(1 + w) từ kết quả test SWE-bench</td><td>5b</td></tr>
-<tr><td><code>baselines</code></td><td>B1, B2, B8, B9</td><td>2</td></tr>
-<tr><td><code>runlog</code></td><td>Log trial chạy tiếp được khi lỗi, bắt buộc trường tái lập, theo dõi chi phí</td><td>2/6</td></tr>
-<tr><td><code>analysis</code></td><td>σ<sub>T</sub>², σ<sub>S</sub>², số trial cần, power, cluster bootstrap, BH, đường harm–coverage, sweep w</td><td>3/7</td></tr>
-<tr><td><code>paper_checks</code></td><td>Tính lại mọi con số của paper</td><td>1</td></tr>
-</tbody></table></div>
-<p>Chứng minh đã sửa: <a href="../docs/theory/corrections.md"><code>docs/theory/corrections.md</code></a>.</p>
-
-<h2 id="chua-co">8. Thực nghiệm chưa chạy</h2>
-<div class="tbl"><table><thead><tr><th>Câu hỏi</th><th>Cần</th><th>Trạng thái</th></tr></thead><tbody>
-<tr><td>Pilot: σ<sub>S</sub>², hiệu ứng thật, số task mỗi scope</td><td>Phase 2–3, LLM + Docker</td><td class="warn">Chưa chạy</td></tr>
-<tr><td>RQ1: Gatekeeper vs XRepoSkill, always-retest</td><td>Phase 6</td><td class="warn">Chưa chạy</td></tr>
-<tr><td>RQ2: bắt cặp composition có hại</td><td>Phase 6</td><td class="warn">Chưa chạy</td></tr>
-<tr><td>RQ3: theo regime A/B/C, vs budget-matched retries</td><td>Phase 6</td><td class="warn">Chưa chạy</td></tr>
-<tr><td>RQ4: retirement, ablation, break-even</td><td>Phase 6</td><td class="warn">Chưa chạy</td></tr>
-</tbody></table></div>
-
-<h2 id="tai-lieu">9. Tài liệu</h2>
-<ul>
-<li><a href="../docs/01-FSE-2027-13-paper.pdf">Paper (bản nháp, số dự kiến)</a></li>
-<li><a href="../docs/02-FSE-2027-13-reading-list.pdf">Reading list</a></li>
-<li><a href="../docs/03-FSE-2027-13-summary.pdf">Summary</a></li>
-<li><a href="../docs/theory/corrections.md">Lý thuyết đã sửa (Phase 1)</a></li>
-<li><a href="../docs/notes/positioning.md">Định vị so với công trình gần nhất (nháp)</a></li>
-<li><a href="../docs/preregistration.md">Pre-registration (nháp)</a></li>
-<li><a href="../docs/baselines.md">Baselines</a></li>
-<li><a href="../TODO.md">TODO.md: kim chỉ nam và nhật ký tiến độ</a></li>
+<h2 id="tom-tat">1. Tóm tắt</h2>
+<ul class="key">
+<li>Skill do pipeline gskill học cho repo Jinja nâng số task giải được (trên 100 task kiểm tra, bộ chấm
+của benchmark) từ <b>15</b> lên <b>53</b>; phép kiểm định tuần tự Gatekeeper
+chấp nhận (admit) skill sau 29 task.</li>
+<li>Skill đã tự học một chỉ dẫn đọc lịch sử git, nơi môi trường đánh giá để lộ commit chèn lỗi.
+Khi thay lịch sử bằng một commit duy nhất, mức tăng giảm từ 0,38 xuống 0,21:
+phần do rò rỉ là <b>0,17 [0,06; 0,28]</b>, khoảng 45% mức tăng. Repo thứ hai (Bleve, Go)
+lặp lại: khoảng 43%.</li>
+<li>Phần còn lại là tác dụng thật và vẫn được chứng nhận. Thí nghiệm ablation mới (§29) xác nhận từ phía
+ngược lại: bỏ riêng chỉ dẫn đọc lịch sử khỏi skill, trong môi trường gốc, cho 17 → <b>40</b>
+(p = 2,8·10<sup>−6</sup>), cùng mức tăng còn lại với cách bỏ lịch sử (chênh 0,02 [−0,08; 0,12]).</li>
+<li>Chứng nhận không mang sang phạm vi khác: dùng lại skill Jinja trên Pygments cho 5 so với
+6 (p = 1,00, hai phía), Gatekeeper không admit; bộ chấm công khai của gskill lại báo mức
+tăng 0,28.</li>
+<li>Bộ chấm công khai của gskill coi một bản vá không đổi gì là đạt ở 206/216 task,
+so với 0 theo bộ chấm của SWE-smith. Dưới phép thử A/A, quy tắc so sánh một lần với ngưỡng
+admit nhầm 0,46 số luồng; Gatekeeper 0,0032.</li>
 </ul>
-<footer>Sinh bởi <code>scripts/build_report.py</code>. Không sửa tay file này.</footer>
+
+<h2 id="cau-hoi">2. Câu hỏi nghiên cứu và đóng góp</h2>
+<div class="tbl"><table>
+<tr><th>Câu hỏi</th><th>Nội dung</th><th>Trả lời ngắn</th></tr>
+<tr><td>RQ1</td><td>Các con số đánh giá skill có đứng vững trước đối chứng không?</td>
+<td>Không, với bộ chấm và quy tắc admit phổ biến; có, với harness và Gatekeeper của nhóm.</td></tr>
+<tr><td>RQ2</td><td>Skill học được có chứng nhận được không, và mức tăng đến từ đâu?</td>
+<td>Có. Khoảng 45% (Jinja) và 43% (Bleve) mức tăng đến từ rò rỉ trong môi trường.</td></tr>
+<tr><td>RQ3</td><td>Chứng nhận có mang sang phạm vi khác không?</td>
+<td>Không: đổi lịch sử repo, đổi repo, hoặc đổi cấu hình agent–model đều làm thay đổi giá trị của skill.</td></tr>
+</table></div>
+<p>Đóng góp: (1) chứng nhận anytime-valid cho skill do một pipeline đã công bố tạo ra; (2) phép đo có đối chứng
+cho thấy bộ học tự đưa một chỉ dẫn khai thác rò rỉ vào skill, và định lượng phần mức tăng mà rò rỉ chiếm;
+(3) bằng chứng rằng chứng nhận gắn với phạm vi; (4) bộ đối chứng cho phép đo; (5) bản đăng ký trước, dữ liệu gốc và mã.</p>
+
+<h2 id="phuong-phap">3. Phương pháp</h2>
+<h3>Thiết lập</h3>
+<ul>
+<li>Agent mini-swe-agent với một model nhỏ của họ Gemini, cùng seed ở hai nhánh. Trên SWE-smith,
+dùng nguyên môi trường và mã của gskill (commit 8c7b697): giới hạn 50 bước, trần chi phí 0,30 USD mỗi
+lượt; trần này chặn tối đa 1 trong 1.134 lượt chạy.</li>
+<li>Task: 100 task kiểm tra mỗi repo theo cách chia của gskill (200/50/100, seed 42).</li>
+<li>Phạm vi (scope) = repo, môi trường đi kèm, agent và model.</li>
+</ul>
+<h3>Bộ chấm</h3>
+<ul>
+<li><b>S</b>: định nghĩa <i>resolved</i> của benchmark (mọi test FAIL_TO_PASS và PASS_TO_PASS đều qua).</li>
+<li><b>L</b>: bộ chấm công khai của gskill (<code>verify_with_patch</code>), đạt khi đầu ra test chứa chuỗi “passed”.</li>
+</ul>
+<h3>Phân tích</h3>
+<ul>
+<li>Hai nhánh ghép cặp theo task. Phép thử chính: kiểm định dấu chính xác một phía trên các cặp lệch; Holm ở mức
+họ α = 0,025; khoảng tin cậy bootstrap 95% theo task (10.000 lần).</li>
+<li>Gatekeeper: e-process cá cược (aGRAPA, Waudby-Smith &amp; Ramdas), θ = 0, α = 0,025, c = 0,5; admit khi
+E<sub>n</sub> ≥ 1/α = 40; bảo đảm sai số loại I ≤ α tại mọi thời điểm dừng (bất đẳng thức Ville).</li>
+<li>Năm đối chứng: A/A (hai lần chạy không skill), sham skill (cho quy lỗi), bản vá rỗng và bản vá gốc (cho bộ
+chấm), skill không liên quan cùng độ dài ±5% byte (cho nội dung), lịch sử một commit (cho rò rỉ).</li>
+</ul>
+
+<h2 id="rq1">4. RQ1: Đối chứng của phép đo</h2>
+<div class="tbl"><table>
+<caption>Tỉ lệ admit một skill không có tác dụng, trên 10.000 luồng A/A, mỗi luồng
+200 trial, lấy mẫu lại từ 221 task thật của E1 và E2</caption>
+<tr><th>Quy tắc</th><th>Tỉ lệ admit nhầm</th></tr>
+<tr><td>So sánh một lần với ngưỡng (plug-in)</td><td class=n><span class=bad>0,46</span></td></tr>
+<tr><td>Như trên, xem mỗi 10 trial</td><td class=n><span class=bad>0,80</span></td></tr>
+<tr><td>Mantel–Haenszel của XRepoSkill (nhóm tự chuyển thành cổng), một lần</td><td class=n>0,03</td></tr>
+<tr><td>Như trên, xem nhiều lần</td><td class=n><span class=bad>0,11</span></td></tr>
+<tr><td>Luật nhận đề xuất của GEPA (minibatch 3), trên mỗi đề xuất không đổi gì</td><td class=n><span class=bad>0,14</span></td></tr>
+<tr><td><b>Gatekeeper</b></td><td class=n><span class=ok>0,0032</span></td></tr>
+</table></div>
+<ul>
+<li><b>Bộ chấm của pipeline:</b> bản vá không đổi gì qua bộ chấm L ở 206/216 task trên
+5 repo SWE-smith; bộ chấm S: 0. Trên bản vá thật của agent (Jinja, có skill): L báo
+79, S xác nhận 53.</li>
+<li><b>Quy lỗi cho skill:</b> quy trình đã công bố gắn cờ cho hai lần chạy <i>không</i> skill gần bằng số lần
+có skill: 14 so với 13, tỉ số 1,08 [0,68; 1,75]. Auditor LLM
+đổ lỗi cho sham skill ở 25/25, 3/25 và 5/25 trường hợp.</li>
+<li><b>Mức nhiễu khi chạy lại:</b> 7/13 mức tăng công bố của XRepoSkill và MemGovern
+không lớn hơn mức nhiễu (phân vị 97,5% của chênh lệch giữa hai lần chạy không skill) ở cỡ mẫu của chúng.</li>
+<li><b>Harness của nhóm đạt đối chứng:</b> bản vá rỗng 0/40; bản vá gốc đạt
+33/35 instance đáng ngờ đã kiểm; chấm lại 448 lần 224 bản vá Jinja: 0 kết quả đổi.</li>
+<li><b>MemGovern:</b> phép kiểm thao tác đăng ký trước không đạt (agent gọi công cụ bộ nhớ ở 0/20
+lượt), nên thí nghiệm dừng trước khi tính tác dụng. Kết luận chỉ giới hạn ở harness và model của nhóm.</li>
+</ul>
+
+<h2 id="rq2">5. RQ2: Chứng nhận và nguồn gốc mức tăng</h2>
+<figure>
+<div class="legend"><span><i class="sw" style="background:var(--bar0)"></i>Không skill</span>
+<span><i class="sw" style="background:var(--bar1)"></i>Có skill</span></div>
+<div class="chart"><svg viewBox="0 0 580 258" role="img" aria-label="Số task giải được"><line class="gl" x1="210.0" x2="210.0" y1="18" y2="236"/><text class="tick" x="210.0" y="252" text-anchor="middle">0</text><line class="gl" x1="292.5" x2="292.5" y1="18" y2="236"/><text class="tick" x="292.5" y="252" text-anchor="middle">25</text><line class="gl" x1="375.0" x2="375.0" y1="18" y2="236"/><text class="tick" x="375.0" y="252" text-anchor="middle">50</text><line class="gl" x1="457.5" x2="457.5" y1="18" y2="236"/><text class="tick" x="457.5" y="252" text-anchor="middle">75</text><line class="gl" x1="540.0" x2="540.0" y1="18" y2="236"/><text class="tick" x="540.0" y="252" text-anchor="middle">100</text><text class="axis" x="200" y="40" text-anchor="end">Jinja, lịch sử gốc</text><rect class="b0" x="210" y="26" width="49.5" height="11"/><rect class="b1" x="210" y="39" width="174.9" height="11"/><text class="val" x="263.5" y="36">15</text><text class="val" x="388.9" y="49">53</text><text class="axis" x="200" y="74" text-anchor="end">Jinja, một commit</text><rect class="b0" x="210" y="60" width="46.2" height="11"/><rect class="b1" x="210" y="73" width="115.5" height="11"/><text class="val" x="260.2" y="70">14</text><text class="val" x="329.5" y="83">35</text><text class="axis" x="200" y="108" text-anchor="end">Jinja, skill bỏ chỉ dẫn git</text><rect class="b0" x="210" y="94" width="56.1" height="11"/><rect class="b1" x="210" y="107" width="132.0" height="11"/><text class="val" x="270.1" y="104">17</text><text class="val" x="346.0" y="117">40</text><text class="axis" x="200" y="142" text-anchor="end">Bleve, lịch sử gốc</text><rect class="b0" x="210" y="128" width="42.9" height="11"/><rect class="b1" x="210" y="141" width="141.9" height="11"/><text class="val" x="256.9" y="138">13</text><text class="val" x="355.9" y="151">43</text><text class="axis" x="200" y="176" text-anchor="end">Bleve, một commit</text><rect class="b0" x="210" y="162" width="46.2" height="11"/><rect class="b1" x="210" y="175" width="102.3" height="11"/><text class="val" x="260.2" y="172">14</text><text class="val" x="316.3" y="185">31</text><text class="axis" x="200" y="210" text-anchor="end">Pygments, dùng lại skill Jinja</text><rect class="b0" x="210" y="196" width="16.5" height="11"/><rect class="b1" x="210" y="209" width="19.8" height="11"/><text class="val" x="230.5" y="206">5</text><text class="val" x="233.8" y="219">6</text></svg></div>
+<figcaption>Số task giải được trên 100 task kiểm tra, bộ chấm S. Mỗi cặp thanh là hai nhánh chạy trên cùng 100 task.</figcaption>
+</figure>
+<div class="tbl"><table>
+<caption>Kết quả đăng ký trước. “Admit” là số task sau đó Gatekeeper lần đầu đạt E ≥ 40; “—”: không admit trong 100 task.</caption>
+<tr><th>Repo</th><th>Điều kiện</th><th>Không skill</th><th>Có skill</th><th>Mức tăng [KTC 95%]</th><th>p (một phía)</th><th>Admit</th></tr>
+<tr><td>Jinja</td><td>lịch sử gốc</td><td class=n>15</td><td class=n>53</td><td class=n>0,38 [0,26; 0,49]</td><td class=n>—</td><td class=n>29</td></tr>
+<tr><td>Jinja</td><td>lịch sử một commit</td><td class=n>14</td><td class=n>35</td><td class=n>0,21 [0,13; 0,29]</td><td class=n>4,8·10<sup>−7</sup></td><td class=n>50</td></tr>
+<tr><td>Jinja</td><td>lịch sử gốc, skill bỏ chỉ dẫn git (§29)</td><td class=n>17</td><td class=n>40</td><td class=n>0,23 [0,14; 0,32]</td><td class=n>2,8·10<sup>−6</sup></td><td class=n>24</td></tr>
+<tr><td>Bleve</td><td>lịch sử gốc</td><td class=n>13</td><td class=n>43</td><td class=n>0,30 [0,19; 0,40]</td><td class=n>—</td><td class=n>34</td></tr>
+<tr><td>Bleve</td><td>lịch sử một commit</td><td class=n>14</td><td class=n>31</td><td class=n>0,17 [0,09; 0,25]</td><td class=n>1,1·10<sup>−4</sup></td><td class=n>61</td></tr>
+</table></div>
+<h3>Rò rỉ chiếm bao nhiêu</h3>
+<ul>
+<li>Phần do rò rỉ (mức tăng trong môi trường gốc trừ mức tăng khi lịch sử chỉ còn một commit, ước lượng ghép
+trên cùng 100 task): Jinja 0,17 [0,06; 0,28], khoảng 45%; Bleve 0,13 [0,03; 0,23], khoảng 43%.
+Đây là cận trên, vì bỏ toàn bộ lịch sử cũng bỏ mọi giá trị khác của lịch sử thật.</li>
+<li>Ở 34 task Jinja không có mô tả issue, skill giải 15 khi còn lịch sử và
+0 khi không còn; khi bỏ chỉ dẫn git: 2.</li>
+<li>Quỹ đạo: ở cả 34 task không có mô tả, agent chạy <code>git log</code>/<code>git show</code> và thấy
+commit “Bug Patch” (34/34). Bộ học tự đưa chỉ dẫn này vào skill: skill khởi đầu rỗng, và
+prompt của gskill không nhắc tới lịch sử hay commit.</li>
+</ul>
+<h3>Phần còn lại là tác dụng thật</h3>
+<ul>
+<li>Ba đường độc lập cho cùng kết luận: bỏ lịch sử (Jinja 0,21 [0,13; 0,29]), bỏ chỉ dẫn git (0,23 [0,14; 0,32]),
+và hai mức này chênh nhau 0,02 [−0,08; 0,12].</li>
+<li>Nội dung, không phải độ dài: một skill không liên quan cùng độ dài giải 24 task; tác dụng của nội dung
+0,29 [0,18; 0,40] (p = 2,4·10<sup>−6</sup>); tác dụng của riêng độ dài 0,09 [0,0000; 0,18], không có ý nghĩa ở α = 0,025 (p = 0,09, hai phía).</li>
+</ul>
+
+<h2 id="rq3">6. RQ3: Chuyển giao sang phạm vi khác</h2>
+<ul>
+<li><b>Đổi môi trường:</b> cùng skill, cùng task, mức tăng 0,38 hay 0,21 tùy lịch sử repo.</li>
+<li><b>Đổi repo:</b> skill Jinja trên 100 task Pygments: 5 so với 6, b/c = 2/1,
+p = 1,00 (hai phía), không admit. Bộ chấm L trên cùng bản vá: 42 so với 70.
+Tỉ lệ giải nền thấp, nên phép thử này có ít power để phát hiện tác hại.</li>
+<li><b>Đổi cấu hình agent–model</b> (thăm dò, dữ liệu công khai SWE-Skills-Bench, 4 cấu hình,
+98 skill): chỉ khoảng 7% phương sai tác dụng được chia sẻ giữa các cấu hình (ρ = 0,07).</li>
+</ul>
+
+<h2 id="han-che">7. Độ tin cậy và hạn chế</h2>
+<ul>
+<li><b>Một họ model</b> cho agent. Model khác hãng chưa chạy được (hạn mức, model đã ngừng, thiếu tool calling, chi phí);
+mục model thứ hai đang tạm dừng theo quyết định ngày 07/11.</li>
+<li><b>Task tổng hợp, ba repo</b> (SWE-smith), mỗi nhánh một seed, 100 cặp task mỗi phép thử.</li>
+<li><b>Một kênh rò rỉ</b> (lịch sử git); các kênh khác trong image chưa được thăm dò.</li>
+<li><b>Model sau cùng một tên có thể đổi theo ngày</b> (phép kiểm đăng ký trước: 74/109 phản hồi đầu
+trùng), nên các phép so xác nhận chỉ ghép những nhánh chạy cùng lúc; các phép so khác ngày được ghi là mô tả.</li>
+<li><b>Bộ chấm L</b> chỉ kiểm ở commit 8c7b697 của gskill, không phải mã đứng sau thông báo của họ.</li>
+<li>Mọi lỗi đã gặp đều được ghi kèm ảnh hưởng và cách sửa (<code>docs/audit_pilot.md</code>, <code>docs/lessons_learned.md</code>);
+không lỗi nào làm đổi một kết luận đã đăng ký.</li>
+</ul>
+
+<h2 id="ban-thao">8. Tình trạng bản thảo</h2>
+<ul>
+<li>Bản thảo 9 trang (mẫu IEEE hai cột), 43 tài liệu tham khảo; mọi câu trích dẫn đều đối chiếu với bản gốc đã lưu.
+Không còn mục TODO; bản dựng không có dòng tràn lề.</li>
+<li>Đã cắt mục Composition (không có thực nghiệm); giữ mục Sample Complexity (gắn với dữ liệu: ghép cặp tiết kiệm
+4,31 lần số lượt chạy).</li>
+<li>Một bản phản biện bên ngoài (đánh giá tích cực) đã được trả lời: bổ sung cách hiểu ξ<sub>s</sub>, phiên bản bộ chấm,
+tính đối xứng làm luật GEPA không cải thiện khi tăng minibatch, và thí nghiệm ablation §29.</li>
+</ul>
+
+<h2 id="chi-phi">9. Ngân sách và chi phí</h2>
+<div class="tbl"><table>
+<caption>Chi tiêu USD của giai đoạn 06–08/11 (để kiểm soát ngân sách; theo sổ chi trong bản đăng ký)</caption>
+<tr><th>Hạng mục</th><th>Trần đã duyệt</th><th>Đã chi</th></tr>
+<tr><td>Kế hoạch tái hiện (§22, §23)</td><td class=n>60,00</td><td class=n>7,18</td></tr>
+<tr><td>Bleve và MemGovern (§25 bước 4, ô MemGovern)</td><td class=n>40,00</td><td class=n>21,16</td></tr>
+<tr><td>Ba phép thử trên skill Jinja (§27)</td><td class=n>7,00</td><td class=n>5,77</td></tr>
+<tr><td>Ablation (§29)</td><td class=n>4,00</td><td class=n>2,98</td></tr>
+</table></div>
+<div class="tbl"><table>
+<caption>Token đã ghi nhận (input gồm cả phần lấy từ cache)</caption>
+<tr><th>Giai đoạn</th><th>Lượt</th><th>Input</th><th>Trong đó cache</th><th>Output</th></tr>
+<tr><td>Pilot G1 và xác nhận (lượt chạy agent)</td><td class=n>756</td><td class=n>404.920.161</td><td class=n>347.616.254</td><td class=n>4.371.228</td></tr><tr><td>Audit quy lỗi, Flash-Lite</td><td class=n>102</td><td class=n>469.302</td><td class=n>—</td><td class=n>8.722</td></tr><tr><td>Audit quy lỗi, Flash</td><td class=n>102</td><td class=n>469.302</td><td class=n>—</td><td class=n>9.737</td></tr><tr><td>Audit quy lỗi, Pro</td><td class=n>102</td><td class=n>469.302</td><td class=n>—</td><td class=n>43.509</td></tr><tr><td>Chọn rule XRepoSkill (E2)</td><td class=n>—</td><td class=n>1.064.350</td><td class=n>—</td><td class=n>119.541</td></tr>
+</table></div>
+<p class="note">Các lượt chạy trên SWE-smith (§25–§29) ghi chi phí bằng đồng hồ USD của gskill nhưng chưa lưu số token
+theo từng lượt; sẽ bổ sung ghi token cho các lượt chạy sau.</p>
+
+<h2 id="xin-y-kien">10. Việc cần thầy cho ý kiến</h2>
+<div class="ask">
+<ol>
+<li><b>Thông báo cho tác giả gskill</b> về rò rỉ lịch sử git và bộ chấm L trước khi nộp. Đây là việc liên hệ bên ngoài.
+Đề xuất: thông báo, vì các phát hiện đã được kiểm trên mã đã ghim và bài không khẳng định gì về con số họ công bố.</li>
+<li><b>Phạm vi model:</b> giữ một họ model và nêu rõ ở mục hạn chế, hay mở lại mục model thứ hai.
+Đề xuất: giữ như hiện tại cho bản nộp; đây là hạn chế lớn nhất mà phản biện nêu.</li>
+</ol>
+</div>
+
+<footer>Sinh bởi <code>scripts/build_report.py</code> từ <code>paper/numbers.tex</code>
+(<code>scripts/make_numbers.py</code>) và <code>results/</code>. Bản đăng ký trước: <code>docs/preregistration_main.md</code>.</footer>
 </main>
+
 </body>
 </html>
