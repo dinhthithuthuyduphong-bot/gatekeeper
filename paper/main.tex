@@ -237,7 +237,16 @@ $Z=f(x)$ with $f$ of range width $2$, $|\mathbb{E}_Qf-\mathbb{E}_Pf|\le2\,\mathr
 The factor $2$ is tight: moving mass $\xi$ from $Z=-1$ to $Z=+1$ has total variation $\xi$ and shifts
 the mean by $2\xi$.
 
-\begin{proposition}[No distribution-free transfer guarantee]
+\paragraph{What $\xi_s$ means in practice}
+We do not estimate $\xi_s$. In every admission reported here the trials are drawn from the scope in
+which the decision is read, the test split of the shipped environment, so the theorem is used with
+$Q_s=P_s$. For any other deployment the bound weakens linearly: an admission certifies only
+$\STR_{Q_s}\le-\theta+2\xi_s$, and with $\theta=0$, as here, any $\xi_s>0$ leaves room for harm.
+Proposition~\ref{prop:notransfer} shows that the trials themselves cannot bound $\xi_s$. We therefore
+treat a change of scope as a new admission problem, with trials from the new scope, rather than as a
+shift to be bounded; Section~\ref{sec:rq3} measures what happens when this is not done.
+
+\begin{proposition}[No distribution-free transfer guarantee]\label{prop:notransfer}
 Fix any admission procedure using $n$ trials from repositories $\mathcal{R}_{\mathrm{obs}}$. For any
 $\alpha<1$ there is a target repository $R^\dagger\notin\mathcal{R}_{\mathrm{obs}}$ and a skill $S$
 admitted by the procedure with $\STR(S,\{R^\dagger\})=1$.
@@ -341,8 +350,9 @@ were seen~\cite{nosek_2018}; exploratory analyses are labelled as such.
 \section{Results}
 \subsection{RQ1: Do skill-evaluation numbers survive controls?}\label{sec:rq1}
 \paragraph{The scorer of a learning pipeline}
-gskill's public scorer marks a patch as passing whenever the test output contains the word
-``passed''. A no-op patch therefore passes on \nfzeroLNoop{} of \nfzeroN{} tasks across
+gskill's public scorer (\texttt{verify\_with\_patch} in \texttt{swe\_harness.py} at commit
+8c7b697~\cite{gskill_swe_harness}) marks a patch as passing whenever the test output contains the
+string ``passed'' in any letter case; we tested only this commit. A no-op patch therefore passes on \nfzeroLNoop{} of \nfzeroN{} tasks across
 \nfzeroRepos{} SWE-smith repositories, including Jinja and Bleve, the two repositories used to
 demonstrate the pipeline~\cite{gskill}; SWE-smith's grading passes \nfzeroSNoop{} of them and passes the gold patch on at least
 \nfzeroGoldMinPct\% of the tasks of every repository. On the agent's own patches the gap persists: without a skill,
@@ -362,7 +372,8 @@ blamed it for \nshamLiteK{} of \nshamLiteN{}, \nshamFlashK{} of \nshamFlashN{} a
 they also blame the skill more often than the runs allow. From the runs, at most \nshamShareUp{} of
 the candidate failures can be caused by the skill (upper end of a 95\% task-level bootstrap
 interval); the auditors' attribution rates exceed this bound by at least \nshamLite{},
-\nshamFlash{} and \nshamPro{}.
+\nshamFlash{} and \nshamPro{}. We tested single auditors with one prompt; ensembles and rubrics were
+not tested.
 
 \paragraph{Admission rules under A/A}
 We built \naaStreams{} A/A streams of \naaTrials{} paired trials each by drawing, for each trial, one of
@@ -374,7 +385,9 @@ ourselves (admit when the lower end of its two-sided 95\% interval, $z=1.96$, ex
 \nbxMonitored{} when monitored; XRepoSkill does not use it as a threshold. GEPA's acceptance
 criterion, used inside gskill's optimisation loop and not designed for error control, accepts a
 proposal that resolves more tasks than its parent on a minibatch of three; on these runs it
-accepts \ngepaNoop{} of proposals that change nothing. Gatekeeper admits in \ngkAdmitAA{} of the
+accepts \ngepaNoop{} of proposals that change nothing. A larger minibatch does not repair this: under
+A/A the paired differences are symmetric, so a proposal that changes nothing is accepted with
+probability $(1-\Pr[\text{tie}])/2$, which grows towards $1/2$ as the minibatch grows. Gatekeeper admits in \ngkAdmitAA{} of the
 streams within \naaTrials{} trials.
 
 \paragraph{Published gains against rerun noise}
@@ -438,7 +451,9 @@ commits~\cite{gskill_seed_candidate,gskill_mini_yaml}: the instruction was intro
 optimisation itself. Changing only the history of the Jinja tasks, to a single commit that
 holds the buggy tree, changes the no-skill arm from \njinjaNone{} to \njinjaLFNone{} and
 lowers the skill arm from \njinjaSkill{} to \njinjaLFSkill{}. We call the difference of the two gains,
-in-scope minus single-commit, the leak's share of the gain. The difference of the two gains,
+in-scope minus single-commit, the leak's share of the gain. Because the single commit removes the
+whole history, not only the bug-injecting commit, this share is an upper bound: it also contains
+whatever the real history contributes. The traces below locate it in the bug-injecting commit. The difference of the two gains,
 estimated jointly over the same 100 tasks, is \nleak{} [\nleakLo{}, \nleakHi{}], about
 \nleakSharePct\% of the in-scope gain. The tasks without an issue description show where it goes:
 there the skill solves \njinjaNoPSn{} of \njinjaNoPSTasks{} tasks with the history and
@@ -457,6 +472,13 @@ commit; it resolved \ntrSolved{} of them, as in the original run, and \ntrSame{}
 the agent to the history (\texttt{git log} or \texttt{git show} in \nbleveTrGitCmd{} of
 \nbleveTrTasks{} runs), but there is nothing to find: no observation contains ``Bug Patch''
 (\nbleveTrBugPatch{} of \nbleveTrTasks{}).
+The Bleve skill also records that \texttt{go} is not on the agent's \texttt{PATH}
+(Section~\ref{sec:design}). In the single-commit environment (exploratory), the agent without the
+skill called \texttt{go} in \ngoNoneCmd{} of \ngoNoneTraced{} runs and met ``not found'' in
+\ngoNoneErr{}; with the skill, in \ngoSkillCmd{} and \ngoSkillErr{} of \ngoSkillTraced{} traced runs.
+This note does not carry the remaining gain: on the \ngoNoneErr{} tasks where the no-skill run met
+the error the skill raises the resolved count from \ngoHitNone{} to \ngoHitSkill{}, and on the other
+\ngoRestN{} from \ngoRestNone{} to \ngoRestSkill{}.
 
 \paragraph{The rest of the gain is genuine}
 Without the leak, the Jinja skill still raises the resolved count from \njinjaLFNone{} to
@@ -472,7 +494,8 @@ pairs at \nbleveSiB{}/\nbleveSiC{} and the difference of the gains at \nbleveSiL
 A longer prompt could help by itself. Following the length-matched irrelevant-skill control of
 WebDev-Skills-Bench~\cite{webdev_skills_bench_2026}, we replaced the learned skill (2{,}681 bytes)
 with the only one of the 98 public SWE-Skills-Bench skills whose length is within $\pm5\%$ of it, a
-Go concurrency guide (2{,}771 bytes) that says nothing about Jinja. With it the agent resolves \nplcS{} tasks. The learned skill's content
+Go concurrency guide (2{,}771 bytes) that says nothing about Jinja. Because the rule admits exactly
+one skill, the variation of a length-only effect across placebos is not estimated. With it the agent resolves \nplcS{} tasks. The learned skill's content
 effect is \nconGain{} [\nconGainLo{}, \nconGainHi{}] ($p=\nconP$, one-sided), and Gatekeeper
 admits the learned skill against the placebo after \nconAdmit{} tasks; the effect of length alone,
 \nlenGain{} [\nlenGainLo{}, \nlenGainHi{}], is not significant at $\alpha=0.025$ ($p=\nlenP$, two-sided). The
@@ -511,6 +534,17 @@ one configuration predicts little about another. In our own runs, two SWE-Skills
 pairs, with a median no-skill pass rate of \nproNoneMedian: there was little left for the skill to
 change.
 
+\subsection{Could the learner's own acceptance rule have caught the leak?}
+GEPA accepts a rewrite of the skill when it resolves more of three tasks than its parent
+(Section~\ref{sec:rq1}). Gatekeeper could replace this rule inside the loop, as a referee the
+learner cannot change~\cite{anytime_referee_2026}, at a price: at the effect sizes of
+Table~\ref{tab:rq2} it needed \njinjaAdmit{} to \nbleveLFAdmit{} paired tasks per admission instead of
+three, that is $\njinjaAdmit/3$ to $\nbleveLFAdmit/3$ times as many metric calls per accepted
+rewrite. It would not, by itself,
+have rejected the leak-seeking instruction, because in the learning environment that instruction
+does raise the resolved count. Only a control in which the claimed cause is absent, here the
+single-commit history, separates the leak from the skill.
+
 \section{Threats to Validity}\label{sec:threats}
 \paragraph{One model family}
 Our agent runs use one model, \agentmodel{}, apart from the descriptive comparison with
@@ -526,7 +560,13 @@ The learned skills are evaluated on SWE-smith's synthetic tasks for two reposito
 test on a third, one seed per arm, 100 paired tasks each. In the reuse test, \npygLate{} tasks of the skill
 arm were run again later the same day after the run stopped at its cost cap, so for them the two
 arms did not run at the same time. The single-commit history also removes the repository's real history,
-so the leak-free environment is not a real repository either.
+so the leak-free environment is not a real repository either; we did not test a history that keeps
+the real commits and drops only the bug-injecting one.
+\paragraph{One leak channel, one ablation}
+We measured one leak channel, the bug-injecting commit in the history. Other channels, such as
+artefacts in the image, file names or timestamps, were not probed, and the single-commit control
+removes only the history. We also did not edit the learned skill to remove its history
+instruction; the share of the remaining gain carried by its other instructions is not measured.
 \paragraph{The pipeline's own numbers}
 We tested gskill's public code at a pinned commit, not the code behind its announcement.
 \paragraph{Contamination}
