@@ -175,13 +175,10 @@ def page() -> str:
 <main>
 <p class="meta">Dự án Gatekeeper · mục tiêu ASE 2027 · bản cập nhật {now} · commit <code>{commit()}</code></p>
 <h1>Scope before Reuse: chứng nhận skill đã học cho coding agent theo phạm vi</h1>
-<p class="lead">Báo cáo tiến độ gửi thầy. Mọi con số dưới đây được sinh tự động từ cùng tệp kết quả
-với bản thảo (<code>paper/numbers.tex</code>), nên báo cáo và bản thảo không thể lệch nhau.
-Mọi phân tích xác nhận đều được đăng ký trước khi có dữ liệu.</p>
 
 <ol class="toc">
 <li><a href="#tom-tat">Tóm tắt</a></li><li><a href="#cau-hoi">Câu hỏi nghiên cứu</a></li>
-<li><a href="#phuong-phap">Phương pháp</a></li><li><a href="#rq1">RQ1: Đối chứng của phép đo</a></li>
+<li><a href="#khai-niem">Khái niệm và thuật toán</a></li><li><a href="#phuong-phap">Phương pháp</a></li><li><a href="#rq1">RQ1: Đối chứng của phép đo</a></li>
 <li><a href="#rq2">RQ2: Chứng nhận và nguồn gốc mức tăng</a></li><li><a href="#rq3">RQ3: Chuyển giao sang phạm vi khác</a></li>
 <li><a href="#han-che">Độ tin cậy và hạn chế</a></li><li><a href="#ban-thao">Tình trạng bản thảo</a></li>
 <li><a href="#chi-phi">Ngân sách và chi phí</a></li><li><a href="#xin-y-kien">Việc cần thầy cho ý kiến</a></li>
@@ -221,7 +218,71 @@ admit nhầm {v("pluginOnce")} số luồng; Gatekeeper {v("gkAdmitAA")}.</li>
 cho thấy bộ học tự đưa một chỉ dẫn khai thác rò rỉ vào skill, và định lượng phần mức tăng mà rò rỉ chiếm;
 (3) bằng chứng rằng chứng nhận gắn với phạm vi; (4) bộ đối chứng cho phép đo; (5) bản đăng ký trước, dữ liệu gốc và mã.</p>
 
-<h2 id="phuong-phap">3. Phương pháp</h2>
+<h2 id="khai-niem">3. Khái niệm và thuật toán</h2>
+<h3>Khái niệm</h3>
+<div class="tbl"><table>
+<tr><th>Khái niệm</th><th>Định nghĩa dùng trong nghiên cứu</th></tr>
+<tr><td>Skill</td><td>Cặp (π, I): π là thủ tục, tức văn bản được nạp vào ngữ cảnh của agent; I là điều kiện kích
+hoạt, xác định skill được dùng cho task nào.</td></tr>
+<tr><td>Skill học được (gskill)</td><td>Một đoạn văn bản mà cấu hình agent của gskill chèn vào <i>system prompt</i>, ngay sau
+câu “Here are some of the skills you learned while working with similar problems”. Skill được nạp ở mọi task của
+repo, nên điều kiện kích hoạt là “task thuộc repo đó”. Skill Jinja dài 2.681 byte, gồm 5 nhóm chỉ dẫn; nhóm 2 có
+chỉ dẫn đọc lịch sử git.</td></tr>
+<tr><td>Skill tự viết (E1)</td><td>Một đoạn hướng dẫn kèm điều kiện kích hoạt là biểu thức chính quy trên nội dung
+issue; ví dụ skill null-guard kích hoạt khi issue nói tới giá trị <code>None</code> được truyền vào hoặc trả về.</td></tr>
+<tr><td>Phạm vi (scope)</td><td>Bộ ba: repo, môi trường đi kèm (image, lịch sử git), agent cùng model.</td></tr>
+<tr><td>Task, trial</td><td>Một task là một lỗi có test kiểm tra (SWE-smith hoặc SWE-bench). Một trial là một task chạy
+ở cả hai nhánh, có skill và không skill.</td></tr>
+<tr><td>Resolved (bộ chấm S)</td><td>Bản vá làm mọi test FAIL_TO_PASS qua và không làm hỏng test PASS_TO_PASS nào.</td></tr>
+<tr><td>Bộ chấm L</td><td>Bộ chấm trong mã công khai của gskill: đạt khi đầu ra test chứa chuỗi “passed” (không phân biệt
+hoa thường), trừ khi có “Patch Apply Failed”. Vòng học của gskill tối ưu theo bộ chấm này.</td></tr>
+<tr><td>Rò rỉ (leak)</td><td>Mỗi task SWE-smith giữ commit chèn lỗi (thông điệp “Bug Patch”) ngay dưới HEAD; agent chạy
+<code>git show</code> là thấy mã trước khi có lỗi.</td></tr>
+<tr><td>Môi trường một commit</td><td>Lịch sử git trong container của agent được thay bằng một commit duy nhất chứa cây mã
+có lỗi; mọi thứ khác giữ nguyên.</td></tr>
+<tr><td>Phần do rò rỉ</td><td>Mức tăng trong môi trường gốc trừ mức tăng trong môi trường một commit, trên cùng 100 task.
+Đây là cận trên, vì bỏ lịch sử cũng bỏ mọi giá trị khác của lịch sử thật.</td></tr>
+<tr><td>Admit, chứng nhận</td><td>Gatekeeper admit skill trong một phạm vi khi E<sub>n</sub> ≥ 1/α; khi đó skill được gọi là
+được chứng nhận trong phạm vi đó.</td></tr>
+<tr><td>A/A</td><td>Hai lần chạy cùng không có skill; mọi “tác dụng” đo được là nhiễu.</td></tr>
+<tr><td>Sham skill</td><td>Cặp A/A được trình bày cho auditor như thể lần chạy thất bại có nạp skill; skill không thể là
+nguyên nhân vì không lần chạy nào nạp nó.</td></tr>
+<tr><td>Bản vá rỗng, bản vá gốc</td><td>Bản vá không sửa gì (phải không qua) và bản sửa tham chiếu của benchmark (phải qua).</td></tr>
+<tr><td>Placebo cùng độ dài</td><td>Skill không liên quan, độ dài byte trong ±5% của skill thật (đối chứng C2 của
+WebDev-Skills-Bench); quy tắc chọn ra đúng 1 trong 98 skill công khai.</td></tr>
+<tr><td>Task không có mô tả issue</td><td>Task SWE-smith có phần mô tả rỗng; Jinja có {v("jinjaNoPSTasks")}/100 task như vậy.</td></tr>
+</table></div>
+<h3>Thuật toán</h3>
+<ul>
+<li><b>Gatekeeper (e-process cá cược).</b> Với mỗi trial i, Z<sub>i</sub> = 1[nhánh có skill không resolved] −
+1[nhánh không skill không resolved] ∈ {{−1, 0, 1}}. Giả thuyết không H<sub>0</sub>: E[Z] ≥ −θ (skill không giúp
+ít nhất θ). Quá trình E<sub>n</sub> = ∏<sub>i≤n</sub>(1 + λ<sub>i</sub>(−θ − Z<sub>i</sub>)), với mức cược
+λ<sub>i</sub> = min{{c/(1+θ), g/(v+g²)}} khi g &gt; 0 (aGRAPA, Waudby-Smith &amp; Ramdas), g = −θ − trung bình
+các Z trước đó, v là phương sai của chúng, cả hai tính kèm một quan sát giả có trung bình 0 và phương sai 1.
+λ<sub>i</sub> chỉ dùng dữ liệu quá khứ. Dưới H<sub>0</sub>, E<sub>n</sub> là supermartingale không âm, nên theo bất
+đẳng thức Ville, P(tồn tại n: E<sub>n</sub> ≥ 1/α) ≤ α. Vì vậy được xem kết quả sau mỗi trial mà sai số loại I vẫn
+≤ α. Tham số: θ = 0, α = 0,025, c = 0,5; ngưỡng 1/α = 40.</li>
+<li><b>Kiểm định dấu chính xác.</b> b = số task chỉ nhánh có skill giải được, c = số task chỉ nhánh không skill
+giải được; p một phía = P(Bin(b+c, ½) ≥ b).</li>
+<li><b>Holm.</b> Xếp các p tăng dần; bác bỏ p<sub>(k)</sub> khi p<sub>(j)</sub> ≤ α/(m−j+1) với mọi j ≤ k; kiểm soát
+xác suất có ít nhất một kết luận sai trong họ ≤ α.</li>
+<li><b>Khoảng tin cậy bootstrap theo task.</b> Lấy mẫu lại 100 task có hoàn lại 10.000 lần, lấy phân vị 2,5% và
+97,5% của mức tăng.</li>
+<li><b>Vòng học của gskill (GEPA).</b> Bắt đầu từ skill rỗng. Model reflection đọc skill hiện tại cùng kết quả của
+agent trên 3 task huấn luyện, rồi đề xuất bản viết lại. Bản viết lại được nhận khi tổng điểm L trên 3 task đó
+lớn hơn ngặt điểm của bản cha (luật mặc định của GEPA). Ứng viên kế tiếp được chọn theo chiến lược Pareto;
+tập validation gồm {v("learnVal")} task. Vòng lặp dừng sau {v("learnBudget")} metric call (mỗi metric call là một
+lần chạy agent với một ứng viên trên một task). Với Jinja: {v("learnCalls")} metric call, {v("learnCands")} ứng
+viên, điểm validation theo L của skill trả về là {v("learnValL")}.</li>
+<li><b>Mantel–Haenszel (XRepoSkill).</b> Hiệu tỉ lệ giải gộp theo tầng (mỗi task một tầng). Nhóm tự dựng thành cổng:
+admit khi cận dưới của khoảng 95% hai phía (z = 1,96) lớn hơn 0. XRepoSkill không dùng nó làm ngưỡng.</li>
+<li><b>Mức nhiễu khi chạy lại.</b> Với cỡ mẫu n, phân vị 97,5% của trị tuyệt đối chênh lệch tỉ lệ giải giữa hai lần
+chạy không skill, lấy mẫu lại từ {v("noiseTasks")} task.</li>
+<li><b>ρ (SWE-Skills-Bench).</b> Trung bình hiệp phương sai của tác dụng skill giữa các cặp cấu hình chia cho trung
+bình phương sai trong mỗi cấu hình (98 skill chung, 4 cấu hình).</li>
+</ul>
+
+<h2 id="phuong-phap">4. Phương pháp</h2>
 <h3>Thiết lập</h3>
 <ul>
 <li>Agent mini-swe-agent với một model nhỏ của họ Gemini, cùng seed ở hai nhánh. Trên SWE-smith,
@@ -245,7 +306,7 @@ E<sub>n</sub> ≥ 1/α = 40; bảo đảm sai số loại I ≤ α tại mọi t
 chấm), skill không liên quan cùng độ dài ±5% byte (cho nội dung), lịch sử một commit (cho rò rỉ).</li>
 </ul>
 
-<h2 id="rq1">4. RQ1: Đối chứng của phép đo</h2>
+<h2 id="rq1">5. RQ1: Đối chứng của phép đo</h2>
 <div class="tbl"><table>
 <caption>Tỉ lệ admit một skill không có tác dụng, trên {fmt_int(int(num("aaStreams")))} luồng A/A, mỗi luồng
 {v("aaTrials")} trial, lấy mẫu lại từ {v("aaTasks")} task thật của E1 và E2</caption>
@@ -272,7 +333,7 @@ không lớn hơn mức nhiễu (phân vị 97,5% của chênh lệch giữa hai
 lượt), nên thí nghiệm dừng trước khi tính tác dụng. Kết luận chỉ giới hạn ở harness và model của nhóm.</li>
 </ul>
 
-<h2 id="rq2">5. RQ2: Chứng nhận và nguồn gốc mức tăng</h2>
+<h2 id="rq2">6. RQ2: Chứng nhận và nguồn gốc mức tăng</h2>
 <figure>
 <div class="legend"><span><i class="sw" style="background:var(--bar0)"></i>Không skill</span>
 <span><i class="sw" style="background:var(--bar1)"></i>Có skill</span></div>
@@ -307,7 +368,7 @@ và hai mức này chênh nhau {ci("abVsLF")}.</li>
 {ci("conGain")} (p = {v("conP")}); tác dụng của riêng độ dài {ci("lenGain")}, không có ý nghĩa ở α = 0,025 (p = {v("lenP")}, hai phía).</li>
 </ul>
 
-<h2 id="rq3">6. RQ3: Chuyển giao sang phạm vi khác</h2>
+<h2 id="rq3">7. RQ3: Chuyển giao sang phạm vi khác</h2>
 <ul>
 <li><b>Đổi môi trường:</b> cùng skill, cùng task, mức tăng {v("jinjaGain")} hay {v("jinjaLFGain")} tùy lịch sử repo.</li>
 <li><b>Đổi repo:</b> skill Jinja trên {v("pygN")} task Pygments: {v("pygNone")} so với {v("pygSkill")}, b/c = {v("pygB")}/{v("pygC")},
@@ -317,7 +378,7 @@ Tỉ lệ giải nền thấp, nên phép thử này có ít power để phát h
 {v("sskbSkills")} skill): chỉ khoảng {v("sskbRhoPct")}% phương sai tác dụng được chia sẻ giữa các cấu hình (ρ = {v("sskbRho")}).</li>
 </ul>
 
-<h2 id="han-che">7. Độ tin cậy và hạn chế</h2>
+<h2 id="han-che">8. Độ tin cậy và hạn chế</h2>
 <ul>
 <li><b>Một họ model</b> cho agent. Model khác hãng chưa chạy được (hạn mức, model đã ngừng, thiếu tool calling, chi phí);
 mục model thứ hai đang tạm dừng theo quyết định ngày 07/11.</li>
@@ -330,7 +391,7 @@ trùng), nên các phép so xác nhận chỉ ghép những nhánh chạy cùng 
 không lỗi nào làm đổi một kết luận đã đăng ký.</li>
 </ul>
 
-<h2 id="ban-thao">8. Tình trạng bản thảo</h2>
+<h2 id="ban-thao">9. Tình trạng bản thảo</h2>
 <ul>
 <li>Bản thảo 9 trang (mẫu IEEE hai cột), 43 tài liệu tham khảo; mọi câu trích dẫn đều đối chiếu với bản gốc đã lưu.
 Không còn mục TODO; bản dựng không có dòng tràn lề.</li>
@@ -340,7 +401,7 @@ Không còn mục TODO; bản dựng không có dòng tràn lề.</li>
 tính đối xứng làm luật GEPA không cải thiện khi tăng minibatch, và thí nghiệm ablation §29.</li>
 </ul>
 
-<h2 id="chi-phi">9. Ngân sách và chi phí</h2>
+<h2 id="chi-phi">10. Ngân sách và chi phí</h2>
 <div class="tbl"><table>
 <caption>Chi tiêu USD của giai đoạn 06–08/11 (để kiểm soát ngân sách; theo sổ chi trong bản đăng ký)</caption>
 <tr><th>Hạng mục</th><th>Trần đã duyệt</th><th>Đã chi</th></tr>
@@ -357,7 +418,7 @@ tính đối xứng làm luật GEPA không cải thiện khi tăng minibatch, v
 <p class="note">Các lượt chạy trên SWE-smith (§25–§29) ghi chi phí bằng đồng hồ USD của gskill nhưng chưa lưu số token
 theo từng lượt; sẽ bổ sung ghi token cho các lượt chạy sau.</p>
 
-<h2 id="xin-y-kien">10. Việc cần thầy cho ý kiến</h2>
+<h2 id="xin-y-kien">11. Việc cần thầy cho ý kiến</h2>
 <div class="ask">
 <ol>
 <li><b>Thông báo cho tác giả gskill</b> về rò rỉ lịch sử git và bộ chấm L trước khi nộp. Đây là việc liên hệ bên ngoài.

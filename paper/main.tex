@@ -310,11 +310,27 @@ learned Bleve skill records it.
 E1 evaluates three skills we wrote, one per fix pattern (null guard, type guard, exception
 handling), each on 53 tasks whose issue text activates it. E2 applies XRepoSkill, whose skills were
 learned on SWE-bench Verified, unchanged to SWE-bench-Live repositories it has not seen. T4 is a positive control: the reference patch is inserted into the
-problem statement, so the effect is large by construction~\cite{franklin_2014_plasmode}. The learned skills are
-gskill's: its loop splits each repository's tasks into \nlearnTrain{} training, \nlearnVal{}
-validation and \nlearnTest{} test tasks (seed 42, gskill's defaults), spends a budget of
-\nlearnBudget{} metric calls, and uses \promodel{} to rewrite the skill (\nlearnReflCalls{} calls);
-we evaluate only on the test split, in the split's order. A scope is a repository, its shipped
+problem statement, so the effect is large by construction~\cite{franklin_2014_plasmode}. Each of our skills carries an activation predicate, a regular
+expression on the issue text (for the null guard, mentions of \texttt{None} being passed or
+returned), and runs only where it holds.
+
+\paragraph{What a learned skill is, and how gskill learns it}
+A gskill skill is a block of text that gskill's agent configuration inserts into the agent's system
+prompt, after the sentence ``Here are some of the skills you learned while working with similar
+problems''~\cite{gskill_mini_yaml}. It is loaded on every task of its repository, so its activation
+predicate is membership in that repository. gskill learns it with GEPA~\cite{gskill_train_config}:
+the loop starts from an empty skill~\cite{gskill_seed_candidate}; \promodel{} reads the current skill
+together with the agent's runs on a minibatch of three training tasks and proposes a rewrite; the
+rewrite is accepted only if its summed score on that minibatch under $L$ is strictly higher than
+the parent's, GEPA's default acceptance rule~\cite{gepa_acceptance}; gskill sets GEPA to choose the
+next candidate to rewrite by its Pareto strategy and passes it the \nlearnVal{} validation tasks as
+its validation set; and the loop stops
+after a budget of \nlearnBudget{} metric calls, one metric call being one agent run of one candidate
+on one task. The tasks of a repository are split into \nlearnTrain{} training, \nlearnVal{}
+validation and \nlearnTest{} test tasks (seed 42, gskill's defaults). For Jinja the loop made
+\nlearnCalls{} metric calls with \nlearnReflCalls{} rewrites requested, kept \nlearnCands{}
+candidates, and returned one whose validation score under $L$ is \nlearnValL{}; we use that skill
+verbatim and evaluate it only on the test split, in the split's order. A scope is a repository, its shipped
 environment, and the agent with its model.
 
 \paragraph{Scorers}
@@ -348,7 +364,8 @@ that pair of tests. The reuse test is registered as two-sided. Intervals are 95\
 (10{,}000 resamples). Admission uses the e-process of Section~\ref{sec:admission} with $\theta=0$,
 $\alpha=0.025$ (threshold $1/\alpha=40$) and $c=0.5$~\cite{waudby_smith_ramdas}, run over the test
 tasks in gskill's split order; ``admitted after $k$ tasks'' means $E_k\ge40$ for the first time
-at $k$. E1 and E2 are analysed as registered for each stage. Every
+at $k$; one trial is one task run in both arms. We call a skill \emph{certified} in a scope when
+Gatekeeper admits it there. E1 and E2 are analysed as registered for each stage. Every
 confirmatory analysis, threshold and decision rule was registered before the data it applies to
 were seen~\cite{nosek_2018}; exploratory analyses are labelled as such.
 
@@ -390,7 +407,7 @@ admits in \npluginOnce{} of the streams, and in \npluginMonitored{} when it is c
 ourselves (admit when the lower end of its two-sided 95\% interval, $z=1.96$, exceeds 0), admits in \nbxOnce{} at one look and in
 \nbxMonitored{} when monitored; XRepoSkill does not use it as a threshold. GEPA's acceptance
 criterion, used inside gskill's optimisation loop and not designed for error control, accepts a
-proposal that resolves more tasks than its parent on a minibatch of three; on these runs it
+proposal that resolves more tasks than its parent on a minibatch of three~\cite{gepa_acceptance}; on these runs it
 accepts \ngepaNoop{} of proposals that change nothing. A larger minibatch does not repair this: under
 A/A the paired differences are symmetric, so a proposal that changes nothing is accepted with
 probability $(1-\Pr[\text{tie}])/2$, which grows towards $1/2$ as the minibatch grows. Gatekeeper admits in \ngkAdmitAA{} of the

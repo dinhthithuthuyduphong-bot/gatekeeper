@@ -639,6 +639,10 @@ def main() -> int:
     N["learnBudget"] = int(av[av.index("--max-metric-calls") + 1])
     refl = av[av.index("--reflection-model") + 1]
     N["learnReflCalls"] = l1["calls_by_model"][refl] + l2["calls_by_model"][refl]
+    ls2 = load(t / "s25_learn_summary_h2.json")["extra_info"]  # GEPA's own summary, learning half 2
+    N["learnCalls"] = ls2["total_metric_calls"]
+    N["learnCands"] = ls2["num_candidates"]
+    N["learnValL"] = ls2["best_score"]  # gskill's validation score, lenient scorer L
     rs = load(t / "rescore_jinja_summary.json")
     N["rsPatches"] = sum(v["patches"] for v in rs.values())
     N["rsScorings"] = sum(v["repeats_scored"] for v in rs.values())
@@ -648,6 +652,8 @@ def main() -> int:
         "shamFlashK": 3,
         "shamProK": 5,
         "learnBudget": 600,
+        "learnCalls": 606,
+        "learnCands": 9,
         "rsScorings": 448,
         "rsFlips": 0,
     }.items():
