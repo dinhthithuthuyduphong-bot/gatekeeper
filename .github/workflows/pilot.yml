@@ -398,11 +398,13 @@ jobs:
               --out "$GITHUB_WORKSPACE/results/$out" "${MOCK[@]}"
           }
           [ "${{ inputs.repo }}" = "jinja" ] || { echo "section 29 is registered for jinja only"; exit 1; }
+          PFX=s29; [ "${{ inputs.dryrun }}" = "true" ] && PFX=s29dry  # a dry run never writes the real file names
           mkdir -p /tmp/work/none /tmp/work/ablate
-          (cd /tmp/work/none && run_probe s29_none.json 1.75) > /tmp/none.log 2>&1 &
-          (cd /tmp/work/ablate && run_probe s29_ablate.json 2.25 \
-             --skills-file "$GITHUB_WORKSPACE/docs/skills/gskill/jinja_no_history.txt") > /tmp/ablate.log 2>&1 &
-          wait; tail -n 3 /tmp/none.log /tmp/ablate.log
+          (cd /tmp/work/none && run_probe ${PFX}_none.json 1.75) > /tmp/none.log 2>&1 & p1=$!
+          (cd /tmp/work/ablate && run_probe ${PFX}_ablate.json 2.25 \
+             --skills-file "$GITHUB_WORKSPACE/docs/skills/gskill/jinja_no_history.txt") > /tmp/ablate.log 2>&1 & p2=$!
+          rc=0; wait $p1 || rc=1; wait $p2 || rc=1  # each arm's exit status, by PID (L43)
+          tail -n 3 /tmp/none.log /tmp/ablate.log; exit $rc
       - uses: actions/upload-artifact@v6
         if: always()
         with:
