@@ -31,5 +31,5 @@
    "rompt length is determined by SKILL.md alone and the length-matched con- trol is well defined even for multi-file Skills. The controlled study yields five findings. First, on all four models target injection produces a negative average ∆Pass@2 (between −1.3 and −4.2 pp), lowers Task Completion Depth, and raises token cost by 72 to 394%, while only 17 to 36% of (Skill, project) pairs gain. Second, the C2 length-control splits this average into two mech- anisms: Sonnet and Qwen are length-distracted (an equally long irrelevant Skill reproduces most of the loss), whereas GPT-5.1 and DeepSeek are content-misled (length is neutral but the content steers the model off-target). Third, the loss concen- trates on easy early tasks rather than challenging ones—injection is most costly where the model al- ready holds a strong prior. Fourth, per-pair Skill ef- fects are nearly uncorrelated across models (cross- model Pearson |r| ≤0.12 on ∆Pass@2), which limits static cross-model recommendations. Fifth, decomposing a helpful Skill with C3 shows cheap anti-pattern rules carry its most reliable benefit, whereas example code helps weaker models but hurts the strongest, making example-heavy Skills a poor default."
   ]
  },
- "fetched_utc": "2026-11-07T07:40:54+00:00"
+ "fetched_utc": "2026-11-08T05:21:26+00:00"
 }

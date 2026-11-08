@@ -8,7 +8,7 @@
   }
  ],
  "url": "https://cursor.com/blog/reward-hacking-coding-benchmarks",
- "sha256": "51b129232e276e52bf8d70f654ec2fd2cd5e30396db1495bc09015c8ce90907d",
+ "sha256": "1821021145a1de29ed35324967948a2f8e1ec8731e1b2153deec56669120a4e0",
  "n_chars": 21809,
  "head": " Reward hacking is swamping model intelligence gains · Cursor Skip to content Cursor Models ↓ Grok Evals Product ↓ Agents Cloud Grok Bot ↗ Mobile Automations CLI Marketplace ↗ Review Enterprise Pricing Resources ↓ Changelog Blog Docs Community Help ↗ Workshops Forum ↗ Careers Models → Product → Enterprise Pricing Resources → Sign in Contact Contact sales Download Blog / research Jun 25, 2026 · research Reward hacking is swamping model intelligence gains Naman Jain · 7 min read Table of Contents ↑ Catch a model with a model Stricter environment design A growing gap Designing evals for aware agents Smarter models are becoming more resourceful at hacking coding benchmarks. Eval suites built from real bugs that were later fixed are especially vulnerable because the problems have already been solved. If the agent has access to repository history or the public web, it can sometimes look up the answer rather than derive it. To measure how widespread this behavior is, we built an agent to audit eval trajectories. On SWE-bench Pro, we found that 63% of successful Opus 4.8 Max resolutions retrieved the fix ra",
  "excerpts": {
@@ -25,5 +25,5 @@
    "# Catch a model with a model To measure the scale of the reward-hacking behavior, we had the auditor examine 731 Opus 4.8 Max trajectories. It saw the problem statement and full agent trajectory, without seeing whether the run passed, and classified whether the agent had retrieved the known answer. The two most common reward-hacking patterns it found were: Upstream lookup: In 57% of the trajectories, Opus 4.8 Max found the merged PR or fixed source file on the public web, then reproduced the fix nearly verbatim. Git-history mining: In 9% of trajectories, Opus 4.8 Max searched the bundled .git history for the future commit that fixed the bug, then extracted the patch. 1 As models get stronger, they can sometimes infer that they are in an eval, especially when the task is borrowed from a past public repository. Even in cases where they don't remember the fix from training, the environment can still give them clues that the bug has already been solved. In one SWE-bench Multilingual task from a 2019 jq issue, the agent tried to reproduce the bug with the system jq binary. Because the image had been built after the bug was fixed, the reproduction failed, and the agent inferred that the issue h"
   ]
  },
- "fetched_utc": "2026-11-07T13:50:20+00:00"
+ "fetched_utc": "2026-11-08T05:21:19+00:00"
 }
