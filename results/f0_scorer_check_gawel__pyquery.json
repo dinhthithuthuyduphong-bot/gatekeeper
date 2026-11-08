@@ -1,0 +1,253 @@
+{
+ "summary": {
+  "n_tasks": 30,
+  "n_scored": 4,
+  "infra_errors": 26,
+  "noop": {
+   "L_pass": 4,
+   "L_rate": 1.0,
+   "L_wilson95": [
+    0.5101091635454027,
+    1.0
+   ],
+   "S_resolved": 0,
+   "S_rate": 0.0,
+   "S_wilson95": [
+    0.0,
+    0.4898908364545973
+   ]
+  },
+  "gold": {
+   "L_pass": 4,
+   "L_rate": 1.0,
+   "L_wilson95": [
+    0.5101091635454027,
+    1.0
+   ],
+   "S_resolved": 0,
+   "S_rate": 0.0,
+   "S_wilson95": [
+    0.0,
+    0.4898908364545973
+   ]
+  }
+ },
+ "per_task": [
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_basic__0w6wl7f7",
+   "order": 177,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_basic__9emo9xh8",
+   "order": 178,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_pm_ctrl_invert_if__fn2x8mwa",
+   "order": 179,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_basic__n4u08c4k",
+   "order": 180,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_pm_ctrl_invert_if__zfdxnkn4",
+   "order": 181,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_pm_ctrl_shuffle__3qs8ge0w",
+   "order": 182,
+   "noop_file": "pyquery/text.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": false,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_basic__ing9toii",
+   "order": 183,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_pm_ctrl_invert_if__2zpync8d",
+   "order": 184,
+   "noop_file": "pyquery/openers.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": false,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_basic__1zulfurx",
+   "order": 185,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_basic__nru48j33",
+   "order": 186,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_basic__4ubfehpp",
+   "order": 187,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_pm_class_rm_base__qfvifb57",
+   "order": 188,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_basic__u5k0w7gv",
+   "order": 189,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_pm_ctrl_shuffle__zjbgpiyi",
+   "order": 190,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.combine_file__jzp5vxav",
+   "order": 191,
+   "noop_file": "pyquery/openers.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": false,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_basic__fuu0jsoa",
+   "order": 192,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.lm_rewrite__52xkhf4i",
+   "order": 193,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_basic__l9qrinbg",
+   "order": 194,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_basic__mrg59qbr",
+   "order": 195,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_basic__38yuij81",
+   "order": 196,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_basic__nzvsfehg",
+   "order": 197,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.lm_rewrite__955oumhd",
+   "order": 198,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.lm_rewrite__sfab27lu",
+   "order": 199,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_basic__l6li5ogx",
+   "order": 200,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_pm_remove_assign__ihnmardt",
+   "order": 201,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.lm_rewrite__o1v2xcun",
+   "order": 202,
+   "noop_file": "pyquery/text.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": false,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_basic__6vx9qes7",
+   "order": 203,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_pm_remove_cond__yltbeli4",
+   "order": 204,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.func_basic__l6orrrq5",
+   "order": 205,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  },
+  {
+   "instance_id": "gawel__pyquery.811cd048.lm_rewrite__g0w5tf56",
+   "order": 206,
+   "infra_error": "build: ValueError: no non-test source file in bug patch"
+  }
+ ],
+ "split": "test",
+ "rows": "/tmp/claude-0/-home-user-gatekeeper/f29077ab-9caa-50eb-8538-43fec06f7e6f/scratchpad/rows_gawel__pyquery.jsonl.gz"
+}

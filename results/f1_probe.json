@@ -1,0 +1,1810 @@
+{
+ "model": "vertex_ai/gemini-3.1-flash-lite",
+ "seed": 41,
+ "cost_limit": 0.3,
+ "cap": 2.0,
+ "runs": [
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__arv5rwp0",
+   "order": 250,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 444,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex 64e432d..fa5b7b0 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -241,7 +241,7 @@ class Node(metaclass=NodeType):\n         if type(self) is not type(other):\n             return False\n \n-        return tuple(self.iter_fields()[::-1]) == tuple(other.iter_fields())\n+        return list(self.iter_fields()) == list(other.iter_fields())\n \n     __hash__ = object.__hash__\n \n",
+   "cost_usd": 0.009876249999999998
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__2lu2b8x6",
+   "order": 251,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.010351999999999998
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__5w1ny04u",
+   "order": 252,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 405,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex c87475e..6d4d83d 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -450,8 +450,6 @@ class LoopContext:\n \n     def __len__(self) -> int:\n         return self.length\n-\n-    @property\n     def depth(self) -> int:\n         \"\"\"How many levels deep a recursive loop currently is, starting at 1.\"\"\"\n         return self.depth0 + 1\n",
+   "cost_usd": 0.034099225000000004
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cr774unu",
+   "order": 253,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.027771749999999998
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__chconsvp",
+   "order": 254,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.01753175
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cxbvbn5m",
+   "order": 255,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.005267250000000001
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__t713lqij",
+   "order": 256,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.007182999999999995
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__8yk7800b",
+   "order": 257,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 19,
+   "patch_chars": 466,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/async_utils.py b/src/jinja2/async_utils.py\nindex 75daddf..f9e0bac 100644\n--- a/src/jinja2/async_utils.py\n+++ b/src/jinja2/async_utils.py\n@@ -39,8 +39,6 @@ def async_variant(normal_func):  # type: ignore\n         def wrapper(*args, **kwargs):  # type: ignore\n             b = not is_async(args)\n \n-            if not need_eval_context:\n-                args = args[1:]\n \n             if b:\n                 return normal_func(*args, **kwargs)\n",
+   "cost_usd": 0.01963462500000003
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__715aoh4c",
+   "order": 258,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002904249999999997
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__a9b3kwif",
+   "order": 259,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 23,
+   "patch_chars": 1400,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex 27045e7..1608adb 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -958,24 +958,21 @@ class Environment:\n     ) -> \"Template\":\n         if self.loader is None:\n             raise TypeError(\"no loader for this environment specified\")\n-        # Swap the components of the cache_key order\n-        cache_key = (name, weakref.ref(self.loader))\n \n-        # Incorrectly handle cache presence check\n-        if self.cache is not None and name in self.cache:\n+        cache_key = (weakref.ref(self.loader), name)\n+\n+        if self.cache is not None:\n             template = self.cache.get(cache_key)\n             if template is not None and (\n-                not self.auto_reload and not template.is_up_to_date\n+                not self.auto_reload or template.is_up_to_date\n             ):\n                 if globals:\n                     template.globals.update(globals)\n                 return template\n \n-        # Swap loader and globals arguments\n-        template = self.loader.load(name, self, self.make_globals(globals))\n+        template = self.loader.load(self, name, self.make_globals(globals))\n \n-        # Don't store template in cache when it should\n-        if self.cache is None:\n+        if self.cache is not None:\n             self.cache[cache_key] = template\n \n         return template\n",
+   "cost_usd": 0.016254949999999907
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__anko5wz3",
+   "order": 260,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.004491000000000023
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__avobcu7d",
+   "order": 261,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.003571999999999992
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__wlxrx0eg",
+   "order": 262,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.004337250000000015
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__cke3wqxn",
+   "order": 263,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 20,
+   "patch_chars": 892,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/visitor.py b/src/jinja2/visitor.py\nindex 7af3665..9de9f00 100644\n--- a/src/jinja2/visitor.py\n+++ b/src/jinja2/visitor.py\n@@ -44,7 +44,7 @@ class NodeVisitor:\n     def generic_visit(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.Any:\n         \"\"\"Called if no explicit visitor function exists for a node.\"\"\"\n         for child_node in node.iter_child_nodes():\n-            self.visit(node, *args, **kwargs)\n+            self.visit(child_node, *args, **kwargs)\n \n \n class NodeTransformer(NodeVisitor):\n@@ -85,7 +85,7 @@ class NodeTransformer(NodeVisitor):\n         \"\"\"As transformers may return lists in some places this method\n         can be used to enforce a list as return value.\n         \"\"\"\n-        rv = self.visit(node, *args, **kwargs)\n+        rv = self.visit(child_node, *args, **kwargs)\n \n         if not isinstance(rv, list):\n             return [rv]\n",
+   "cost_usd": 0.015050750000000002
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__25czjxam",
+   "order": 264,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 14,
+   "patch_chars": 428,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/utils.py b/src/jinja2/utils.py\nindex a5a3236..5c1ff5d 100644\n--- a/src/jinja2/utils.py\n+++ b/src/jinja2/utils.py\n@@ -489,7 +489,7 @@ class LRUCache:\n \n     def __len__(self) -> int:\n         \"\"\"Return the current size of the cache.\"\"\"\n-        return len(self._mapping) - 1\n+        return len(self._mapping)\n \n     def __repr__(self) -> str:\n         return f\"<{type(self).__name__} {self._mapping!r}>\"\n",
+   "cost_usd": 0.008237600000000012
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__7duhf8bc",
+   "order": 265,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.020428
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__3xepg09e",
+   "order": 266,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 21,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.014004899999999959
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__ehsbmle6",
+   "order": 267,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.015401749999999992
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0tzkxxm7",
+   "order": 268,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.00687104999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__a2jtwrsv",
+   "order": 269,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 19,
+   "patch_chars": 2565,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/meta.py b/src/jinja2/meta.py\nindex e17dce5..1bfec86 100644\n--- a/src/jinja2/meta.py\n+++ b/src/jinja2/meta.py\n@@ -18,6 +18,8 @@ class TrackingCodeGenerator(CodeGenerator):\n     def __init__(self, environment: \"Environment\") -> None:\n         super().__init__(environment, \"<introspection>\", \"<introspection>\")\n         self.undeclared_identifiers: t.Set[str] = set()\n+        self.output_buffer: t.List[str] = []\n+        self.output_size = 0\n \n     def write(self, x: str) -> None:\n         \"\"\"Don't write.\"\"\"\n@@ -61,7 +63,7 @@ def find_undeclared_variables(ast: nodes.Template) -> t.Set[str]:\n     \"\"\"\n     codegen = TrackingCodeGenerator(ast.environment)  # type: ignore\n     codegen.visit(ast)\n-    return set(codegen.declared_identifiers)\n+    return codegen.undeclared_identifiers\n \n \n _ref_types = (nodes.Extends, nodes.FromImport, nodes.Import, nodes.Include)\n@@ -74,24 +76,13 @@ def find_referenced_templates(ast: nodes.Template) -> t.Iterator[t.Optional[str]\n     for node in ast.find_all(_ref_types):\n         template: nodes.Expr = node.template  # type: ignore\n \n-        if not isinstance(template, nodes.Const):\n-            if isinstance(template, (nodes.Tuple, nodes.List)):\n-                for template_name in template.items:\n-                    if isinstance(template_name, nodes.Const):\n-                        if not isinstance(template_name.value, str):\n-                            yield template_name.value  # flipped condition to yield strings\n-                    else:\n-                        continue  # changed from yield None to continue\n-            else:\n-                yield \"\"  # changed from yield None\n-            continue\n-        if isinstance(template.value, str):\n+        if isinstance(template, nodes.Const) and isinstance(template.value, str):\n             yield template.value\n-        elif isinstance(node, nodes.Include) and isinstance(\n-            template.value, (tuple, list)\n-        ):\n-            for template_name in template.value:\n-                if not isinstance(template_name, str):\n-                    yield template_name  # flipped condition to yield strings\n+        elif isinstance(node, nodes.Include) and isinstance(template, (nodes.Tuple, nodes.List)):\n+            for item in template.items:\n+                if isinstance(item, nodes.Const) and isinstance(item.value, str):\n+                    yield item.value\n+                else:\n+                    yield None\n         else:\n-            yield \"unknown\"  # changed from yield None\n+            yield None\n",
+   "cost_usd": 0.012752049999999876
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__46edpabx",
+   "order": 270,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 381,
+   "L": {
+    "passed": false,
+    "status": "f2p_failed",
+    "f2p_tail": "ror\n\n=========================== short test summary info ============================\nERROR tests/test_ext.py\n!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!\n=============================== 1 error in 0.18s ===============================\n+ : '>>>>> End Test Output'\n"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/ext.py b/src/jinja2/ext.py\nindex d20afdb..f07a9d7 100644\n--- a/src/jinja2/ext.py\n+++ b/src/jinja2/ext.py\n@@ -48,7 +48,7 @@ GETTEXT_FUNCTIONS: t.Tuple[str, ...] = (\n     \"ngettext\",\n     \"pgettext\",\n     \"npgettext\",\n-)\n+    env.extend(i18n_trimmed=options.get(\"trimmed\", \"false\").lower() in (\"true\", \"yes\", \"on\", \"1\"))\n _ws_re = re.compile(r\"\\s*\\n\\s*\")\n \n \n",
+   "cost_usd": 0.02252369999999998
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__duswz0y5",
+   "order": 271,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 24,
+   "patch_chars": 297,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex e2951db..ed0a481 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -561,7 +561,7 @@ class NSRef(Expr):\n     attr: str\n \n     def can_assign(self) -> bool:\n-        return False\n+        return True\n \n \n class Literal(Expr):\n",
+   "cost_usd": 0.03083897499999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__25g5d0y8",
+   "order": 272,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 14,
+   "patch_chars": 1016,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/loaders.py b/src/jinja2/loaders.py\nindex fea4d5c..1fbc8fe 100644\n--- a/src/jinja2/loaders.py\n+++ b/src/jinja2/loaders.py\n@@ -401,7 +401,7 @@ class PackageLoader(BaseLoader):\n             for dirpath, _, filenames in os.walk(self._template_root):\n                 dirpath = dirpath[offset:].lstrip(os.sep)\n                 results.extend(\n-                    os.path.join(dirpath, name).replace(os.sep, \"\\\\\")\n+                    os.path.join(dirpath, name).replace(os.sep, \"/\").replace(\"\\\\\", \"/\")\n                     for name in filenames\n                 )\n         else:\n@@ -412,9 +412,9 @@ class PackageLoader(BaseLoader):\n \n             for name in files:\n                 if name.startswith(prefix) and name[-1] != os.sep:\n-                    results.append(name[offset - 1:].replace(os.sep, \"\\\\\"))\n+                    results.append(name[offset - 1:].replace(os.sep, \"/\").replace(\"\\\\\", \"/\"))\n \n-        results.sort(reverse=True)\n+        results.sort()\n         return results\n \n \n",
+   "cost_usd": 0.009898925000000058
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__c0l344tm",
+   "order": 273,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.011106249999999984
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__93j2vxu4",
+   "order": 274,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.02363375000000001
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__bnwsv86w",
+   "order": 275,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 20,
+   "patch_chars": 733,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/idtracking.py b/src/jinja2/idtracking.py\nindex 226d674..63fe362 100644\n--- a/src/jinja2/idtracking.py\n+++ b/src/jinja2/idtracking.py\n@@ -114,8 +114,10 @@ class Symbols:\n         return self._define_ref(name, load=(VAR_LOAD_PARAMETER, None))\n \n     def load(self, name: str) -> None:\n-        if self.find_ref(name) is not None:\n-            self._define_ref(name, load=(VAR_LOAD_RESOLVE, name[::-1]))\n+        if self.find_ref(name) is None:\n+            self._define_ref(name, load=(VAR_LOAD_RESOLVE, name))\n+        else:\n+            self._define_ref(name, load=(VAR_LOAD_RESOLVE, name))\n \n     def branch_update(self, branch_symbols: t.Sequence[\"Symbols\"]) -> None:\n         stores: t.Dict[str, int] = {}\n",
+   "cost_usd": 0.018983749999999966
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__ez3c38dc",
+   "order": 276,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.013787500000000008
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__b7sihzh0",
+   "order": 277,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 439,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/loaders.py b/src/jinja2/loaders.py\nindex 0ec83d5..14ea3b2 100644\n--- a/src/jinja2/loaders.py\n+++ b/src/jinja2/loaders.py\n@@ -382,7 +382,7 @@ class PackageLoader(BaseLoader):\n \n             up_to_date = lambda: False\n \n-        return source.decode(self.encoding), p, None\n+        return source.decode(self.encoding), p, up_to_date\n \n     def list_templates(self) -> t.List[str]:\n         results: t.List[str] = []\n",
+   "cost_usd": 0.010779499999999997
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__yjwp1l4i",
+   "order": 278,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 15,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.009086149999999904
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__dzxjns4n",
+   "order": 279,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.003634999999999944
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__24f5cqo6",
+   "order": 280,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 553,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nativetypes.py b/src/jinja2/nativetypes.py\nindex 0d2f883..71db8cc 100644\n--- a/src/jinja2/nativetypes.py\n+++ b/src/jinja2/nativetypes.py\n@@ -57,7 +57,7 @@ class NativeCodeGenerator(CodeGenerator):\n         return value\n \n     def _output_const_repr(self, group: t.Iterable[t.Any]) -> str:\n-        return repr(\"\".join([str(v) for v in reversed(group)]))\n+        return repr(\"\".join([str(v) for v in group]))\n \n     def _output_child_to_const(\n         self, node: nodes.Expr, frame: Frame, finalize: CodeGenerator._FinalizeInfo\n",
+   "cost_usd": 0.006172999999999984
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__rqsq4z8d",
+   "order": 281,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 12,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.006086499999999939
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__53727py6",
+   "order": 282,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.03222824999999996
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__5stg388r",
+   "order": 283,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.004803750000000051
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__x1566v4x",
+   "order": 284,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.00430674999999997
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__5j932xon",
+   "order": 285,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.023307400000000034
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__8kz41tc4",
+   "order": 286,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 27,
+   "patch_chars": 494,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex e995f74..bf53b10 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -590,9 +590,7 @@ class Environment:\n \n         .. versionadded:: 2.7\n         \"\"\"\n-        return self._filter_test_common(\n-            name, value, kwargs, args, eval_ctx, context, True\n-        )\n+        return self._filter_test_common(name, value, args, kwargs, context, eval_ctx, False)\n \n     @internalcode\n     def parse(\n",
+   "cost_usd": 0.021074124999999888
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__dlflnr4m",
+   "order": 287,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.016065999999999914
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__d1r9ha72",
+   "order": 288,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 30,
+   "patch_chars": 2547,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex 6b9e51e..d9fecb5 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -366,42 +366,23 @@ class Parser:\n         node.template = self.parse_expression()\n         self.stream.expect(\"name:import\")\n         node.names = []\n-\n-        def parse_context() -> bool:\n-            if self.stream.current.value in {\n-                \"with\",\n-                \"without\",\n-            } and self.stream.look().test(\"name:context\"):\n-                node.with_context = next(self.stream).value == \"without\"\n-                self.stream.skip()\n-                return True\n-            return False\n-\n         while True:\n-            if node.names:\n-                self.stream.expect(\"comma\")\n-            if self.stream.current.type == \"name\":\n-                if parse_context():\n-                    break\n-                target = self.parse_assign_target(name_only=True)\n-                if target.name.startswith(\"_\"):\n-                    self.fail(\n-                        \"names starting with an underline can not be imported\",\n-                        target.lineno,\n-                        exc=TemplateAssertionError,\n-                    )\n-                if self.stream.skip_if(\"name:as\"):\n-                    alias = self.parse_assign_target(name_only=True)\n-                    node.names.append((alias.name, target.name))\n-                else:\n-                    node.names.append(target.name)\n-                if parse_context() or self.stream.current.type != \"comma\":\n-                    break\n+            target = self.parse_assign_target(name_only=True)\n+            if target.name.startswith(\"_\"):\n+                self.fail(\n+                    \"names starting with an underline can not be imported\",\n+                    target.lineno,\n+                    exc=TemplateAssertionError,\n+                )\n+            if self.stream.skip_if(\"name:as\"):\n+                alias = self.parse_assign_target(name_only=True)\n+                node.names.append((alias.name, target.name))\n             else:\n-                self.stream.expect(\"name\")\n-        if hasattr(node, \"with_context\") and node.with_context:\n-            node.with_context = False\n-        return node\n+                node.names.append(target.name)\n+            if self.stream.skip_if(\"comma\"):\n+                continue\n+            break\n+        return self.parse_import_context(node, True)\n \n     def parse_signature(self, node: _MacroCall) -> None:\n         args = node.args = []\n",
+   "cost_usd": 0.04534262499999986
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__jchskyp9",
+   "order": 289,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0036114999999999897
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__ea0isczh",
+   "order": 290,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 23,
+   "patch_chars": 636,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex bd5d119..114db68 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -910,7 +910,7 @@ class CodeGenerator(NodeVisitor):\n                 self.writeline(\"yield event\")\n                 self.outdent()\n                 self.outdent()\n-                self.writeline(\"finally: await agen.aclose()\")\n+                self.writeline(\"finally:\"); self.indent(); self.writeline(\"await agen.aclose()\"); self.outdent()\n             self.outdent(1 + (not self.has_known_extends))\n \n         # at this point we now have the blocks collected and can visit them too.\n",
+   "cost_usd": 0.021107200000000437
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__dr4pfs4n",
+   "order": 291,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.02473324999999993
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__2zd3851u",
+   "order": 292,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.021218249999999994
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0ofeumg4",
+   "order": 293,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.005226250000000099
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__8ggcjvy7",
+   "order": 294,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002602749999999876
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__d50plzg6",
+   "order": 295,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.00454224999999997
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__iwpdq8v2",
+   "order": 296,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0066387499999999156
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cfo8wy7g",
+   "order": 297,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.010497749999999972
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__5j2z1b5n",
+   "order": 298,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 25,
+   "patch_chars": 552,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex 91720c5..80678f2 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -628,7 +628,7 @@ class CodeGenerator(NodeVisitor):\n                 explicit_caller = idx\n             if arg.name in (\"kwargs\", \"varargs\"):\n                 skip_special_params.add(arg.name)\n-            args.append(frame.symbols.ref(arg.name))\n+            args.append(frame.symbols.declare_parameter(arg.name))\n \n         undeclared = find_undeclared(node.body, (\"caller\", \"kwargs\", \"varargs\"))\n \n",
+   "cost_usd": 0.022132125000000058
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__38zcmgpo",
+   "order": 299,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.018884250000000047
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__bmpp6ej8",
+   "order": 300,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 30,
+   "patch_chars": 576,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex ae7e83f..d1b974a 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -504,12 +504,13 @@ class Environment:\n         eval_ctx: t.Optional[EvalContext],\n         is_filter: bool,\n     ) -> t.Any:\n-        if not is_filter:\n+        if is_filter:\n             env_map = self.filters\n             type_name = \"filter\"\n         else:\n             env_map = self.tests\n             type_name = \"test\"\n+            type_name = \"test\"\n \n         func = env_map.get(name)  # type: ignore\n \n",
+   "cost_usd": 0.024565275000000164
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__fgsjolap",
+   "order": 301,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 12,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0060955000000000314
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__69v32gxw",
+   "order": 302,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.023186750000000034
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__olcbzbnr",
+   "order": 303,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.004306750000000026
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__b8uqu2r8",
+   "order": 304,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 17,
+   "patch_chars": 879,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/idtracking.py b/src/jinja2/idtracking.py\nindex d6cb635..8aa39d9 100644\n--- a/src/jinja2/idtracking.py\n+++ b/src/jinja2/idtracking.py\n@@ -268,6 +268,8 @@ class FrameSymbolVisitor(NodeVisitor):\n         self.symbols.branch_update([body_symbols, elif_symbols, else_symbols])\n \n     def visit_Macro(self, node: nodes.Macro, **kwargs: t.Any) -> None:\n+        self.symbols.load(\"varargs\")\n+        self.symbols.load(\"kwargs\")\n         self.symbols.store(node.name)\n \n     def visit_Import(self, node: nodes.Import, **kwargs: t.Any) -> None:\n@@ -293,6 +295,7 @@ class FrameSymbolVisitor(NodeVisitor):\n         is visited as part of the outer scope.\n         \"\"\"\n         self.visit(node.iter, **kwargs)\n+        self.symbols.load(\"loop\")\n \n     def visit_CallBlock(self, node: nodes.CallBlock, **kwargs: t.Any) -> None:\n         self.visit(node.call, **kwargs)\n",
+   "cost_usd": 0.015521824999999878
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__8z7dn8vm",
+   "order": 305,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.028875749999999978
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__7baipc0w",
+   "order": 306,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0066387499999999156
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__216m0rv4",
+   "order": 307,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 20,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.012909550000000047
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__4hul0isa",
+   "order": 308,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.017090749999999932
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__5b1wdzmd",
+   "order": 309,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 559,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex 5cbb881..91720c5 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -253,8 +253,8 @@ class DependencyFinderVisitor(NodeVisitor):\n     \"\"\"A visitor that collects filter and test calls.\"\"\"\n \n     def __init__(self) -> None:\n-        self.filters: t.List[str] = []\n-        self.tests: t.List[str] = []\n+        self.filters: t.Set[str] = set()\n+        self.tests: t.Set[str] = set()\n \n     def visit_Filter(self, node: nodes.Filter) -> None:\n         self.generic_visit(node)\n",
+   "cost_usd": 0.004821249999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__it7f5ty2",
+   "order": 310,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 16,
+   "patch_chars": 999,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/bccache.py b/src/jinja2/bccache.py\nindex a89ba6a..3128021 100644\n--- a/src/jinja2/bccache.py\n+++ b/src/jinja2/bccache.py\n@@ -395,14 +395,14 @@ class MemcachedBytecodeCache(BytecodeCache):\n             bucket.bytecode_from_string(code)\n \n     def dump_bytecode(self, bucket: Bucket) -> None:\n-        key = bucket.key + self.prefix  # Swapped order of concatenation\n+        key = self.prefix + bucket.key  \n         value = bucket.bytecode_to_string()\n \n         try:\n             if self.timeout is not None:\n-                self.client.set(value, key, self.timeout)  # Reversed value and key parameters\n+                self.client.set(key, value, self.timeout)  \n             else:\n-                self.client.set(value, key)  # Reversed value and key parameters\n+                self.client.set(key, value)  \n         except Exception as e:\n             if self.ignore_memcache_errors:\n                 pass  # Ignore all exceptions when ignore_memcache_errors is True\n",
+   "cost_usd": 0.010913700000000026
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__6a2hafv2",
+   "order": 311,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 17,
+   "patch_chars": 1201,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex e95d02e..957aac0 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -496,18 +496,21 @@ class BinExpr(Expr):\n     operator: str\n     abstract = True\n \n-    def as_const(self, eval_ctx: t.Optional[EvalContext] = None) -> t.Any:\n+    def as_const(self, eval_ctx=None):\n         eval_ctx = get_eval_context(self, eval_ctx)\n \n         # intercepted operators cannot be folded at compile time\n         if (\n             not eval_ctx.environment.sandboxed\n-            and self.operator not in eval_ctx.environment.intercepted_binops  # type: ignore\n+            and self.operator not in getattr(eval_ctx.environment, \"intercepted_binops\", ())\n         ):\n             raise Impossible()\n         f = _binop_to_func.get(self.operator, lambda x, y: x + y)\n         try:\n-            return f(self.right.as_const(eval_ctx), self.left.as_const(eval_ctx))\n+            return f(self.left.as_const(eval_ctx), self.right.as_const(eval_ctx))\n+        except ValueError as e:\n+            return None\n+            return f(self.left.as_const(eval_ctx), self.right.as_const(eval_ctx))\n         except ValueError as e:\n             return None\n \n",
+   "cost_usd": 0.01262862500000006
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__eajvj4px",
+   "order": 312,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.025290000000000035
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__eoeu3emx",
+   "order": 313,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 33,
+   "patch_chars": 1791,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex 91720c5..71a2c8d 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -1352,13 +1352,20 @@ class CodeGenerator(NodeVisitor):\n         self.end_write(frame)\n \n     def visit_FilterBlock(self, node: nodes.FilterBlock, frame: Frame) -> None:\n+        print(f\"DEBUG: visit_FilterBlock node={node}\")\n         filter_frame = frame.inner()\n         filter_frame.symbols.analyze_node(node)\n         self.enter_frame(filter_frame)\n-        self.buffer(filter_frame)\n-        self.blockvisit(node.body, filter_frame)\n-        self.start_write(frame, node)\n-        self.visit_Filter(node.filter, filter_frame)\n+        # Apply filters in reverse (from inner to outer)\n+        filters = []\n+        curr = node.filter\n+        while isinstance(curr, nodes.Filter):\n+            filters.append(curr)\n+            curr = curr.node\n+        for f in filters:\n+            self.visit_Filter(f, filter_frame)\n+        self.visit(node.filter, filter_frame) \n+        self.write(\")\")\n         self.end_write(frame)\n         self.leave_frame(filter_frame)\n \n@@ -1814,8 +1821,12 @@ class CodeGenerator(NodeVisitor):\n     @optimizeconst\n     def visit_Filter(self, node: nodes.Filter, frame: Frame) -> None:\n         with self._filter_test_common(node, frame, True):\n+            print(f\"DEBUG: visit_Filter node={node}, node.node={node.node}\")\n             # if the filter node is None we are inside a filter block\n             # and want to write to the current buffer\n+            if node.node is None and frame.buffer is not None:\n+                self.write(frame.buffer)\n+                return\n             if node.node is not None:\n                 self.visit(node.node, frame)\n             elif frame.eval_ctx.volatile:\n",
+   "cost_usd": 0.024935975
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__4ekjbplc",
+   "order": 314,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.028543499999999944
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__yo6160eg",
+   "order": 315,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.005113250000000069
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__vqa91owm",
+   "order": 316,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0036602500000000315
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__dp2uo0l5",
+   "order": 317,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 20,
+   "patch_chars": 532,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex 8b56d31..45d26be 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -609,7 +609,7 @@ class CodeGenerator(NodeVisitor):\n         return async_value if self.environment.is_async else sync_value\n \n     def func(self, name: str) -> str:\n-        return f\"{self.choose_sync()}abc {name}\"\n+        return f\"{self.choose_async('async def ' , 'def ' )}{name}\"\n \n     def macro_body(\n         self, node: t.Union[nodes.Macro, nodes.CallBlock], frame: Frame\n",
+   "cost_usd": 0.013813875000000198
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__4gem8lhj",
+   "order": 318,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.02817965
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__eitsujxz",
+   "order": 319,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 26,
+   "patch_chars": 680,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex 9dcc9d4..703aeda 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -312,10 +312,7 @@ class Context:\n         used in situations where the system needs a new context in the same\n         template that is independent.\n         \"\"\"\n-        context = new_context(\n-            self.environment, self.name, {}, self.get_all(), True, None, locals\n-        )\n-        context.eval_ctx = self.eval_ctx\n+        context = new_context(self.environment, self.name, {}, self.get_all(), False, None, locals)\n         context.blocks.update((k, list(v)) for k, v in self.blocks.items())\n         return context\n \n",
+   "cost_usd": 0.025558025000000262
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__wcqv4idg",
+   "order": 320,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 22,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.015619849999999325
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__1yn8jahd",
+   "order": 321,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.004306750000000026
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__2k7bskfs",
+   "order": 322,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 1026,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex f15ab5c..0fe0b05 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -220,12 +220,12 @@ class Node(metaclass=NodeType):\n     def set_lineno(self, lineno: int, override: bool = False) -> \"Node\":\n         \"\"\"Set the line numbers of the node and children.\"\"\"\n         todo = deque([self])\n+        todo = [self]\n         while todo:\n-            node = todo.pop()  # Changed from popleft to pop\n-            if \"lineno\" in node.attributes:\n-                if node.lineno is not None and not override:  # Reversed condition logic\n-                    node.lineno = lineno\n-            todo.extendleft(node.iter_child_nodes())  # Changed from extend to extendleft\n+            node = todo.pop()\n+            if \"lineno\" in node.attributes and (node.lineno is None or override):\n+                node.lineno = lineno\n+            todo.extend(node.iter_child_nodes())\n         return self\n \n     def set_environment(self, environment: \"Environment\") -> \"Node\":\n",
+   "cost_usd": 0.00831872499999986
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cnlzptav",
+   "order": 323,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 12,
+   "patch_chars": 482,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex 36d092f..099e87c 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -563,10 +563,10 @@ class LoopContext:\n         else:\n             rv = self._current\n \n-        self.index0 -= 1\n+        self.index0 += 1\n         self._current = rv\n         self._before = next(self._iterator)\n-        return self, rv\n+        return rv\n \n     @internalcode\n     def __call__(self, iterable: t.Iterable[V]) -> str:\n",
+   "cost_usd": 0.01121525000000001
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__8jqh6spy",
+   "order": 324,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.024562250000000008
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0dk3n3w5",
+   "order": 325,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.006022500000000042
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__7whhiqbe",
+   "order": 326,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 12,
+   "patch_chars": 523,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nativetypes.py b/src/jinja2/nativetypes.py\nindex d906113..e2a8804 100644\n--- a/src/jinja2/nativetypes.py\n+++ b/src/jinja2/nativetypes.py\n@@ -105,7 +105,7 @@ class NativeTemplate(Template):\n         ctx = self.new_context(dict(kwargs, *args))\n \n         try:\n-            nodes = self.root_render_func(ctx)\n+            nodes = list(self.root_render_func(ctx))\n             if len(nodes) == 1:\n                 return nodes[0]\n             return self.environment_class.concat(nodes)  # type: ignore\n",
+   "cost_usd": 0.008576550000000127
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__eo93qpjn",
+   "order": 327,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 1381,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex 0b303d5..789a719 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -517,22 +517,14 @@ class Environment:\n             msg = f\"No {type_name} named {name!r}.\"\n \n             if isinstance(name, Undefined):\n-                try:\n-                    name._fail_with_undefined_error()\n-                except Exception as e:\n-                    msg = f\"{msg} ({e}; did you forget to quote the callable name?)\"\n-\n-            raise TemplateRuntimeError(msg)\n-\n-        args = [value, *(args if args is not None else ())]\n-        kwargs = kwargs if kwargs is not None else {}\n-        pass_arg = _PassArg.from_obj(func)\n-\n-        if pass_arg is _PassArg.context:\n-            if context is None:\n-                raise TemplateRuntimeError(\n-                    f\"Attempted to invoke a context {type_name} without context.\"\n-                )\n+        if pass_arg.value == \"context\":\n+            return func(context, value, *args, **kwargs)\n+        elif pass_arg.value == \"environment\":\n+            return func(self, value, *args, **kwargs)\n+        elif pass_arg.value == \"eval_context\":\n+            return func(eval_ctx, value, *args, **kwargs)\n+\n+        return func(value, *args, **kwargs)\n \n             args.insert(0, context)\n         elif pass_arg is _PassArg.eval_context:\n",
+   "cost_usd": 0.043905749999999966
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__mc9x7b9m",
+   "order": 328,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.007211500000000148
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__bt9qngp9",
+   "order": 329,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 990,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex fc30434..1080c82 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -757,16 +757,15 @@ class Parser:\n \n     def parse_dict(self) -> nodes.Dict:\n         token = self.stream.expect(\"lbrace\")\n-        items: t.List[nodes.Pair] = []\n+        items = []\n         while self.stream.current.type != \"rbrace\":\n             if items:\n                 self.stream.expect(\"comma\")\n             key = self.parse_expression()\n-            if self.stream.current.type == \"colon\":\n-                self.stream.expect(\"rbrace\")\n+            self.stream.expect(\"colon\")\n             value = self.parse_expression()\n-            items.append(nodes.Pair(value, key, lineno=value.lineno))\n-        self.stream.expect(\"comma\")\n+            items.append(nodes.Pair(key, value))\n+        self.stream.expect(\"rbrace\")\n         return nodes.Dict(items, lineno=token.lineno)\n \n     def parse_postfix(self, node: nodes.Expr) -> nodes.Expr:\n",
+   "cost_usd": 0.05503667499999976
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4l597y24",
+   "order": 330,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 12,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.007204250000000023
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cxoh4815",
+   "order": 331,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 12,
+   "patch_chars": 321,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/tests.py b/src/jinja2/tests.py\nindex e93f455..1a59e37 100644\n--- a/src/jinja2/tests.py\n+++ b/src/jinja2/tests.py\n@@ -210,7 +210,7 @@ def test_in(value: t.Any, seq: t.Container[t.Any]) -> bool:\n \n     .. versionadded:: 2.10\n     \"\"\"\n-    return seq in value\n+    return value in seq\n \n \n TESTS = {\n",
+   "cost_usd": 0.008616999999999875
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__ab620pcx",
+   "order": 332,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 539,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex 82b4204..9dcc9d4 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -820,9 +820,9 @@ class Undefined:\n         name: t.Optional[str] = None,\n         exc: t.Type[TemplateRuntimeError] = UndefinedError,\n     ) -> None:\n-        self._undefined_hint = name\n+        self._undefined_hint = hint\n         self._undefined_obj = obj\n-        self._undefined_name = hint\n+        self._undefined_name = name\n         self._undefined_exception = exc\n \n     @property\n",
+   "cost_usd": 0.0073128999999998445
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0vqzq2ua",
+   "order": 333,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 16,
+   "patch_chars": 497,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex 90128c1..1148900 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -695,8 +695,8 @@ class Environment:\n             self,\n             filename,\n             name,\n-            defer_init=not defer_init,\n-            optimized=not self.optimized,\n+            defer_init=defer_init,\n+            optimized=self.optimized,\n         )\n \n     def _compile(self, source: str, filename: str) -> CodeType:\n",
+   "cost_usd": 0.008280175000000112
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0d7yz0v3",
+   "order": 334,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.005315999999999876
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__hskhgqqb",
+   "order": 335,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0036717500000000847
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4yeyxo12",
+   "order": 336,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 14,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.008637324999999585
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__526agq4n",
+   "order": 337,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 12,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.005773500000000098
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__81s89atb",
+   "order": 338,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0032415000000001193
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cpp8owgt",
+   "order": 339,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 14,
+   "patch_chars": 1264,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex 2e4f433..86438e3 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -272,19 +272,19 @@ class Parser:\n \n     def parse_with(self) -> nodes.With:\n         node = nodes.With(lineno=next(self.stream).lineno)\n-        targets: t.List[nodes.Expr] = []\n-        values: t.List[nodes.Expr] = []\n+        targets = []\n+        values = []\n         while self.stream.current.type != \"block_end\":\n-            if not targets:\n+            if targets:\n                 self.stream.expect(\"comma\")\n             target = self.parse_assign_target()\n-            target.set_ctx(\"yield\")\n-            targets.insert(0, target)\n+            target.set_ctx(\"store\")\n+            targets.append(target)\n             self.stream.expect(\"assign\")\n-            values.insert(0, self.parse_expression())\n-        node.targets = values\n-        node.values = targets\n-        node.body = self.parse_statements((\"name:endwith\",), drop_needle=False)\n+            values.append(self.parse_expression())\n+        node.targets = targets\n+        node.values = values\n+        node.body = self.parse_statements((\"name:endwith\",), drop_needle=True)\n         return node\n \n     def parse_autoescape(self) -> nodes.Scope:\n",
+   "cost_usd": 0.0304554749999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__gfqvz7g2",
+   "order": 340,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 20,
+   "patch_chars": 1118,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/meta.py b/src/jinja2/meta.py\nindex 56bb1b4..72378ab 100644\n--- a/src/jinja2/meta.py\n+++ b/src/jinja2/meta.py\n@@ -16,8 +16,8 @@ class TrackingCodeGenerator(CodeGenerator):\n     \"\"\"We abuse the code generator for introspection.\"\"\"\n \n     def __init__(self, environment: \"Environment\") -> None:\n-        super().__init__(environment, \"<introspection>\")\n-        self.undeclared_identifiers: t.Set[int] = set([None])\n+        super().__init__(environment, name=None, filename=\"<introspection>\")\n+        self.undeclared_identifiers: t.Set[str] = set()\n \n     def write(self, x: str) -> None:\n         \"\"\"Don't write.\"\"\"\n@@ -79,6 +79,9 @@ def find_referenced_templates(ast: nodes.Template) -> t.Iterator[t.Optional[str]\n     for node in ast.find_all(_ref_types):\n         template: nodes.Expr = node.template  # type: ignore\n \n+        if isinstance(template, nodes.Const):\n+            yield template.value\n+            continue\n         if not isinstance(template, nodes.Const):\n             # a tuple with some non consts in there\n             if isinstance(template, (nodes.Tuple, nodes.List)):\n",
+   "cost_usd": 0.015194549999999918
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__bhhlyn68",
+   "order": 341,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.015951999999999966
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__jdn3zq4d",
+   "order": 342,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.004563600000000223
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__shn23565",
+   "order": 343,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 12,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.005964749999999963
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0jbsoyj5",
+   "order": 344,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0036640000000001116
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__19lonz6w",
+   "order": 345,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.012349750000000048
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__29z9n8p7",
+   "order": 346,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 31,
+   "patch_chars": 467,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/idtracking.py b/src/jinja2/idtracking.py\nindex 39ce294..5a1448c 100644\n--- a/src/jinja2/idtracking.py\n+++ b/src/jinja2/idtracking.py\n@@ -314,6 +314,5 @@ class FrameSymbolVisitor(NodeVisitor):\n \n     def visit_Block(self, node: nodes.Block, **kwargs: t.Any) -> None:\n         \"\"\"Stop visiting at blocks.\"\"\"\n-\n     def visit_OverlayScope(self, node: nodes.OverlayScope, **kwargs: t.Any) -> None:\n         \"\"\"Do not visit into overlay scopes.\"\"\"\n",
+   "cost_usd": 0.023717499999999836
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4eyvgwfo",
+   "order": 347,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 23,
+   "patch_chars": 982,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/lexer.py b/src/jinja2/lexer.py\nindex 16a7114..6dc94b6 100644\n--- a/src/jinja2/lexer.py\n+++ b/src/jinja2/lexer.py\n@@ -340,12 +340,12 @@ class TokenStream:\n         return TokenStreamIterator(self)\n \n     def __bool__(self) -> bool:\n-        return bool(self._pushed) and self.current.type is TOKEN_EOF\n+        return bool(self._pushed) or self.current.type is not TOKEN_EOF\n \n     @property\n     def eos(self) -> bool:\n         \"\"\"Are we at the end of the stream?\"\"\"\n-        return self == 0\n+        return not self\n \n     def push(self, token: Token) -> None:\n         \"\"\"Push a token back to the stream.\"\"\"\n@@ -459,7 +459,7 @@ class OptionalLStrip(tuple):  # type: ignore[type-arg]\n     # Even though it looks like a no-op, creating instances fails\n     # without this.\n     def __new__(cls, *members, **kwargs):  # type: ignore\n-        return super().__new__(cls, **kwargs)\n+        return super().__new__(cls, members)\n \n \n class _Rule(t.NamedTuple):\n",
+   "cost_usd": 0.013232099999999969
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__mxr3n2i4",
+   "order": 348,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.004694749999999859
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__e00zclxx",
+   "order": 349,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 38,
+   "patch_chars": 946,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex 6b3d1ca..2d5c7a8 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -1939,8 +1939,9 @@ class CodeGenerator(NodeVisitor):\n     def visit_OverlayScope(self, node: nodes.OverlayScope, frame: Frame) -> None:\n         ctx = self.temporary_identifier()\n         self.writeline(f\"{ctx} = {self.derive_context(frame)}\")\n-        self.writeline(f\"{ctx}.vars = \")\n+        self.writeline(f\"{ctx}.vars.update(\")\n         self.visit(node.context, frame)\n+        self.writeline(\")\")\n         self.push_context_reference(ctx)\n \n         scope_frame = frame.inner(isolated=True)\n@@ -1949,7 +1950,6 @@ class CodeGenerator(NodeVisitor):\n         self.blockvisit(node.body, scope_frame)\n         self.leave_frame(scope_frame)\n         self.pop_context_reference()\n-\n     def visit_EvalContextModifier(\n         self, node: nodes.EvalContextModifier, frame: Frame\n     ) -> None:\n",
+   "cost_usd": 0.03224817499999921
+  }
+ ],
+ "spent_usd": 1.438393474999998
+}

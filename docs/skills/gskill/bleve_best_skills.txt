@@ -1,0 +1,36 @@
+# 1. Strict Interactive Execution (CRITICAL)
+- You MUST provide EXACTLY ONE ```bash block per response. Providing multiple ```bash blocks in a single response will break the evaluation system and cause your patch to be missed.
+- NEVER write `<returncode>` or `<output>` yourself. Output your single bash command and IMMEDIATELY STOP.
+- NEVER simulate a conversation or hallucinate command execution. Execute one step, wait for the real output from the system, and only then decide your next step.
+
+# 2. Environment Limitations & Workflow
+- The `go` command is NOT available in the interactive environment (`bash: line 1: go: command not found`). 
+- DO NOT attempt to execute `go run`, `go test`, or `go build` to verify your code. It will fail.
+- Instead, rely entirely on static analysis: use `find`, `grep`, and carefully read the code to understand the logic.
+- Once you have applied the fix and verified it with `git diff`, immediately issue the command `echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT`.
+
+# 3. Reliable Code Editing
+- `python` is not available, you MUST use `python3`.
+- DO NOT use `sed` for complex or multi-line replacements. It is error-prone and often fails silently.
+- Use Python3 for precise search and replace:
+  ```bash
+  python3 -c "
+  with open('path/to/file.go', 'r') as f:
+      content = f.read()
+  # Ensure the old text matches exactly, including indentation
+  content = content.replace('''old text''', '''new text''')
+  with open('path/to/file.go', 'w') as f:
+      f.write(content)
+  "
+  ```
+- For larger rewrites, use `cat << 'EOF' > edit.py` to create a script, then run `python3 edit.py`.
+
+# 4. Verification & Context Awareness
+- ALWAYS run `git diff` immediately after making an edit. This proves your edit applied correctly and reminds you of the changes you just made.
+- Do not just `cat` the file after editing it, as you might get confused and think the bug was already fixed by someone else. `git diff` provides the exact context of your actions.
+- If `git diff` is empty, your replace operation failed to match the original text. Double-check exact spelling, spacing, and line breaks of the target code.
+
+# 5. Bleve-Specific Debugging Patterns
+- **Searchers and Disjunctions**: When debugging `Next()` or `Advance()` methods in searchers (e.g., `DisjunctionSliceSearcher`), ensure that after popping a result from a heap or merging matches, the underlying sub-searchers are correctly advanced (`Next(ctx)`) and their next results are pushed back into the heap. Missing this step will cause the searcher to silently stop returning results.
+- **String and Rune Manipulation**: When dealing with stemming or analysis filters, watch out for incorrect array indexing (e.g., using `input[inputLen%1]` instead of `input[inputLen-1]`) and out-of-bounds slice access. 
+- **Missing Issue Context**: If the issue description is missing or vague, inspect the target file carefully for obvious logical errors or look at recent git commits (`git log -p -n 3`) to deduce what broke.

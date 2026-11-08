@@ -140,6 +140,15 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Power của tương quan và chuyển giao (L41)**
 - [ ] r kỳ vọng tính từ hiệp phương sai giữa các cấu hình (phần chuyển giao được) và nhiễu đo được của chính phép đo sẽ chạy; con số power ra từ script đã commit. Power < 0,8 thì câu hỏi chỉ là mô tả.
 
+**Trung thành với paper gốc (L44)**
+- [ ] Có bảng so định nghĩa của paper gốc (skill, trial, loss, I(x)) với thiết kế sẽ chạy, kèm câu trích từ bản gốc. Mỗi chỗ lệch có lý do và phạm vi kết luận. Quy tắc chọn phương án không loại một bước mà kế hoạch gốc bắt buộc khi chưa báo @thuthuy (A86).
+
+**Quần thể khớp ước lượng (L45)**
+- [ ] Đo được tỉ lệ task của quần thể nằm trong scope của skill (I(x) đúng và skill có thể tác động). Nếu tỉ lệ này < 1, hiệu ứng thiết kế dùng để tính n phải nhân với tỉ lệ đó. Mọi đường dự phòng của to-do gốc cho trường hợp thiếu task (ví dụ SWE-smith) phải được xét trước khi kết luận "không khả thi" (A87).
+
+**Tín hiệu đỏ (L46)**
+- [ ] Sau mỗi lần push: đọc trạng thái CI của commit đó. Test không được đọc file ngoài git (`runs/`, `logs/`); dữ liệu cần cho test thì chép vào `tests/fixtures/`, kèm nguồn (A88).
+
 **Mô tả thiết lập trong paper (L49)**
 - [ ] Mỗi câu về dataset, n, seed, ngân sách trong paper dẫn được tới `configs/pools/*.json` hoặc bản đăng ký trước (kể cả ghi chú thực thi); con số thiết lập là macro sinh từ file khi có thể.
 
@@ -159,3 +168,10 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 | N6 | Wikipedia làm nguồn cho Holm, Wald, Ville, ICER, mutation testing | Nguồn thứ cấp | Đã thay bằng nguồn gốc hoặc bình duyệt (A45). Chờ workflow nguồn xác nhận đoạn trích |
 | N4 | Phân loại `ContextWindowExceededError` là hành vi của agent | Trước đây chỉ là lập luận của tôi | Cơ sở: ICH E9(R1) phân biệt biến cố xen giữa (thuộc estimand) với dữ liệu thiếu. Trích nguyên văn: "the addendum distinguishes discontinuation of randomised treatment from study withdrawal. The former represents an intercurrent event … The latter gives rise to missing data". Trajectory vượt context là hệ quả của chính chính sách (agent + skill), không phải lỗi bên ngoài. Kiểm lại khi tải đủ định nghĩa "treatment policy strategy" |
 | N5 | Số lần thử lại khi chọn rule (4) và khi kiểm định pool (2 lần, cách 90 s) | Nhóm vận hành | Chứng minh không ảnh hưởng kết quả: còn lỗi thì **dừng**, không ghi tập task (`xreposkill_select.py`) hoặc ghi "infra" và loại khỏi pool (`validate_pool.py`) |
+
+- **(L48t, A102)** Hệ thống bên thứ ba dựa trên công cụ: (a) phép kiểm thao tác trên model thật (tỉ lệ task có ≥ 1 lời gọi công cụ), có quy tắc dừng chốt trước; (b) vị trí của hướng dẫn trong prompt khớp với cấu hình gốc của hệ thống (trích dòng).
+- **(R-54)** Hệ thống bên thứ ba: dùng mã gốc. Phần chép lại phải được đối chiếu từng dòng (ghi số dòng của bản gốc); mọi thay đổi cấu hình được liệt kê, và trần hay giới hạn nào có thể làm hệ thống đó thua phải kèm số đo chứng minh nó không chặn (`docs/reviewer_fidelity.md` §C).- **(A104)** Script chạy agent có phí: chỉ ra **file nào lưu quỹ đạo** (mọi tin nhắn) của từng lượt chạy, và kiểm file đó trong lần chạy thử miễn phí.
+
+- **(A107)** Trần của mỗi lần chạy có phí ≥ chi phí dự kiến + chi phí xấu nhất của một lượt (`cost_limit`), vì bộ chặn dừng khi "đã chi + lượt xấu nhất > trần".
+
+

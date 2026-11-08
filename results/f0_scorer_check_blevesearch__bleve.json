@@ -1,0 +1,669 @@
+{
+ "summary": {
+  "n_tasks": 30,
+  "n_scored": 30,
+  "infra_errors": 0,
+  "noop": {
+   "L_pass": 30,
+   "L_rate": 1.0,
+   "L_wilson95": [
+    0.8864866068260312,
+    0.9999999999999999
+   ],
+   "S_resolved": 0,
+   "S_rate": 0.0,
+   "S_wilson95": [
+    0.0,
+    0.11351339317396876
+   ]
+  },
+  "gold": {
+   "L_pass": 30,
+   "L_rate": 1.0,
+   "L_wilson95": [
+    0.8864866068260312,
+    0.9999999999999999
+   ],
+   "S_resolved": 30,
+   "S_rate": 1.0,
+   "S_wilson95": [
+    0.8864866068260312,
+    0.9999999999999999
+   ]
+  }
+ },
+ "per_task": [
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change_const__3tik7ucd",
+   "order": 250,
+   "noop_file": "analysis/lang/pl/stempel/diff.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__dicleove",
+   "order": 251,
+   "noop_file": "search/query/date_range_string.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__rqcexjcd",
+   "order": 252,
+   "noop_file": "analysis/datetime/iso/iso.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_swap__qacndw7l",
+   "order": 253,
+   "noop_file": "analysis/lang/pl/stempel/diff.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_swap__c2fe67fl",
+   "order": 254,
+   "noop_file": "analysis/lang/cjk/cjk_width.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_swap__tu4sbx87",
+   "order": 255,
+   "noop_file": "search/query/match.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_ctrl_invert_if__qqqaqgud",
+   "order": 256,
+   "noop_file": "analysis/lang/cjk/cjk_width.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change__bwbwosip",
+   "order": 257,
+   "noop_file": "analysis/lang/en/possessive_filter_en.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__vmjvm6tv",
+   "order": 258,
+   "noop_file": "index/upsidedown/store/moss/writer.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change__twnlfs40",
+   "order": 259,
+   "noop_file": "geo/parse.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change_const__1a3kekdq",
+   "order": 260,
+   "noop_file": "mapping/document.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change_const__5e7km4es",
+   "order": 261,
+   "noop_file": "analysis/lang/de/light_stemmer_de.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__55zz7crn",
+   "order": 262,
+   "noop_file": "index/scorch/scorch.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.lm_rewrite__7bf5dibw",
+   "order": 263,
+   "noop_file": "index/scorch/persister.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__bcviabfj",
+   "order": 264,
+   "noop_file": "index/scorch/snapshot_index_doc.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__x8z0fvdx",
+   "order": 265,
+   "noop_file": "analysis/lang/ro/analyzer_ro.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__k9aah436",
+   "order": 266,
+   "noop_file": "mapping/field.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_remove_loop__2qivylcr",
+   "order": 267,
+   "noop_file": "index/scorch/snapshot_index.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__6s1uuxjx",
+   "order": 268,
+   "noop_file": "search/query/query_string_lex.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.lm_modify__wfd2tuwl",
+   "order": 269,
+   "noop_file": "config.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__lb596cwl",
+   "order": 270,
+   "noop_file": "index/scorch/snapshot_index.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_remove_cond__9mzbcye1",
+   "order": 271,
+   "noop_file": "search/query/match.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__bh21dgjt",
+   "order": 272,
+   "noop_file": "analysis/lang/es/light_stemmer_es.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change_const__yhrmqxd9",
+   "order": 273,
+   "noop_file": "analysis/datetime/percent/percent.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change__d9p6o1ha",
+   "order": 274,
+   "noop_file": "search/scorer/scorer_term.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change_const__riivm3rv",
+   "order": 275,
+   "noop_file": "search/search.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_remove_loop__p09chg9z",
+   "order": 276,
+   "noop_file": "analysis/datetime/flexible/flexible.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change_const__be5ihxju",
+   "order": 277,
+   "noop_file": "mapping/document.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_ctrl_invert_if__wya0uj25",
+   "order": 278,
+   "noop_file": "index/upsidedown/analysis.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.lm_rewrite__j413436s",
+   "order": 279,
+   "noop_file": "analysis/token/shingle/shingle.go",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  }
+ ],
+ "split": "test",
+ "rows": "/tmp/claude-0/-home-user-gatekeeper/f29077ab-9caa-50eb-8538-43fec06f7e6f/scratchpad/rows_blevesearch__bleve.jsonl.gz"
+}

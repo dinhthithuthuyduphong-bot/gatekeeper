@@ -376,6 +376,63 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   5. **Bổ sung (A92m):** nối các bước trong một script thay vì dùng lệnh chờ. Sau mỗi lần dừng, kiểm lại bằng `/proc/<pid>/cmdline` rằng không còn tiến trình nào.
   6. Xóa image phải xóa mọi tên (tag) của nó, nếu không đĩa không được giải phóng.
 
+
+## L44. Một quy tắc tự đặt không được loại bỏ phép thử mà kế hoạch gốc bắt làm đầu tiên; phải đối chiếu định nghĩa của paper gốc trước mỗi pilot (A86)
+
+- **Xảy ra:**
+  - Pilot dùng skill dạng hướng dẫn trong khi paper gốc dùng chương trình sửa code.
+  - TODO R15 ghi rõ phải đo skill dạng chương trình sửa code đầu tiên, nhưng phương án đó (P2) bị loại sau G1 bởi một quy tắc chọn do mình đặt.
+- **Vì sao lọt qua:** quy tắc chọn phương án chỉ xét những gì tính được n từ nguồn công bố. Nó không hỏi phương án đó có kiểm đúng giả thuyết của paper gốc hay không.
+- **Phòng ngừa:**
+  1. Trước mỗi pilot, lập bảng so định nghĩa của paper gốc (skill, trial, loss, I(x)) với cái sẽ chạy, kèm câu trích từ bản gốc. Chỗ nào lệch phải ghi lý do và phạm vi kết luận.
+  2. Một quy tắc chọn phương án không được loại một phương án mà kế hoạch gốc bắt buộc, khi chưa báo @thuthuy.
+  3. Mục kiểm tra mới trong `docs/research_rules.md` §4.
+
+## L45. Đo trên quần thể mà ước lượng được định nghĩa trên đó; xét mọi đường dự phòng của kế hoạch gốc trước khi kết luận "không khả thi" (A87)
+
+- **Xảy ra:**
+  - STR của paper gốc định nghĩa trên P_s (task trong scope của skill), nhưng mọi thí nghiệm đo trên issue tự nhiên, nơi skill hầu như không liên quan.
+  - Hiệu ứng bị pha loãng, nên mọi kết quả null và mọi phép tính khả thi đều được tính trên một quần thể sai.
+- **Vì sao lọt qua:**
+  1. Ràng buộc R13 ("chỉ benchmark chuẩn") được hiểu là "chỉ SWE-bench và các bản liên quan", dù bảng 6.1 có SWE-smith.
+  2. I(x) bằng regex được coi là đã định nghĩa P_s, dù precision chỉ ≤ 0,34.
+  3. Quy tắc chọn phương án chỉ tính n_có trên SWE-bench.
+- **Phòng ngừa:**
+  1. Mục kiểm tra mới ở `docs/research_rules.md` §4.
+  2. Mỗi phép tính khả thi ghi rõ quần thể và tỉ lệ task liên quan đã đo.
+  3. Trước khi kết luận "không khả thi", liệt kê các đường dự phòng của to-do gốc và lý do loại từng đường.
+
+## L46. Cảnh báo phải thành cổng chặn; tín hiệu đỏ phải được đọc (A88, `docs/potential_issues.md` §1)
+
+- **Xảy ra:**
+  - To-do gốc cảnh báo đúng chỗ sai (pha loãng, SWE-smith, gskill, edit program), nhưng các cảnh báo chỉ là văn bản.
+  - Một cảnh báo bị đóng bằng cách viết định nghĩa (W1).
+  - Lựa chọn quyết định bị loại vì giá mà không trình @thuthuy (W4).
+  - CI đỏ suốt nhiều commit mà không ai đọc (W8).
+- **Phòng ngừa:**
+  1. Một mục của to-do chỉ được tick khi có **phép đo** chứng minh nó, không phải khi có định nghĩa.
+  2. Mọi phương án bị loại vì chi phí mà mạnh hơn phương án được chọn phải trình @thuthuy, kèm ba điều (quyền, ảnh hưởng, lời khuyên).
+  3. Đọc CI sau mỗi lần push; test không đọc file ngoài git.
+
+## L47t. Chỉ số đại diện cho một cơ chế phải được kiểm trên đối chứng không có cơ chế đó (A96)
+
+- **Xảy ra:** "bản vá trùng với bản hoàn tác commit bị lộ" được dùng làm cận dưới cho việc agent dùng chỗ lộ. Đối chứng không lộ cho thấy chỉ số này vẫn cao khi không có chỗ lộ.
+- **Phòng ngừa:** trước khi dùng một chỉ số làm bằng chứng cho cơ chế, đo nó ở điều kiện không có cơ chế. Ưu tiên thí nghiệm can thiệp (bỏ cơ chế đi) hơn chỉ số đại diện.
+- **Ghi chú đánh số:** phiên trên `main` đã dùng L47 và L48. Số này sẽ được đánh lại khi gộp `trial` vào `main`.
+
+## L48t. Hệ thống dựa trên công cụ: kiểm thao tác trên model thật và kiểm vị trí hướng dẫn trong prompt (A102)
+- **Nguyên nhân gốc:** các phép kiểm khả thi chỉ chứng minh đường ống chạy được: model giả lập được lập trình để gọi công cụ. Không phép kiểm nào hỏi model thật có gọi công cụ không. Hướng dẫn của bên thứ ba được đặt khác chỗ so với cấu hình gốc của họ (trong mô tả issue thay vì trong workflow của agent), và workflow của harness cạnh tranh với nó.
+- **Phòng ngừa:**
+  - trước khi chạy cả ô, chạy một lô nhỏ trên model thật và báo **tỉ lệ dùng công cụ**, với một quy tắc dừng chốt trước;
+  - đối chiếu vị trí từng đoạn hướng dẫn với prompt gốc của hệ thống (đoạn nào nằm trong phần nào của template);
+  - mục kiểm tra mới trong `docs/research_rules.md` §4.
+
+## L49t. Sửa một lỗi phụ thuộc thì sửa ở mọi nơi, và biến nó thành phép kiểm tự động (A97 → A103)
+- **Nguyên nhân gốc:** A97 được sửa ở đúng job bị hỏng. Một workflow khác có cùng dòng cài đặt thì không được kiểm, nên lỗi lặp lại ở lần dùng tiếp theo.
+- **Phòng ngừa:**
+  - khi sửa lỗi thiếu gói, `grep` mọi workflow có cùng phiên bản thư viện;
+  - thêm một phép kiểm vào preflight (CLAUDE.md, cơ chế 5), ở đây là `[workflow deps]`.
+
 ## L47. Mọi phân tích lại trên dữ liệu đã có phải tái lập đúng số đã đăng ký trước khi tính cái mới (A89m)
 
 - **Xảy ra:** script phân tích lại có một giả định sai về giá trị loss của cặp không có báo cáo. Chỉ phép kiểm "endpoint cũ phải ra đúng số cũ" mới bắt được lỗi này.

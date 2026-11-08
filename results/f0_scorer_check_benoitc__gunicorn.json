@@ -1,0 +1,675 @@
+{
+ "summary": {
+  "n_tasks": 30,
+  "n_scored": 30,
+  "infra_errors": 0,
+  "noop": {
+   "L_pass": 24,
+   "L_rate": 0.8,
+   "L_wilson95": [
+    0.6269430358685175,
+    0.9049489282271013
+   ],
+   "S_resolved": 0,
+   "S_rate": 0.0,
+   "S_wilson95": [
+    0.0,
+    0.11351339317396876
+   ]
+  },
+  "gold": {
+   "L_pass": 30,
+   "L_rate": 1.0,
+   "L_wilson95": [
+    0.8864866068260312,
+    0.9999999999999999
+   ],
+   "S_resolved": 30,
+   "S_rate": 1.0,
+   "S_wilson95": [
+    0.8864866068260312,
+    0.9999999999999999
+   ]
+  }
+ },
+ "per_task": [
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_pm_ctrl_shuffle__1ty0ywg8",
+   "order": 250,
+   "noop_file": "gunicorn/http/body.py",
+   "L_noop": {
+    "passed": false,
+    "status": "f2p_failed",
+    "f2p_tail": "sts/test_valid_requests.py::test_http_parser[/testbed/tests/requests/valid/012.http]\nFAILED tests/test_valid_requests.py::test_http_parser[/testbed/tests/requests/valid/compat_obs_fold.http]\n============================== 42 failed in 4.21s ==============================\n+ : '>>>>> End Test Output'\n"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_basic__7gdu9hbn",
+   "order": 251,
+   "noop_file": "gunicorn/instrument/statsd.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_basic__jh1bcodb",
+   "order": 252,
+   "noop_file": "gunicorn/config.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_pm_remove_cond__4k9mbak2",
+   "order": 253,
+   "noop_file": "gunicorn/http/body.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_pm_remove_assign__hk7awwpo",
+   "order": 254,
+   "noop_file": "gunicorn/sock.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_pm_remove_cond__hqknpspu",
+   "order": 255,
+   "noop_file": "gunicorn/app/base.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.combine_module__5awn3y0y",
+   "order": 256,
+   "noop_file": "gunicorn/http/body.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_basic__x71ekk6j",
+   "order": 257,
+   "noop_file": "gunicorn/workers/base.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_basic__n21yt7ld",
+   "order": 258,
+   "noop_file": "gunicorn/pidfile.py",
+   "L_noop": {
+    "passed": false,
+    "status": "f2p_failed",
+    "f2p_tail": "d_malformed - AssertionError\nFAILED tests/test_pidfile.py::test_validate_file_pid_exists_kill_exception - ...\nFAILED tests/test_pidfile.py::test_validate_file_pid_does_not_exist - Asserti...\n============================== 5 failed in 0.45s ===============================\n+ : '>>>>> End Test Output'\n"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_pm_ctrl_invert_if__6uijv0zj",
+   "order": 259,
+   "noop_file": "gunicorn/http/message.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_pm_ctrl_invert_if__r6y7zfq5",
+   "order": 260,
+   "noop_file": "gunicorn/glogging.py",
+   "L_noop": {
+    "passed": false,
+    "status": "f2p_failed",
+    "f2p_tail": "eader[basic YnJrMHY6]\nFAILED tests/test_logger.py::test_get_username_from_basic_auth_header[BASIC YnJrMHY6]\nFAILED tests/test_logger.py::test_get_username_handles_malformed_basic_auth_header\n============================== 6 failed in 0.53s ===============================\n+ : '>>>>> End Test Output'\n"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_pm_ctrl_shuffle__2teq70pe",
+   "order": 261,
+   "noop_file": "gunicorn/config.py",
+   "L_noop": {
+    "passed": false,
+    "status": "f2p_failed",
+    "f2p_tail": "e_during_preload - Unboun...\nFAILED tests/test_reload.py::test_reload_on_syntax_error - UnboundLocalError:...\nFAILED tests/test_reload.py::test_start_reloader_after_load_wsgi - UnboundLoc...\n============================== 14 failed in 0.57s ==============================\n+ : '>>>>> End Test Output'\n"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.combine_module__sej2azuz",
+   "order": 262,
+   "noop_file": "gunicorn/app/base.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.combine_file__eryr702a",
+   "order": 263,
+   "noop_file": "gunicorn/instrument/statsd.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_basic__4pqkvfky",
+   "order": 264,
+   "noop_file": "gunicorn/http/wsgi.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_basic__niw70tzy",
+   "order": 265,
+   "noop_file": "gunicorn/http/body.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_basic__bc7po0gv",
+   "order": 266,
+   "noop_file": "gunicorn/http/message.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.lm_rewrite__a0xx2f9m",
+   "order": 267,
+   "noop_file": "gunicorn/util.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_basic__0asaani2",
+   "order": 268,
+   "noop_file": "gunicorn/config.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.combine_file__ax9t24rv",
+   "order": 269,
+   "noop_file": "gunicorn/http/message.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_basic__db8gszce",
+   "order": 270,
+   "noop_file": "gunicorn/http/parser.py",
+   "L_noop": {
+    "passed": false,
+    "status": "f2p_failed",
+    "f2p_tail": "sts/test_valid_requests.py::test_http_parser[/testbed/tests/requests/valid/012.http]\nFAILED tests/test_valid_requests.py::test_http_parser[/testbed/tests/requests/valid/compat_obs_fold.http]\n============================== 98 failed in 1.03s ==============================\n+ : '>>>>> End Test Output'\n"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.lm_rewrite__0bf3e7d9",
+   "order": 271,
+   "noop_file": "gunicorn/arbiter.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_basic__4xv5rb1x",
+   "order": 272,
+   "noop_file": "gunicorn/app/wsgiapp.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_pm_remove_assign__9jix3sv3",
+   "order": 273,
+   "noop_file": "gunicorn/http/message.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_basic__zvkn76wj",
+   "order": 274,
+   "noop_file": "gunicorn/instrument/statsd.py",
+   "L_noop": {
+    "passed": false,
+    "status": "f2p_failed",
+    "f2p_tail": "peError: can only concate...\nFAILED tests/test_statsd.py::test_prefix_multiple_dots - TypeError: can only ...\nFAILED tests/test_statsd.py::test_prefix_nested - TypeError: can only concate...\n============================== 8 failed in 0.45s ===============================\n+ : '>>>>> End Test Output'\n"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_pm_op_change_const__n72m53ia",
+   "order": 275,
+   "noop_file": "gunicorn/http/message.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.lm_rewrite__jbejcji7",
+   "order": 276,
+   "noop_file": "gunicorn/util.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.func_pm_ctrl_shuffle__fo7e8sey",
+   "order": 277,
+   "noop_file": "gunicorn/config.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.combine_module__fa2yz78e",
+   "order": 278,
+   "noop_file": "gunicorn/http/body.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "benoitc__gunicorn.bacbf8aa.combine_file__h58tpxcf",
+   "order": 279,
+   "noop_file": "gunicorn/util.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  }
+ ],
+ "split": "test",
+ "rows": "/tmp/claude-0/-home-user-gatekeeper/f29077ab-9caa-50eb-8538-43fec06f7e6f/scratchpad/rows_benoitc__gunicorn.jsonl.gz"
+}

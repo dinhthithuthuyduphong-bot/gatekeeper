@@ -534,6 +534,172 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - worst cell = cost-limit 1,0 USD.
 - **Chạy thử miễn phí:** model giả lập trên batch 1 của 5 skill mới, cả hai nhánh (`runs/sskb-s23-dry`). Kết quả ghi bên dưới khi xong.
 
+## R-45. §24: khảo sát khả năng áp dụng của skill dạng chương trình sửa code (2026-11-06, trước khi chạy trên dữ liệu thật; 0 USD)
+
+- **Đối chiếu bản đăng ký:** §24 commit cùng mã và trước khi workflow chạy trên SWE-Gym. Đã công khai lần chạy thử trên 496 task Live với tập train giả.
+- **Đối chiếu paper gốc (mục mới L44):**
+
+  | | Paper gốc | §24 |
+  | --- | --- | --- |
+  | Skill | Chương trình sửa code có tham số, học từ bản sửa thành công | Hình dạng token của khối sửa trong bản sửa gốc của train |
+  | Trial | Áp π, chạy test giữ lại | Chưa chạy (§24 chỉ đếm điều kiện cần) |
+  | Loss | 1 − tỉ lệ pass + 0,5 mỗi regression | Không dùng ở §24 |
+
+- **Mã:**
+  1. `gatekeeper.patches.change_blocks`: tách khối ở dòng ngữ cảnh, đầu hunk và file mới; bỏ file test (cùng `_TEST_PATH`) và file không phải `.py`. Test: tách đúng, bỏ test và `.rst`.
+  2. `scripts/survey_edit_shapes.py`:
+     - Bộ tách token có xử lý số hex. Lỗi tìm thấy khi review: `0x1F` từng bị tách thành `NUM ID`; đã sửa và có test.
+     - `n_min` dùng đúng `BettingEProcess` của §2; có test khớp ngưỡng.
+     - `survey`: phủ bởi một skill, phủ bởi thư viện, ô theo repo và ô gộp. Test có ví dụ đã biết đáp án.
+- **Kiểm §4:**
+  - α, θ, c truyền bắt buộc, không có mặc định;
+  - k = 1 là định nghĩa; n_min là số suy ra (ghi trong `number_provenance`);
+  - không `continue-on-error` ở bước mới;
+  - thiếu task của split thì dừng (`SystemExit`);
+  - file kết quả chỉ có hình dạng đã trừu tượng hóa, không chứa mã của bên thứ ba;
+  - không ghi đè kết quả khác (file mới `data/survey/edit_shapes.json`).
+- **Chạy thử miễn phí:** 496 task thật (Live), cả hai quy tắc chạy hết, kết quả ở §24.
+
+## R-46. Census SWE-smith và phân tích nguyên nhân gốc (2026-11-06; 0 USD)
+
+- **Mã:** `scripts/census_swesmith.py` chỉ đọc metadata đã commit (`data/benchmarks/summary.json`, các CSV); không đọc kết quả của lần chạy agent nào.
+- **Kiểm §4:**
+  - các ngưỡng 11 / 22 / 31 là n_min đã suy ra ở §24; 100 và 300 chỉ để mô tả;
+  - tên repo SWE-smith được đổi theo mẫu `swesmith/owner__name.hash` → `owner/name`. Đã kiểm thủ công trên 5 tên: pandas, conan, jinja, click, MONAI;
+  - không ghi đè file khác.
+- **Đối chiếu nguồn (R1):** câu của gskill trích từ snapshot `gskill`; README của gskill đọc ở commit `8c7b697` (bản clone chỉ đọc, MIT).
+
+## R-47. Rà soát vấn đề tiềm ẩn lần 2 và sửa test làm CI đỏ (2026-11-06; 0 USD)
+
+- **Sửa:** `tests/test_sskb_adapter.py` đọc fixture `tests/fixtures/e1_litellm_registry.json` (chép nguyên từ `raw-archive`). Nội dung giống hệt file mà §22 đã dùng, nên phép so vẫn kiểm đúng điều cũ.
+- **Kiểm:** pytest đầy đủ qua trên container mới (trước đó 1 test fail). `ruff check`, `ruff format --check` đều qua.
+- **Tài liệu:** `docs/potential_issues.md` (21 vấn đề, 8 cơ chế); `docs/root_cause.md` §4 bổ sung P2.
+
+## R-48. §25 F0 và F1: mã, môi trường, chạy thử (2026-11-06)
+
+- **Thứ tự, ghi trung thực:** mọi mục kiểm dưới đây được làm trước khi chạy F0 đủ 100 task. Nhưng bản ghi này được viết trong lúc lần chạy đủ đã bắt đầu (0 USD, quy tắc đã đăng ký ở §25). F1 (có phí) chỉ chạy sau bản ghi này.
+- **Đối chiếu bản đăng ký:**
+  - tập task = tập test của gskill (đúng hàm chia, có test so với mã gốc);
+  - patch (a) và (b) như §25;
+  - L gọi nguyên `verify_with_patch`, theo đúng luồng của `evaluate_single_task`;
+  - S = `run_evaluation` của SWE-smith.
+- **Môi trường:** ghi chú thực thi 25-1 (phiên bản kèm căn cứ, image dẫn xuất, `_is_repo_private`).
+- **Lỗi tìm thấy khi chạy thử:** A89 (lỗi hạ tầng bị đếm thành điểm). Đã sửa và có test.
+- **F1:**
+  - Trần đặt trước mỗi lần chạy ("đã chi + 0,30 > 2,0").
+  - Chi phí cộng từ `response_cost` của LiteLLM. Chạy thử bằng `mock_response` ghi được 3,6·10⁻⁵ USD, chứng tỏ callback hoạt động (A84).
+  - Nếu một lần chạy có steps > 0 mà chi phí bằng 0 thì dừng.
+  - Seed 0 bị chặn. Driver chỉ in chi phí và trạng thái (L28).
+  - Chạy thử miễn phí trên 1 task thật: container, agent, nộp bài và chấm đều chạy hết.
+  - Job `swesmith_f1` trong `pilot.yml` có cổng preflight; mặc định của input `plan` vẫn là pilot cũ.
+- **Kiểm §4:** không ghi đè kết quả khác (file mới); dữ liệu MIT (kiểm bằng dataset card); không có mặc định cho tham số khoa học.
+
+## R-49. Ghi chú 25-3: đo chi phí phản chiếu (2026-11-06, trước khi chạy; trần 1 USD)
+
+- **Mã:**
+  - `scripts/reflection_cost_probe.py` gọi nguyên `create_swe_fitness_fn` và `LoggingProposer` của gskill.
+  - `reflective_item` chép đúng logic của `make_reflective_dataset` (`gepa@8c7b697`); đã kiểm trên một dict mẫu.
+  - Trần kiểm trước mỗi lần chạy agent và trước lần phản chiếu.
+  - Bảng giá Flash-Lite sinh từ `configs/models`, khớp fixture của §22.
+- **Chạy thử miễn phí:**
+  - phần agent đã chạy thử ở F1;
+  - phần phản chiếu chạy thử bằng `call_llm` giả trên máy này: `extract_skills` trả đúng nội dung khối ```.
+- **Workflow:** plan `swesmith-refl` dùng chung các bước môi trường của F1; có cổng preflight; publish lên `pilot-snapshots`.
+- **Điểm còn mở:** giá Pro cho prompt > 200k token khác bảng giá của mình. Ghi lại số token để tính lại nếu cần.
+
+## R-50. §25 bước 2: học và chấm skill gskill (2026-11-06, trước khi chạy; trần 26,2 USD)
+
+- **Đồng hồ chi phí (lỗi tìm thấy khi review, A92):**
+  - Bản đầu dùng `litellm.success_callback`, nhưng `gskill/cost_tracker.py:48` gán đè danh sách này, nên trần sẽ mù. Đã sửa: bọc `litellm.completion` và chặn `batch_completion` (không đi qua hàm đã bọc).
+  - Kiểm bằng `mock_response`, sau khi đã gán đè `success_callback` như gskill làm: chi phí vẫn được đếm (3,25·10⁻⁵ USD trên 1 lần gọi).
+- **Chạy thử miễn phí:**
+  - `--smoke-test` của gskill với `mock_response` và `--local-rows`: vòng lặp GEPA, `gepa_state.bin`, `summary.json` (có `num_candidates`) đều chạy hết; đồng hồ đếm 20 lần gọi agent và 3 lần gọi phản chiếu.
+  - `--resume` chạy tiếp đúng, từ 20 lên 32 lần gọi.
+- **Workflow:**
+  - plan `swesmith-learn` (input `half`) và `swesmith-eval`;
+  - trạng thái chuyển giữa hai nửa bằng `results/s25_learn_run.tar.gz` trên `pilot-snapshots`;
+  - chỉ publish file có thật (`git add` một đường dẫn không tồn tại sẽ làm hỏng bước publish).
+- **Kiểm §4:**
+  - α = 0,025 một phía và Holm trên 2 phép kiểm, ghi trước;
+  - power đã mô phỏng (L11), mức sai 0,008 ≤ 0,0125;
+  - trần tính từ số đã chi;
+  - không xem kết quả giữa chừng: driver chỉ in chi phí.
+
+## R-51. Phép kiểm "model không đổi" §5, sửa A97 và A98 (2026-11-06, trước khi chạy lại; khoảng 0,25 USD trong 40 USD)
+- **Thay đổi:**
+  - cài `mcp` (A97);
+  - `find_traj` chọn lượt mà E2 tính, theo `run_batched_pilot.merge`: task chạy lại ở phần sau thay dữ liệu cũ (A98).
+- **Kiểm §4:**
+  - quy tắc so sánh và quy tắc ghép không đổi (R5);
+  - test 3 trường hợp (một lượt; lượt sau thắng, so theo số chứ không theo chữ; thiếu hoặc nằm ở hai lô);
+  - chạy thử miễn phí trên archive thật cho 109/109 task;
+  - preflight đạt.
+- **Bổ sung sau lần chạy 3 (cùng ngày):** kết quả 109 task: 107 cho câu trả lời giống nhau giữa hai lần gọi, 75 trùng E2, 109 trùng trường `model`; `pair_with_e2 = false`. Quy tắc đã đăng ký áp nguyên (R5): không ghép. Để đọc được *chỗ khác* thay vì suy đoán (L1), script lưu thêm `sig_e2` và `sig_new`, gồm chỉ lời gọi tool và nội dung, rồi chạy lại một lần (khoảng 0,10 USD). Lần chạy này không đổi phán quyết. Kiểm miễn phí trước đó: 34 task lệch rải trên 18/20 lô và không do cách lưu `content` (cả 109 task đều có `content` rỗng và 1 lời gọi tool).
+
+## R-52. Ô memgovern có phí: hai nhánh mới (ghi chú M-3, 2026-11-06, trước khi chạy; trần 24,5 USD)
+- **Mã mới:**
+  - các mode `cell-dryrun` và `cell-paid` trong `memgovern-trial.yml`;
+  - `scripts/memgovern_cell.py` (Gatekeeper trên tiền tố theo thứ tự E2, kiểm chi phí);
+  - `scripts/redact_memgovern.py` (che nội dung, fail closed);
+  - `archive_raw.py` coi `memgovern` là nội dung bị giữ lại.
+- **Kiểm §4:**
+  - thiết kế, α, θ, c và các quy tắc dừng giữ nguyên như đã đăng ký; chỉ phần ghép nhánh đổi, theo §5 (R5);
+  - kích thước lô là con số vận hành, có lý do ghi trong M-3;
+  - trần tính từ trường hợp xấu nhất của Bleve, nên hai track chạy song song vẫn an toàn;
+  - test: 5 test cho phân tích (tiền tố, bỏ task lỗi hạ tầng, lượt chạy lại, admit, dừng vì chi phí, tên lô) và 3 test cho phần che (che, fail closed, bắt ID);
+  - định dạng thẻ và đầu ra công cụ đã đối chiếu với mã của MemGovern ở `a845658` (`exp_search.py`, `exp_read.py`, `experience_server.py`);
+  - chạy thử miễn phí `cell-dryrun` trên 2 task thật trước khi chạy có phí.
+- **Chạy thử miễn phí (06/11):**
+  - run 42300889696: không chạy task nào, lộ A100;
+  - run 42302062618: chạy đủ, nhưng bước che fail closed, lộ A101;
+  - **run 42305733426 đạt:** 2/2 task `Submitted` ở cả hai nhánh, `infra_failures` rỗng; mỗi task 1 lời gọi `/search` và 1 lời gọi `/get_experience`; che xong không còn file nào sót; 2 lô lên `raw-archive`.
+  - **Kiểm độc lập** trên file đã lưu trữ, dùng 660.427 cửa sổ 60 ký tự lấy từ mọi thẻ (121.475 thẻ, 3 trường): chỉ khớp 2 chuỗi chuẩn trong `test_output.txt` của **cả hai** nhánh, gồm thông báo traceback của Python ("During handling of the above exception, another exception occurred") và dòng phân cách của pytest. Không có nội dung MemGovern nào.
+  - Kết luận: được chạy lô có phí 1 (task 0–9, `cap_usd` 24,5).
+
+## R-53. Ô memgovern bản 2 (sai lệch M-4, 07/11/2026 UTC, trước khi chạy)
+- **Mã:**
+  - `insert_workflow_step`, `base_instance_template` trong `src/gatekeeper/pilot.py`, với khóa `workflow_step_file` của procedure;
+  - cấu hình `configs/skills/memgovern-orig-wf.json`;
+  - workflow: file `orig_step.json`, tên lô `mg2-s41`, bước kiểm `[M-4]` (in vị trí và số lệnh, không in văn bản).
+- **Kiểm §4:**
+  - văn bản chèn vào trùng từng chữ với đoạn của bản 1, chỉ khác vị trí;
+  - vị trí đã đối chiếu với cấu hình gốc (các bước 1–6);
+  - workflow 5 bước của mini-swe-agent 2.4.6 được kiểm từng chữ trên template thật (test chạy trong venv có mini-swe-agent 2.4.6);
+  - thêm 3 test;
+  - quy tắc kiểm thao tác chốt trước dữ liệu bản 2;
+  - không dùng lại nhánh `none` của lô 1, có lý do;
+  - trần có lý do;
+  - chạy thử miễn phí bản 2 trước khi chạy có phí.
+
+## R-54. Rà soát độ trung thành với mã gốc (07/11/2026, câu hỏi của @thuthuy: "tự implement lại hay xài nguồn public?")
+Đối chiếu từng dòng với gepa@8c7b697 (bản clone tạm, không commit) và MemGovern@a845658.
+
+| Thành phần | Nguồn | Kết luận |
+| --- | --- | --- |
+| Học skill (GEPA, reflection, chọn ứng viên) | `train_optimize_anything.main()` của gskill, gọi nguyên bản; mình chỉ bọc đồng hồ tiền (`gskill_learn.py`) | mã gốc |
+| Chạy agent | `SWEHarness.setup_task` / `run_agent` của gskill, `mini.yaml` của gskill; chỉ đổi `cost_limit` (3,0 → 0,30) và `model_kwargs` (seed 41) | mã gốc. Trần 0,30 chưa từng chặn lượt nào: lượt đắt nhất 0,127 USD trên 500 lượt (F1, chấm, hai nhánh không rò rỉ, Bleve 4a). Giới hạn 50 bước do `swe_harness.py:177` của gskill đặt |
+| Bộ chấm L | `verify_with_patch` của gskill; luồng điều khiển chép từ `evaluate/mini_swe_agent.py::evaluate_single_task` (no_patch → F2P → cả bộ test) | viết lại luồng 10 dòng, **khớp từng nhánh** (đã so dòng 92–115) |
+| Bộ chấm S | `run_evaluation` của SWE-smith | mã gốc |
+| Chia train/val/test | `export_swesmith.py::gskill_split` chép lại số học của `load_and_split_data` (`train_optimize_anything.py:381–434`) | viết lại, **khớp từng bước** (lọc `swesmith/<repo>`, dừng khi đủ, seed, shuffle, thu nhỏ theo tỉ lệ, cắt lát) |
+| Nhánh không rò rỉ (§25 bước 3) | can thiệp của mình (một commit mồ côi) | không thuộc gskill; ghi rõ là ngoài phạm vi |
+| MemGovern | thẻ, chỉ mục, model embedding, server, `exp_search`/`exp_read` và đoạn hướng dẫn: của MemGovern | **harness không phải của họ**: chạy trên mini-swe-agent thay vì SWE-agent; bản 1 đặt hướng dẫn sai chỗ (A102). Kết quả 0/20 chỉ nói về harness này, không được viết là "MemGovern không hiệu quả" |
+
+## R-55. §27 (07/11/2026, trước khi chạy; trần 6,6 USD trong 7 USD)
+- **Mã:**
+  - `f1_probe.py --subset no-problem-statement`: chỉ chọn task, không đổi task;
+  - lưu quỹ đạo (A104);
+  - `pilot.yml` plan `swesmith-s27` (repo jinja/pygments; nhánh placebo/trace34/pair; `dryrun`).
+- **Kiểm §4:**
+  - tài nguyên bên thứ ba dùng nguyên văn: `cmp` với skill gskill đã lưu, `sha256sum -c` với skill placebo;
+  - không `--leak-free` (yêu cầu của @thuthuy);
+  - quy tắc chọn placebo có nguồn (WebDev-Skills-Bench C2) và chỉ có một ứng viên;
+  - quy tắc chọn repo cố định trước (README của gskill);
+  - hai nhánh của 27b chạy cùng lúc (§5);
+  - phép kiểm chính, chiều và α đã ghi;
+  - 27c chỉ mô tả, đại lượng định nghĩa trước;
+  - giới hạn khác thời điểm của 27a đã ghi;
+  - chạy thử miễn phí trên GitHub Actions cho cả ba nhánh trước khi chạy có phí.
+
 ## R-45m. §26m kiểm bộ chấm (2026-11-06, 0 USD)
 
 - **Đối chiếu bản đăng ký:** §26m commit (`bb82047`) trước khi tính lại tác dụng nào. Trước đó chỉ mới thấy số đếm.

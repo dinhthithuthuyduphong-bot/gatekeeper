@@ -129,3 +129,9 @@ Mọi con số khác bên dưới đều được **suy ra từ α**, **suy ra t
 | REPS = 3 lần chấm lại bản vá gốc (§26m) | Vận hành | Tách lỗi xác định (3/3) khỏi lỗi chập chờn (1–2/3) với chi phí CPU nhỏ; không phát hiện được chập chờn hiếm (ghi trong §26m) |
 | MIN_RUNS_B = 3 (§26m, endpoint B) | Vận hành | Test được coi là hỏng chỉ khi trượt ở mọi lần chấm của instance, và instance có ít nhất 3 lần chấm, để một hai lần trượt ngẫu nhiên không bị coi là hỏng |
 | Loss của cặp không có báo cáo = 2/3 | Suy ra | `loss_of(None)` = (F + 0,5·R)/1,5 với F = 1, R = 0 (`src/gatekeeper/harness.py`) |
+| **k = 1** (§24, số repo train tối thiểu của một hình dạng) | Định nghĩa | Cách tính rộng nhất, để kết quả là cận trên; k = 2 và 3 chỉ để mô tả. Không dùng `MIN_REPOS = 3` của `scripts/mine_skills.py`, vì số đó tự đặt, không có nguồn |
+| **n_min(K) = 11 / 16 / 22 / 28 / 31** (K = 1 / 10 / 100 / 1.000 / 3.991; §24) | Suy ra | Tính bằng `BettingEProcess` với θ = 0 (D2), c = 0,5 (GRO; Waudby-Smith & Ramdas), α = 0,025 một phía (ICH E9), Bonferroni α/K; `scripts/survey_edit_shapes.py::n_min` |
+| **0,27** (§25, khoảng trống tối thiểu) | Bên thứ ba | Mức tăng nhỏ nhất gskill công bố: Jinja 55% → 82% (snapshot `gskill`) |
+| **cost_limit 0,30 USD** (§25 F1) | Vận hành | Chặn trường hợp xấu nhất; gấp khoảng 4,7 lần chi phí trung bình E2 (0,063 USD). Chỉ ảnh hưởng số lần chạy trong trần, không ảnh hưởng đại lượng đo |
+| **step_limit 50** (§25 F1) | Bên thứ ba | Gán cứng trong `gskill/swe_harness.py::run_agent` (`gepa@8c7b697`) |
+| **100 task, 200/50/100, seed 42** (§25) | Bên thứ ba | Mặc định của gskill (`train_optimize_anything.py`) |

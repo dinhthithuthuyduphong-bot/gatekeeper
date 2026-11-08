@@ -84,9 +84,10 @@ def test_model_config_flash_lite_equals_section22_setting(tmp_path, vertex_env):
     c = sa.model_config("gemini-flash-lite", 41, tmp_path)
     assert c["model_kwargs"] == {"seed": 41, "drop_params": True, "parallel_tool_calls": True}
     reg = json.loads(Path(c["litellm_model_registry"]).read_text())
-    # runs/ is local raw data (archived on branch raw-archive), absent in CI: compare with the
-    # pinned copy, and check the copy against the original wherever the original exists (A112m)
-    e1 = json.loads(Path("tests/fixtures/e1_litellm_registry.json").read_text())
+    # runs/ is local raw data, absent in CI (raw-archive: archive/g1-e1-s41/g1-e1-s41-p00.tar.gz):
+    # compare with the pinned copy, and check the copy against the original wherever the original
+    # exists (A112m; same fix as trial's A88)
+    e1 = json.loads((Path(__file__).parent / "fixtures" / "e1_litellm_registry.json").read_text())
     if sa.E1_REGISTRY.exists():
         assert json.loads(sa.E1_REGISTRY.read_text()) == e1
     assert reg.keys() == e1.keys()

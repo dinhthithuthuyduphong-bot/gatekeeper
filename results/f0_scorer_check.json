@@ -1,0 +1,2075 @@
+{
+ "summary": {
+  "n_tasks": 100,
+  "n_scored": 96,
+  "infra_errors": 4,
+  "noop": {
+   "L_pass": 96,
+   "L_rate": 1.0,
+   "L_wilson95": [
+    0.9615244121423243,
+    1.0
+   ],
+   "S_resolved": 0,
+   "S_rate": 0.0,
+   "S_wilson95": [
+    3.469446951953614e-18,
+    0.038475587857675686
+   ]
+  },
+  "gold": {
+   "L_pass": 96,
+   "L_rate": 1.0,
+   "L_wilson95": [
+    0.9615244121423243,
+    1.0
+   ],
+   "S_resolved": 96,
+   "S_rate": 1.0,
+   "S_wilson95": [
+    0.9615244121423243,
+    1.0
+   ]
+  }
+ },
+ "per_task": [
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__arv5rwp0",
+   "order": 250,
+   "noop_file": "src/jinja2/nodes.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__2lu2b8x6",
+   "order": 251,
+   "noop_file": "src/jinja2/parser.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__5w1ny04u",
+   "order": 252,
+   "noop_file": "src/jinja2/runtime.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cr774unu",
+   "order": 253,
+   "noop_file": "src/jinja2/sandbox.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__chconsvp",
+   "order": 254,
+   "noop_file": "src/jinja2/compiler.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cxbvbn5m",
+   "order": 255,
+   "noop_file": "src/jinja2/utils.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__t713lqij",
+   "order": 256,
+   "noop_file": "src/jinja2/filters.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__8yk7800b",
+   "order": 257,
+   "noop_file": "src/jinja2/async_utils.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__715aoh4c",
+   "order": 258,
+   "noop_file": "src/jinja2/sandbox.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__a9b3kwif",
+   "order": 259,
+   "noop_file": "src/jinja2/environment.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__anko5wz3",
+   "order": 260,
+   "noop_file": "src/jinja2/runtime.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__avobcu7d",
+   "order": 261,
+   "noop_file": "src/jinja2/bccache.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__wlxrx0eg",
+   "order": 262,
+   "noop_file": "src/jinja2/environment.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__cke3wqxn",
+   "order": 263,
+   "noop_file": "src/jinja2/visitor.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__25czjxam",
+   "order": 264,
+   "noop_file": "src/jinja2/utils.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__7duhf8bc",
+   "order": 265,
+   "noop_file": "src/jinja2/environment.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__3xepg09e",
+   "order": 266,
+   "noop_file": "src/jinja2/lexer.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__ehsbmle6",
+   "order": 267,
+   "infra_error": "build: ValueError: no non-test .py file in bug patch"
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0tzkxxm7",
+   "order": 268,
+   "noop_file": "src/jinja2/idtracking.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__a2jtwrsv",
+   "order": 269,
+   "noop_file": "src/jinja2/meta.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__46edpabx",
+   "order": 270,
+   "noop_file": "src/jinja2/ext.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__duswz0y5",
+   "order": 271,
+   "noop_file": "src/jinja2/nodes.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__25g5d0y8",
+   "order": 272,
+   "noop_file": "src/jinja2/loaders.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__c0l344tm",
+   "order": 273,
+   "noop_file": "src/jinja2/runtime.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__93j2vxu4",
+   "order": 274,
+   "noop_file": "src/jinja2/filters.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__bnwsv86w",
+   "order": 275,
+   "noop_file": "src/jinja2/idtracking.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__ez3c38dc",
+   "order": 276,
+   "noop_file": "src/jinja2/utils.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__b7sihzh0",
+   "order": 277,
+   "noop_file": "src/jinja2/loaders.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__yjwp1l4i",
+   "order": 278,
+   "noop_file": "src/jinja2/environment.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__dzxjns4n",
+   "order": 279,
+   "noop_file": "src/jinja2/compiler.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__24f5cqo6",
+   "order": 280,
+   "noop_file": "src/jinja2/nativetypes.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__rqsq4z8d",
+   "order": 281,
+   "noop_file": "src/jinja2/environment.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__53727py6",
+   "order": 282,
+   "noop_file": "src/jinja2/parser.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__5stg388r",
+   "order": 283,
+   "noop_file": "src/jinja2/environment.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__x1566v4x",
+   "order": 284,
+   "noop_file": "src/jinja2/parser.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__5j932xon",
+   "order": 285,
+   "noop_file": "src/jinja2/filters.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__8kz41tc4",
+   "order": 286,
+   "noop_file": "src/jinja2/environment.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__dlflnr4m",
+   "order": 287,
+   "noop_file": "src/jinja2/parser.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__d1r9ha72",
+   "order": 288,
+   "noop_file": "src/jinja2/parser.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__jchskyp9",
+   "order": 289,
+   "noop_file": "src/jinja2/async_utils.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__ea0isczh",
+   "order": 290,
+   "noop_file": "src/jinja2/compiler.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__dr4pfs4n",
+   "order": 291,
+   "noop_file": "src/jinja2/nodes.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__2zd3851u",
+   "order": 292,
+   "noop_file": "src/jinja2/filters.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0ofeumg4",
+   "order": 293,
+   "noop_file": "src/jinja2/loaders.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__8ggcjvy7",
+   "order": 294,
+   "noop_file": "src/jinja2/parser.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__d50plzg6",
+   "order": 295,
+   "noop_file": "src/jinja2/async_utils.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__iwpdq8v2",
+   "order": 296,
+   "noop_file": "src/jinja2/environment.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cfo8wy7g",
+   "order": 297,
+   "noop_file": "src/jinja2/filters.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__5j2z1b5n",
+   "order": 298,
+   "noop_file": "src/jinja2/idtracking.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__38zcmgpo",
+   "order": 299,
+   "noop_file": "src/jinja2/filters.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__bmpp6ej8",
+   "order": 300,
+   "noop_file": "src/jinja2/environment.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__fgsjolap",
+   "order": 301,
+   "noop_file": "src/jinja2/ext.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__69v32gxw",
+   "order": 302,
+   "noop_file": "src/jinja2/async_utils.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__olcbzbnr",
+   "order": 303,
+   "noop_file": "src/jinja2/parser.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__b8uqu2r8",
+   "order": 304,
+   "noop_file": "src/jinja2/compiler.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__8z7dn8vm",
+   "order": 305,
+   "infra_error": "build: ValueError: no non-test .py file in bug patch"
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__7baipc0w",
+   "order": 306,
+   "noop_file": "src/jinja2/nodes.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__216m0rv4",
+   "order": 307,
+   "noop_file": "src/jinja2/compiler.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__4hul0isa",
+   "order": 308,
+   "noop_file": "src/jinja2/compiler.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__5b1wdzmd",
+   "order": 309,
+   "noop_file": "src/jinja2/compiler.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__it7f5ty2",
+   "order": 310,
+   "noop_file": "src/jinja2/bccache.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__6a2hafv2",
+   "order": 311,
+   "noop_file": "src/jinja2/nodes.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__eajvj4px",
+   "order": 312,
+   "noop_file": "src/jinja2/parser.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__eoeu3emx",
+   "order": 313,
+   "noop_file": "src/jinja2/idtracking.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__4ekjbplc",
+   "order": 314,
+   "noop_file": "src/jinja2/parser.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__yo6160eg",
+   "order": 315,
+   "noop_file": "src/jinja2/environment.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__vqa91owm",
+   "order": 316,
+   "noop_file": "src/jinja2/utils.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__dp2uo0l5",
+   "order": 317,
+   "noop_file": "src/jinja2/compiler.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__4gem8lhj",
+   "order": 318,
+   "noop_file": "src/jinja2/compiler.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__eitsujxz",
+   "order": 319,
+   "noop_file": "src/jinja2/idtracking.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__wcqv4idg",
+   "order": 320,
+   "noop_file": "src/jinja2/runtime.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__1yn8jahd",
+   "order": 321,
+   "noop_file": "src/jinja2/parser.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__2k7bskfs",
+   "order": 322,
+   "noop_file": "src/jinja2/nodes.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cnlzptav",
+   "order": 323,
+   "noop_file": "src/jinja2/runtime.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__8jqh6spy",
+   "order": 324,
+   "noop_file": "src/jinja2/environment.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0dk3n3w5",
+   "order": 325,
+   "noop_file": "src/jinja2/lexer.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__7whhiqbe",
+   "order": 326,
+   "noop_file": "src/jinja2/nativetypes.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__eo93qpjn",
+   "order": 327,
+   "noop_file": "src/jinja2/utils.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__mc9x7b9m",
+   "order": 328,
+   "noop_file": "src/jinja2/environment.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__bt9qngp9",
+   "order": 329,
+   "noop_file": "src/jinja2/parser.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4l597y24",
+   "order": 330,
+   "noop_file": "src/jinja2/exceptions.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cxoh4815",
+   "order": 331,
+   "infra_error": "build: ValueError: no non-test .py file in bug patch"
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__ab620pcx",
+   "order": 332,
+   "noop_file": "src/jinja2/runtime.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0vqzq2ua",
+   "order": 333,
+   "noop_file": "src/jinja2/environment.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0d7yz0v3",
+   "order": 334,
+   "noop_file": "src/jinja2/runtime.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__hskhgqqb",
+   "order": 335,
+   "noop_file": "src/jinja2/compiler.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4yeyxo12",
+   "order": 336,
+   "noop_file": "src/jinja2/exceptions.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__526agq4n",
+   "order": 337,
+   "noop_file": "src/jinja2/visitor.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__81s89atb",
+   "order": 338,
+   "noop_file": "src/jinja2/filters.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cpp8owgt",
+   "order": 339,
+   "noop_file": "src/jinja2/parser.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__gfqvz7g2",
+   "order": 340,
+   "noop_file": "src/jinja2/meta.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__bhhlyn68",
+   "order": 341,
+   "noop_file": "src/jinja2/utils.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__jdn3zq4d",
+   "order": 342,
+   "infra_error": "build: ValueError: no non-test .py file in bug patch"
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__shn23565",
+   "order": 343,
+   "noop_file": "src/jinja2/exceptions.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0jbsoyj5",
+   "order": 344,
+   "noop_file": "src/jinja2/runtime.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__19lonz6w",
+   "order": 345,
+   "noop_file": "src/jinja2/lexer.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__29z9n8p7",
+   "order": 346,
+   "noop_file": "src/jinja2/idtracking.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4eyvgwfo",
+   "order": 347,
+   "noop_file": "src/jinja2/lexer.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__mxr3n2i4",
+   "order": 348,
+   "noop_file": "src/jinja2/idtracking.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__e00zclxx",
+   "order": 349,
+   "noop_file": "src/jinja2/compiler.py",
+   "L_noop": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_noop": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "L_gold": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S_gold": {
+    "resolved": true,
+    "status": "completed"
+   }
+  }
+ ],
+ "split": "test",
+ "rows": "/tmp/claude-0/-home-user-gatekeeper/f29077ab-9caa-50eb-8538-43fec06f7e6f/scratchpad/rows.jsonl"
+}

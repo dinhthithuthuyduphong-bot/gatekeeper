@@ -129,3 +129,6 @@ Giới hạn của v2: ngưỡng −0,10 và CI 90% là **lựa chọn chưa có
 | **Kích hoạt (E2)** | Bước chọn của XRepoSkill chọn ≥ 1 rule cho issue. Con số 1 là định nghĩa: 0 rule thì prompt giống hệt nhánh `none` | `docs/preregistration_e2.md` §3 |
 | **D1, D2** | Sai lệch so với bản đăng ký trước, có ngày và lý do. D1: kết luận chính theo ICH E9(R1). D2: α của RQ1 = 0,025 (ICH, một phía) thay cho 0,05; mức 0,05 vẫn được báo cáo | `docs/audit_pilot.md` A39, A41 |
 | **Plasmode** | Mô phỏng dùng dữ liệu đo thật làm đầu vào, chỉ thêm hiệu ứng đã biết | Franklin et al. 2014 |
+| **Khối sửa (§24)** | Dãy liền nhau các dòng bị xóa hoặc thêm trong file `.py` không phải test của một diff (`gatekeeper.patches.change_blocks`) | `docs/preregistration_main.md` §24 |
+| **Hình dạng h (§24)** | (dòng xóa chuẩn hóa, dòng thêm chuẩn hóa) của một khối sửa: giữ từ khóa và toán tử; tên thành `ID`, số thành `NUM`, chuỗi thành `STR` | như trên |
+| **n_min(K) (§24)** | Số trial ít nhất với Z = −1 để e-process của §2 (θ = 0, c = 0,5) đạt E ≥ K/α, α = 0,025 một phía | như trên |

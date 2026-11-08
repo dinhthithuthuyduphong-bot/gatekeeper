@@ -902,6 +902,714 @@ Container có mạng qua proxy của phiên (cài phụ thuộc), giống thiế
 - **Kiểm sau khi chạy:** 17/17 `Submitted`; 0 lỗi hạ tầng; `skill_files` > 0 ở mọi lần chạy nhánh skill (7 với `viper`, 2 với `asyncio`).
 - **Chi và token:** 4,059 USD trên trần 5 USD; 3.715.909 token vào (2.348.518 cache), 71.175 token ra.
 - **Giai đoạn bỏ dở trước D-M11** (không gộp): `viper` b1 nhánh không skill trên Flash, và `go-fx-di` b1 nhánh không skill trên Flash-Lite (0,030 USD). Chi phí ô Flash được báo cùng §23b.
+- **§23b (P17, ghi ngày 07/11/2026): bỏ dở, không phân tích** (L12). Có 3 dòng kết quả (0,777 USD); driver không còn chạy. Không chạy tiếp vì hướng chính đã chuyển sang §25–§27. Các dòng này không vào bất kỳ phép kiểm nào.
+
+## 24. Khảo sát khả năng áp dụng của skill dạng chương trình sửa code (edit program) (đăng ký 06/11/2026, trước khi có kết quả; 0 USD)
+
+**Lý do (A86):** paper gốc định nghĩa skill là chương trình sửa code, nhưng mọi pilot đã dùng đoạn hướng dẫn chèn vào prompt. Câu gốc (`docs/01-FSE-2027-13-paper.pdf`, mục Implementation):
+- *"Skills are parameterised edit programs (AST rewrites plus shell steps) induced from successful trajectories."*
+- *"the with-skill and without-skill runs share the task, seed and environment, differing only in whether π is applied. Loss is 1− held-out pass rate plus a 0.5 penalty per regression."*
+
+TODO R15 yêu cầu đo loại skill này **đầu tiên**, nhưng việc đó chưa từng làm. Khảo sát này là bước 1, miễn phí: nó cho biết hướng này có thể chứng nhận được skill nào hay không, trước khi viết bộ sinh skill.
+
+**Câu hỏi Q24:** trên tập test của `data/splits/split_v0.json` (3.991 task của SWE-bench, Verified và Live, trừ các repo của SWE-Gym), bao nhiêu task có bản sửa gốc (gold patch) mang **hình dạng** đã xuất hiện trong bản sửa gốc của tập train (SWE-Gym, 11 repo)? Và có ô nào đủ task để Gatekeeper chứng nhận được không, kể cả trong trường hợp tốt nhất?
+
+**Định nghĩa** (mã: `scripts/survey_edit_shapes.py`, `gatekeeper.patches.change_blocks`):
+- **Khối sửa:** một dãy liền nhau các dòng bị xóa hoặc thêm, trong file `.py` không phải test (cùng quy tắc nhận diện file test với `parse_patch`). Dòng ngữ cảnh, đầu hunk hoặc file mới đều kết thúc một khối.
+- **Dòng chuẩn hóa:** tách token; giữ từ khóa Python (kể cả `True`, `False`, `None`) và toán tử; mọi tên khác thành `ID`, số thành `NUM`, chuỗi thành `STR`; bỏ chú thích; dòng rỗng sau chuẩn hóa thì bỏ.
+- **Hình dạng h** của một khối: (các dòng xóa đã chuẩn hóa, các dòng thêm đã chuẩn hóa).
+- **Phủ bởi một skill (chính):** task có ít nhất 1 khối, mọi khối có cùng hình dạng h, và h xuất hiện trong các khối của tập train ở **ít nhất k repo**. k = 1 là kết quả chính; k = 2 và 3 chỉ để mô tả.
+  - Cơ sở: một chương trình sửa có tham số viết ra một hình dạng cố định và chỉ thay tên và giá trị. Vì vậy, để sinh đúng bản sửa gốc, mọi khối của bản sửa phải có hình dạng của một bản sửa mà skill học từ đó (suy ra từ định nghĩa của paper gốc).
+  - k = 1 là cách tính rộng nhất, nên con số này là **cận trên**.
+- **Phủ bởi thư viện (phụ):** mọi khối của task có hình dạng xuất hiện trong train (k = 1), có thể từ nhiều skill khác nhau.
+- **Ô:** (h, repo đích). **Ô gộp:** h trên mọi repo đích. K là số ô có ít nhất 1 task được phủ.
+- **n_min(K):** số trial ít nhất, mỗi trial có Z = −1 (skill giải được mọi task), để e-process đã đăng ký đạt E ≥ K/α. Tham số của e-process theo §2: θ = 0, c = 0,5, α = 0,025 một phía, Bonferroni α/K. Các giá trị tính từ mã: n_min = 11 (K = 1), 16 (K = 10), 22 (K = 100), 28 (K = 1.000), 31 (K = 3.991).
+
+**Quy tắc quyết định (cố định trước):**
+- **Theo repo đạt** nếu có ít nhất một ô (h, repo) có số task được phủ ≥ n_min(K). Đây là phép thử cho thiết kế gốc: chứng nhận theo từng (skill, scope), với scope = repo.
+- **Gộp đạt** nếu có ít nhất một hình dạng h có số task được phủ trên mọi repo ≥ n_min(K gộp). Đây là phép thử cho thiết kế gộp scope (P3).
+- **Có ít nhất một đạt:** được phép sang bước 2 (viết bộ sinh skill dạng chương trình sửa code, áp skill, chạy test giữ lại). Bước 2 cần một bản đăng ký mới. "Đạt" ở đây **không** phải bằng chứng skill có ích.
+- **Cả hai trượt:** kể cả khi skill giải được mọi task mà nó có thể chạm tới, không skill nào học từ bản sửa của SWE-Gym chứng nhận được trên tập test này. Khi đó dừng hướng này và báo cáo như một kết quả.
+
+**Giới hạn ghi trước:**
+1. **Giả định cùng hình dạng với bản sửa gốc:** skill có thể sửa đúng bằng một hình dạng khác bản sửa gốc, nên cách tính này có thể **đánh giá thấp** số task phủ được.
+2. **Không kiểm vị trí và tham số:** cách tính này **đánh giá cao** số task phủ được. Hình dạng tầm thường (ví dụ chỉ đổi một chuỗi: `STR` → `STR`) cũng được tính.
+3. **Chỉ xét bản sửa gốc của tập train**, không xét trajectory của agent. Tập train không có trajectory công khai đi kèm, nên bản sửa gốc là bản sửa thành công duy nhất có sẵn.
+4. **Chỉ đo chiều "giúp"**, không đo chiều gây hại.
+
+**Công khai trước (R5):**
+- Chạy thử miễn phí trên 496 dòng của `data/instances/verified_pools.jsonl` (nhánh `data-snapshots`; task Live, nằm trong tập test).
+- Tập train giả được tạo bằng cách chia đôi theo repo. **Không dùng SWE-Gym**, nên kết quả chính vẫn chưa biết.
+- Kết quả đã thấy: 5/294 task được phủ bởi một skill; cả hai quy tắc trượt; các hình dạng phổ biến nhất là hình dạng tầm thường (ví dụ `STR` → `STR`).
+- Quy tắc trên được viết **sau** lần chạy thử này. Nó không dùng con số nào lấy từ lần chạy thử: n_min suy ra từ e-process, k = 1 là cách tính rộng nhất.
+
+**Chạy:** workflow `Data snapshots` (cần HuggingFace) trên nhánh `trial`, bước `Edit-shape survey (section 24)`. Kết quả ghi vào `data/survey/edit_shapes.json` trên nhánh `data-snapshots`. File kết quả chỉ chứa hình dạng đã trừu tượng hóa và số đếm, không chứa mã nguồn.
+
+### Kết quả §24 (06/11/2026; [run 42158919971](https://github.com/dinhthithuthuyduphong-bot/gatekeeper/actions/runs/42158919971), `results/edit_shape_survey.json`)
+
+- **Cả hai quy tắc trượt, nên dừng hướng này theo quy tắc đã đăng ký.** Không sang bước 2.
+
+  | Quy tắc | K | n_min(K) | Số task lớn nhất trong một ô | Số ô đạt n_min |
+  | --- | --- | --- | --- | --- |
+  | Theo repo | 131 | 23 | **5** (django, hình dạng `STR` → `STR`) | 0 |
+  | Gộp | 98 | 22 | **8** (`STR` → `STR`) | 0 |
+
+- **Dữ liệu:**
+  - Train: SWE-Gym, 2.438 task, 11 repo, 19.448 khối sửa, 12.753 hình dạng.
+  - Test: 3.991 task, 223 repo, đủ id của split (thiếu 0).
+  - Fingerprint của HF ghi trong file kết quả.
+- **Độ phủ:**
+  - Phủ bởi một skill: 145/3.991 = 3,6% (k = 1); 98 (2,5%) với k = 2; 81 (2,0%) với k = 3.
+  - Phủ bởi thư viện: 177/3.991 = 4,4%.
+  - 42 task không có khối sửa `.py` ngoài test.
+- **Mô tả các ô lớn nhất:** đều là hình dạng tầm thường: đổi một chuỗi; `ID = STR` → `ID = STR`; thêm `STR ,`; thêm một lời gọi `ID . ID ( )`. Đây là giới hạn 2 đã ghi trước, và nó làm con số trên **cao hơn** khả năng thật.
+- **Diễn giải theo đúng quy tắc đã viết trước:**
+  - Kể cả khi skill giải được mọi task nó có thể chạm tới, không skill dạng chương trình sửa code nào học từ bản sửa của SWE-Gym chứng nhận được trên tập test này, ở cả thiết kế theo repo lẫn thiết kế gộp.
+  - Khoảng cách: ô lớn nhất có 5 task, so với n_min là 23 (theo repo); 8 so với 22 (gộp).
+- **Giới hạn còn lại:** giới hạn 1 (skill có thể sửa đúng bằng hình dạng khác bản sửa gốc) chưa được loại trừ. Hướng của sai lệch này được ghi rõ: con số trên có thể thấp hơn thật.
+
+## 25. gskill trên SWE-smith: kiểm bộ chấm (F0, 0 USD) và đo thử (F1, trần 2 USD) (đăng ký 06/11/2026, trước khi có dữ liệu)
+
+**Duyệt:** @thuthuy 06/11/2026: "làm bước miễn phí trước, rồi đo thử 2 đô". Nằm trong 60 USD của kế hoạch tái hiện, đã chi khoảng 5,9 USD. Căn cứ: `docs/root_cause.md` (A87).
+
+**Phát hiện khi đọc mã gốc (R1, trước khi có dữ liệu):** `gepa@8c7b697`, `src/gepa/gskill/gskill/swe_harness.py::verify_with_patch`:
+```python
+passed = not timed_out and "FAILED" not in test_output and "ERROR" not in test_output
+if "PASSED" in test_output or "passed" in test_output.lower():
+    passed = True
+```
+- Với repo Python, lệnh test của SWE-smith là `pytest --disable-warnings --color=no --tb=no --verbose` cộng với **các file** test F2P (`swesmith==0.0.9`, `profiles/base.py::get_test_cmd`, `profiles/python.py`).
+- Như vậy chỉ cần **một** test bất kỳ trong các file đó qua là đủ để `passed = True`, kể cả khi test F2P vẫn fail.
+- `evaluate/mini_swe_agent.py` dùng hàm này cho cả bước F2P lẫn bước bộ test đầy đủ.
+- Dòng này có từ commit thêm gskill (`3121b20`, 23/02/2026) và không đổi tới `8c7b697`. Bài blog đề ngày 18/02/2026, nên **không biết chắc** con số trong blog được chấm bằng đúng mã này.
+
+**F0: kiểm bộ chấm (0 USD, không gọi model).**
+- **Task:** tập test của gskill cho `pallets__jinja`, tái tạo đúng `load_and_split_data` (350 dòng đầu khớp repo, `random.seed(42)`, 200/50/100; `scripts/export_swesmith.py`, có test so với mã gốc). Dùng **toàn bộ 100 task**.
+- **Patch:**
+  - (a) **no-op:** thêm một dòng `# no-op` vào cuối file `.py` đầu tiên của bản vá gây lỗi; không đổi hành vi.
+  - (b) **gold:** bản sửa đúng, là nghịch đảo của bản vá gây lỗi (`git apply --reverse`, như `is_gold` của SWE-smith).
+- **Bộ chấm:**
+  - **L (lenient):** đúng quy trình của `evaluate/mini_swe_agent.py`: F2P rồi bộ test đầy đủ, dùng `SWEHarness.verify_with_patch` gọi **nguyên mã gốc**.
+  - **S (strict):** chuẩn của chính SWE-smith, `swesmith.harness.grading.get_eval_report`, tức resolved.
+- **Đại lượng:** tỉ lệ "qua" của L và S cho (a) và (b), kèm Wilson 95%.
+- **Dự đoán (từ đọc mã):** L(a) ≥ 0,5; S(a) = 0; L(b) và S(b) gần 1 (kiểm sự đúng đắn của pipeline).
+- **Diễn giải viết trước:**
+  - Nếu cận dưới Wilson 95% của L(a) > S(a): bộ chấm trong mã công khai của gskill nhận bản vá không sửa gì. Tỉ lệ "resolve" đo bằng nó **không phải** tỉ lệ resolved.
+  - Kết luận này **không** nói gì về tác dụng của skill gskill dưới bộ chấm S.
+  - Nếu S(b) < 0,9: pipeline của mình có lỗi. Khi đó dừng, sửa, ghi A#, không sang F1.
+
+**F1: đo thử có phí (trần 2 USD).**
+- **Thiết lập:**
+  - nhánh không skill (`{{ skills }}` rỗng) trên tập test của gskill, theo thứ tự `_gskill_order`;
+  - 1 seed (41);
+  - model Flash-Lite như §22, với kwargs đã đăng ký;
+  - cấu hình agent của gskill: `mini.yaml` và step_limit 50 (giá trị gán cứng trong `run_agent`);
+  - cost_limit 0,30 USD mỗi lần chạy. Đây là số vận hành: gấp khoảng 4,7 lần chi phí trung bình đo ở E2 (0,063 USD), chỉ để chặn trường hợp xấu nhất.
+- **Trần:** driver dừng khi "đã chi + 0,30 > 2,0". Chạy trên GitHub Actions bằng secret của repo.
+- **Kiểm sau khi chạy:** `infra_error`, `exit_status`, patch rỗng. Lỗi hạ tầng > 10% số lần chạy thì dừng và báo.
+- **Đại lượng:**
+  - chi phí và token mỗi lần chạy;
+  - p̂_S và p̂_L (cùng các patch, chấm bằng cả hai bộ);
+  - tỉ lệ patch rỗng.
+- **Quy tắc (cố định trước):** đề xuất bước học skill **chỉ khi** khoảng trống 1 − p̂_S ≥ 0,27.
+  - 0,27 là mức tăng nhỏ nhất gskill công bố (Jinja 55% → 82%; nhóm "bên thứ ba").
+  - Nếu khoảng trống nhỏ hơn, không thể tái hiện mức tăng có độ lớn như công bố.
+- **Không xem kết quả giữa chừng (L28):** driver chỉ in chi phí và trạng thái.
+
+**Ghi chú thực thi 25-1** (06/11/2026). Ghi khi F0 đã chạy thử trên 1 task, trước khi chạy đủ 100 task và trước F1. Các lựa chọn dưới đây đều không dựa trên kết quả:
+- **Phiên bản:**
+  - **mini-swe-agent 1.17.5**, bản v1 cuối cùng (30/01/2026). Căn cứ: `supported_fields` trong `run_agent` của gskill khớp đúng các trường của `AgentConfig` v1 (`action_observation_template`, `format_error_template`, `timeout_template`, …). Prompt `mini.yaml` cũng yêu cầu khối ```bash. Bản 2.2.4 chỉ có 4 trường, lặng lẽ bỏ qua phần còn lại, và gọi model bằng tool calling.
+  - **swebench 4.1.0:** bản mới nhất trước 02/2026. Bản 5.0.x không có `KEY_INSTANCE_ID`, nên mã gskill không import được.
+  - **swesmith 0.0.9:** theo `uv.lock` của gepa. Lệnh test và `run_patch_in_container` giống 0.0.8 (bản có trước blog), trừ phần SSH cho repo private.
+- **Môi trường:**
+  - Image dẫn xuất từ `swebench/swesmith.x86_64.pallets_1776_jinja.ada0a9a6` (qua `mirror.gcr.io`), chứa mirror của 958 nhánh task. `origin` trỏ tới mirror cục bộ, vì container không có CA của proxy.
+  - Trên máy này, kết quả `_is_repo_private` được gán sẵn bằng False, vì proxy chặn `api.github.com` và mirror là repo công khai. Trên runner của Actions thì để SWE-smith tự hỏi.
+- **Dữ liệu:** 34/100 task của tập test gskill có `problem_statement` rỗng. Giữ nguyên, như gskill. Báo cáo cả nhóm 66 task có problem statement như một phân tích phụ, vì gskill ghi lại trường `has_problem_statement`.
+- **Công khai (R5):** lần chạy thử F0 trên task `func_basic__arv5rwp0` cho L(no-op) qua, S(no-op) không qua; L(gold) và S(gold) đều qua. Quy tắc diễn giải không đổi.
+- **Sửa trước khi chạy đủ (A89):** lỗi hạ tầng (test không chạy) được phân loại thành `infra_error`, không đếm là "không qua".
+
+### Kết quả F0 (06/11/2026; `results/f0_scorer_check.json`; 0 USD)
+
+| Patch | L (luồng chấm của gskill) | S (SWE-smith, resolved) |
+| --- | --- | --- |
+| (a) no-op | **96/96 = 1,00** [0,962; 1,000] | **0/96 = 0,00** [0,000; 0,038] |
+| (b) gold | 96/96 = 1,00 | 96/96 = 1,00 [0,962; 1,000] |
+
+- **Theo quy tắc đã viết trước:**
+  - Cận dưới Wilson của L(a) là 0,962, lớn hơn S(a) = 0. Vậy bộ chấm trong mã công khai của gskill (`gepa@8c7b697`) nhận bản vá không sửa gì ở **mọi** task được chấm. Tỉ lệ "resolve" đo bằng nó không phải tỉ lệ resolved.
+  - S(b) = 1,00 ≥ 0,9, nên pipeline đúng và được sang F1.
+- **Nhóm 63 task có problem statement:** L(a) = 63/63.
+- **Lỗi hạ tầng:** 4/100 (≤ 10%). Đây là lỗi của tôi: `first_source_file` loại mọi file có chữ "test" trong tên, nên loại nhầm `src/jinja2/tests.py` (module thật của jinja). 4 task này không được chấm; kết quả trên tính trên 96 task (A90).
+- **Phạm vi kết luận:** chỉ về bộ chấm trong mã công khai. **Không** kết luận gì về con số trong blog (có thể được chấm bằng mã khác), cũng không về tác dụng của skill gskill dưới bộ chấm S.
+
+**Ghi chú thực thi 25-2: F0 mở rộng sang các repo khác** (06/11/2026; @thuthuy: "Oke, chạy F0 trên thêm vài repo đi"; đăng ký trước khi có dữ liệu của các repo này)
+- **Mục đích:** kiểm cơ chế của F0 có tổng quát không, hay chỉ đúng với jinja.
+- **Chọn repo** (quy tắc cố định; danh sách profile lấy từ `swesmith==0.0.9`):
+  1. Hai repo gskill tự nêu tên:
+     - `blevesearch__bleve` (Go, trong blog);
+     - `pygments__pygments` (repo mặc định trong README của gskill).
+  2. Ba repo Python rút ngẫu nhiên: `random.Random("2027-s25-f0x").sample(pool, 3)`, với `pool` = các repo Python (profile `PythonProfile`) có ≥ 100 task SWE-smith, trừ jinja và pygments, sắp xếp theo tên (93 repo).
+     - Kết quả rút: `benoitc__gunicorn` (373 task), `gawel__pyquery` (249), `prettytable__prettytable` (276).
+- **Task:** 30 task đầu (theo `_gskill_order`) của tập test gskill của mỗi repo, cùng cách chia (seed 42, 200/50/100).
+  - Số 30 là số vận hành: jinja tốn khoảng 1 phút mỗi task với 4 luồng.
+  - Với 30/30, cận dưới Wilson 95% là 0,886, đủ để phân biệt với S = 0.
+- **Driver:** `first_source_file` bản 2 (sửa A90). File test được nhận diện bằng danh sách file test của SWE-smith và một quy tắc đường dẫn. Với Go, dòng no-op là `// no-op`.
+  - Kết quả jinja (bản 1) giữ nguyên, không chạy lại.
+- **Dự đoán:**
+  - Python: L(a) ≥ 0,5 và S(a) = 0, cùng cơ chế với jinja.
+  - Go: với `go test -v`, output có "FAIL" chứ không có "FAILED". Mã gskill chỉ tìm "FAILED", "ERROR" và "passed", nên dự đoán L(a) ≥ 0,5 qua một nhánh khác của cùng điều kiện.
+- **Diễn giải:** như F0, áp cho từng repo. Lỗi hạ tầng > 10% ở một repo thì báo riêng và không gộp repo đó.
+
+### Kết quả F1 (06/11/2026; run 42169544117; `results/f1_probe.json`)
+
+- **Chạy:** 100/100 task của tập test gskill; 0 lỗi hạ tầng; 0 lần chạy bị crash.
+- **Chi phí:** 1,438 USD (trần 2,0; không chạm). Trung bình 0,0144 USD mỗi lần chạy, tối đa 0,055.
+
+| Đại lượng | Số | Wilson 95% |
+| --- | --- | --- |
+| **p̂_S** (resolved, SWE-smith) | **15/100 = 0,15** | [0,093; 0,233] |
+| **p̂_L** (luồng chấm của gskill) | **37/100 = 0,37** | [0,282; 0,468] |
+| Patch rỗng (agent nộp mà không sửa gì) | 62/100 | — |
+| L qua mà S không qua | 22/100 | — |
+| S qua mà L không qua | 0/100 | — |
+
+- **Trong 38 patch không rỗng:**
+  - L cho qua 37/38; ca duy nhất không qua là `f2p_failed`.
+  - S cho qua 15/38.
+  - Đúng như F0 dự báo: trên patch thật của agent, bộ chấm của gskill gần như là "có nộp patch hay không".
+- **Nhóm 66 task có problem statement:** S 14/66, L 34/66.
+- **Số bước:** trung bình 12; 1/100 lần chạm trần 50 bước.
+- **Quy tắc §25:** khoảng trống 1 − p̂_S = 0,85 ≥ 0,27, nên **đạt**: được đề xuất bước học skill (cần @thuthuy duyệt ngân sách).
+- **Diễn giải viết trước, áp cho F1:**
+  - Trên cùng các patch, bộ chấm của gskill cho tỉ lệ 0,37, gấp khoảng 2,5 lần tỉ lệ resolved (0,15).
+  - **Thăm dò, không phải kết luận:** 62% số lần chạy nộp patch rỗng. Dưới bộ chấm của gskill, một skill chỉ cần làm agent sửa **một thứ gì đó** là đủ để tỉ lệ "resolve" tăng mạnh. Điều này có thể giải thích một phần các mức tăng đã công bố. Chưa kiểm được, vì phải có skill gskill thật.
+
+**Ghi chú thực thi 25-3: đo chi phí một lần phản chiếu của gskill** (06/11/2026; @thuthuy: "ok" cho bước đo chi phí model phản chiếu dưới 1 USD; trước khi có dữ liệu)
+- **Phát hiện khi đọc mã, trước khi đo:** khi học skill, GEPA chấm từng ứng viên bằng `swe_fitness_fn`, mà hàm này dùng **cùng** `verify_with_patch` lỏng. Vậy gskill tối ưu skill theo bộ chấm lỏng. Điều này được ghi trước để diễn giải mọi kết quả của bước học.
+- **Phép đo:** `scripts/reflection_cost_probe.py`.
+  1. `create_swe_fitness_fn` của gskill chạy agent không skill trên **3 task train đầu** (theo `_gskill_order`), cùng cấu hình agent như F1 (cost_limit 0,30, seed 41).
+  2. Dựng dữ liệu phản chiếu đúng như `OptimizeAnythingAdapter.make_reflective_dataset`.
+  3. Gọi `LoggingProposer` của gskill **một lần** với `vertex_ai/gemini-3.1-pro-preview`, theo thiết lập LM mặc định của gskill (không truyền kwargs). 3 task là đúng `reflection_minibatch_size=3` của gskill.
+- **Trần:** 1,0 USD. Trước mỗi lần chạy agent: dừng nếu "đã chi + 0,30 > 1,0".
+- **Đại lượng:** chi phí và token của lần gọi phản chiếu; số ký tự của prompt.
+  - Lưu ý: bảng giá trong `configs/models` chỉ có một mức. Vertex tính giá cao hơn cho prompt dài hơn 200k token, nên nếu prompt vượt mức này thì phải tính lại theo giá thật.
+- **Dùng để làm gì:** tính trần ngân sách cho bước học, bằng công thức số lần phản chiếu × chi phí một lần cộng số lần chạy agent × 0,0144 USD (đo ở F1). Trần đó sẽ trình @thuthuy duyệt. Không có quy tắc dừng nào dựa vào kết quả của phép đo này.
+
+**Kết quả ghi chú 25-3** (run 42182744008; `results/reflection_cost_probe.json`):
+- **3 lần chạy agent:** 0,0661 USD, tức 0,022 mỗi lần chạy; 149.002 token vào, 32.131 token ra.
+- **1 lần phản chiếu (Gemini Pro):** **0,1185 USD**; 46.867 token vào (dưới mức 200k, nên giá trong bảng là đúng), 2.067 token ra. Prompt dài 142.955 ký tự; skill mới dài 2.247 ký tự (lần phản chiếu cho ra kết quả).
+- **Tổng:** 0,1846 USD trên trần 1,0.
+- **Trần ngân sách suy ra cho bước học** (mặc định của gskill, 600 lần chạy agent, minibatch 3):
+  - **Số lần chạy agent:** ≤ 600. Tính với 0,022 USD mỗi lần (mức cao hơn trong hai số đo, cao hơn F1 là 0,0144): ≤ 13,2 USD.
+  - **Số lần phản chiếu:** ≤ ⌊(600 − 50) / 6⌋ = 91.
+    - 50 là lần chấm ban đầu trên tập validation.
+    - Mỗi vòng có ít nhất 6 lần chạy: 3 cho ứng viên hiện tại, 3 cho ứng viên mới.
+    - Chi phí: 91 × 0,1185 ≈ 10,8 USD.
+  - **Chấm skill tốt nhất** trên 100 task test (nhánh có skill; nhánh không skill dùng lại F1): 100 × 0,022 = 2,2 USD.
+  - **Cận trên:** 13,2 + 10,8 + 2,2 = **26,2 USD**.
+  - **Cận dưới tham khảo:** 600 × 0,0144 + 40 lần phản chiếu × 0,1185 + 100 × 0,0144 ≈ 14,8 USD. Số 40 chỉ để minh họa, không phải số đo.
+
+### §25 bước 2: học một skill gskill và chấm nó (@thuthuy 06/11/2026: "Oke, duyệt cho skill đầu tiên"; trần 26,2 USD; đăng ký trước khi chạy)
+
+**Học (nguyên mã gskill, `scripts/gskill_learn.py`):**
+- `train_optimize_anything.main()` của `gepa@8c7b697`, không sửa. Tham số:
+  - `--repo pallets__jinja --train-size 200 --val-size 50 --test-size 100`, seed 42 (mặc định);
+  - `--model vertex_ai/gemini-3.1-flash-lite`;
+  - `--reflection-model vertex_ai/gemini-3.1-pro-preview`;
+  - `--workers 6`; proposer `batch` (mặc định);
+  - dữ liệu tải từ HuggingFace như mã gốc.
+- Cấu hình agent khi học là mặc định của gskill (`mini.yaml`, cost_limit 3, không có model_kwargs). Bộ chấm khi học là bộ chấm lỏng của gskill, như mã gốc.
+- **Hai nửa:** nửa 1 dừng ở 300 lần chạy agent; nửa 2 dùng `--resume` để chạy tới 600. Mỗi nửa có `--timeout 18000` s, để lưu trạng thái trước giới hạn 6 giờ của job.
+- **Trần cứng cho bước học: 23,0 USD**, cộng dồn qua hai nửa.
+  - Đồng hồ chi phí bọc chính `litellm.completion` và kiểm trần **trước** mỗi lần gọi. Gặp lần gọi có chi phí bằng 0 thì dừng (A84).
+  - Lý do bọc hàm: `cost_tracker` của gskill gán đè `litellm.success_callback`, nên đồng hồ chạy bằng callback sẽ bị mù (A92).
+- **Dừng sớm (quy tắc cố định):** sau nửa 1, nếu `summary.json` có `extra_info.num_candidates == 1` (GEPA không nhận ứng viên nào ngoài skill rỗng ban đầu, theo tiêu chí của chính nó), thì không chạy nửa 2. Kết quả khi đó là C.
+
+**Chấm (`scripts/f1_probe.py --skills-file`):**
+- Skill tốt nhất (`best_skills.txt`) được chèn vào `{{ skills }}`.
+- Chạy trên 100 task của tập test, cùng cấu hình với F1 (cost_limit 0,30, seed 41, cùng thứ tự task). Nhánh không skill là F1.
+- **Trần cho bước chấm: 3,2 USD.** Tổng trần của bước 2: 23,0 + 3,2 = 26,2 USD.
+- Nếu `best_skills.txt` rỗng thì không chấm, vì nhánh có skill khi đó giống hệt F1.
+
+**Quy tắc quyết định (cố định trước):**
+- **Kiểm định:** cho mỗi bộ chấm X ∈ {S, L}, dùng kiểm định dấu chính xác một phía trên các cặp lệch nhau, ghép theo task với F1. b = số task chỉ nhánh có skill qua; c = số task chỉ nhánh không skill qua; p = P(Bin(b + c, 1/2) ≥ b).
+- **Hiệu chỉnh:** Holm trên 2 phép kiểm, họ α = 0,025 một phía (ICH E9), nên mức đầu là 0,0125.
+- **Phân loại kết quả:**
+  - **A:** bác bỏ được với S.
+  - **B:** bác bỏ được với L nhưng không với S.
+  - **C:** không bác bỏ được với cả hai.
+- **Báo cáo kèm:** δ̂_S và δ̂_L với khoảng tin cậy (bootstrap theo task), và quyết định của Gatekeeper trên Z_S (e-process §2, θ = 0, α = 0,025, K = 1) theo thứ tự task. Gatekeeper là phần minh họa, không phải kết luận chính.
+- **Power của quy tắc** (`scripts/s25_power.py`, `results/s25_power.json`; nền 0,15; hai nhánh độc lập, là trường hợp bất lợi): δ = 0 → 0,008 (≤ 0,0125); 0,05 → 0,071; 0,10 → 0,268; 0,15 → 0,567; 0,27 → 0,974.
+- **Diễn giải viết trước:**
+  - **A:** skill gskill giúp thật trên Flash-Lite, nên có skill thật cho phần chứng nhận.
+  - **B:** mức tăng mà bộ chấm của gskill thấy chủ yếu là do bộ chấm, đo trên một skill thật. Có thể nói vì skill được tối ưu theo bộ chấm lỏng (ghi chú 25-3).
+  - **C:** không tái hiện được mức tăng, kể cả theo cách chấm của gskill. Không phân biệt được "skill không giúp Flash-Lite" với "thiết lập học của mình khác gskill" (agent Gemini Flash-Lite và model phản chiếu Gemini Pro, thay cho gpt-5-mini và gpt-5.2-pro).
+
+### Kết quả ghi chú 25-2 (F0 mở rộng; 0 USD; `results/f0_scorer_check_<repo>.json`)
+
+| Repo | L(no-op) | S(no-op) | S(gold) | Lỗi hạ tầng |
+| --- | --- | --- | --- | --- |
+| `blevesearch__bleve` (Go) | **30/30** [0,886; 1,000] | 0/30 | 30/30 | 0 |
+| `pygments__pygments` | **26/30** [0,703; 0,947] | 0/30 | 29/30 | 0 |
+| `benoitc__gunicorn` | **24/30** [0,627; 0,905] | 0/30 | 30/30 | 0 |
+| `gawel__pyquery` | không tính | — | 0/4 | **26/30** |
+| `prettytable__prettytable` | **30/30** [0,886; 1,000] | 0/30 | 30/30 | 0 (chạy lại sau lần đầu bị dừng vì lệnh nền chạm giới hạn 2 giờ, chưa ghi file; lỗi vận hành, không phải lỗi agent) |
+
+- **Theo quy tắc đã viết trước:**
+  - Ở mọi repo chấm được, cận dưới Wilson của L(a) lớn hơn S(a) = 0.
+  - Bleve (Go) khớp dự đoán, qua nhánh "không có FAILED/ERROR" của cùng một điều kiện.
+  - S(gold) ≥ 0,9 ở cả 4 repo, nên pipeline đúng.
+- **Tổng hợp 5 repo chấm được** (gồm jinja): L(no-op) = 206/216 = 0,954; S(no-op) = 0/216.
+- **pyquery bị báo riêng và không gộp,** vì lỗi hạ tầng > 10% (A93). pyquery kiểm bằng doctest trong file nguồn, nên `get_test_files` của SWE-smith trả về file nguồn (ví dụ `pyquery/cssselectpatch.py`). Hai hệ quả:
+  1. Driver không còn file nào để chèn no-op.
+  2. `run_patch_in_container` hoàn tác mọi thay đổi trên "file test" trước khi chấm, nên hoàn tác luôn bản sửa đúng: S(gold) = 0/4.
+- Đây là giới hạn của harness SWE-smith với repo dùng doctest, không phải lỗi của bộ chấm gskill.
+
+**Kết quả nửa 1 của bước học** (run 42185902883; publish lại từ artifact ở run republish, A94; `results/s25_learn_ledger_h1.json`, `results/s25_learn_summary_h1.json`):
+- **Chi phí:** 6,364 USD.
+  - Flash-Lite: 4,777 USD (4.949 lời gọi).
+  - Pro (phản chiếu): 1,587 USD (14 lời gọi).
+- **Số lần chạy agent:** 302 (`total_metric_calls`).
+- **`num_candidates` = 4 > 1, nên theo quy tắc dừng sớm, chạy nửa 2.**
+- Điểm validation tốt nhất theo bộ chấm **lỏng** của gskill: 0,84. Đây là điểm trên tập validation (50 task) mà GEPA dùng để chọn skill, nên **không** được dùng làm kết quả. Kết quả chỉ lấy từ bước chấm trên tập test, bằng cả hai bộ chấm.
+- Skill tốt nhất hiện tại dài 3.022 ký tự (`results/s25_best_skills.txt`; sẽ được thay bằng kết quả của nửa 2).
+
+**Kết quả nửa 2 của bước học** (run 42199763787, publish lại sau khi sửa A95):
+- **Chi phí nửa 2:** 5,890 USD. **Cộng dồn bước học: 12,254 USD** (trần 23,0).
+  - Flash-Lite: 5.746 lời gọi. Pro: 6 lời gọi.
+- **`total_metric_calls` = 606, `num_candidates` = 9.** Skill tốt nhất dài 2.675 ký tự (`results/s25_best_skills.txt`, bản sao ở `docs/skills/gskill/jinja_best_skills.txt`).
+- Điểm validation tốt nhất theo bộ chấm lỏng: 0,94. Như ở nửa 1, đây **không** phải kết quả.
+- Bước tiếp theo: chấm trên 100 task test (`swesmith-eval`, trần 3,2 USD).
+
+### Kết quả bước chấm skill gskill (run 42212566015; `results/f1_skill_probe.json`; nhánh không skill = F1)
+
+- **Chạy:** 100/100 task; 0 lỗi hạ tầng; 1,940 USD (trần 3,2), tức 0,0194 USD mỗi lần chạy.
+- **Tổng bước 2:** 12,254 + 1,940 = **14,19 USD** (trần 26,2).
+
+| Bộ chấm | Có skill | Không skill | b / c (cặp lệch) | p một phía | Mức tăng, bootstrap 95% |
+| --- | --- | --- | --- | --- | --- |
+| **S** (resolved, SWE-smith) | **53/100** | 15/100 | 44 / 6 | 1,6·10⁻⁸ | **+0,38** [0,26; 0,50] |
+| L (gskill) | 79/100 | 37/100 | 49 / 7 | 3,7·10⁻⁹ | +0,42 [0,30; 0,54] |
+
+- **Holm (họ 0,025):** bác bỏ cả S lẫn L. **Kết quả theo quy tắc đã đăng ký: A.**
+- **Gatekeeper** (e-process §2 trên Z_S, θ = 0, α = 0,025, K = 1, theo thứ tự task): **admit ở trial 29**.
+- **Mô tả thêm:**
+  - patch rỗng giảm từ 62 xuống 21;
+  - số bước trung bình tăng từ 12,0 lên 18,4;
+  - trong 79 patch không rỗng của nhánh có skill, L cho qua 79, S cho qua 53, nên bộ chấm lỏng vẫn thổi phồng thêm 26 điểm.
+
+**Phân tích thêm sau khi có dữ liệu (thăm dò, KHÔNG đăng ký trước; R5):**
+- **Lộ đáp án trong môi trường SWE-smith:**
+  - Nhánh task mà agent làm việc có lịch sử `Initial commit` → `Bug Patch` → `Remove F2P Tests`, tức commit gây lỗi nằm ngay dưới HEAD. Đã kiểm trên mirror `swesmith/pallets__jinja.ada0a9a6`.
+  - Skill học được viết rõ: *"Check Git History: If the issue description is empty … Run `git log -n 5` to identify suspicious recent commits (e.g., "Bug Patch"), then use `git show <commit_hash>` … Revert or fix these specific regressions."*
+- **Đo:**
+  - Trong 53 patch resolved của nhánh có skill, **29** là bản hoàn tác đúng từng dòng của commit "Bug Patch". Nhánh không skill có 6/15. ~~Đây là cận dưới của việc dùng chỗ lộ.~~ **Sai, xem A96 ở kết quả bước 3: bản hoàn tác đúng từng dòng xuất hiện cả khi không có chỗ lộ.**
+  - Phần resolved **không** phải hoàn tác đúng từng dòng: 24 (có skill) so với 9 (không skill).
+  - Đây là cận dưới của việc dùng chỗ lộ, vì agent có thể dùng một phần. Trajectory của bước chấm không được lưu, nên không đo được việc gọi `git log`/`git show`.
+- **Diễn giải (thăm dò):**
+  - Ít nhất một phần lớn mức tăng trong scope đến từ việc skill học cách khai thác một đặc điểm của môi trường đánh giá (commit gây lỗi bị lộ), chứ không phải tri thức về jinja.
+  - Phần còn lại gồm sửa định dạng của agent (ít patch rỗng hơn) và tri thức thật về repo (mục 4 của skill).
+  - Hệ quả có thể kiểm: trên task tự nhiên (không có commit "Bug Patch"), phần khai thác chỗ lộ không thể chuyển giao. Điều này phải đăng ký trước khi đo.
+
+### §25 bước 3: cùng skill, ngoài scope (môi trường không lộ commit gây lỗi) (@thuthuy 06/11/2026: "Ok, duyệt ngoài scope"; khoảng 3,5 USD; đăng ký trước khi chạy)
+
+**Lý do:** phân tích thăm dò của bước 2 cho thấy ít nhất 29/53 bản vá resolved là bản hoàn tác commit "Bug Patch" bị lộ trong lịch sử git. Bước 3 kiểm điều đó bằng một thí nghiệm, thay cho phân tích sau khi có dữ liệu.
+
+**Thiết kế:**
+- **Can thiệp duy nhất: lịch sử git.** Ngay sau `setup_task` của gskill, trong container **của agent**, chạy `LEAK_FREE_SH` (`scripts/f1_probe.py --leak-free`):
+  - thay lịch sử bằng **một commit không có cha**, chứa đúng cây có lỗi;
+  - xóa mọi ref khác, remote `origin`, `/opt/mirror.git` và reflog; chạy `git gc --prune=now`.
+- **Kiểm sau khi viết lại** (bắt buộc; sai thì ghi `infra_error`): `commits=1 refs=1 remotes=0 objects_with_bug_msg=0`.
+- **Container chấm điểm** vẫn mới cho mỗi lần chấm, như cũ. Chạy thử: bản gold tạo trong môi trường này được S cho resolved và L cho qua.
+- **Hai nhánh mới**, cùng 100 task test, seed 41, cùng cấu hình F1 (cost_limit 0,30):
+  - `none`: không skill;
+  - `skill`: đúng skill của bước 2. Workflow kiểm `cmp` với `docs/skills/gskill/jinja_best_skills.txt`.
+- **Trần:** nhánh none 1,9 USD; nhánh skill 2,4 USD.
+  - Chi phí dự kiến: 1,44 + 1,94 ≈ 3,4 USD (theo F1 và bước 2).
+  - Trần là chặn trường hợp xấu nhất ("đã chi + 0,30 > trần"). Nếu tổng thực tế vượt 3,5 USD thì báo @thuthuy.
+
+**Đại lượng và quy tắc (cố định trước):**
+- **δ_S^LF** = p_S(skill, LF) − p_S(none, LF), trong đó LF là môi trường không lộ (leak-free). Kiểm định dấu chính xác một phía trên cặp lệch, cho S và L; Holm, họ α = 0,025 (như bước 2).
+- **Phần do chỗ lộ:** Δ_leak = δ_S(bước 2, có lộ) − δ_S^LF, kèm bootstrap 95% theo task (4 nhánh trên cùng 100 task). Báo cáo, không kiểm định.
+- **Gatekeeper** trên Z_S^LF (θ = 0, α = 0,025, K = 1, theo thứ tự task): báo cáo có admit hay không, và ở trial nào.
+- **Dự đoán viết trước (chỉ hướng):** δ_S^LF < 0,38; p_S(none, LF) ≤ 0,15.
+- **Diễn giải viết trước:**
+  - **LF1:** Holm bác bỏ được với S trong môi trường LF. Skill có tác dụng thật ngoài chỗ lộ; Δ_leak cho biết phần do chỗ lộ.
+  - **LF2:** không bác bỏ được với S. Chứng nhận trong scope (bước 2, admit ở trial 29) **không chuyển** sang scope không lộ. Đây là một ví dụ đo được của "Scope before Reuse" trên skill thật.
+- **Giới hạn ghi trước:** môi trường LF xóa luôn lịch sử thật của repo (commit `Initial commit` ban đầu), nên khác repo thật, vốn có lịch sử. Skill có mục "Check Git History"; trong LF, mục đó chỉ còn thấy 1 commit.
+
+### Kết quả §25 bước 3: ngoài scope, không lộ commit gây lỗi (runs 42244574979, 42244580170; `results/s25_leakfree_{none,skill}.json`)
+
+- **Chạy:** 100/100 task ở mỗi nhánh; 0 lỗi hạ tầng; kiểm môi trường không lộ đạt **200/200**.
+- **Chi phí:** none 1,461 + skill 1,867 = **3,33 USD** (≤ 3,5 đã duyệt).
+
+| Nhánh | Môi trường có lộ (bước 2 / F1) | Môi trường không lộ (bước 3) |
+| --- | --- | --- |
+| Không skill, S | 15/100 | 14/100 |
+| Có skill, S | 53/100 | **35/100** |
+| Không skill, L | 37/100 | 40/100 |
+| Có skill, L | 79/100 | 66/100 |
+| Patch rỗng (không skill / có skill) | 62 / 21 | 59 / 34 |
+
+- **Kiểm định trong môi trường không lộ:**
+  - S: b = 21, c = 0, p = 4,8·10⁻⁷.
+  - L: b = 33, c = 7, p = 2,1·10⁻⁵.
+  - **Holm bác bỏ cả hai, nên theo quy tắc đã đăng ký là LF1:** skill có tác dụng thật ngoài chỗ lộ.
+- **Mức tăng S (bootstrap 95% theo task):**
+  - có lộ: δ_S = +0,38 [0,26; 0,49];
+  - không lộ: **δ_S^LF = +0,21 [0,13; 0,29]**;
+  - **phần do chỗ lộ: Δ_leak = +0,17 [0,06; 0,28]**, tức khoảng 45% mức tăng trong scope.
+- **Gatekeeper trên Z_S^LF:** admit ở **trial 50**; trong môi trường có lộ là trial 29.
+- **Phân tích phụ theo problem statement** (đã đăng ký ở ghi chú 25-1):
+
+  | Nhóm | Không skill (lộ / không lộ) | Có skill (lộ / không lộ) |
+  | --- | --- | --- |
+  | 66 task có problem statement | 14 / 14 | 38 / 35 |
+  | 34 task problem statement rỗng | 1 / 0 | **15 / 0** |
+
+  - Toàn bộ mức tăng trên 34 task không có mô tả lỗi đến từ chỗ lộ: 15 → 0 khi bỏ chỗ lộ.
+  - Trên 66 task có mô tả, mức tăng gần như giữ nguyên (+24 → +21) khi bỏ chỗ lộ.
+
+**Sửa một nhận định thăm dò của bước 2 (A96):** câu "ít nhất 29/53 bản vá resolved là bản hoàn tác commit bị lộ, nên là cận dưới của việc dùng chỗ lộ" là **sai**. Trong môi trường không lộ, 18/35 bản vá resolved của nhánh có skill (và 7/14 của nhánh không skill) vẫn là bản hoàn tác đúng từng dòng, vì lỗi SWE-smith là thay đổi nhỏ và sửa đúng thì trùng với hoàn tác. Chỉ số này vì vậy không đo được việc dùng chỗ lộ. Con số đúng là Δ_leak đo bằng thí nghiệm ở trên.
+
+### §25 bước 4: lặp lại toàn bộ chuỗi cho repo thứ hai, Bleve (Go) (@thuthuy 06/11/2026: "Chọn cả bleve và Memgovern, ngân sách mới là 40 đô"; đăng ký trước khi chạy)
+
+**Lý do:** vá điểm yếu "gskill mới làm trên một repo". Bleve là repo thứ hai trong blog của gskill, với mức tăng lớn nhất được báo (24% → 93%). F0 trên Bleve đã có: L(no-op) = 30/30, S(no-op) = 0/30.
+
+**Thiết kế:** giống hệt jinja (§25 F1, bước 2, bước 3); chỉ đổi repo:
+- `--repo blevesearch__bleve`; cách chia của gskill (seed 42, 200/50/100), dữ liệu `swesmith_blevesearch__bleve.jsonl.gz`;
+- image `swebench/swesmith.x86_64.blevesearch_1776_bleve.f2876b5e`, kèm mirror các nhánh task.
+- 42/100 task test có problem statement rỗng (jinja: 34/100).
+- Các file kết quả có tiền tố `s25bleve_`, nên không ghi đè kết quả jinja.
+
+**Các bước và trần** (mỗi bước chạy với `--cap`; cộng dồn cả track Bleve ≤ 25,5 USD; dự kiến khoảng 20 USD theo số đo của jinja):
+
+| Bước | Nội dung | Trần |
+| --- | --- | --- |
+| 4a | Nhánh không skill, môi trường có lộ (như F1) | 2,0 |
+| 4b | Học skill (mã gskill, hai nửa, dừng sớm nếu `num_candidates == 1`) | 16,0 cộng dồn |
+| 4c | Chấm skill, môi trường có lộ | 3,2 |
+| 4d | Môi trường không lộ: none / skill | 1,9 / 2,4 |
+
+**Quy tắc:** như jinja.
+- Bước 4c: A/B/C, theo kiểm định dấu chính xác một phía và Holm, họ α = 0,025.
+- Bước 4d: LF1/LF2.
+- Ngoài ra: Δ_leak có bootstrap, Gatekeeper với θ = 0, α = 0,025, K = 1, và phân tích phụ theo problem statement.
+- **Không gộp** với jinja trong kiểm định; báo cáo theo từng repo.
+
+**Ngân sách 40 USD:** Bleve chạy trước. MemGovern dùng phần còn lại = 40 − (chi thật của Bleve). Nếu phần còn lại không đủ cho thiết kế MemGovern đã ước, thì báo @thuthuy trước khi chạy MemGovern.
+
+**Chạy thử miễn phí trên Bleve** (06/11):
+- `setup_task` → môi trường không lộ (`commits=1 refs=1 remotes=0`) → agent giả lập → `no_patch`, chi phí được ghi.
+- Bản gold tạo trong môi trường không lộ: S resolved, L qua.
+- Phần đặt biến theo repo của workflow được chạy thử cho cả jinja và bleve.
+
+### Ô memgovern: ghi chú thực thi M-1 (06/11/2026; @thuthuy: "Chọn cả bleve và Memgovern, ngân sách mới là 40 đô", "Xác nhận để trial chạy"; trước mọi lần chạy có phí của ô này)
+
+- **Thiết kế giữ nguyên như đã đăng ký** (§3, §4, §5, §11e):
+  - bản gốc (agent tự gọi `exp_search`/`exp_read`; F1–F6 và F4b đạt ở lần thử 7);
+  - 109 task E2, theo thứ tự seed 41 của E2;
+  - ghép với nhánh `none` seed 41 của E2 **nếu** §5 đạt;
+  - Gatekeeper với α_ô = 0,025/9 (K = 9), kiểm sau mỗi lô và dừng ngay khi admit;
+  - kiểm chi phí sau 10 trial đầu.
+- **Chỉ thay ngân sách:** trần của ô = 40 USD − (chi thật của track Bleve), thay cho 20 USD. Quy tắc kiểm chi phí: sau 10 trial, nếu chi phí trung bình × 109 vượt phần trần còn lại thì dừng ô.
+- **§5 viết lại** (`scripts/model_unchanged_check.py`), vì script của ngày 04/11 không còn trong lịch sử repo (repo được tạo lại ngày 06/11):
+  - gửi lại lời gọi đầu tiên của agent cho 109 task bằng `LitellmModel` của mini-swe-agent 2.4.6, với `model_name` và `model_kwargs` ghi trong trajectory E2, **hai lần**;
+  - so tên và đối số của tool call cùng nội dung, và trường `model` của phản hồi;
+  - quy tắc như draft §10: ghép chỉ khi **mọi** task đạt cả hai bước.
+  - Trajectory lấy từ `raw-archive` (`g2-e2-s41-*`, nhánh `none`). Chi phí ước khoảng 0,1 USD (218 lời gọi, khoảng 1.400 token vào mỗi lời gọi).
+- **Nếu §5 không đạt:** theo §5 phải chạy cả hai nhánh mới, ước khoảng 21 USD, có thể vượt phần trần còn lại. Khi đó báo @thuthuy trước khi chạy.
+
+### Ô memgovern: kết quả §5 (06/11/2026)
+
+- **Hai lần chạy đầu không ra kết quả:**
+  - run 42294432522 thiếu gói `mcp` (A97, không tốn tiền);
+  - run 42296379214 chọn sai quỹ đạo của 3 task được chạy lại (A98, tốn 0,0118 USD).
+- **Run 42297492582** (`results/model_unchanged_check_run42297492582.json`) trên 109 task:
+  - bước 1 (hai lần gọi mới giống nhau): 107/109;
+  - bước 2 (trùng E2): 75/109;
+  - trường `model`: 109/109;
+  - **`pair_with_e2 = false`**; chi phí 0,104 USD.
+- **Run thứ 4** (`results/model_unchanged_check.json`) có lưu kèm các câu trả lời được so (`sig_e2`, `sig_new`):
+  - bước 1: 107/109; bước 2: 74/109; trường `model`: 109/109; `pair_with_e2 = false`; chi phí 0,095 USD;
+  - 108/109 task giữ cùng trạng thái trùng hay lệch E2 như ở run 42297492582;
+  - cả 35 task lệch đều gọi một **lệnh khác**, không chỉ khác khoảng trắng. Ví dụ, E2 gọi `find . -maxdepth 2 -not -path '*/.*'`, nay model gọi `ls -R`.
+- **Phán quyết theo quy tắc đã đăng ký (R5): không ghép với E2.** Nếu chạy ô memgovern thì phải chạy cả hai nhánh mới.
+- **Diễn giải:**
+  - Với cùng tên model, cùng seed và cùng prompt, model ngày 06/11 vẫn gần như tất định (107/109). Nhưng nó khác hành vi của model ở E2 trên khoảng 32% câu trả lời đầu tiên (35/109).
+  - Trường `model` của phản hồi **không** phát hiện được thay đổi này (109/109 trùng).
+  - Hệ quả cho paper: ghép một nhánh mới với một nhánh cũ chỉ dựa trên tên model là không an toàn. Phép kiểm §5 cần thiết, và đã bắt được sự thay đổi.
+- **Ngân sách:** chạy cả hai nhánh ước khoảng 21 USD. Theo M-1, trước khi chạy phải báo @thuthuy, kèm số Bleve chi thực tế.
+- **Quyết định của @thuthuy (06/11):** "Có thể bổ sung từ 7 đến 10 đô nếu thiếu". Trần của ô = 50 USD − (chi thật của track Bleve). Phần vượt 40 USD chỉ dùng khi cần. Thiết kế giữ nguyên: hai nhánh mới (`none` và memgovern) trên 109 task theo thứ tự E2, cùng seed 41 và cấu hình như E2, Gatekeeper α_ô = 0,025/9.
+
+### Ô memgovern: ghi chú thực thi M-3 (06/11/2026, trước mọi lần chạy có phí của ô; chưa xem kết quả nào của ô)
+
+- **Hai nhánh mới**, theo §5 khi phép kiểm không đạt:
+  - `none` và `memgovern` (bản gốc) trên 109 task E2, theo thứ tự seed 41 của E2 (`model_unchanged_check.e2_tasks`);
+  - cấu hình như E2: mini-swe-agent 2.4.6, seed model 41, `cost_limit` 1 USD, 250 bước, harness SWE-bench-Live `ad79b85`, 2 worker, chạy song song 2 nhánh;
+  - server của MemGovern loại thẻ của mọi repo trong pool E2, như lần thử 7;
+  - ghim chromadb 1.5.9 và Qwen3-Embedding-0.6B bản `97b0c614`, đúng phiên bản lần thử 7 đã ghi lại (đạt F1–F6 và F4b).
+- **Trial và Z:**
+  - Z = 1[không giải | memgovern] − 1[không giải | none] (`analyze_g1_final.z_resolved`);
+  - e-process BettingEProcess với θ = 0, c = 0,5, α_ô = 0,025/9;
+  - đưa Z vào theo thứ tự E2, trên **tiền tố dài nhất đã chạy xong** của thứ tự đó. Thứ tự đặt cược vì vậy cố định trước, không phụ thuộc shard nào xong trước;
+  - task đã chạy nhưng không có cặp (lỗi hạ tầng) bị bỏ qua, như ở E1/E2 (`scripts/memgovern_cell.py`).
+- **Lô và quy tắc dừng** (như đã đăng ký: kiểm sau mỗi lô, dừng ngay khi admit; kiểm chi phí sau 10 trial):
+  - lô 1 là task 0–9 (10 task). Sau lô 1 kiểm chi phí: nếu chi tới lúc đó + (chi trung bình mỗi task × số task còn lại) > trần của ô thì dừng ô và báo @thuthuy;
+  - các lô sau mỗi lô 20 task: 10–29, 30–49, 50–69, 70–89, 90–108 (lô cuối 19 task). Sau mỗi lô tính lại cả hai quy tắc dừng;
+  - **Lý do chọn 20 task mỗi lô** (vận hành, không phải con số khoa học): đó là số job chạy song song tối đa của GitHub Actions gói Free, đã dùng cho E2 (`e2-shards.yml`). Mỗi shard chạy đúng 1 task, nên khi chạy tiếp, task nào thuộc shard nào không đổi.
+  - Kích thước lô chỉ ảnh hưởng chi phí khi dừng sớm (tối đa thừa một lô). Nó không ảnh hưởng tính hợp lệ: theo bất đẳng thức Ville, dừng ở bất kỳ thời điểm nào vẫn giữ mức sai ≤ α_ô.
+- **Trần ngân sách và chạy song song với Bleve:**
+  - trần của ô (`cap_usd`) = 50 − 25,5 = **24,5 USD**;
+  - 25,5 USD là chi tối đa của track Bleve nếu chạm mọi trần (4a 2,0 + 4b 16,0 + 4c 3,2 + 4d 1,9 + 2,4), nên tổng hai track luôn ≤ 50 USD, kể cả khi hai track chạy cùng lúc;
+  - mỗi task giữ trước chi phí xấu nhất (2 nhánh × 1 USD) trong sổ cái `mg-ledger` (cơ chế của E2, A60);
+  - phép kiểm §5 (0,21 USD) tính vào phần 40 USD.
+- **Không phân phối lại nội dung MemGovern:**
+  - `scripts/redact_memgovern.py` thay hướng dẫn của MemGovern và mọi quan sát chứa thẻ bằng dấu `<<MEMGOVERN_TEXT sha256=…>>`;
+  - sau đó script kiểm rằng không file nào còn cửa sổ 60 ký tự của thẻ nào được tham chiếu. Nếu còn, file gốc không được tải lên (fail closed).
+- **Bộ lọc thẻ cùng repo (kiểm 06/11, A100):** 48 repo của MemGovern không trùng repo nào trong 61 repo của pool E2, nên bộ lọc không loại thẻ nào (121.475 thẻ). Quy tắc vẫn giữ nguyên; điều này ghi vào paper như một sự thật về dữ liệu, không phải một thay đổi.
+
+### Ô memgovern: sai lệch M-4 (07/11/2026 UTC, sau lô có phí 1, trước mọi phân tích Gatekeeper của ô)
+
+- **Đã thấy gì** (chỉ dữ liệu vận hành, chưa tính Z hay E):
+  - ở lô 1 (task 0–9, nhánh memgovern bản 1), model gọi `exp_search`/`exp_read` 0 lần trên 10/10 task (A102);
+  - chi phí lô 1 là 2,19 USD theo litellm.
+- **Thay đổi:** nhánh memgovern **bản 2** (`configs/skills/memgovern-orig-wf.json`).
+  - Cùng đoạn văn bản của MemGovern (bước 3 của cấu hình gốc và docstring của 2 công cụ), cùng server, cùng công cụ, cùng bộ lọc thẻ.
+  - Nhưng đoạn đó được chèn làm **bước 3 của "Recommended Workflow" của mini-swe-agent**, và bước sửa mã thêm "(Apply insights from step 3 if available)". Đây đúng là vị trí và lời của cấu hình gốc (`config/dsv31t_agenticMemSearch_1220_13w.yaml`, các bước 1–6).
+  - Mô tả issue giữ nguyên như nhánh `none`.
+- **Lý do:** §11e định nghĩa "bản gốc" là dùng đúng đoạn hướng dẫn trong cấu hình agent của MemGovern, với agent tự gọi công cụ. Bản 1 đặt đoạn đó sai chỗ so với bản gốc. Vậy đây là sửa một lỗi hiện thực (A102) về phía thiết kế đã đăng ký, không phải đổi câu hỏi.
+- **Thiết kế của ô bản 2:**
+  - chạy lại từ task 0, **cả hai nhánh mới** (tên lô `mg2-s41-*`), cùng thứ tự, cùng các quy tắc dừng của M-3;
+  - không dùng lại nhánh `none` của lô 1. Lý do: §5 vừa cho thấy model thay đổi theo thời gian, nên hai nhánh của một cặp phải chạy cùng lúc. Dùng lại sẽ rẻ hơn khoảng 1,1 USD nhưng hai nửa của cặp chạy ở hai thời điểm.
+- **Quy tắc báo cáo (R5):** lô 1 (bản 1, 10 cặp) được giữ và báo cáo riêng, như một bằng chứng về độ nhạy với vị trí của hướng dẫn. Nó không vào e-process của ô bản 2.
+- **Phép kiểm thao tác (chốt trước khi thấy dữ liệu bản 2):**
+  - sau lô đầu của bản 2 (task 0–9), nếu **0/10** task có ≥ 1 lệnh `exp_search` thì dừng ô và báo @thuthuy, vì nhánh vẫn không phân biệt được với "hướng dẫn không được dùng";
+  - nếu ≥ 1/10, chạy tiếp theo M-3;
+  - tỉ lệ dùng công cụ được báo cáo cho mọi task.
+- **Trần:**
+  - phép kiểm §5 (0,21 USD) và lô 1 (2,19 USD, đã ghi trong sổ cái `mg-ledger`) tính vào trần;
+  - `cap_usd` của sổ cái = 24,5 − 0,21 = **24,29 USD**. Sổ cái đã có 2,19 USD của lô 1, nên tổng của track MemGovern ≤ 24,5 USD;
+  - khi Bleve xong, trần được tính lại theo M-3: 50 − chi thật của Bleve.
+
+### Ô memgovern: kết quả phép kiểm thao tác M-4 (07/11/2026 UTC), ô dừng
+
+- **Lô 1 của bản 2** (run 42315998541, task 0–9, `mg2-s41-*`):
+  - bước MemGovern nằm đúng trong workflow của agent ở 10/10 task, và không nằm trong mô tả issue;
+  - **0/10 task có lệnh `exp_search` hay `exp_read`**; server ghi 0 lời gọi;
+  - trong các tin nhắn của agent không có lần nào nhắc "exp_search", "exp_read" hay "experience";
+  - bước che nội dung không thay tin nhắn nào của agent;
+  - lệnh đầu tiên luôn là `ls` hoặc `find`, tức bước 1 của workflow.
+- **Cộng cả bản 1:** 0/20 lượt chạy của nhánh memgovern dùng công cụ, ở hai vị trí đặt hướng dẫn.
+- **Theo quy tắc chốt trước ở M-4: ô dừng.** Chưa tính Z hay e-process nào của ô.
+- **Token** (đếm từ `usage` của API, cả hai nhánh, trên 10 task mỗi bản):
+
+  | Bản | Nhánh | Input | Cache | Output |
+  | --- | --- | --- | --- | --- |
+  | 1 | memgovern | 14.412.115 | 13.216.858 | 54.732 |
+  | 1 | none | 34.097.461 | 32.042.944 | 84.492 |
+  | 2 | memgovern | 29.315.599 | 27.208.694 | 78.741 |
+  | 2 | none | 32.729.242 | 29.886.393 | 88.605 |
+
+- **Chi phí** (USD, chỉ để kiểm soát ngân sách): phép kiểm §5 0,21; bản 1 2,15; bản 2 2,92. Tổng track MemGovern **5,28 USD**.
+- **Diễn giải:**
+  - Với model của thí nghiệm, bước tìm kinh nghiệm "optional, as needed" của MemGovern **không bao giờ được dùng** trong 20 lượt chạy. Vậy trên harness này, nhánh MemGovern gốc không khác nhánh không skill ở hành vi dùng công cụ.
+  - Gatekeeper trên ô này không có thông tin: Z chỉ phản ánh tác động của phần văn bản thêm vào prompt.
+  - Hướng đi tiếp theo là việc thêm hoặc đổi thí nghiệm, thuộc quyền @thuthuy.
+- **Quyết định của @thuthuy (07/11/2026): "Dừng memgorven".**
+  - Ô memgovern đóng ở đây; không chạy B-M, không chạy bản bắt buộc tìm kinh nghiệm.
+  - Báo cáo trong paper: 0/20 lượt chạy dùng công cụ, kèm token, và lô bản 1 riêng.
+  - Track MemGovern đã chi 5,28 USD. Phần bổ sung 7–10 USD (dành cho MemGovern) không dùng.
+  - Track Bleve giữ các trần của §25 bước 4 (tối đa 25,5 USD), trong phần 40 − 5,28 = 34,72 USD.
+
+### §25 bước 4 (Bleve): kết quả 4a và 4b nửa 1 (07/11/2026)
+
+- **4a** (run 42292893852, nhánh không skill, 100 task test của gskill):
+  - S (thang chấm SWE-smith) 13/100; L (thang chấm gskill) 30/100;
+  - 70 task không có patch;
+  - 0 lỗi hạ tầng, 0 lần crash;
+  - chi 0,786 USD (trần 2,0).
+- **4b nửa 1** (run 42292899150):
+  - `num_candidates` = 6, `total_metric_calls` = 354, `best_score` 0,86 (điểm của chính gskill trên tập val);
+  - skill tốt nhất dài 3.009 ký tự;
+  - chi 5,701 USD (trần cộng dồn 16,0).
+  - **Theo quy tắc dừng sớm (6 > 1): chạy nửa 2.** Run được dispatch ngày 07/11 với `--resume` và trần cộng dồn 16,0.
+- **4b nửa 2** (run 42328337599):
+  - `num_candidates` = 10, `total_metric_calls` = 626;
+  - `best_score` vẫn 0,86: skill tốt nhất **không đổi** so với nửa 1 (3.009 ký tự, `docs/skills/gskill/bleve_best_skills.txt`);
+  - chi nửa 2 4,745 USD. **Cộng dồn bước học 10,446 USD** (trần 16,0).
+- **Quan sát về skill học được** (đọc văn bản, chưa chấm):
+  - dòng 36 của skill viết: "If the issue description is missing or vague, inspect the target file carefully for obvious logical errors or look at recent git commits (`git log -p -n 3`) to deduce what broke";
+  - đây là cùng loại chỉ dẫn như skill jinja ("Check Git History… 'Bug Patch'"), xuất hiện lại trên một repo khác, viết bằng ngôn ngữ khác (Go);
+  - bước 4c và 4d sẽ đo xem chỉ dẫn này có được dùng không, và đóng góp bao nhiêu.
+- **Tiếp theo:** 4c (chấm skill trên 100 task test, trần 3,2 USD), rồi 4d.
+
+## 26. Mục 2.3: chọn model thứ hai (07/11/2026, trước mọi lần chạy agent với model này)
+
+- **Quy tắc chọn** (nêu trước khi có giá hay số đo nào):
+  1. **Điều kiện bắt buộc:** kênh gọi tính theo token (MaaS, serverless), không thuê máy chủ theo giờ; gọi tool song song.
+  2. **Ưu tiên** model có trọng số mở.
+  3. **Phá hòa** bằng giá đã kiểm trên trang chính thức, tính theo hồ sơ token đo được (91% input là cache, output khoảng 0,3% so với input).
+- **Hai điều chỉnh trước khi có dữ liệu agent nào:**
+  - "Nhận seed" không còn là điều kiện bắt buộc, theo `docs/model_switch_checklist.md` mục B4: nếu API bỏ qua seed, paper phải ghi seed chỉ là nhãn của lần lặp.
+  - "Ngữ cảnh ≥ 131k token" chuyển thành điều kiện phải báo cáo, theo mục B6: lời gọi lớn nhất đo được trên 2.748 lời gọi gần nhất là 77.997 token, và chỉ 1/1.071 lượt chạy pilot vượt 128k.
+- **Kiểm tài khoản** (`vertex-check.yml`, ngày 07/11, tổng chi phí < 0,01 USD):
+  - Qwen, DeepSeek, Llama: chỉ có dạng thuê máy chủ theo giờ trên project này. **Loại.**
+  - Claude Haiku 5.5: bật được, nhưng hạn mức `global_online_prediction_requests_per_base_model` (anthropic-claude-haiku) bằng 0, và Google **từ chối** yêu cầu tăng. **Loại.** Ghi thêm: API không nhận seed.
+  - Grok 4.1 Fast: Google đã ngừng phục vụ từ 20/08/2026. **Loại.**
+  - Codestral 2: LiteLLM không hỗ trợ tool cho model này. **Loại.**
+  - Grok 4.20 Non-Reasoning: gọi được và gọi được 2 tool song song. Nhưng đang ở trạng thái EXPERIMENTAL, và khoảng 0,97 USD mỗi lượt (input 1,25, cache 0,20, output 2,50). Riêng mục 2.4 đã khoảng 200 USD. **Không chọn.**
+  - Mistral Small 3.1 (25.03): trọng số mở; input 0,10, output 0,30, không ghi giá cache, nên khoảng 0,33 USD mỗi lượt. Hiện báo 404 (chưa có quyền truy cập).
+- **Quyết định của @thuthuy (07/11): "theo lời khuyên của bạn".**
+  - Xin quyền Mistral Small 3.1 (phương án A).
+  - Nếu bị từ chối: dùng Gemini Flash (phương án C). Khi đó paper chỉ được viết "trong họ Gemini".
+- **Ngân sách mục 2.3:** đã duyệt khoảng 1 USD. Ước tính 5 task × 2 nhánh với Mistral là khoảng 3,3 USD. Đề xuất nâng lên 3,5 USD, đang chờ @thuthuy.
+
+## 27. Ba phép thử trên skill jinja: placebo, dùng lại ở repo khác, quỹ đạo (đăng ký 07/11/2026, trước mọi lần chạy có phí; trần 7 USD)
+
+**Quyết định của @thuthuy (07/11):**
+- "Ok, lên 7usd vẫn được, chọn phương án tốt nhất cho paper".
+- "lưu ý là dùng của người ta không chỉnh sửa gì để chắc chắn mình k can thiệp vào chiến thắng".
+
+**Quy tắc chung rút từ yêu cầu thứ hai:**
+- Mọi nhánh chạy trong **môi trường gốc của gskill**: không dùng `--leak-free`, không đổi image hay lịch sử git.
+- Skill jinja học được và skill placebo được dùng **nguyên văn**, kiểm bằng `cmp` và `sha256sum -c` trước khi chạy.
+- Vì vậy thí nghiệm bỏ một phần skill (P24, cắt một dòng khỏi skill của gskill) **bị bỏ**.
+- Phần đổi duy nhất, áp như nhau cho mọi nhánh: seed 41 và trần 0,30 USD mỗi lượt (`docs/reviewer_fidelity.md` A2, A3).
+
+### 27a. Đối chứng placebo cùng độ dài (2a), trần 2,2 USD
+- **Can thiệp (R2, nhóm "định nghĩa can thiệp" có nguồn):** đối chứng C2 của WebDev-Skills-Bench (arXiv 2608.23067): thay skill bằng một skill **không liên quan** có độ dài byte trong ±5%.
+  - Nguyên văn (bản chụp `sources-snapshots`, `webdev_skills_bench_2026`): *"C2 (length-matched irrelevant Skill) replaces the target SKILL.md with a skip-tier Skill of approximately equal byte length (±5%), which separates the target-content effect from the effect of adding a length-matched Skill block and gives ∆Length = C2−C0 and ∆Content = C1−C2."*
+  - Ánh xạ sang §27: C0 là `f1_probe` (không skill), C1 là `f1_skill_probe` (skill jinja), C2 là nhánh placebo. **P27a đo ∆Content; phép phụ đo ∆Length.**
+- **Chọn skill placebo bằng quy tắc, không có lựa chọn tự do:**
+  - nguồn: 98 skill công khai của SWE-Skills-Bench@4d3450d (MIT);
+  - điều kiện: độ dài trong ±5% của skill jinja (2.681 byte, tức 2.547–2.815);
+  - **đúng một skill thỏa:** `skills/go-concurrency-patterns/SKILL.md` (2.771 byte; Go, không liên quan tới jinja);
+  - sha256 `a66d04f2…b36b2`, lưu ở `docs/skills/swe_skills_bench/`.
+- **Thiết kế:** 100 task test của jinja, theo thứ tự `_gskill_order`, cấu hình như §25.
+- **So sánh:**
+  - skill thật: `results/f1_skill_probe.json` (S 53/100);
+  - không skill: `results/f1_probe.json` (S 15/100);
+  - cả hai cùng môi trường gốc, chạy ngày 06/11.
+- **Phép kiểm chính P27a** (một phía, α = 0,025): skill thật > placebo. Kiểm định dấu chính xác trên cặp lệch theo task, endpoint S.
+- **Phụ:**
+  - placebo so với không skill (hai phía, mô tả);
+  - cùng phép kiểm P27a trên **nhóm có mô tả issue** (66 task), nơi rò rỉ gần như không có tác dụng (§25: 15 → 0 chỉ ở nhóm không có mô tả).
+- **Giới hạn đã biết:** nhánh placebo chạy sau hai nhánh so sánh khoảng 1 ngày. §5 cho thấy model có thể đổi theo thời gian. Phép thử 27c đo trực tiếp mức lặp lại của nhánh skill sau 1 ngày, để báo cáo kèm.
+
+### 27b. Dùng lại skill jinja ở repo khác (2b), trần 3,6 USD
+- **Chọn repo bằng quy tắc:** `pygments__pygments`, là repo mặc định trong README của gskill (§25, mục F0).
+  - F0 trên repo này: patch không làm gì đạt S 0/30; bản sửa gốc đạt S 29/30; 0 lỗi hạ tầng.
+- **Thiết kế:**
+  - 100 task test của pygments, chia theo đúng cách của gskill (`data/instances/swesmith_pygments__pygments.jsonl.gz`, seed 42);
+  - hai nhánh, không skill và skill jinja nguyên văn, **chạy song song trong cùng một job**, để hai nửa của mỗi cặp chạy cùng thời điểm;
+  - mỗi nhánh trần 1,8 USD.
+- **Phép kiểm chính P27b** (hai phía, α = 0,025, vì cả "có hại" và "có ích" đều là kết quả có ý nghĩa): skill jinja khác không skill. Kiểm định dấu chính xác trên cặp lệch, endpoint S.
+- **Phụ:**
+  - Gatekeeper trên ô (skill jinja, pygments) với θ = 0, c = 0,5, α = 0,025: admit hay không;
+  - nhóm có mô tả issue (92 task); pygments chỉ có 8 task không có mô tả.
+
+### 27c. Quỹ đạo của skill jinja trên 34 task không có mô tả issue (2c), trần 0,8 USD
+- **Thiết kế:** 34 task test của jinja có `problem_statement` rỗng; skill jinja nguyên văn; môi trường gốc; lưu mọi tin nhắn (A104).
+- **Đại lượng** (định nghĩa trước khi xem quỹ đạo):
+  - **G1:** số task có ít nhất một lệnh agent chạy chứa `git log` hoặc `git show`;
+  - **G2:** số task có quan sát chứa chuỗi "Bug Patch";
+  - **G3:** tỉ lệ giải (S) khi có G2 và khi không có G2.
+- **Độ lặp lại** (thay cho phép kiểm drift, vì quỹ đạo cũ đã mất): trên 34 task, so S và patch với `results/f1_skill_probe.json` (06/11), báo số task cùng S và số task có patch giống hệt.
+
+**Họ phép kiểm:** P27a và P27b, Holm ở mức 0,025. 27c chỉ mô tả.
+**Tổng trần: 6,6 USD**, trong mức 7 USD. Thứ tự chạy: chạy thử miễn phí (`dryrun`) cho cả ba, rồi 27c, 27a, 27b. Bleve 4c/4d vẫn theo §25.
+
+### §25 bước 4c (Bleve): kết quả chấm skill (run 42342066372; `results/s25bleve_skill_probe.json`; nhánh không skill là 4a)
+- **Chạy:** 100/100 task; 0 lỗi hạ tầng; 0 lần crash; chi 1,724 USD (trần 3,2).
+- **Phân tích theo quy tắc đã đăng ký** (`scripts/s25_ab.py`). Trước khi dùng, script được kiểm lại trên jinja và tái hiện đúng: 53/15, 44/6, p = 1,6·10⁻⁸, L 49/7, A, admit ở trial 29.
+
+| Bộ chấm | Có skill | Không skill | b / c | p một phía | Mức tăng, bootstrap 95% |
+| --- | --- | --- | --- | --- | --- |
+| **S** | **43/100** | 13/100 | 34 / 4 | 3,0·10⁻⁷ | **+0,30** [0,19; 0,40] |
+| L | 73/100 | 30/100 | 48 / 5 | 3,5·10⁻¹⁰ | +0,43 [0,31; 0,54] |
+
+- **Holm (họ 0,025):** bác bỏ cả S lẫn L. **Kết quả: A.** **Gatekeeper admit ở trial 34.**
+- **Nhóm theo mô tả issue (mô tả, không phải phép kiểm đăng ký):**
+  - không có mô tả (42 task): S 11 so với 0 (b/c 11/0);
+  - có mô tả (58 task): S 32 so với 13 (b/c 23/4).
+  - Cùng hình mẫu với jinja (nhóm không có mô tả: 15 so với 1): skill lại chứa chỉ dẫn đọc git (`git log -p -n 3`).
+- **Chi phí Bleve đến giờ:** 4a 0,786 + học 10,446 + 4c 1,724 = **12,956 USD.**
+- **4d giữ nguyên như đã đăng ký** (07/11, sau trao đổi với @thuthuy: "số tiền đó tôi không tiếc nhưng nếu không làm paper mạnh thêm thì thôi").
+  - Lý do giữ: phân tích theo nhóm "có / không có mô tả issue" ở trên chỉ là quan sát, có thể bị nhiễu bởi độ khó khác nhau giữa hai nhóm. 4d là can thiệp trên cùng 100 task, cho Δ_leak đo trực tiếp trên repo thứ hai. Lần này có lưu quỹ đạo (A104).
+  - 4d không đổi gì của gskill: skill, mã và cấu hình giữ nguyên; môi trường được đổi như nhau cho cả hai nhánh. Kết quả chính vẫn là kết quả trong môi trường gốc (4c); 4d báo cáo riêng (`docs/reviewer_fidelity.md` A5).
+  - Thứ tự: chạy sau §27.
+
+### §27: ghi chú thực thi 27-1 (07/11/2026)
+- 27c dừng ở 25/34 task vì đặt trần thiếu (A107). 9 task còn lại chạy bằng nhánh `trace34b` (`--skip-done`, cùng cấu hình), trần 0,6 USD. Kết quả 27c là hợp của hai file.
+- Tổng trần §27 thành 0,505 (đã chi) + 0,6 + 2,2 + 3,6 = 6,9 USD, vẫn trong mức 7 USD.
+- **Kiểm trần cho các nhánh còn lại:** 27a cần khoảng 1,94 + 0,30 = 2,24 USD, nên nâng trần từ 2,2 lên **2,3**. 27b cần mỗi nhánh khoảng 1,4–1,9 + 0,30 ≤ 2,2 USD, nên nâng trần từ 3,6 lên **4,4**, tức 2,2 USD cho mỗi nhánh. Tổng trần §27 thành 0,505 + 0,6 + 2,3 + 4,4 = **7,8 USD**, vượt 7 USD. Nhưng chi dự kiến chỉ khoảng 0,505 + 0,18 + 1,94 + 3,3 ≈ **5,9 USD**: phần vượt chỉ là khoảng đệm cho lượt xấu nhất, không phải tiền dự kiến chi. Chi thật sẽ được báo, và dừng ngay nếu tổng chi thật của §27 sắp vượt 7 USD.
+
+### Kết quả 27c (run 42362204332 cho 25 task và 42365104656 cho 9 task; `results/s27_trace34*.json`, `*.traces.jsonl.gz`)
+- 34/34 task không có mô tả issue của tập test jinja; môi trường gốc của gskill; skill jinja nguyên văn; 0 lỗi hạ tầng; chi 0,753 USD.
+- **G1 = 34/34:** agent chạy `git log` hoặc `git show` ở mọi task.
+- **G2 = 34/34:** quan sát của agent chứa "Bug Patch" ở mọi task.
+- **G3:** không tính được, vì không có task nào thiếu G2. S = 15/34 (đều có G2).
+- **So với 06/11** (`f1_skill_probe`, cùng 34 task):
+  - S 15/34 lúc đó, 15/34 bây giờ;
+  - 30/34 task cùng kết quả S; 22/34 task có patch giống hệt;
+  - nhánh không skill (F1) trên 34 task này: S 1/34.
+- **Diễn giải (mô tả):**
+  - Trên mọi task không có mô tả issue, skill học được dẫn agent tới đọc commit "Bug Patch". Đây là bằng chứng trực tiếp cho cơ chế mà §25 bước 3 suy ra từ Δ_leak.
+  - Mức lặp lại 30/34 sau 1 ngày được báo cáo kèm phép so khác thời điểm của 27a.
+
+### Kết quả 27a (run 42366671200; `results/s27_placebo.json`; phân tích `results/s27a_content.json`, `results/s27a_length.json`)
+- 100/100 task; 0 lỗi hạ tầng; chi 1,051 USD. Placebo: S 24/100; 54 patch không rỗng.
+- **P27a, ∆Content** (skill thật so với placebo, một phía): S 53 so với 24; b/c = 35/6; **p = 2,4·10⁻⁶**; +0,29 [0,18; 0,40].
+  - p ≤ 0,0125 (mức đầu của Holm trên P27a và P27b), nên **bác bỏ H₀ bất kể P27b**.
+- **Phụ:**
+  - ∆Length (placebo so với không skill, hai phía): 24 so với 15; b/c = 16/7; p = 0,093; +0,09 [0,00; 0,18]. Không bác bỏ ở mức 0,025.
+  - Nhóm có mô tả issue (66 task): ∆Content 38 so với 24 (b/c 20/6, p một phía 0,0047); ∆Length 24 so với 14 (b/c 16/6).
+  - Nhóm không có mô tả (34 task): skill thật 15, placebo 0.
+- **Diễn giải:**
+  - Trong mức tăng +0,38 của skill gskill trên jinja, phần do "thêm một đoạn hướng dẫn dài" nhỏ và chưa có ý nghĩa thống kê (+0,09). Phần do nội dung là +0,29.
+  - Phần nội dung vẫn có ý nghĩa trên nhóm có mô tả issue, nơi rò rỉ gần như không có tác dụng.
+  - Ở nhóm không có mô tả, toàn bộ mức tăng đi cùng chỉ dẫn đọc git (27c: 34/34 task đọc "Bug Patch"); placebo đạt 0/34.
+- **Giới hạn:** nhánh placebo chạy ngày 07/11, các nhánh so sánh chạy ngày 06/11. 27c cho thấy 30/34 task cùng kết quả khi chạy lại sau 1 ngày.
+
+### Kết quả 27b (run 42374323315 cho cặp, 42393651143 cho 14 task bù, 42397649759 cho 7 task bù; `results/s27pyg_*_all.json`, `results/s27b_reuse.json`)
+- **Hoàn tất:** 100/100 task ở cả hai nhánh.
+  - Nhánh skill dừng sớm hai lần vì đặt trần thiếu (A108). 21 task được chạy bù bằng `--skip-done`, cùng cấu hình, cùng ngày; với các task này, hai nửa của cặp không chạy cùng lúc.
+  - 4 lần bộ chấm báo `timeout` (A108) được chấm lại tại máy (`results/s27pyg_timeouts_rescore.jsonl`): 3 lần chấm xong, đều không giải được. 1 patch của nhánh không skill vẫn timeout, nên tính là không giải được trong phân tích chính (theo SWE-bench, A56) và bị bỏ ra trong phân tích độ nhạy.
+- **Chi:** 1,324 + 1,902 + 0,607 + 0,135 = 3,968 USD. **Tổng §27: 0,753 + 1,051 + 3,968 = 5,772 USD** (mức duyệt 7 USD).
+- **P27b** (skill jinja so với không skill trên pygments, hai phía, endpoint S): 6 so với 5; b/c = 2/1; **p = 1,0; không bác bỏ.** Mức chênh +0,01 [−0,02; 0,05].
+- **Holm trên họ {P27a, P27b} ở mức 0,025:** P27a bác bỏ (p = 2,4·10⁻⁶ ≤ 0,0125). P27b không bác bỏ (p = 1,0 > 0,025).
+- **Gatekeeper** (θ = 0, c = 0,5, α = 0,025): **không admit.** Cùng skill đó được admit trên jinja ở trial 29.
+- **Bộ chấm L của gskill** (mô tả): 70 so với 42; b/c = 34/6; +0,28 [0,17; 0,39]. Theo bộ chấm lỏng, skill "mang sang được" pygments; theo bộ chấm SWE-smith thì không.
+- **Phân tích độ nhạy** (bỏ task timeout, n = 99): S 6 so với 5, không đổi.
+- **Nhóm theo mô tả issue:** có mô tả 92 task (6 so với 5); không có mô tả 8 task (0 so với 0).
+- **Giới hạn:** tỉ lệ giải nền trên pygments rất thấp (5/100), nên phép kiểm có ít power để phát hiện tác hại.
+- **Diễn giải:** một skill được chứng nhận ở scope của nó (jinja) không cho mức tăng đo được khi dùng lại ở repo khác (pygments), và Gatekeeper không chứng nhận nó ở đó. Bộ chấm lỏng của gskill sẽ báo sai một mức chuyển giao +0,28. Đây là một ví dụ trên skill thật của "Scope before Reuse".
+
+### §25 bước 4d (Bleve): kết quả nhánh không rò rỉ (run 42399244153 cho nhánh none; 42414050530 và 42442262299 cho nhánh skill)
+- **Hoàn tất:** 100/100 task ở cả hai nhánh. Kiểm rò rỉ cho "commits=1 refs=1 remotes=0 objects_with_bug_msg=0" ở mọi task.
+  - Nhánh skill dừng ở 98 task vì trần (A109); 2 task chạy bù bằng `--skip-done`.
+  - 1 lần bộ chấm báo `timeout`. Chấm lại tại máy vẫn timeout, nên tính là không giải được trong phân tích chính (A56).
+- **Chi:** 0,773 + 2,124 + 0,023 = **2,920 USD** (trần 4,3). **Track Bleve tổng cộng: 12,956 + 2,920 = 15,876 USD.**
+- **Kết quả** (`results/s25bleve_leakfree_ab.json`):
+
+| Bộ chấm | Có skill | Không skill | b / c | p một phía | Mức tăng, bootstrap 95% |
+| --- | --- | --- | --- | --- | --- |
+| **S** | **31/100** | 14/100 | 19 / 2 | 1,1·10⁻⁴ | **+0,17** [0,09; 0,25] |
+| L | 59/100 | 31/100 | 32 / 4 | 9,7·10⁻⁷ | +0,28 [0,18; 0,38] |
+
+- **Holm:** bác bỏ cả S lẫn L. **Kết quả: A.** **Gatekeeper admit ở trial 61** (môi trường có rò rỉ: trial 34).
+- **Δ_leak** (mức tăng có rò rỉ trừ mức tăng không rò rỉ, ghép cặp theo task): **+0,13 [0,03; 0,23]**, khoảng 43% của +0,30. Jinja: +0,17 [0,06; 0,28], khoảng 45%.
+- **Nhóm theo mô tả issue:**
+  - không có mô tả (42 task): 0 so với 0 (có rò rỉ: 11 so với 0);
+  - có mô tả (58 task): 31 so với 14 (có rò rỉ: 32 so với 13).
+- **Quỹ đạo** (A104): agent chạy `git log`/`git show` ở 31/100 task, và thấy "Bug Patch" ở 0/100 task.
+- **Diễn giải:** trên một repo thứ hai, viết bằng ngôn ngữ khác (Go):
+  - skill học được giúp thật khi không có rò rỉ;
+  - khoảng 43% mức tăng đo trong môi trường gốc đến từ commit "Bug Patch";
+  - toàn bộ phần đó nằm ở các task không có mô tả issue.
+  - Cả hai đều lặp lại kết quả của jinja.
+
 
 ### Kết quả §23b sau D-M11 (06/11/2026; `results/sskb_s23b-flash-screen.json`)
 

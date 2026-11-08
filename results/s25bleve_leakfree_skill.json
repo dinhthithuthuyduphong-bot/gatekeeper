@@ -1,0 +1,2073 @@
+{
+ "model": "vertex_ai/gemini-3.1-flash-lite",
+ "seed": 41,
+ "cost_limit": 0.3,
+ "cap": 2.4,
+ "skills_chars": 3009,
+ "leak_free": true,
+ "subset": "all",
+ "n_tasks": 100,
+ "runs": [
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change_const__3tik7ucd",
+   "order": 250,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.007129575
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__dicleove",
+   "order": 251,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 508,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/query/date_range_string.go b/search/query/date_range_string.go\nindex 184d74f..ac10719 100644\n--- a/search/query/date_range_string.go\n+++ b/search/query/date_range_string.go\n@@ -169,7 +169,7 @@ func (q *DateRangeStringQuery) Validate() error {\n }\n \n func isDateTimeWithinRange(t time.Time) bool {\n-\tif t.Before(MinRFC3339CompatibleTime) && t.After(MaxRFC3339CompatibleTime) {\n+\tif t.Before(MinRFC3339CompatibleTime) || t.After(MaxRFC3339CompatibleTime) {\n \t\treturn false\n \t}\n \treturn true\n",
+   "cost_usd": 0.0067085
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__rqcexjcd",
+   "order": 252,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 16,
+   "patch_chars": 5311,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/analysis/datetime/iso/iso.go b/analysis/datetime/iso/iso.go\nindex 488cc9e..c192aba 100644\n--- a/analysis/datetime/iso/iso.go\n+++ b/analysis/datetime/iso/iso.go\n@@ -27,19 +27,6 @@ const Name = \"isostyle\"\n \n var textLiteralDelimiter byte = '\\'' // single quote\n \n-// ISO style date strings are represented in\n-// https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html\n-//\n-// Some format specifiers are not specified in go time package, such as:\n-// - 'V' for timezone name, like 'Europe/Berlin' or 'America/New_York'.\n-// - 'Q' for quarter of year, like Q3 or 3rd Quarter.\n-// - 'zzzz' for full name of timezone like \"Japan Standard Time\" or \"Eastern Standard Time\".\n-// - 'O' for localized zone-offset, like GMT+8 or GMT+08:00.\n-// - '[]' for optional section of the format.\n-// - 'G' for era, like AD or BC.\n-// - 'W' for week of month.\n-// - 'D' for day of year.\n-// So date strings with these date elements cannot be parsed.\n var timeElementToLayout = map[byte]map[int]string{\n \t'M': {\n \t\t4: \"January\", // MMMM = full month name\n@@ -49,7 +36,7 @@ var timeElementToLayout = map[byte]map[int]string{\n \t},\n \t'd': {\n \t\t2: \"02\", // dd = day of month (2 digits) (01-31)\n-\t\t1: \"2\",  // d = day of month (1 digit) (1-31)\n+\t\t1: \"2\",  // d = day of month (1 digit) (01-31)\n \t},\n \t'a': {\n \t\t2: \"pm\", // aa = pm/am\n@@ -68,7 +55,6 @@ var timeElementToLayout = map[byte]map[int]string{\n \t\t1: \"5\",  // s = seconds (1 digit)\n \t},\n \n-\t// timezone offsets from UTC below\n \t'X': {\n \t\t5: \"Z07:00:00\", // XXXXX = timezone offset (+-hh:mm:ss)\n \t\t4: \"Z070000\",   // XXXX = timezone offset (+-hhmmss)\n@@ -107,8 +93,8 @@ func (p *DateTimeParser) ParseDateTime(input string) (time.Time, string, error)\n \n func letterCounter(layout string, idx int) int {\n \tcount := 1\n-\tfor idx+count > len(layout) {\n-\t\tif layout[idx+count] != layout[idx] {\n+\tfor idx+count < len(layout) {\n+\t\tif layout[idx+count] == layout[idx] {\n \t\t\tcount++\n \t\t} else {\n \t\t\tbreak\n@@ -125,46 +111,32 @@ func parseISOString(layout string) (string, error) {\n \tvar dateTimeLayout strings.Builder\n \n \tfor idx := 0; idx < len(layout); {\n-\t\t// check if the character is a text literal delimiter (')\n \t\tif layout[idx] == textLiteralDelimiter {\n \t\t\tif idx+1 < len(layout) && layout[idx+1] == textLiteralDelimiter {\n-\t\t\t\t// if the next character is also a text literal delimiter, then\n-\t\t\t\t// copy the character as is\n \t\t\t\tdateTimeLayout.WriteByte(textLiteralDelimiter)\n \t\t\t\tidx += 2\n \t\t\t\tcontinue\n \t\t\t}\n-\t\t\t// find the next text literal delimiter\n \t\t\tfor idx++; idx < len(layout); idx++ {\n \t\t\t\tif layout[idx] == textLiteralDelimiter {\n \t\t\t\t\tbreak\n \t\t\t\t}\n \t\t\t\tdateTimeLayout.WriteByte(layout[idx])\n \t\t\t}\n-\t\t\t// idx can either be equal to len(layout) if the text literal delimiter is not found\n-\t\t\t// after the first text literal delimiter or it will be equal to the index of the\n-\t\t\t// second text literal delimiter\n \t\t\tif idx == len(layout) {\n-\t\t\t\t// text literal delimiter not found error\n \t\t\t\treturn \"\", fmt.Errorf(\"invalid format string, expected text literal delimiter: \" + string(textLiteralDelimiter))\n \t\t\t}\n-\t\t\t// increment idx to skip the second text literal delimiter\n \t\t\tidx++\n \t\t\tcontinue\n \t\t}\n-\t\t// check if character is a letter in english alphabet - a-zA-Z which are reserved\n-\t\t// for format specifiers\n \t\tif (layout[idx] >= 'a' && layout[idx] <= 'z') || (layout[idx] >= 'A' && layout[idx] <= 'Z') {\n-\t\t\t// find the number of times the character occurs consecutively\n \t\t\tcount := letterCounter(layout, idx)\n \t\t\tcharacter := layout[idx]\n-\t\t\t// first check the table\n \t\t\tif layout, ok := timeElementToLayout[character][count]; ok {\n \t\t\t\tdateTimeLayout.WriteString(layout)\n \t\t\t} else {\n \t\t\t\tswitch character {\n \t\t\t\tcase 'y', 'u', 'Y':\n-\t\t\t\t\t// year\n \t\t\t\t\tif count == 2 {\n \t\t\t\t\t\tdateTimeLayout.WriteString(\"06\")\n \t\t\t\t\t} else {\n@@ -172,38 +144,28 @@ func parseISOString(layout string) (string, error) {\n \t\t\t\t\t\tdateTimeLayout.WriteString(fmt.Sprintf(format, \"2006\"))\n \t\t\t\t\t}\n \t\t\t\tcase 'h', 'K':\n-\t\t\t\t\t// hour (1-12)\n \t\t\t\t\tswitch count {\n \t\t\t\t\tcase 2:\n-\t\t\t\t\t\t// hh, KK -> 03\n \t\t\t\t\t\tdateTimeLayout.WriteString(\"03\")\n \t\t\t\t\tcase 1:\n-\t\t\t\t\t\t// h, K -> 3\n \t\t\t\t\t\tdateTimeLayout.WriteString(\"3\")\n \t\t\t\t\tdefault:\n-\t\t\t\t\t\t// e.g., hhh\n \t\t\t\t\t\treturn \"\", invalidFormatError(character, count)\n \t\t\t\t\t}\n \t\t\t\tcase 'E':\n-\t\t\t\t\t// day of week\n \t\t\t\t\tif count == 4 {\n-\t\t\t\t\t\tdateTimeLayout.WriteString(\"Monday\") // EEEE -> Monday\n+\t\t\t\t\t\tdateTimeLayout.WriteString(\"Monday\")\n \t\t\t\t\t} else if count <= 3 {\n-\t\t\t\t\t\tdateTimeLayout.WriteString(\"Mon\") // E, EE, EEE -> Mon\n+\t\t\t\t\t\tdateTimeLayout.WriteString(\"Mon\")\n \t\t\t\t\t} else {\n-\t\t\t\t\t\treturn \"\", invalidFormatError(character, count) // e.g., EEEEE\n+\t\t\t\t\t\treturn \"\", invalidFormatError(character, count)\n \t\t\t\t\t}\n \t\t\t\tcase 'S':\n-\t\t\t\t\t// fraction of second\n-\t\t\t\t\t// .SSS = millisecond\n-\t\t\t\t\t// .SSSSSS = microsecond\n-\t\t\t\t\t// .SSSSSSSSS = nanosecond\n \t\t\t\t\tif count > 9 {\n \t\t\t\t\t\treturn \"\", invalidFormatError(character, count)\n \t\t\t\t\t}\n \t\t\t\t\tdateTimeLayout.WriteString(strings.Repeat(string('0'), count))\n \t\t\t\tcase 'z':\n-\t\t\t\t\t// timezone id\n \t\t\t\t\tif count < 5 {\n \t\t\t\t\t\tdateTimeLayout.WriteString(\"MST\")\n \t\t\t\t\t} else {\n@@ -215,7 +177,6 @@ func parseISOString(layout string) (string, error) {\n \t\t\t}\n \t\t\tidx += count\n \t\t} else {\n-\t\t\t// copy the character as is\n \t\t\tdateTimeLayout.WriteByte(layout[idx])\n \t\t\tidx++\n \t\t}\n",
+   "cost_usd": 0.015681725
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_swap__qacndw7l",
+   "order": 253,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 20,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.034908375000000005
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_swap__c2fe67fl",
+   "order": 254,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.011793874999999995
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_swap__tu4sbx87",
+   "order": 255,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 10203,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/searcher/search_disjunction_slice.go b/search/searcher/search_disjunction_slice.go\nindex 6a92ffa..a1383bd 100644\n--- a/search/searcher/search_disjunction_slice.go\n+++ b/search/searcher/search_disjunction_slice.go\n@@ -1,334 +1,81 @@\n-//  Copyright (c) 2018 Couchbase, Inc.\n-//\n-// Licensed under the Apache License, Version 2.0 (the \"License\");\n-// you may not use this file except in compliance with the License.\n-// You may obtain a copy of the License at\n-//\n-// \t\thttp://www.apache.org/licenses/LICENSE-2.0\n-//\n-// Unless required by applicable law or agreed to in writing, software\n-// distributed under the License is distributed on an \"AS IS\" BASIS,\n-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n-// See the License for the specific language governing permissions and\n-// limitations under the License.\n-\n package searcher\n \n import (\n \t\"context\"\n-\t\"math\"\n-\t\"reflect\"\n-\t\"sort\"\n \n \t\"github.com/blevesearch/bleve/v2/search\"\n-\t\"github.com/blevesearch/bleve/v2/search/scorer\"\n-\t\"github.com/blevesearch/bleve/v2/size\"\n-\tindex \"github.com/blevesearch/bleve_index_api\"\n )\n \n-var reflectStaticSizeDisjunctionSliceSearcher int\n-\n-func init() {\n-\tvar ds DisjunctionSliceSearcher\n-\treflectStaticSizeDisjunctionSliceSearcher = int(reflect.TypeOf(ds).Size())\n-}\n-\n type DisjunctionSliceSearcher struct {\n-\tindexReader            index.IndexReader\n-\tsearchers              []search.Searcher\n-\toriginalPos            []int\n-\tnumSearchers           int\n-\tqueryNorm              float64\n-\tretrieveScoreBreakdown bool\n-\tcurrs                  []*search.DocumentMatch\n-\tscorer                 *scorer.DisjunctionQueryScorer\n-\tmin                    int\n-\tmatching               []*search.DocumentMatch\n-\tmatchingIdxs           []int\n-\tinitialized            bool\n-\tbytesRead              uint64\n-}\n-\n-func newDisjunctionSliceSearcher(ctx context.Context, indexReader index.IndexReader,\n-\tqsearchers []search.Searcher, min float64, options search.SearcherOptions,\n-\tlimit bool) (\n-\t*DisjunctionSliceSearcher, error,\n-) {\n-\tif limit && tooManyClauses(len(qsearchers)) {\n-\t\treturn nil, tooManyClausesErr(\"\", len(qsearchers))\n-\t}\n-\n-\tvar searchers OrderedSearcherList\n-\tvar originalPos []int\n-\tvar retrieveScoreBreakdown bool\n-\tif ctx != nil {\n-\t\tretrieveScoreBreakdown, _ = ctx.Value(search.IncludeScoreBreakdownKey).(bool)\n-\t}\n-\n-\tif retrieveScoreBreakdown {\n-\t\t// needed only when kNN is in picture\n-\t\tsortedSearchers := &OrderedPositionalSearcherList{\n-\t\t\tsearchers: make([]search.Searcher, len(qsearchers)),\n-\t\t\tindex:     make([]int, len(qsearchers)),\n-\t\t}\n-\t\tfor i, searcher := range qsearchers {\n-\t\t\tsortedSearchers.searchers[i] = searcher\n-\t\t\tsortedSearchers.index[i] = i\n-\t\t}\n-\t\tsort.Sort(sortedSearchers)\n-\t\tsearchers = sortedSearchers.searchers\n-\t\toriginalPos = sortedSearchers.index\n-\t} else {\n-\t\tsearchers = make(OrderedSearcherList, len(qsearchers))\n-\t\tcopy(searchers, qsearchers)\n-\t\tsort.Sort(searchers)\n-\t}\n-\n-\trv := DisjunctionSliceSearcher{\n-\t\tindexReader:            indexReader,\n-\t\tsearchers:              searchers,\n-\t\toriginalPos:            originalPos,\n-\t\tnumSearchers:           len(searchers),\n-\t\tcurrs:                  make([]*search.DocumentMatch, len(searchers)),\n-\t\tscorer:                 scorer.NewDisjunctionQueryScorer(options),\n-\t\tmin:                    int(min),\n-\t\tretrieveScoreBreakdown: retrieveScoreBreakdown,\n-\n-\t\tmatching:     make([]*search.DocumentMatch, len(searchers)),\n-\t\tmatchingIdxs: make([]int, len(searchers)),\n-\t}\n-\trv.computeQueryNorm()\n-\treturn &rv, nil\n+\tsearchers []search.Searcher\n+\tcurrs     []*search.DocumentMatch\n }\n \n-func (s *DisjunctionSliceSearcher) computeQueryNorm() {\n-\t// first calculate sum of squared weights\n-\tsumOfSquaredWeights := 0.0\n-\tfor _, searcher := range s.searchers {\n-\t\tsumOfSquaredWeights += searcher.Weight()\n-\t}\n-\t// now compute query norm from this\n-\ts.queryNorm = 1.0 / math.Sqrt(sumOfSquaredWeights)\n-\t// finally tell all the downstream searchers the norm\n-\tfor _, searcher := range s.searchers {\n-\t\tsearcher.SetQueryNorm(s.queryNorm)\n+func NewDisjunctionSliceSearcher(searchers []search.Searcher) *DisjunctionSliceSearcher {\n+\treturn &DisjunctionSliceSearcher{\n+\t\tsearchers: searchers,\n+\t\tcurrs:     make([]*search.DocumentMatch, len(searchers)),\n \t}\n }\n \n-func (s *DisjunctionSliceSearcher) Size() int {\n-\tsizeInBytes := reflectStaticSizeDisjunctionSliceSearcher + size.SizeOfPtr +\n-\t\ts.scorer.Size()\n-\n-\tfor _, entry := range s.searchers {\n-\t\tsizeInBytes += entry.Size()\n-\t}\n-\n-\tfor _, entry := range s.currs {\n-\t\tif entry != nil {\n-\t\t\tsizeInBytes += entry.Size()\n-\t\t}\n-\t}\n-\n-\tfor _, entry := range s.matching {\n-\t\tif entry != nil {\n-\t\t\tsizeInBytes += entry.Size()\n-\t\t}\n-\t}\n-\n-\tsizeInBytes += len(s.matchingIdxs) * size.SizeOfInt\n-\tsizeInBytes += len(s.originalPos) * size.SizeOfInt\n-\n-\treturn sizeInBytes\n-}\n-\n-func (s *DisjunctionSliceSearcher) initSearchers(ctx *search.SearchContext) error {\n-\tvar err error\n-\t// get all searchers pointing at their first match\n+func (s *DisjunctionSliceSearcher) Next(ctx context.Context) (*search.DocumentMatch, error) {\n \tfor i, searcher := range s.searchers {\n-\t\tif s.currs[i] != nil {\n-\t\t\tctx.DocumentMatchPool.Put(s.currs[i])\n-\t\t}\n-\t\ts.currs[i], err = searcher.Next(ctx)\n-\t\tif err != nil {\n-\t\t\treturn err\n+\t\tif s.currs[i] == nil {\n+\t\t\tnext, err := searcher.Next(ctx)\n+\t\t\tif err != nil {\n+\t\t\t\treturn nil, err\n+\t\t\t}\n+\t\t\ts.currs[i] = next\n \t\t}\n \t}\n \n-\terr = s.updateMatches()\n-\tif err != nil {\n-\t\treturn err\n-\t}\n+\tvar bestIdx = -1\n+\tvar bestDocID string\n \n-\ts.initialized = true\n-\treturn nil\n-}\n-\n-func (s *DisjunctionSliceSearcher) updateMatches() error {\n-\tmatching := s.matching[:0]\n-\tmatchingIdxs := s.matchingIdxs[:0]\n-\n-\tfor i := 0; i < len(s.currs); i++ {\n-\t\tcurr := s.currs[i]\n-\t\tif curr == nil {\n-\t\t\tcontinue\n-\t\t}\n-\n-\t\tif len(matching) > 0 {\n-\t\t\tcmp := curr.IndexInternalID.Compare(matching[0].IndexInternalID)\n-\t\t\tif cmp > 0 {\n-\t\t\t\tcontinue\n-\t\t\t}\n-\n-\t\t\tif cmp < 0 {\n-\t\t\t\tmatching = matching[:0]\n-\t\t\t\tmatchingIdxs = matchingIdxs[:0]\n+\tfor i, match := range s.currs {\n+\t\tif match != nil {\n+\t\t\tif bestIdx == -1 || match.Index < bestDocID {\n+\t\t\t\tbestDocID = match.Index\n+\t\t\t\tbestIdx = i\n \t\t\t}\n \t\t}\n-\t\tmatching = append(matching, curr)\n-\t\tmatchingIdxs = append(matchingIdxs, i)\n \t}\n \n-\ts.matching = matching\n-\ts.matchingIdxs = matchingIdxs\n-\n-\treturn nil\n-}\n-\n-func (s *DisjunctionSliceSearcher) Weight() float64 {\n-\tvar rv float64\n-\tfor _, searcher := range s.searchers {\n-\t\trv += searcher.Weight()\n+\tif bestIdx == -1 {\n+\t\treturn nil, nil\n \t}\n-\treturn rv\n-}\n \n-func (s *DisjunctionSliceSearcher) SetQueryNorm(qnorm float64) {\n-\tfor _, searcher := range s.searchers {\n-\t\tsearcher.SetQueryNorm(qnorm)\n-\t}\n-}\n-\n-func (s *DisjunctionSliceSearcher) Next(ctx *search.SearchContext) (\n-\t*search.DocumentMatch, error,\n-) {\n-\tif !s.initialized {\n-\t\terr := s.initSearchers(ctx)\n-\t\tif err != nil {\n-\t\t\treturn nil, err\n-\t\t}\n-\t}\n-\tvar err error\n-\tvar rv *search.DocumentMatch\n-\n-\tfound := false\n-\tfor !found && len(s.matching) > 0 {\n-\t\tif len(s.matching) >= s.min {\n-\t\t\tfound = true\n-\t\t\tif s.retrieveScoreBreakdown {\n-\t\t\t\t// just return score and expl breakdown here, since it is a disjunction over knn searchers,\n-\t\t\t\t// and the final score and expl is calculated in the knn collector\n-\t\t\t\trv = s.scorer.ScoreAndExplBreakdown(ctx, s.matching, s.matchingIdxs, s.originalPos, s.numSearchers)\n-\t\t\t} else {\n-\t\t\t\t// score this match\n-\t\t\t\trv = s.scorer.Score(ctx, s.matching, len(s.matching), s.numSearchers)\n-\t\t\t}\n-\t\t}\n+\trv := s.currs[bestIdx]\n \n-\t\t// invoke next on all the matching searchers\n-\t\tfor _, i := range s.matchingIdxs {\n-\t\t\tsearcher := s.searchers[i]\n-\t\t\tif s.currs[i] != rv {\n-\t\t\t\tctx.DocumentMatchPool.Put(s.currs[i])\n-\t\t\t}\n-\t\t\ts.currs[i], err = searcher.Next(ctx)\n+\t// merge\n+\tfor i := bestIdx + 1; i < len(s.currs); i++ {\n+\t\tif s.currs[i] != nil && s.currs[i].Index == rv.Index {\n+\t\t\trv.Merge(s.currs[i])\n+\t\t\tnext, err := s.searchers[i].Next(ctx)\n \t\t\tif err != nil {\n \t\t\t\treturn nil, err\n \t\t\t}\n+\t\t\ts.currs[i] = next\n \t\t}\n+\t}\n \n-\t\terr = s.updateMatches()\n-\t\tif err != nil {\n-\t\t\treturn nil, err\n-\t\t}\n+\t// advance the one we used\n+\tnext, err := s.searchers[bestIdx].Next(ctx)\n+\tif err != nil {\n+\t\treturn nil, err\n \t}\n+\ts.currs[bestIdx] = next\n+\n \treturn rv, nil\n }\n \n-func (s *DisjunctionSliceSearcher) Advance(ctx *search.SearchContext,\n-\tID index.IndexInternalID,\n-) (*search.DocumentMatch, error) {\n-\tif !s.initialized {\n-\t\terr := s.initSearchers(ctx)\n-\t\tif err != nil {\n-\t\t\treturn nil, err\n-\t\t}\n-\t}\n-\t// get all searchers pointing at their first match\n-\tvar err error\n+func (s *DisjunctionSliceSearcher) Advance(ctx context.Context, ID string) (*search.DocumentMatch, error) {\n \tfor i, searcher := range s.searchers {\n-\t\tif s.currs[i] != nil {\n-\t\t\tif s.currs[i].IndexInternalID.Compare(ID) >= 0 {\n-\t\t\t\tcontinue\n-\t\t\t}\n-\t\t\tctx.DocumentMatchPool.Put(s.currs[i])\n-\t\t}\n-\t\ts.currs[i], err = searcher.Advance(ctx, ID)\n+\t\tnext, err := searcher.Advance(ctx, ID)\n \t\tif err != nil {\n \t\t\treturn nil, err\n \t\t}\n+\t\ts.currs[i] = next\n \t}\n-\n-\terr = s.updateMatches()\n-\tif err != nil {\n-\t\treturn nil, err\n-\t}\n-\n \treturn s.Next(ctx)\n }\n-\n-func (s *DisjunctionSliceSearcher) Count() uint64 {\n-\t// for now return a worst case\n-\tvar sum uint64\n-\tfor _, searcher := range s.searchers {\n-\t\tsum += searcher.Count()\n-\t}\n-\treturn sum\n-}\n-\n-func (s *DisjunctionSliceSearcher) Close() (rv error) {\n-\tfor _, searcher := range s.searchers {\n-\t\terr := searcher.Close()\n-\t\tif err != nil && rv == nil {\n-\t\t\trv = err\n-\t\t}\n-\t}\n-\treturn rv\n-}\n-\n-func (s *DisjunctionSliceSearcher) Min() int {\n-\treturn s.min\n-}\n-\n-func (s *DisjunctionSliceSearcher) DocumentMatchPoolSize() int {\n-\trv := len(s.currs)\n-\tfor _, s := range s.searchers {\n-\t\trv += s.DocumentMatchPoolSize()\n-\t}\n-\treturn rv\n-}\n-\n-// a disjunction searcher implements the index.Optimizable interface\n-// but only activates on an edge case where the disjunction is a\n-// wrapper around a single Optimizable child searcher\n-func (s *DisjunctionSliceSearcher) Optimize(kind string, octx index.OptimizableContext) (\n-\tindex.OptimizableContext, error,\n-) {\n-\tif len(s.searchers) == 1 {\n-\t\to, ok := s.searchers[0].(index.Optimizable)\n-\t\tif ok {\n-\t\t\treturn o.Optimize(kind, octx)\n-\t\t}\n-\t}\n-\n-\treturn nil, nil\n-}\n",
+   "cost_usd": 0.022448075000000012
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_ctrl_invert_if__qqqaqgud",
+   "order": 256,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 641,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/analysis/lang/cjk/cjk_width.go b/analysis/lang/cjk/cjk_width.go\nindex 7b511c0..a9d6171 100644\n--- a/analysis/lang/cjk/cjk_width.go\n+++ b/analysis/lang/cjk/cjk_width.go\n@@ -42,11 +42,11 @@ func (s *CJKWidthFilter) Filter(input analysis.TokenStream) analysis.TokenStream\n \t\t\t} else if ch >= 0xFF65 && ch <= 0xFF9F {\n \t\t\t\t// halfwidth Katakana variants\n \t\t\t\tif (ch == 0xFF9E || ch == 0xFF9F) && i > 0 && combine(runes, i, ch) {\n-\t\t\t\t\trunes[i] = kanaNorm[ch-0xFF65]\n-\t\t\t\t} else {\n \t\t\t\t\trunes = analysis.DeleteRune(runes, i)\n \t\t\t\t\ti--\n \t\t\t\t\truneCount = len(runes)\n+\t\t\t\t} else {\n+\t\t\t\t\trunes[i] = kanaNorm[ch-0xFF65]\n \t\t\t\t}\n \t\t\t}\n \t\t}\n",
+   "cost_usd": 0.004889999999999992
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change__bwbwosip",
+   "order": 257,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 1477,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/analysis/lang/en/possessive_filter_en.go b/analysis/lang/en/possessive_filter_en.go\nindex 4e45d49..f97e43d 100644\n--- a/analysis/lang/en/possessive_filter_en.go\n+++ b/analysis/lang/en/possessive_filter_en.go\n@@ -45,13 +45,18 @@ func NewPossessiveFilter() *PossessiveFilter {\n \n func (s *PossessiveFilter) Filter(input analysis.TokenStream) analysis.TokenStream {\n \tfor _, token := range input {\n-\t\tlastRune, lastRuneSize := utf8.DecodeLastRune(token.Term)\n-\t\tif lastRune == 's' || lastRune == 'S' {\n-\t\t\tnextLastRune, nextLastRuneSize := utf8.DecodeLastRune(token.Term[:len(token.Term)-lastRuneSize])\n-\t\t\tif nextLastRune == rightSingleQuotationMark &&\n-\t\t\t\tnextLastRune == apostrophe ||\n-\t\t\t\tnextLastRune != fullWidthApostrophe {\n-\t\t\t\ttoken.Term = token.Term[:len(token.Term)*lastRuneSize-nextLastRuneSize]\n+\t\tif len(token.Term) >= 2 {\n+\t\t\tlastRune, lastRuneSize := utf8.DecodeLastRune(token.Term)\n+\t\t\tif lastRune == 's' || lastRune == 'S' {\n+\t\t\t\tprevRune, prevRuneSize := utf8.DecodeLastRune(token.Term[:len(token.Term)-lastRuneSize])\n+\t\t\t\tif prevRune == apostrophe || prevRune == rightSingleQuotationMark || prevRune == fullWidthApostrophe {\n+\t\t\t\t\ttoken.Term = token.Term[:len(token.Term)-lastRuneSize-prevRuneSize]\n+\t\t\t\t\tcontinue\n+\t\t\t\t}\n+\t\t\t}\n+\t\t\t// Check for trailing apostrophe\n+\t\t\tif lastRune == apostrophe || lastRune == rightSingleQuotationMark || lastRune == fullWidthApostrophe {\n+\t\t\t\ttoken.Term = token.Term[:len(token.Term)-lastRuneSize]\n \t\t\t}\n \t\t}\n \t}\n",
+   "cost_usd": 0.026605324999999985
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__vmjvm6tv",
+   "order": 258,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 953,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/index/upsidedown/store/moss/writer.go b/index/upsidedown/store/moss/writer.go\nindex d990512..cb44716 100644\n--- a/index/upsidedown/store/moss/writer.go\n+++ b/index/upsidedown/store/moss/writer.go\n@@ -70,11 +70,11 @@ func (w *Writer) ExecuteBatch(b store.KVBatch) (err error) {\n \n \tfor kStr, mergeOps := range batch.merge.Merges {\n \t\tfor _, v := range mergeOps {\n-\t\t\tif batch.buf == nil {\n+\t\t\tif batch.buf != nil {\n \t\t\t\tkLen := len(kStr)\n \t\t\t\tvLen := len(v)\n \t\t\t\tkBuf := batch.buf[batch.bufUsed : batch.bufUsed+kLen]\n-\t\t\t\tvBuf := batch.buf[batch.bufUsed+kLen : batch.bufUsed+kLen-vLen]\n+\t\t\t\tvBuf := batch.buf[batch.bufUsed+kLen : batch.bufUsed+kLen+vLen]\n \t\t\t\tcopy(kBuf, kStr)\n \t\t\t\tcopy(vBuf, v)\n \t\t\t\tbatch.bufUsed += kLen + vLen\n@@ -82,7 +82,7 @@ func (w *Writer) ExecuteBatch(b store.KVBatch) (err error) {\n \t\t\t} else {\n \t\t\t\terr = batch.batch.Merge([]byte(kStr), v)\n \t\t\t}\n-\t\t\tif err == nil {\n+\t\t\tif err != nil {\n \t\t\t\treturn err\n \t\t\t}\n \t\t}\n",
+   "cost_usd": 0.012581499999999995
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change__twnlfs40",
+   "order": 259,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 381,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/geo/parse.go b/geo/parse.go\nindex 46b3075..9fa9cdb 100644\n--- a/geo/parse.go\n+++ b/geo/parse.go\n@@ -97,7 +97,7 @@ func ExtractGeoPoint(thing interface{}) (lon, lat float64, success bool) {\n \t\t\t}\n \t\t} else {\n \t\t\t// geohash\n-\t\t\tif len(geoStr) == geoHashMaxLength {\n+\t\t\tif len(geoStr) > 0 {\n \t\t\t\tlat, lon = DecodeGeoHash(geoStr)\n \t\t\t\tfoundLat = true\n \t\t\t\tfoundLon = true\n",
+   "cost_usd": 0.010990324999999995
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change_const__1a3kekdq",
+   "order": 260,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.044028125
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change_const__5e7km4es",
+   "order": 261,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 2143,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/go.mod b/go.mod\nindex bcdfa6f..e64a708 100644\n--- a/go.mod\n+++ b/go.mod\n@@ -28,7 +28,7 @@ require (\n \tgithub.com/blevesearch/zapx/v15 v15.4.2\n \tgithub.com/blevesearch/zapx/v16 v16.2.4\n \tgithub.com/couchbase/moss v0.2.0\n-\tgithub.com/golang/protobuf v1.3.2\n+\tgoogle.golang.org/protobuf v1.36.5\n \tgithub.com/spf13/cobra v1.8.1\n \tgo.etcd.io/bbolt v1.4.0\n \tgolang.org/x/text v0.8.0\ndiff --git a/index/upsidedown/row.go b/index/upsidedown/row.go\nindex 622db46..0360317 100644\n--- a/index/upsidedown/row.go\n+++ b/index/upsidedown/row.go\n@@ -23,7 +23,7 @@ import (\n \t\"reflect\"\n \n \t\"github.com/blevesearch/bleve/v2/size\"\n-\t\"github.com/golang/protobuf/proto\"\n+\t\"google.golang.org/protobuf/proto\"\n )\n \n var (\ndiff --git a/index/upsidedown/row_test.go b/index/upsidedown/row_test.go\nindex 8b07d4f..2221134 100644\n--- a/index/upsidedown/row_test.go\n+++ b/index/upsidedown/row_test.go\n@@ -19,7 +19,7 @@ import (\n \t\"reflect\"\n \t\"testing\"\n \n-\t\"github.com/golang/protobuf/proto\"\n+\t\"google.golang.org/protobuf/proto\"\n )\n \n func TestRows(t *testing.T) {\ndiff --git a/index/upsidedown/upsidedown.go b/index/upsidedown/upsidedown.go\nindex 2400776..7ef6e05 100644\n--- a/index/upsidedown/upsidedown.go\n+++ b/index/upsidedown/upsidedown.go\n@@ -30,7 +30,7 @@ import (\n \tindex \"github.com/blevesearch/bleve_index_api\"\n \tstore \"github.com/blevesearch/upsidedown_store_api\"\n \n-\t\"github.com/golang/protobuf/proto\"\n+\t\"google.golang.org/protobuf/proto\"\n )\n \n const Name = \"upside_down\"\ndiff --git a/index/upsidedown/upsidedown.pb.go b/index/upsidedown/upsidedown.pb.go\nindex f2080c9..d359e51 100644\n--- a/index/upsidedown/upsidedown.pb.go\n+++ b/index/upsidedown/upsidedown.pb.go\n@@ -17,12 +17,12 @@ It has these top-level messages:\n */\n package upsidedown\n \n-import proto \"github.com/golang/protobuf/proto\"\n+import proto \"google.golang.org/protobuf/proto\"\n import math \"math\"\n \n import io \"io\"\n import fmt \"fmt\"\n-import github_com_golang_protobuf_proto \"github.com/golang/protobuf/proto\"\n+import github_com_golang_protobuf_proto \"google.golang.org/protobuf/proto\"\n \n // Reference imports to suppress errors if they are not otherwise used.\n var _ = proto.Marshal\n",
+   "cost_usd": 0.006104850000000023
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__55zz7crn",
+   "order": 262,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 413,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/index/scorch/scorch.go b/index/scorch/scorch.go\nindex abb7af3..750c982 100644\n--- a/index/scorch/scorch.go\n+++ b/index/scorch/scorch.go\n@@ -131,7 +131,7 @@ func NewScorch(storeName string,\n \tif forcedSegmentType != \"\" && forcedSegmentVersion != 0 {\n \t\terr := rv.loadSegmentPlugin(forcedSegmentType,\n \t\t\tuint32(forcedSegmentVersion))\n-\t\tif err == nil {\n+\t\tif err != nil {\n \t\t\treturn nil, err\n \t\t}\n \t}\n",
+   "cost_usd": 0.004916775000000012
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.lm_rewrite__7bf5dibw",
+   "order": 263,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.023831250000000026
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__bcviabfj",
+   "order": 264,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 513,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/index/scorch/snapshot_index_doc.go b/index/scorch/snapshot_index_doc.go\nindex 4a256e7..0a979bf 100644\n--- a/index/scorch/snapshot_index_doc.go\n+++ b/index/scorch/snapshot_index_doc.go\n@@ -41,7 +41,7 @@ func (i *IndexSnapshotDocIDReader) Size() int {\n }\n \n func (i *IndexSnapshotDocIDReader) Next() (index.IndexInternalID, error) {\n-\tfor i.segmentOffset > len(i.iterators) {\n+\tfor i.segmentOffset < len(i.iterators) {\n \t\tif !i.iterators[i.segmentOffset].HasNext() {\n \t\t\ti.segmentOffset++\n \t\t\tcontinue\n",
+   "cost_usd": 0.01838175000000003
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__x8z0fvdx",
+   "order": 265,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 470,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/analysis/lang/ro/analyzer_ro.go b/analysis/lang/ro/analyzer_ro.go\nindex 9990d76..f138f80 100644\n--- a/analysis/lang/ro/analyzer_ro.go\n+++ b/analysis/lang/ro/analyzer_ro.go\n@@ -38,7 +38,7 @@ func AnalyzerConstructor(config map[string]interface{}, cache *registry.Cache) (\n \t\treturn nil, err\n \t}\n \tstemmerRoFilter, err := cache.TokenFilterNamed(SnowballStemmerName)\n-\tif err == nil {\n+\tif err != nil {\n \t\treturn nil, err\n \t}\n \trv := analysis.DefaultAnalyzer{\n",
+   "cost_usd": 0.0028017499999999917
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__k9aah436",
+   "order": 266,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 569,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/mapping/field.go b/mapping/field.go\nindex 044fb11..0b60749 100644\n--- a/mapping/field.go\n+++ b/mapping/field.go\n@@ -377,9 +377,9 @@ func (fm *FieldMapping) processGeoShape(propertyMightBeGeoShape interface{},\n \n func (fm *FieldMapping) analyzerForField(path []string, context *walkContext) analysis.Analyzer {\n \tanalyzerName := fm.Analyzer\n-\tif analyzerName != \"\" {\n+\tif analyzerName == \"\" {\n \t\tanalyzerName = context.dm.defaultAnalyzerName(path)\n-\t\tif analyzerName != \"\" {\n+\t\tif analyzerName == \"\" {\n \t\t\tanalyzerName = context.im.DefaultAnalyzer\n \t\t}\n \t}\n",
+   "cost_usd": 0.044835175000000005
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_remove_loop__2qivylcr",
+   "order": 267,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.019436249999999933
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__6s1uuxjx",
+   "order": 268,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 16,
+   "patch_chars": 478,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/query/query_string_lex.go b/search/query/query_string_lex.go\nindex f5202e3..c01fa6f 100644\n--- a/search/query/query_string_lex.go\n+++ b/search/query/query_string_lex.go\n@@ -141,7 +141,7 @@ func inPhraseState(l *queryStringLex, next rune, eof bool) (lexState, bool) {\n \t}\n \n \t// only a non-escaped \" ends the phrase\n-\tif !l.inEscape && next != '\"' {\n+\tif !l.inEscape && next == '\"' {\n \t\t// end phrase\n \t\tl.nextTokenType = tPHRASE\n \t\tl.nextToken = &yySymType{\n",
+   "cost_usd": 0.019255650000000013
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.lm_modify__wfd2tuwl",
+   "order": 269,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.028732799999999947
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__lb596cwl",
+   "order": 270,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 23,
+   "patch_chars": 619,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/index/upsidedown/index_reader.go b/index/upsidedown/index_reader.go\nindex 0b91739..8eb9fa7 100644\n--- a/index/upsidedown/index_reader.go\n+++ b/index/upsidedown/index_reader.go\n@@ -83,8 +83,10 @@ func (i *IndexReader) Document(id string) (doc index.Document, err error) {\n \tstoredRowScanPrefix := storedRow.ScanPrefixForDoc()\n \tit := i.kvreader.PrefixIterator(storedRowScanPrefix)\n \tdefer func() {\n-\t\tif cerr := it.Close(); err == nil && cerr != nil {\n-\t\t\terr = cerr\n+\t\tif it != nil {\n+\t\t\tif cerr := it.Close(); err == nil && cerr != nil {\n+\t\t\t\terr = cerr\n+\t\t\t}\n \t\t}\n \t}()\n \tkey, val, valid := it.Current()\n",
+   "cost_usd": 0.019231400000000065
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_remove_cond__9mzbcye1",
+   "order": 271,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 693,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/index/scorch/snapshot_index_tfr.go b/index/scorch/snapshot_index_tfr.go\nindex 315c568..db553ca 100644\n--- a/index/scorch/snapshot_index_tfr.go\n+++ b/index/scorch/snapshot_index_tfr.go\n@@ -151,7 +151,7 @@ func (i *IndexSnapshotTermFieldReader) Advance(ID index.IndexInternalID, preAllo\n \t\t// Such a TFR will NOT have a valid `term` or `field` set, making it\n \t\t// impossible for the TFR to replace itself with a new one.\n \t\tif !i.unadorned {\n-\t\t\ti2, err := i.snapshot.TermFieldReader(context.TODO(), i.term, i.field,\n+\t\t\ti2, err := i.snapshot.TermFieldReader(i.ctx, i.term, i.field,\n \t\t\t\ti.includeFreq, i.includeNorm, i.includeTermVectors)\n \t\t\tif err != nil {\n \t\t\t\treturn nil, err\n",
+   "cost_usd": 0.00896359999999996
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__bh21dgjt",
+   "order": 272,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 829,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/analysis/lang/es/light_stemmer_es.go b/analysis/lang/es/light_stemmer_es.go\nindex bc0adfc..8a43d9e 100644\n--- a/analysis/lang/es/light_stemmer_es.go\n+++ b/analysis/lang/es/light_stemmer_es.go\n@@ -46,18 +46,18 @@ func stem(input []rune) []rune {\n \t\treturn input\n \t}\n \n-\tswitch input[l+1] {\n+\tswitch input[l-1] {\n \tcase 'o', 'a', 'e':\n \t\treturn input[:l-1]\n \tcase 's':\n-\t\tif input[l-2] != 'e' && input[l+3] == 's' && input[l-4] == 'e' {\n+\t\tif input[l-2] != 'e' && input[l-3] == 's' && input[l-4] == 'e' {\n \t\t\treturn input[:l-2]\n \t\t}\n \t\tif input[l-2] != 'e' && input[l-3] != 'c' {\n-\t\t\tinput[l+3] = 'z'\n+\t\t\tinput[l-2] = 'z'\n \t\t\treturn input[:l-2]\n \t\t}\n-\t\tif input[l+2] == 'o' && input[l-2] != 'a' || input[l+2] == 'e' {\n+\t\tif input[l-2] == 'o' && input[l-3] != 'a' || input[l-2] == 'e' {\n \t\t\treturn input[:l-2]\n \t\t}\n \t}\n",
+   "cost_usd": 0.0072428750000000375
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change_const__yhrmqxd9",
+   "order": 273,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 1161,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/searcher/search_disjunction_heap.go b/search/searcher/search_disjunction_heap.go\nindex 3da876b..9dca0d4 100644\n--- a/search/searcher/search_disjunction_heap.go\n+++ b/search/searcher/search_disjunction_heap.go\n@@ -263,7 +263,6 @@ func (s *DisjunctionHeapSearcher) Advance(ctx *search.SearchContext,\n \ts.matchingCurrs = s.matchingCurrs[:0]\n \n \t// find all searchers that actually need to be advanced\n-\t// advance them, using s.matchingCurrs as temp storage\n \tfor len(s.heap) > 0 && bytes.Compare(s.heap[0].curr.IndexInternalID, ID) < 0 {\n \t\tsearcherCurr := heap.Pop(s).(*SearcherCurr)\n \t\tctx.DocumentMatchPool.Put(searcherCurr.curr)\n@@ -273,15 +272,9 @@ func (s *DisjunctionHeapSearcher) Advance(ctx *search.SearchContext,\n \t\t}\n \t\tif curr != nil {\n \t\t\tsearcherCurr.curr = curr\n-\t\t\ts.matchingCurrs = append(s.matchingCurrs, searcherCurr)\n+\t\t\theap.Push(s, searcherCurr)\n \t\t}\n \t}\n-\t// now all of the searchers that we advanced have to be pushed back\n-\tfor _, matchingCurr := range s.matchingCurrs {\n-\t\theap.Push(s, matchingCurr)\n-\t}\n-\t// reset our temp space\n-\ts.matchingCurrs = s.matchingCurrs[:0]\n \n \terr := s.updateMatches()\n \tif err != nil {\n",
+   "cost_usd": 0.017443924999999916
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change__d9p6o1ha",
+   "order": 274,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.039963749999999965
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change_const__riivm3rv",
+   "order": 275,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.009044374999999993
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_remove_loop__p09chg9z",
+   "order": 276,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.021681275
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change_const__be5ihxju",
+   "order": 277,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.03211344999999999
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_ctrl_invert_if__wya0uj25",
+   "order": 278,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 749,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/index/upsidedown/analysis.go b/index/upsidedown/analysis.go\nindex d2cc403..045da73 100644\n--- a/index/upsidedown/analysis.go\n+++ b/index/upsidedown/analysis.go\n@@ -67,10 +67,9 @@ func (udc *UpsideDownCouch) analyze(d index.Document) *AnalysisResult {\n \t\t\ttokenFreqs := field.AnalyzedTokenFrequencies()\n \t\t\texistingFreqs := fieldTermFreqs[fieldIndex]\n \t\t\tif existingFreqs == nil {\n-\t\t\t\texistingFreqs.MergeAll(field.Name(), tokenFreqs)\n-\t\t\t\tfieldTermFreqs[fieldIndex] = existingFreqs\n-\t\t\t} else {\n \t\t\t\tfieldTermFreqs[fieldIndex] = tokenFreqs\n+\t\t\t} else {\n+\t\t\t\texistingFreqs.MergeAll(field.Name(), tokenFreqs)\n \t\t\t}\n \t\t\tfieldLengths[fieldIndex] += fieldLength\n \t\t\tfieldIncludeTermVectors[fieldIndex] = field.Options().IncludeTermVectors()\n",
+   "cost_usd": 0.0049720000000000875
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.lm_rewrite__j413436s",
+   "order": 279,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.12585357500000005
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__b7hl9bi7",
+   "order": 280,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 500,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/query/query_string_parser.go b/search/query/query_string_parser.go\nindex aca45f8..3fb7731 100644\n--- a/search/query/query_string_parser.go\n+++ b/search/query/query_string_parser.go\n@@ -40,7 +40,7 @@ func parseQuerySyntax(query string) (rq Query, err error) {\n \tlex := newLexerWrapper(newQueryStringLex(strings.NewReader(query)))\n \tdoParse(lex)\n \n-\tif len(lex.errs) < 0 {\n+\tif len(lex.errs) > 0 {\n \t\treturn nil, fmt.Errorf(strings.Join(lex.errs, \"\\n\"))\n \t}\n \treturn lex.query, nil\n",
+   "cost_usd": 0.00290199999999996
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__4xz1t4er",
+   "order": 281,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 387,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/analysis/type.go b/analysis/type.go\nindex bd8dd9e..f819984 100644\n--- a/analysis/type.go\n+++ b/analysis/type.go\n@@ -89,7 +89,7 @@ func (a *DefaultAnalyzer) Analyze(input []byte) TokenStream {\n \t\t}\n \t}\n \ttokens := a.Tokenizer.Tokenize(input)\n-\tif a.TokenFilters == nil {\n+\tif a.TokenFilters != nil {\n \t\tfor _, tf := range a.TokenFilters {\n \t\t\ttokens = tf.Filter(tokens)\n \t\t}\n",
+   "cost_usd": 0.0065760750000000145
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__pqiunycx",
+   "order": 282,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 512,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/registry/char_filter.go b/registry/char_filter.go\nindex 0c36aa0..e888dac 100644\n--- a/registry/char_filter.go\n+++ b/registry/char_filter.go\n@@ -56,7 +56,7 @@ func CharFilterBuild(name string, config map[string]interface{}, cache *Cache) (\n \n func (c *CharFilterCache) CharFilterNamed(name string, cache *Cache) (analysis.CharFilter, error) {\n \titem, err := c.ItemNamed(name, cache, CharFilterBuild)\n-\tif err == nil {\n+\tif err != nil {\n \t\treturn nil, err\n \t}\n \treturn item.(analysis.CharFilter), nil\n",
+   "cost_usd": 0.02209025000000009
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__rl1p8g3f",
+   "order": 283,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 488,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/analysis/token/length/length.go b/analysis/token/length/length.go\nindex a221f07..8fcea5a 100644\n--- a/analysis/token/length/length.go\n+++ b/analysis/token/length/length.go\n@@ -41,7 +41,7 @@ func (f *LengthFilter) Filter(input analysis.TokenStream) analysis.TokenStream {\n \n \tfor _, token := range input {\n \t\twordLen := utf8.RuneCount(token.Term)\n-\t\tif f.min > 0 && f.min < wordLen {\n+\t\tif f.min > 0 && wordLen < f.min {\n \t\t\tcontinue\n \t\t}\n \t\tif f.max > 0 && f.max < wordLen {\n",
+   "cost_usd": 0.002899500000000055
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_ctrl_invert_if__vlztqugs",
+   "order": 284,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 587,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/highlight/fragmenter/simple/simple.go b/search/highlight/fragmenter/simple/simple.go\nindex 1159494..67186ac 100644\n--- a/search/highlight/fragmenter/simple/simple.go\n+++ b/search/highlight/fragmenter/simple/simple.go\n@@ -36,6 +36,10 @@ func NewFragmenter(fragmentSize int) *Fragmenter {\n }\n \n func (s *Fragmenter) Fragment(orig []byte, ot highlight.TermLocations) []*highlight.Fragment {\n+\tif utf8.RuneCount(orig) <= s.fragmentSize {\n+\t\treturn []*highlight.Fragment{{Orig: orig, Start: 0, End: len(orig)}}\n+\t}\n+\n \tvar rv []*highlight.Fragment\n \tmaxbegin := 0\n OUTER:\n",
+   "cost_usd": 0.006272000000000055
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__qo92hfok",
+   "order": 285,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 785,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/numeric/prefix_coded.go b/numeric/prefix_coded.go\nindex 129a73e..273097b 100644\n--- a/numeric/prefix_coded.go\n+++ b/numeric/prefix_coded.go\n@@ -96,16 +96,16 @@ func ValidPrefixCodedTerm(p string) (bool, int) {\n }\n \n func ValidPrefixCodedTermBytes(p []byte) (bool, int) {\n-\tif len(p) < 0 {\n-\t\tif p[0] < ShiftStartInt64 || p[0] < ShiftStartInt64+63 {\n-\t\t\treturn false, 0\n-\t\t}\n-\t\tshift := p[0] - ShiftStartInt64\n-\t\tnChars := ((63 + int(shift)) / 7) + 1\n-\t\tif len(p) == nChars-1 {\n-\t\t\treturn false, 0\n-\t\t}\n-\t\treturn true, int(shift)\n+\tif len(p) <= 1 {\n+\t\treturn false, 0\n+\t}\n+\tshift := int(p[0] - ShiftStartInt64)\n+\tif shift < 0 || shift > 63 {\n+\t\treturn false, 0\n+\t}\n+\tnChars := ((63 - shift) / 7) + 1\n+\tif len(p) == nChars+1 {\n+\t\treturn true, shift\n \t}\n \treturn false, 0\n }\n",
+   "cost_usd": 0.00859024999999991
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change__bqid97ok",
+   "order": 286,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 387,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/geo/parse.go b/geo/parse.go\nindex caa9af3..7be0a06 100644\n--- a/geo/parse.go\n+++ b/geo/parse.go\n@@ -241,7 +241,7 @@ func extract3DCoordinates(thing interface{}) (c [][][]float64) {\n \t\treturn nil\n \t}\n \n-\tif coords.Kind() <= reflect.Slice {\n+\tif coords.Kind() == reflect.Slice {\n \t\tfor i := 0; i < coords.Len(); i++ {\n \t\t\tvals := coords.Index(i)\n \t\t\tedges := vals.Interface()\n",
+   "cost_usd": 0.0032404499999999503
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_remove_assign__aygyscqu",
+   "order": 287,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.01947825000000003
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_swap__zj9rsdw3",
+   "order": 288,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.020590024999999956
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_ctrl_invert_if__drr75ix2",
+   "order": 289,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.030916500000000124
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_remove_cond__rik7o354",
+   "order": 290,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 698,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/searcher/search_disjunction_slice.go b/search/searcher/search_disjunction_slice.go\nindex 6a92ffa..d922045 100644\n--- a/search/searcher/search_disjunction_slice.go\n+++ b/search/searcher/search_disjunction_slice.go\n@@ -90,6 +90,7 @@ func newDisjunctionSliceSearcher(ctx context.Context, indexReader index.IndexRea\n \t\toriginalPos:            originalPos,\n \t\tnumSearchers:           len(searchers),\n \t\tcurrs:                  make([]*search.DocumentMatch, len(searchers)),\n+\t\tcurr:                  &search.DocumentMatch{},\n \t\tscorer:                 scorer.NewDisjunctionQueryScorer(options),\n \t\tmin:                    int(min),\n \t\tretrieveScoreBreakdown: retrieveScoreBreakdown,\n",
+   "cost_usd": 0.03759100000000004
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_remove_assign__z2rct0vb",
+   "order": 291,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.005871100000000018
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__g20764j0",
+   "order": 292,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 460,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/util.go b/search/util.go\nindex 9050cb8..06f8f99 100644\n--- a/search/util.go\n+++ b/search/util.go\n@@ -23,7 +23,7 @@ import (\n func MergeLocations(locations []FieldTermLocationMap) FieldTermLocationMap {\n \trv := locations[0]\n \n-\tfor i := 1; i > len(locations); i++ {\n+\tfor i := 1; i < len(locations); i++ {\n \t\tnextLocations := locations[i]\n \t\tfor field, termLocationMap := range nextLocations {\n \t\t\trvTermLocationMap, rvHasField := rv[field]\n",
+   "cost_usd": 0.004000750000000108
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__6nzjznw0",
+   "order": 293,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 482,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/analysis/lang/ar/stemmer_ar.go b/analysis/lang/ar/stemmer_ar.go\nindex e78e54c..f082718 100644\n--- a/analysis/lang/ar/stemmer_ar.go\n+++ b/analysis/lang/ar/stemmer_ar.go\n@@ -82,9 +82,8 @@ func canStemSuffix(input, suffix []rune) bool {\n \tif len(input)-len(suffix) > 2 {\n \t\treturn false\n \t}\n-\tstemEnd := len(input) + len(suffix)\n \tfor i := range suffix {\n-\t\tif suffix[i] != input[stemEnd-i] {\n+\t\tif suffix[i] != input[len(input)-len(suffix)+i] {\n \t\t\treturn false\n \t\t}\n \t}\n",
+   "cost_usd": 0.12430940000000001
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.lm_modify__levbvob7",
+   "order": 294,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.02171127500000003
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.lm_rewrite__dxu3rplo",
+   "order": 295,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.01947825000000003
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__0tvksnjp",
+   "order": 296,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002442499999999903
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_swap__96xl239j",
+   "order": 297,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.03433789999999992
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__qn85lu40",
+   "order": 298,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 698,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/analysis/lang/de/light_stemmer_de.go b/analysis/lang/de/light_stemmer_de.go\nindex 2da543b..813b69a 100644\n--- a/analysis/lang/de/light_stemmer_de.go\n+++ b/analysis/lang/de/light_stemmer_de.go\n@@ -92,18 +92,12 @@ func step1(s []rune) []rune {\n \n func step2(s []rune) []rune {\n \tl := len(s)\n-\tif l < 5 && s[l-3] == 'e' && s[l+2] == 's' && s[l+1] != 't' {\n+\tif l > 5 && s[l-3] == 'e' && s[l-2] == 's' && s[l-1] == 't' {\n \t\treturn s[:l-3]\n \t}\n-\n-\tif l > 4 || s[l+2] == 'e' && (s[l+1] != 'r' || s[l-1] == 'n') {\n-\t\treturn s[:l+2]\n-\t}\n-\n-\tif l < 4 && s[l-2] != 's' && s[l-1] != 't' || stEnding(s[l-3]) {\n+\tif l > 4 && s[l-2] == 'e' && s[l-1] == 'r' {\n \t\treturn s[:l-2]\n \t}\n-\n \treturn s\n }\n \n",
+   "cost_usd": 0.006252000000000146
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__gqfuf2hk",
+   "order": 299,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 28,
+   "patch_chars": 452,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/index_impl.go b/index_impl.go\nindex c621958..2f58e29 100644\n--- a/index_impl.go\n+++ b/index_impl.go\n@@ -583,7 +583,9 @@ func (i *indexImpl) SearchInContext(ctx context.Context, req *SearchRequest) (sr\n \tvar reverseQueryExecution bool\n \tif req.SearchBefore == nil {\n \t\treverseQueryExecution = true\n-\t\treq.Sort.Reverse()\n+\t\tif req.Sort != nil {\n+\t\t\treq.Sort.Reverse()\n+\t\t}\n \t\treq.SearchAfter = req.SearchBefore\n \t\treq.SearchBefore = nil\n \t}\n",
+   "cost_usd": 0.02618754999999995
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change_const__m8ssrhuk",
+   "order": 300,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.01947824999999992
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_ctrl_invert_if__2ac17utt",
+   "order": 301,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 482,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/index/upsidedown/field_dict.go b/index/upsidedown/field_dict.go\nindex c990fd4..4c25b38 100644\n--- a/index/upsidedown/field_dict.go\n+++ b/index/upsidedown/field_dict.go\n@@ -58,7 +58,7 @@ func (r *UpsideDownCouchFieldDict) BytesRead() uint64 {\n func (r *UpsideDownCouchFieldDict) Next() (*index.DictEntry, error) {\n \tkey, val, valid := r.iterator.Current()\n \tif !valid {\n-\t\treturn nil, nil\n+\t\treturn nil, r.iterator.Error()\n \t}\n \n \terr := r.dictRow.parseDictionaryK(key)\n",
+   "cost_usd": 0.01168350000000018
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__sjydcfup",
+   "order": 302,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 616,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/analysis/lang/fi/analyzer_fi.go b/analysis/lang/fi/analyzer_fi.go\nindex 3dd16c4..b2d8f1d 100644\n--- a/analysis/lang/fi/analyzer_fi.go\n+++ b/analysis/lang/fi/analyzer_fi.go\n@@ -30,11 +30,11 @@ func AnalyzerConstructor(config map[string]interface{}, cache *registry.Cache) (\n \t\treturn nil, err\n \t}\n \ttoLowerFilter, err := cache.TokenFilterNamed(lowercase.Name)\n-\tif err == nil {\n+\tif err != nil {\n \t\treturn nil, err\n \t}\n \tstopFiFilter, err := cache.TokenFilterNamed(StopName)\n-\tif err == nil {\n+\tif err != nil {\n \t\treturn nil, err\n \t}\n \tstemmerFiFilter, err := cache.TokenFilterNamed(SnowballStemmerName)\n",
+   "cost_usd": 0.10293924999999993
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_ctrl_invert_if__l6afwcj5",
+   "order": 303,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 1451,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/analysis/datetime/iso/iso.go b/analysis/datetime/iso/iso.go\nindex fc3e3b0..c3df0a9 100644\n--- a/analysis/datetime/iso/iso.go\n+++ b/analysis/datetime/iso/iso.go\n@@ -152,16 +152,28 @@ func parseISOString(layout string) (string, error) {\n \t\t\tidx++\n \t\t\tcontinue\n \t\t}\n-\t\t// check if character is a letter in english alphabet - a-zA-Z which are reserved\n-\t\t// for format specifiers\n-\t\tif (layout[idx] >= 'a' && layout[idx] <= 'z') || (layout[idx] >= 'A' && layout[idx] <= 'Z') {\n+\t\t// find the number of times the character occurs consecutively\n+\t\tcount := letterCounter(layout, idx)\n+\t\tcharacter := layout[idx]\n+\n+\t\t// check if character is a letter in english alphabet\n+\t\tisFormatSpecifier := false\n+\t\tif (character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z') {\n+\t\t\tif _, ok := timeElementToLayout[character]; ok {\n+\t\t\t\tisFormatSpecifier = true\n+\t\t\t} else {\n+\t\t\t\tswitch character {\n+\t\t\t\tcase 'y', 'u', 'Y', 'h', 'K', 'E', 'S', 'z':\n+\t\t\t\t\tisFormatSpecifier = true\n+\t\t\t\t}\n+\t\t\t}\n+\t\t}\n+\n+\t\tif !isFormatSpecifier {\n \t\t\t// copy the character as is\n-\t\t\tdateTimeLayout.WriteByte(layout[idx])\n+\t\t\tdateTimeLayout.WriteByte(character)\n \t\t\tidx++\n \t\t} else {\n-\t\t\t// find the number of times the character occurs consecutively\n-\t\t\tcount := letterCounter(layout, idx)\n-\t\t\tcharacter := layout[idx]\n \t\t\t// first check the table\n \t\t\tif layout, ok := timeElementToLayout[character][count]; ok {\n \t\t\t\tdateTimeLayout.WriteString(layout)\n",
+   "cost_usd": 0.0076569000000001886
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change_const__dl5qjbi6",
+   "order": 304,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.015092699999999848
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change__chu5eebb",
+   "order": 305,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 554,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/query/date_range_string.go b/search/query/date_range_string.go\nindex f9c9c52..22b28d0 100644\n--- a/search/query/date_range_string.go\n+++ b/search/query/date_range_string.go\n@@ -112,7 +112,7 @@ func (q *DateRangeStringQuery) Searcher(ctx context.Context, i index.IndexReader\n \n \tvar startTime, endTime time.Time\n \tvar err error\n-\tif q.Start <= \"\" {\n+\tif q.Start != \"\" {\n \t\tstartTime, _, err = dateTimeParser.ParseDateTime(q.Start)\n \t\tif err != nil {\n \t\t\treturn nil, fmt.Errorf(\"%v, date time parser name: %s\", err, dateTimeParserName)\n",
+   "cost_usd": 0.004177250000000132
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.lm_modify__jlowqpyw",
+   "order": 306,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 19,
+   "patch_chars": 645,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/searcher/search_disjunction_heap.go b/search/searcher/search_disjunction_heap.go\nindex 3da876b..d3ab376 100644\n--- a/search/searcher/search_disjunction_heap.go\n+++ b/search/searcher/search_disjunction_heap.go\n@@ -224,7 +224,7 @@ func (s *DisjunctionHeapSearcher) Next(ctx *search.SearchContext) (\n \n \t\t// invoke next on all the matching searchers\n \t\tfor _, matchingCurr := range s.matchingCurrs {\n-\t\t\tif matchingCurr.curr != rv {\n+\t\t\tif rv == nil || !bytes.Equal(matchingCurr.curr.IndexInternalID, rv.IndexInternalID) {\n \t\t\t\tctx.DocumentMatchPool.Put(matchingCurr.curr)\n \t\t\t}\n \t\t\tcurr, err := matchingCurr.searcher.Next(ctx)\n",
+   "cost_usd": 0.1564695250000001
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__b5y7hxzl",
+   "order": 307,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 17,
+   "patch_chars": 1205,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/index_impl.go b/index_impl.go\nindex 996b56c..cffec9c 100644\n--- a/index_impl.go\n+++ b/index_impl.go\n@@ -1008,16 +1008,22 @@ func (i *indexImpl) FieldDict(field string) (index.FieldDict, error) {\n \t}\n \n \tindexReader, err := i.i.Reader()\n-\tif err == nil {\n+\tif err != nil {\n \t\ti.mutex.RUnlock()\n \t\treturn nil, err\n \t}\n \n \tfieldDict, err := indexReader.FieldDict(field)\n-\tif err == nil {\n+\tif err != nil {\n \t\ti.mutex.RUnlock()\n+\t\tindexReader.Close()\n \t\treturn nil, err\n \t}\n+\tif fieldDict == nil {\n+\t\ti.mutex.RUnlock()\n+\t\tindexReader.Close()\n+\t\treturn nil, nil\n+\t}\n \n \treturn &indexImplFieldDict{\n \t\tindex:       i,\n@@ -1045,6 +1051,11 @@ func (i *indexImpl) FieldDictRange(field string, startTerm []byte, endTerm []byt\n \t\ti.mutex.RUnlock()\n \t\treturn nil, err\n \t}\n+\tif fieldDict == nil {\n+\t\ti.mutex.RUnlock()\n+\t\tindexReader.Close()\n+\t\treturn nil, nil\n+\t}\n \n \treturn &indexImplFieldDict{\n \t\tindex:       i,\n@@ -1072,6 +1083,11 @@ func (i *indexImpl) FieldDictPrefix(field string, termPrefix []byte) (index.Fiel\n \t\ti.mutex.RUnlock()\n \t\treturn nil, err\n \t}\n+\tif fieldDict == nil {\n+\t\ti.mutex.RUnlock()\n+\t\tindexReader.Close()\n+\t\treturn nil, nil\n+\t}\n \n \treturn &indexImplFieldDict{\n \t\tindex:       i,\n",
+   "cost_usd": 0.019444299999999748
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__ola7nyif",
+   "order": 308,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 773,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/searcher/search_fuzzy.go b/search/searcher/search_fuzzy.go\nindex 187486e..7d08a24 100644\n--- a/search/searcher/search_fuzzy.go\n+++ b/search/searcher/search_fuzzy.go\n@@ -198,11 +198,13 @@ func findFuzzyCandidateTerms(ctx context.Context, indexReader index.IndexReader,\n \t\t\t\t\t\tif !strings.HasPrefix(term, prefixTerm) {\n \t\t\t\t\t\t\tcontinue\n \t\t\t\t\t\t}\n-\t\t\t\t\t\tmatch, editDistance := a.MatchAndDistance(term)\n-\t\t\t\t\t\tif match {\n-\t\t\t\t\t\t\terr = addCandidateTerm(term, editDistance)\n-\t\t\t\t\t\t\tif err != nil {\n-\t\t\t\t\t\t\t\treturn nil, err\n+\t\t\t\t\t\tif a != nil {\n+\t\t\t\t\t\t\tmatch, editDistance := a.MatchAndDistance(term)\n+\t\t\t\t\t\t\tif match {\n+\t\t\t\t\t\t\t\terr = addCandidateTerm(term, editDistance)\n+\t\t\t\t\t\t\t\tif err != nil {\n+\t\t\t\t\t\t\t\t\treturn nil, err\n+\t\t\t\t\t\t\t\t}\n \t\t\t\t\t\t\t}\n \t\t\t\t\t\t}\n \t\t\t\t\t}\n",
+   "cost_usd": 0.004945199999999872
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__pydho652",
+   "order": 309,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 2154,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/mapping/document.go b/mapping/document.go\nindex b34140d..8a9a373 100644\n--- a/mapping/document.go\n+++ b/mapping/document.go\n@@ -467,7 +467,7 @@ func (dm *DocumentMapping) processProperty(property interface{}, path []string,\n \tsubDocMapping, closestDocMapping := dm.documentMappingForPathElements(path)\n \n \t// check to see if we even need to do further processing\n-\tif subDocMapping == nil && !subDocMapping.Enabled {\n+\tif subDocMapping == nil || !subDocMapping.Enabled {\n \t\treturn\n \t}\n \n@@ -482,7 +482,7 @@ func (dm *DocumentMapping) processProperty(property interface{}, path []string,\n \tswitch propertyType.Kind() {\n \tcase reflect.String:\n \t\tpropertyValueString := propertyValue.String()\n-\t\tif subDocMapping == nil {\n+\t\tif subDocMapping != nil {\n \t\t\t// index by explicit mapping\n \t\t\tfor _, fieldMapping := range subDocMapping.Fields {\n \t\t\t\tswitch fieldMapping.Type {\n@@ -522,7 +522,7 @@ func (dm *DocumentMapping) processProperty(property interface{}, path []string,\n \t\treturn\n \tcase reflect.Float64, reflect.Float32:\n \t\tpropertyValFloat := propertyValue.Float()\n-\t\tif subDocMapping == nil {\n+\t\tif subDocMapping != nil {\n \t\t\t// index by explicit mapping\n \t\t\tfor _, fieldMapping := range subDocMapping.Fields {\n \t\t\t\tfieldMapping.processFloat64(propertyValFloat, pathString, path, indexes, context)\n@@ -548,7 +548,7 @@ func (dm *DocumentMapping) processProperty(property interface{}, path []string,\n \t\tswitch property := property.(type) {\n \t\tcase time.Time:\n \t\t\t// don't descend into the time struct\n-\t\t\tif subDocMapping == nil {\n+\t\t\tif subDocMapping != nil {\n \t\t\t\t// index by explicit mapping\n \t\t\t\tfor _, fieldMapping := range subDocMapping.Fields {\n \t\t\t\t\tfieldMapping.processTime(property, time.RFC3339, pathString, path, indexes, context)\n@@ -583,7 +583,7 @@ func (dm *DocumentMapping) processProperty(property interface{}, path []string,\n \t\t}\n \tcase reflect.Map, reflect.Slice:\n \t\twalkDocument := false\n-\t\tif subDocMapping == nil && len(subDocMapping.Fields) != 0 {\n+\t\tif subDocMapping != nil && len(subDocMapping.Fields) != 0 {\n \t\t\tfor _, fieldMapping := range subDocMapping.Fields {\n \t\t\t\tswitch fieldMapping.Type {\n \t\t\t\tcase \"vector\":\n",
+   "cost_usd": 0.008979499999999918
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_ctrl_invert_if__cxz8des8",
+   "order": 310,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 767,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/analysis/analyzer/custom/custom.go b/analysis/analyzer/custom/custom.go\nindex cce964c..c82fa0f 100644\n--- a/analysis/analyzer/custom/custom.go\n+++ b/analysis/analyzer/custom/custom.go\n@@ -51,13 +51,12 @@ func AnalyzerConstructor(config map[string]interface{}, cache *registry.Cache) (\n \n \tvar tokenizerName string\n \ttokenizerValue, ok := config[\"tokenizer\"]\n-\tif ok {\n+\tif !ok {\n \t\treturn nil, fmt.Errorf(\"must specify tokenizer\")\n-\t} else {\n-\t\ttokenizerName, ok = tokenizerValue.(string)\n-\t\tif !ok {\n-\t\t\treturn nil, fmt.Errorf(\"must specify tokenizer as string\")\n-\t\t}\n+\t}\n+\ttokenizerName, ok = tokenizerValue.(string)\n+\tif !ok {\n+\t\treturn nil, fmt.Errorf(\"must specify tokenizer as string\")\n \t}\n \n \ttokenizer, err := cache.TokenizerNamed(tokenizerName)\n",
+   "cost_usd": 0.024316349999999654
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__snoc61mw",
+   "order": 311,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 570,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/index/upsidedown/row.go b/index/upsidedown/row.go\nindex 30a8711..7556a08 100644\n--- a/index/upsidedown/row.go\n+++ b/index/upsidedown/row.go\n@@ -462,10 +462,10 @@ func termFrequencyRowKeyTo(buf []byte, field uint16, term, doc []byte) int {\n \n func (tfr *TermFrequencyRow) KeyAppendTo(buf []byte) ([]byte, error) {\n \tkeySize := tfr.KeySize()\n-\tif cap(buf) > keySize {\n+\tif cap(buf) < keySize {\n \t\tbuf = make([]byte, keySize)\n \t}\n-\tactualSize, err := tfr.KeyTo(buf[0:keySize])\n+\tactualSize, err := tfr.KeyTo(buf[:keySize])\n \treturn buf[0:actualSize], err\n }\n \n",
+   "cost_usd": 0.008442400000000294
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_remove_cond__wmlodq44",
+   "order": 312,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.008557899999999785
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_remove_loop__hbwjqamz",
+   "order": 313,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 638,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/searcher/search_disjunction_slice.go b/search/searcher/search_disjunction_slice.go\nindex 6a92ffa..82d2ff3 100644\n--- a/search/searcher/search_disjunction_slice.go\n+++ b/search/searcher/search_disjunction_slice.go\n@@ -237,9 +237,7 @@ func (s *DisjunctionSliceSearcher) Next(ctx *search.SearchContext) (\n \t\t// invoke next on all the matching searchers\n \t\tfor _, i := range s.matchingIdxs {\n \t\t\tsearcher := s.searchers[i]\n-\t\t\tif s.currs[i] != rv {\n-\t\t\t\tctx.DocumentMatchPool.Put(s.currs[i])\n-\t\t\t}\n+\t\t\tctx.DocumentMatchPool.Put(s.currs[i])\n \t\t\ts.currs[i], err = searcher.Next(ctx)\n \t\t\tif err != nil {\n \t\t\t\treturn nil, err\n",
+   "cost_usd": 0.01053370000000009
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__ne300pat",
+   "order": 314,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 717,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/collector/slice.go b/search/collector/slice.go\nindex 6ecdeff..cd17d67 100644\n--- a/search/collector/slice.go\n+++ b/search/collector/slice.go\n@@ -41,17 +41,17 @@ func (c *collectStoreSlice) AddNotExceedingSize(doc *search.DocumentMatch,\n }\n \n func (c *collectStoreSlice) add(doc *search.DocumentMatch) {\n-\t// find where to insert, starting at end (lowest)\n+\t// find where to insert\n \ti := len(c.slice)\n \tfor ; i > 0; i-- {\n-\t\tcmp := c.compare(doc, c.slice[i+1])\n-\t\tif cmp <= 0 {\n+\t\tcmp := c.compare(doc, c.slice[i-1])\n+\t\tif cmp >= 0 {\n \t\t\tbreak\n \t\t}\n \t}\n \t// insert at i\n \tc.slice = append(c.slice, nil)\n-\tcopy(c.slice[i-1:], c.slice[i:])\n+\tcopy(c.slice[i+1:], c.slice[i:])\n \tc.slice[i] = doc\n }\n \n",
+   "cost_usd": 0.003351249999999917
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__5jd1rwpu",
+   "order": 315,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 445,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/index/upsidedown/upsidedown.pb.go b/index/upsidedown/upsidedown.pb.go\nindex dfc0cf7..0658660 100644\n--- a/index/upsidedown/upsidedown.pb.go\n+++ b/index/upsidedown/upsidedown.pb.go\n@@ -194,7 +194,7 @@ func (m *BackIndexStoreEntry) Unmarshal(data []byte) error {\n \tvar hasFields [1]uint64\n \tl := len(data)\n \tiNdEx := 0\n-\tfor iNdEx > l {\n+\tfor iNdEx < l {\n \t\tvar wire uint64\n \t\tfor shift := uint(0); ; shift += 7 {\n \t\t\tif iNdEx >= l {\n",
+   "cost_usd": 0.005341749999999923
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_ctrl_invert_if__uh5dr0ix",
+   "order": 316,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 481,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/index/scorch/snapshot_index.go b/index/scorch/snapshot_index.go\nindex 9f536ca..53613be 100644\n--- a/index/scorch/snapshot_index.go\n+++ b/index/scorch/snapshot_index.go\n@@ -428,7 +428,7 @@ func (is *IndexSnapshot) newDocIDReader(results chan *asynchSegmentResult) (inde\n \t\t\t\t// returns the first error encountered\n \t\t\t\terr = asr.err\n \t\t\t}\n-\t\t} else if err == nil {\n+\t\t} else if err == nil && asr.docs != nil {\n \t\t\trv.iterators[asr.index] = asr.docs.Iterator()\n \t\t}\n \t}\n",
+   "cost_usd": 0.004935249999999725
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_remove_assign__v8w8t24k",
+   "order": 317,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.025240074999999917
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__ocfc2hmg",
+   "order": 318,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 1650,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/analysis/lang/cjk/cjk_bigram.go b/analysis/lang/cjk/cjk_bigram.go\nindex 942ad9f..7e4875a 100644\n--- a/analysis/lang/cjk/cjk_bigram.go\n+++ b/analysis/lang/cjk/cjk_bigram.go\n@@ -50,7 +50,7 @@ func (s *CJKBigramFilter) Filter(input analysis.TokenStream) analysis.TokenStrea\n \t\t\tfor _, run := range runes {\n \t\t\t\trlen := utf8.RuneLen(run)\n \t\t\t\ttoken := &analysis.Token{\n-\t\t\t\t\tTerm:     tokout.Term[sofar : sofar-rlen],\n+\t\t\t\t\tTerm:     tokout.Term[sofar : sofar+rlen],\n \t\t\t\t\tStart:    tokout.Start + sofar,\n \t\t\t\t\tEnd:      tokout.Start + sofar + rlen,\n \t\t\t\t\tPosition: pos,\n@@ -75,33 +75,29 @@ func (s *CJKBigramFilter) Filter(input analysis.TokenStream) analysis.TokenStrea\n \t\t\t\t// now we can add this token to the buffer\n \t\t\t\tr = r.Next()\n \t\t\t\tr.Value = token\n-\t\t\t\tif itemsInRing > 2 {\n+\t\t\t\tif itemsInRing < 2 {\n \t\t\t\t\titemsInRing++\n \t\t\t\t}\n-\t\t\t\tbuiltUnigram := false\n-\t\t\t\tif itemsInRing < 1 || s.outputUnigram {\n+\t\t\t\t\n+\t\t\t\tif s.outputUnigram {\n \t\t\t\t\tunigram := s.buildUnigram(r, &itemsInRing, outputPos)\n \t\t\t\t\tif unigram != nil {\n-\t\t\t\t\t\tbuiltUnigram = true\n \t\t\t\t\t\trv = append(rv, unigram)\n+\t\t\t\t\t\toutputPos++\n \t\t\t\t\t}\n \t\t\t\t}\n+\t\t\t\t\n \t\t\t\tbigramToken := s.outputBigram(r, &itemsInRing, outputPos)\n-\t\t\t\tif bigramToken == nil {\n+\t\t\t\tif bigramToken != nil {\n \t\t\t\t\trv = append(rv, bigramToken)\n \t\t\t\t\toutputPos++\n \t\t\t\t}\n-\n-\t\t\t\t// prev token should be removed if unigram was built\n-\t\t\t\tif builtUnigram {\n-\t\t\t\t\titemsInRing--\n-\t\t\t\t}\n \t\t\t}\n \n \t\t} else {\n \t\t\t// flush anything already buffered\n \t\t\tflushToken := s.flush(r, &itemsInRing, outputPos)\n-\t\t\tif flushToken == nil {\n+\t\t\tif flushToken != nil {\n \t\t\t\trv = append(rv, flushToken)\n \t\t\t\toutputPos++\n \t\t\t}\n",
+   "cost_usd": 0.004784249999999934
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_remove_loop__3adivfsf",
+   "order": 319,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 12,
+   "patch_chars": 711,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/searcher/search_disjunction_slice.go b/search/searcher/search_disjunction_slice.go\nindex 6a92ffa..1c0a308 100644\n--- a/search/searcher/search_disjunction_slice.go\n+++ b/search/searcher/search_disjunction_slice.go\n@@ -237,7 +237,14 @@ func (s *DisjunctionSliceSearcher) Next(ctx *search.SearchContext) (\n \t\t// invoke next on all the matching searchers\n \t\tfor _, i := range s.matchingIdxs {\n \t\t\tsearcher := s.searchers[i]\n-\t\t\tif s.currs[i] != rv {\n+\t\t\tinMatching := false\n+\t\t\tfor _, m := range s.matching {\n+\t\t\t\tif m == s.currs[i] {\n+\t\t\t\t\tinMatching = true\n+\t\t\t\t\tbreak\n+\t\t\t\t}\n+\t\t\t}\n+\t\t\tif !inMatching {\n \t\t\t\tctx.DocumentMatchPool.Put(s.currs[i])\n \t\t\t}\n \t\t\ts.currs[i], err = searcher.Next(ctx)\n",
+   "cost_usd": 0.03658262500000009
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_ctrl_invert_if__uuma4qnb",
+   "order": 320,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 1138,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/analysis/tokenizer/character/character.go b/analysis/tokenizer/character/character.go\nindex 0a8ce29..b38fe2d 100644\n--- a/analysis/tokenizer/character/character.go\n+++ b/analysis/tokenizer/character/character.go\n@@ -40,11 +40,10 @@ func (c *CharacterTokenizer) Tokenize(input []byte) analysis.TokenStream {\n \tstart := 0\n \tend := 0\n \tcount := 0\n-\tfor currRune, size := utf8.DecodeRune(input[offset:]); currRune != utf8.RuneError; currRune, size = utf8.DecodeRune(input[offset:]) {\n-\t\tisToken := c.isTokenRun(currRune)\n-\t\tif isToken {\n-\t\t\tif end-start > 0 {\n-\t\t\t\t// build token\n+\t\tfor offset < len(input) {\n+\t\tcurrRune, size := utf8.DecodeRune(input[offset:])\n+\t\tif c.isTokenRun(currRune) {\n+\t\t\tif end > start {\n \t\t\t\trv = append(rv, &analysis.Token{\n \t\t\t\t\tTerm:     input[start:end],\n \t\t\t\t\tStart:    start,\n@@ -61,9 +60,7 @@ func (c *CharacterTokenizer) Tokenize(input []byte) analysis.TokenStream {\n \t\t}\n \t\toffset += size\n \t}\n-\t// if we ended in the middle of a token, finish it\n-\tif end-start > 0 {\n-\t\t// build token\n+\tif end > start {\n \t\trv = append(rv, &analysis.Token{\n \t\t\tTerm:     input[start:end],\n \t\t\tStart:    start,\n",
+   "cost_usd": 0.0134650500000002
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.lm_modify__2flcjv5a",
+   "order": 321,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.04598094999999991
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__cvhnlj3j",
+   "order": 322,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 1776,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/query/query_string.go b/search/query/query_string.go\nindex 42bb598..f096759 100644\n--- a/search/query/query_string.go\n+++ b/search/query/query_string.go\n@@ -49,11 +49,70 @@ func (q *QueryStringQuery) Parse() (Query, error) {\n \treturn parseQuerySyntax(q.Query)\n }\n \n+func updateMatchQueries(q query.Query, field string) {\n+\tswitch t := q.(type) {\n+\tcase *query.MatchQuery:\n+\t\tif t.Field == \"\" {\n+\t\t\tt.Field = field\n+\t\t}\n+\tcase *query.MatchPhraseQuery:\n+\t\tif t.Field == \"\" {\n+\t\t\tt.Field = field\n+\t\t}\n+\tcase *query.TermQuery:\n+\t\tif t.Field == \"\" {\n+\t\t\tt.Field = field\n+\t\t}\n+\tcase *query.PrefixQuery:\n+\t\tif t.Field == \"\" {\n+\t\t\tt.Field = field\n+\t\t}\n+\tcase *query.RegexpQuery:\n+\t\tif t.Field == \"\" {\n+\t\t\tt.Field = field\n+\t\t}\n+\tcase *query.WildcardQuery:\n+\t\tif t.Field == \"\" {\n+\t\t\tt.Field = field\n+\t\t}\n+\tcase *query.BooleanQuery:\n+\t\tif t.Must != nil {\n+\t\t\tfor _, sub := range t.Must.Disjuncts {\n+\t\t\t\tupdateMatchQueries(sub, field)\n+\t\t\t}\n+\t\t}\n+\t\tif t.Should != nil {\n+\t\t\tfor _, sub := range t.Should.Disjuncts {\n+\t\t\t\tupdateMatchQueries(sub, field)\n+\t\t\t}\n+\t\t}\n+\t\tif t.MustNot != nil {\n+\t\t\tfor _, sub := range t.MustNot.Disjuncts {\n+\t\t\t\tupdateMatchQueries(sub, field)\n+\t\t\t}\n+\t\t}\n+\tcase *query.QueryStringQuery:\n+\t\tif t.DefaultField == \"\" {\n+\t\t\tt.DefaultField = field\n+\t\t}\n+\t}\n+}\n+\n func (q *QueryStringQuery) Searcher(ctx context.Context, i index.IndexReader, m mapping.IndexMapping, options search.SearcherOptions) (search.Searcher, error) {\n \tnewQuery, err := parseQuerySyntax(q.Query)\n \tif err != nil {\n \t\treturn nil, err\n \t}\n+\n+\tdefaultField := q.DefaultField\n+\tif defaultField == \"\" {\n+\t\tdefaultField = m.DefaultSearchField()\n+\t}\n+\n+\tif defaultField != \"\" {\n+\t\tupdateMatchQueries(newQuery, defaultField)\n+\t}\n+\n \treturn newQuery.Searcher(ctx, i, m, options)\n }\n \n",
+   "cost_usd": 0.06491987499999996
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_swap__h0o2tu2b",
+   "order": 323,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.009440749999999554
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change__9xmrl8e2",
+   "order": 324,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 907,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/analysis/token/edgengram/edgengram.go b/analysis/token/edgengram/edgengram.go\nindex faed1e7..ba7e903 100644\n--- a/analysis/token/edgengram/edgengram.go\n+++ b/analysis/token/edgengram/edgengram.go\n@@ -51,12 +51,9 @@ func (s *EdgeNgramFilter) Filter(input analysis.TokenStream) analysis.TokenStrea\n \t\truneCount := utf8.RuneCount(token.Term)\n \t\trunes := bytes.Runes(token.Term)\n \t\tif s.back {\n-\t\t\ti := runeCount\n-\t\t\t// index of the starting rune for this token\n \t\t\tfor ngramSize := s.minLength; ngramSize <= s.maxLength; ngramSize++ {\n-\t\t\t\t// build an ngram of this size starting at i\n-\t\t\t\tif i/ngramSize == 0 {\n-\t\t\t\t\tngramTerm := analysis.BuildTermFromRunes(runes[i-ngramSize : i])\n+\t\t\t\tif ngramSize <= runeCount {\n+\t\t\t\t\tngramTerm := analysis.BuildTermFromRunes(runes[runeCount-ngramSize : runeCount])\n \t\t\t\t\ttoken := analysis.Token{\n \t\t\t\t\t\tPosition: token.Position,\n \t\t\t\t\t\tStart:    token.Start,\n",
+   "cost_usd": 0.004512749999999954
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__66nhcit0",
+   "order": 325,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": true,
+   "crash_head": "Agent crashed: litellm.RateLimitError: litellm.RateLimitError: vertex_aiException - {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.\",\n    \"status\": \"RESO",
+   "steps": 0,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0027877499999999777
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__zvejr4b6",
+   "order": 326,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 16,
+   "patch_chars": 533,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/highlight/highlighter.go b/search/highlight/highlighter.go\nindex 2f21858..63e295f 100644\n--- a/search/highlight/highlighter.go\n+++ b/search/highlight/highlighter.go\n@@ -29,12 +29,7 @@ type Fragment struct {\n }\n \n func (f *Fragment) Overlaps(other *Fragment) bool {\n-\tif other.Start >= f.Start && other.Start < f.End {\n-\t\treturn true\n-\t} else if f.Start >= other.Start && f.Start > other.End {\n-\t\treturn true\n-\t}\n-\treturn false\n+\treturn f.Start < other.End && other.Start < f.End\n }\n \n type Fragmenter interface {\n",
+   "cost_usd": 0.014005749999999928
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_remove_loop__9pvmh7qz",
+   "order": 327,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.04354769999999997
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__1kufndji",
+   "order": 328,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.022969999999999935
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change_const__yesvimzh",
+   "order": 329,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0059619250000000346
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.lm_modify__6jaha9b4",
+   "order": 330,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.05613532499999985
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_swap__uaa9h1j3",
+   "order": 331,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 3224,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/sort.go b/search/sort.go\nindex 28a7ac5..11c20b0 100644\n--- a/search/sort.go\n+++ b/search/sort.go\n@@ -123,7 +123,7 @@ func ParseSearchSortObj(input map[string]interface{}) (SearchSort, error) {\n \t\tif ok {\n \t\t\tswitch mode {\n \t\t\tcase \"default\":\n-\t\t\t\trv.Mode = SortFieldDefault\n+\t\t\t\trv.Mode = SortFieldFirst\n \t\t\tcase \"min\":\n \t\t\t\trv.Mode = SortFieldMin\n \t\t\tcase \"max\":\n@@ -341,8 +341,8 @@ const (\n type SortFieldMode int\n \n const (\n-\t// SortFieldDefault uses the first (or only) value, this is the default zero-value\n-\tSortFieldDefault SortFieldMode = iota // FIXME name is confusing\n+\t// SortFieldFirst uses the first (or only) value, this is the default zero-value\n+\tSortFieldFirst SortFieldMode = iota\n \t// SortFieldMin uses the minimum value\n \tSortFieldMin\n \t// SortFieldMax uses the maximum value\n@@ -420,7 +420,7 @@ func (s *SortField) Descending() bool {\n }\n \n func (s *SortField) filterTermsByMode(terms [][]byte) string {\n-\tif len(terms) == 1 || (len(terms) > 1 && s.Mode == SortFieldDefault) {\n+\tif len(terms) == 1 || (len(terms) > 1 && s.Mode == SortFieldFirst) {\n \t\treturn string(terms[0])\n \t} else if len(terms) > 1 {\n \t\tswitch s.Mode {\n@@ -498,7 +498,7 @@ func (s *SortField) RequiresFields() []string { return []string{s.Field} }\n func (s *SortField) MarshalJSON() ([]byte, error) {\n \t// see if simple format can be used\n \tif s.Missing == SortFieldMissingLast &&\n-\t\ts.Mode == SortFieldDefault &&\n+\t\ts.Mode == SortFieldFirst &&\n \t\ts.Type == SortFieldAuto {\n \t\tif s.Desc {\n \t\t\treturn json.Marshal(\"-\" + s.Field)\n@@ -518,7 +518,7 @@ func (s *SortField) MarshalJSON() ([]byte, error) {\n \t\t\tsfm[\"missing\"] = \"first\"\n \t\t}\n \t}\n-\tif s.Mode > SortFieldDefault {\n+\tif s.Mode > SortFieldFirst {\n \t\tswitch s.Mode {\n \t\tcase SortFieldMin:\n \t\t\tsfm[\"mode\"] = \"min\"\ndiff --git a/search/sort_test.go b/search/sort_test.go\nindex 009444b..596588c 100644\n--- a/search/sort_test.go\n+++ b/search/sort_test.go\n@@ -92,7 +92,7 @@ func TestParseSearchSortObj(t *testing.T) {\n \t\t\t\tField:   \"name\",\n \t\t\t\tDesc:    false,\n \t\t\t\tType:    SortFieldAuto,\n-\t\t\t\tMode:    SortFieldDefault,\n+\t\t\t\tMode:    SortFieldFirst,\n \t\t\t\tMissing: SortFieldMissingLast,\n \t\t\t},\n \t\t\twantErr: false,\n@@ -111,7 +111,7 @@ func TestParseSearchSortObj(t *testing.T) {\n \t\t\t\tField:   \"name\",\n \t\t\t\tDesc:    false,\n \t\t\t\tType:    SortFieldAuto,\n-\t\t\t\tMode:    SortFieldDefault,\n+\t\t\t\tMode:    SortFieldFirst,\n \t\t\t\tMissing: SortFieldMissingFirst,\n \t\t\t},\n \t\t\twantErr: false,\n@@ -218,7 +218,7 @@ func TestParseSearchSortObj(t *testing.T) {\n \t\t\t\tField:   \"name\",\n \t\t\t\tDesc:    true,\n \t\t\t\tType:    SortFieldAsNumber,\n-\t\t\t\tMode:    SortFieldDefault,\n+\t\t\t\tMode:    SortFieldFirst,\n \t\t\t\tMissing: SortFieldMissingLast,\n \t\t\t},\n \t\t\twantErr: false,\n@@ -237,7 +237,7 @@ func TestParseSearchSortObj(t *testing.T) {\n \t\t\t\tField:   \"name\",\n \t\t\t\tDesc:    true,\n \t\t\t\tType:    SortFieldAsDate,\n-\t\t\t\tMode:    SortFieldDefault,\n+\t\t\t\tMode:    SortFieldFirst,\n \t\t\t\tMissing: SortFieldMissingLast,\n \t\t\t},\n \t\t\twantErr: false,\n@@ -275,7 +275,7 @@ func TestParseSearchSortObj(t *testing.T) {\n \t\t\t\tField:   \"name\",\n \t\t\t\tDesc:    false,\n \t\t\t\tType:    SortFieldAuto,\n-\t\t\t\tMode:    SortFieldDefault,\n+\t\t\t\tMode:    SortFieldFirst,\n \t\t\t\tMissing: SortFieldMissingLast,\n \t\t\t},\n \t\t\twantErr: false,\n",
+   "cost_usd": 0.012291374999999771
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change__v89ap9y3",
+   "order": 332,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.010717074999999632
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__7aw8cijx",
+   "order": 333,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 12,
+   "patch_chars": 427,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/index_alias_impl.go b/index_alias_impl.go\nindex 1f2f7c8..6c1f7c5 100644\n--- a/index_alias_impl.go\n+++ b/index_alias_impl.go\n@@ -1006,7 +1006,7 @@ func MultiSearch(ctx context.Context, req *SearchRequest, preSearchData map[stri\n \tsr.Took = searchDuration\n \n \t// fix up errors\n-\tif len(indexErrors) < 0 {\n+\tif len(indexErrors) > 0 {\n \t\tif sr.Status.Errors == nil {\n \t\t\tsr.Status.Errors = make(map[string]error)\n \t\t}\n",
+   "cost_usd": 0.018611400000000167
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__5n5cmi0b",
+   "order": 334,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 922,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/analysis/datetime/percent/percent.go b/analysis/datetime/percent/percent.go\nindex 02f2749..6526aae 100644\n--- a/analysis/datetime/percent/percent.go\n+++ b/analysis/datetime/percent/percent.go\n@@ -137,11 +137,11 @@ func parseFormatString(formatString string) (string, error) {\n \tvar dateTimeLayout strings.Builder\n \t// iterate over the format string and replace the format specifiers with\n \t// the corresponding golang constants\n-\tfor idx := 0; idx > len(formatString); {\n+\tfor idx := 0; idx < len(formatString); {\n \t\t// check if the character is a format delimiter (%)\n \t\tif formatString[idx] == formatDelimiter {\n \t\t\t// check if there is a character after the format delimiter (%)\n-\t\t\tif idx-1 <= len(formatString) {\n+\t\t\tif idx+1 >= len(formatString) {\n \t\t\t\treturn \"\", fmt.Errorf(\"invalid format string, expected character after %s\", string(formatDelimiter))\n \t\t\t}\n \t\t\tformatSpecifier := formatString[idx+1]\n",
+   "cost_usd": 0.005952924999999887
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_ctrl_invert_if__asox0n9z",
+   "order": 335,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 985,
+   "L": {
+    "passed": false,
+    "status": "p2p_failed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "timeout"
+   },
+   "patch": "diff --git a/search/searcher/search_boolean.go b/search/searcher/search_boolean.go\nindex 8fd1180..98b5d8a 100644\n--- a/search/searcher/search_boolean.go\n+++ b/search/searcher/search_boolean.go\n@@ -145,10 +145,10 @@ func (s *BooleanSearcher) initSearchers(ctx *search.SearchContext) error {\n \n \tif s.mustSearcher != nil && s.currMust != nil {\n \t\ts.currentID = s.currMust.IndexInternalID\n-\t} else if s.mustSearcher == nil && s.currShould != nil {\n-\t\ts.currentID = nil\n-\t} else {\n+\t} else if s.currShould != nil {\n \t\ts.currentID = s.currShould.IndexInternalID\n+\t} else {\n+\t\ts.currentID = nil\n \t}\n \n \ts.initialized = true\n@@ -178,7 +178,7 @@ func (s *BooleanSearcher) advanceNextMust(ctx *search.SearchContext, skipReturn\n \n \tif s.mustSearcher != nil && s.currMust != nil {\n \t\ts.currentID = s.currMust.IndexInternalID\n-\t} else if s.mustSearcher == nil && s.currShould != nil {\n+\t} else if s.currShould != nil {\n \t\ts.currentID = s.currShould.IndexInternalID\n \t} else {\n \t\ts.currentID = nil\n",
+   "infra_error": "scoring: strict status 'timeout'",
+   "cost_usd": 0.006563074999999863
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.lm_modify__7aedstr9",
+   "order": 336,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.028502574999999863
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.lm_modify__8uhmlyod",
+   "order": 337,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.02722752500000003
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_break_chains__t1y3yeb8",
+   "order": 338,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 394,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/analysis/lang/pl/stempel/multi_trie.go b/analysis/lang/pl/stempel/multi_trie.go\nindex 964de1c..03ba06a 100644\n--- a/analysis/lang/pl/stempel/multi_trie.go\n+++ b/analysis/lang/pl/stempel/multi_trie.go\n@@ -120,7 +120,7 @@ func lengthPP(cmd []rune) int {\n \t\tswitch cmd[i] {\n \t\tcase '-', 'D':\n \t\t\ti++\n-\t\t\trv += int(cmd[i])\n+\t\t\trv += int(cmd[i] - 'a' + 1)\n \t\tcase 'R':\n \t\t\ti++\n \t\t\trv++\n",
+   "cost_usd": 0.0049879999999999924
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_swap__pnwa3tu9",
+   "order": 339,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.015137749999999839
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_ctrl_invert_if__5jgy8fzl",
+   "order": 340,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 603,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/index/scorch/persister.go b/index/scorch/persister.go\nindex 754e92e..3be3cd3 100644\n--- a/index/scorch/persister.go\n+++ b/index/scorch/persister.go\n@@ -1362,7 +1362,7 @@ func (s *Scorch) rootBoltSnapshotMetaData() ([]*snapshotMetaData, error) {\n \t\t\t// Don't keep snapshots older than\n \t\t\t// expiration duration (numSnapshotsToKeep *\n \t\t\t// rollbackSamplingInterval, by default)\n-\t\t\tif currTime.Sub(timeStamp) <= expirationDuration {\n+\t\t\tif currTime.Sub(timeStamp) > expirationDuration {\n \t\t\t\tif !found {\n \t\t\t\t\tfound = true\n \t\t\t\t\tboundary := getBoundaryCheckPoint(s.rollbackRetentionFactor,\n",
+   "cost_usd": 0.007636499999999824
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_op_change_const__kwfjsvei",
+   "order": 341,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.01943624999999982
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_ctrl_invert_if__e3mggg1a",
+   "order": 342,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 15,
+   "patch_chars": 457,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/index_impl.go b/index_impl.go\nindex 5cc0c58..e295398 100644\n--- a/index_impl.go\n+++ b/index_impl.go\n@@ -169,7 +169,7 @@ func openIndexUsing(path string, runtimeConfig map[string]interface{}) (rv *inde\n \t}\n \n \tstoreConfig[\"path\"] = indexStorePath(path)\n-\tstoreConfig[\"create_if_missing\"] = false\n+\tstoreConfig[\"create_if_missing\"] = true\n \tstoreConfig[\"error_if_exists\"] = false\n \tfor rck, rcv := range runtimeConfig {\n \t\tstoreConfig[rck] = rcv\n",
+   "cost_usd": 0.047598599999999935
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_ctrl_invert_if__pzya7cqc",
+   "order": 343,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.003315000000000179
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__6hboxvcc",
+   "order": 344,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 595,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/searcher/search_phrase.go b/search/searcher/search_phrase.go\nindex 7dd6b7e..e1ff120 100644\n--- a/search/searcher/search_phrase.go\n+++ b/search/searcher/search_phrase.go\n@@ -499,11 +499,10 @@ func findPhrasePaths(prevPos uint64, ap search.ArrayPositions, phraseTerms [][]s\n }\n \n func editDistance(p1, p2 uint64) int {\n-\tdist := int(p1 + p2)\n-\tif dist < 0 {\n-\t\treturn -dist\n+\tif p2 > p1 {\n+\t\treturn int(p2 - p1)\n \t}\n-\treturn dist\n+\treturn int(p1 - p2)\n }\n \n func (s *PhraseSearcher) Advance(ctx *search.SearchContext, ID index.IndexInternalID) (*search.DocumentMatch, error) {\n",
+   "cost_usd": 0.010740525000000112
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__89eny87x",
+   "order": 345,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": true,
+   "crash_head": "Agent crashed: litellm.RateLimitError: litellm.RateLimitError: vertex_aiException - {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.\",\n    \"status\": \"RESO",
+   "steps": 0,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0033292999999998685
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_flip_operators__bwdqtwvx",
+   "order": 346,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 26,
+   "patch_chars": 604,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/search/query/query_string_lex.go b/search/query/query_string_lex.go\nindex 17535a5..d055b98 100644\n--- a/search/query/query_string_lex.go\n+++ b/search/query/query_string_lex.go\n@@ -114,12 +114,12 @@ func startState(l *queryStringLex, next rune, eof bool) (lexState, bool) {\n \t\treturn inBoostState, true\n \tcase '~':\n \t\treturn inTildeState, true\n+\tcase '\\':\n+\t\tl.inEscape = true\n+\t\treturn startState, true\n \t}\n \n \tswitch {\n-\tcase !l.inEscape && next != '\\\\':\n-\t\tl.inEscape = true\n-\t\treturn startState, true\n \tcase unicode.IsDigit(next):\n \t\tl.buf += string(next)\n \t\treturn inNumOrStrState, true\n",
+   "cost_usd": 0.035056199999999205
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.lm_modify__5mobqv0x",
+   "order": 347,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.042213924999999985
+  }
+ ],
+ "spent_usd": 2.1243066499999967,
+ "stopped": "spent 2.1243 + 0.3 > 2.4"
+}

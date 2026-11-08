@@ -13,12 +13,31 @@ on:
         description: "chromadb version, or auto = last patch of every minor release, newest first"
         required: true
         default: "auto"
+      mode:
+        description: "trial = free feasibility trial (default); model-check = section 5 check (PAID, ~0.1 USD); cell-dryrun / cell-paid = the MemGovern cell (note M-3)"
+        required: true
+        default: "trial"
+        type: choice
+        options: ["trial", "model-check", "cell-dryrun", "cell-paid"]
+      first:
+        description: "cell modes: index of the first task of this batch in E2's seed-41 order (0-based)"
+        required: false
+        default: "0"
+      count:
+        description: "cell modes: tasks in this batch (1..20); one task per shard"
+        required: false
+        default: "2"
+      cap_usd:
+        description: "cell modes: cell cap in USD for ALL batches (note M-3)"
+        required: false
+        default: ""
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   trial:
+    if: inputs.mode == 'trial'
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
@@ -169,3 +188,273 @@ jobs:
         with:
           name: memgovern-trial
           path: out/
+
+  model_check:
+    # docs/preregistration_main.md section 5 / draft section 10, before pairing memgovern with E2's
+    # none arm (seed 41). Resends the first agent call of the 109 E2 tasks twice. PAID (~0.1 USD).
+    if: inputs.mode == 'model-check'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      VERTEXAI_PROJECT: ${{ secrets.VERTEXAI_PROJECT }}
+      VERTEXAI_LOCATION: ${{ secrets.VERTEXAI_LOCATION }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Install (E2 versions) and preflight gate
+        run: |
+          pip install -q -e . "mini-swe-agent==2.4.6" "litellm==1.106.6" "google-auth==2.62.0" mcp  # litellm imports mcp on tool calls (A97)
+          python scripts/preflight.py --ci || exit 7
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - name: E2 seed-41 trajectories from raw-archive
+        run: |
+          git fetch -q origin raw-archive
+          mkdir -p /tmp/e2
+          for f in $(git ls-tree -r --name-only origin/raw-archive | grep -E '^archive/g2-e2-s41-k[0-9]+/.*\.tar\.gz$'); do
+            git show "origin/raw-archive:$f" | tar -xz -C /tmp/e2 --wildcards '*/none/agent/*.traj.json' 2>/dev/null || true
+          done
+          echo "trajectories: $(find /tmp/e2 -name '*.traj.json' | wc -l)"
+      - name: Model check (section 5)
+        run: |
+          python -c "import json; from gatekeeper.pilot import litellm_registry, load_model_specs; json.dump(litellm_registry(load_model_specs('configs/models/vertex_gemini.json')['gemini-flash-lite']), open('/tmp/reg.json','w'))"
+          python scripts/model_unchanged_check.py --runs-dir /tmp/e2/runs --registry /tmp/reg.json --out results/model_unchanged_check.json
+      - name: Publish
+        if: always()
+        run: |
+          [ -f results/model_unchanged_check.json ] && scripts/publish_snapshot.sh pilot-snapshots "Section 5 model check run ${GITHUB_RUN_ID}" results/model_unchanged_check.json || echo "no result"
+
+  # ---------------------------------------------------------------------------------------------
+  # MemGovern cell of the main experiment (docs/preregistration_main.md, notes M-1..M-3): the
+  # ORIGINAL arm (the agent calls MemGovern's exp_search / exp_read against MemGovern's own server,
+  # cards of the cell's repositories removed) and a NEW no-skill arm, on the 109 E2 tasks in E2's
+  # seed-41 order, with E2's configuration (mini-swe-agent 2.4.6, model seed 41, cost limit 1 USD,
+  # 250 steps, SWE-bench-Live harness). Section 5 failed (results/model_unchanged_check.json), so
+  # E2's no-skill runs are NOT reused.
+  #
+  # One dispatch = one batch of <= 20 consecutive tasks of that order (first, count), one task per
+  # shard, so the task -> shard map never changes on a resume. Between batches the Gatekeeper
+  # decision and the cost check are computed (scripts/memgovern_cell.py) and the cell stops at admit.
+  # Spend: one ledger for all shards and batches (scripts/e2_ledger.py, branch mg-ledger): each task
+  # reserves its worst case (2 arms x 1 USD) before it starts, so the total never exceeds cap_usd.
+  # MemGovern has no LICENSE: its text is removed from raw files (scripts/redact_memgovern.py, fails
+  # closed) before anything is uploaded; its code and data are fetched here, never committed.
+  cell_plan:
+    if: startsWith(inputs.mode, 'cell-')
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.p.outputs.shards }}
+    steps:
+      - id: p
+        run: |
+          [ -n "${{ inputs.cap_usd }}" ] || { echo "cell modes need cap_usd"; exit 1; }
+          f="${{ inputs.first }}"; n="${{ inputs.count }}"
+          [ "$n" -ge 1 ] && [ "$n" -le 20 ] && [ "$f" -ge 0 ] && [ $((f + n)) -le 109 ] \
+            || { echo "need 1 <= count <= 20 and first + count <= 109"; exit 1; }
+          echo "shards=$(python3 -c "import json; print(json.dumps(list(range($n))))")" >> "$GITHUB_OUTPUT"
+
+  cell_run:
+    needs: cell_plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.cell_plan.outputs.shards) }}
+    env:
+      K: ${{ matrix.shard }}
+      VERTEXAI_PROJECT: ${{ secrets.VERTEXAI_PROJECT }}
+      VERTEXAI_LOCATION: ${{ secrets.VERTEXAI_LOCATION }}
+      HF_DATASETS_OFFLINE: "1"
+      MG_COMMIT: a8456580a4a6ea8de04755e958875cd549f43845
+      MG_DATA: mg/data/agentic_exp_data_1220_13w_DSnewPrompt
+      # versions recorded by feasibility trial 7 (run 41951809177), where F1-F6 and F4b passed
+      MG_CHROMA: "1.5.9"
+      QWEN_REV: 97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3
+    steps:
+      - name: Free disk space for Docker images
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          docker system prune -af || true
+          df -h /
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Install (pinned, same versions as E2 and trial 7)
+        run: |
+          pip install -e . "swebench==5.0.2" "mini-swe-agent==2.4.6" "litellm==1.106.6" "docker==7.2.0" "pyyaml==6.0.3" "google-auth==2.62.0" mcp
+          python -m venv livenv
+          livenv/bin/pip install "swebench @ git+https://github.com/microsoft/SWE-bench-Live@ad79b850f15e33992e96f03f6e97f05ddf9aa0be" "docker==7.2.0"
+          python -m venv mgenv
+          mgenv/bin/pip install torch --index-url https://download.pytorch.org/whl/cpu
+          mgenv/bin/pip install flask "pyyaml==6.0.3" huggingface_hub "chromadb==$MG_CHROMA"
+          mgenv/bin/pip install "sentence-transformers>=2.7" "transformers>=4.51"
+          mgenv/bin/pip freeze | grep -iE "^(chromadb|sentence-transformers|transformers|torch|flask)==" | tee mg_versions.txt
+      - name: Authenticate to Google Cloud (paid only)
+        if: inputs.mode == 'cell-paid'
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - name: MemGovern at the pinned commit (code + LFS data, hashes checked)
+        run: |
+          GIT_LFS_SKIP_SMUDGE=1 git clone -q https://github.com/QuantaAlpha/MemGovern mg
+          git -C mg checkout -q "$MG_COMMIT"
+          for f in $(git -C mg ls-files data); do
+            if head -c 40 "mg/$f" | grep -q "git-lfs.github.com/spec"; then
+              want=$(grep -o 'sha256:[0-9a-f]*' "mg/$f" | cut -d: -f2)
+              curl -sSfL --retry 4 -o "mg/$f.tmp" "https://media.githubusercontent.com/media/QuantaAlpha/MemGovern/$MG_COMMIT/$f"
+              got=$(sha256sum "mg/$f.tmp" | cut -c1-64)
+              [ "$got" = "$want" ] || { echo "hash mismatch for $f"; exit 1; }
+              mv "mg/$f.tmp" "mg/$f"
+            fi
+          done
+          mgenv/bin/python -c "import chromadb; c=chromadb.PersistentClient(path='$MG_DATA/chroma_db_experience').get_collection('experience_knowledge'); print('index count', c.count())"
+          mgenv/bin/python -c "from huggingface_hub import snapshot_download; snapshot_download('Qwen/Qwen3-Embedding-0.6B', revision='$QWEN_REV', local_dir='qwen3emb')"
+      - name: Batch task of this shard and rows
+        run: |
+          git fetch -q origin data-snapshots
+          git show origin/data-snapshots:data/instances/verified_pools.jsonl | grep '"test_cmds"' > e2_rows.jsonl
+          python - <<'EOF'
+          import json, os, sys
+          sys.path.insert(0, "scripts")
+          from model_unchanged_check import e2_tasks
+          order = e2_tasks()
+          assert len(order) == 109, len(order)
+          first, k = int("${{ inputs.first }}"), int(os.environ["K"])
+          mine = [order[first + k]]
+          # the server removes cards of every repository of E2's pool (as in trial 7)
+          json.dump({"instances": json.load(open("configs/pools/e2_selected.json"))["instances"]}, open("cell.json", "w"))
+          json.dump({"instances": mine}, open("shard_pool.json", "w"))
+          json.dump({"memgovern": mine}, open("shard_sets.json", "w"))
+          print(f"shard {k}: task {first + k} = {mine[0]}")
+          EOF
+      - name: MemGovern instructions and server
+        env:
+          MODEL_PATH: qwen3emb
+        run: |
+          mgenv/bin/python scripts/memgovern.py orig --mg-root mg --ids cell.json --out runs/memgovern/orig_guidance.json
+          # version 2 of the arm (note M-4): the same text as step 3 of the agent's workflow
+          python -c "import json; g=json.load(open('runs/memgovern/orig_guidance.json')); t=set(g.values()); assert len(t)==1; json.dump({'step': t.pop()}, open('runs/memgovern/orig_step.json','w'))"
+          (mgenv/bin/python scripts/memgovern.py serve --mg-root mg --ids cell.json --port 9030 > mg_server.log 2>&1 &)
+          for i in $(seq 1 60); do curl -sf http://localhost:9030/health > health.json && break; sleep 10; done
+          cat health.json || { echo "server did not start"; tail -50 mg_server.log; exit 1; }
+          grep "\[memgovern\]" mg_server.log
+      - name: Earlier results of this batch (resume)
+        run: |
+          PREFIX=$([ "${{ inputs.mode }}" = cell-paid ] && echo mg2-s41 || echo "mgdry${GITHUB_RUN_ID}-s41")
+          NAME="$PREFIX-f$(printf %03d ${{ inputs.first }})-k$K"
+          echo "NAME=$NAME" >> "$GITHUB_ENV"
+          mkdir -p results/pilot
+          if git fetch -q origin mg-cell-results 2>/dev/null; then
+            for f in $(git ls-tree --name-only origin/mg-cell-results results/pilot/ | grep -E "/$NAME-p[0-9]+\.json$"); do
+              git show "origin/mg-cell-results:$f" > "$f"; echo "resumed: $f"
+            done
+          fi
+      - name: Gate (preflight)
+        run: python scripts/preflight.py --ci
+      - name: Run (both arms, model seed 41, one shared ledger)
+        run: |
+          set -u
+          export MEMGOVERN_TOOLS="$PWD/mg/tools"
+          ARMS=2; COST_LIMIT=1.0
+          WORST=$(python -c "print($ARMS * $COST_LIMIT)")
+          if [ "${{ inputs.mode }}" = cell-paid ]; then
+            MODEL=gemini-flash-lite; LEDGER=mg-ledger
+          else
+            MODEL=deterministic; LEDGER=mg-ledger-dryrun-${GITHUB_RUN_ID}
+          fi
+          TOTAL="${{ inputs.cap_usd }}"; KEY="${GITHUB_RUN_ID}-f${{ inputs.first }}-k${K}"
+          DEADLINE=$(python -c "import time; print(int(time.time() + (330 - 50) * 60))")
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          left=$(python scripts/missing_tasks.py "$NAME" shard_pool.json)
+          [ "$left" -gt 0 ] || { echo "already done"; exit 0; }
+          python scripts/e2_ledger.py reserve --branch "$LEDGER" --key "$KEY" --usd "$WORST" \
+            --cap "$TOTAL" --deadline-epoch "$DEADLINE" --wait-s 60 || { echo "[stop] budget or time"; exit 0; }
+          CAP=$(python -c "import sys; sys.path.insert(0,'scripts'); import run_batched_pilot as r; print(repr(r.pilot_spent_total() + $WORST))")
+          python scripts/run_batched_pilot.py --name "$NAME" --model $MODEL --model-seed 41 \
+            --skills configs/skills/memgovern-orig-wf.json --task-sets shard_sets.json --tasks-from shard_pool.json \
+            --dataset-file e2_rows.jsonl --batch 1 --max-batches 1 --cap-usd "$CAP" --cost-limit $COST_LIMIT \
+            --step-limit 250 --workers 2 --arm-parallel $ARMS --keep-images \
+            --stop-after-min 330 --batch-min 50 \
+            --harness-python livenv/bin/python --harness-namespace starryzhang || true
+          SPENT=$(python -c "import glob, json; print(round(sum(json.load(open(f)).get('spent_usd', 0) for f in glob.glob('results/pilot/$NAME-p*.json')), 6))")
+          if [ "$(python scripts/missing_tasks.py "$NAME" shard_pool.json)" -eq 0 ]; then
+            python scripts/e2_ledger.py settle --branch "$LEDGER" --key "$KEY" --spent "$SPENT"
+          else
+            # no result: its spend is unknown, keep the worst case reserved
+            python scripts/e2_ledger.py settle --branch "$LEDGER" --key "$KEY" --spent "$SPENT" --keep-reserved
+            echo "[stop] no result for this task"
+          fi
+          python scripts/e2_ledger.py total --branch "$LEDGER"
+          grep -c 'TOOL\] /search' mg_server.log | sed 's/^/server \/search calls: /' || true
+          grep -c 'TOOL\] /get_experience' mg_server.log | sed 's/^/server \/get_experience calls: /' || true
+      - name: Placement and tool-use check (booleans and counts only; no MemGovern text printed)
+        if: always()
+        run: |
+          python - <<'EOF'
+          import glob, json
+          for f in glob.glob("runs/*/memgovern/agent/*/*.traj.json"):
+              m = json.load(open(f))["messages"]
+              u = next(x for x in m if x.get("role") == "user")["content"]
+              wf = u.find("## Recommended Workflow"); st = u.find("3. **Search and Retrieve Experience")
+              ed = u.find("4. Edit the source code to resolve the issue (Apply insights from step 3")
+              cmds = [json.loads(c["function"]["arguments"]).get("command", "")
+                      for x in m if x.get("role") == "assistant" for c in (x.get("tool_calls") or [])]
+              print(f"[M-4] {f.split('/')[-2]}: step in workflow {0 <= wf < st < ed}, "
+                    f"in pr_description {0 <= st < u.find('</pr_description>')}, "
+                    f"exp_search cmds {sum('exp_search' in c for c in cmds)}, exp_read cmds {sum('exp_read' in c for c in cmds)}, steps {len(cmds)}")
+          EOF
+      - name: Remove MemGovern text from raw files (fails closed)
+        if: always()
+        run: |
+          python scripts/redact_memgovern.py --guidance runs/memgovern/orig_guidance.json \
+            --cards "$MG_DATA/experience_data.json" runs logs \
+            || { echo "LEAK: raw files will not be uploaded"; rm -rf runs logs; }
+          rm -rf runs/memgovern
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: mg-shard-${{ matrix.shard }}
+          path: |
+            results/pilot/mg*-k${{ matrix.shard }}-p*.json
+            runs/mg*-k${{ matrix.shard }}-p*/
+            logs/run_evaluation/mg*-k${{ matrix.shard }}-p*/
+            mg_versions.txt
+          if-no-files-found: warn
+
+  cell_collect:
+    needs: cell_run
+    if: always() && startsWith(inputs.mode, 'cell-')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - uses: actions/download-artifact@v6
+        with:
+          pattern: mg-shard-*
+          path: .
+          merge-multiple: true
+      - name: Raw evidence to raw-archive (redacted in the shards)
+        run: |
+          pip install -e .
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          [ -d runs ] && python scripts/archive_raw.py --redacted-ok || echo "no raw files"
+          ls -d runs/*/ 2>/dev/null | grep -v '^runs/mg' && { echo "unexpected run dirs"; exit 1; } || true
+      - name: Results to the mg-cell-results branch (a later dispatch resumes from it)
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # ONLY this cell's part files: the checkout also holds the repository's own results/pilot
+          # files, which must not be copied onto mg-cell-results (A100)
+          files=$(ls results/pilot/mg*-k*-p[0-9][0-9].json 2>/dev/null || true)
+          echo "$files"
+          [ -n "$files" ] && scripts/publish_snapshot.sh mg-cell-results "MemGovern cell (${{ inputs.mode }}) first ${{ inputs.first }} run ${GITHUB_RUN_ID}" $files || echo "no results"

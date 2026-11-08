@@ -1,0 +1,632 @@
+{
+ "params": {
+  "alpha": 0.025,
+  "theta": 0.0,
+  "c": 0.5,
+  "k_values": [
+   1,
+   2,
+   3
+  ]
+ },
+ "n_train_tasks": 2438,
+ "n_train_repos": 11,
+ "n_train_blocks": 19448,
+ "n_train_shapes": 12753,
+ "n_test_tasks": 3991,
+ "n_test_repos": 223,
+ "test_tasks_without_py_blocks": 42,
+ "library_coverage": {
+  "count": 177,
+  "share": 0.04434978702079679
+ },
+ "single_skill_coverage": {
+  "1": {
+   "count": 145,
+   "share": 0.0363317464294663
+  },
+  "2": {
+   "count": 98,
+   "share": 0.024555249310949635
+  },
+  "3": {
+   "count": 81,
+   "share": 0.020295665246805313
+  }
+ },
+ "per_repo_cells_k1": {
+  "K": 131,
+  "n_min": 23,
+  "max_count": 5,
+  "cells_reaching_n_min": 0,
+  "passes": false,
+  "top": [
+   {
+    "shape_id": "df8765d5160e",
+    "repo": "django/django",
+    "count": 5,
+    "train_repos": 10,
+    "removed": [
+     "STR"
+    ],
+    "added": [
+     "STR"
+    ]
+   },
+   {
+    "shape_id": "88838ab1d719",
+    "repo": "django/django",
+    "count": 2,
+    "train_repos": 1,
+    "removed": [],
+    "added": [
+     "if not ID ( ID ) :",
+     "raise ID ( STR )"
+    ]
+   },
+   {
+    "shape_id": "398e25e14972",
+    "repo": "django/django",
+    "count": 2,
+    "train_repos": 4,
+    "removed": [],
+    "added": [
+     "ID = ID . ID ( )"
+    ]
+   },
+   {
+    "shape_id": "e6cf8fa3d002",
+    "repo": "django/django",
+    "count": 2,
+    "train_repos": 1,
+    "removed": [],
+    "added": [
+     "ID . ID ( STR )"
+    ]
+   },
+   {
+    "shape_id": "601f9e1681cf",
+    "repo": "django/django",
+    "count": 2,
+    "train_repos": 8,
+    "removed": [],
+    "added": [
+     "ID = STR"
+    ]
+   },
+   {
+    "shape_id": "a9019d75ebd2",
+    "repo": "django/django",
+    "count": 2,
+    "train_repos": 1,
+    "removed": [],
+    "added": [
+     "ID . ID . ID ( )"
+    ]
+   },
+   {
+    "shape_id": "c24e89456209",
+    "repo": "django/django",
+    "count": 2,
+    "train_repos": 2,
+    "removed": [
+     "class ID ( ID ) :"
+    ],
+    "added": [
+     "class ID ( ID , ID ) :"
+    ]
+   },
+   {
+    "shape_id": "aa3571597ce9",
+    "repo": "django/django",
+    "count": 2,
+    "train_repos": 4,
+    "removed": [],
+    "added": [
+     "ID = False"
+    ]
+   },
+   {
+    "shape_id": "5bd7bbccbffd",
+    "repo": "scikit-learn/scikit-learn",
+    "count": 2,
+    "train_repos": 9,
+    "removed": [],
+    "added": [
+     "STR ,"
+    ]
+   },
+   {
+    "shape_id": "e629dfd229bf",
+    "repo": "sphinx-doc/sphinx",
+    "count": 2,
+    "train_repos": 9,
+    "removed": [
+     "ID = STR"
+    ],
+    "added": [
+     "ID = STR"
+    ]
+   },
+   {
+    "shape_id": "2ecf8f2bc909",
+    "repo": "keras-team/keras",
+    "count": 2,
+    "train_repos": 3,
+    "removed": [
+     "raise ID ("
+    ],
+    "added": [
+     "raise ID ("
+    ]
+   },
+   {
+    "shape_id": "e629dfd229bf",
+    "repo": "django/django",
+    "count": 1,
+    "train_repos": 9,
+    "removed": [
+     "ID = STR"
+    ],
+    "added": [
+     "ID = STR"
+    ]
+   },
+   {
+    "shape_id": "d980fc6aeebc",
+    "repo": "django/django",
+    "count": 1,
+    "train_repos": 2,
+    "removed": [
+     "if ID ( ID , ID ) :"
+    ],
+    "added": [
+     "if ID ( ID , ( ID , ID ) ) :"
+    ]
+   },
+   {
+    "shape_id": "34278ee23e50",
+    "repo": "django/django",
+    "count": 1,
+    "train_repos": 4,
+    "removed": [],
+    "added": [
+     "ID = True"
+    ]
+   },
+   {
+    "shape_id": "0a9f34e1a189",
+    "repo": "django/django",
+    "count": 1,
+    "train_repos": 2,
+    "removed": [
+     "except ID :"
+    ],
+    "added": [
+     "except ID :"
+    ]
+   },
+   {
+    "shape_id": "379137b41d73",
+    "repo": "django/django",
+    "count": 1,
+    "train_repos": 1,
+    "removed": [],
+    "added": [
+     "STR : NUM ,"
+    ]
+   },
+   {
+    "shape_id": "199de3f6379a",
+    "repo": "django/django",
+    "count": 1,
+    "train_repos": 1,
+    "removed": [
+     "else :"
+    ],
+    "added": [
+     "elif not ID . ID :"
+    ]
+   },
+   {
+    "shape_id": "3578bb10a76b",
+    "repo": "django/django",
+    "count": 1,
+    "train_repos": 4,
+    "removed": [],
+    "added": [
+     "ID . ID = True"
+    ]
+   },
+   {
+    "shape_id": "ba609a5c0cae",
+    "repo": "django/django",
+    "count": 1,
+    "train_repos": 1,
+    "removed": [
+     "if ID . ID . ID :"
+    ],
+    "added": [
+     "if ID . ID . ID and ID . ID :"
+    ]
+   },
+   {
+    "shape_id": "d034a14a9087",
+    "repo": "django/django",
+    "count": 1,
+    "train_repos": 7,
+    "removed": [],
+    "added": [
+     "STR : ID ,"
+    ]
+   },
+   {
+    "shape_id": "ce74900cc7a3",
+    "repo": "django/django",
+    "count": 1,
+    "train_repos": 2,
+    "removed": [
+     "ID = ID . ID . ID ("
+    ],
+    "added": [
+     "ID = ID . ID . ID ("
+    ]
+   },
+   {
+    "shape_id": "5bd7bbccbffd",
+    "repo": "django/django",
+    "count": 1,
+    "train_repos": 9,
+    "removed": [],
+    "added": [
+     "STR ,"
+    ]
+   },
+   {
+    "shape_id": "3d82db39a430",
+    "repo": "django/django",
+    "count": 1,
+    "train_repos": 1,
+    "removed": [
+     "return ID ( ID . ID )"
+    ],
+    "added": [
+     "return ID ( ID . ID )"
+    ]
+   },
+   {
+    "shape_id": "fb9d4529c5d0",
+    "repo": "django/django",
+    "count": 1,
+    "train_repos": 1,
+    "removed": [],
+    "added": [
+     "if ID is None :",
+     "return None"
+    ]
+   },
+   {
+    "shape_id": "90646e2be460",
+    "repo": "django/django",
+    "count": 1,
+    "train_repos": 1,
+    "removed": [
+     "ID = ID ( STR )"
+    ],
+    "added": [
+     "ID = ID ( STR )"
+    ]
+   }
+  ]
+ },
+ "pooled_cells_k1": {
+  "K": 98,
+  "n_min": 22,
+  "max_count": 8,
+  "cells_reaching_n_min": 0,
+  "passes": false,
+  "top": [
+   {
+    "shape_id": "df8765d5160e",
+    "repo": null,
+    "count": 8,
+    "train_repos": 10,
+    "removed": [
+     "STR"
+    ],
+    "added": [
+     "STR"
+    ]
+   },
+   {
+    "shape_id": "e629dfd229bf",
+    "repo": null,
+    "count": 7,
+    "train_repos": 9,
+    "removed": [
+     "ID = STR"
+    ],
+    "added": [
+     "ID = STR"
+    ]
+   },
+   {
+    "shape_id": "5bd7bbccbffd",
+    "repo": null,
+    "count": 7,
+    "train_repos": 9,
+    "removed": [],
+    "added": [
+     "STR ,"
+    ]
+   },
+   {
+    "shape_id": "b639aad7e1ea",
+    "repo": null,
+    "count": 4,
+    "train_repos": 5,
+    "removed": [],
+    "added": [
+     "ID . ID ( )"
+    ]
+   },
+   {
+    "shape_id": "63bb312d9319",
+    "repo": null,
+    "count": 4,
+    "train_repos": 1,
+    "removed": [
+     "ID = ID . ID ( STR )"
+    ],
+    "added": [
+     "ID = ID . ID ( STR )"
+    ]
+   },
+   {
+    "shape_id": "398e25e14972",
+    "repo": null,
+    "count": 3,
+    "train_repos": 4,
+    "removed": [],
+    "added": [
+     "ID = ID . ID ( )"
+    ]
+   },
+   {
+    "shape_id": "2ecf8f2bc909",
+    "repo": null,
+    "count": 3,
+    "train_repos": 3,
+    "removed": [
+     "raise ID ("
+    ],
+    "added": [
+     "raise ID ("
+    ]
+   },
+   {
+    "shape_id": "d980fc6aeebc",
+    "repo": null,
+    "count": 2,
+    "train_repos": 2,
+    "removed": [
+     "if ID ( ID , ID ) :"
+    ],
+    "added": [
+     "if ID ( ID , ( ID , ID ) ) :"
+    ]
+   },
+   {
+    "shape_id": "88838ab1d719",
+    "repo": null,
+    "count": 2,
+    "train_repos": 1,
+    "removed": [],
+    "added": [
+     "if not ID ( ID ) :",
+     "raise ID ( STR )"
+    ]
+   },
+   {
+    "shape_id": "e6cf8fa3d002",
+    "repo": null,
+    "count": 2,
+    "train_repos": 1,
+    "removed": [],
+    "added": [
+     "ID . ID ( STR )"
+    ]
+   },
+   {
+    "shape_id": "601f9e1681cf",
+    "repo": null,
+    "count": 2,
+    "train_repos": 8,
+    "removed": [],
+    "added": [
+     "ID = STR"
+    ]
+   },
+   {
+    "shape_id": "a9019d75ebd2",
+    "repo": null,
+    "count": 2,
+    "train_repos": 1,
+    "removed": [],
+    "added": [
+     "ID . ID . ID ( )"
+    ]
+   },
+   {
+    "shape_id": "c24e89456209",
+    "repo": null,
+    "count": 2,
+    "train_repos": 2,
+    "removed": [
+     "class ID ( ID ) :"
+    ],
+    "added": [
+     "class ID ( ID , ID ) :"
+    ]
+   },
+   {
+    "shape_id": "aa3571597ce9",
+    "repo": null,
+    "count": 2,
+    "train_repos": 4,
+    "removed": [],
+    "added": [
+     "ID = False"
+    ]
+   },
+   {
+    "shape_id": "cd2763826f5d",
+    "repo": null,
+    "count": 2,
+    "train_repos": 2,
+    "removed": [],
+    "added": [
+     "ID = ID . ID . ID ,"
+    ]
+   },
+   {
+    "shape_id": "da6f6a9b176d",
+    "repo": null,
+    "count": 2,
+    "train_repos": 8,
+    "removed": [],
+    "added": [
+     "ID = ID ( ID )"
+    ]
+   },
+   {
+    "shape_id": "5527fded414d",
+    "repo": null,
+    "count": 2,
+    "train_repos": 5,
+    "removed": [
+     "ID = ID ( ID )"
+    ],
+    "added": [
+     "ID = ID ( ID )"
+    ]
+   },
+   {
+    "shape_id": "14f9ee938bc7",
+    "repo": null,
+    "count": 2,
+    "train_repos": 5,
+    "removed": [],
+    "added": [
+     "ID . ID ,"
+    ]
+   },
+   {
+    "shape_id": "922b47d0f1e4",
+    "repo": null,
+    "count": 2,
+    "train_repos": 10,
+    "removed": [],
+    "added": [
+     "ID = ID . ID ,"
+    ]
+   },
+   {
+    "shape_id": "8caceeeee08b",
+    "repo": null,
+    "count": 2,
+    "train_repos": 6,
+    "removed": [],
+    "added": [
+     "STR : STR ,"
+    ]
+   },
+   {
+    "shape_id": "0ada5873adb5",
+    "repo": null,
+    "count": 2,
+    "train_repos": 3,
+    "removed": [],
+    "added": [
+     "ID = ID . ID ( ID , ID )"
+    ]
+   },
+   {
+    "shape_id": "4af806914b36",
+    "repo": null,
+    "count": 2,
+    "train_repos": 4,
+    "removed": [],
+    "added": [
+     "ID . ID . ID ( ID )"
+    ]
+   },
+   {
+    "shape_id": "3dc658384f0b",
+    "repo": null,
+    "count": 2,
+    "train_repos": 8,
+    "removed": [],
+    "added": [
+     "ID . ID ( ID )"
+    ]
+   },
+   {
+    "shape_id": "48bf1fe8ff23",
+    "repo": null,
+    "count": 2,
+    "train_repos": 1,
+    "removed": [
+     "return STR . ID ("
+    ],
+    "added": [
+     "return STR . ID ("
+    ]
+   },
+   {
+    "shape_id": "6b810a6d700b",
+    "repo": null,
+    "count": 2,
+    "train_repos": 7,
+    "removed": [],
+    "added": [
+     "ID = ID . ID ( ID )"
+    ]
+   }
+  ]
+ },
+ "decision": {
+  "per_repo": "fail",
+  "pooled": "fail",
+  "proceed_to_step_2": false
+ },
+ "sources": {
+  "split_sha256_16": "fb74140ef67fe769",
+  "swe-gym": {
+   "hf_id": "SWE-Gym/SWE-Gym",
+   "split": "train",
+   "fingerprint": "3c18e7f6e3af6f68",
+   "n": 2438
+  },
+  "swe-bench": {
+   "hf_id": "princeton-nlp/SWE-bench",
+   "split": "test",
+   "fingerprint": "06c9c5a7ca9218d9",
+   "n": 2294
+  },
+  "swe-bench-verified": {
+   "hf_id": "princeton-nlp/SWE-bench_Verified",
+   "split": "test",
+   "fingerprint": "1fdfd21ba2621130",
+   "n": 500
+  },
+  "swe-bench-live": {
+   "hf_id": "SWE-bench-Live/SWE-bench-Live",
+   "split": "full",
+   "fingerprint": "16e7255623d02cf7",
+   "n": 1697
+  },
+  "test_ids_missing": 0,
+  "mode": "huggingface"
+ }
+}

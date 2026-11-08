@@ -1,0 +1,136 @@
+{
+ "n_tasks": 59136,
+ "n_repos": 222,
+ "median_tasks_per_repo": 120.0,
+ "repos_with_at_least": {
+  "11": 209,
+  "22": 190,
+  "31": 181,
+  "100": 126,
+  "300": 66
+ },
+ "overlap_with_natural": {
+  "swe-bench": [],
+  "swe-bench-live": [
+   {
+    "repo": "conan-io/conan",
+    "smith_tasks": 978,
+    "natural_tasks": 165
+   },
+   {
+    "repo": "joke2k/faker",
+    "smith_tasks": 360,
+    "natural_tasks": 21
+   },
+   {
+    "repo": "stanfordnlp/dspy",
+    "smith_tasks": 661,
+    "natural_tasks": 21
+   },
+   {
+    "repo": "python/mypy",
+    "smith_tasks": 19,
+    "natural_tasks": 14
+   },
+   {
+    "repo": "iterative/dvc",
+    "smith_tasks": 467,
+    "natural_tasks": 10
+   },
+   {
+    "repo": "encode/starlette",
+    "smith_tasks": 721,
+    "natural_tasks": 5
+   },
+   {
+    "repo": "facebookresearch/hydra",
+    "smith_tasks": 428,
+    "natural_tasks": 2
+   },
+   {
+    "repo": "spulec/freezegun",
+    "smith_tasks": 108,
+    "natural_tasks": 2
+   },
+   {
+    "repo": "theskumar/python-dotenv",
+    "smith_tasks": 141,
+    "natural_tasks": 1
+   },
+   {
+    "repo": "pdfminer/pdfminer.six",
+    "smith_tasks": 660,
+    "natural_tasks": 1
+   },
+   {
+    "repo": "pydicom/pydicom",
+    "smith_tasks": 1328,
+    "natural_tasks": 1
+   },
+   {
+    "repo": "arrow-py/arrow",
+    "smith_tasks": 333,
+    "natural_tasks": 1
+   }
+  ],
+  "swe-gym": [
+   {
+    "repo": "pandas-dev/pandas",
+    "smith_tasks": 2354,
+    "natural_tasks": 737
+   },
+   {
+    "repo": "Project-MONAI/MONAI",
+    "smith_tasks": 527,
+    "natural_tasks": 374
+   },
+   {
+    "repo": "getmoto/moto",
+    "smith_tasks": 541,
+    "natural_tasks": 343
+   },
+   {
+    "repo": "python/mypy",
+    "smith_tasks": 19,
+    "natural_tasks": 257
+   },
+   {
+    "repo": "iterative/dvc",
+    "smith_tasks": 467,
+    "natural_tasks": 225
+   },
+   {
+    "repo": "dask/dask",
+    "smith_tasks": 336,
+    "natural_tasks": 145
+   },
+   {
+    "repo": "modin-project/modin",
+    "smith_tasks": 91,
+    "natural_tasks": 107
+   },
+   {
+    "repo": "pydantic/pydantic",
+    "smith_tasks": 676,
+    "natural_tasks": 83
+   },
+   {
+    "repo": "conan-io/conan",
+    "smith_tasks": 978,
+    "natural_tasks": 75
+   },
+   {
+    "repo": "facebookresearch/hydra",
+    "smith_tasks": 428,
+    "natural_tasks": 66
+   }
+  ]
+ },
+ "source": {
+  "hf_id": "SWE-bench/SWE-smith",
+  "split": "train",
+  "fingerprint": "7e75b7f644fe5b29",
+  "n_tasks": 59136,
+  "n_repos": 222
+ }
+}

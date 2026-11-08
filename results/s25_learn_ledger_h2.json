@@ -1,0 +1,36 @@
+{
+ "spent_before": 6.3641653499999995,
+ "spent_this_run": 5.889544225000017,
+ "spent_total": 12.253709575000016,
+ "cap": 23.0,
+ "by_model_usd": {
+  "vertex_ai/gemini-3.1-flash-lite": 5.208578225000017,
+  "vertex_ai/gemini-3.1-pro-preview": 0.6809660000000001
+ },
+ "calls_by_model": {
+  "vertex_ai/gemini-3.1-flash-lite": 5746,
+  "vertex_ai/gemini-3.1-pro-preview": 6
+ },
+ "argv": [
+  "--repo",
+  "pallets__jinja",
+  "--train-size",
+  "200",
+  "--val-size",
+  "50",
+  "--test-size",
+  "100",
+  "--model",
+  "vertex_ai/gemini-3.1-flash-lite",
+  "--reflection-model",
+  "vertex_ai/gemini-3.1-pro-preview",
+  "--workers",
+  "6",
+  "--max-metric-calls",
+  "600",
+  "--timeout",
+  "18000",
+  "--resume",
+  "gepa_results/logs/run_jinja_20261106_081537_3517f1"
+ ]
+}

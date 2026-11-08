@@ -1,0 +1,175 @@
+{
+ "model": "vertex_ai/gemini-3.1-flash-lite",
+ "seed": 41,
+ "cost_limit": 0.3,
+ "cap": 0.6,
+ "skills_chars": 2675,
+ "leak_free": false,
+ "subset": "no-problem-statement",
+ "n_tasks": 9,
+ "runs": [
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0d7yz0v3",
+   "order": 334,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 381,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex f86cdb2..9dcc9d4 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -890,7 +890,7 @@ class Undefined:\n         return 0\n \n     def __iter__(self) -> t.Iterator[t.Any]:\n-        yield from (None,)\n+        yield from ()\n \n     async def __aiter__(self) -> t.AsyncIterator[t.Any]:\n         for _ in ():\n",
+   "cost_usd": 0.005122249999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__hskhgqqb",
+   "order": 335,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.009997525
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4yeyxo12",
+   "order": 336,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 1324,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/exceptions.py b/src/jinja2/exceptions.py\nindex 5865f80..082ebe8 100644\n--- a/src/jinja2/exceptions.py\n+++ b/src/jinja2/exceptions.py\n@@ -8,9 +8,7 @@ class TemplateError(Exception):\n     \"\"\"Baseclass for all template errors.\"\"\"\n \n     def __init__(self, message: t.Optional[str] = None) -> None:\n-        if message is None:\n-            message = \"An unknown error occurred\"\n-        super().__init__(message.upper())\n+        super().__init__(message)\n \n     @property\n     def message(self) -> t.Optional[str]:\n@@ -97,14 +95,15 @@ class TemplateSyntaxError(TemplateError):\n         name: t.Optional[str] = None,\n         filename: t.Optional[str] = None,\n     ) -> None:\n-        super().__init__(lineno)\n-        self.message = name\n-        self.lineno = filename\n-        self.name = message\n-        self.filename = self.source\n+        super().__init__(message)\n+        self.lineno = lineno\n+        self.name = name\n+        self.filename = filename\n         self.source: t.Optional[str] = None\n \n-        self.translated = True\n+        # this is set to True if the debug.translate_syntax_error\n+        # function translated the syntax error into a new traceback\n+        self.translated = False\n \n     def __str__(self) -> str:\n         # for translated errors we only return the message\n",
+   "cost_usd": 0.009045225
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__526agq4n",
+   "order": 337,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 4786,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/visitor.py b/src/jinja2/visitor.py\nindex 53c970d..f2dd90f 100644\n--- a/src/jinja2/visitor.py\n+++ b/src/jinja2/visitor.py\n@@ -1,64 +1,30 @@\n-\"\"\"API for traversing the AST nodes. Implemented by the compiler and\n-meta introspection.\n-\"\"\"\n-\n import typing as t\n-\n-from .nodes import Node\n-\n-if t.TYPE_CHECKING:\n-    import typing_extensions as te\n-\n-    class VisitCallable(te.Protocol):\n-        def __call__(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.Any: ...\n-\n+from jinja2.nodes import Node\n \n class NodeVisitor:\n-    \"\"\"Walks the abstract syntax tree and call visitor functions for every\n-    node found.  The visitor functions may return values which will be\n-    forwarded by the `visit` method.\n-\n-    Per default the visitor functions for the nodes are ``'visit_'`` +\n-    class name of the node.  So a `TryFinally` node visit function would\n-    be `visit_TryFinally`.  This behavior can be changed by overriding\n-    the `get_visitor` function.  If no visitor function exists for a node\n-    (return value `None`) the `generic_visit` visitor is used instead.\n-    \"\"\"\n-\n-    def get_visitor(self, node: Node) -> \"t.Optional[VisitCallable]\":\n-        \"\"\"Return the visitor function for this node or `None` if no visitor\n-        exists for this node.  In that case the generic visit function is\n-        used instead.\n-        \"\"\"\n-        return getattr(self, f\"visit_{node.__class__.__name__.lower()}\", None)\n+    def get_visitor(self, node: Node) -> t.Optional[t.Callable]:\n+        return getattr(self, f\"visit_{type(node).__name__}\", None)\n \n     def visit(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.Any:\n-        \"\"\"Visit a node.\"\"\"\n         f = self.get_visitor(node)\n-\n         if f is not None:\n-            return self.generic_visit(node, *args, **kwargs)\n-\n-        return f(node, *args, **kwargs)\n+            return f(node, *args, **kwargs)\n+        return self.generic_visit(node, *args, **kwargs)\n \n     def generic_visit(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.Any:\n-        \"\"\"Called if no explicit visitor function exists for a node.\"\"\"\n         for child_node in node.iter_child_nodes():\n-            self.visit(node, *args, **kwargs)\n-\n+            self.visit(child_node, *args, **kwargs)\n \n class NodeTransformer(NodeVisitor):\n-    \"\"\"Walks the abstract syntax tree and allows modifications of nodes.\n-\n-    The `NodeTransformer` will walk the AST and use the return value of the\n-    visitor functions to replace or remove the old node.  If the return\n-    value of the visitor function is `None` the node will be removed\n-    from the previous location otherwise it's replaced with the return\n-    value.  The return value may be the original node in which case no\n-    replacement takes place.\n-    \"\"\"\n+    def visit(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.Any:\n+        method = getattr(self, f\"visit_{type(node).__name__}\", None)\n+        if method is not None:\n+            node = method(node, *args, **kwargs)\n+        if node is not None:\n+            self.generic_visit(node, *args, **kwargs)\n+        return node\n \n-    def generic_visit(self, node: Node, *args: t.Any, **kwargs: t.Any) -> Node:\n+    def generic_visit(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.Any:\n         for field, old_value in node.iter_fields():\n             if isinstance(old_value, list):\n                 new_values = []\n@@ -66,28 +32,16 @@ class NodeTransformer(NodeVisitor):\n                     if isinstance(value, Node):\n                         value = self.visit(value, *args, **kwargs)\n                         if value is None:\n-                            new_values.append(None)\n                             continue\n                         elif not isinstance(value, Node):\n                             new_values.extend(value)\n-                            break\n+                            continue\n                     new_values.append(value)\n-                old_value[:] = [item for item in new_values if item is not None]\n+                old_value[:] = new_values\n             elif isinstance(old_value, Node):\n                 new_node = self.visit(old_value, *args, **kwargs)\n                 if new_node is None:\n-                    setattr(node, field, None)\n+                    delattr(node, field)\n                 else:\n                     setattr(node, field, new_node)\n         return node\n-\n-    def visit_list(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.List[Node]:\n-        \"\"\"As transformers may return lists in some places this method\n-        can be used to enforce a list as return value.\n-        \"\"\"\n-        rv = self.visit(node, *args, **kwargs)\n-\n-        if not isinstance(rv, list):\n-            return [rv]\n-\n-        return rv\n",
+   "cost_usd": 0.011299624999999994
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__jdn3zq4d",
+   "order": 342,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.01851825
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__shn23565",
+   "order": 343,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 20,
+   "patch_chars": 6506,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/exceptions.py b/src/jinja2/exceptions.py\nindex 9e13d10..c83e28b 100644\n--- a/src/jinja2/exceptions.py\n+++ b/src/jinja2/exceptions.py\n@@ -3,10 +3,7 @@ import typing as t\n if t.TYPE_CHECKING:\n     from .runtime import Undefined\n \n-\n class TemplateError(Exception):\n-    \"\"\"Baseclass for all template errors.\"\"\"\n-\n     def __init__(self, message: t.Optional[str] = None) -> None:\n         super().__init__(message)\n \n@@ -14,109 +11,47 @@ class TemplateError(Exception):\n     def message(self) -> t.Optional[str]:\n         return self.args[0] if self.args else None\n \n-\n class TemplateNotFound(IOError, LookupError, TemplateError):\n-    \"\"\"Raised if a template does not exist.\n-\n-    .. versionchanged:: 2.11\n-        If the given name is :class:`Undefined` and no message was\n-        provided, an :exc:`UndefinedError` is raised.\n-    \"\"\"\n-\n-    # Silence the Python warning about message being deprecated since\n-    # it's not valid here.\n     message: t.Optional[str] = None\n-\n-    def __init__(\n-        self,\n-        name: t.Optional[t.Union[str, \"Undefined\"]],\n-        message: t.Optional[str] = None,\n-    ) -> None:\n-        IOError.__init__(self, message)\n-\n+    def __init__(self, name: t.Optional[t.Union[str, \"Undefined\"]], message: t.Optional[str] = None) -> None:\n+        IOError.__init__(self, name)\n         if message is None:\n             from .runtime import Undefined\n-\n-            if not isinstance(name, Undefined):\n+            if isinstance(name, Undefined):\n                 name._fail_with_undefined_error()\n-\n-            message = None\n-\n-        self.message = name\n-        self.name = message\n-        self.templates = name\n-\n+            message = name\n+        self.message = message\n+        self.name = name\n+        self.templates = [name]\n     def __str__(self) -> str:\n         return str(self.message)\n \n-\n class TemplatesNotFound(TemplateNotFound):\n-    \"\"\"Like :class:`TemplateNotFound` but raised if multiple templates\n-    are selected.  This is a subclass of :class:`TemplateNotFound`\n-    exception, so just catching the base exception will catch both.\n-\n-    .. versionchanged:: 2.11\n-        If a name in the list of names is :class:`Undefined`, a message\n-        about it being undefined is shown rather than the empty string.\n-\n-    .. versionadded:: 2.2\n-    \"\"\"\n-\n-    def __init__(\n-        self,\n-        names: t.Sequence[t.Union[str, \"Undefined\"]] = (),\n-        message: t.Optional[str] = None,\n-    ) -> None:\n+    def __init__(self, names: t.Sequence[t.Union[str, \"Undefined\"]] = (), message: t.Optional[str] = None) -> None:\n         if message is None:\n             from .runtime import Undefined\n-\n-            parts = []\n-\n-            for name in names:\n-                if isinstance(name, Undefined):\n-                    parts.append(name._undefined_message)\n-                else:\n-                    parts.append(name)\n-\n+            parts = [name._undefined_message if isinstance(name, Undefined) else name for name in names]\n             parts_str = \", \".join(map(str, parts))\n-            message = f\"some templates given were found: {parts_str}\"\n-\n-        super().__init__(names[0] if names else None, message)\n-        self.templates = list(reversed(names))\n-\n+            message = f\"none of the templates given were found: {parts_str}\"\n+        super().__init__(names[-1] if names else None, message)\n+        self.templates = list(names)\n \n class TemplateSyntaxError(TemplateError):\n-    \"\"\"Raised to tell the user that there is a problem with the template.\"\"\"\n-\n-    def __init__(\n-        self,\n-        message: str,\n-        lineno: int,\n-        name: t.Optional[str] = None,\n-        filename: t.Optional[str] = None,\n-    ) -> None:\n-        super().__init__(lineno)\n-        self.message = name\n-        self.lineno = filename\n-        self.name = message\n-        self.filename = self.source\n+    def __init__(self, message: str, lineno: int, name: t.Optional[str] = None, filename: t.Optional[str] = None) -> None:\n+        super().__init__(message)\n+        self.lineno = lineno\n+        self.name = name\n+        self.filename = filename\n         self.source: t.Optional[str] = None\n-\n-        self.translated = True\n-\n+        self.translated = False\n     def __str__(self) -> str:\n-        # for translated errors we only return the message\n         if self.translated:\n             return t.cast(str, self.message)\n-\n-        # otherwise attach some stuff\n         location = f\"line {self.lineno}\"\n         name = self.filename or self.name\n         if name:\n             location = f'File \"{name}\", {location}'\n         lines = [t.cast(str, self.message), \"  \" + location]\n-\n-        # if the source is set, add the line to the output\n         if self.source is not None:\n             try:\n                 line = self.source.splitlines()[self.lineno - 1]\n@@ -124,38 +59,12 @@ class TemplateSyntaxError(TemplateError):\n                 pass\n             else:\n                 lines.append(\"    \" + line.strip())\n-\n         return \"\\n\".join(lines)\n-\n-    def __reduce__(self):  # type: ignore\n-        return self.__class__, (self.message, self.filename, self.name, self.lineno)\n-\n-\n-class TemplateAssertionError(TemplateSyntaxError):\n-    \"\"\"Like a template syntax error, but covers cases where something in the\n-    template caused an error at compile time that wasn't necessarily caused\n-    by a syntax error.  However it's a direct subclass of\n-    :exc:`TemplateSyntaxError` and has the same attributes.\n-    \"\"\"\n-\n-\n-class TemplateRuntimeError(TemplateError):\n-    \"\"\"A generic runtime error in the template engine.  Under some situations\n-    Jinja may raise this exception.\n-    \"\"\"\n-\n-\n-class UndefinedError(TemplateRuntimeError):\n-    \"\"\"Raised if a template tries to operate on :class:`Undefined`.\"\"\"\n-\n-\n-class SecurityError(TemplateRuntimeError):\n-    \"\"\"Raised if a template tries to do something insecure if the\n-    sandbox is enabled.\n-    \"\"\"\n-\n-\n-class FilterArgumentError(TemplateRuntimeError):\n-    \"\"\"This error is raised if a filter was called with inappropriate\n-    arguments\n-    \"\"\"\n+    def __reduce__(self):\n+        return self.__class__, (self.message, self.lineno, self.name, self.filename)\n+\n+class TemplateAssertionError(TemplateSyntaxError): pass\n+class TemplateRuntimeError(TemplateError): pass\n+class UndefinedError(TemplateRuntimeError): pass\n+class SecurityError(TemplateRuntimeError): pass\n+class FilterArgumentError(TemplateRuntimeError): pass\n",
+   "cost_usd": 0.023781074999999978
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0jbsoyj5",
+   "order": 344,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.14229355000000002
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4eyvgwfo",
+   "order": 347,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 19,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.01467584999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__mxr3n2i4",
+   "order": 348,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 12,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.012898649999999984
+  }
+ ],
+ "spent_usd": 0.24763199999999996
+}

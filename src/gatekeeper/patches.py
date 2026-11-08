@@ -15,7 +15,14 @@ from collections import defaultdict
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, field
 
-__all__ = ["PATTERNS", "ParsedPatch", "composition_candidates", "edit_patterns", "parse_patch"]
+__all__ = [
+    "PATTERNS",
+    "ParsedPatch",
+    "change_blocks",
+    "composition_candidates",
+    "edit_patterns",
+    "parse_patch",
+]
 
 _FILE = re.compile(r"^diff --git a/(\S+) b/(\S+)")
 _HUNK = re.compile(r"^@@ -\d+(?:,\d+)? \+\d+(?:,\d+)? @@ ?(.*)$")
@@ -76,6 +83,44 @@ def parse_patch(patch: str, include_tests: bool = False) -> ParsedPatch:
                 out.functions.add(f"{current}::{d.group(1) or d.group(2)}")
         elif line.startswith("-"):
             out.removed.append(line[1:])
+    return out
+
+
+def change_blocks(patch: str) -> list[tuple[str, list[str], list[str]]]:
+    """Maximal runs of consecutive removed / added lines in the non-test `.py` files of a diff.
+
+    Returns (path, removed_lines, added_lines) per run. A context line, a hunk header or a new
+    file section ends a run. Test files follow the same rule as `parse_patch` (`_TEST_PATH`).
+    """
+    out: list[tuple[str, list[str], list[str]]] = []
+    current: str | None = None
+    skip = True
+    rem: list[str] = []
+    add: list[str] = []
+
+    def flush() -> None:
+        nonlocal rem, add
+        if current is not None and not skip and (rem or add):
+            out.append((current, rem, add))
+        rem, add = [], []
+
+    for line in (patch or "").splitlines():
+        m = _FILE.match(line)
+        if m:
+            flush()
+            current = m.group(2)
+            skip = bool(_TEST_PATH.search(current)) or not current.endswith(".py")
+            continue
+        if line.startswith("+++") or line.startswith("---") or _HUNK.match(line):
+            flush()
+            continue
+        if line.startswith("+"):
+            add.append(line[1:])
+        elif line.startswith("-"):
+            rem.append(line[1:])
+        else:
+            flush()
+    flush()
     return out
 
 
