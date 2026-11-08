@@ -1586,3 +1586,27 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - **Giới hạn:** tỉ lệ giải nền trên pygments rất thấp (5/100), nên phép kiểm có ít power để phát hiện tác hại.
 - **Diễn giải:** một skill được chứng nhận ở scope của nó (jinja) không cho mức tăng đo được khi dùng lại ở repo khác (pygments), và Gatekeeper không chứng nhận nó ở đó. Bộ chấm lỏng của gskill sẽ báo sai một mức chuyển giao +0,28. Đây là một ví dụ trên skill thật của "Scope before Reuse".
 
+### §25 bước 4d (Bleve): kết quả nhánh không rò rỉ (run 42399244153 cho nhánh none; 42414050530 và 42442262299 cho nhánh skill)
+- **Hoàn tất:** 100/100 task ở cả hai nhánh. Kiểm rò rỉ cho "commits=1 refs=1 remotes=0 objects_with_bug_msg=0" ở mọi task.
+  - Nhánh skill dừng ở 98 task vì trần (A109); 2 task chạy bù bằng `--skip-done`.
+  - 1 lần bộ chấm báo `timeout`. Chấm lại tại máy vẫn timeout, nên tính là không giải được trong phân tích chính (A56).
+- **Chi:** 0,773 + 2,124 + 0,023 = **2,920 USD** (trần 4,3). **Track Bleve tổng cộng: 12,956 + 2,920 = 15,876 USD.**
+- **Kết quả** (`results/s25bleve_leakfree_ab.json`):
+
+| Bộ chấm | Có skill | Không skill | b / c | p một phía | Mức tăng, bootstrap 95% |
+| --- | --- | --- | --- | --- | --- |
+| **S** | **31/100** | 14/100 | 19 / 2 | 1,1·10⁻⁴ | **+0,17** [0,09; 0,25] |
+| L | 59/100 | 31/100 | 32 / 4 | 9,7·10⁻⁷ | +0,28 [0,18; 0,38] |
+
+- **Holm:** bác bỏ cả S lẫn L. **Kết quả: A.** **Gatekeeper admit ở trial 61** (môi trường có rò rỉ: trial 34).
+- **Δ_leak** (mức tăng có rò rỉ trừ mức tăng không rò rỉ, ghép cặp theo task): **+0,13 [0,03; 0,23]**, khoảng 43% của +0,30. Jinja: +0,17 [0,06; 0,28], khoảng 45%.
+- **Nhóm theo mô tả issue:**
+  - không có mô tả (42 task): 0 so với 0 (có rò rỉ: 11 so với 0);
+  - có mô tả (58 task): 31 so với 14 (có rò rỉ: 32 so với 13).
+- **Quỹ đạo** (A104): agent chạy `git log`/`git show` ở 31/100 task, và thấy "Bug Patch" ở 0/100 task.
+- **Diễn giải:** trên một repo thứ hai, viết bằng ngôn ngữ khác (Go):
+  - skill học được giúp thật khi không có rò rỉ;
+  - khoảng 43% mức tăng đo trong môi trường gốc đến từ commit "Bug Patch";
+  - toàn bộ phần đó nằm ở các task không có mô tả issue.
+  - Cả hai đều lặp lại kết quả của jinja.
+

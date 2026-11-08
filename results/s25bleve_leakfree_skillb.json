@@ -1,0 +1,55 @@
+{
+ "model": "vertex_ai/gemini-3.1-flash-lite",
+ "seed": 41,
+ "cost_limit": 0.3,
+ "cap": 0.5,
+ "skills_chars": 3009,
+ "leak_free": true,
+ "subset": "all",
+ "n_tasks": 2,
+ "runs": [
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_ctrl_invert_if__h5dmay08",
+   "order": 348,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 551,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/index/upsidedown/store/gtreap/writer.go b/index/upsidedown/store/gtreap/writer.go\nindex 4722215..80aa15b 100644\n--- a/index/upsidedown/store/gtreap/writer.go\n+++ b/index/upsidedown/store/gtreap/writer.go\n@@ -60,9 +60,9 @@ func (w *Writer) ExecuteBatch(batch store.KVBatch) error {\n \n \tfor _, op := range emulatedBatch.Ops {\n \t\tif op.V != nil {\n-\t\t\tw.s.t = w.s.t.Delete(&Item{k: op.K})\n-\t\t} else {\n \t\t\tw.s.t = w.s.t.Upsert(&Item{k: op.K, v: op.V}, rand.Int())\n+\t\t} else {\n+\t\t\tw.s.t = w.s.t.Delete(&Item{k: op.K})\n \t\t}\n \t}\n \tw.s.m.Unlock()\n",
+   "cost_usd": 0.004054
+  },
+  {
+   "instance_id": "blevesearch__bleve.f2876b5e.func_pm_remove_cond__f4vg591i",
+   "order": 349,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0185735
+  }
+ ],
+ "spent_usd": 0.022627500000000002
+}
