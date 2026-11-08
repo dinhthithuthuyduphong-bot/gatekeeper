@@ -101,6 +101,9 @@ ARXIV = [
     ("anytime_referee_2026", "2609.27051", None, False),
     ("library_drift_2026", "2605.19576", None, False),
     ("hdso_2026", "2606.22330", None, False),
+    ("skill_issue_2026", "2609.12742", None, False),
+    ("hack_verifiable_2026", "2605.20744", None, False),
+    ("paichecker_2026", "2607.28587", None, False),
     ("test_overfitting_2025", "2511.16858", None, False),
     ("voyager", "2305.16291", None, False),
 ]

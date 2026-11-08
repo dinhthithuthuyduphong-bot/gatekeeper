@@ -565,7 +565,8 @@ the real commits and drops only the bug-injecting one.
 \paragraph{One leak channel, one ablation}
 We measured one leak channel, the bug-injecting commit in the history. Other channels, such as
 artefacts in the image, file names or timestamps, were not probed, and the single-commit control
-removes only the history. We also did not edit the learned skill to remove its history
+removes only the history; opportunities planted by design~\cite{hack_verifiable_2026} would extend
+the controls to such channels. We also did not edit the learned skill to remove its history
 instruction; the share of the remaining gain carried by its other instructions is not measured.
 \paragraph{The pipeline's own numbers}
 We tested gskill's public code at a pinned commit, not the code behind its announcement.
@@ -594,7 +595,14 @@ whether skills help: SWE-Skills-Bench runs ``every task once without the skill a
 it''~\cite{sskb_paper}; SkillsBench benchmarks how well skills work across diverse
 tasks~\cite{skillsbench_2026}; and SkillJuror, observing that ``current benchmarks rarely
 distinguish what a Skill says from how it is organized'', measures how a skill's organisation
-changes the agent's behaviour, with five trials per condition~\cite{skilljuror_2026}. We add an
+changes the agent's behaviour, with five trials per condition~\cite{skilljuror_2026}. Closest to
+gskill, Kozyrev et al.\ optimise repository SKILL files with GEPA and SkillOpt, observing that ``the
+synthetic tasks prior work builds are small enough that a capable agent saturates them with no
+document at all''; they mine merged pull requests ``reverted at a single frozen base commit'', run
+every attempt ``on an isolated checkout at the frozen base with .git removed'', and report that one
+score ``wrote the training pull requests back into prose''~\cite{skill_issue_2026}. Our
+single-commit control is close to that setup; we measure what a learned skill gains when the history
+is present, and how much of a certified gain this accounts for. We add an
 admission decision with an error guarantee, controls for the measurement itself, and a test of
 whether the decision carries over to another scope.
 
@@ -607,13 +615,17 @@ without any skill.
 \paragraph{Reliability of coding-agent evaluation}
 Run-to-run variance~\cite{randomness_agentic_evals_2026}, the harness around the
 model~\cite{same_model_harness_2026}, and tests that accept incorrect
-patches~\cite{patchdiff_2025,utboost_2025,test_overfitting_2025} all move reported resolve rates.
+patches~\cite{patchdiff_2025,utboost_2025,test_overfitting_2025} all move reported resolve rates,
+as do problem statements that do not match the pull request whose patch serves as the
+oracle~\cite{paichecker_2026}.
 Git-history leaks have been documented for SWE-bench~\cite{swebench_git_log_leak,swebench_git_log_fix},
 SWE-Bench Pro~\cite{swebench_pro_verified}, other agent benchmarks~\cite{cursor_reward_hacking,
 poolside_benchmark_hacking} and, recently, SWE-smith~\cite{marin_swesmith_git_leak,
 debuggym_swesmith_git_leak,debuggym_swesmith_git_fix,rllm_hide_git_history}. These works study
 agents that find a leak; we show that a skill \emph{learner} can turn the leak into a reusable
-instruction, and measure how much of a certified gain it accounts for.
+instruction, and measure how much of a certified gain it accounts for. Hack-verifiable environments
+``embed detectable reward hacking opportunities directly into environments''~\cite{hack_verifiable_2026};
+our single-commit control instead removes one known opportunity and measures the change.
 
 \paragraph{Admission gates for agent artefacts}
 Qu et al.\ separate proposing from judging: ``a frozen statistical referee that the agent cannot
