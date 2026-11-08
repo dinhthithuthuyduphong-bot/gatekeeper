@@ -205,13 +205,11 @@ absorbed into $\xi_s$); deployment contexts follow $Q_s$ with $\mathrm{TV}(Q_s,P
 \end{assumption}
 
 The $\alpha$ budget is fixed in advance:
-$\sum_{(S,s)}\alpha_{S,s}+\sum_k\alpha^{\mathrm{comp}}_k\le\alpha$, where the $k$-th composite
-receives $\alpha_{\mathrm{comp}}\,6/(\pi^2k^2)$, so the number of composites need not be known in
-advance. All admissions in this paper test one cell each ($\alpha_{S,s}=\alpha$).
+$\sum_{(S,s)}\alpha_{S,s}\le\alpha$. All admissions in this paper test one cell each ($\alpha_{S,s}=\alpha$).
 
 \begin{theorem}[Admission bound]
 Under the assumption,
-$\Pr\bigl[\exists\text{ admitted }(S,s)\text{ or composite}:\STR_{Q_s}>-\theta+2\xi_s\bigr]\le\alpha$.
+$\Pr\bigl[\exists\text{ admitted }(S,s):\STR_{Q_s}>-\theta+2\xi_s\bigr]\le\alpha$.
 In particular, if $2\xi_s\le\theta$ for all $s$, the probability of admitting anything harmful under
 $Q$ is at most $\alpha$.
 \end{theorem}
@@ -239,25 +237,6 @@ repositories, which may be close to $1$.
 \end{proof}
 The learned skills of Section~\ref{sec:rq2} are a measured instance: on the same tasks, a change
 the trials never observe (the repository history) changes what the admitted skill is worth.
-
-\section{Composition}
-We state the composition results for completeness; they are not evaluated empirically in this
-paper.
-$S_1\circ S_2$ applies $S_2$'s edit first, then $S_1$.
-\begin{theorem}[Composition risk is not bounded by individual risks]
-For every $\theta\in(0,1)$ there are skills $S_1,S_2,S_1'$ and a scope $s$ with
-$\STR(S_1)=\STR(S_2)=\STR(S_1')=-\theta$, $\STR(S_1\circ S_2)=1-\theta$ and
-$\STR(S_1'\circ S_2)=-\theta$. The value $1-\theta$ is the largest possible, and no function $g$ with
-$\STR(A\circ B)\le g(\STR(A),\STR(B))<1-\theta$ exists.
-\end{theorem}
-\begin{proof}
-A fraction $\theta$ of tasks hit a transient failure on a database write, so
-$\mathbb{E}\,\ell(x,\varnothing)=\theta$. $S_1$ wraps the write in a synchronous bounded retry;
-$S_2$ makes the write \texttt{async} with its own retry; each alone fixes every task. Composed, the
-synchronous retry calls the coroutine without awaiting it: no exception is raised and the write
-never executes, so every task fails. $S_1'$ awaits coroutines and composes correctly. Executable
-version: \texttt{src/gatekeeper/composition\_example.py}.
-\end{proof}
 
 \section{Sample Complexity and the Value of Pairing}
 \begin{proposition}[Paired trials]

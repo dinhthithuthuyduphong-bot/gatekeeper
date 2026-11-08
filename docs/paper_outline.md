@@ -226,7 +226,7 @@ Giữ của paper gốc: e-process ghép cặp, cách chia α, thu hồi. Chỉ 
 | Mục của `paper/main.tex` | Trạng thái |
 | --- | --- |
 | Abstract, Introduction | Đã viết; mọi số là macro sinh từ `results/` (`scripts/make_numbers.py`, kiểm khớp với bản đăng ký) |
-| Problem Formulation, Admission, Sample Complexity | Giữ của bản gốc; 2 chỗ hứa phân tích đã bỏ (harm–coverage, composition) được gắn `\todo` để @thuthuy quyết phạm vi |
+| Problem Formulation, Admission, Sample Complexity | Giữ của bản gốc. **Mục Composition đã cắt** (08/11; @thuthuy giao quyết: "1 với 3 bạn tự quyết"): mục này không có thực nghiệm và không nằm trong câu chuyện chính; các số hạng α cho composite cũng bỏ theo. Ví dụ chạy được vẫn ở `src/gatekeeper/composition_example.py`. **Tên model** giữ một lần trong paper (macro `\agentmodel`), vì cần để tái lập; quy tắc không ghi mã model áp cho commit và tài liệu nội bộ |
 | Evaluation Design | Đã viết: agent, task, bộ chấm S/L, 5 đối chứng có nguồn, phân tích. Bỏ bảng power dựng trên số dự kiến |
 | RQ1 | Đã viết đủ số. Còn `\todo` cho MemGovern (chờ gộp nhánh) |
 | RQ2 | Đã viết, có bảng. Còn `\todo`: 27a, 27c, bleve 4d |
