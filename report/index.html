@@ -19,9 +19,10 @@
 body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 var(--sans);
 padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 main{max-width:880px;margin:0 auto;padding-block:36px 72px}
-h1,h2,h3{font-family:var(--serif);text-wrap:balance;line-height:1.25}
-h1{font-size:2rem;margin:4px 0 6px}h2{font-size:1.4rem;margin:44px 0 12px;padding-top:14px;border-top:1px solid var(--line)}
-h3{font-size:1.1rem;margin:26px 0 8px}
+h1,h2,h3,h4{font-family:var(--serif);text-wrap:balance;line-height:1.25;}
+h1{font-size:2rem;margin:4px 0 6px}h2{font-size:1.4rem;margin:44px 0 12px;padding-top:14px;border-top:1px solid var(--line);color:#2a37a8}
+h3{font-size:1.1rem;margin:26px 0 8px; color:#a86b2a}
+h4{font-size:1.1rem;margin:26px 0 8px; color:#2aa8a4}
 p,li{max-width:70ch}.muted{color:var(--muted)}a{color:var(--accent)}
 .meta{font-size:.88rem;color:var(--muted);letter-spacing:.02em}
 .lead{font-size:1.06rem}
@@ -45,11 +46,17 @@ figcaption{font-size:.88rem;color:var(--muted)}
 .ask{border-left:3px solid var(--accent);padding:10px 14px;background:var(--card);border-radius:0 6px 6px 0}
 .toc{columns:2;font-size:.94rem}@media (max-width:600px){.toc{columns:1}h1{font-size:1.55rem}}
 footer{margin-top:52px;color:var(--muted);font-size:.84rem}
+
+:root{--ink:#eee891;--muted:#64718a;--line:#e3e8f0;--blue:#e9a319;--pale:#eef4ff;--yellow:#eaf7ef;--amber:#fff5dc}
+header{background:linear-gradient(130deg,#14264b,#2d5eae);color:white;padding:42px 22px}header div,main{max-width:1050px;margin:auto}header h1{font-size:clamp(2rem,5vw,3rem);line-height:1.15;margin:0}header p{color:#e1eaff;max-width:780px}
+main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;align-items:start}nav,article{background:white;border:1px solid var(--line);border-radius:15px}nav{position:sticky;top:16px;padding:18px}nav a{display:block;text-decoration:none;color:var(--muted);font-size:14px;padding:5px 0}nav a:hover{color:var(--blue)}article{padding:clamp(20px,4vw,42px);min-width:0}h2{font-size:1.6rem;margin:2em 0 .65em;padding-bottom:9px;border-bottom:1px solid var(--line)}h2:first-child{margin-top:0}h3{font-size:1.2rem;margin:1.5em 0 .5em}p{margin:.65em 0}table{border-collapse:collapse;width:100%;margin:14px 0;font-size:.94rem}th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}th{background:#f1f4f9}.box{padding:15px 17px;border-left:4px solid var(--blue);background:var(--pale);border-radius:9px;margin:15px 0}.green{background:var(--green);border-color:#238653}.amber{background:var(--amber);border-color:#bd8712}.flow{max-width:620px;margin:18px auto;text-align:center}.step{padding:13px;border:1px solid #cbd8f3;background:var(--pale);border-radius:10px;margin:8px}.arrow{color:#8592a8;font-size:21px}.ends{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ends div{padding:13px;border-radius:10px}.formula{display:block;background:#f1f4f8;padding:12px 15px;border-radius:8px;font-family:ui-monospace,Consolas,monospace;overflow-wrap:anywhere;margin:12px 0}.script,.qa{border:1px solid var(--line);border-radius:10px;padding:16px;margin:13px 0;background:#fcfdff}.script h3,.qa h3{margin-top:0}.muted{color:var(--muted);font-size:.9rem}footer{max-width:1050px;margin:auto;padding:0 18px 30px;color:var(--muted);font-size:.85rem}
+@media(max-width:760px){.grid{grid-template-columns:1fr}nav{position:static}table{font-size:.85rem}th,td{padding:7px}}
+@media print{body{background:white}header{print-color-adjust:exact}.grid{display:block}nav{display:none}article{border:0;padding:0}}
 </style>
 </head>
 <body>
 <main>
-<p class="meta">Dự án Gatekeeper · mục tiêu ASE 2027 · bản cập nhật 08/11/2026 10:28 UTC · commit <code>8bc0c46</code></p>
+<p class="meta">Dự án Gatekeeper ·bản cập nhật 09/11/2026 10:28 UTC · commit <code>8bc0c46</code></p>
 <h1>Scope before Reuse: chứng nhận skill đã học cho coding agent theo phạm vi</h1>
 
 <ol class="toc">
@@ -82,6 +89,10 @@ admit nhầm 0,46 số luồng; Gatekeeper 0,0032.</li>
 </ul>
 
 <h2 id="cau-hoi">2. Câu hỏi nghiên cứu và đóng góp</h2>
+<div class="box"><b>Câu hỏi nghiên cứu:</b> Làm thế nào xác định một skill có thực sự đáng được tái sử dụng trong một phạm vi môi trường cụ thể hay không?</div>
+<table><tr><th>Khái niệm</th><th>Câu hỏi trả lời</th></tr><tr><td>Capability verification</td><td>Skill được phép làm những gì?</td></tr><tr><td>Replay verification</td><td>Skill có còn hoạt động như khi được tạo ra không?</td></tr><tr><td>Functional admission</td><td>Skill có thực sự giúp giải quyết task trong môi trường đích không?</td></tr></table>
+<p><strong>Gatekeeper tập trung vào câu hỏi thứ ba.</strong></p>
+
 <div class="tbl"><table>
 <tr><th>Câu hỏi</th><th>Nội dung</th><th>Trả lời ngắn</th></tr>
 <tr><td>RQ1</td><td>Các con số đánh giá skill có đứng vững trước đối chứng không?</td>
@@ -91,10 +102,12 @@ admit nhầm 0,46 số luồng; Gatekeeper 0,0032.</li>
 <tr><td>RQ3</td><td>Chứng nhận có mang sang phạm vi khác không?</td>
 <td>Không: đổi lịch sử repo, đổi repo, hoặc đổi cấu hình agent–model đều làm thay đổi giá trị của skill.</td></tr>
 </table></div>
-<p>Đóng góp: (1) chứng nhận anytime-valid cho skill do một pipeline đã công bố tạo ra; (2) phép đo có đối chứng
-cho thấy bộ học tự đưa một chỉ dẫn khai thác rò rỉ vào skill, và định lượng phần mức tăng mà rò rỉ chiếm;
-(3) bằng chứng rằng chứng nhận gắn với phạm vi; (4) bộ đối chứng cho phép đo; (5) bản đăng ký trước, dữ liệu gốc và mã.</p>
-
+<p><strong>Đóng góp:</strong> </p>
+          <p>(1) chứng nhận anytime-valid cho skill do một pipeline đã công bố tạo ra; </p>
+          <p>(2) phép đo có đối chứng cho thấy bộ học tự đưa một chỉ dẫn khai thác rò rỉ vào skill, và định lượng phần mức tăng mà rò rỉ chiếm;</p>
+          <p>(3) bằng chứng rằng chứng nhận gắn với phạm vi; </p>
+          <p>(4) bộ đối chứng cho phép đo; </p>
+          <p>(5) bản đăng ký trước, dữ liệu gốc và mã.</p>
 <h2 id="khai-niem">3. Khái niệm và thuật toán</h2>
 <h3>Khái niệm</h3>
 <div class="tbl"><table>
@@ -129,33 +142,42 @@ nguyên nhân vì không lần chạy nào nạp nó.</td></tr>
 WebDev-Skills-Bench); quy tắc chọn ra đúng 1 trong 98 skill công khai.</td></tr>
 <tr><td>Task không có mô tả issue</td><td>Task SWE-smith có phần mô tả rỗng; Jinja có 34/100 task như vậy.</td></tr>
 </table></div>
+<section id="method"><h3>Gatekeeper hoạt động như thế nào?</h3>
+<div class="flow"><div class="step"><b>Skill package</b><br><small>Thủ tục π, phụ thuộc D, điều kiện kích hoạt I , hậu điều kiện P, vùng tương tác K</small></div><div class="arrow">↓</div><div class="step"><b>Scope screening</b><br><small>Kiểm tra skill có nằm trong phạm vi áp dụng không? <br><em style="opacity: 0.6;">Ví dụ, skill được tạo cho Python nhưng môi trường đích là Go thì có thể bị loại ngay.</em> </small></div><div class="arrow">↓</div><div class="step"><b>Quarantine + paired trials</b><br><small>Chạy cùng task với skill và không có skill</small></div><div class="arrow">↓</div><div class="step"><b>Anytime-valid e-process</b><br><small>Tích lũy bằng chứng về lợi ích của skill</small></div><div class="arrow">↓</div><div class="ends"><div style="background:#eaf7ef"><b>✓ Admit</b><br><small>Cho phép tái sử dụng trong scope đã kiểm tra</small></div><div style="background:#fff0f0"><b>Ⅱ Quarantine</b><br><small>Chưa đủ bằng chứng để cho phép</small></div></div></div>
+<p>Với cùng một task, chạy hai nhánh: agent không sử dụng skill và agent sử dụng skill.</p>
+<table><tr><th>Task</th><th>Không skill</th><th>Có skill</th><th>Kết quả</th></tr><tr><td>1</td><td>Thất bại</td><td>Thành công</td><td>Skill có lợi</td></tr><tr><td>2</td><td>Thành công</td><td>Thành công</td><td>Không khác biệt</td></tr><tr><td>3</td><td>Thành công</td><td>Thất bại</td><td>Skill gây hại</td></tr></table>
+<p> Vì hai nhánh dùng cùng task nên độ khó task được kiểm soát tốt hơn so với so sánh hai nhóm task độc lập. </p>
 <h3>Thuật toán</h3>
 <ul>
-<li><b>Gatekeeper (e-process cá cược).</b> Với mỗi trial i, Z<sub>i</sub> = 1[nhánh có skill không resolved] −
-1[nhánh không skill không resolved] ∈ {−1, 0, 1}. Giả thuyết không H<sub>0</sub>: E[Z] ≥ −θ (skill không giúp
-ít nhất θ). Quá trình E<sub>n</sub> = ∏<sub>i≤n</sub>(1 + λ<sub>i</sub>(−θ − Z<sub>i</sub>)), với mức cược
-λ<sub>i</sub> = min{c/(1+θ), g/(v+g²)} khi g &gt; 0 (aGRAPA, Waudby-Smith &amp; Ramdas), g = −θ − trung bình
-các Z trước đó, v là phương sai của chúng, cả hai tính kèm một quan sát giả có trung bình 0 và phương sai 1.
-λ<sub>i</sub> chỉ dùng dữ liệu quá khứ. Dưới H<sub>0</sub>, E<sub>n</sub> là supermartingale không âm, nên theo bất
-đẳng thức Ville, P(tồn tại n: E<sub>n</sub> ≥ 1/α) ≤ α. Vì vậy được xem kết quả sau mỗi trial mà sai số loại I vẫn
-≤ α. Tham số: θ = 0, α = 0,025, c = 0,5; ngưỡng 1/α = 40.</li>
-<li><b>Kiểm định dấu chính xác.</b> b = số task chỉ nhánh có skill giải được, c = số task chỉ nhánh không skill
+<h4><li><b>Gatekeeper (e-process cá cược):<br> </b> </h4>
+<p>Paper định nghĩa functional loss ℓ(x, π). Trong thí nghiệm, loss nhị phân:</p><div class="formula">ℓ = 0 nếu task được giải quyết<br>ℓ = 1 nếu task không được giải quyết</div>
+<p><strong>Với mỗi cặp thử nghiệm:</strong></p><div class="formula">Zᵢ = ℓ(xᵢ, π) − ℓ(xᵢ, ∅)</div>
+<table><tr><th>Không skill</th><th>Có skill</th><th>Zᵢ</th><th>Ý nghĩa</th></tr><tr><td>Thất bại</td><td>Thành công</td><td>−1</td><td>Skill có lợi</td></tr><tr><td>Thành công</td><td>Thất bại</td><td>+1</td><td>Skill gây hại</td></tr><tr><td>Cùng kết quả</td><td>Cùng kết quả</td><td>0</td><td>Không tạo khác biệt</td></tr></table>
+<p>Z càng âm thì skill càng có lợi.</p>
+<strong>Giả thuyết thống k:</strong><div class="formula">H₀: E[Z] ≥ −θ</div><p>Trong thực nghiệm θ = 0, nên H₀: E[Z] ≥ 0. Gatekeeper cần bằng chứng cho thấy E[Z] &lt; 0, tức trung bình loss khi có skill thấp hơn khi không có skill.</p>
+<strong>E-process:</strong><div class="formula">Eₙ = ∏ᵢ₌₁ⁿ [1 + λᵢ(−θ − Zᵢ)]</div><p>λᵢ là mức cược được chọn dựa trên dữ liệu trước đó, không được nhìn trước kết quả trial hiện tại. Paper sử dụng chiến lược aGRAPA để điều chỉnh mức cược.</p>
+<table><tr><th>Kết quả</th><th>Zᵢ</th><th>Tác động trực giác</th></tr><tr><td>Skill giúp giải quyết task</td><td>−1</td><td>E-process tăng</td></tr><tr><td>Hai nhánh giống nhau</td><td>0</td><td>Không đổi</td></tr><tr><td>Skill làm task thất bại</td><td>+1</td><td>E-process giảm</td></tr></table>
+<p class="muted">Đây là trực giác về hướng cập nhật; mức tăng/giảm thực tế còn phụ thuộc λᵢ.</p>
+<strong>Vì sao ngưỡng là 40?</strong><div class="formula">α = 0,025 ⇒ 1/α = 40</div><p>Khi Eₙ ≥ 40, Gatekeeper admit skill. Nếu chạy hết 100 task mà e-process không đạt 40, skill không được admit trong scope đó. Ngưỡng 40 là ngưỡng bằng chứng thống kê, không phải số task cần giải quyết.</p>
+<strong>Tính anytime-valid:</strong><p>Nếu liên tục kiểm tra kết quả sau nhiều task và dừng khi thấy có ý nghĩa thống kê, xác suất sai loại I có thể tăng. E-process cho phép theo dõi sau từng trial và dừng khi đạt ngưỡng, với điều kiện các giả định thống kê được thỏa mãn.</p><div class="formula">P(∃n: Eₙ ≥ 1/α) ≤ α</div><p class="muted">Đây là bảo đảm thống kê có điều kiện, không phải cam kết mọi skill được admit đều an toàn trong mọi repository.</p>
+</li>
+<h4><li><b>Kiểm định dấu chính xác.</b></h4> b = số task chỉ nhánh có skill giải được, c = số task chỉ nhánh không skill
 giải được; p một phía = P(Bin(b+c, ½) ≥ b).</li>
-<li><b>Holm.</b> Xếp các p tăng dần; bác bỏ p<sub>(k)</sub> khi p<sub>(j)</sub> ≤ α/(m−j+1) với mọi j ≤ k; kiểm soát
+<h4><li><b>Holm.</b></h4> Xếp các p tăng dần; bác bỏ p<sub>(k)</sub> khi p<sub>(j)</sub> ≤ α/(m−j+1) với mọi j ≤ k; kiểm soát
 xác suất có ít nhất một kết luận sai trong họ ≤ α.</li>
-<li><b>Khoảng tin cậy bootstrap theo task.</b> Lấy mẫu lại 100 task có hoàn lại 10.000 lần, lấy phân vị 2,5% và
+<h4><li><b>Khoảng tin cậy bootstrap theo task.</b></h4> Lấy mẫu lại 100 task có hoàn lại 10.000 lần, lấy phân vị 2,5% và
 97,5% của mức tăng.</li>
-<li><b>Vòng học của gskill (GEPA).</b> Bắt đầu từ skill rỗng. Model reflection đọc skill hiện tại cùng kết quả của
+<h4><li><b>Vòng học của gskill (GEPA).</b></h4> Bắt đầu từ skill rỗng. Model reflection đọc skill hiện tại cùng kết quả của
 agent trên 3 task huấn luyện, rồi đề xuất bản viết lại. Bản viết lại được nhận khi tổng điểm L trên 3 task đó
 lớn hơn ngặt điểm của bản cha (luật mặc định của GEPA). Ứng viên kế tiếp được chọn theo chiến lược Pareto;
 tập validation gồm 50 task. Vòng lặp dừng sau 600 metric call (mỗi metric call là một
 lần chạy agent với một ứng viên trên một task). Với Jinja: 606 metric call, 9 ứng
 viên, điểm validation theo L của skill trả về là 0,94.</li>
-<li><b>Mantel–Haenszel (XRepoSkill).</b> Hiệu tỉ lệ giải gộp theo tầng (mỗi task một tầng). Nhóm tự dựng thành cổng:
-admit khi cận dưới của khoảng 95% hai phía (z = 1,96) lớn hơn 0. XRepoSkill không dùng nó làm ngưỡng.</li>
-<li><b>Mức nhiễu khi chạy lại.</b> Với cỡ mẫu n, phân vị 97,5% của trị tuyệt đối chênh lệch tỉ lệ giải giữa hai lần
+<h4><li><b>Mantel–Haenszel (XRepoSkill).</b></h4> Hiệu tỉ lệ giải gộp theo tầng (mỗi task một tầng). Nhóm tự dựng thành cổng:
+admit khi cận dưới của khoảng 95% hai phía (z = 1,96) lớn hơn 0. XRepoSkill không dùng nó làm ngưỡng.</li></h4>
+<h4><li><b>Mức nhiễu khi chạy lại.</b></h4> Với cỡ mẫu n, phân vị 97,5% của trị tuyệt đối chênh lệch tỉ lệ giải giữa hai lần
 chạy không skill, lấy mẫu lại từ 257 task.</li>
-<li><b>ρ (SWE-Skills-Bench).</b> Trung bình hiệp phương sai của tác dụng skill giữa các cặp cấu hình chia cho trung
+<h4><li><b>ρ (SWE-Skills-Bench).</b></h4> Trung bình hiệp phương sai của tác dụng skill giữa các cặp cấu hình chia cho trung
 bình phương sai trong mỗi cấu hình (98 skill chung, 4 cấu hình).</li>
 </ul>
 
@@ -187,14 +209,15 @@ chấm), skill không liên quan cùng độ dài ±5% byte (cho nội dung), l�
 <div class="tbl"><table>
 <caption>Tỉ lệ admit một skill không có tác dụng, trên 10.000 luồng A/A, mỗi luồng
 200 trial, lấy mẫu lại từ 221 task thật của E1 và E2</caption>
-<tr><th>Quy tắc</th><th>Tỉ lệ admit nhầm</th></tr>
-<tr><td>So sánh một lần với ngưỡng (plug-in)</td><td class=n><span class=bad>0,46</span></td></tr>
-<tr><td>Như trên, xem mỗi 10 trial</td><td class=n><span class=bad>0,80</span></td></tr>
-<tr><td>Mantel–Haenszel của XRepoSkill (nhóm tự chuyển thành cổng), một lần</td><td class=n>0,03</td></tr>
-<tr><td>Như trên, xem nhiều lần</td><td class=n><span class=bad>0,11</span></td></tr>
-<tr><td>Luật nhận đề xuất của GEPA (minibatch 3), trên mỗi đề xuất không đổi gì</td><td class=n><span class=bad>0,14</span></td></tr>
-<tr><td><b>Gatekeeper</b></td><td class=n><span class=ok>0,0032</span></td></tr>
+<tr><th>Quy tắc</th><th>Tỉ lệ admit nhầm<th>Ý nghĩa</th></tr>
+<tr><td>So sánh một lần với ngưỡng (plug-in)</td><td class=n><span class=bad>0,46</span></td><td>Dễ nhầm nhiễu với hiệu quả</td></tr>
+<tr><td>So sánh với ngưỡng (plug-in), xem mỗi 10 trial</td><td class=n><span class=bad>0,80</span></td><td>Rủi ro tăng khi kiểm tra lặp</td></tr>
+<tr><td>Mantel–Haenszel của XRepoSkill (nhóm tự chuyển thành cổng), một lần</td><td class=n>0,03</td><td>Thấp hơn trong thiết lập này</td></tr>
+<tr><td>Mantel–Haenszel của XRepoSkill (nhóm tự chuyển thành cổng), xem nhiều lần</td><td class=n><span class=bad>0,11</span></td><td>Tăng khi theo dõi lặp</td></tr>
+<tr><td>Luật nhận đề xuất của GEPA (minibatch 3), trên mỗi đề xuất không đổi gì</td><td class=n><span class=bad>0,14</span></td><td>Có thể chấp nhận proposal không thay đổi gì</td></tr>
+<tr><td><b>Gatekeeper</b></td><td class=n><span class=ok>0,0032</span></td><td><strong>Tỷ lệ admit nhầm thấp trong mô phỏng</strong></td></tr>
 </table></div>
+<div class="box green" style="background-color: #e8f5e9;"><b>Chú ý:</b> 0,0032 = 0,32%, không phải 0,0032%. Đây là tỷ lệ admit nhầm trong 10.000 luồng mô phỏng A/A, không phải tỷ lệ lỗi thực tế của mọi hệ thống coding agent.</div>
 <ul>
 <li><b>Bộ chấm của pipeline:</b> bản vá không đổi gì qua bộ chấm L ở 206/216 task trên
 5 repo SWE-smith; bộ chấm S: 0. Trên bản vá thật của agent (Jinja, có skill): L báo
@@ -237,15 +260,20 @@ trên cùng 100 task): Jinja 0,17 [0,06; 0,28], khoảng 45%; Bleve 0,13 [0,03; 
 commit “Bug Patch” (34/34). Bộ học tự đưa chỉ dẫn này vào skill: skill khởi đầu rỗng, và
 prompt của gskill không nhắc tới lịch sử hay commit.</li>
 </ul>
+<div class="box amber"><b>Không nên nói:</b> “45% hiệu quả của skill là giả.”<br><b>Nên nói:</b> “Khoảng 45% mức tăng bị giảm trong phép thử thay lịch sử; đây là cận trên của ảnh hưởng lịch sử, vì thí nghiệm loại bỏ toàn bộ lịch sử Git chứ không chỉ commit gây lỗi.”</div>
 <h3>Phần còn lại là tác dụng thật</h3>
+<table><tr><th>Thí nghiệm</th><th>Điều thay đổi</th><th>Mức tăng còn lại</th></tr><tr><td>Single-commit</td><td>Thay lịch sử Git trong môi trường</td><td>21 điểm %</td></tr><tr><td>Skill ablation</td><td>Xóa riêng chỉ dẫn Git khỏi skill</td><td>23 điểm %</td></tr></table>
+<div class="formula">0,23 − 0,21 = 0,02; 95% CI [−0,08; 0,12]</div>
 <ul>
 <li>Ba đường độc lập cho cùng kết luận: bỏ lịch sử (Jinja 0,21 [0,13; 0,29]), bỏ chỉ dẫn git (0,23 [0,14; 0,32]),
 và hai mức này chênh nhau 0,02 [−0,08; 0,12].</li>
 <li>Nội dung, không phải độ dài: một skill không liên quan cùng độ dài giải 24 task; tác dụng của nội dung
 0,29 [0,18; 0,40] (p = 2,4·10<sup>−6</sup>); tác dụng của riêng độ dài 0,09 [0,0000; 0,18], không có ý nghĩa ở α = 0,025 (p = 0,09, hai phía).</li>
 </ul>
-
+<p>Khoảng tin cậy chứa 0 nên chưa có bằng chứng hai mức tăng còn lại khác nhau rõ rệt. Hai cách kiểm tra độc lập cho kết quả tương thích, củng cố cách giải thích về vai trò của chỉ dẫn Git nhưng không xác định chính xác đóng góp của từng instruction còn lại.</p>
 <h2 id="rq3">7. RQ3: Chuyển giao sang phạm vi khác</h2>
+<table><tr><th>Chỉ số</th><th>Kết quả</th></tr><tr><td>Không skill</td><td>5/100</td></tr><tr><td>Có skill</td><td>6/100</td></tr><tr><td>Chênh lệch</td><td>1 task</td></tr><tr><td>95% CI</td><td>[−0,02; 0,05]</td></tr><tr><td>p-value</td><td>1,00</td></tr><tr><td>Gatekeeper</td><td>Không admit</td></tr></table>
+<p>Skill Jinja được chứng nhận ở Jinja nhưng chưa có bằng chứng đủ mạnh về cải thiện ở Pygments. Admission phải gắn với scope. Vì tỷ lệ giải quyết nền thấp, không nên kết luận skill chắc chắn gây hại hoặc chắc chắn không thể chuyển giao.</p></section>
 <ul>
 <li><b>Đổi môi trường:</b> cùng skill, cùng task, mức tăng 0,38 hay 0,21 tùy lịch sử repo.</li>
 <li><b>Đổi repo:</b> skill Jinja trên 100 task Pygments: 5 so với 6, b/c = 2/1,
