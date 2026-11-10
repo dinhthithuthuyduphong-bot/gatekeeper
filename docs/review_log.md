@@ -802,4 +802,6 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - `scripts/s30_analysis.py`: thử trên lượt học gốc cho 5/9 ứng viên có dòng lịch sử và 1 dòng ở skill trả về, khớp số đếm tay.
 - **Theo §4:** trần lấy từ chi phí đo của lượt cùng cấu hình (L53); nhánh ghép cặp chạy cùng lúc; quy tắc văn bản cố định từ §29; mỗi câu tuyệt đối sẽ có phép đếm (L52).
 - **Rủi ro đã nêu:** một lượt học mỗi điều kiện.
-- **Chạy thử miễn phí:** ghi bên dưới khi xong.
+- **Chạy thử miễn phí: đạt.**
+  - Bước học (run 42774115077, `--smoke-test`, model giả lập): 20 lượt chạy agent, 3 lời gọi reflection, `leak_free_rewrites_ok` = 20 (mỗi lượt chạy agent một lần viết lại), vòng GEPA chạy hết, có `summary.json`.
+  - Bước chấm (model giả lập, 2 task): nhánh A và B có `leak_free` = true và dòng kiểm đạt ở mọi task; nhánh C chạy môi trường gốc trên task không có mô tả; trần 1,75 / 2,25 / 1,00; file mang tiền tố `s30dry`.
