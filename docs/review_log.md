@@ -814,3 +814,9 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - Bộ chấm dùng nguyên văn (SWE-smith `run_evaluation`, gskill `verify_with_patch`).
 - **Trần:** 0,018 USD × số task + 0,30, theo chi phí đo ở chính lần chấm đầu (A107).
 - **Chạy thử miễn phí** (`dryrun=true`) để kiểm lệnh shell trước khi chạy có phí.
+
+## R-61. Paper: thêm kết quả §30 (2026-11-10, 0 USD)
+
+- **Mã:** `scripts/make_numbers.py` thêm khối §30, đọc `results/s30_analysis.json` và `results/s30_learn_summary_h2.json`. Khối này kèm danh sách đối chiếu với số đã ghi trong bản đăng ký (33/16, b/c 20/3, admit 65, 0/8 ứng viên, 609 metric call, 1/34, 2/34; 0 lỗi hạ tầng). Một số lệch thì script dừng.
+- **Kiểm:** chạy lại `make_numbers.py` (worktree `origin/trial`, rows lấy từ nhánh `data-snapshots`). `paper/numbers.tex` chỉ có 25 dòng mới; mọi số cũ không đổi. Mọi macro `\nclean*` dùng trong `main.tex` đều có định nghĩa.
+- **Paper:** thêm vào tóm tắt, phần mở đầu, đóng góp, danh sách đối chứng, bảng RQ2 (dòng ‡) và đoạn "Removing the leak while learning". Mục nói Gatekeeper trong vòng học có thêm một câu. Mục mối đe dọa có thêm "One learning run per condition". Nhánh C chỉ được báo là mô tả, như đã đăng ký (R5): không có kiểm định nào được thêm.

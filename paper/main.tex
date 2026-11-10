@@ -44,7 +44,11 @@ in-scope gain, comes from the leak; on the \njinjaNoPSTasks{} tasks without an i
 skill's whole gain disappears (it solves \njinjaNoPSn{} of them with the history and \njinjaNoPSLF{}
 without). The remaining gain is real and is still
 admitted, after \njinjaLFAdmit{} tasks; deleting only the history instruction from the skill, in the
-original environment, leaves a gain of the same size (\nabNone{} to \nabSkill{} resolved). Prompt
+original environment, leaves a gain of the same size (\nabNone{} to \nabSkill{} resolved). Rerunning
+the learner itself with the history removed from every learning container yields a skill with no
+history instruction (in none of its \ncleanCandNonEmpty{} rewrites); it raises the resolved count from
+\ncleanNone{} to \ncleanSkill{}, is admitted after \ncleanAdmit{} tasks, and, moved into the original
+environment, solves \ncleanShipSolved{} of the \ncleanShipN{} tasks without a description. Prompt
 length does not explain it: an irrelevant skill
 of the same length resolves \nplcS{} tasks, against \njinjaNone{} without a skill and \njinjaSkill{} with
 the learned one. In the traces of all \ntrTasks{} Jinja tasks without
@@ -103,7 +107,12 @@ same leak removes the original code from the history~\cite{debuggym_swesmith_git
 solved \njinjaNoPSn{} tasks with the leak and \njinjaNoPSLF{} without it; on the tasks that do have a
 description, the gain changes from \njinjaWithPSGain{} to \njinjaWithPSLFGain{} tasks. The
 rest of the gain is not explained by the leak: Gatekeeper still admits the skill without it, after
-\njinjaLFAdmit{} rather than \njinjaAdmit{} tasks. A skill learned in the same way for a Go
+\njinjaLFAdmit{} rather than \njinjaAdmit{} tasks. Closing the leak while learning, instead of
+only while evaluating, removes the instruction at its source: rerun with every learning container
+reduced to a single commit, gskill wrote no line about commits or history in any of its
+\ncleanCandNonEmpty{} kept rewrites, and the skill it returned is certified (\ncleanNone{} to
+\ncleanSkill{}, admitted after \ncleanAdmit{} tasks) with a gain no different from the genuine part of
+the original skill's (difference \ncleanVsOrig{} [\ncleanVsOrigLo{}, \ncleanVsOrigHi{}]). A skill learned in the same way for a Go
 repository (Bleve) repeats the pattern: its text again advises reading recent commits when the issue
 is vague, it raises the resolved count from \nbleveNone{} to \nbleveSkill{} (\nbleveGain{}
 [\nbleveGainLo{}, \nbleveGainHi{}]; admitted after \nbleveAdmit{} tasks), and on tasks without a
@@ -159,8 +168,9 @@ it; gskill's scorer would report \npygLSkill{} against \npygLNone{}, a gain of \
         task without an issue description (\ntrBugPatch{} of \ntrTasks{} traces), and that the
         leak accounts for \nleak{} [\nleakLo{}, \nleakHi{}] of the Jinja gain and \nbleveLeak{}
         [\nbleveLeakLo{}, \nbleveLeakHi{}] of the Bleve gain; deleting the instruction from the skill
-        instead of the history from the environment gives the same remaining gain
-        (Section~\ref{sec:rq2}).
+        instead of the history from the environment gives the same remaining gain, and learning
+        with the history removed produces a certified skill without the instruction that does not
+        exploit the leak when moved back into the original environment (Section~\ref{sec:rq2}).
   \item Evidence that the certification is specific to its scope: the gain changes with the
         environment's history and
         vanishes on another repository; across four published agent--model
@@ -352,7 +362,8 @@ is absent.
   \item \emph{Length-matched irrelevant skill}: a skill unrelated to the repository whose length is
         in bytes within $\pm5\%$ of the learned skill's~\cite{webdev_skills_bench_2026}.
   \item \emph{Single-commit history}: the repository history replaced by one commit holding the
-        buggy tree~\cite{debuggym_swesmith_git_fix}; nothing else changes.
+        buggy tree~\cite{debuggym_swesmith_git_fix}; nothing else changes. Applied to the
+        evaluation, and, in a separate registered run, to every container of the learning loop.
 \end{itemize}
 
 \paragraph{Analysis}
@@ -449,6 +460,7 @@ source; this says nothing about MemGovern with its own harness and model.
 the skill. Gain with task-level 95\% bootstrap interval; ``admit'' is the number of tasks after
 which Gatekeeper's e-process first reaches $1/\alpha=40$ ($\theta=0$, $\alpha=0.025$); ``--'': not
 admitted within the 100 tasks. $^{\dagger}$The Jinja skill without its history instruction.
+$^{\ddagger}$A Jinja skill re-learned with the single-commit history in every learning container.
 $^{*}$The Jinja skill reused verbatim on Pygments (Python);
 Jinja is Python, Bleve is Go.}
 \label{tab:rq2}
@@ -459,7 +471,8 @@ Jinja & as shipped & \njinjaNone & \njinjaSkill & \njinjaGain{} [\njinjaGainLo, 
 Jinja & single commit & \njinjaLFNone & \njinjaLFSkill & \njinjaLFGain{} [\njinjaLFGainLo, \njinjaLFGainHi] & \njinjaLFAdmit\\
 Bleve & as shipped & \nbleveNone & \nbleveSkill & \nbleveGain{} [\nbleveGainLo, \nbleveGainHi] & \nbleveAdmit\\
 Bleve & single commit & \nbleveLFNone & \nbleveLFSkill & \nbleveLFGain{} [\nbleveLFGainLo, \nbleveLFGainHi] & \nbleveLFAdmit\\
-Jinja$^{\dagger}$ & as shipped & \nabNone & \nabSkill & \nabGain{} [\nabGainLo, \nabGainHi] & \nabAdmit\\\midrule
+Jinja$^{\dagger}$ & as shipped & \nabNone & \nabSkill & \nabGain{} [\nabGainLo, \nabGainHi] & \nabAdmit\\
+Jinja$^{\ddagger}$ & single commit & \ncleanNone & \ncleanSkill & \ncleanGain{} [\ncleanGainLo, \ncleanGainHi] & \ncleanAdmit\\\midrule
 Pygments$^{*}$ & as shipped & \npygNone & \npygSkill & \npygGain{} [\npygGainLo, \npygGainHi] & --\\\bottomrule
 \end{tabular}
 \end{table}
@@ -534,6 +547,30 @@ share measured with the history removed. Without the instruction, the agent stil
 \texttt{git log} or \texttt{git show} on its own in \nabTrGit{} of \nabTrRuns{} runs and saw the
 ``Bug Patch'' commit in \nabTrBug{}.
 
+\paragraph{Removing the leak while learning}
+The two controls above change the skill or the environment after learning. A third, registered
+test changes the learning itself. We reran gskill's loop with exactly the settings of the original
+Jinja run (two halves, \ncleanCalls{} metric calls in total, the same split, agent and reflection
+models) and one difference: right after gskill sets up each task container, its history is reduced
+to the single commit used above. Each of the \ncleanRewrites{} rewrites was checked (one commit, one
+reference, no remote, no object carrying the bug-injecting message), and a failed check would have
+stopped the run. The loop still optimised gskill's own scorer $L$. In this run, none of the
+\ncleanCandNonEmpty{} non-empty rewrites the loop kept contains a line about commits or history
+(against \ncandHist{} of \ncandNonEmpty{} in the original run), and the returned skill
+(\ncleanBytes{} bytes) does not contain the word ``git''. Evaluated in the single-commit
+environment, the skill resolves \ncleanSkill{} tasks against \ncleanNone{} ($b/c=\ncleanB/\ncleanC$,
+$p=\ncleanP$, one-sided), a gain of \ncleanGain{} [\ncleanGainLo{}, \ncleanGainHi{}], and Gatekeeper
+admits it after \ncleanAdmit{} tasks; under $L$ the counts are \ncleanLSkill{} against
+\ncleanLNone{}. Its gain differs from the original skill's gain in the same environment
+(\njinjaLFGain{}) by \ncleanVsOrig{} [\ncleanVsOrigLo{}, \ncleanVsOrigHi{}]; the two arms of that
+comparison ran on different days. Moved into the original environment, where the bug-injecting
+commit is present, the new skill solves \ncleanShipSolved{} of the \ncleanShipN{} tasks without a
+description, against \njinjaNoPSn{} for the original skill, \nabNoPS{} for the original skill
+without its instruction and \njinjaNoPSNoneBase{} without a skill; the agent ran \texttt{git log}
+or \texttt{git show} in \ncleanShipGit{} of these runs and saw the ``Bug Patch'' commit in
+\ncleanShipBug{}. Each condition has one learning run, and GEPA is stochastic: the absence of the
+instruction is an observation on this run, not an estimated rate.
+
 \paragraph{It is the content of the skill, not its length}
 A longer prompt could help by itself. Following the length-matched irrelevant-skill control of
 WebDev-Skills-Bench~\cite{webdev_skills_bench_2026}, we replaced the learned skill (2{,}681 bytes)
@@ -587,7 +624,9 @@ three, that is $\njinjaAdmit/3$ to $\nbleveLFAdmit/3$ times as many metric calls
 rewrite. It would not, by itself,
 have rejected the leak-seeking instruction, because in the learning environment that instruction
 does raise the resolved count. Only a control in which the claimed cause is absent, here the
-single-commit history, separates the leak from the skill.
+single-commit history, separates the leak from the skill. Applied to the learning environment
+rather than to the evaluation, the same control removed the instruction before it was written and
+left a skill that is certified with a gain of the same size as the genuine part of the original.
 
 \section{Threats to Validity}\label{sec:threats}
 \paragraph{One model family}
@@ -606,6 +645,11 @@ arm were run again later the same day after the run stopped at its cost cap, so 
 arms did not run at the same time. The single-commit history also removes the repository's real history,
 so the leak-free environment is not a real repository either; we did not test a history that keeps
 the real commits and drops only the bug-injecting one.
+\paragraph{One learning run per condition}
+Each skill comes from one run of gskill's stochastic loop; we did not repeat the learning, so the
+difference between the original and the re-learned Jinja skill cannot be separated from the
+variation between learning runs, and we report the presence or absence of the history instruction
+as an observation, not a rate.
 \paragraph{One leak channel}
 We measured one leak channel, the bug-injecting commit in the history. Other channels, such as
 artefacts in the image, file names or timestamps, were not probed, and the single-commit control

@@ -666,6 +666,57 @@ def main() -> int:
         if N[k] != v:
             print("MISMATCH", k, N[k], v)
             return 1
+    # section 30: skill re-learned with every learning container reduced to one commit
+    s30 = load(Path("results/s30_analysis.json"))
+    s30l = load(Path("results/s30_learn_summary_h2.json"))["extra_info"]
+    sh = s30["as_shipped_no_problem_statement"]
+    N.update(
+        {
+            "cleanSkill": s30["P30"]["skill"],
+            "cleanNone": s30["P30"]["none"],
+            "cleanB": s30["P30"]["b"],
+            "cleanC": s30["P30"]["c"],
+            "cleanP": s30["P30"]["p_one_sided"],
+            "cleanGain": s30["P30"]["gain"],
+            "cleanGainLo": s30["P30"]["boot95"][0],
+            "cleanGainHi": s30["P30"]["boot95"][1],
+            "cleanAdmit": s30["gatekeeper_admit_trial"],
+            "cleanLSkill": s30["L"]["skill"],
+            "cleanLNone": s30["L"]["none"],
+            "cleanVsOrig": s30["vs_original_skill_single_commit"]["d"],
+            "cleanVsOrigLo": s30["vs_original_skill_single_commit"]["ci95"][0],
+            "cleanVsOrigHi": s30["vs_original_skill_single_commit"]["ci95"][1],
+            "cleanHistLines": s30["skill_text"]["history_lines_in_returned_skill"],
+            "cleanCandNonEmpty": s30["skill_text"]["nonempty_candidates"],
+            "cleanCandHist": s30["skill_text"]["candidates_with_history_line"],
+            "cleanBytes": s30["skill_text"]["bytes"],
+            "cleanRewrites": s30["checks"]["learn_rewrites_ok"],
+            "cleanCalls": s30l["total_metric_calls"],
+            "cleanShipN": sh["n"],
+            "cleanShipSolved": sh["resolved"],
+            "cleanShipGit": sh["git_log_or_show"],
+            "cleanShipBug": sh["bug_patch_seen"],
+            "cleanInfra": s30["checks"]["infra_error"]
+            + s30["checks"]["crashed"]
+            + s30["checks"]["capped"],
+        }
+    )
+    for k, v in {
+        "cleanSkill": 33,
+        "cleanNone": 16,
+        "cleanB": 20,
+        "cleanC": 3,
+        "cleanAdmit": 65,
+        "cleanCandHist": 0,
+        "cleanCandNonEmpty": 8,
+        "cleanCalls": 609,
+        "cleanShipSolved": 1,
+        "cleanShipBug": 2,
+        "cleanInfra": 0,
+    }.items():
+        if N[k] != v:
+            print("MISMATCH", k, N[k], v)
+            return 1
     N["leakSharePct"] = round(100 * N["leakShare"])
     N["fzeroGoldMinPct"] = int(100 * f0["S_gold_min"])  # floor: "at least"
     for k in ("sskbOpp", "sskbRho"):
