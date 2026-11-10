@@ -643,6 +643,10 @@ def main() -> int:
     N["learnCalls"] = ls2["total_metric_calls"]
     N["learnCands"] = ls2["num_candidates"]
     N["learnValL"] = ls2["best_score"]  # gskill's validation score, lenient scorer L
+    ch = load(Path("results/s25_candidates_history.json"))  # scripts/candidates_history.py
+    N["candNonEmpty"] = ch["nonempty"]
+    N["candHist"] = ch["with_history_line"]
+    N["candFirst"] = ch["first_with_history_line"]
     rs = load(t / "rescore_jinja_summary.json")
     N["rsPatches"] = sum(v["patches"] for v in rs.values())
     N["rsScorings"] = sum(v["repeats_scored"] for v in rs.values())
@@ -653,6 +657,8 @@ def main() -> int:
         "shamProK": 5,
         "learnBudget": 600,
         "learnCalls": 606,
+        "candNonEmpty": 8,
+        "candHist": 5,
         "learnCands": 9,
         "rsScorings": 448,
         "rsFlips": 0,
@@ -668,6 +674,8 @@ def main() -> int:
         if isinstance(v, float) and v != 0 and abs(v) < 1e-3:
             m, e = f"{v:.1e}".split("e")
             s = rf"\ensuremath{{{m}\times10^{{{int(e)}}}}}"  # safe in text and in math
+        elif isinstance(v, float) and v == 0:
+            s = "0"  # an exact zero is printed as 0, not as 0.0000 (reads like a misprint)
         elif isinstance(v, float) and abs(v) < 0.01:
             s = f"{v:.4f}"
         elif isinstance(v, float):
