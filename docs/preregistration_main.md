@@ -1938,3 +1938,16 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 **Chạy thử miễn phí:** `dryrun=true` cho bước học (`--smoke-test` của gskill, model giả lập) và bước chấm (2 task, model giả lập).
 
 **Phân tích:** `scripts/s30_analysis.py`, commit trước khi có dữ liệu.
+
+### §30: kết quả bước học (run 42775517826 cho nửa 1, 42787236602 cho nửa 2)
+- **Kiểm sau khi chạy:** đạt hết.
+  - Lần viết lại lịch sử thành công: 304 (nửa 1) và 305 (nửa 2); không có mã thoát 5 hay 6.
+  - `total_metric_calls` = 609 (≥ 600).
+  - Nửa 1 có 5 ứng viên, nên chạy nửa 2; tổng 9 ứng viên.
+- **Chi bước học:** 5,138 + 5,852 = **10,990 USD** (trần 14,50; dự kiến 12,25).
+- **Skill trả về:** 3.353 ký tự, `best_score` 0,76, lưu nguyên văn ở `docs/skills/gskill/jinja_clean_best_skills.txt` (bước chấm so từng byte với `pilot-snapshots`).
+- **Câu 1 (phụ 1, phần trên skill trả về):** **0 dòng** khớp quy tắc lịch sử `commit|history|git log|git show` (`scripts/make_ablation.RULE`, §29). Skill không có chữ "git" nào. Skill gốc có 1 dòng như vậy.
+  - Số ứng viên có dòng như vậy sẽ được tính bằng `scripts/s30_analysis.py`.
+  - Theo giới hạn đã ghi trước, đây là một quan sát trên **một** lượt học, không phải ước lượng tỉ lệ.
+- **Tiếp theo:** bước chấm ba nhánh (trần 5,00 USD).
+
