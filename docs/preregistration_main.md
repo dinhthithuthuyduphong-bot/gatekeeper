@@ -1951,3 +1951,11 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - Theo giới hạn đã ghi trước, đây là một quan sát trên **một** lượt học, không phải ước lượng tỉ lệ.
 - **Tiếp theo:** bước chấm ba nhánh (trần 5,00 USD).
 
+### §30: bước chấm, lần chạy đầu (run 42808049387), chưa đủ dữ liệu
+- **A (không skill, một commit):** 80/100 task, dừng vì trần (A125); 1,455 USD; kiểm rò rỉ đạt ở mọi task.
+- **B (skill mới, một commit):** 62 lượt hợp lệ. 38 lượt bị Vertex từ chối vì project chạm trần chi tiêu (A124), mỗi lượt 0 bước, là lỗi hạ tầng. Chi 1,117 USD; kiểm rò rỉ đạt.
+- **C (skill mới, môi trường gốc, 34 task không có mô tả issue):** **34/34, đủ**; 0 lỗi; 0,346 USD.
+- **Chưa tính P30**: phép kiểm chính chỉ chạy khi A và B đủ 100/100 (`s25_ab.paired` từ chối tập task khác nhau).
+- **Chi §30 đến giờ:** học 10,990 + chấm 1,455 + 1,117 + 0,346 = **13,908 USD** (trần 20).
+- **Còn lại:** 20 task của A và 38 task của B, chạy lại sau khi trần chi tiêu của project GCP được nâng. Dự kiến 20 × 0,018 + 38 × 0,018 ≈ 1,04 USD; trần 1,7.
+

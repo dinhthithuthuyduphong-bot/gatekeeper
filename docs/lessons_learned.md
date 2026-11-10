@@ -496,3 +496,8 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   1. Workflow `paper` dừng khi `main.log` có `Overfull \hbox`.
   2. Sau mỗi lần sửa bảng, hình hay đoạn dài, build cục bộ (`latexmk`) và xem ảnh trang có thay đổi (`pdftoppm`).
   3. Bản nộp dùng `\hypersetup{hidelinks}`.
+
+## L55. Lỗi của nhà cung cấp (403, hết hạn mức, trần chi tiêu) phải được ghi là lỗi hạ tầng ngay lúc ghi (A124)
+- **Nguyên nhân gốc:** script chỉ phân biệt "crash" và "không crash". Một crash trước bước đầu tiên là do nhà cung cấp từ chối, không phải do agent, nhưng vẫn bị ghi như kết quả của agent.
+- **Phòng ngừa:** crash trước bước đầu tiên được ghi là `infra_error` (`crash_infra_reason`, có test). Lỗi hạ tầng được chạy lại, không bao giờ được tính là "không giải được" (L1).
+

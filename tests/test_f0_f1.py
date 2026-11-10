@@ -78,3 +78,16 @@ def test_tool_failures_are_infra_not_scores():
     assert f0.infra_reason(nf, {"status": "completed", "resolved": False})
     real = {"passed": False, "status": "f2p_failed", "f2p_tail": "FAILED tests/test_a.py::t"}
     assert f0.infra_reason(real, {"status": "completed", "resolved": False}) is None
+
+
+def test_crash_before_first_step_is_infrastructure():
+    import sys
+    from pathlib import Path
+
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    from f1_probe import crash_infra_reason
+
+    t = "Agent crashed: litellm.BadRequestError: Vertex_aiException 403 Spend cap breached"
+    assert "before its first step" in crash_infra_reason(t, 0)
+    assert crash_infra_reason(t, 3) is None  # the agent acted: an agent outcome
+    assert crash_infra_reason("normal trace", 0) is None

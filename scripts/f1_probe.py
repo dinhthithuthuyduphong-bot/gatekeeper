@@ -51,6 +51,14 @@ def _track(kwargs, response, start, end):  # LiteLLM success callback signature
         _spent += float(kwargs.get("response_cost") or 0.0)
 
 
+def crash_infra_reason(trace: str, steps: int) -> str | None:
+    """A crash before the agent's first step is a provider/environment failure (e.g. Vertex 403
+    "Spend cap breached"), not an agent outcome: recorded as infrastructure and re-run (A124)."""
+    if trace.startswith("Agent crashed") and steps == 0:
+        return f"agent crashed before its first step: {trace[15:200]}"
+    return None
+
+
 def make_config(gskill_yaml: Path, out: Path, cost_limit: float, model_kwargs: dict) -> Path:
     cfg = yaml.safe_load(gskill_yaml.read_text())
     cfg["agent"]["cost_limit"] = cost_limit
@@ -158,6 +166,9 @@ def main() -> int:
                 )
             rec["crashed"] = trace.startswith("Agent crashed")
             rec["crash_head"] = trace[:300] if rec["crashed"] else None
+            why = crash_infra_reason(trace, metrics.get("steps", 0))
+            if why:
+                rec["infra_error"] = why
             rec["steps"] = metrics.get("steps", 0)
             rec["patch_chars"] = len(patch)
             rec["L"] = score_lenient(inst, patch)
