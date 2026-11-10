@@ -805,3 +805,12 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Chạy thử miễn phí: đạt.**
   - Bước học (run 42774115077, `--smoke-test`, model giả lập): 20 lượt chạy agent, 3 lời gọi reflection, `leak_free_rewrites_ok` = 20 (mỗi lượt chạy agent một lần viết lại), vòng GEPA chạy hết, có `summary.json`.
   - Bước chấm (model giả lập, 2 task): nhánh A và B có `leak_free` = true và dòng kiểm đạt ở mọi task; nhánh C chạy môi trường gốc trên task không có mô tả; trần 1,75 / 2,25 / 1,00; file mang tiền tố `s30dry`.
+
+## R-60. §30 chạy bù (A124, A125), 10/11/2026, trước khi chạy; trần 1,70 USD (@thuthuy: "duyệt trần")
+- **Mã:** nhánh `evalrest` của bước chấm §30 chạy song song hai lệnh `f1_probe.py`, cùng cấu hình với lần chấm đầu:
+  - không skill, `--leak-free`, `--skip-done results/s30_none.json`, trần 0,70 (20 task);
+  - skill mới, `--leak-free`, cùng file skill đã so từng byte, `--skip-done results/s30_skill_valid.json`, trần 1,00 (38 task).
+- `results/s30_skill_valid.json` chỉ chứa 62 lượt hợp lệ, nên 38 lượt bị nhà cung cấp từ chối được chạy lại.
+- Bộ chấm dùng nguyên văn (SWE-smith `run_evaluation`, gskill `verify_with_patch`).
+- **Trần:** 0,018 USD × số task + 0,30, theo chi phí đo ở chính lần chấm đầu (A107).
+- **Chạy thử miễn phí** (`dryrun=true`) để kiểm lệnh shell trước khi chạy có phí.

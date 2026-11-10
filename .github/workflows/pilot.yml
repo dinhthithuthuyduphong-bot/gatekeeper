@@ -65,7 +65,7 @@ on:
         required: true
         default: "none"
         type: choice
-        options: ["none", "skill", "placebo", "trace34", "trace34b", "pair", "skillb", "skillc", "learn", "eval"]
+        options: ["none", "skill", "placebo", "trace34", "trace34b", "pair", "skillb", "skillc", "learn", "eval", "evalrest"]
       dryrun:
         description: "swesmith-s27 only: true = scripted model (0 USD) on the first task of each arm"
         required: false
@@ -445,14 +445,18 @@ jobs:
           # exit 5 = money cap, 6 = a history rewrite failed: both must fail the job (after the state is saved)
           [ "$rc" = "0" ] || exit "$rc"
       - name: Section 30 eval (the skill learned without the leak; three arms at the same time, capped)
-        if: inputs.plan == 'swesmith-s30' && inputs.arm == 'eval'
+        if: inputs.plan == 'swesmith-s30' && (inputs.arm == 'eval' || inputs.arm == 'evalrest')
         run: |
           # Caps = measured spend of the matching earlier arm + one worst run (0.30), A107/A108/L53:
           #   none, single commit: 1.46 -> 1.75; skill, single commit: 1.87 -> 2.25;
           #   skill, as shipped, 34 tasks without a problem statement: 0.75 -> 1.00 (total 5.00).
           [ "${{ inputs.repo }}" = "jinja" ] || { echo "section 30 is registered for jinja only"; exit 1; }
           mkdir -p /tmp/work results && cd /tmp/work
-          python -c "import sys; sys.exit(0 if float('${{ inputs.budget_usd }}') >= 5.0 else 'budget_usd must cover the three caps (5.00)')"
+          if [ "${{ inputs.arm }}" = "eval" ]; then
+            python -c "import sys; sys.exit(0 if float('${{ inputs.budget_usd }}') >= 5.0 else 'budget_usd must cover the three caps (5.00)')"
+          else
+            python -c "import sys; sys.exit(0 if float('${{ inputs.budget_usd }}') >= 1.7 else 'budget_usd must cover the two re-run caps (1.70)')"
+          fi
           SK="$GITHUB_WORKSPACE/docs/skills/gskill/jinja_clean_best_skills.txt"
           PFX=s30; MOCK=()
           if [ "${{ inputs.dryrun }}" = "true" ]; then  # free: scripted model; first test task and first one without a problem statement
@@ -484,6 +488,17 @@ jobs:
               --gskill-yaml /tmp/gepa/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml \
               --out "$GITHUB_WORKSPACE/results/$out" "${MOCK[@]}"
           }
+          if [ "${{ inputs.arm }}" = "evalrest" ]; then
+            # A124/A125: the 20 none tasks the capped run did not reach and the 38 skill tasks the provider
+            # rejected (spend cap); same configuration; caps = 0.018 USD x tasks + 0.30 (@thuthuy 10/11: 1.70)
+            mkdir -p /tmp/work/none /tmp/work/skill
+            (cd /tmp/work/none && run_probe ${PFX}_none_rest.json 0.70 --leak-free \
+               --skip-done "$GITHUB_WORKSPACE/results/s30_none.json") > /tmp/none.log 2>&1 & p1=$!
+            (cd /tmp/work/skill && run_probe ${PFX}_skill_rest.json 1.00 --leak-free --skills-file "$SK" \
+               --skip-done "$GITHUB_WORKSPACE/results/s30_skill_valid.json") > /tmp/skill.log 2>&1 & p2=$!
+            rc=0; wait $p1 || rc=1; wait $p2 || rc=1
+            tail -n 3 /tmp/none.log /tmp/skill.log; exit $rc
+          fi
           mkdir -p /tmp/work/none /tmp/work/skill /tmp/work/shipped
           (cd /tmp/work/none && run_probe ${PFX}_none.json 1.75 --leak-free) > /tmp/none.log 2>&1 & p1=$!
           (cd /tmp/work/skill && run_probe ${PFX}_skill.json 2.25 --leak-free --skills-file "$SK") > /tmp/skill.log 2>&1 & p2=$!
