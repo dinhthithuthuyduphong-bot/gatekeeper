@@ -1316,20 +1316,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: -8754417071623900556\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\n",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 24,
+   "patch_chars": 1606,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
     "resolved": false,
-    "status": "no_patch"
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.005261749999999843
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex 5933bcd..7131113 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -647,8 +647,10 @@ class Parser:\n         token = self.stream.current\n         node: nodes.Expr\n         if token.type == \"name\":\n-            if token.value in (\"true\", \"false\", \"True\", \"False\", \"none\", \"None\"):\n+            if token.value in (\"true\", \"false\", \"True\", \"False\"):\n                 node = nodes.Const(token.value in (\"true\", \"True\"), lineno=token.lineno)\n+            elif token.value in (\"none\", \"None\"):\n+                node = nodes.Const(None, lineno=token.lineno)\n             else:\n                 node = nodes.Name(token.value, \"load\", lineno=token.lineno)\n             next(self.stream)\n@@ -656,12 +658,12 @@ class Parser:\n             next(self.stream)\n             buf = [token.value]\n             lineno = token.lineno\n-            node = nodes.Const(\"\".join(reversed(buf)), lineno=lineno)\n             while self.stream.current.type == \"string\":\n                 buf.append(self.stream.current.value)\n                 next(self.stream)\n             node = nodes.Const(\"\".join(buf), lineno=lineno)\n         elif token.type in (\"integer\", \"float\"):\n+            next(self.stream)\n             node = nodes.Const(token.value, lineno=token.lineno)\n         elif token.type == \"lparen\":\n             next(self.stream)\n@@ -674,7 +676,6 @@ class Parser:\n         else:\n             self.fail(f\"unexpected {describe_token(token)!r}\", token.lineno)\n         return node\n-\n     def parse_tuple(\n         self,\n         simplified: bool = False,\n",
+   "cost_usd": 0.02297085
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__eoeu3emx",
@@ -1337,20 +1337,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 7344503116682144178\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 20,
+   "patch_chars": 555,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
-    "resolved": false,
-    "status": "no_patch"
+    "resolved": true,
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/idtracking.py b/src/jinja2/idtracking.py\nindex e87dd7a..437f671 100644\n--- a/src/jinja2/idtracking.py\n+++ b/src/jinja2/idtracking.py\n@@ -299,7 +299,8 @@ class FrameSymbolVisitor(NodeVisitor):\n \n     def visit_FilterBlock(self, node: nodes.FilterBlock, **kwargs: t.Any) -> None:\n         kwargs.pop('extra', None)\n-        self.visit(node, **kwargs)\n+        for child in node.body:\n+            self.visit(child, **kwargs)\n \n     def visit_With(self, node: nodes.With, **kwargs: t.Any) -> None:\n         for target in node.values:\n",
+   "cost_usd": 0.019010600000000002
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__4ekjbplc",
@@ -1358,20 +1358,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 7011475017424408423\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 14,
+   "patch_chars": 704,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
-    "resolved": false,
-    "status": "no_patch"
+    "resolved": true,
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex 4720587..e9d4db5 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -920,9 +920,7 @@ class Parser:\n     def parse_call(self, node: nodes.Expr) -> nodes.Call:\n         token = self.stream.current\n         args, kwargs, dyn_args, dyn_kwargs = self.parse_call_args()\n-        dyn_kwargs, dyn_args = dyn_args, dyn_kwargs\n-        return nodes.Call(node, kwargs, args, dyn_args, dyn_kwargs, lineno=token.lineno)\n-\n+        return nodes.Call(node, args, kwargs, dyn_args, dyn_kwargs, lineno=token.lineno)\n     def parse_filter(\n         self, node: t.Optional[nodes.Expr], start_inline: bool = False\n     ) -> t.Optional[nodes.Expr]:\n",
+   "cost_usd": 0.009912550000000006
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.combine_module__yo6160eg",
@@ -1379,9 +1379,9 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 2657328368992809700\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
    "patch_chars": 0,
    "L": {
     "passed": false,
@@ -1392,7 +1392,7 @@
     "status": "no_patch"
    },
    "patch": "",
-   "cost_usd": 0.0
+   "cost_usd": 0.004290000000000002
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.combine_file__vqa91owm",
@@ -1400,9 +1400,9 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 7011475017424408423\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
    "patch_chars": 0,
    "L": {
     "passed": false,
@@ -1413,7 +1413,7 @@
     "status": "no_patch"
    },
    "patch": "",
-   "cost_usd": 0.0
+   "cost_usd": 0.0035595
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__dp2uo0l5",
@@ -1421,20 +1421,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: -8693787225407420123\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\n",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 514,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
-    "resolved": false,
-    "status": "no_patch"
+    "resolved": true,
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex 8b56d31..91720c5 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -609,7 +609,7 @@ class CodeGenerator(NodeVisitor):\n         return async_value if self.environment.is_async else sync_value\n \n     def func(self, name: str) -> str:\n-        return f\"{self.choose_sync()}abc {name}\"\n+        return f\"{self.choose_async()}def {name}\"\n \n     def macro_body(\n         self, node: t.Union[nodes.Macro, nodes.CallBlock], frame: Frame\n",
+   "cost_usd": 0.004068499999999996
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__4gem8lhj",
@@ -1442,20 +1442,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: -5431133254366245525\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\n",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 507,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
     "resolved": false,
-    "status": "no_patch"
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex dee0019..c3c3580 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -1972,5 +1972,4 @@ class CodeGenerator(NodeVisitor):\n         self.visit_EvalContextModifier(node, frame)\n         for child in node.body:\n             self.visit(child, frame)\n-        frame.eval_ctx.revert(old_ctx_name)\n-        self.writeline(f\"context.eval_ctx.revert({saved_ctx})\")\n+        self.writeline(f'context.eval_ctx.revert({old_ctx_name})')\n",
+   "cost_usd": 0.009117
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__eitsujxz",
@@ -1463,20 +1463,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: -7052461305776741071\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\n",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 27,
+   "patch_chars": 1236,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
     "resolved": false,
-    "status": "no_patch"
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex 91720c5..b46cce6 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -798,9 +798,8 @@ class CodeGenerator(NodeVisitor):\n             name = next(iter(vars))\n             ref = frame.symbols.ref(name)\n             if frame.loop_frame:\n-                self.writeline(f\"_loop_vars[{name!r}] = {ref}\")\n+                self.writeline(f'_loop_vars[{name!r}] = {ref}')\n                 return\n-            if frame.block_frame:\n                 self.writeline(f\"_block_vars[{name!r}] = {ref}\")\n                 return\n             self.writeline(f\"context.vars[{name!r}] = {ref}\")\n@@ -1574,6 +1573,12 @@ class CodeGenerator(NodeVisitor):\n         if frame.require_output_check:\n             self.outdent()\n \n+    def dump_local_names(self, frame: Frame) -> str:\n+        locals = {n: self.get_var_name(n) for n in frame.symbols.iter_locals()}\n+        if frame.symbols.find_load('loop') is not None:\n+            locals['loop'] = 'loop'\n+        return f\"{{' + ', '.join(f'{n!r}: {v}' for n, v in locals.items()) + '}}\"\n+\n     def visit_Assign(self, node: nodes.Assign, frame: Frame) -> None:\n         self.push_assign_tracking()\n         self.newline(node)\n",
+   "cost_usd": 0.04749789999999998
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.combine_file__wcqv4idg",
@@ -1484,9 +1484,9 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: -3314286409570798574\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\n",
-   "steps": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
    "patch_chars": 0,
    "L": {
     "passed": false,
@@ -1497,7 +1497,7 @@
     "status": "no_patch"
    },
    "patch": "",
-   "cost_usd": 0.0
+   "cost_usd": 0.008173749999999994
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.combine_file__1yn8jahd",
@@ -1505,9 +1505,9 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: -4348540724619305993\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\n",
-   "steps": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
    "patch_chars": 0,
    "L": {
     "passed": false,
@@ -1518,7 +1518,7 @@
     "status": "no_patch"
    },
    "patch": "",
-   "cost_usd": 0.0
+   "cost_usd": 0.014190500000000023
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__2k7bskfs",
@@ -1526,20 +1526,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 4582546049727173391\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 882,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
-    "resolved": false,
-    "status": "no_patch"
+    "resolved": true,
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex f15ab5c..1b10be0 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -221,11 +221,12 @@ class Node(metaclass=NodeType):\n         \"\"\"Set the line numbers of the node and children.\"\"\"\n         todo = deque([self])\n         while todo:\n-            node = todo.pop()  # Changed from popleft to pop\n+            node = todo.pop()\n             if \"lineno\" in node.attributes:\n-                if node.lineno is not None and not override:  # Reversed condition logic\n+                if node.lineno is None or override:\n                     node.lineno = lineno\n-            todo.extendleft(node.iter_child_nodes())  # Changed from extend to extendleft\n+            todo.extend(node.iter_child_nodes())\n+        return self\n         return self\n \n     def set_environment(self, environment: \"Environment\") -> \"Node\":\n",
+   "cost_usd": 0.0100412
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__cnlzptav",
@@ -1547,20 +1547,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: -2508974579447450711\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\n",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 25,
+   "patch_chars": 703,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
     "resolved": false,
-    "status": "no_patch"
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex 36d092f..231dc55 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -555,16 +555,12 @@ class LoopContext:\n \n     def __iter__(self) -> \"LoopContext\":\n         return self\n-\n     def __next__(self) -> t.Tuple[t.Any, \"LoopContext\"]:\n-        if self._after is not missing:\n-            rv = self._before\n-            self._after = missing\n-        else:\n-            rv = self._current\n-\n-        self.index0 -= 1\n+        self.index0 += 1\n+        rv = next(self._iterator)\n         self._current = rv\n+        return rv, self\n+        return self, rv\n         self._before = next(self._iterator)\n         return self, rv\n \n",
+   "cost_usd": 0.020652874999999987
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__8jqh6spy",
@@ -1568,20 +1568,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: -5444508812782371467\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\n",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 445,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
-    "resolved": false,
-    "status": "no_patch"
+    "resolved": true,
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex f5ab092..0b303d5 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -1660,7 +1660,7 @@ class TemplateStream:\n         self._next = partial(next, self._buffered_generator(size))\n \n     def __iter__(self) -> \"TemplateStream\":\n-        return iter([])\n+        return self\n \n     def __next__(self) -> str:\n         return self._next()  # type: ignore\n",
+   "cost_usd": 0.008511000000000019
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__0dk3n3w5",
@@ -1589,9 +1589,9 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: -5637262295737498609\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\n",
-   "steps": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
    "patch_chars": 0,
    "L": {
     "passed": false,
@@ -1602,7 +1602,7 @@
     "status": "no_patch"
    },
    "patch": "",
-   "cost_usd": 0.0
+   "cost_usd": 0.008147999999999989
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__7whhiqbe",
@@ -1610,20 +1610,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 2432575858738507994\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 24,
+   "patch_chars": 729,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
     "resolved": false,
-    "status": "no_patch"
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/nativetypes.py b/src/jinja2/nativetypes.py\nindex d906113..9666ac4 100644\n--- a/src/jinja2/nativetypes.py\n+++ b/src/jinja2/nativetypes.py\n@@ -105,13 +105,12 @@ class NativeTemplate(Template):\n         ctx = self.new_context(dict(kwargs, *args))\n \n         try:\n-            nodes = self.root_render_func(ctx)\n+            nodes = list(self.root_render_func(ctx))\n             if len(nodes) == 1:\n                 return nodes[0]\n             return self.environment_class.concat(nodes)  # type: ignore\n         except KeyError:\n             return None\n-\n     async def render_async(self, *args: t.Any, **kwargs: t.Any) -> t.Any:\n         if not self.environment.is_async:\n             raise RuntimeError(\n",
+   "cost_usd": 0.01875172499999997
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__eo93qpjn",
@@ -1631,20 +1631,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: -4377980309817819709\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\n",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 37,
+   "patch_chars": 501,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
-    "resolved": false,
-    "status": "no_patch"
+    "resolved": true,
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/utils.py b/src/jinja2/utils.py\nindex aed3e67..5c1ff5d 100644\n--- a/src/jinja2/utils.py\n+++ b/src/jinja2/utils.py\n@@ -81,9 +81,9 @@ class _PassArg(enum.Enum):\n     @classmethod\n     def from_obj(cls, obj: F) -> t.Optional[\"_PassArg\"]:\n         if hasattr(obj, \"jinja_pass_arg\"):\n-            return obj  # type: ignore\n+            return obj.jinja_pass_arg  # type: ignore\n \n-        return cls() if obj is None else None\n+        return None\n \n \n def internalcode(f: F) -> F:\n",
+   "cost_usd": 0.030855275000000043
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.combine_module__mc9x7b9m",
@@ -1652,20 +1652,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 247611739172870389\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nTr",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 17,
+   "patch_chars": 1348,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
     "resolved": false,
-    "status": "no_patch"
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex e67380a..4f1f468 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -1283,12 +1283,21 @@ class Template:\n         \"\"\"\n         if self.environment.is_async:\n             import asyncio\n-\n-            return asyncio.run(self.render_async(*args, **kwargs))\n-\n-        ctx = self.new_context(dict(*args, **kwargs))\n+            try:\n+                loop = asyncio.get_running_loop()\n+            except RuntimeError:\n+                return asyncio.run(self.render_async(*args, **kwargs))\n+            else:\n+                # If we are in an async environment, we cannot return the string directly\n+                # because it would be a coroutine. However, the legacy API expects a string.\n+                # We raise an error to indicate that render() is not supported in this context.\n+                raise RuntimeError(\n+                    \"The template is async but you called render() within an existing \"\n+                    \"event loop. Use render_async() and await the result instead.\"\n+                )\n \n         try:\n+        ctx = self.new_context(dict(*args, **kwargs))\n             return self.environment.concat(self.root_render_func(ctx))  # type: ignore\n         except Exception:\n             self.environment.handle_exception()\n",
+   "cost_usd": 0.014190774999999989
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__bt9qngp9",
@@ -1673,20 +1673,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 6343225207722384407\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 807,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
     "resolved": false,
-    "status": "no_patch"
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex fc30434..3dc87b7 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -762,11 +762,10 @@ class Parser:\n             if items:\n                 self.stream.expect(\"comma\")\n             key = self.parse_expression()\n-            if self.stream.current.type == \"colon\":\n-                self.stream.expect(\"rbrace\")\n+            self.stream.expect('colon')\n             value = self.parse_expression()\n-            items.append(nodes.Pair(value, key, lineno=value.lineno))\n-        self.stream.expect(\"comma\")\n+            items.append(nodes.Pair(key, value, lineno=key.lineno))\n+        self.stream.expect('rbrace')\n         return nodes.Dict(items, lineno=token.lineno)\n \n     def parse_postfix(self, node: nodes.Expr) -> nodes.Expr:\n",
+   "cost_usd": 0.007177250000000024
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.combine_file__4l597y24",
@@ -1694,9 +1694,9 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 2720455989629578010\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
    "patch_chars": 0,
    "L": {
     "passed": false,
@@ -1707,7 +1707,7 @@
     "status": "no_patch"
    },
    "patch": "",
-   "cost_usd": 0.0
+   "cost_usd": 0.007633650000000047
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__cxoh4815",
@@ -1715,20 +1715,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 2720455989629578010\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 12,
+   "patch_chars": 321,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
-    "resolved": false,
-    "status": "no_patch"
+    "resolved": true,
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/tests.py b/src/jinja2/tests.py\nindex e93f455..1a59e37 100644\n--- a/src/jinja2/tests.py\n+++ b/src/jinja2/tests.py\n@@ -210,7 +210,7 @@ def test_in(value: t.Any, seq: t.Container[t.Any]) -> bool:\n \n     .. versionadded:: 2.10\n     \"\"\"\n-    return seq in value\n+    return value in seq\n \n \n TESTS = {\n",
+   "cost_usd": 0.009126250000000058
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__ab620pcx",
@@ -1736,20 +1736,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 3370715391988283410\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 26,
+   "patch_chars": 539,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
-    "resolved": false,
-    "status": "no_patch"
+    "resolved": true,
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex 82b4204..9dcc9d4 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -820,9 +820,9 @@ class Undefined:\n         name: t.Optional[str] = None,\n         exc: t.Type[TemplateRuntimeError] = UndefinedError,\n     ) -> None:\n-        self._undefined_hint = name\n+        self._undefined_hint = hint\n         self._undefined_obj = obj\n-        self._undefined_name = hint\n+        self._undefined_name = name\n         self._undefined_exception = exc\n \n     @property\n",
+   "cost_usd": 0.022519799999999923
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__0vqzq2ua",
@@ -1757,9 +1757,9 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 4821057862808350943\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
    "patch_chars": 0,
    "L": {
     "passed": false,
@@ -1770,7 +1770,7 @@
     "status": "no_patch"
    },
    "patch": "",
-   "cost_usd": 0.0
+   "cost_usd": 0.003386749999999994
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__0d7yz0v3",
@@ -1778,9 +1778,9 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: -4019388036905769329\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\n",
-   "steps": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
    "patch_chars": 0,
    "L": {
     "passed": false,
@@ -1791,7 +1791,7 @@
     "status": "no_patch"
    },
    "patch": "",
-   "cost_usd": 0.0
+   "cost_usd": 0.002606749999999991
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.combine_file__hskhgqqb",
@@ -1799,9 +1799,9 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 3702196121031133464\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 16,
    "patch_chars": 0,
    "L": {
     "passed": false,
@@ -1812,7 +1812,7 @@
     "status": "no_patch"
    },
    "patch": "",
-   "cost_usd": 0.0
+   "cost_usd": 0.012780050000000043
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.combine_file__4yeyxo12",
@@ -1820,9 +1820,9 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: -5730373181940315155\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\n",
-   "steps": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
    "patch_chars": 0,
    "L": {
     "passed": false,
@@ -1833,7 +1833,7 @@
     "status": "no_patch"
    },
    "patch": "",
-   "cost_usd": 0.0
+   "cost_usd": 0.005352000000000023
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.combine_file__526agq4n",
@@ -1841,9 +1841,9 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: -2109895222823260598\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\n",
-   "steps": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 14,
    "patch_chars": 0,
    "L": {
     "passed": false,
@@ -1854,7 +1854,7 @@
     "status": "no_patch"
    },
    "patch": "",
-   "cost_usd": 0.0
+   "cost_usd": 0.010010825000000001
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__81s89atb",
@@ -1862,20 +1862,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 2833971581990515516\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 420,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
     "resolved": false,
-    "status": "no_patch"
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/filters.py b/src/jinja2/filters.py\nindex 3403321..ad219db 100644\n--- a/src/jinja2/filters.py\n+++ b/src/jinja2/filters.py\n@@ -140,7 +140,7 @@ def do_forceescape(value: \"t.Union[str, HasHTML]\") -> Markup:\n     if hasattr(value, \"__html__\"):\n         value = t.cast(\"HasHTML\", value).__html__()\n \n-    return escape(value) + Markup(\"<!--escaped-->\")\n+    return escape(value)\n \n \n def do_urlencode(\n",
+   "cost_usd": 0.005012500000000031
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__cpp8owgt",
@@ -1883,20 +1883,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: -6831691827371883754\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\n",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 43,
+   "patch_chars": 1738,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
     "resolved": false,
-    "status": "no_patch"
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex 2e4f433..057ab1d 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -210,7 +210,6 @@ class Parser:\n \n         # in the future it would be possible to add whole code sections\n         # by adding some sort of end of statement token and parsing those here.\n-        self.stream.expect(\"block_end\")\n         result = self.subparse(end_tokens)\n \n         # we reached the end of the template too early, the subparser\n@@ -275,18 +274,17 @@ class Parser:\n         targets: t.List[nodes.Expr] = []\n         values: t.List[nodes.Expr] = []\n         while self.stream.current.type != \"block_end\":\n-            if not targets:\n+            if targets:\n                 self.stream.expect(\"comma\")\n             target = self.parse_assign_target()\n             target.set_ctx(\"yield\")\n-            targets.insert(0, target)\n+            targets.append(target)\n             self.stream.expect(\"assign\")\n-            values.insert(0, self.parse_expression())\n+            values.append(self.parse_expression())\n         node.targets = values\n         node.values = targets\n         node.body = self.parse_statements((\"name:endwith\",), drop_needle=False)\n         return node\n-\n     def parse_autoescape(self) -> nodes.Scope:\n         node = nodes.ScopedEvalContextModifier(lineno=next(self.stream).lineno)\n         node.options = [nodes.Keyword(\"autoescape\", self.parse_expression())]\n@@ -1024,7 +1022,6 @@ class Parser:\n                         body.extend(rv)\n                     else:\n                         body.append(rv)\n-                    self.stream.expect(\"block_end\")\n                 else:\n                     raise AssertionError(\"internal parsing error\")\n \n",
+   "cost_usd": 0.043338299999999996
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.combine_file__gfqvz7g2",
@@ -1904,20 +1904,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 3022928682153730977\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 30,
+   "patch_chars": 3042,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
     "resolved": false,
-    "status": "no_patch"
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/meta.py b/src/jinja2/meta.py\nindex 56bb1b4..13e3817 100644\n--- a/src/jinja2/meta.py\n+++ b/src/jinja2/meta.py\n@@ -16,12 +16,8 @@ class TrackingCodeGenerator(CodeGenerator):\n     \"\"\"We abuse the code generator for introspection.\"\"\"\n \n     def __init__(self, environment: \"Environment\") -> None:\n-        super().__init__(environment, \"<introspection>\")\n-        self.undeclared_identifiers: t.Set[int] = set([None])\n-\n-    def write(self, x: str) -> None:\n-        \"\"\"Don't write.\"\"\"\n-\n+        super().__init__(environment, None, \"<introspection>\")\n+        self.undeclared_identifiers: t.Set[t.Optional[str]] = {None}\n     def enter_frame(self, frame: Frame) -> None:\n         \"\"\"Remember all undeclared identifiers.\"\"\"\n         super().enter_frame(frame)\n@@ -58,39 +54,17 @@ def find_undeclared_variables(ast: nodes.Template) -> t.Set[str]:\n _ref_types = (nodes.Extends, nodes.FromImport, nodes.Import, nodes.Include)\n _RefType = t.Union[nodes.Extends, nodes.FromImport, nodes.Import, nodes.Include]\n \n-\n def find_referenced_templates(ast: nodes.Template) -> t.Iterator[t.Optional[str]]:\n-    \"\"\"Finds all the referenced templates from the AST.  This will return an\n-    iterator over all the hardcoded template extensions, inclusions and\n-    imports.  If dynamic inheritance or inclusion is used, `None` will be\n-    yielded.\n-\n-    >>> from jinja2 import Environment, meta\n-    >>> env = Environment()\n-    >>> ast = env.parse('{% extends \"layout.html\" %}{% include helper %}')\n-    >>> list(meta.find_referenced_templates(ast))\n-    ['layout.html', None]\n-\n-    This function is useful for dependency tracking.  For example if you want\n-    to rebuild parts of the website after a layout template has changed.\n-    \"\"\"\n-    template_name: t.Any\n-\n+    \"\"\"Finds all the referenced templates from the AST.\"\"\"\n     for node in ast.find_all(_ref_types):\n         template: nodes.Expr = node.template  # type: ignore\n-\n-        if not isinstance(template, nodes.Const):\n-            # a tuple with some non consts in there\n-            if isinstance(template, (nodes.Tuple, nodes.List)):\n-                for template_name in template.items:\n-                    # something const, only yield the strings and ignore\n-                    # non-string consts that really just make no sense\n-                    if isinstance(template_name, nodes.Const):\n-                        pass\n-                    # something dynamic in there\n-                    else:\n-                        yield None\n-            # something dynamic we don't know about here\n-            else:\n-                yield None\n-            continue\n\\ No newline at end of file\n+        if isinstance(template, nodes.Const):\n+            yield template.value\n+        elif isinstance(template, (nodes.Tuple, nodes.List)):\n+            for item in template.items:\n+                if isinstance(item, nodes.Const):\n+                    yield item.value\n+                else:\n+                    yield None\n+        else:\n+            yield None\n",
+   "cost_usd": 0.026077000000000072
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__bhhlyn68",
@@ -1925,20 +1925,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 1973435487819554496\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 355,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
-    "resolved": false,
-    "status": "no_patch"
+    "resolved": true,
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/utils.py b/src/jinja2/utils.py\nindex 7770b18..5c1ff5d 100644\n--- a/src/jinja2/utils.py\n+++ b/src/jinja2/utils.py\n@@ -697,7 +697,7 @@ class Cycler:\n \n     def reset(self) -> None:\n         \"\"\"Resets the current item to the first item.\"\"\"\n-        self.pos = 1\n+        self.pos = 0\n \n     @property\n     def current(self) -> t.Any:\n",
+   "cost_usd": 0.004139000000000004
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.combine_file__jdn3zq4d",
@@ -1946,20 +1946,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 2841204379889469434\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 618,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
     "resolved": false,
-    "status": "no_patch"
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/sandbox.py b/src/jinja2/sandbox.py\nindex ce27615..271cb97 100644\n--- a/src/jinja2/sandbox.py\n+++ b/src/jinja2/sandbox.py\n@@ -24,7 +24,10 @@ F = t.TypeVar(\"F\", bound=t.Callable[..., t.Any])\n MAX_RANGE = 100000\n \n #: Unsafe function attributes.\n-UNSAFE_FUNCTION_ATTRIBUTES: t.Set[str] = set()\n+UNSAFE_FUNCTION_ATTRIBUTES: t.Set[str] = {\n+    \"func_globals\", \"func_code\", \"func_defaults\", \"func_closure\",\n+    \"__globals__\", \"__code__\", \"__defaults__\", \"__closure__\",\n+}\n \n #: Unsafe method attributes. Function attributes are unsafe for methods too.\n UNSAFE_METHOD_ATTRIBUTES: t.Set[str] = set()\n",
+   "cost_usd": 0.010223600000000055
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.combine_file__shn23565",
@@ -1967,20 +1967,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: -1608217180655580303\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\n",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 18,
+   "patch_chars": 340,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
     "resolved": false,
-    "status": "no_patch"
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/filters.py b/src/jinja2/filters.py\nindex 1420877..23b6277 100644\n--- a/src/jinja2/filters.py\n+++ b/src/jinja2/filters.py\n@@ -298,6 +298,7 @@ def do_xmlattr(\n     items = []\n \n     for key, value in d.items():\n+        key = str(key)\n         if value is None or isinstance(value, Undefined):\n             continue\n \n",
+   "cost_usd": 0.01231525
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__0jbsoyj5",
@@ -1988,9 +1988,9 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 568879611765759927\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nTr",
-   "steps": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
    "patch_chars": 0,
    "L": {
     "passed": false,
@@ -2001,7 +2001,7 @@
     "status": "no_patch"
    },
    "patch": "",
-   "cost_usd": 0.0
+   "cost_usd": 0.0033089000000000035
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__19lonz6w",
@@ -2009,20 +2009,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 5743742289313835686\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 14,
+   "patch_chars": 659,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
-    "resolved": false,
-    "status": "no_patch"
+    "resolved": true,
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/lexer.py b/src/jinja2/lexer.py\nindex 1662b9b..1d0659e 100644\n--- a/src/jinja2/lexer.py\n+++ b/src/jinja2/lexer.py\n@@ -300,7 +300,7 @@ class TokenStreamIterator:\n     \"\"\"\n \n     def __init__(self, stream: \"TokenStream\") -> None:\n-        self.stream = None\n+        self.stream = stream\n \n     def __iter__(self) -> \"TokenStreamIterator\":\n         return self\n@@ -314,6 +314,12 @@ class TokenStreamIterator:\n \n         next(self.stream)\n         return token\n+        if token.type is TOKEN_EOF:\n+            self.stream.close()\n+            raise StopIteration\n+\n+        next(self.stream)\n+        return token\n \n \n class TokenStream:\n",
+   "cost_usd": 0.010895750000000093
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__29z9n8p7",
@@ -2030,20 +2030,20 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 722665049420474505\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nTr",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 717,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
     "resolved": false,
-    "status": "no_patch"
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex 91720c5..8b5bb65 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -801,9 +801,9 @@ class CodeGenerator(NodeVisitor):\n                 self.writeline(f\"_loop_vars[{name!r}] = {ref}\")\n                 return\n             if frame.block_frame:\n-                self.writeline(f\"_block_vars[{name!r}] = {ref}\")\n+                self.writeline(f'_block_vars[{name!r}] = {ref}')\n+                self.writeline(f'context.vars[{name!r}] = {ref}')\n                 return\n-            self.writeline(f\"context.vars[{name!r}] = {ref}\")\n         else:\n             if frame.loop_frame:\n                 self.writeline(\"_loop_vars.update({\")\n",
+   "cost_usd": 0.04265800000000003
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.combine_file__4eyvgwfo",
@@ -2051,9 +2051,9 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 8979915999673715728\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nT",
-   "steps": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
    "patch_chars": 0,
    "L": {
     "passed": false,
@@ -2064,7 +2064,7 @@
     "status": "no_patch"
    },
    "patch": "",
-   "cost_usd": 0.0
+   "cost_usd": 0.006274749999999996
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.combine_file__mxr3n2i4",
@@ -2072,9 +2072,9 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: -1196980177898318323\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\n",
-   "steps": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
    "patch_chars": 0,
    "L": {
     "passed": false,
@@ -2085,7 +2085,7 @@
     "status": "no_patch"
    },
    "patch": "",
-   "cost_usd": 0.0
+   "cost_usd": 0.007646750000000091
   },
   {
    "instance_id": "pallets__jinja.ada0a9a6.func_basic__e00zclxx",
@@ -2093,21 +2093,25 @@
    "leak_free_check": [
     "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
    ],
-   "crashed": true,
-   "crash_head": "Agent crashed: litellm.BadRequestError: Vertex_aiException BadRequestError - {\n  \"error\": {\n    \"code\": 403,\n    \"message\": \"Spend cap breached for project: projects/545439342648 for service: aiplatform.googleapis.com. Correlation id: 200947238313275846\",\n    \"status\": \"PERMISSION_DENIED\"\n  }\n}\n\n\nTr",
-   "steps": 0,
-   "patch_chars": 0,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 28,
+   "patch_chars": 526,
    "L": {
-    "passed": false,
-    "status": "no_patch"
+    "passed": true,
+    "status": "all_passed"
    },
    "S": {
-    "resolved": false,
-    "status": "no_patch"
+    "resolved": true,
+    "status": "completed"
    },
-   "patch": "",
-   "cost_usd": 0.0
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex 6b3d1ca..19d9e09 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -754,8 +754,7 @@ class CodeGenerator(NodeVisitor):\n             self._param_def_block[-1].discard(target)\n \n     def push_context_reference(self, target: str) -> None:\n-        self._context_reference_stack.insert(0, target)\n-\n+        self._context_reference_stack.append(target)\n     def pop_context_reference(self) -> None:\n         self._context_reference_stack.pop()\n \n",
+   "cost_usd": 0.024668874999999924
   }
  ],
- "spent_usd": 1.1173624999999994
+ "spent_usd": 1.6484564999999998,
+ "merged_from": [
+  "s30_skill_run1.json (62 valid of 100; 38 provider rejections, A124)",
+  "s30_skill_rest.json (38)"
+ ]
 }

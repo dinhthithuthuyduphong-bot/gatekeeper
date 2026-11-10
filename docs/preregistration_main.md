@@ -1959,3 +1959,22 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - **Chi §30 đến giờ:** học 10,990 + chấm 1,455 + 1,117 + 0,346 = **13,908 USD** (trần 20).
 - **Còn lại:** 20 task của A và 38 task của B, chạy lại sau khi trần chi tiêu của project GCP được nâng. Dự kiến 20 × 0,018 + 38 × 0,018 ≈ 1,04 USD; trần 1,7.
 
+### §30: kết quả cuối (lần chấm đầu run 42808049387 + chạy bù run 42858029048; `results/s30_analysis.json`)
+- **Dữ liệu:** A và B mỗi nhánh 100/100 task, cùng tập task. B gộp 62 lượt hợp lệ của lần đầu với 38 lượt chạy lại (A124). A gộp 80 lượt của lần đầu với 20 lượt chạy bù (A125). C đủ 34/34.
+  - 0 `infra_error`, 0 crash, 0 lượt chạm `cost_limit` sau khi gộp; kiểm rò rỉ đạt 200/200.
+  - Bản gốc của lần đầu giữ ở `results/s30_none_run1.json`, `results/s30_skill_run1.json`.
+  - Bộ chấm dùng nguyên văn (SWE-smith `run_evaluation`; gskill `verify_with_patch`).
+- **Câu 1 (bộ học còn viết chỉ dẫn đọc lịch sử không):** skill trả về có **0 dòng** khớp quy tắc; **0/8** ứng viên khác rỗng có dòng như vậy (lượt học gốc: 5/8 ứng viên, 1 dòng ở skill trả về). Một lượt học: đây là quan sát, không phải ước lượng tỉ lệ.
+- **P30** (B > A, một phía, α = 0,025, endpoint S): **33 so với 16; b/c = 20/3; p = 2,4·10⁻⁴; bác bỏ.** Mức tăng **+0,17 [0,08; 0,26]**.
+- **Phụ:**
+  - Gatekeeper (θ = 0, c = 0,5, α = 0,025): **admit ở trial 65.**
+  - Bộ chấm L: 67 so với 40; b/c = 33/6; +0,27 [0,16; 0,38].
+  - Hiệu số mức tăng so với skill gốc trong cùng môi trường một commit: **d = −0,04 [−0,13; 0,05]**. Không phân biệt được với 0: skill học khi đã bịt rò rỉ cho phần lợi thật ngang skill gốc (+0,21). Hai lượt chạy khác ngày.
+  - Nhánh C (skill mới, môi trường gốc, 34 task không có mô tả issue): giải 1/34; `git log`/`git show` ở 4/34 lượt; thấy "Bug Patch" ở 2/34. Mốc so: skill gốc 15/34 và 34/34; skill bỏ chỉ dẫn 2/34; không skill 0–1/34.
+- **Chi §30:** học 10,990 + chấm 3,667 (lần đầu 2,918; chạy bù 0,748) = **14,657 USD** (trần 20).
+- **Diễn giải** (theo phần diễn giải đặt trước):
+  - Câu 1: ở lượt học này, bịt rò rỉ đã loại chỉ dẫn đọc lịch sử.
+  - Câu 2: quy trình "bịt rò rỉ rồi học" cho ra một skill được chứng nhận (P30 bác bỏ; Gatekeeper admit), với phần lợi thật ngang skill gốc.
+  - Câu 3: đem sang môi trường gốc, skill mới không khai thác rò rỉ (1/34, ngang không skill).
+  - Giới hạn: mỗi điều kiện chỉ có một lượt học.
+

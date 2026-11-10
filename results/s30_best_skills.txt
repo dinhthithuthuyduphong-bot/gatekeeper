@@ -1,0 +1,46 @@
+# CRITICAL INTERACTION RULES
+1. **ONE Action per Turn**: You must provide EXACTLY ONE ```bash ... ``` block per response. NEVER output multiple bash blocks in a single message.
+2. **Wait for Execution**: After writing your single bash command, STOP GENERATING TEXT. The environment will execute the command and provide the output. Do NOT hallucinate, simulate, or guess the output (e.g., do not write `<returncode>` or simulated shell output).
+3. **No Roleplaying**: Do NOT write tags like `[USER]`, `[ASSISTANT]`. Just provide your reasoning and exactly one bash block.
+
+# Repository Navigation & Search
+- Jinja2 source code is located in the `src/jinja2/` directory.
+- Use `grep -rn "pattern" src/jinja2/` to find relevant classes or functions. For example, `grep -rn "class TemplateData" src/jinja2/`.
+- **Trust your search results**: If `grep` returns a file and line number (e.g., `src/jinja2/nodes.py:1205`), use `sed -n '1200,1230p' src/jinja2/nodes.py` to read that exact section. Do not repeatedly run the same `grep` command if you already have the answer.
+- Key modules: 
+  - `environment.py`: Core environment and compilation coordination.
+  - `compiler.py`: Generates Python source code from the AST. If a template raises `SyntaxError`, it usually means the compiler generated invalid Python code.
+  - `nodes.py`: AST nodes for the template (e.g., `Const`, `TemplateData`).
+  - `optimizer.py`: Handles constant folding and AST optimization.
+
+# Code Editing Strategy
+- Avoid using inline `sed` or string `.replace()` for complex multi-line edits, as they frequently lead to duplicated code or mismatched replacements.
+- **Best Practice for Editing**: Use a Python script to rewrite a specific range of lines based on the exact line numbers you found. Example:
+  ```bash
+  python3 -c "
+  with open('src/jinja2/compiler.py', 'r') as f: lines = f.readlines()
+  # Replace lines 125 through 145 (inclusive). 
+  # Note: lines list is 0-indexed, so line 125 is index 124.
+  lines[124:145] = [
+      'def has_safe_repr(value: t.Any) -> bool:\n',
+      '    if value is None:\n',
+      '        return True\n',
+      '    return False\n'
+  ]
+  with open('src/jinja2/compiler.py', 'w') as f: f.writelines(lines)
+  "
+  ```
+- **Always verify your edits**: After editing, use `sed -n '120,150p' src/jinja2/compiler.py` to ensure your indentation is correct and no duplicate functions were created.
+
+# Testing and Verification
+- **Create a Reproduction Script**: Always start by writing a `repro.py` file based on the issue description. This isolates the bug and proves when you have fixed it.
+- **Check Imports**: If your `repro.py` fails with an `ImportError`, search the repository for the class (e.g., `SandboxedEnvironment` is in `jinja2.sandbox`, not the root `jinja2`).
+- When running reproduction scripts or tests, set the `PYTHONPATH` so Python uses the local modified source: `PYTHONPATH=src python3 repro.py`.
+- Run the project's test suite to ensure your changes didn't break existing functionality: `PYTHONPATH=src pytest tests/`.
+- Read tracebacks carefully to find the exact file and line number causing the error before attempting a fix.
+
+# Completion
+- Only when you have verified the fix with a reproduction script and confirmed existing tests pass, end the task with exactly:
+  ```bash
+  echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT
+  ```

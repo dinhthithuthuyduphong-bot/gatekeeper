@@ -1,0 +1,66 @@
+{
+ "checks": {
+  "n": [
+   100,
+   100,
+   34
+  ],
+  "infra_error": 0,
+  "crashed": 0,
+  "capped": 0,
+  "leak_free_checks_ok": 200,
+  "leak_free_checks": 200,
+  "eval_spent_usd": 3.6667404999999986,
+  "learn_spent_usd": 10.990128650000008,
+  "learn_rewrites_ok": 609,
+  "learn_leak_free": true
+ },
+ "skill_text": {
+  "bytes": 3353,
+  "history_lines_in_returned_skill": 0,
+  "candidates": 9,
+  "nonempty_candidates": 8,
+  "candidates_with_history_line": 0
+ },
+ "P30": {
+  "skill": 33,
+  "none": 16,
+  "b": 20,
+  "c": 3,
+  "p_one_sided": 0.000244140625,
+  "gain": 0.17,
+  "boot95": [
+   0.08,
+   0.26
+  ],
+  "reject": true
+ },
+ "L": {
+  "skill": 67,
+  "none": 40,
+  "b": 33,
+  "c": 6,
+  "p_one_sided": 7.14963061909657e-06,
+  "gain": 0.27,
+  "boot95": [
+   0.16,
+   0.38
+  ]
+ },
+ "gatekeeper_admit_trial": 65,
+ "vs_original_skill_single_commit": {
+  "n": 100,
+  "d": -0.04,
+  "ci95": [
+   -0.13,
+   0.05
+  ]
+ },
+ "as_shipped_no_problem_statement": {
+  "n": 34,
+  "resolved": 1,
+  "runs": 34,
+  "git_log_or_show": 4,
+  "bug_patch_seen": 2
+ }
+}
