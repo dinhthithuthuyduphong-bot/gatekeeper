@@ -1,0 +1,23 @@
+1. Terminal and Interaction Rules
+- One Action Per Turn: You MUST output EXACTLY ONE bash command block per response and then STOP generating text. Do not hallucinate, simulate, or guess command outputs. Wait for the environment to run the command and return the results.
+
+2. Code Editing Patterns
+- Avoid Fragile 'sed' Commands: Multi-line string replacements with `sed` often fail or introduce syntax errors. Instead, create and run a Python script to safely edit files. Example:
+  cat << 'EOF' > patch.py
+  with open('src/jinja2/runtime.py', 'r') as f:
+      content = f.read()
+  content = content.replace('old_code', 'new_code')
+  with open('src/jinja2/runtime.py', 'w') as f:
+      f.write(content)
+  EOF
+  python3 patch.py
+- Verify Changes: Always use `git diff` to review your edits and ensure you haven't accidentally deleted lines or broken indentation.
+
+3. Debugging and Fixing Strategies
+- Reproduce First: Always start by writing a minimal Python script (e.g., `repro.py`) that matches the issue description exactly. Run it to observe the bug directly. If it behaves correctly, reread the problem description carefully—you may have mistyped a variable or misunderstood Jinja syntax (e.g., Jinja uses lowercase `true`/`false`, which behave differently than Python's `True`/`False` in templates).
+- Run the FULL Test Suite: Never declare success after just running your reproduction script. You MUST run the full test suite using `pytest tests/` to catch regressions. Changes to core classes often have cascading effects that break tests in seemingly unrelated files.
+
+4. Repository-Specific Knowledge (Jinja)
+- Project Structure: The core codebase is located in `src/jinja2/` (e.g., `runtime.py`, `filters.py`, `environment.py`). The test suite is in `tests/`.
+- Undefined Types: Jinja handles missing variables via the `Undefined` class and its subclasses (like `StrictUndefined`, `DebugUndefined`) in `src/jinja2/runtime.py`. Be extremely careful when modifying attribute access (`__getattr__`) or string representations (`__str__`), as these heavily impact template rendering behavior and error message formatting.
+- Filters: Template filters (such as `indent`) are implemented in `src/jinja2/filters.py`. When debugging filters, pay close attention to default parameters, argument ordering, and truthy/falsey evaluations.
