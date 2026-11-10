@@ -1885,3 +1885,56 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - **Diễn giải (theo diễn giải đặt trước):**
   - Phần mức tăng không phụ thuộc chỉ dẫn đọc lịch sử được chứng nhận ngay trong môi trường gốc.
   - Hai cách gỡ rò rỉ (bỏ lịch sử khỏi môi trường, hoặc bỏ chỉ dẫn khỏi skill) cho cùng một mức tăng còn lại.
+
+## 30. Học lại skill trong môi trường một commit (đăng ký 10/11/2026, trước mọi lần chạy)
+
+**Lý do:** phản biện thứ hai (10/11) nêu chỗ thiếu lớn nhất: bài chẩn đoán rò rỉ nhưng chưa cho thấy bịt rò rỉ thì bộ học cho ra gì. @thuthuy 10/11: "Duyệt trần 20usd".
+
+**Đã thấy trước khi đăng ký** (từ lượt học gốc đã lưu, `results/s25_learn_run.tar.gz`; không có dữ liệu nào của §30):
+- Chỉ dẫn đọc lịch sử (quy tắc `scripts/make_ablation.RULE` của §29) có ở **5/8 ứng viên khác rỗng** của lượt học gốc, xuất hiện từ ứng viên thứ 2 (nửa đầu), và có ở skill được trả về (1 dòng).
+
+**Câu hỏi:**
+1. Khi môi trường học không có commit "Bug Patch", bộ học có còn viết chỉ dẫn đọc lịch sử không?
+2. Skill học được như vậy có được chứng nhận trong môi trường một commit không?
+3. Đem skill đó sang môi trường gốc (còn rò rỉ), agent có khai thác rò rỉ không?
+
+**Can thiệp (định nghĩa can thiệp):**
+- Lượt học của gskill chạy **đúng lệnh của §25 bước 2** (hai nửa 300 metric call, tổng 600; train/val/test 200/50/100; cùng model agent, cùng model reflection, 6 worker, không seed cho agent khi học).
+- Thay đổi duy nhất: mỗi container task được viết lại lịch sử thành một commit ngay sau `setup_task` của gskill, bằng **đúng đoạn lệnh** `LEAK_FREE_SH` của §25 bước 3 (`scripts/gskill_learn.py --leak-free`).
+- Mỗi lần viết lại được kiểm bằng dòng `commits=1 refs=1 remotes=0 objects_with_bug_msg=0`. Một lần không đạt thì lượt học dừng (mã thoát 6), vì một container còn rò rỉ làm hỏng cả lượt học.
+- Vẫn tối ưu theo bộ chấm L của gskill, như bản gốc.
+
+**Thiết kế phần chấm** (một job, ba nhánh chạy cùng lúc; seed 41, cost_limit 0,30, 50 bước, như §25):
+- A: không skill, môi trường một commit, 100 task test (`results/s30_none.json`);
+- B: skill mới, môi trường một commit, 100 task test (`results/s30_skill.json`);
+- C: skill mới, **môi trường gốc**, 34 task test không có mô tả issue (`results/s30_shipped34.json`).
+- Skill được chấm là file lượt học trả về, nguyên văn (workflow so byte với bản trên `pilot-snapshots`).
+
+**Phép thử chính P30** (một phía, α = 0,025, endpoint S): B > A, kiểm định dấu chính xác trên các cặp lệch. Một phép thử xác nhận duy nhất.
+
+**Phụ (mô tả):**
+1. Số dòng khớp quy tắc lịch sử trong skill trả về, và số ứng viên có dòng như vậy. So với lượt gốc: 5/8 ứng viên, 1 dòng.
+2. Gatekeeper (θ = 0, c = 0,5, α = 0,025); bộ chấm L.
+3. Hiệu số mức tăng so với skill gốc trong cùng môi trường một commit (§25 bước 3: +0,21), bootstrap theo task. Hai lượt chạy khác ngày.
+4. Nhánh C: số task giải được trên 34; số lượt gọi `git log`/`git show`; số lượt thấy "Bug Patch". Mốc so: skill gốc 15/34 và 34/34 lượt thấy "Bug Patch" (27c); skill bỏ chỉ dẫn 2/34 (§29); không skill 0–1/34.
+
+**Diễn giải đặt trước:**
+- **Câu 1:** skill trả về có 0 dòng lịch sử thì bịt rò rỉ đã loại chỉ dẫn ở lượt học này. Có ≥ 1 dòng thì bộ học viết chỉ dẫn đó cả khi không có gì để tìm; khi ấy nhánh C cho biết chỉ dẫn có khai thác rò rỉ ở môi trường gốc không.
+- **Câu 2:** P30 bác bỏ thì quy trình "bịt rò rỉ rồi học" cho ra một skill được chứng nhận. Không bác bỏ thì không chứng nhận được ở n = 100; báo cáo kèm khoảng tin cậy.
+- **Giới hạn nêu trước:**
+  - Mỗi điều kiện chỉ có **một lượt học**; GEPA là ngẫu nhiên, nên khác biệt giữa hai skill không tách được khỏi biến thiên giữa các lượt học. Kết quả câu 1 là một quan sát, không phải một ước lượng tỉ lệ.
+  - Phép so ở mục 3 khác ngày.
+
+**Kiểm sau khi chạy:**
+- lượt học: `leak_free_rewrites_ok` > 0 và không có mã thoát 6; `total_metric_calls` ≥ 600;
+- lượt chấm: 100/100, 100/100, 34/34; `infra_error`, `crashed`, lượt chạm cost_limit; kiểm rò rỉ đạt ở mọi task của A và B.
+- Lỗi do agent không chạy lại (L1).
+
+**Ngân sách** (trần chung 20 USD):
+- Học: dự kiến **12,25 USD** (chi phí đo của lượt học gốc, `results/s25_learn_ledger_h2.json`); trần cộng dồn hai nửa **14,50**.
+- Chấm: dự kiến 1,46 + 1,87 + 0,75 = **4,08 USD** (`s25_leakfree_none`, `s25_leakfree_skill`, `s27_trace34*`); trần 1,75 + 2,25 + 1,00 = **5,00**.
+- Tổng dự kiến 16,33; tổng trần **19,50 USD**. Nếu lượt học chạm trần trước 600 metric call thì dừng và báo @thuthuy; không chấm một skill học dở như thể đã học đủ.
+
+**Chạy thử miễn phí:** `dryrun=true` cho bước học (`--smoke-test` của gskill, model giả lập) và bước chấm (2 task, model giả lập).
+
+**Phân tích:** `scripts/s30_analysis.py`, commit trước khi có dữ liệu.

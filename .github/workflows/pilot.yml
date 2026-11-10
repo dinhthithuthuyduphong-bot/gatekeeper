@@ -15,7 +15,7 @@ on:
         required: true
         default: "r15"
         type: choice
-        options: ["r15", "swesmith-f1", "swesmith-refl", "swesmith-learn", "swesmith-eval", "swesmith-republish", "swesmith-leakfree", "swesmith-s27", "swesmith-s29"]
+        options: ["r15", "swesmith-f1", "swesmith-refl", "swesmith-learn", "swesmith-eval", "swesmith-republish", "swesmith-leakfree", "swesmith-s27", "swesmith-s29", "swesmith-s30"]
       name:
         description: "Run name (results/pilot/<name>.json)"
         required: true
@@ -65,7 +65,7 @@ on:
         required: true
         default: "none"
         type: choice
-        options: ["none", "skill", "placebo", "trace34", "trace34b", "pair", "skillb", "skillc"]
+        options: ["none", "skill", "placebo", "trace34", "trace34b", "pair", "skillb", "skillc", "learn", "eval"]
       dryrun:
         description: "swesmith-s27 only: true = scripted model (0 USD) on the first task of each arm"
         required: false
@@ -405,6 +405,92 @@ jobs:
              --skills-file "$GITHUB_WORKSPACE/docs/skills/gskill/jinja_no_history.txt") > /tmp/ablate.log 2>&1 & p2=$!
           rc=0; wait $p1 || rc=1; wait $p2 || rc=1  # each arm's exit status, by PID (L43)
           tail -n 3 /tmp/none.log /tmp/ablate.log; exit $rc
+      - name: Section 30 learn (gskill learning in the single-commit environment, half ${{ inputs.half }}, capped)
+        if: inputs.plan == 'swesmith-s30' && inputs.arm == 'learn'
+        run: |
+          # Same command as section 25 step 2 (two halves of 300 metric calls, same models, workers and
+          # sizes); the only change is --leak-free: every task container gets the single-commit history.
+          [ "${{ inputs.repo }}" = "jinja" ] || { echo "section 30 is registered for jinja only"; exit 1; }
+          mkdir -p /tmp/work results && cd /tmp/work
+          git -C $GITHUB_WORKSPACE fetch -q origin pilot-snapshots || true
+          T=s30; OWN=(); GS=()
+          if [ "${{ inputs.dryrun }}" = "true" ]; then  # free: gskill's --smoke-test, scripted model, local rows
+            T=s30dry
+            OWN=(--mock-response $'THOUGHT: dry run.\n\n```bash\necho COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT\n```' --local-rows "$ROWSLOCAL")
+            GS=(--smoke-test)
+          fi
+          if [ "${{ inputs.half }}" = "1" ]; then
+            BEFORE=0; CALLS=300; EXTRA=""
+          else
+            git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/${T}_learn_run.tar.gz" > /tmp/run.tgz
+            tar -xzf /tmp/run.tgz -C /tmp/work
+            BEFORE=$(python -c "import json; print(json.load(open('/dev/stdin'))['spent_total'])" < <(git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/${T}_learn_ledger_h1.json"))
+            RUN=$(ls -d gepa_results/logs/run_*/ | sort | tail -1); RUN=${RUN%/}
+            CALLS=600; EXTRA="--resume $RUN"
+          fi
+          echo "spent before: $BEFORE; max metric calls: $CALLS"
+          rc=0
+          PYTHONPATH=/tmp/gepa/src/gepa/gskill /tmp/venv/bin/python $GITHUB_WORKSPACE/scripts/gskill_learn.py \
+            --leak-free --cap "${{ inputs.budget_usd }}" --spent-before "$BEFORE" "${OWN[@]}" \
+            --ledger "$GITHUB_WORKSPACE/results/${T}_learn_ledger_h${{ inputs.half }}.json" --registry /tmp/registry.json -- \
+            --repo "$REPO" --train-size 200 --val-size 50 --test-size 100 \
+            --model vertex_ai/gemini-3.1-flash-lite --reflection-model vertex_ai/gemini-3.1-pro-preview \
+            --workers 6 --max-metric-calls $CALLS --timeout 18000 $EXTRA "${GS[@]}" || rc=$?
+          echo "exit $rc"
+          RUN=$(ls -td gepa_results/logs/run_*/ | head -1); RUN=${RUN%/}  # newest: --resume writes a new run dir (A95)
+          tar -czf "$GITHUB_WORKSPACE/results/${T}_learn_run.tar.gz" "gepa_results/logs/$(basename $RUN)"
+          cp $RUN/prompts/best_skills.txt "$GITHUB_WORKSPACE/results/${T}_best_skills.txt" || true
+          cp $RUN/summary.json "$GITHUB_WORKSPACE/results/${T}_learn_summary_h${{ inputs.half }}.json" || true
+          cat "$GITHUB_WORKSPACE/results/${T}_learn_ledger_h${{ inputs.half }}.json" | head -20
+          # exit 5 = money cap, 6 = a history rewrite failed: both must fail the job (after the state is saved)
+          [ "$rc" = "0" ] || exit "$rc"
+      - name: Section 30 eval (the skill learned without the leak; three arms at the same time, capped)
+        if: inputs.plan == 'swesmith-s30' && inputs.arm == 'eval'
+        run: |
+          # Caps = measured spend of the matching earlier arm + one worst run (0.30), A107/A108/L53:
+          #   none, single commit: 1.46 -> 1.75; skill, single commit: 1.87 -> 2.25;
+          #   skill, as shipped, 34 tasks without a problem statement: 0.75 -> 1.00 (total 5.00).
+          [ "${{ inputs.repo }}" = "jinja" ] || { echo "section 30 is registered for jinja only"; exit 1; }
+          mkdir -p /tmp/work results && cd /tmp/work
+          python -c "import sys; sys.exit(0 if float('${{ inputs.budget_usd }}') >= 5.0 else 'budget_usd must cover the three caps (5.00)')"
+          SK="$GITHUB_WORKSPACE/docs/skills/gskill/jinja_clean_best_skills.txt"
+          PFX=s30; MOCK=()
+          if [ "${{ inputs.dryrun }}" = "true" ]; then  # free: scripted model; first test task and first one without a problem statement
+            PFX=s30dry; SK="$GITHUB_WORKSPACE/docs/skills/gskill/jinja_no_history.txt"
+            python - "$ROWSLOCAL" <<'PY'
+          import gzip, json, sys
+          p = sys.argv[1]
+          op = gzip.open if p.endswith(".gz") else open
+          rows = [json.loads(x) for x in op(p, "rt") if x.strip()]
+          test = sorted((r for r in rows if r["_gskill_split"] == "test"), key=lambda r: r["_gskill_order"])
+          keep = [test[0], next(r for r in test[1:] if not (r.get("problem_statement") or "").strip())]
+          with op(p, "wt") as f:
+              f.write("".join(json.dumps(r) + "\n" for r in keep))
+          print("dry run on", [r["instance_id"] for r in keep])
+          PY
+            MOCK=(--mock-response $'THOUGHT: dry run.\n\n```bash\necho COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT\n```')
+          else
+            # the evaluated skill must be the learned one, byte for byte
+            git -C $GITHUB_WORKSPACE fetch -q origin pilot-snapshots
+            git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/s30_best_skills.txt" > /tmp/s30_skill.txt
+            cmp /tmp/s30_skill.txt "$SK"
+          fi
+          run_probe() {  # $1 out, $2 cap, rest: extra args
+            out=$1; cap=$2; shift 2
+            PYTHONPATH=/tmp/gepa/src/gepa/gskill:$GITHUB_WORKSPACE/scripts /tmp/venv/bin/python \
+              $GITHUB_WORKSPACE/scripts/f1_probe.py --rows "$ROWSLOCAL" --split test "$@" \
+              --model vertex_ai/gemini-3.1-flash-lite --seed 41 --cost-limit 0.30 --cap "$cap" \
+              --registry $GITHUB_WORKSPACE/tests/fixtures/e1_litellm_registry.json \
+              --gskill-yaml /tmp/gepa/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml \
+              --out "$GITHUB_WORKSPACE/results/$out" "${MOCK[@]}"
+          }
+          mkdir -p /tmp/work/none /tmp/work/skill /tmp/work/shipped
+          (cd /tmp/work/none && run_probe ${PFX}_none.json 1.75 --leak-free) > /tmp/none.log 2>&1 & p1=$!
+          (cd /tmp/work/skill && run_probe ${PFX}_skill.json 2.25 --leak-free --skills-file "$SK") > /tmp/skill.log 2>&1 & p2=$!
+          (cd /tmp/work/shipped && run_probe ${PFX}_shipped34.json 1.00 --skills-file "$SK" \
+             --subset no-problem-statement) > /tmp/shipped.log 2>&1 & p3=$!
+          rc=0; wait $p1 || rc=1; wait $p2 || rc=1; wait $p3 || rc=1  # each arm's exit status, by PID (L43)
+          tail -n 3 /tmp/none.log /tmp/skill.log /tmp/shipped.log; exit $rc
       - uses: actions/upload-artifact@v6
         if: always()
         with:
@@ -417,12 +503,13 @@ jobs:
             /tmp/work/gepa_results/
             results/s25*
             results/s29*
+            results/s30*
           if-no-files-found: warn
       - name: Publish to pilot-snapshots branch
         if: always()
         run: |
           # only files that exist: git add of a missing path fails the publish
-          files=$(ls results/f1_probe.json results/f1_skill_probe.json results/reflection_cost_probe.json results/s25_* results/s25bleve_* results/s27* results/s29* results/*.traces.jsonl.gz 2>/dev/null || true)
+          files=$(ls results/f1_probe.json results/f1_skill_probe.json results/reflection_cost_probe.json results/s25_* results/s25bleve_* results/s27* results/s29* results/s30* results/*.traces.jsonl.gz 2>/dev/null || true)
           echo "publishing: $files"
           scripts/publish_snapshot.sh pilot-snapshots "Section 25 ${{ inputs.plan }} ${{ inputs.half }} run ${GITHUB_RUN_ID}" $files
 

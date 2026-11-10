@@ -791,3 +791,15 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - File ghi ra dưới tên `s29dry_*`, không đụng tên thật.
   - Chi phí ghi 3,25·10⁻⁵ USD mỗi nhánh: tính từ token của câu trả lời giả lập, không có lời gọi model.
 - **Sau khi chạy (R-58):** 100/100 task mỗi nhánh; `infra_error` 0, `crashed` 0, lượt chạm cost_limit 0. Phân tích chạy đúng script đã commit trước khi có dữ liệu; số khớp CHECKS của `make_numbers.py`.
+
+## R-59. §30 học lại trong môi trường một commit (2026-11-10, trước khi chạy)
+
+- **Đối chiếu bản đăng ký:** §30 commit trước mọi lần chạy. Phần "đã thấy" chỉ gồm lượt học gốc.
+- **Mã:**
+  - `scripts/gskill_learn.py --leak-free`: bọc `SWEHarness.setup_task` của gskill, chạy đúng `LEAK_FREE_SH` của `f1_probe.py`, kiểm dòng cuối, đếm số lần đạt vào ledger, dừng với mã 6 khi không đạt.
+  - `tests/test_gskill_learn_leak_free.py`: lệnh chạy sau `setup_task`; đếm; dừng khi mã thoát khác 0 hoặc dòng kiểm sai.
+  - `pilot.yml` plan `swesmith-s30` (arm `learn`, `eval`): lệnh học chép từ bước §25 và thêm `--leak-free`; ba nhánh chấm song song, chờ theo PID; file chạy thử mang tiền tố `s30dry`.
+  - `scripts/s30_analysis.py`: thử trên lượt học gốc cho 5/9 ứng viên có dòng lịch sử và 1 dòng ở skill trả về, khớp số đếm tay.
+- **Theo §4:** trần lấy từ chi phí đo của lượt cùng cấu hình (L53); nhánh ghép cặp chạy cùng lúc; quy tắc văn bản cố định từ §29; mỗi câu tuyệt đối sẽ có phép đếm (L52).
+- **Rủi ro đã nêu:** một lượt học mỗi điều kiện.
+- **Chạy thử miễn phí:** ghi bên dưới khi xong.

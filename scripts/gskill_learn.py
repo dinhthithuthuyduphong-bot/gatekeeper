@@ -37,6 +37,8 @@ def _write() -> None:
         "by_model_usd": dict(_by_model),
         "calls_by_model": dict(_calls),
         "argv": _state["argv"],
+        "leak_free": _state.get("leak_free", False),
+        "leak_free_rewrites_ok": _state.get("lf_ok", 0),
     }
     Path(_state["ledger"]).write_text(json.dumps(led, indent=1) + "\n")
 
@@ -85,6 +87,28 @@ def install_meter(litellm, mock: str | None = None) -> None:
     litellm.batch_completion = unmetered
 
 
+def install_leak_free(harness_cls, script: str, ok_line: str) -> None:
+    """Section 30: learn in the single-commit environment. Wraps gskill's SWEHarness.setup_task
+    so that every task container gets the same history rewrite as the leak-free evaluation
+    (f1_probe.LEAK_FREE_SH), and checks its last output line. A failed rewrite stops the run
+    (exit 6): a silently leaking container would invalidate the whole learning run."""
+    original = harness_cls.setup_task
+
+    def setup_task(self, *args, **kwargs):
+        out = original(self, *args, **kwargs)
+        r = self.container.exec_run(["bash", "-lc", script])
+        last = r.output.decode(errors="replace").strip().splitlines()[-1:]
+        if r.exit_code != 0 or last != [ok_line]:
+            print(f"[leak-free] rewrite failed: exit {r.exit_code}, last line {last}", flush=True)
+            _write()
+            os._exit(6)
+        with _lock:
+            _state["lf_ok"] = _state.get("lf_ok", 0) + 1
+        return out
+
+    harness_cls.setup_task = setup_task
+
+
 def main() -> int:
     if "--" not in sys.argv:
         raise SystemExit("usage: gskill_learn.py <own args> -- <gskill args>")
@@ -96,6 +120,7 @@ def main() -> int:
     ap.add_argument("--registry", required=True)
     ap.add_argument("--mock-response", help="free dry run: every LiteLLM call returns this text")
     ap.add_argument("--local-rows", help="dry run without HuggingFace: serve these exported rows")
+    ap.add_argument("--leak-free", action="store_true", help="section 30: single-commit history")
     a = ap.parse_args(sys.argv[1:i])
     _state.update(before=a.spent_before, cap=a.cap, ledger=a.ledger, argv=sys.argv[i + 1 :])
 
@@ -106,6 +131,14 @@ def main() -> int:
     atexit.register(_write)
 
     from gskill import train_optimize_anything as t
+
+    if a.leak_free:
+        sys.path.insert(0, str(Path(__file__).parent))
+        from f1_probe import LEAK_FREE_OK, LEAK_FREE_SH
+        from gskill.swe_harness import SWEHarness
+
+        _state["leak_free"] = True
+        install_leak_free(SWEHarness, LEAK_FREE_SH, LEAK_FREE_OK)
 
     if a.local_rows:  # dry run only: exported rows are in gskill's shuffled order, so the split
         # of a dry run differs from the real one; the real run loads HuggingFace as gskill does
