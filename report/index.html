@@ -56,7 +56,7 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 </head>
 <body>
 <main>
-<p class="meta">Dự án Gatekeeper ·bản cập nhật 11/11/2026 · commit <code>8159125</code></p>
+<p class="meta">Dự án Gatekeeper ·bản cập nhật 11/11/2026 · commit <code>6a75995</code></p>
 <h1>Scope before Reuse: chứng nhận skill đã học cho coding agent theo phạm vi</h1>
 
 <ol class="toc">
@@ -329,6 +329,22 @@ tức ngưỡng <b>320</b> thay vì 40. Chạy lại đúng quy tắc trên cùn
 <tr><td>Pygments, dùng lại</td><td>—</td><td>—</td></tr></table>
 <p>6/7 admission vẫn đứng, chỉ muộn hơn. Phân tích này chọn sau khi có dữ liệu nên chỉ là thăm dò, không thay quyết định đã đăng ký;
 kiểm định dấu của §30 (p = 2,4·10<sup>−4</sup>) là phép thử riêng, không bị ảnh hưởng.</p>
+<h3>Độ nhạy của admission theo thứ tự task và theo θ (thăm dò, phản biện thứ ba)</h3>
+<p>Thứ tự task là <b>một lần rút</b> từ phép xáo có seed của gskill. Chạy lại đúng quy tắc trên 10.000 thứ tự ngẫu nhiên của
+cùng các cặp kết quả, và với hai biên θ đã dùng trong bảng thiết kế của paper (0,02 và 0,05; θ &gt; 0 nghĩa là chứng nhận mức tăng ít nhất θ):</p>
+<table><tr><th>Luồng</th><th>Tỉ lệ thứ tự admit (10.000)</th><th>Admit ở θ = 0,02</th><th>Admit ở θ = 0,05</th></tr>
+<tr><td>Jinja, lịch sử gốc</td><td>100%</td><td>29</td><td>32</td></tr>
+<tr><td>Jinja, một commit</td><td>100%</td><td>53</td><td>59</td></tr>
+<tr><td>Bleve, lịch sử gốc</td><td>100%</td><td>43</td><td>55</td></tr>
+<tr><td>Bleve, một commit</td><td>100%</td><td>65</td><td><span class=bad>—</span></td></tr>
+<tr><td>Nội dung so với placebo</td><td>100%</td><td>53</td><td>57</td></tr>
+<tr><td>Bỏ chỉ dẫn git (§29)</td><td>100%</td><td>24</td><td>27</td></tr>
+<tr><td>Học lại khi bịt rò rỉ (§30)</td><td>100% (trung vị 68; khoảng tứ phân vị 55–80)</td><td>100 (task cuối)</td><td><span class=bad>—</span></td></tr>
+<tr><td>Pygments, dùng lại</td><td>0%</td><td>—</td><td>—</td></tr></table>
+<p>Quyết định admit không phụ thuộc vào lần rút thứ tự cụ thể; chỉ thời điểm admit thay đổi. Với θ = 0,05, hai skill có mức tăng
+đo được nhỏ nhất (Bleve một commit, Jinja §30) không còn được admit.</p>
+<p><b>Chi phí admission lại khi đổi scope:</b> mỗi admission ở đây cần 24–65 cặp task; với agent của nhóm, mỗi cặp tốn trung bình
+khoảng 174 nghìn token input và 10 nghìn token output (đếm từ quỹ đạo §30), tức 4,2–11,3 triệu token input cho mỗi scope.</p>
 <h2 id="rq3">7. RQ3: Chuyển giao sang phạm vi khác</h2>
 <table><tr><th>Chỉ số</th><th>Kết quả</th></tr><tr><td>Không skill</td><td>5/100</td></tr><tr><td>Có skill</td><td>6/100</td></tr><tr><td>Chênh lệch</td><td>1 task</td></tr><tr><td>95% CI</td><td>[−0,02; 0,05]</td></tr><tr><td>p-value</td><td>1,00</td></tr><tr><td>Gatekeeper</td><td>Không admit</td></tr></table>
 <p>Skill Jinja được chứng nhận ở Jinja nhưng chưa có bằng chứng đủ mạnh về cải thiện ở Pygments. Admission phải gắn với scope. Vì tỷ lệ giải quyết nền thấp, không nên kết luận skill chắc chắn gây hại hoặc chắc chắn không thể chuyển giao.</p></section>
@@ -349,6 +365,9 @@ mục model thứ hai đang tạm dừng theo quyết định ngày 07/11.</li>
 <li><b>Một kênh rò rỉ</b> (lịch sử git); các kênh khác trong image chưa được thăm dò.</li>
 <li><b>Một lượt học cho mỗi điều kiện</b>: khác biệt giữa skill gốc và skill §30 không tách được khỏi biến thiên giữa các lượt học.</li>
 <li><b>Bảo đảm cho từng admission</b>, không phải cho cả họ; đọc cả họ (α/8) thì skill §30 không còn được admit.</li>
+<li><b>Chưa có</b>: model khác hãng, nhiều lượt học, repo thật (không tổng hợp), loss nhiều mức thay vì nhị phân, nhiều seed,
+so sánh các quy tắc admission khác trên luồng của skill học được (mới so trên luồng A/A), benchmark có tỉ lệ giải nền cao để đo tác hại.
+Tất cả đều cần thí nghiệm có phí và đã ghi trong mục Threats của paper.</li>
 <li><b>Thứ tự trial</b>: bảo đảm cần thứ tự không phụ thuộc kết quả. Thứ tự do seed của gskill cố định, nhưng các lượt chạy
 song song trong vài giờ; nếu model của nhà cung cấp đổi giữa chừng thì kết quả có thể gắn với vị trí. Chưa thấy điều này, nhưng không loại trừ được.</li>
 <li><b>Model sau cùng một tên có thể đổi theo ngày</b> (phép kiểm đăng ký trước: 74/109 phản hồi đầu
@@ -360,7 +379,7 @@ không lỗi nào làm đổi một kết luận đã đăng ký.</li>
 
 <h2 id="ban-thao">9. Tình trạng bản thảo</h2>
 <ul>
-<li>Bản thảo 10 trang (mẫu IEEE hai cột), 45 tài liệu tham khảo; mọi câu trích dẫn đều đối chiếu với bản gốc đã lưu.
+<li>Bản thảo 11 trang (mẫu IEEE hai cột; nội dung 9 trang, phần còn lại là tài liệu tham khảo), 45 tài liệu tham khảo; mọi câu trích dẫn đều đối chiếu với bản gốc đã lưu.
 Không còn mục TODO; bản dựng không có dòng tràn lề. Đã thêm mục Kết luận.</li>
 <li>Đã cắt mục Composition (không có thực nghiệm); giữ mục Sample Complexity (gắn với dữ liệu: ghép cặp tiết kiệm
 4,31 lần số lượt chạy).</li>
@@ -369,6 +388,9 @@ tính đối xứng làm luật GEPA không cải thiện khi tăng minibatch, v
 <li>Bản phản biện thứ hai (11/11) đã được trả lời: thêm Mệnh đề 1 (e-process hợp lệ khi chạy mỗi task một lần theo thứ tự split)
 kèm chứng minh, test và mô phỏng; nói rõ bảo đảm cho từng admission và thêm cách đọc cả họ (§31); bỏ mọi câu “cùng mức tăng”
 khi khoảng tin cậy chỉ chứa 0; tóm tắt rút về 3 phát hiện; tách RQ2 thành chuỗi nhân quả; đưa kết quả §30 vào paper.</li>
+<li>Bản phản biện thứ ba (M1–M6, 6 điểm phụ) đã được trả lời trong phạm vi không tốn tiền: làm rõ bảo đảm của Mệnh đề 1 là theo
+lần rút thứ tự (seed cố định trước khi có kết quả); kiểm trên 10.000 thứ tự ngẫu nhiên; độ nhạy theo θ; chi phí admission lại;
+ghi rõ các giới hạn còn lại. Bản thảo 11 trang, trong đó phần nội dung kết thúc ở trang 9.</li>
 </ul>
 
 <h2 id="chi-phi">10. Ngân sách và chi phí</h2>
@@ -380,7 +402,7 @@ khi khoảng tin cậy chỉ chứa 0; tóm tắt rút về 3 phát hiện; tác
 <tr><td>Ba phép thử trên skill Jinja (§27)</td><td class=n>7,00</td><td class=n>5,77</td></tr>
 <tr><td>Ablation (§29)</td><td class=n>4,00</td><td class=n>2,98</td></tr>
 <tr><td>Học lại trong môi trường một commit (§30): học 10,99, chấm 3,67</td><td class=n>20,00</td><td class=n>14,66</td></tr>
-<tr><td>Phản biện 11/11 (§31, chỉ tính toán lại)</td><td class=n>—</td><td class=n>0,00</td></tr>
+<tr><td>Phản biện 11/11, hai lượt (§31, chỉ tính toán lại)</td><td class=n>—</td><td class=n>0,00</td></tr>
 </table></div>
 <div class="tbl"><table>
 <caption>Token đã ghi nhận (input gồm cả phần lấy từ cache)</caption>
@@ -405,6 +427,9 @@ chưa có số token.</p>
 <li><b>Củng cố §30 (có phí):</b> skill học lại được admit ở mức đăng ký nhưng không còn đứng khi đọc cả họ (α/8). Có thể thêm task
 hoặc thêm một lượt học để tăng bằng chứng; đây là ngân sách mới. Đề xuất: giữ như hiện tại và nêu rõ trong paper (đã làm),
 trừ khi thầy thấy kết luận §30 là trọng tâm của bản nộp.</li>
+<li><b>Các thí nghiệm phản biện thứ ba đề nghị (có phí):</b> model khác hãng (M2), thêm lượt học (M3), repo thật (M4), so sánh
+phương pháp admission trên luồng thật (M5), ablation các chỉ dẫn còn lại, nhiều seed, benchmark có tỉ lệ nền cao. Đề xuất ưu tiên
+nếu có ngân sách: M3 (lặp lượt học §30) vì nó củng cố đúng kết quả yếu nhất khi đọc cả họ; M2 chờ thầy duyệt đề tài như đã thống nhất.</li>
 </ol>
 </div>
 
