@@ -56,7 +56,7 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 </head>
 <body>
 <main>
-<p class="meta">Dự án Gatekeeper ·bản cập nhật 09/11/2026 10:28 UTC · commit <code>8bc0c46</code></p>
+<p class="meta">Dự án Gatekeeper ·bản cập nhật 11/11/2026 · commit <code>8159125</code></p>
 <h1>Scope before Reuse: chứng nhận skill đã học cho coding agent theo phạm vi</h1>
 
 <ol class="toc">
@@ -79,13 +79,20 @@ phần do rò rỉ là <b>0,17 [0,06; 0,28]</b>, khoảng 45% mức tăng. Repo 
 lặp lại: khoảng 43%.</li>
 <li>Phần còn lại là tác dụng thật và vẫn được chứng nhận. Thí nghiệm ablation mới (§29) xác nhận từ phía
 ngược lại: bỏ riêng chỉ dẫn đọc lịch sử khỏi skill, trong môi trường gốc, cho 17 → <b>40</b>
-(p = 2,8·10<sup>−6</sup>), cùng mức tăng còn lại với cách bỏ lịch sử (chênh 0,02 [−0,08; 0,12]).</li>
+(p = 2,8·10<sup>−6</sup>); mức tăng còn lại không khác biệt phát hiện được so với cách bỏ lịch sử (chênh 0,02 [−0,08; 0,12]).</li>
+<li><b>Mới (§30): bịt rò rỉ ngay khi học.</b> Chạy lại vòng học của gskill với mọi container học chỉ còn một commit:
+<b>0/8</b> bản viết lại có chỉ dẫn đọc lịch sử (lượt học gốc: 5/8). Skill mới giải <b>33</b> so với 16
+(p = 2,4·10<sup>−4</sup>), Gatekeeper admit sau 65 task. Đem sang môi trường gốc (còn rò rỉ), skill mới chỉ giải
+<b>1/34</b> task không có mô tả issue, so với 15/34 của skill gốc.</li>
 <li>Chứng nhận không mang sang phạm vi khác: dùng lại skill Jinja trên Pygments cho 5 so với
 6 (p = 1,00, hai phía), Gatekeeper không admit; bộ chấm công khai của gskill lại báo mức
 tăng 0,28.</li>
 <li>Bộ chấm công khai của gskill coi một bản vá không đổi gì là đạt ở 206/216 task,
 so với 0 theo bộ chấm của SWE-smith. Dưới phép thử A/A, quy tắc so sánh một lần với ngưỡng
 admit nhầm 0,46 số luồng; Gatekeeper 0,0032.</li>
+<li><b>Mới (phản biện 11/11, §31):</b> paper chứng minh e-process vẫn hợp lệ khi chạy mỗi task một lần theo thứ tự
+split (lấy không hoàn lại); mô phỏng H₀ cho tỉ lệ admit nhầm lớn nhất 0,0075. Mỗi admission có bảo đảm riêng ở
+α = 0,025; đọc cả 8 admission như một họ (α/8, ngưỡng 320) thì <b>6/7 vẫn đứng</b>, skill §30 thì không.</li>
 </ul>
 
 <h2 id="cau-hoi">2. Câu hỏi nghiên cứu và đóng góp</h2>
@@ -98,13 +105,14 @@ admit nhầm 0,46 số luồng; Gatekeeper 0,0032.</li>
 <tr><td>RQ1</td><td>Các con số đánh giá skill có đứng vững trước đối chứng không?</td>
 <td>Không, với bộ chấm và quy tắc admit phổ biến; có, với harness và Gatekeeper của nhóm.</td></tr>
 <tr><td>RQ2</td><td>Skill học được có chứng nhận được không, và mức tăng đến từ đâu?</td>
-<td>Có. Khoảng 45% (Jinja) và 43% (Bleve) mức tăng đến từ rò rỉ trong môi trường.</td></tr>
+<td>Có. Tối đa khoảng 45% (Jinja) và 43% (Bleve) mức tăng đến từ rò rỉ trong môi trường (cận trên). Bịt rò rỉ
+ngay khi học cho skill không còn chỉ dẫn đọc lịch sử, vẫn được admit.</td></tr>
 <tr><td>RQ3</td><td>Chứng nhận có mang sang phạm vi khác không?</td>
 <td>Không: đổi lịch sử repo, đổi repo, hoặc đổi cấu hình agent–model đều làm thay đổi giá trị của skill.</td></tr>
 </table></div>
 <p><strong>Đóng góp:</strong> </p>
           <p>(1) chứng nhận anytime-valid cho skill do một pipeline đã công bố tạo ra; </p>
-          <p>(2) phép đo có đối chứng cho thấy bộ học tự đưa một chỉ dẫn khai thác rò rỉ vào skill, và định lượng phần mức tăng mà rò rỉ chiếm;</p>
+          <p>(2) phép đo có đối chứng cho thấy bộ học tự đưa một chỉ dẫn khai thác rò rỉ vào skill, định lượng phần mức tăng mà rò rỉ chiếm, và cho thấy bịt rò rỉ ngay trong môi trường học thì chỉ dẫn đó không xuất hiện;</p>
           <p>(3) bằng chứng rằng chứng nhận gắn với phạm vi; </p>
           <p>(4) bộ đối chứng cho phép đo; </p>
           <p>(5) bản đăng ký trước, dữ liệu gốc và mã.</p>
@@ -133,7 +141,13 @@ có lỗi; mọi thứ khác giữ nguyên.</td></tr>
 <tr><td>Phần do rò rỉ</td><td>Mức tăng trong môi trường gốc trừ mức tăng trong môi trường một commit, trên cùng 100 task.
 Đây là cận trên, vì bỏ lịch sử cũng bỏ mọi giá trị khác của lịch sử thật.</td></tr>
 <tr><td>Admit, chứng nhận</td><td>Gatekeeper admit skill trong một phạm vi khi E<sub>n</sub> ≥ 1/α; khi đó skill được gọi là
-được chứng nhận trong phạm vi đó.</td></tr>
+được chứng nhận trong phạm vi đó. Phạm vi của một admission là tập 100 task kiểm tra; task khác của cùng repo thuộc
+phần sai lệch phân phối ξ.</td></tr>
+<tr><td>Học trong môi trường một commit (§30)</td><td>Chạy lại vòng học của gskill đúng cấu hình gốc; khác biệt duy nhất: ngay sau khi
+gskill dựng container của mỗi task, lịch sử được thay bằng một commit. Mỗi lần thay được kiểm (một commit, không có
+commit “Bug Patch”); một lần không đạt thì dừng cả lượt học.</td></tr>
+<tr><td>Bảo đảm từng admission, bảo đảm cả họ</td><td>Từng admission: mỗi quyết định sai với xác suất ≤ α. Cả họ: xác suất có ít nhất
+một quyết định sai trong K admission ≤ α, cần chia α/K cho mỗi admission (Bonferroni).</td></tr>
 <tr><td>A/A</td><td>Hai lần chạy cùng không có skill; mọi “tác dụng” đo được là nhiễu.</td></tr>
 <tr><td>Sham skill</td><td>Cặp A/A được trình bày cho auditor như thể lần chạy thất bại có nạp skill; skill không thể là
 nguyên nhân vì không lần chạy nào nạp nó.</td></tr>
@@ -160,6 +174,14 @@ WebDev-Skills-Bench); quy tắc chọn ra đúng 1 trong 98 skill công khai.</t
 <p class="muted">Đây là trực giác về hướng cập nhật; mức tăng/giảm thực tế còn phụ thuộc λᵢ.</p>
 <strong>Vì sao ngưỡng là 40?</strong><div class="formula">α = 0,025 ⇒ 1/α = 40</div><p>Khi Eₙ ≥ 40, Gatekeeper admit skill. Nếu chạy hết 100 task mà e-process không đạt 40, skill không được admit trong scope đó. Ngưỡng 40 là ngưỡng bằng chứng thống kê, không phải số task cần giải quyết.</p>
 <strong>Tính anytime-valid:</strong><p>Nếu liên tục kiểm tra kết quả sau nhiều task và dừng khi thấy có ý nghĩa thống kê, xác suất sai loại I có thể tăng. E-process cho phép theo dõi sau từng trial và dừng khi đạt ngưỡng, với điều kiện các giả định thống kê được thỏa mãn.</p><div class="formula">P(∃n: Eₙ ≥ 1/α) ≤ α</div><p class="muted">Đây là bảo đảm thống kê có điều kiện, không phải cam kết mọi skill được admit đều an toàn trong mọi repository.</p>
+<strong>Điều kiện khi chạy mỗi task một lần (mới, Mệnh đề 1 của paper):</strong><p>Thí nghiệm không lấy task i.i.d.: 100 task
+kiểm tra chạy đúng một lần theo thứ tự gskill đã xáo bằng seed cố định (<code>random.seed(seed); random.shuffle(...)</code>)
+từ trước mọi lượt chạy. Đây là lấy mẫu không hoàn lại, nên kỳ vọng có điều kiện của trial kế tiếp thay đổi theo
+những gì đã thấy (Waudby-Smith &amp; Ramdas §5):</p><div class="formula">μ<sup>WoR</sup><sub>i</sub> = (Nμ − Σ<sub>j&lt;i</sub> Z<sub>j</sub>) / (N − i + 1)</div>
+<p>Cách cược aGRAPA chỉ đặt cược (λ<sub>i</sub> &gt; 0) khi Σ<sub>j&lt;i</sub> Z<sub>j</sub> &lt; −θi; khi đó μ<sup>WoR</sup><sub>i</sub> ≥ −θ, nên
+E<sub>n</sub> vẫn là siêu martingale và bất đẳng thức Ville vẫn đúng. Với agent ngẫu nhiên, mô phỏng đúng quy tắc trên
+6 tập task có hiệu ứng trung bình 0 (20.000 lần mỗi tập): tỉ lệ admit nhầm lớn nhất 0,0075 (cận trên 95% 0,0087),
+dưới α = 0,025.</p>
 </li>
 <h4><li><b>Kiểm định dấu chính xác.</b></h4> b = số task chỉ nhánh có skill giải được, c = số task chỉ nhánh không skill
 giải được; p một phía = P(Bin(b+c, ½) ≥ b).</li>
@@ -172,7 +194,8 @@ agent trên 3 task huấn luyện, rồi đề xuất bản viết lại. Bản 
 lớn hơn ngặt điểm của bản cha (luật mặc định của GEPA). Ứng viên kế tiếp được chọn theo chiến lược Pareto;
 tập validation gồm 50 task. Vòng lặp dừng sau 600 metric call (mỗi metric call là một
 lần chạy agent với một ứng viên trên một task). Với Jinja: 606 metric call, 9 ứng
-viên, điểm validation theo L của skill trả về là 0,94.</li>
+viên, điểm validation theo L của skill trả về là 0,94. Lượt học lại của §30 (môi trường một commit): 609 metric call,
+9 ứng viên, điểm validation 0,76.</li>
 <h4><li><b>Mantel–Haenszel (XRepoSkill).</b></h4> Hiệu tỉ lệ giải gộp theo tầng (mỗi task một tầng). Nhóm tự dựng thành cổng:
 admit khi cận dưới của khoảng 95% hai phía (z = 1,96) lớn hơn 0. XRepoSkill không dùng nó làm ngưỡng.</li></h4>
 <h4><li><b>Mức nhiễu khi chạy lại.</b></h4> Với cỡ mẫu n, phân vị 97,5% của trị tuyệt đối chênh lệch tỉ lệ giải giữa hai lần
@@ -200,9 +223,12 @@ lượt; trần này chặn tối đa 1 trong 1.134 lượt chạy.</li>
 <li>Hai nhánh ghép cặp theo task. Phép thử chính: kiểm định dấu chính xác một phía trên các cặp lệch; Holm ở mức
 họ α = 0,025; khoảng tin cậy bootstrap 95% theo task (10.000 lần).</li>
 <li>Gatekeeper: e-process cá cược (aGRAPA, Waudby-Smith &amp; Ramdas), θ = 0, α = 0,025, c = 0,5; admit khi
-E<sub>n</sub> ≥ 1/α = 40; bảo đảm sai số loại I ≤ α tại mọi thời điểm dừng (bất đẳng thức Ville).</li>
+E<sub>n</sub> ≥ 1/α = 40; bảo đảm sai số loại I ≤ α tại mọi thời điểm dừng (bất đẳng thức Ville), kể cả khi 100 task
+chạy một lần theo thứ tự split (Mệnh đề 1). Mỗi admission được đăng ký như một ô riêng: bảo đảm là cho từng admission,
+không phải cho cả họ.</li>
 <li>Năm đối chứng: A/A (hai lần chạy không skill), sham skill (cho quy lỗi), bản vá rỗng và bản vá gốc (cho bộ
-chấm), skill không liên quan cùng độ dài ±5% byte (cho nội dung), lịch sử một commit (cho rò rỉ).</li>
+chấm), skill không liên quan cùng độ dài ±5% byte (cho nội dung), lịch sử một commit (cho rò rỉ; áp dụng cho đánh giá,
+và ở §30 cho cả môi trường học).</li>
 </ul>
 
 <h2 id="rq1">5. RQ1: Đối chứng của phép đo</h2>
@@ -237,7 +263,7 @@ lượt), nên thí nghiệm dừng trước khi tính tác dụng. Kết luận
 <figure>
 <div class="legend"><span><i class="sw" style="background:var(--bar0)"></i>Không skill</span>
 <span><i class="sw" style="background:var(--bar1)"></i>Có skill</span></div>
-<div class="chart"><svg viewBox="0 0 580 258" role="img" aria-label="Số task giải được"><line class="gl" x1="210.0" x2="210.0" y1="18" y2="236"/><text class="tick" x="210.0" y="252" text-anchor="middle">0</text><line class="gl" x1="292.5" x2="292.5" y1="18" y2="236"/><text class="tick" x="292.5" y="252" text-anchor="middle">25</text><line class="gl" x1="375.0" x2="375.0" y1="18" y2="236"/><text class="tick" x="375.0" y="252" text-anchor="middle">50</text><line class="gl" x1="457.5" x2="457.5" y1="18" y2="236"/><text class="tick" x="457.5" y="252" text-anchor="middle">75</text><line class="gl" x1="540.0" x2="540.0" y1="18" y2="236"/><text class="tick" x="540.0" y="252" text-anchor="middle">100</text><text class="axis" x="200" y="40" text-anchor="end">Jinja, lịch sử gốc</text><rect class="b0" x="210" y="26" width="49.5" height="11"/><rect class="b1" x="210" y="39" width="174.9" height="11"/><text class="val" x="263.5" y="36">15</text><text class="val" x="388.9" y="49">53</text><text class="axis" x="200" y="74" text-anchor="end">Jinja, một commit</text><rect class="b0" x="210" y="60" width="46.2" height="11"/><rect class="b1" x="210" y="73" width="115.5" height="11"/><text class="val" x="260.2" y="70">14</text><text class="val" x="329.5" y="83">35</text><text class="axis" x="200" y="108" text-anchor="end">Jinja, skill bỏ chỉ dẫn git</text><rect class="b0" x="210" y="94" width="56.1" height="11"/><rect class="b1" x="210" y="107" width="132.0" height="11"/><text class="val" x="270.1" y="104">17</text><text class="val" x="346.0" y="117">40</text><text class="axis" x="200" y="142" text-anchor="end">Bleve, lịch sử gốc</text><rect class="b0" x="210" y="128" width="42.9" height="11"/><rect class="b1" x="210" y="141" width="141.9" height="11"/><text class="val" x="256.9" y="138">13</text><text class="val" x="355.9" y="151">43</text><text class="axis" x="200" y="176" text-anchor="end">Bleve, một commit</text><rect class="b0" x="210" y="162" width="46.2" height="11"/><rect class="b1" x="210" y="175" width="102.3" height="11"/><text class="val" x="260.2" y="172">14</text><text class="val" x="316.3" y="185">31</text><text class="axis" x="200" y="210" text-anchor="end">Pygments, dùng lại skill Jinja</text><rect class="b0" x="210" y="196" width="16.5" height="11"/><rect class="b1" x="210" y="209" width="19.8" height="11"/><text class="val" x="230.5" y="206">5</text><text class="val" x="233.8" y="219">6</text></svg></div>
+<div class="chart"><svg viewBox="0 0 580 292" role="img" aria-label="Số task giải được"><line class="gl" x1="210.0" x2="210.0" y1="18" y2="270"/><text class="tick" x="210.0" y="286" text-anchor="middle">0</text><line class="gl" x1="292.5" x2="292.5" y1="18" y2="270"/><text class="tick" x="292.5" y="286" text-anchor="middle">25</text><line class="gl" x1="375.0" x2="375.0" y1="18" y2="270"/><text class="tick" x="375.0" y="286" text-anchor="middle">50</text><line class="gl" x1="457.5" x2="457.5" y1="18" y2="270"/><text class="tick" x="457.5" y="286" text-anchor="middle">75</text><line class="gl" x1="540.0" x2="540.0" y1="18" y2="270"/><text class="tick" x="540.0" y="286" text-anchor="middle">100</text><text class="axis" x="200" y="40" text-anchor="end">Jinja, lịch sử gốc</text><rect class="b0" x="210" y="26" width="49.5" height="11"/><rect class="b1" x="210" y="39" width="174.9" height="11"/><text class="val" x="263.5" y="36">15</text><text class="val" x="388.9" y="49">53</text><text class="axis" x="200" y="74" text-anchor="end">Jinja, một commit</text><rect class="b0" x="210" y="60" width="46.2" height="11"/><rect class="b1" x="210" y="73" width="115.5" height="11"/><text class="val" x="260.2" y="70">14</text><text class="val" x="329.5" y="83">35</text><text class="axis" x="200" y="108" text-anchor="end">Jinja, skill bỏ chỉ dẫn git</text><rect class="b0" x="210" y="94" width="56.1" height="11"/><rect class="b1" x="210" y="107" width="132.0" height="11"/><text class="val" x="270.1" y="104">17</text><text class="val" x="346.0" y="117">40</text><text class="axis" x="200" y="142" text-anchor="end">Jinja, học lại khi bịt rò rỉ</text><rect class="b0" x="210" y="128" width="52.8" height="11"/><rect class="b1" x="210" y="141" width="108.9" height="11"/><text class="val" x="266.8" y="138">16</text><text class="val" x="322.9" y="151">33</text><text class="axis" x="200" y="176" text-anchor="end">Bleve, lịch sử gốc</text><rect class="b0" x="210" y="162" width="42.9" height="11"/><rect class="b1" x="210" y="175" width="141.9" height="11"/><text class="val" x="256.9" y="172">13</text><text class="val" x="355.9" y="185">43</text><text class="axis" x="200" y="210" text-anchor="end">Bleve, một commit</text><rect class="b0" x="210" y="196" width="46.2" height="11"/><rect class="b1" x="210" y="209" width="102.3" height="11"/><text class="val" x="260.2" y="206">14</text><text class="val" x="316.3" y="219">31</text><text class="axis" x="200" y="244" text-anchor="end">Pygments, dùng lại skill Jinja</text><rect class="b0" x="210" y="230" width="16.5" height="11"/><rect class="b1" x="210" y="243" width="19.8" height="11"/><text class="val" x="230.5" y="240">5</text><text class="val" x="233.8" y="253">6</text></svg></div>
 <figcaption>Số task giải được trên 100 task kiểm tra, bộ chấm S. Mỗi cặp thanh là hai nhánh chạy trên cùng 100 task.</figcaption>
 </figure>
 <div class="tbl"><table>
@@ -246,6 +272,7 @@ lượt), nên thí nghiệm dừng trước khi tính tác dụng. Kết luận
 <tr><td>Jinja</td><td>lịch sử gốc</td><td class=n>15</td><td class=n>53</td><td class=n>0,38 [0,26; 0,49]</td><td class=n>—</td><td class=n>29</td></tr>
 <tr><td>Jinja</td><td>lịch sử một commit</td><td class=n>14</td><td class=n>35</td><td class=n>0,21 [0,13; 0,29]</td><td class=n>4,8·10<sup>−7</sup></td><td class=n>50</td></tr>
 <tr><td>Jinja</td><td>lịch sử gốc, skill bỏ chỉ dẫn git (§29)</td><td class=n>17</td><td class=n>40</td><td class=n>0,23 [0,14; 0,32]</td><td class=n>2,8·10<sup>−6</sup></td><td class=n>24</td></tr>
+<tr><td>Jinja</td><td>một commit, skill <b>học lại</b> khi bịt rò rỉ (§30)</td><td class=n>16</td><td class=n>33</td><td class=n>0,17 [0,08; 0,26]</td><td class=n>2,4·10<sup>−4</sup></td><td class=n>65</td></tr>
 <tr><td>Bleve</td><td>lịch sử gốc</td><td class=n>13</td><td class=n>43</td><td class=n>0,30 [0,19; 0,40]</td><td class=n>—</td><td class=n>34</td></tr>
 <tr><td>Bleve</td><td>lịch sử một commit</td><td class=n>14</td><td class=n>31</td><td class=n>0,17 [0,09; 0,25]</td><td class=n>1,1·10<sup>−4</sup></td><td class=n>61</td></tr>
 </table></div>
@@ -255,22 +282,53 @@ lượt), nên thí nghiệm dừng trước khi tính tác dụng. Kết luận
 trên cùng 100 task): Jinja 0,17 [0,06; 0,28], khoảng 45%; Bleve 0,13 [0,03; 0,23], khoảng 43%.
 Đây là cận trên, vì bỏ toàn bộ lịch sử cũng bỏ mọi giá trị khác của lịch sử thật.</li>
 <li>Ở 34 task Jinja không có mô tả issue, skill giải 15 khi còn lịch sử và
-0 khi không còn; khi bỏ chỉ dẫn git: 2.</li>
+0 khi không còn; khi bỏ chỉ dẫn git: 2; skill học lại (§30) đem vào môi trường gốc: 1.</li>
 <li>Quỹ đạo: ở cả 34 task không có mô tả, agent chạy <code>git log</code>/<code>git show</code> và thấy
 commit “Bug Patch” (34/34). Bộ học tự đưa chỉ dẫn này vào skill: skill khởi đầu rỗng, và
 prompt của gskill không nhắc tới lịch sử hay commit.</li>
 </ul>
 <div class="box amber"><b>Không nên nói:</b> “45% hiệu quả của skill là giả.”<br><b>Nên nói:</b> “Khoảng 45% mức tăng bị giảm trong phép thử thay lịch sử; đây là cận trên của ảnh hưởng lịch sử, vì thí nghiệm loại bỏ toàn bộ lịch sử Git chứ không chỉ commit gây lỗi.”</div>
 <h3>Phần còn lại là tác dụng thật</h3>
-<table><tr><th>Thí nghiệm</th><th>Điều thay đổi</th><th>Mức tăng còn lại</th></tr><tr><td>Single-commit</td><td>Thay lịch sử Git trong môi trường</td><td>21 điểm %</td></tr><tr><td>Skill ablation</td><td>Xóa riêng chỉ dẫn Git khỏi skill</td><td>23 điểm %</td></tr></table>
-<div class="formula">0,23 − 0,21 = 0,02; 95% CI [−0,08; 0,12]</div>
+<table><tr><th>Thí nghiệm</th><th>Điều thay đổi</th><th>Mức tăng còn lại</th></tr><tr><td>Single-commit</td><td>Thay lịch sử Git trong môi trường</td><td>21 điểm %</td></tr><tr><td>Skill ablation</td><td>Xóa riêng chỉ dẫn Git khỏi skill</td><td>23 điểm %</td></tr><tr><td>Học lại (§30)</td><td>Bịt rò rỉ ngay trong môi trường học</td><td>17 điểm %</td></tr></table>
+<div class="formula">0,23 − 0,21 = 0,02; 95% CI [−0,08; 0,12]<br>0,17 − 0,21 = −0,04; 95% CI [−0,13; 0,05]</div>
 <ul>
-<li>Ba đường độc lập cho cùng kết luận: bỏ lịch sử (Jinja 0,21 [0,13; 0,29]), bỏ chỉ dẫn git (0,23 [0,14; 0,32]),
-và hai mức này chênh nhau 0,02 [−0,08; 0,12].</li>
+<li>Ba đường cho kết quả tương thích: bỏ lịch sử (Jinja 0,21 [0,13; 0,29]), bỏ chỉ dẫn git (0,23 [0,14; 0,32]),
+học lại khi bịt rò rỉ (0,17 [0,08; 0,26]). Hiệu số so với 0,21 lần lượt là 0,02 [−0,08; 0,12] và −0,04 [−0,13; 0,05].</li>
 <li>Nội dung, không phải độ dài: một skill không liên quan cùng độ dài giải 24 task; tác dụng của nội dung
 0,29 [0,18; 0,40] (p = 2,4·10<sup>−6</sup>); tác dụng của riêng độ dài 0,09 [0,0000; 0,18], không có ý nghĩa ở α = 0,025 (p = 0,09, hai phía).</li>
 </ul>
-<p>Khoảng tin cậy chứa 0 nên chưa có bằng chứng hai mức tăng còn lại khác nhau rõ rệt. Hai cách kiểm tra độc lập cho kết quả tương thích, củng cố cách giải thích về vai trò của chỉ dẫn Git nhưng không xác định chính xác đóng góp của từng instruction còn lại.</p>
+<p>Khoảng tin cậy chứa 0 nên chưa có bằng chứng các mức tăng còn lại khác nhau rõ rệt. Đây <b>không</b> phải bằng chứng chúng bằng nhau: không có biên tương đương nào được đăng ký trước. Các cách kiểm tra cho kết quả tương thích, củng cố cách giải thích về vai trò của chỉ dẫn Git nhưng không xác định chính xác đóng góp của từng instruction còn lại.</p>
+<h3>Bịt rò rỉ ngay khi học (§30)</h3>
+<p>Hai đối chứng trên sửa skill hoặc môi trường <i>sau</i> khi học. §30 sửa chính lượt học: chạy lại vòng học của gskill
+đúng cấu hình gốc, chỉ khác là mọi container học chỉ còn một commit (609 lần thay lịch sử, đều đạt kiểm tra).</p>
+<table><tr><th>Chỉ số</th><th>Lượt học gốc</th><th>Lượt học §30 (bịt rò rỉ)</th></tr>
+<tr><td>Bản viết lại có dòng về commit/lịch sử</td><td>5/8</td><td><b>0/8</b></td></tr>
+<tr><td>Skill trả về có chữ “git”</td><td>Có (1 dòng)</td><td>Không (3.353 byte)</td></tr>
+<tr><td>Một commit: không skill → có skill (S)</td><td>14 → 35</td><td>16 → 33</td></tr>
+<tr><td>Cặp lệch b/c, p một phía</td><td>21/0; 4,8·10<sup>−7</sup></td><td>20/3; 2,4·10<sup>−4</sup></td></tr>
+<tr><td>Gatekeeper admit</td><td>50</td><td>65</td></tr>
+<tr><td>Bộ chấm L (một commit)</td><td>40 → 66</td><td>40 → 67</td></tr></table>
+<p><b>Đem skill §30 vào môi trường gốc (Q3, phép mô tả đã đăng ký):</b></p>
+<table><tr><th>Điều kiện (34 task không có mô tả issue, lịch sử gốc)</th><th>Giải được</th></tr>
+<tr><td>Skill gốc</td><td>15/34</td></tr><tr><td>Skill gốc bỏ chỉ dẫn git (§29)</td><td>2/34</td></tr>
+<tr><td><b>Skill học lại (§30)</b></td><td><b>1/34</b></td></tr><tr><td>Không skill</td><td>0–1/34</td></tr></table>
+<p>Với skill §30, agent gọi <code>git log</code>/<code>git show</code> ở 4/34 lượt và thấy commit “Bug Patch” ở 2/34 (skill gốc: 34/34).</p>
+<div class="box amber"><b>Giới hạn:</b> mỗi điều kiện chỉ có <b>một lượt học</b>, GEPA ngẫu nhiên, nên 0/8 là một quan sát chứ không phải tỉ lệ.
+34 task được chọn vì rò rỉ hiện rõ ở đó, không đại diện cho mọi task; không thêm kiểm định nào sau khi thấy dữ liệu.</div>
+<h3>Đọc các admission như một họ (thăm dò, §31)</h3>
+<p>Mỗi admission được đăng ký riêng ở α = 0,025. Nếu đọc cả 8 bài toán admission trong paper cùng lúc, cần α/8 = 0,003125,
+tức ngưỡng <b>320</b> thay vì 40. Chạy lại đúng quy tắc trên cùng dữ liệu:</p>
+<table><tr><th>Luồng</th><th>Admit ở α (ngưỡng 40)</th><th>Admit ở α/8 (ngưỡng 320)</th></tr>
+<tr><td>Jinja, lịch sử gốc</td><td>29</td><td><span class=ok>46</span></td></tr>
+<tr><td>Jinja, một commit</td><td>50</td><td><span class=ok>65</span></td></tr>
+<tr><td>Bleve, lịch sử gốc</td><td>34</td><td><span class=ok>57</span></td></tr>
+<tr><td>Bleve, một commit</td><td>61</td><td><span class=ok>99</span></td></tr>
+<tr><td>Nội dung so với placebo</td><td>50</td><td><span class=ok>63</span></td></tr>
+<tr><td>Bỏ chỉ dẫn git (§29)</td><td>24</td><td><span class=ok>68</span></td></tr>
+<tr><td>Học lại khi bịt rò rỉ (§30)</td><td>65</td><td><span class=bad>— (E lớn nhất 144)</span></td></tr>
+<tr><td>Pygments, dùng lại</td><td>—</td><td>—</td></tr></table>
+<p>6/7 admission vẫn đứng, chỉ muộn hơn. Phân tích này chọn sau khi có dữ liệu nên chỉ là thăm dò, không thay quyết định đã đăng ký;
+kiểm định dấu của §30 (p = 2,4·10<sup>−4</sup>) là phép thử riêng, không bị ảnh hưởng.</p>
 <h2 id="rq3">7. RQ3: Chuyển giao sang phạm vi khác</h2>
 <table><tr><th>Chỉ số</th><th>Kết quả</th></tr><tr><td>Không skill</td><td>5/100</td></tr><tr><td>Có skill</td><td>6/100</td></tr><tr><td>Chênh lệch</td><td>1 task</td></tr><tr><td>95% CI</td><td>[−0,02; 0,05]</td></tr><tr><td>p-value</td><td>1,00</td></tr><tr><td>Gatekeeper</td><td>Không admit</td></tr></table>
 <p>Skill Jinja được chứng nhận ở Jinja nhưng chưa có bằng chứng đủ mạnh về cải thiện ở Pygments. Admission phải gắn với scope. Vì tỷ lệ giải quyết nền thấp, không nên kết luận skill chắc chắn gây hại hoặc chắc chắn không thể chuyển giao.</p></section>
@@ -289,6 +347,10 @@ Tỉ lệ giải nền thấp, nên phép thử này có ít power để phát h
 mục model thứ hai đang tạm dừng theo quyết định ngày 07/11.</li>
 <li><b>Task tổng hợp, ba repo</b> (SWE-smith), mỗi nhánh một seed, 100 cặp task mỗi phép thử.</li>
 <li><b>Một kênh rò rỉ</b> (lịch sử git); các kênh khác trong image chưa được thăm dò.</li>
+<li><b>Một lượt học cho mỗi điều kiện</b>: khác biệt giữa skill gốc và skill §30 không tách được khỏi biến thiên giữa các lượt học.</li>
+<li><b>Bảo đảm cho từng admission</b>, không phải cho cả họ; đọc cả họ (α/8) thì skill §30 không còn được admit.</li>
+<li><b>Thứ tự trial</b>: bảo đảm cần thứ tự không phụ thuộc kết quả. Thứ tự do seed của gskill cố định, nhưng các lượt chạy
+song song trong vài giờ; nếu model của nhà cung cấp đổi giữa chừng thì kết quả có thể gắn với vị trí. Chưa thấy điều này, nhưng không loại trừ được.</li>
 <li><b>Model sau cùng một tên có thể đổi theo ngày</b> (phép kiểm đăng ký trước: 74/109 phản hồi đầu
 trùng), nên các phép so xác nhận chỉ ghép những nhánh chạy cùng lúc; các phép so khác ngày được ghi là mô tả.</li>
 <li><b>Bộ chấm L</b> chỉ kiểm ở commit 8c7b697 của gskill, không phải mã đứng sau thông báo của họ.</li>
@@ -298,30 +360,40 @@ không lỗi nào làm đổi một kết luận đã đăng ký.</li>
 
 <h2 id="ban-thao">9. Tình trạng bản thảo</h2>
 <ul>
-<li>Bản thảo 9 trang (mẫu IEEE hai cột), 43 tài liệu tham khảo; mọi câu trích dẫn đều đối chiếu với bản gốc đã lưu.
-Không còn mục TODO; bản dựng không có dòng tràn lề.</li>
+<li>Bản thảo 10 trang (mẫu IEEE hai cột), 45 tài liệu tham khảo; mọi câu trích dẫn đều đối chiếu với bản gốc đã lưu.
+Không còn mục TODO; bản dựng không có dòng tràn lề. Đã thêm mục Kết luận.</li>
 <li>Đã cắt mục Composition (không có thực nghiệm); giữ mục Sample Complexity (gắn với dữ liệu: ghép cặp tiết kiệm
 4,31 lần số lượt chạy).</li>
 <li>Một bản phản biện bên ngoài (đánh giá tích cực) đã được trả lời: bổ sung cách hiểu ξ<sub>s</sub>, phiên bản bộ chấm,
 tính đối xứng làm luật GEPA không cải thiện khi tăng minibatch, và thí nghiệm ablation §29.</li>
+<li>Bản phản biện thứ hai (11/11) đã được trả lời: thêm Mệnh đề 1 (e-process hợp lệ khi chạy mỗi task một lần theo thứ tự split)
+kèm chứng minh, test và mô phỏng; nói rõ bảo đảm cho từng admission và thêm cách đọc cả họ (§31); bỏ mọi câu “cùng mức tăng”
+khi khoảng tin cậy chỉ chứa 0; tóm tắt rút về 3 phát hiện; tách RQ2 thành chuỗi nhân quả; đưa kết quả §30 vào paper.</li>
 </ul>
 
 <h2 id="chi-phi">10. Ngân sách và chi phí</h2>
 <div class="tbl"><table>
-<caption>Chi tiêu USD của giai đoạn 06–08/11 (để kiểm soát ngân sách; theo sổ chi trong bản đăng ký)</caption>
+<caption>Chi tiêu USD của giai đoạn 06–11/11 (để kiểm soát ngân sách; theo sổ chi trong bản đăng ký)</caption>
 <tr><th>Hạng mục</th><th>Trần đã duyệt</th><th>Đã chi</th></tr>
 <tr><td>Kế hoạch tái hiện (§22, §23)</td><td class=n>60,00</td><td class=n>7,18</td></tr>
 <tr><td>Bleve và MemGovern (§25 bước 4, ô MemGovern)</td><td class=n>40,00</td><td class=n>21,16</td></tr>
 <tr><td>Ba phép thử trên skill Jinja (§27)</td><td class=n>7,00</td><td class=n>5,77</td></tr>
 <tr><td>Ablation (§29)</td><td class=n>4,00</td><td class=n>2,98</td></tr>
+<tr><td>Học lại trong môi trường một commit (§30): học 10,99, chấm 3,67</td><td class=n>20,00</td><td class=n>14,66</td></tr>
+<tr><td>Phản biện 11/11 (§31, chỉ tính toán lại)</td><td class=n>—</td><td class=n>0,00</td></tr>
 </table></div>
 <div class="tbl"><table>
 <caption>Token đã ghi nhận (input gồm cả phần lấy từ cache)</caption>
 <tr><th>Giai đoạn</th><th>Lượt</th><th>Input</th><th>Trong đó cache</th><th>Output</th></tr>
 <tr><td>Pilot G1 và xác nhận (lượt chạy agent)</td><td class=n>756</td><td class=n>404.920.161</td><td class=n>347.616.254</td><td class=n>4.371.228</td></tr><tr><td>Audit quy lỗi, Flash-Lite</td><td class=n>102</td><td class=n>469.302</td><td class=n>—</td><td class=n>8.722</td></tr><tr><td>Audit quy lỗi, Flash</td><td class=n>102</td><td class=n>469.302</td><td class=n>—</td><td class=n>9.737</td></tr><tr><td>Audit quy lỗi, Pro</td><td class=n>102</td><td class=n>469.302</td><td class=n>—</td><td class=n>43.509</td></tr><tr><td>Chọn rule XRepoSkill (E2)</td><td class=n>—</td><td class=n>1.064.350</td><td class=n>—</td><td class=n>119.541</td></tr>
+<tr><td>§30 chấm, không skill (100 task)</td><td class=n>1.155</td><td class=n>6.521.778</td><td class=n>4.103.741</td><td class=n>643.405</td></tr>
+<tr><td>§30 chấm, có skill (100 task)</td><td class=n>1.679</td><td class=n>10.847.704</td><td class=n>7.436.850</td><td class=n>403.040</td></tr>
+<tr><td>§30 chấm, skill trong môi trường gốc (34 task)</td><td class=n>398</td><td class=n>1.853.176</td><td class=n>986.479</td><td class=n>69.825</td></tr>
 </table></div>
 <p class="note">Các lượt chạy trên SWE-smith (§25–§29) ghi chi phí bằng đồng hồ USD của gskill nhưng chưa lưu số token
-theo từng lượt; sẽ bổ sung ghi token cho các lượt chạy sau.</p>
+theo từng lượt. Từ §30, bước chấm lưu quỹ đạo nên đếm được token (cột “Lượt” ở các dòng §30 là số lần gọi model;
+gồm cả lần chạy đầu và lần chạy bù). Bước học §30 chỉ ghi số lần gọi: 9.086 lần gọi model agent và 22 lần gọi model reflection;
+chưa có số token.</p>
 
 <h2 id="xin-y-kien">11. Việc cần thầy cho ý kiến</h2>
 <div class="ask">
@@ -330,6 +402,9 @@ theo từng lượt; sẽ bổ sung ghi token cho các lượt chạy sau.</p>
 Đề xuất: thông báo, vì các phát hiện đã được kiểm trên mã đã ghim và bài không khẳng định gì về con số họ công bố.</li>
 <li><b>Phạm vi model:</b> giữ một họ model và nêu rõ ở mục hạn chế, hay mở lại mục model thứ hai.
 Đề xuất: giữ như hiện tại cho bản nộp; đây là hạn chế lớn nhất mà phản biện nêu.</li>
+<li><b>Củng cố §30 (có phí):</b> skill học lại được admit ở mức đăng ký nhưng không còn đứng khi đọc cả họ (α/8). Có thể thêm task
+hoặc thêm một lượt học để tăng bằng chứng; đây là ngân sách mới. Đề xuất: giữ như hiện tại và nêu rõ trong paper (đã làm),
+trừ khi thầy thấy kết luận §30 là trọng tâm của bản nộp.</li>
 </ol>
 </div>
 
