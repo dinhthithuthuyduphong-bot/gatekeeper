@@ -91,5 +91,123 @@
    "rate": 0.00035,
    "cp95_upper": 0.0007209999554352942
   }
+ },
+ "order_theta": {
+  "jinja_as_shipped": {
+   "perms": 10000,
+   "share_admitted": 1.0,
+   "first_q25_q50_q75": [
+    24.0,
+    30.0,
+    37.0
+   ],
+   "theta": {
+    "0.02": 29,
+    "0.05": 32
+   }
+  },
+  "jinja_single_commit": {
+   "perms": 10000,
+   "share_admitted": 1.0,
+   "first_q25_q50_q75": [
+    44.0,
+    51.0,
+    57.0
+   ],
+   "theta": {
+    "0.02": 53,
+    "0.05": 59
+   }
+  },
+  "bleve_as_shipped": {
+   "perms": 10000,
+   "share_admitted": 1.0,
+   "first_q25_q50_q75": [
+    30.0,
+    37.0,
+    45.0
+   ],
+   "theta": {
+    "0.02": 43,
+    "0.05": 55
+   }
+  },
+  "bleve_single_commit": {
+   "perms": 10000,
+   "share_admitted": 1.0,
+   "first_q25_q50_q75": [
+    54.0,
+    64.0,
+    75.0
+   ],
+   "theta": {
+    "0.02": 65,
+    "0.05": null
+   }
+  },
+  "jinja_content_vs_placebo": {
+   "perms": 10000,
+   "share_admitted": 1.0,
+   "first_q25_q50_q75": [
+    32.0,
+    41.0,
+    51.0
+   ],
+   "theta": {
+    "0.02": 53,
+    "0.05": 57
+   }
+  },
+  "jinja_no_history_instruction": {
+   "perms": 10000,
+   "share_admitted": 1.0,
+   "first_q25_q50_q75": [
+    40.0,
+    47.0,
+    55.0
+   ],
+   "theta": {
+    "0.02": 24,
+    "0.05": 27
+   }
+  },
+  "jinja_relearned_single_commit": {
+   "perms": 10000,
+   "share_admitted": 1.0,
+   "first_q25_q50_q75": [
+    55.0,
+    68.0,
+    80.0
+   ],
+   "theta": {
+    "0.02": 100,
+    "0.05": null
+   }
+  },
+  "pygments_reuse": {
+   "perms": 10000,
+   "share_admitted": 0.0,
+   "first_q25_q50_q75": null,
+   "theta": {
+    "0.02": null,
+    "0.05": null
+   }
+  }
+ },
+ "tokens": {
+  "none": {
+   "input": 6521778,
+   "cached": 4103741,
+   "output": 643405,
+   "tasks": 100
+  },
+  "skill": {
+   "input": 10847704,
+   "cached": 7436850,
+   "output": 403040,
+   "tasks": 100
+  },
+  "per_paired_trial_input": 173694.82,
+  "per_paired_trial_output": 10464.45
  }
 }

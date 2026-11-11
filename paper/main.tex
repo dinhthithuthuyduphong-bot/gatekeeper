@@ -44,7 +44,7 @@ Second, reducing the history to a single commit lowers the gain from \njinjaGain
 \njinjaLFGain{}; the difference, \nleak{} [\nleakLo{}, \nleakHi{}], is an upper bound on the
 leak's share, and the remaining gain is still admitted. A skill learned for a Go repository
 repeats the pattern. Third, rerunning the learner with the history removed from every learning
-container yields a skill with no history instruction that is admitted (\ncleanNone{} to
+container yields a skill with no history instruction that is admitted at the registered per-admission level (\ncleanNone{} to
 \ncleanSkill{} resolved) and, moved into the original environment, solves \ncleanShipSolved{} of
 the \ncleanShipN{} tasks without a description, against \njinjaNoPSn{} for the original skill.
 Reused verbatim on another repository, the Jinja skill is not admitted, while the pipeline's public
@@ -256,7 +256,11 @@ lower the mean loss. For the null on the \emph{expected} outcome, where the agen
 fixed, we checked the exact rule by simulation ($N=100$, $\theta=0$, $c=0.5$, $\alpha=0.025$, random
 order, \nworNulls{} null pools with expected mean $0$, from homogeneous to half helped and half
 harmed; \nworReps{} runs each): the admission rate was at most \nworMaxRate{} (Clopper--Pearson 95\%
-upper bound \nworMaxUpper{}). An admission is therefore a statement about the test pool of the
+upper bound \nworMaxUpper{}). The probability in the proposition is over the order. Our runs use
+one draw of it, gskill's seeded shuffle, fixed before any outcome existed and not chosen by us, so
+the guarantee reads as for a randomised experiment with a published seed: before the runs, the
+chance of a false admission was at most $\alpha$. Section~\ref{sec:family} checks that the reported
+decisions do not hinge on this one draw. An admission is therefore a statement about the test pool of the
 scope; other tasks of the same repository are a deployment distribution $Q_s$ and fall under
 $\xi_s$ below.
 
@@ -655,7 +659,8 @@ one configuration predicts little about another. In our own runs, two SWE-Skills
 pairs, with a median no-skill pass rate of \nproNoneMedian: there was little left for the skill to
 change.
 
-\subsection{Reading the admissions as one family (exploratory)}\label{sec:family}
+\subsection{Sensitivity of the admissions (exploratory)}\label{sec:family}
+\paragraph{One family}
 Each admission was registered as its own cell at $\alpha=0.025$. A reader who takes all \nfamK{}
 admission problems of this paper together (the \nfamAdmits{} admitted streams of
 Table~\ref{tab:rq2} and of the placebo comparison, and the Pygments reuse test) needs
@@ -666,6 +671,24 @@ This reading was chosen after the data and does not replace the registered per-c
 sign test ($p=\ncleanP$) is unaffected, since it is a separate registered test with its own
 correction (Section~\ref{sec:design}). Holm's procedure over the sign tests does not control the
 error of the e-process admissions, which are separate decisions.
+\paragraph{The order of the tasks}
+Each stream was run in one order, gskill's. Rerunning the same rule on \npermN{} uniformly random
+orders of the same paired outcomes, every stream admitted in the registered order is admitted in
+all \npermN{} orders (the re-learned skill at a median of \ncleanPermMed{} tasks, interquartile range
+\ncleanPermLo{}--\ncleanPermHi{}), and the Pygments reuse test in none. The reported decisions do
+not depend on the particular draw; the first crossing does.
+\paragraph{The margin $\theta$}
+All admissions use $\theta=0$, which certifies a gain greater than zero. With the two margins of
+Table~\ref{tab:design}, which certify a gain of at least $\theta$, \nthetaSmallKept{} of the
+\nfamAdmits{} admissions hold at $\theta=\nthetaSmall$ (the re-learned skill at task
+\ncleanThetaSmall{}, the last) and \nthetaLargeKept{} at $\theta=\nthetaLarge$; the two that fail at
+$\theta=\nthetaLarge$ are the single-commit Bleve skill and the re-learned Jinja skill, whose
+measured gains are the smallest.
+\paragraph{The cost of re-admission}
+A scope change means a new admission. Here an admission needed \nadmitMinTrials{} to
+\nadmitMaxTrials{} paired tasks; with our agent a paired task cost on average \ntokTrialIn{} thousand
+input and \ntokTrialOut{} thousand output tokens (counted in the section~30 traces), that is
+\ntokAdmitLo{} to \ntokAdmitHi{} million input tokens per scope, before any stop for futility.
 
 \subsection{Could the learner's own acceptance rule have caught the leak?}
 GEPA accepts a rewrite of the skill when it resolves more of three tasks than its parent
@@ -697,7 +720,15 @@ test on a third, one seed per arm, 100 paired tasks each. In the reuse test, \np
 arm were run again later the same day after the run stopped at its cost cap, so for them the two
 arms did not run at the same time. The single-commit history also removes the repository's real history,
 so the leak-free environment is not a real repository either; we did not test a history that keeps
-the real commits and drops only the bug-injecting one.
+the real commits and drops only the bug-injecting one. We have no learned skill evaluated on tasks
+from a real, non-synthetic repository. Base rates without a skill are low (\njinjaNone{},
+\nbleveNone{} and \npygNone{} of 100), so a skill can mostly help rather than harm; benchmarks with
+higher base rates are needed to measure harm.
+\paragraph{Loss, seeds and comparison methods}
+Every experiment uses the binary loss of Section~\ref{sec:admission} (resolved or not); the graded loss
+$\ell=(F+wR)/(1+w)$ is defined but not evaluated, and we did not choose a $w$. Each arm ran with one
+seed. Other admission rules are compared on A/A streams (Section~\ref{sec:rq1}), not on the
+learned-skill streams.
 \paragraph{Order of the trials}
 The admission guarantee needs an order that does not depend on the outcomes
 (Proposition~\ref{prop:wor}). The order is fixed by gskill's seeded split, but the runs of one arm

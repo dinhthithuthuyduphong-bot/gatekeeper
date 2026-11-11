@@ -833,3 +833,14 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Test:** `tests/test_s31_wor.py`, tính đúng E[E_n] ≤ 1 trên mọi hoán vị của 4 pool, có một pool nằm đúng biên H₀ (θ = 1/6).
 - **Paper:** §III (giả thiết, mệnh đề prop:wor kèm chứng minh, mô phỏng, đoạn về α); §VI mục mới "Reading the admissions as one family (exploratory)"; bỏ mọi câu "same gain"; nhánh C ghi rõ là mô tả; giữ caveat "cận trên"; tóm tắt rút còn 3 kết quả; tách RQ2 thành chuỗi đoạn; thêm Kết luận; mối đe dọa "Order of the trials".
 - **Phân tích thăm dò, sau dữ liệu (R5):** cách đọc cả họ không thay quyết định đã đăng ký. Nó được ghi là thăm dò trong paper và trong `docs/preregistration_main.md` §31.
+
+## R-63. Paper: trả lời phản biện thứ ba (M1–M6; 0 USD)
+
+- **M1 (thứ tự ngẫu nhiên so với seed cố định):**
+  - Paper nói rõ xác suất của Mệnh đề 1 tính trên thứ tự. Thí nghiệm dùng một lần rút: seed của gskill, cố định trước khi có kết quả, không do nhóm chọn.
+  - Kiểm thêm (thăm dò): chạy cùng quy tắc trên 10.000 thứ tự ngẫu nhiên. 7/7 luồng đã admit vẫn admit ở 100% thứ tự; Pygments 0%.
+- **Điểm phụ 1 (θ):** dùng hai biên đã có trong bảng thiết kế (0,02 và 0,05; không chọn số mới). Kết quả: 7/7 và 5/7 admission giữ.
+- **Điểm phụ 2 (chi phí):** đếm token từ quỹ đạo §30: khoảng 174 nghìn token input và 10 nghìn token output mỗi cặp task; 4,2–11,3 triệu token input cho mỗi admission.
+- **M2–M5, điểm phụ 3–6:** cần thí nghiệm có phí. Đã ghi vào mục Threats của paper và chờ @thuthuy quyết. M6 đã có ở §31; tóm tắt ghi thêm "per-admission level".
+- **Mã:** `scripts/s31_alpha_family.py` thêm phần (c), (d), (e). Chạy lại thì các phần (a), (b) cho kết quả giống hệt lần trước. `make_numbers.py` thêm các số mới.
+- **Kiểm:** paper biên dịch sạch, không tràn lề; 11 trang, phần nội dung kết thúc ở trang 9.

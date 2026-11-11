@@ -1988,3 +1988,14 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - 6 pool có kỳ vọng trung bình bằng 0, mỗi pool 20.000 lần chạy;
   - tỉ lệ admit lớn nhất 0,0075, cận trên Clopper–Pearson 95% là 0,0087.
   - Khi điều kiện theo kết quả đã xảy ra, tính hợp lệ có chứng minh (mệnh đề prop:wor trong paper).
+- **31c, thứ tự (phản biện thứ ba, M1):**
+  - 10.000 thứ tự ngẫu nhiên của cùng các cặp kết quả.
+  - 7/7 luồng đã admit vẫn admit ở mọi thứ tự; Pygments không admit ở thứ tự nào.
+  - Skill §30 admit ở task trung vị 68 (khoảng tứ phân vị 55–80).
+- **31d, θ:**
+  - Dùng hai biên của bảng thiết kế.
+  - θ = 0,02: 7/7 admission giữ (skill §30 ở task 100).
+  - θ = 0,05: 5/7 giữ (Bleve một commit và skill §30 không đạt).
+- **31e, chi phí:**
+  - Mỗi cặp task tốn khoảng 174 nghìn token input và 10 nghìn token output (quỹ đạo §30).
+  - Mỗi admission tốn 4,2–11,3 triệu token input.

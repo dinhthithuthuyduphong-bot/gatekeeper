@@ -752,6 +752,30 @@ def main() -> int:
         if v["admit_at_alpha"] != reg:
             print("MISMATCH s31", name, v["admit_at_alpha"], reg)
             return 1
+    ot, tk = s31["order_theta"], s31["tokens"]
+    adm_names = [k for k, v in fam["streams"].items() if v["admit_at_alpha"] is not None]
+    firsts = [fam["streams"][k]["admit_at_alpha"] for k in adm_names]
+    N.update(
+        {
+            "permN": next(iter(ot.values()))["perms"],
+            "permMinShare": min(ot[k]["share_admitted"] for k in adm_names),
+            "permPygShare": ot["pygments_reuse"]["share_admitted"],
+            "cleanPermMed": round(ot["jinja_relearned_single_commit"]["first_q25_q50_q75"][1]),
+            "cleanPermLo": round(ot["jinja_relearned_single_commit"]["first_q25_q50_q75"][0]),
+            "cleanPermHi": round(ot["jinja_relearned_single_commit"]["first_q25_q50_q75"][2]),
+            "thetaSmall": 0.02,
+            "thetaLarge": 0.05,
+            "thetaSmallKept": sum(ot[k]["theta"]["0.02"] is not None for k in adm_names),
+            "thetaLargeKept": sum(ot[k]["theta"]["0.05"] is not None for k in adm_names),
+            "cleanThetaSmall": ot["jinja_relearned_single_commit"]["theta"]["0.02"],
+            "tokTrialIn": round(tk["per_paired_trial_input"] / 1000),
+            "tokTrialOut": round(tk["per_paired_trial_output"] / 1000),
+            "tokAdmitLo": round(min(firsts) * tk["per_paired_trial_input"] / 1e6, 1),
+            "tokAdmitHi": round(max(firsts) * tk["per_paired_trial_input"] / 1e6, 1),
+            "admitMinTrials": min(firsts),
+            "admitMaxTrials": max(firsts),
+        }
+    )
     for k, v in {"famK": 8, "famAdmits": 7, "famKept": 6, "famThr": 320}.items():
         if N[k] != v:
             print("MISMATCH", k, N[k], v)
