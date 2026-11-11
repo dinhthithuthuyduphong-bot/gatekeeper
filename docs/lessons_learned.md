@@ -501,3 +501,9 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Nguyên nhân gốc:** script chỉ phân biệt "crash" và "không crash". Một crash trước bước đầu tiên là do nhà cung cấp từ chối, không phải do agent, nhưng vẫn bị ghi như kết quả của agent.
 - **Phòng ngừa:** crash trước bước đầu tiên được ghi là `infra_error` (`crash_infra_reason`, có test). Lỗi hạ tầng được chạy lại, không bao giờ được tính là "không giải được" (L1).
 
+## L56. Một bảo đảm thống kê phải đi kèm đúng thiết kế đã chạy và đúng phạm vi của nó (A126)
+- **Nguyên nhân gốc:** tôi chép giả thiết của định lý (i.i.d., chia α cho cả họ) từ phần lý thuyết sang paper, mà không đối chiếu với cách thí nghiệm thực sự chạy (mỗi task một lần theo thứ tự cố định; mỗi admission là một ô riêng).
+- **Phòng ngừa:**
+  1. Mỗi định lý trong paper có một câu nói thí nghiệm nào thỏa giả thiết của nó và bằng cách nào. Nếu thiết kế khác giả thiết (WoR thay cho i.i.d.), phải có chứng minh hoặc mô phỏng đúng quy tắc trên đúng thiết kế (L11).
+  2. Phân biệt bảo đảm cho từng phép thử với bảo đảm cho cả họ. Nếu chỉ có loại thứ nhất thì nói rõ, và báo cách đọc cả họ (Bonferroni) như phân tích thăm dò.
+  3. Khoảng tin cậy chứa 0 nghĩa là "không phát hiện khác biệt". Chỉ được viết "bằng", "ngang" hay "tương đương" khi đã đăng ký trước một biên tương đương và kiểm định theo biên đó.

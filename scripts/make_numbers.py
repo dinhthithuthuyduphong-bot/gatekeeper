@@ -717,6 +717,45 @@ def main() -> int:
         if N[k] != v:
             print("MISMATCH", k, N[k], v)
             return 1
+    # section 31 (exploratory, after the data): family-wise reading, without-replacement null
+    s31 = load(Path("results/s31_alpha_family.json"))
+    fam, wor = s31["family"], s31["wor_null"]
+    adm = [v for v in fam["streams"].values() if v["admit_at_alpha"] is not None]
+    N.update(
+        {
+            "famK": fam["K"],
+            "famThr": round(fam["K"] / ALPHA),
+            "famAdmits": len(adm),
+            "famKept": sum(v["admit_at_alpha_over_K"] is not None for v in adm),
+            "famUnion": fam["K"] * ALPHA,
+            "cleanMaxE": round(fam["streams"]["jinja_relearned_single_commit"]["max_e"]),
+            "cleanFamAdmit": "no"
+            if fam["streams"]["jinja_relearned_single_commit"]["admit_at_alpha_over_K"] is None
+            else "yes",
+            "worNulls": len(wor),
+            "worReps": next(iter(wor.values()))["reps"],
+            "worMaxRate": max(v["rate"] for v in wor.values()),
+            "worMaxUpper": max(v["cp95_upper"] for v in wor.values()),
+        }
+    )
+    for name, v in fam["streams"].items():  # registered first crossings must reproduce
+        reg = {
+            "jinja_as_shipped": N["jinjaAdmit"],
+            "jinja_single_commit": N["jinjaLFAdmit"],
+            "bleve_as_shipped": N["bleveAdmit"],
+            "bleve_single_commit": N["bleveLFAdmit"],
+            "jinja_content_vs_placebo": N["conAdmit"],
+            "jinja_no_history_instruction": N["abAdmit"],
+            "jinja_relearned_single_commit": N["cleanAdmit"],
+            "pygments_reuse": None,
+        }[name]
+        if v["admit_at_alpha"] != reg:
+            print("MISMATCH s31", name, v["admit_at_alpha"], reg)
+            return 1
+    for k, v in {"famK": 8, "famAdmits": 7, "famKept": 6, "famThr": 320}.items():
+        if N[k] != v:
+            print("MISMATCH", k, N[k], v)
+            return 1
     N["leakSharePct"] = round(100 * N["leakShare"])
     N["fzeroGoldMinPct"] = int(100 * f0["S_gold_min"])  # floor: "at least"
     for k in ("sskbOpp", "sskbRho"):

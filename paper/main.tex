@@ -34,36 +34,23 @@
 Coding agents increasingly reuse \emph{skills}: natural-language procedures, often learned
 automatically from earlier runs, that are loaded into the agent's context. Whether a skill should
 run in a new context is usually decided from a single resolve-rate gain. We show that this number
-can be real and still misleading. A skill learned automatically for the Jinja repository raises the
-number of resolved tasks from \njinjaNone{} to \njinjaSkill{} out of 100, and an anytime-valid
-paired test admits it after \njinjaAdmit{} tasks. The learned text, however, tells the agent to
-look for a suspicious recent commit, and the evaluation environment keeps the bug-injecting commit
-in the repository history. Reducing the history to a single commit lowers the gain from
-\njinjaGain{} to \njinjaLFGain{}: \nleak{} [\nleakLo{}, \nleakHi{}], about \nleakSharePct\% of the
-in-scope gain, comes from the leak; on the \njinjaNoPSTasks{} tasks without an issue description the
-skill's whole gain disappears (it solves \njinjaNoPSn{} of them with the history and \njinjaNoPSLF{}
-without). The remaining gain is real and is still
-admitted, after \njinjaLFAdmit{} tasks; deleting only the history instruction from the skill, in the
-original environment, leaves a gain of the same size (\nabNone{} to \nabSkill{} resolved). Rerunning
-the learner itself with the history removed from every learning container yields a skill with no
-history instruction (in none of its \ncleanCandNonEmpty{} rewrites); it raises the resolved count from
-\ncleanNone{} to \ncleanSkill{}, is admitted after \ncleanAdmit{} tasks, and, moved into the original
-environment, solves \ncleanShipSolved{} of the \ncleanShipN{} tasks without a description. Prompt
-length does not explain it: an irrelevant skill
-of the same length resolves \nplcS{} tasks, against \njinjaNone{} without a skill and \njinjaSkill{} with
-the learned one. In the traces of all \ntrTasks{} Jinja tasks without
-a description, the agent reads the bug-injecting commit. A second learned skill, for a Go repository,
-repeats the pattern: \nbleveNone{} to \nbleveSkill{} resolved with the history and \nbleveLFNone{} to
-\nbleveLFSkill{} without it, so that about \nbleveLeakSharePct\% of its gain comes from the leak; the
-skill is admitted in both environments. Reused verbatim on another repository, the Jinja skill resolves
-\npygSkill{} tasks against \npygNone{} and is not admitted, while the pipeline's own scorer reports a
-gain of \npygLGain{}. The
-public scorer of the same learning pipeline accepts patches that change nothing on \nfzeroLNoop{}
-of \nfzeroN{} tasks, against \nfzeroSNoop{} for the benchmark's own scorer. We argue that a skill
-must be admitted per scope, and only under controls that can expose such effects: A/A runs, sham
-skills, no-op and gold patches. On our own scoring harness, no-op patches resolve \nnoopOurs{} of
-\nnoopOursN{} tasks and gold patches pass on \ngoldOursOk{} of the \ngoldOursN{} instances we audited.
-We release the preregistrations, every raw run and the code.
+can be real and still misleading. A skill learned by a published pipeline for the Jinja repository
+raises the number of resolved tasks from \njinjaNone{} to \njinjaSkill{} out of 100, and an
+anytime-valid paired test admits it after \njinjaAdmit{} tasks. Three findings follow. First, the
+learner wrote, unprompted, an instruction to look for a suspicious recent commit, and the
+evaluation environment keeps the bug-injecting commit in the repository history; on the
+\njinjaNoPSTasks{} tasks without an issue description the agent reads that commit in every trace.
+Second, reducing the history to a single commit lowers the gain from \njinjaGain{} to
+\njinjaLFGain{}; the difference, \nleak{} [\nleakLo{}, \nleakHi{}], is an upper bound on the
+leak's share, and the remaining gain is still admitted. A skill learned for a Go repository
+repeats the pattern. Third, rerunning the learner with the history removed from every learning
+container yields a skill with no history instruction that is admitted (\ncleanNone{} to
+\ncleanSkill{} resolved) and, moved into the original environment, solves \ncleanShipSolved{} of
+the \ncleanShipN{} tasks without a description, against \njinjaNoPSn{} for the original skill.
+Reused verbatim on another repository, the Jinja skill is not admitted, while the pipeline's public
+scorer, which accepts patches that change nothing on \nfzeroLNoop{} of \nfzeroN{} tasks, reports a
+gain of \npygLGain{}. We argue that a skill must be admitted per scope, under controls that can
+expose such effects, and release the preregistrations, every raw run and the code.
 \end{abstract}
 
 \section{Introduction}
@@ -111,8 +98,9 @@ rest of the gain is not explained by the leak: Gatekeeper still admits the skill
 only while evaluating, removes the instruction at its source: rerun with every learning container
 reduced to a single commit, gskill wrote no line about commits or history in any of its
 \ncleanCandNonEmpty{} kept rewrites, and the skill it returned is certified (\ncleanNone{} to
-\ncleanSkill{}, admitted after \ncleanAdmit{} tasks) with a gain no different from the genuine part of
-the original skill's (difference \ncleanVsOrig{} [\ncleanVsOrigLo{}, \ncleanVsOrigHi{}]). A skill learned in the same way for a Go
+\ncleanSkill{}, admitted after \ncleanAdmit{} tasks), with no statistically detectable difference
+from the residual gain of the original skill (difference \ncleanVsOrig{} [\ncleanVsOrigLo{},
+\ncleanVsOrigHi{}]; we registered no equivalence margin, so this is not a claim of equivalence). A skill learned in the same way for a Go
 repository (Bleve) repeats the pattern: its text again advises reading recent commits when the issue
 is vague, it raises the resolved count from \nbleveNone{} to \nbleveSkill{} (\nbleveGain{}
 [\nbleveGainLo{}, \nbleveGainHi{}]; admitted after \nbleveAdmit{} tasks), and on tasks without a
@@ -120,7 +108,8 @@ description it solves \nbleveNoPS{} against \nbleveNoPSNone{}. With a single-com
 \nbleveNoPSLF{} against \nbleveNoPSNone{}, the gain falls to \nbleveLFGain{} [\nbleveLFGainLo{},
 \nbleveLFGainHi{}] and Gatekeeper admits the skill after \nbleveLFAdmit{} tasks; the leak accounts
 for \nbleveLeak{} [\nbleveLeakLo{}, \nbleveLeakHi{}], about \nbleveLeakSharePct\% of the in-scope
-gain, close to the \nleakSharePct\% on Jinja.
+gain, against \nleakSharePct\% on Jinja. Both shares are upper bounds on the leak's share: the
+single commit removes the whole history, not only the bug-injecting commit.
 
 \paragraph{What this means for reuse}
 An admission decision, even a statistically valid one, certifies a skill \emph{in a scope}, and
@@ -168,7 +157,8 @@ it; gskill's scorer would report \npygLSkill{} against \npygLNone{}, a gain of \
         task without an issue description (\ntrBugPatch{} of \ntrTasks{} traces), and that the
         leak accounts for \nleak{} [\nleakLo{}, \nleakHi{}] of the Jinja gain and \nbleveLeak{}
         [\nbleveLeakLo{}, \nbleveLeakHi{}] of the Bleve gain; deleting the instruction from the skill
-        instead of the history from the environment gives the same remaining gain, and learning
+        instead of the history from the environment leaves a remaining gain with no detectable
+        difference from the first, and learning
         with the history removed produces a certified skill without the instruction that does not
         exploit the leak when moved back into the original environment (Section~\ref{sec:rq2}).
   \item Evidence that the certification is specific to its scope: the gain changes with the
@@ -230,13 +220,52 @@ conditional mean at most $1$ and is at least $1-c>0$, so $E_n$ is a nonnegative 
 Ville's inequality gives $\Pr[\exists n:E_n\ge1/\alpha]\le\alpha$ at any data-dependent stopping time.
 
 \begin{assumption}[Paired trials, bounded shift]
-Within scope $s$, trial contexts satisfy $\mathbb{E}[Z_i\mid\mathcal{F}_{i-1}]=\STR_{P_s}$ (i.i.d.\
-from $P_s$, or with replacement from a finite pool $\hat P_s$ whose discrepancy to $P_s$ is
-absorbed into $\xi_s$); deployment contexts follow $Q_s$ with $\mathrm{TV}(Q_s,P_s)\le\xi_s$.
+Within scope $s$, either trial contexts are i.i.d.\ from $P_s$, so that
+$\mathbb{E}[Z_i\mid\mathcal{F}_{i-1}]=\STR_{P_s}$, or $P_s$ is the uniform distribution on a finite
+pool of $N$ tasks, each run once per arm, observed in a uniformly random order that does not depend
+on the outcomes (Proposition~\ref{prop:wor}). Deployment contexts follow $Q_s$ with
+$\mathrm{TV}(Q_s,P_s)\le\xi_s$.
 \end{assumption}
 
-The $\alpha$ budget is fixed in advance:
-$\sum_{(S,s)}\alpha_{S,s}\le\alpha$. All admissions in this paper test one cell each ($\alpha_{S,s}=\alpha$).
+Every experiment in this paper uses the second case. The trials are the \nlearnTest{} test tasks of
+gskill's own split, in the split's order: gskill shuffles the rows of a repository with a fixed
+seed (``\texttt{random.seed(seed) random.shuffle(all\_data)}'') and slices them into train,
+validation and test~\cite{gskill_seed_candidate}, so the order of the test tasks
+is a pseudo-random permutation fixed by the pipeline before any of our runs, the same in both arms,
+and never changed by us. Each task is run once per arm, all 100 tasks are run, and we report the
+first $k$ at which $E_k\ge1/\alpha$. In this case $\mathbb{E}[Z_i\mid\mathcal{F}_{i-1}]$ is not a
+constant: sampling without replacement changes the conditional mean of the next draw to
+$\mu^{\mathrm{WoR}}_i=(N\mu-\sum_{j<i}Z_j)/(N-i+1)$~\cite[Sec.~5]{waudby_smith_ramdas}.
+The bet above remains valid nevertheless.
+
+\begin{proposition}[Finite pool in random order]\label{prop:wor}
+Let $z_1,\dots,z_N\in[-1,1]$ be the paired outcomes of the pool, with mean $\mu\ge-\theta$, and let
+$Z_1,\dots,Z_N$ be these values in a uniformly random order. With the bet above (prior mean
+$0\ge-\theta$, weight $1$), $E_n$ is a nonnegative supermartingale with respect to the order, so
+$\Pr[\exists n\le N:E_n\ge1/\alpha]\le\alpha$.
+\end{proposition}
+\begin{proof}
+$\lambda_i>0$ only if $\hat\mu_{i-1}=\sum_{j<i}Z_j/i<-\theta$, that is $\sum_{j<i}Z_j<-\theta i$.
+Then $\mu^{\mathrm{WoR}}_i>(-N\theta+\theta i)/(N-i+1)\ge-\theta$, so the factor
+$1+\lambda_i(-\theta-Z_i)$ has conditional mean at most $1$; for $\lambda_i=0$ it equals $1$. It is
+at least $1-c>0$ as before. Ville's inequality concludes.
+\end{proof}
+The proposition conditions on the outcomes, that is on the agent's randomness as it was realised
+once per task and arm: the null it tests is that, on these runs of this pool, the skill does not
+lower the mean loss. For the null on the \emph{expected} outcome, where the agent's randomness is not
+fixed, we checked the exact rule by simulation ($N=100$, $\theta=0$, $c=0.5$, $\alpha=0.025$, random
+order, \nworNulls{} null pools with expected mean $0$, from homogeneous to half helped and half
+harmed; \nworReps{} runs each): the admission rate was at most \nworMaxRate{} (Clopper--Pearson 95\%
+upper bound \nworMaxUpper{}). An admission is therefore a statement about the test pool of the
+scope; other tasks of the same repository are a deployment distribution $Q_s$ and fall under
+$\xi_s$ below.
+
+The $\alpha$ budget is fixed in advance: $\sum_{(S,s)}\alpha_{S,s}\le\alpha$ bounds the probability
+of at least one false admission among all cells (family-wise). Each admission in this paper was
+registered as its own cell with $\alpha_{S,s}=\alpha=0.025$, so each carries a \emph{per-admission}
+guarantee. Read together, the \nfamK{} admission problems we report are bounded only by the union
+bound, $\nfamK\alpha=\nfamUnion$. Section~\ref{sec:family} gives the family-wise reading with
+$\alpha_{S,s}=\alpha/\nfamK$.
 
 \begin{theorem}[Admission bound]
 Under the assumption,
@@ -483,13 +512,16 @@ tasks against \njinjaNone{}; on Bleve \nbleveSkill{} against \nbleveNone{}. Both
 reject under Holm's procedure over the two scorers, and Gatekeeper admits each skill after \njinjaAdmit{} and
 \nbleveAdmit{} tasks. These are skills produced by a published pipeline, used verbatim.
 
-\paragraph{Part of the gain comes from the environment}
+\paragraph{The learner wrote the instruction}
 Both learned skills tell the agent to read recent commits when the issue is unclear. The seed
 from which gskill starts is empty, its agent configuration does not contain ``git'', and its
 skill-writing prompts mention \texttt{git} once, as an available command, and never history or
 commits~\cite{gskill_seed_candidate,gskill_mini_yaml}: the instruction was introduced by the
 optimisation itself. In the Jinja learning run it first appears in the second rewrite, and
-\ncandHist{} of the \ncandNonEmpty{} rewrites the loop kept contain a line about commits or history. Changing only the history of the Jinja tasks, to a single commit that
+\ncandHist{} of the \ncandNonEmpty{} rewrites the loop kept contain a line about commits or history.
+
+\paragraph{How much of the gain the history explains}
+Changing only the history of the Jinja tasks, to a single commit that
 holds the buggy tree, changes the no-skill arm from \njinjaNone{} to \njinjaLFNone{} and
 lowers the skill arm from \njinjaSkill{} to \njinjaLFSkill{}. We call the difference of the two gains,
 in-scope minus single-commit, the leak's share of the gain. Because the single commit removes the
@@ -504,7 +536,8 @@ from \nbleveSkill{} to \nbleveLFSkill{} and changes the no-skill arm from \nblev
 to \nbleveLFNone{}; the difference of the gains is \nbleveLeak{} [\nbleveLeakLo{},
 \nbleveLeakHi{}], about \nbleveLeakSharePct\% of the in-scope gain. On the \nbleveNoPSN{} tasks without a
 description the skill solves \nbleveNoPS{} with the history and \nbleveNoPSLF{} without it.
-The traces confirm the mechanism directly. We reran the skill on the \ntrTasks{} Jinja tasks
+\paragraph{The traces show the mechanism}
+We reran the skill on the \ntrTasks{} Jinja tasks
 without a description and kept every message: in all \ntrGitCmd{} the agent ran \texttt{git log}
 or \texttt{git show}, and in all \ntrBugPatch{} its observations contained the ``Bug Patch''
 commit; it resolved \ntrSolved{} of them, as in the original run, and \ntrSame{} of the
@@ -540,10 +573,11 @@ skill without the instruction resolves \nabSkill{} tasks against \nabNone{} ($b/
 $p=\nabP$, one-sided), a gain of \nabGain{} [\nabGainLo{}, \nabGainHi{}], and Gatekeeper admits it
 after \nabAdmit{} tasks. On the \njinjaNoPSTasks{} tasks without a description it solves \nabNoPS{},
 against \njinjaNoPSn{} for the full skill. Its gain differs from that of the full skill in the
-single-commit environment by \nabVsLF{} [\nabVsLFLo{}, \nabVsLFHi{}]: removing the instruction and
-removing the history leave the same remaining gain. Against the full skill as shipped, run two days
-earlier, the instruction is worth \nabVsFull{} [\nabVsFullLo{}, \nabVsFullHi{}], close to the leak's
-share measured with the history removed. Without the instruction, the agent still ran
+single-commit environment by \nabVsLF{} [\nabVsLFLo{}, \nabVsLFHi{}]: the two remaining gains show
+no detectable difference (no equivalence margin was registered, so we do not claim that they are
+equal). Against the full skill as shipped, run two days earlier, the instruction is worth
+\nabVsFull{} [\nabVsFullLo{}, \nabVsFullHi{}], against the leak's share of \nleak{} measured with
+the history removed. Without the instruction, the agent still ran
 \texttt{git log} or \texttt{git show} on its own in \nabTrGit{} of \nabTrRuns{} runs and saw the
 ``Bug Patch'' commit in \nabTrBug{}.
 
@@ -562,13 +596,19 @@ environment, the skill resolves \ncleanSkill{} tasks against \ncleanNone{} ($b/c
 $p=\ncleanP$, one-sided), a gain of \ncleanGain{} [\ncleanGainLo{}, \ncleanGainHi{}], and Gatekeeper
 admits it after \ncleanAdmit{} tasks; under $L$ the counts are \ncleanLSkill{} against
 \ncleanLNone{}. Its gain differs from the original skill's gain in the same environment
-(\njinjaLFGain{}) by \ncleanVsOrig{} [\ncleanVsOrigLo{}, \ncleanVsOrigHi{}]; the two arms of that
-comparison ran on different days. Moved into the original environment, where the bug-injecting
+(\njinjaLFGain{}) by \ncleanVsOrig{} [\ncleanVsOrigLo{}, \ncleanVsOrigHi{}]: the re-learned skill
+retains a positive effect under the controlled history, with no statistically detectable difference
+from the residual effect of the original skill; without a registered margin this is not evidence of
+equivalence, and the two arms of that comparison ran on different days. Under the family-wise
+reading of Section~\ref{sec:family} this skill is the one admission that does not hold (largest
+e-value \ncleanMaxE{} against \nfamThr). Moved into the original environment, where the bug-injecting
 commit is present, the new skill solves \ncleanShipSolved{} of the \ncleanShipN{} tasks without a
 description, against \njinjaNoPSn{} for the original skill, \nabNoPS{} for the original skill
 without its instruction and \njinjaNoPSNoneBase{} without a skill; the agent ran \texttt{git log}
 or \texttt{git show} in \ncleanShipGit{} of these runs and saw the ``Bug Patch'' commit in
-\ncleanShipBug{}. Each condition has one learning run, and GEPA is stochastic: the absence of the
+\ncleanShipBug{}. This comparison was registered as descriptive and we add no test to it: the
+\ncleanShipN{} tasks are the subset without a description, chosen because the leak is visible
+there, not a sample of all tasks. Each condition has one learning run, and GEPA is stochastic: the absence of the
 instruction is an observation on this run, not an estimated rate.
 
 \paragraph{It is the content of the skill, not its length}
@@ -615,6 +655,18 @@ one configuration predicts little about another. In our own runs, two SWE-Skills
 pairs, with a median no-skill pass rate of \nproNoneMedian: there was little left for the skill to
 change.
 
+\subsection{Reading the admissions as one family (exploratory)}\label{sec:family}
+Each admission was registered as its own cell at $\alpha=0.025$. A reader who takes all \nfamK{}
+admission problems of this paper together (the \nfamAdmits{} admitted streams of
+Table~\ref{tab:rq2} and of the placebo comparison, and the Pygments reuse test) needs
+$\alpha_{S,s}=\alpha/\nfamK$, a threshold of \nfamThr{} instead of $40$. Rerunning the same rule on
+the same streams with this threshold, \nfamKept{} of the \nfamAdmits{} admissions still hold, later
+in the stream; the exception is the re-learned Jinja skill, whose largest e-value is \ncleanMaxE{}.
+This reading was chosen after the data and does not replace the registered per-cell decisions; its
+sign test ($p=\ncleanP$) is unaffected, since it is a separate registered test with its own
+correction (Section~\ref{sec:design}). Holm's procedure over the sign tests does not control the
+error of the e-process admissions, which are separate decisions.
+
 \subsection{Could the learner's own acceptance rule have caught the leak?}
 GEPA accepts a rewrite of the skill when it resolves more of three tasks than its parent
 (Section~\ref{sec:rq1}). Gatekeeper could replace this rule inside the loop, as a referee the
@@ -626,7 +678,8 @@ have rejected the leak-seeking instruction, because in the learning environment 
 does raise the resolved count. Only a control in which the claimed cause is absent, here the
 single-commit history, separates the leak from the skill. Applied to the learning environment
 rather than to the evaluation, the same control removed the instruction before it was written and
-left a skill that is certified with a gain of the same size as the genuine part of the original.
+left a certified skill whose gain shows no detectable difference from the residual gain of the
+original.
 
 \section{Threats to Validity}\label{sec:threats}
 \paragraph{One model family}
@@ -645,6 +698,12 @@ arm were run again later the same day after the run stopped at its cost cap, so 
 arms did not run at the same time. The single-commit history also removes the repository's real history,
 so the leak-free environment is not a real repository either; we did not test a history that keeps
 the real commits and drops only the bug-injecting one.
+\paragraph{Order of the trials}
+The admission guarantee needs an order that does not depend on the outcomes
+(Proposition~\ref{prop:wor}). The order is fixed by gskill's seeded split, but the runs of one arm
+were executed by parallel workers in roughly that order over a few hours, so a change of the model
+behind the provider's endpoint during a run would correlate outcomes with position. We found no
+such change within a run, but we cannot exclude it.
 \paragraph{One learning run per condition}
 Each skill comes from one run of gskill's stochastic loop; we did not repeat the learning, so the
 difference between the original and the re-learned Jinja skill cannot be separated from the
@@ -723,7 +782,8 @@ only when ``a falsifiable hypothesis survives prospective validation''~\cite{hds
 Library Drift retires skills by outcome once an evidence floor ($N_{\min}=100$ in its default setting) is
 reached~\cite{library_drift_2026};
 neither uses an anytime-valid test. Gatekeeper applies an anytime-valid gate to coding-agent
-skills, controls the family-wise error, and ties each admission to a scope.
+skills, controls the family-wise error when the budget is split across cells, and ties each
+admission to a scope.
 
 \paragraph{Sequential and anytime-valid evaluation}
 Gatekeeper's test is a betting e-process~\cite{waudby_smith_ramdas}. CELEUS uses e-processes for
@@ -731,6 +791,21 @@ certifiable LLM evaluation, noting that existing sequential methods ``are not ge
 anytime-valid''~\cite{celeus_2026}, and E-valuator applies sequential hypothesis testing to agent
 verifiers~\cite{evaluator_2025}. Both certify the performance of one system; Gatekeeper certifies a
 paired difference, a skill against the same agent without it, in a declared scope.
+
+\section{Conclusion}
+A resolve-rate gain certifies a skill only in the scope where it was measured, and the evaluation
+environment is part of that scope. On SWE-smith, a published learner turned an evaluation leak into
+advice: for Jinja, up to \nleak{} of a \njinjaGain{} gain comes from the repository history, and a
+second skill, for Bleve, repeats the pattern. The rest of each gain is real and is admitted by an
+anytime-valid paired test, with a per-admission guarantee that holds for a finite pool run once in a
+random order (RQ2). Closing the leak while learning, not only while evaluating, removed the
+instruction at its source in our one learning run, and the resulting skill does not exploit the leak
+when moved back. Certifications do not carry over: the same skill on another repository is not
+admitted, and published skill effects are weakly shared across agent--model configurations (RQ3).
+Controls with a known answer, A/A runs, sham skills, no-op and gold patches, expose measurement
+errors that a gain alone hides (RQ1). The evidence has limits that Section~\ref{sec:threats} lists:
+one model family, synthetic tasks on three repositories, one learning run per condition, and one
+leak channel.
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}

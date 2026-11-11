@@ -820,3 +820,16 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Mã:** `scripts/make_numbers.py` thêm khối §30, đọc `results/s30_analysis.json` và `results/s30_learn_summary_h2.json`. Khối này kèm danh sách đối chiếu với số đã ghi trong bản đăng ký (33/16, b/c 20/3, admit 65, 0/8 ứng viên, 609 metric call, 1/34, 2/34; 0 lỗi hạ tầng). Một số lệch thì script dừng.
 - **Kiểm:** chạy lại `make_numbers.py` (worktree `origin/trial`, rows lấy từ nhánh `data-snapshots`). `paper/numbers.tex` chỉ có 25 dòng mới; mọi số cũ không đổi. Mọi macro `\nclean*` dùng trong `main.tex` đều có định nghĩa.
 - **Paper:** thêm vào tóm tắt, phần mở đầu, đóng góp, danh sách đối chứng, bảng RQ2 (dòng ‡) và đoạn "Removing the leak while learning". Mục nói Gatekeeper trong vòng học có thêm một câu. Mục mối đe dọa có thêm "One learning run per condition". Nhánh C chỉ được báo là mô tả, như đã đăng ký (R5): không có kiểm định nào được thêm.
+
+## R-62. Paper: trả lời phản biện 11/11 (0 USD; A126, L56)
+
+- **Nguồn (R1):**
+  - Waudby-Smith & Ramdas §5, bản lưu trên `sources-snapshots`: "constructing a WoR test martingale only relies on changing the fixed conditional mean µ to the time-varying conditional mean µ^WoR_t := (Nµ − ∑_{i<t} X_i)/(N − t + 1)".
+  - gskill tại 8c7b697 (`gskill_seed_candidate`): "random.seed(seed) random.shuffle(all_data)" trước khi chia train/val/test.
+- **Mã mới:** `scripts/s31_alpha_family.py`.
+  - (a) Chạy lại đúng quy tắc của `s25_ab.py` (nhánh `trial`) trên 8 luồng với α/8. Lần cắt ngưỡng đầu tiên ở α tái tạo đúng 29/50/34/61/50/24/65 và "không admit" (`make_numbers.py` kiểm và dừng nếu lệch).
+  - (b) Mô phỏng H₀ khi lấy không hoàn lại. Kiểm tính hợp lý: với hiệu ứng thật +0,20 thì power là 0,66.
+  - Chạy lại cùng seed cho file giống hệt từng byte.
+- **Test:** `tests/test_s31_wor.py`, tính đúng E[E_n] ≤ 1 trên mọi hoán vị của 4 pool, có một pool nằm đúng biên H₀ (θ = 1/6).
+- **Paper:** §III (giả thiết, mệnh đề prop:wor kèm chứng minh, mô phỏng, đoạn về α); §VI mục mới "Reading the admissions as one family (exploratory)"; bỏ mọi câu "same gain"; nhánh C ghi rõ là mô tả; giữ caveat "cận trên"; tóm tắt rút còn 3 kết quả; tách RQ2 thành chuỗi đoạn; thêm Kết luận; mối đe dọa "Order of the trials".
+- **Phân tích thăm dò, sau dữ liệu (R5):** cách đọc cả họ không thay quyết định đã đăng ký. Nó được ghi là thăm dò trong paper và trong `docs/preregistration_main.md` §31.

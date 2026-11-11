@@ -1,0 +1,95 @@
+{
+ "family": {
+  "K": 8,
+  "alpha_per_cell": 0.025,
+  "alpha_bonferroni": 0.003125,
+  "streams": {
+   "jinja_as_shipped": {
+    "n": 100,
+    "admit_at_alpha": 29,
+    "admit_at_alpha_over_K": 46,
+    "max_e": 582301.6442161651
+   },
+   "jinja_single_commit": {
+    "n": 100,
+    "admit_at_alpha": 50,
+    "admit_at_alpha_over_K": 65,
+    "max_e": 3325.25673007966
+   },
+   "bleve_as_shipped": {
+    "n": 100,
+    "admit_at_alpha": 34,
+    "admit_at_alpha_over_K": 57,
+    "max_e": 37750.98978647401
+   },
+   "bleve_single_commit": {
+    "n": 100,
+    "admit_at_alpha": 61,
+    "admit_at_alpha_over_K": 99,
+    "max_e": 369.4729700088512
+   },
+   "jinja_content_vs_placebo": {
+    "n": 100,
+    "admit_at_alpha": 50,
+    "admit_at_alpha_over_K": 63,
+    "max_e": 8730.663589079193
+   },
+   "jinja_no_history_instruction": {
+    "n": 100,
+    "admit_at_alpha": 24,
+    "admit_at_alpha_over_K": 68,
+    "max_e": 4208.528049007073
+   },
+   "jinja_relearned_single_commit": {
+    "n": 100,
+    "admit_at_alpha": 65,
+    "admit_at_alpha_over_K": null,
+    "max_e": 143.68393278121982
+   },
+   "pygments_reuse": {
+    "n": 100,
+    "admit_at_alpha": null,
+    "admit_at_alpha_over_K": null,
+    "max_e": 1.0
+   }
+  }
+ },
+ "wor_null": {
+  "homogeneous_p0.15": {
+   "reps": 20000,
+   "admitted": 91,
+   "rate": 0.00455,
+   "cp95_upper": 0.005583494708407604
+  },
+  "homogeneous_p0.35": {
+   "reps": 20000,
+   "admitted": 127,
+   "rate": 0.00635,
+   "cp95_upper": 0.007550736855472245
+  },
+  "homogeneous_p0.5": {
+   "reps": 20000,
+   "admitted": 149,
+   "rate": 0.00745,
+   "cp95_upper": 0.008741182114911135
+  },
+  "half_help_half_hurt": {
+   "reps": 20000,
+   "admitted": 45,
+   "rate": 0.00225,
+   "cp95_upper": 0.0030095316224474293
+  },
+  "help_34_hurt_66": {
+   "reps": 20000,
+   "admitted": 47,
+   "rate": 0.00235,
+   "cp95_upper": 0.0031237905074699215
+  },
+  "deterministic_mixed": {
+   "reps": 20000,
+   "admitted": 7,
+   "rate": 0.00035,
+   "cp95_upper": 0.0007209999554352942
+  }
+ }
+}

@@ -1978,3 +1978,13 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - Câu 3: đem sang môi trường gốc, skill mới không khai thác rò rỉ (1/34, ngang không skill).
   - Giới hạn: mỗi điều kiện chỉ có một lượt học.
 
+## 31. Phân tích thăm dò sau phản biện 11/11 (sau dữ liệu; không thay quyết định nào đã đăng ký)
+
+- **31a, đọc cả họ admission:**
+  - K = 8 bài toán admission trong paper: Jinja gốc, Jinja một commit, Bleve gốc, Bleve một commit, nội dung so với placebo, bỏ chỉ dẫn lịch sử (§29), skill học lại (§30), dùng lại trên Pygments.
+  - Bonferroni α/K = 0,003125, ngưỡng 320.
+  - Kết quả (`results/s31_alpha_family.json`): 6/7 admission còn đứng, ở trial 46, 65, 57, 99, 63 và 68. Skill §30 không đạt (E lớn nhất 144). Pygments vẫn không admit.
+- **31b, H₀ khi lấy không hoàn lại** (N = 100, thứ tự ngẫu nhiên, đúng quy tắc θ = 0, c = 0,5, α = 0,025):
+  - 6 pool có kỳ vọng trung bình bằng 0, mỗi pool 20.000 lần chạy;
+  - tỉ lệ admit lớn nhất 0,0075, cận trên Clopper–Pearson 95% là 0,0087.
+  - Khi điều kiện theo kết quả đã xảy ra, tính hợp lệ có chứng minh (mệnh đề prop:wor trong paper).
