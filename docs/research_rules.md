@@ -155,6 +155,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Timeout ở khâu chấm (L57)**
 - [ ] Bản đăng ký có chấm bằng SWE-smith hoặc SWE-bench ghi sẵn cách xử lý timeout của bộ chấm: chấm lại đúng bản vá một lần; hoàn tất thì dùng kết quả đó; vẫn timeout thì tính là không giải được và báo phân tích độ nhạy bỏ task đó (A56, A108, A127).
 
+**Câu nhân quả cần nhánh đối chứng (L58)**
+- [ ] Mỗi câu trong paper hay báo cáo nói X "làm tăng", "thổi phồng" hay "giải thích" Y phải chỉ ra được hai nhánh chỉ khác nhau ở X, trên cùng model, cùng task. Thiếu nhánh đó thì chỉ viết điều đã quan sát (cờ, số đếm) và ghi rõ phần chưa đo (A129).
+
 **Kiểm thử**
 - [ ] Test không đọc `runs/` hay `logs/` (dữ liệu cục bộ, không có trên CI); dùng `tests/fixtures/` (L50). Sau push, đọc kết luận CI.
 - [ ] Mô phỏng hoặc phép toán mảng: assert kích thước kết quả, vì broadcasting âm thầm làm rộng mẫu (R-6).

@@ -95,8 +95,8 @@ có mô tả issue (34 task của seed 51 và 36 task Jinja chưa từng dùng).
 p = 4,2·10<sup>−4</sup>, và bác bỏ ở 100% trong 10.000 thứ tự ngẫu nhiên.</li>
 <li><b>Mới (12/11, §34): agent mạnh hơn tự tìm ra rò rỉ.</b> Gemini Flash trên 34 task Jinja không mô tả, môi trường gốc
 (68 lượt, 0 lỗi hạ tầng). <b>Không có skill</b>, lệnh đầu tiên của agent là <code>git log</code> ở 31/34 lượt, agent mở nội dung commit
-chèn lỗi ở <b>33/34</b> lượt và giải được <b>31/34</b> task, so với 1/34 của model nghiên cứu. Có skill: 34/34. Rò rỉ vì vậy là
-tính chất của môi trường benchmark: nó thổi phồng điểm của agent, không chỉ mức tăng của skill.</li>
+chèn lỗi ở <b>33/34</b> lượt và giải được <b>31/34</b> task, so với 1/34 của model nghiên cứu. Có skill: 34/34. Rò rỉ vì vậy nằm trong tầm với của chính agent, không chỉ của bộ học. <b>Chưa đo</b> phần nào
+trong 31 task giải được là nhờ lịch sử: cần nhánh một commit cho model này, chưa chạy.</li>
 <li><b>Mới (12/11, §32): bộ theo dõi trace và mức phơi nhiễm.</b> Cờ “commit chèn lỗi xuất hiện trong quan sát của agent” bật ở
 <b>34/34</b> lượt khai thác và <b>0/398</b> lượt ở môi trường một commit. Skill Jinja mang hành vi này sang Pygments (9/100 lượt)
 mà không mang theo mức tăng nào. <b>30,5%</b> task của SWE-smith không có mô tả issue.</li>
@@ -424,7 +424,8 @@ mà rò rỉ phát huy tác dụng ở Jinja; nhóm mới đo tác dụng của 
 <tr><td>Model của nghiên cứu, skill gốc</td><td>15/34</td><td>34/34</td></tr></table>
 <p>Theo diễn giải đặt trước, cả hai nhánh đều xảy ra. Một model thứ hai làm theo chỉ dẫn của skill. Và model mạnh hơn <b>tự tìm ra
 rò rỉ</b> mà không cần chỉ dẫn: lệnh đầu tiên là <code>git log</code> ở 31/34 lượt, mở nội dung commit ở 33/34 lượt (hai số này đếm sau
-khi có dữ liệu, là thăm dò). Vì vậy phần của skill trên model này chỉ còn 3 task. Ba task chưa giải đều kết thúc không nộp bản vá.
+khi có dữ liệu, là thăm dò). Vì vậy phần của skill trên model này chỉ còn 3 task. <b>Chưa có nhánh một commit cho model này</b>, nên chưa biết
+bao nhiêu trong 31 task giải được là nhờ lịch sử. Ba task chưa giải đều kết thúc không nộp bản vá.
 Chi phí 5,20 USD (trần 6,05); 11.679.895 token đầu vào (6.473.981 từ cache), 217.112 token đầu ra.</p>
 <h3>Các quy tắc quyết định trên 20 luồng thật (§32, thăm dò, 0 USD)</h3>
 <table><tr><th>Quy tắc</th><th>Luồng dương được nhận (7)</th><th>Luồng A/A bị nhận (4)</th><th>Skill có hại bị nhận (3)</th><th>A/A bị nhận qua 10.000 thứ tự</th></tr>
@@ -444,7 +445,8 @@ trong khi phép kiểm cỡ mẫu cố định được đăng ký ở 100. Hai 
 <li><b>Đổi repo:</b> skill Jinja trên 100 task Pygments: 5 so với 6, b/c = 2/1,
 p = 1,00 (hai phía), không admit. Bộ chấm L trên cùng bản vá: 42 so với 70.
 Tỉ lệ giải nền thấp, nên phép thử này có ít power để phát hiện tác hại.</li>
-<li><b>Đổi model</b> (§34, mô tả): Gemini Flash không skill giải 31/34 task không mô tả nhờ tự đọc lịch sử; skill chỉ thêm 3 task.</li>
+<li><b>Đổi model</b> (§34, mô tả): Gemini Flash không skill giải 31/34 task không mô tả và tự đọc commit chèn lỗi ở 33/34 lượt; skill chỉ thêm 3 task.
+Phần do lịch sử chưa đo (chưa có nhánh một commit cho model này).</li>
 <li><b>Đổi cấu hình agent–model</b> (thăm dò, dữ liệu công khai SWE-Skills-Bench, 4 cấu hình,
 98 skill): chỉ khoảng 7% phương sai tác dụng được chia sẻ giữa các cấu hình (ρ = 0,07).</li>
 </ul>

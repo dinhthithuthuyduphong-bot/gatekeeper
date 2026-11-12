@@ -511,3 +511,7 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 ## L57. Cách xử lý timeout ở khâu chấm phải nằm sẵn trong bản đăng ký (A127)
 - **Nguyên nhân gốc:** timeout ở khâu chấm đã gặp hai lần (A56, A108), nhưng cách xử lý chỉ nằm trong phần kết quả của các mục cũ. Bản đăng ký §35 không nhắc lại, nên phải thêm một ghi chú thực thi sau khi chạy.
 - **Phòng ngừa:** mọi bản đăng ký có chấm bằng SWE-smith hoặc SWE-bench ghi sẵn, ở mục "Kiểm sau khi chạy", ba bước: chấm lại đúng bản vá một lần; hoàn tất thì dùng kết quả đó; vẫn timeout thì tính là không giải được và báo phân tích độ nhạy bỏ task đó. Thêm vào danh sách review `docs/research_rules.md` §4.
+
+## L58. Câu nhân quả cần nhánh đối chứng trên cùng model (A129)
+- **Nguyên nhân gốc:** kết quả §34 (agent đọc commit 33/34, giải 31/34) được đặt cạnh mốc của một model khác (1/34). Đặt hai con số cạnh nhau làm câu "rò rỉ thổi phồng điểm" nghe như đã chứng minh, trong khi hai nhánh khác nhau cả ở model lẫn lịch sử. Thiết kế §34 chỉ có môi trường gốc.
+- **Phòng ngừa:** trước khi viết một câu nhân quả, gọi tên hai nhánh chỉ khác nhau ở đúng nguyên nhân. Thiếu thì viết điều quan sát được, và nêu nhánh cần chạy. Thêm vào danh sách review `docs/research_rules.md` §4.

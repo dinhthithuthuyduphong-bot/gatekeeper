@@ -2359,3 +2359,5 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 **Hệ quả cho paper:**
 - Rò rỉ không chỉ là đường tắt mà bộ học tìm ra. Một agent có sẵn, mạnh hơn, khai thác nó mà không cần chỉ dẫn nào. Vì vậy mọi kết quả của agent trên các task SWE-smith không có mô tả issue trong môi trường gốc đều bị ảnh hưởng, không riêng skill học được.
 - Phạm vi: Jinja, 34 task không mô tả, một seed, hai model Gemini.
+
+**Sửa diễn giải §34 (12/11/2026, A129):** câu "mọi kết quả của agent ... đều bị ảnh hưởng" ở mục "Hệ quả cho paper" phía trên là quá mức bằng chứng. §34 không có nhánh một commit cho Gemini Flash, nên chưa đo được phần nào trong 31/34 task giải được là nhờ lịch sử. Điều dữ liệu cho phép nói: agent này đọc commit chèn lỗi ở 33/34 lượt mà không cần chỉ dẫn, tức rò rỉ nằm trong tầm với của chính agent. Paper và báo cáo đã sửa theo câu này.
