@@ -609,8 +609,11 @@ jobs:
           SK="$GITHUB_WORKSPACE/docs/skills/gskill/jinja_best_skills.txt"
           git -C $GITHUB_WORKSPACE fetch -q origin pilot-snapshots
           git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/s25_best_skills.txt" | cmp - "$SK"
-          CAPN=$(python -c "print(round(float('${{ inputs.budget_usd }}') * 0.45, 4))")
-          CAPS=$(python -c "print(round(float('${{ inputs.budget_usd }}') * 0.55, 4))")
+          # note 34-2: for the rest the split follows the cost per run measured in the pilot
+          # (none 0.0855 x 30 runs + cost_limit, skill 0.0726 x 29 runs + cost_limit = 54.3 : 45.7)
+          FN=0.45; [ "${{ inputs.arm }}" = "rest" ] && FN=0.543
+          CAPN=$(python -c "print(round(float('${{ inputs.budget_usd }}') * $FN, 4))")
+          CAPS=$(python -c "print(round(float('${{ inputs.budget_usd }}') * (1 - $FN), 4))")
           CL="${{ inputs.cost_limit }}"
           python -c "import sys; sys.exit(0 if 0 < float('$CL') <= 0.90 else 'cost_limit must be in (0, 0.90]')"
           PFX=s34; MOCK=()

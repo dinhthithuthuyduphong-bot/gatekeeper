@@ -2329,3 +2329,9 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - **Theo ghi chú 34-1:** cost_limit của phần còn lại = 3 × 0,1125 = 0,3375 USD (làm tròn 0,34). Trần còn lại = 5,0 − 0,705 = 4,295 USD.
 - **Dự kiến phần còn lại:** 30 × 0,0855 + 29 × 0,0726 = **4,67 USD**; tổng dự kiến 5,38 USD, **vượt mức 5,0 USD đã duyệt**. Để driver chạy hết cả hai nhánh cần thêm một cost_limit mỗi nhánh làm khoảng chặn: trần tổng **6,05 USD**.
 - **Theo quy tắc đã đăng ký ("nếu số đo cho thấy vượt 5,0 thì dừng và báo @thuthuy"): dừng ở đây, chờ @thuthuy quyết.** Chưa mở kết quả giải task hay cờ M1/M2 của 9 lượt này.
+
+**Ghi chú thực thi 34-2** (12/11/2026, trước mọi lượt của phần còn lại; chưa mở kết quả giải task hay cờ của bước 0):
+- **Ngân sách:** @thuthuy duyệt nâng trần §34 lên **6,05 USD** ("Duyệt 6.05"). Trần của phần còn lại = 6,05 − 0,705 = **5,345 USD**.
+- **cost_limit của phần còn lại:** 0,34 USD (3 × lượt đắt nhất của bước 0, theo ghi chú 34-1).
+- **Chia trần giữa hai nhánh theo chi phí đo được** thay cho 45:55 (tỉ lệ đó dựa trên ước tính trước khi đo, và sẽ làm nhánh không skill dừng sớm như A128): không skill 30 × 0,0855 + 0,34 = 2,905; skill 29 × 0,0726 + 0,34 = 2,445; tức 54,3 : 45,7 (trần 2,902 và 2,443 USD).
+- Không đổi câu hỏi, thiết kế, model, seed hay đại lượng. Nếu một nhánh vẫn dừng vì trần thì báo cáo số task đã chạy; không xin thêm tiền để chạy bù.
