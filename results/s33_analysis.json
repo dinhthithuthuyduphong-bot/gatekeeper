@@ -1,0 +1,93 @@
+{
+ "checks": {
+  "n": {
+   "ship_none": 100,
+   "ship_skill": 100,
+   "lf_none": 100,
+   "lf_skill": 100
+  },
+  "infra_error": 0,
+  "crashed": 0,
+  "capped": 0,
+  "leak_free_checks_ok": "200/200",
+  "stopped": {},
+  "spent_usd": 6.060823299999991
+ },
+ "P33a": {
+  "skill": 55,
+  "none": 21,
+  "b": 38,
+  "c": 4,
+  "p_one_sided": 2.826573108904995e-08,
+  "gain": 0.34,
+  "boot95": [
+   0.23,
+   0.44
+  ]
+ },
+ "P33b": {
+  "skill": 35,
+  "none": 17,
+  "b": 23,
+  "c": 5,
+  "p_one_sided": 0.00045611709356307983,
+  "gain": 0.18,
+  "boot95": [
+   0.09,
+   0.28
+  ]
+ },
+ "P33c": {
+  "first_crossing_at_40": null,
+  "p_anytime": 0.1298969031111111,
+  "mean_D": -0.08,
+  "n": 100
+ },
+ "holm_reject": {
+  "P33a": true,
+  "P33b": true,
+  "P33c": false
+ },
+ "gatekeeper_admit_trial": {
+  "shipped": 53,
+  "single_commit": 74
+ },
+ "delta_leak_seed51": {
+  "d": 0.16,
+  "ci95": [
+   0.04,
+   0.28
+  ]
+ },
+ "delta_leak_seed41": {
+  "d": 0.17,
+  "ci95": [
+   0.06,
+   0.28
+  ]
+ },
+ "delta_leak_pooled": {
+  "d": 0.165,
+  "ci95": [
+   0.075,
+   0.255
+  ],
+  "n": 100
+ },
+ "note_33_1_eprocess_on_pooled_D": {
+  "first_crossing_at_40": null,
+  "p_anytime": 0.05259183806067805
+ },
+ "no_problem_statement": {
+  "ship_none": 0,
+  "ship_skill": 17,
+  "lf_none": 0,
+  "lf_skill": 0
+ },
+ "same_outcome_as_seed41": {
+  "ship_none": "80/100",
+  "ship_skill": "68/100",
+  "lf_none": "81/100",
+  "lf_skill": "86/100"
+ }
+}

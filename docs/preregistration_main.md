@@ -2258,3 +2258,30 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 **Ngân sách:**
 - Dự kiến mỗi task: 0,0146 (không skill, gốc; `f1_probe`), 0,022 (skill, gốc; `s27_trace34*`), 0,018 (không skill, một commit; A125), 0,020 (skill, một commit; `s25_leakfree_skill`). Tổng 36 × 0,0746 = **2,69 USD**.
 - Trần mỗi nhánh = dự kiến + 0,30: 0,85; 1,10; 0,95; 1,05. Tổng trần **3,95 USD**.
+
+### Kết quả §33 (run 43136184298, 12/11/2026; `results/s33_*.json`, `*.traces.jsonl.gz`; phân tích `scripts/s33_analysis.py` → `results/s33_analysis.json`, script viết trước dữ liệu)
+
+**Kiểm sau khi chạy:** 100/100 ở cả bốn nhánh; 0 `infra_error`; 0 lượt crash; 0 lượt chạm cost_limit; không nhánh nào dừng vì trần; kiểm rò rỉ đạt 200/200 ở hai nhánh một commit; 0 bản vá không áp được.
+
+**Chi phí:** 38.743.222 token đầu vào (trong đó 27.330.092 từ cache), 1.682.859 token đầu ra; 6,06 USD (dự kiến 7,07; trần 8,35).
+
+**Ba phép thử xác nhận (Holm, mức họ 0,025):**
+
+| Phép | Có skill | Không skill | b/c | p | Mức Holm | Bác bỏ |
+| --- | --- | --- | --- | --- | --- | --- |
+| P33a, môi trường gốc | 55 | 21 | 38/4 | 2,8·10⁻⁸ (một phía) | 0,0083 | **có** |
+| P33b, một commit | 35 | 17 | 23/5 | 4,6·10⁻⁴ (một phía) | 0,0125 | **có** |
+| P33c, phần do môi trường (e-process trên D_i) | — | — | — | 0,130 (anytime-valid) | 0,025 | **không** |
+
+- Mức tăng: gốc +0,34 [0,23; 0,44]; một commit +0,18 [0,09; 0,28] (bootstrap theo task, 10.000 lần).
+- **P33c không bác bỏ**, đúng như §32c dự báo về power. Theo diễn giải đặt trước: báo cáo cả hai seed và ước lượng gộp; không chạy seed thứ ba.
+
+**Phụ (mô tả):**
+1. Gatekeeper admit sau 53 task (gốc) và 74 task (một commit); seed 41: 29 và 50.
+2. Δ_leak seed 51: **0,16 [0,04; 0,28]**; seed 41: 0,17 [0,06; 0,28].
+3. Gộp hai seed: **0,165 [0,075; 0,255]**, n = 100 task.
+4. Nhóm 34 task không mô tả: gốc có skill 17/34; gốc không skill 0/34; một commit có skill 0/34; một commit không skill 0/34. (Seed 41: 15; 0; 0; 0.)
+5. Cùng kết quả với seed 41: gốc không skill 80/100; gốc có skill 68/100; một commit không skill 81/100; một commit có skill 86/100.
+6. Ghi chú 33-1 (e-process trên trung bình hai seed của D_i; mô tả): không đạt ngưỡng 40; p anytime-valid 0,053.
+
+**Kết luận theo quy tắc đã đăng ký:** tác dụng của skill ở hai môi trường lặp lại với seed thứ hai (P33a, P33b). Hiệu số do môi trường có ước lượng điểm gần như trùng (0,16 so với 0,17) và khoảng bootstrap của từng seed không chứa 0, nhưng phép thử e-process đã đăng ký cho hiệu số này không bác bỏ trên seed 51. Phép xác nhận cho hiệu số này là P35 (§35), đăng ký trước khi mở các kết quả trên.
