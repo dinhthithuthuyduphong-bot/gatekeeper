@@ -2293,3 +2293,30 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   2. Nếu lần chấm lại hoàn tất: dùng kết quả đó.
   3. Nếu vẫn `timeout`: tính là không giải được trong phân tích chính (quy ước của SWE-bench, A56) và báo thêm phân tích độ nhạy bỏ task đó ra.
 - `scripts/s35_analysis.py` không đổi; kết quả chấm lại được ghi vào bản sao của file kết quả (`results/s35_ship_none.json`, trường `S` và `rescored`), bản gốc còn trên nhánh `pilot-snapshots`.
+
+### Kết quả §35 (run 43153625369, 12/11/2026; `results/s35_*.json`, `*.traces.jsonl.gz`; phân tích `scripts/s35_analysis.py` → `results/s35_analysis.json`, script viết trước dữ liệu)
+
+**Kiểm sau khi chạy:** 36/36 ở cả bốn nhánh; 0 crash; 0 lượt chạm cost_limit; không nhánh nào dừng vì trần; kiểm rò rỉ đạt 72/72 ở hai nhánh một commit. Một bản vá của nhánh gốc không skill bị bộ chấm báo `timeout`: chấm lại một lần vẫn `timeout` (108 giây), nên theo ghi chú 35-1 được tính là không giải được (A127).
+
+**Chi phí:** 10.973.752 token đầu vào (trong đó 7.897.906 từ cache), 284.337 token đầu ra; 1,39 USD (dự kiến 2,69; trần 3,95).
+
+**P35 (phép thử xác nhận duy nhất, α = 0,025; e-process trên D_i của 70 task không mô tả, theo thứ tự đã đăng ký):**
+- **Bác bỏ.** E vượt ngưỡng 40 ở **task thứ 36** trên 70; p anytime-valid = **4,2·10⁻⁴**.
+- Trung bình D = −0,257 (dấu âm nghĩa là skill giúp nhiều hơn ở môi trường gốc). 36 task có D < 0; 0 task có D > 0; 34 task có D = 0.
+- Số task: 34 task test của seed 51 (§33) và 36 task mới.
+
+**Mô tả:**
+
+| Đại lượng | Giá trị |
+| --- | --- |
+| 36 task mới, gốc, có skill | **20/36** giải được |
+| 36 task mới, gốc, không skill | 0/36 |
+| 36 task mới, một commit, có skill | 1/36 |
+| 36 task mới, một commit, không skill | 0/36 |
+| Cờ M2 ("Bug Patch" trong quan sát), gốc, có skill | **36/36** lượt |
+| Cờ M2, gốc, không skill | 1/36 lượt |
+| E-process chỉ trên 36 task mới | vượt 40 ở task 35; p = 0,019 |
+| Tỉ lệ thứ tự bác bỏ (10.000 hoán vị của 70 task) | 100% |
+| Độ nhạy: bỏ task có bản vá timeout (n = 69) | vượt 40 ở task 36; p = 4,2·10⁻⁴ |
+
+**Kết luận theo quy tắc đã đăng ký:** trên 70 task không mô tả mà chưa phân tích nào từng nhìn, mức tăng của skill ở môi trường gốc lớn hơn ở môi trường một commit, với bảo đảm anytime-valid ở mức 0,025. Phạm vi của kết luận: Jinja, skill gốc, các task không có mô tả issue, seed 51. Phép thử P33c trên cả 100 task của seed 51 vẫn không bác bỏ và vẫn được báo cáo (R5).

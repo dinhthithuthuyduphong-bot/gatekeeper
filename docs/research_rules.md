@@ -152,6 +152,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Mô tả thiết lập trong paper (L49)**
 - [ ] Mỗi câu về dataset, n, seed, ngân sách trong paper dẫn được tới `configs/pools/*.json` hoặc bản đăng ký trước (kể cả ghi chú thực thi); con số thiết lập là macro sinh từ file khi có thể.
 
+**Timeout ở khâu chấm (L57)**
+- [ ] Bản đăng ký có chấm bằng SWE-smith hoặc SWE-bench ghi sẵn cách xử lý timeout của bộ chấm: chấm lại đúng bản vá một lần; hoàn tất thì dùng kết quả đó; vẫn timeout thì tính là không giải được và báo phân tích độ nhạy bỏ task đó (A56, A108, A127).
+
 **Kiểm thử**
 - [ ] Test không đọc `runs/` hay `logs/` (dữ liệu cục bộ, không có trên CI); dùng `tests/fixtures/` (L50). Sau push, đọc kết luận CI.
 - [ ] Mô phỏng hoặc phép toán mảng: assert kích thước kết quả, vì broadcasting âm thầm làm rộng mẫu (R-6).

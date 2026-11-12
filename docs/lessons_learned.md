@@ -507,3 +507,7 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   1. Mỗi định lý trong paper có một câu nói thí nghiệm nào thỏa giả thiết của nó và bằng cách nào. Nếu thiết kế khác giả thiết (WoR thay cho i.i.d.), phải có chứng minh hoặc mô phỏng đúng quy tắc trên đúng thiết kế (L11).
   2. Phân biệt bảo đảm cho từng phép thử với bảo đảm cho cả họ. Nếu chỉ có loại thứ nhất thì nói rõ, và báo cách đọc cả họ (Bonferroni) như phân tích thăm dò.
   3. Khoảng tin cậy chứa 0 nghĩa là "không phát hiện khác biệt". Chỉ được viết "bằng", "ngang" hay "tương đương" khi đã đăng ký trước một biên tương đương và kiểm định theo biên đó.
+
+## L57. Cách xử lý timeout ở khâu chấm phải nằm sẵn trong bản đăng ký (A127)
+- **Nguyên nhân gốc:** timeout ở khâu chấm đã gặp hai lần (A56, A108), nhưng cách xử lý chỉ nằm trong phần kết quả của các mục cũ. Bản đăng ký §35 không nhắc lại, nên phải thêm một ghi chú thực thi sau khi chạy.
+- **Phòng ngừa:** mọi bản đăng ký có chấm bằng SWE-smith hoặc SWE-bench ghi sẵn, ở mục "Kiểm sau khi chạy", ba bước: chấm lại đúng bản vá một lần; hoàn tất thì dùng kết quả đó; vẫn timeout thì tính là không giải được và báo phân tích độ nhạy bỏ task đó. Thêm vào danh sách review `docs/research_rules.md` §4.
