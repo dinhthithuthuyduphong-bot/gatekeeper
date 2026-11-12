@@ -2335,3 +2335,27 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - **cost_limit của phần còn lại:** 0,34 USD (3 × lượt đắt nhất của bước 0, theo ghi chú 34-1).
 - **Chia trần giữa hai nhánh theo chi phí đo được** thay cho 45:55 (tỉ lệ đó dựa trên ước tính trước khi đo, và sẽ làm nhánh không skill dừng sớm như A128): không skill 30 × 0,0855 + 0,34 = 2,905; skill 29 × 0,0726 + 0,34 = 2,445; tức 54,3 : 45,7 (trần 2,902 và 2,443 USD).
 - Không đổi câu hỏi, thiết kế, model, seed hay đại lượng. Nếu một nhánh vẫn dừng vì trần thì báo cáo số task đã chạy; không xin thêm tiền để chạy bù.
+
+### Kết quả §34 (run 43175845986 cho phần còn lại, cộng bước 0; `scripts/s34_analysis.py` → `results/s34_analysis.json`; mô tả)
+
+- **Vận hành:** cả hai nhánh chạy đủ 34/34 task; 0 `infra_error`, 0 crash, 0 timeout ở khâu chấm, 0 lượt thiếu trace. Lượt đắt nhất 0,207 USD, dưới cost_limit 0,34; nhiều bước nhất 28/50. Nhánh không skill có 3 lượt kết thúc không nộp bản vá (hành vi của agent; không chạy lại, L1).
+- **Chi phí:** không skill 2,696 USD; skill 2,508 USD; **tổng §34 = 5,204 USD**, trong trần 6,05. Token: 11.679.895 đầu vào (6.473.981 từ cache), 217.112 đầu ra.
+
+| Nhánh | Lượt | Giải được (S) | M1 | M2 | Giải được khi có M2 |
+| --- | --- | --- | --- | --- | --- |
+| Gemini Flash, không skill | 34 | **31** | 34 | **34** | 31/34 |
+| Gemini Flash, skill gốc | 34 | **34** | 34 | **34** | 34/34 |
+| Mốc: model của nghiên cứu, skill gốc (27c) | 34 | 15 | 34 | 34 | 15/34 |
+| Mốc: model của nghiên cứu, không skill (32a, cùng môi trường, 100 task) | 100 | 17 | 5 | 3 | 0/3 |
+
+**Diễn giải theo quy tắc đặt trước (§34):** cả hai nhánh của diễn giải đều xảy ra.
+- Nhánh skill có M2 ở 34/34 lượt và giải được nhiều hơn (34 so với 31): chỉ dẫn được một model thứ hai làm theo.
+- **Nhánh không skill cũng có M2 ở 34/34 lượt.** Model mạnh hơn tự tìm ra rò rỉ, và phần của skill nhỏ: 3 task trên 34.
+
+**Phân tích thêm (thăm dò, không đăng ký trước; đếm bằng regex trên lệnh của agent):**
+- Nhánh không skill: lệnh đầu tiên là `git log` ở 31/34 lượt. Agent mở nội dung commit (`git show`, `git diff <commit>`, `git log -p`…) ở 33/34 lượt.
+- Nhánh skill: 34/34 và 34/34.
+
+**Hệ quả cho paper:**
+- Rò rỉ không chỉ là đường tắt mà bộ học tìm ra. Một agent có sẵn, mạnh hơn, khai thác nó mà không cần chỉ dẫn nào. Vì vậy mọi kết quả của agent trên các task SWE-smith không có mô tả issue trong môi trường gốc đều bị ảnh hưởng, không riêng skill học được.
+- Phạm vi: Jinja, 34 task không mô tả, một seed, hai model Gemini.

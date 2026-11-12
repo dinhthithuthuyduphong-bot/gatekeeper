@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import gzip
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -23,6 +24,27 @@ from s32_analysis import flags  # noqa: E402
 
 R = Path("results")
 PARTS = ("pilot", "rest")
+# Exploratory, added after the results were seen (not registered; reported as such):
+# commands that display the content of a commit rather than only its message.
+OPEN_COMMIT = re.compile(
+    r"git\s+(show|diff\s+\S*(HEAD~|HEAD\^|[0-9a-f]{7})|revert|checkout\s+HEAD~|log\s+-p"
+    r"|log\s+.*--patch|format-patch)"
+)
+CMD = re.compile(r"```(?:bash|mswea_bash_command)?\n(.*?)```", re.S)
+
+
+def commands(msgs: list) -> list[str]:
+    """Last fenced command of each assistant message, in order."""
+    out = []
+    for m in msgs:
+        if m.get("role") != "assistant":
+            continue
+        c = m.get("content")
+        if isinstance(c, list):
+            c = " ".join(x.get("text", "") for x in c if isinstance(x, dict))
+        found = CMD.findall(str(c))
+        out += found[-1:]
+    return out
 
 
 def arm(prefix: str, name: str) -> dict:
@@ -55,6 +77,8 @@ def arm(prefix: str, name: str) -> dict:
         "M2": 0,
         "resolved_with_M2": 0,
         "runs_without_trace": 0,
+        "exploratory_first_command_git_log": 0,
+        "exploratory_opened_commit_content": 0,
     }
     for r in runs:
         ok = bool((r.get("S") or {}).get("resolved"))
@@ -67,6 +91,11 @@ def arm(prefix: str, name: str) -> dict:
         out["M1"] += bool(m1)
         out["M2"] += bool(m2)
         out["resolved_with_M2"] += bool(m2) and ok
+        cmds = commands(msgs)
+        out["exploratory_first_command_git_log"] += bool(cmds) and bool(
+            re.search(r"git\s+log", cmds[0])
+        )
+        out["exploratory_opened_commit_content"] += any(OPEN_COMMIT.search(c) for c in cmds)
     return out
 
 

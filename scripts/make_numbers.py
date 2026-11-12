@@ -961,6 +961,40 @@ def main() -> int:
     if abs(N["sdLeak"] - 0.16) > 0.005 or not p35["reject"]:
         print("MISMATCH s33 leak / s35 reject")
         return 1
+    # section 34 (registered, descriptive): a second Gemini agent on the 34 tasks without a
+    # description, environment as shipped; the counts named exploratory were added after the data
+    s34 = load(Path("results/s34_analysis.json"))
+    fn, fs = s34["none"], s34["skill"]
+    N.update(
+        {
+            "flN": fn["runs"],
+            "flNone": fn["resolved"],
+            "flSkill": fs["resolved"],
+            "flNoneMon": fn["M2"],
+            "flSkillMon": fs["M2"],
+            "flNoneFirstLog": fn["exploratory_first_command_git_log"],
+            "flNoneOpen": fn["exploratory_opened_commit_content"],
+            "flNoPatch": fn["runs"] - fn["resolved"],
+            "flInfra": fn["infra_error"] + fs["infra_error"] + fn["crashed"] + fs["crashed"],
+        }
+    )
+    for k, v in {
+        "flN": 34,
+        "flNone": 31,
+        "flSkill": 34,
+        "flNoneMon": 34,
+        "flSkillMon": 34,
+        "flNoneFirstLog": 31,
+        "flNoneOpen": 33,
+        "flNoPatch": 3,
+        "flInfra": 0,
+    }.items():
+        if N[k] != v:
+            print("MISMATCH s34", k, N[k], v)
+            return 1
+    if fs["runs"] != 34:
+        print("MISMATCH s34 skill runs")
+        return 1
     N["leakSharePct"] = round(100 * N["leakShare"])
     N["fzeroGoldMinPct"] = int(100 * f0["S_gold_min"])  # floor: "at least"
     for k in ("sskbOpp", "sskbRho"):

@@ -859,3 +859,22 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Lần chạy thử miễn phí (run 43139341873): bốn nhánh chạy, seed 51, cost_limit 0,30, trần 0,85; 1,10; 0,95; 1,05; dòng kiểm rò rỉ đúng ở hai nhánh một commit.
 - **§34:** lần chạy thử đầu bắt được lỗi trần (ghi chú thực thi 34-1); chạy thử lại trước lượt có phí.
 - **Paper:** hai đoạn §32 (thăm dò), số sinh bằng `make_numbers.py` có đối chiếu với bản đăng ký; biên dịch sạch, 0 tràn lề.
+
+## R-65. §34 sau khi chạy; paper và báo cáo theo hướng mạnh nhất (2026-11-12)
+
+- **§34, trước phần còn lại:**
+  - Ghi chú 34-2 commit trước lượt có phí; trần chia theo chi phí đo ở bước 0.
+  - `scripts/s34_analysis.py` commit trước khi mở kết quả, chạy thử trên `s34dry_*`.
+  - Lần chạy thử miễn phí của phần còn lại: `--skip-done` chọn đúng 30 và 29 task.
+- **§34, sau khi chạy (run 43175845986):**
+  - 34/34 task ở cả hai nhánh, không task nào trùng giữa bước 0 và phần còn lại (script kiểm).
+  - 0 `infra_error`, 0 crash, 0 timeout ở khâu chấm; lượt đắt nhất 0,207 < 0,34.
+  - Chi 5,204 USD, trong trần 6,05.
+- **Kiểm cờ M2 ở nhánh không skill (L1, trước khi tin số 34/34):** đọc trace của 6 lượt. "Bug Patch" xuất hiện trong kết quả của lệnh đầu tiên `git status && git log -n 5`, không do regex bắt nhầm.
+- **Đếm thăm dò thêm sau dữ liệu** (lệnh đầu tiên là `git log`; mở nội dung commit): đưa vào `s34_analysis.py` với nhãn `exploratory_`. Ghi là thăm dò trong bản đăng ký và trong paper ("defined after the data").
+- **Một lần đếm nhanh của tôi bị sai:** đếm `r["S"]` theo kiểu đúng/sai thì mọi lượt đều thành giải được, vì S là dict. Không file nào bị ảnh hưởng. Số chính thức lấy từ `s34_analysis.py`, đọc `S["resolved"]`.
+- **Paper:**
+  - Thêm đoạn §34 vào RQ3 "Across agents and models", kèm một câu ở tóm tắt, phần mở đầu và kết luận. Threats nay ghi "hai model mô tả cùng hãng".
+  - Số sinh bằng `make_numbers.py`, đối chiếu với bản đăng ký (khối `fl*`).
+  - Biên dịch sạch, 0 tràn lề; references bắt đầu ở trang 10.
+- **Báo cáo HTML:** sửa trực tiếp, không chạy `build_report.py`. Thêm một dòng trong bảng bằng chứng, một ý mới, mục h3 §34, dòng chi phí (6,05 / 5,20) và dòng token.

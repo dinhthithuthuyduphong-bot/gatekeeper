@@ -45,7 +45,9 @@ that is still admitted. A second seed reproduces the difference (\nsdLeak{} [\ns
 \nsdLeakHi{}]), and a preregistered anytime-valid test on \ncfN{} tasks that no earlier analysis
 had seen confirms it ($p=\ncfP$): on the \ncfNew{} new tasks among them the skill resolves
 \ncfShipSkill{} with the history and \ncfLFSkill{} without, and the bug-injecting commit appears
-in the agent's trace in \ncfMon{} of \ncfNew{} runs. A skill learned for a Go repository repeats the
+in the agent's trace in \ncfMon{} of \ncfNew{} runs. A stronger agent model finds the commit with
+no skill at all, in \nflNoneOpen{} of \nflN{} runs, and resolves \nflNone{} of these tasks against
+\njinjaNoPSNoneBase{} for our agent. A skill learned for a Go repository repeats the
 pattern. The precondition is common: \nexpoPct\% of the benchmark's \nexpoTasks{} tasks have no
 issue description, the condition under which the leak paid off here. Reused verbatim on another
 repository, the skill carries the behaviour but no gain and is not admitted, while the pipeline's
@@ -120,7 +122,9 @@ tasks without a description that no analysis had seen, \ncfNew{} of them never u
 rejects at task \ncfCross{} ($p=\ncfP$): \ncfFor{} tasks favour the environment with the history,
 \ncfAgainst{} the other. On the \ncfNew{} new tasks the skill resolves \ncfShipSkill{} with the
 history and \ncfLFSkill{} without, and a monitor that reads the agent's traces finds the
-bug-injecting commit in \ncfMon{} of \ncfNew{} runs. The condition is not rare: \nexpoPct\% of all
+bug-injecting commit in \ncfMon{} of \ncfNew{} runs. A stronger agent model, \flashmodel{}, needs
+no skill to find it: without one it opens the commit in \nflNoneOpen{} of \nflN{} runs and resolves
+\nflNone{} tasks, against \njinjaNoPSNoneBase{} for our agent (Section~\ref{sec:rq3}). The condition is not rare: \nexpoPct\% of all
 \nexpoTasks{} SWE-smith tasks have no issue description (Section~\ref{sec:rq2}).
 
 \paragraph{What this means for reuse}
@@ -689,6 +693,15 @@ certification obtained on Jinja says nothing measurable about Pygments. The only
 is its pair; even if it had been resolved, the result would be \npygWorstSkill{} against
 \npygNone{} ($b=\npygWorstB$, $p=\npygWorstP$).
 \paragraph{Across agents and models}
+We ran a second agent model, \flashmodel{}, on the \nflN{} Jinja tasks without a description, in
+the environment as shipped, with and without the original skill (registered, descriptive). With
+the skill it resolves \nflSkill{} of \nflN{}; without any skill it resolves \nflNone{}, against
+\njinjaNoPSNoneBase{} for \agentmodel{}. The monitor flags all \nflNoneMon{} no-skill runs: the
+stronger agent's first command was \texttt{git log} in \nflNoneFirstLog{} runs, and it displayed the
+content of the bug-injecting commit in \nflNoneOpen{} (both counts defined after the data). On this
+model the skill adds \nflNoPatch{} tasks, because the agent finds the leak unprompted. The leak is
+therefore a property of the benchmark environment, not only a shortcut a learner can find:
+a capable agent's score on these tasks measures, in part, its use of the repository history.
 SWE-Skills-Bench publishes one run per skill for \nsskbConfigs{} agent--model
 configurations~\cite{sskb_paper}. On its \nsskbSkills{} common skills, only about
 \nsskbRhoPct\% of the variance of skill effects is shared between configurations
@@ -768,14 +781,14 @@ Twenty streams do not estimate an error rate, and the positive labels rest on ru
 
 \section{Threats to Validity}\label{sec:threats}
 \paragraph{One model family}
-Our agent runs use one model, \agentmodel{}, apart from the descriptive comparison with
-\promodel{}. The model behind the same name changed between our earlier and later runs (a
+Our confirmatory agent runs use one model, \agentmodel{}; the descriptive runs with \promodel{} and
+\flashmodel{} are from the same vendor. The model behind the same name changed between our earlier and later runs (a
 registered check found identical first responses on \ndriftMatch{} of \ndriftTasks{} tasks), so we never pair runs from
 different periods. We did not run a model from another vendor: of the per-token models available
 to our account, one had no quota, one had been retired, one lacked tool calling in our agent
 framework, and the remaining one was an experimental model priced above our budget; a request for an
 open-weight model was pending when we stopped. Whether the leak-seeking instruction is learned, and
-followed, with other models is open.
+followed, with models of other vendors is open; the second Gemini model follows it, and finds the leak without it.
 \paragraph{Synthetic tasks and three repositories}
 The learned skills are evaluated on SWE-smith's synthetic tasks for two repositories, and the reuse
 test on a third, 100 paired tasks each, with one seed per arm except the four Jinja arms of the
@@ -892,7 +905,8 @@ environment is part of that scope. On SWE-smith, a published learner turned an e
 advice: for Jinja, up to \nleak{} of a \njinjaGain{} gain comes from the repository history, and a
 second skill, for Bleve, repeats the pattern. The Jinja result holds with a second seed, and a
 preregistered anytime-valid test on \ncfN{} unseen tasks without a description confirms the
-environment's share ($p=\ncfP$). The rest of each gain is real and is admitted by an
+environment's share ($p=\ncfP$). A stronger agent model exploits the same history with no skill,
+so the leak inflates agent scores on these tasks, not only skill gains. The rest of each gain is real and is admitted by an
 anytime-valid paired test, with a per-admission guarantee that holds for a finite pool run once in a
 random order (RQ2). Closing the leak while learning, not only while evaluating, removed the
 instruction at its source in our one learning run, and the resulting skill does not exploit the leak
