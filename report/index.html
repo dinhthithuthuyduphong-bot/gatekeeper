@@ -56,8 +56,9 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 </head>
 <body>
 <main>
-<p class="meta">Dự án Gatekeeper ·bản cập nhật 11/11/2026 · commit <code>6a75995</code></p>
-<h1>Scope before Reuse: chứng nhận skill đã học cho coding agent theo phạm vi</h1>
+<p class="meta">Dự án Gatekeeper ·bản cập nhật 12/11/2026 · commit <code>42bcc64</code></p>
+<h1>Bộ học đã tìm ra chỗ rò rỉ: chứng nhận skill học được cho coding agent dưới đối chứng</h1>
+<p class="muted">Tên bài (tiếng Anh): <i>The Learner Found the Leak: Certifying Learned Coding-Agent Skills under Controls</i></p>
 
 <ol class="toc">
 <li><a href="#tom-tat">Tóm tắt</a></li><li><a href="#cau-hoi">Câu hỏi nghiên cứu</a></li>
@@ -69,7 +70,31 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 </ol>
 
 <h2 id="tom-tat">1. Tóm tắt</h2>
+<div class="ask"><p class="lead"><b>Kết luận chính.</b> Một skill do pipeline đã công bố (gskill) học ra đạt mức tăng lớn và vượt qua một
+phép kiểm định chặt, nhưng gần một nửa mức tăng đó không thuộc về skill: bộ học đã tự viết vào skill một chỉ dẫn khai thác
+chỗ rò rỉ của môi trường đánh giá. Phát hiện này đã được <b>lặp lại với seed thứ hai</b> và được
+<b>xác nhận bằng một phép thử đăng ký trước trên 70 task chưa từng dùng</b> (p = 4,2·10<sup>−4</sup>).</p>
+<div class="tbl"><table>
+<tr><th>Bằng chứng</th><th>Kết quả</th><th>Loại</th></tr>
+<tr><td>Skill Jinja, môi trường gốc</td><td>15 → <b>53</b>/100; lặp lại với seed thứ hai: 21 → <b>55</b>/100</td><td>xác nhận, hai seed</td></tr>
+<tr><td>Phần mức tăng do rò rỉ</td><td><b>0,17</b> [0,06; 0,28] và <b>0,16</b> [0,04; 0,28] ở hai seed</td><td>đo hai lần độc lập</td></tr>
+<tr><td>Phép thử trên 70 task chưa từng dùng</td><td>bác bỏ ở task thứ 36; <b>p = 4,2·10<sup>−4</sup></b>; 36 task nghiêng về môi trường có rò rỉ, 0 task nghiêng ngược lại</td><td>xác nhận, đăng ký trước</td></tr>
+<tr><td>36 task hoàn toàn mới</td><td>có skill: <b>20/36</b> khi còn lịch sử, <b>1/36</b> khi bỏ lịch sử; agent đọc commit chèn lỗi ở 36/36 lượt</td><td>mô tả</td></tr>
+<tr><td>Bịt rò rỉ ngay khi học</td><td>0/8 bản viết lại còn chỉ dẫn (trước đó 5/8); skill mới vẫn được chứng nhận (16 → 33)</td><td>xác nhận</td></tr>
+<tr><td>Mức phổ biến của điều kiện rò rỉ</td><td><b>30,5%</b> trong 59.136 task của SWE-smith không có mô tả issue</td><td>đo trên toàn bộ dataset</td></tr>
+</table></div>
+<p>Phần mức tăng còn lại của skill là thật và vẫn được chứng nhận. Thông điệp của bài: một skill học được phải được chứng nhận
+theo từng phạm vi, bằng những đối chứng trong đó nguyên nhân được cho là có tác dụng bị loại bỏ.</p></div>
 <ul class="key">
+<li><b>Mới (12/11, §33): lặp lại với seed thứ hai.</b> Chạy lại cả bốn nhánh Jinja cùng lúc với seed 51 (400 lượt, 0 lỗi hạ tầng):
+môi trường gốc <b>55</b> so với 21 (p = 2,8·10<sup>−8</sup>); một commit <b>35</b> so với 17 (p = 4,6·10<sup>−4</sup>); cả hai được xác nhận
+theo Holm ở mức 0,025. Phần do rò rỉ: <b>0,16 [0,04; 0,28]</b>, so với 0,17 ở seed đầu.</li>
+<li><b>Mới (12/11, §35): phép thử xác nhận trên task chưa dùng.</b> Đăng ký trước khi mở kết quả §33: e-process trên 70 task không
+có mô tả issue (34 task của seed 51 và 36 task Jinja chưa từng dùng). Phép thử <b>bác bỏ ở task thứ 36</b>,
+p = 4,2·10<sup>−4</sup>, và bác bỏ ở 100% trong 10.000 thứ tự ngẫu nhiên.</li>
+<li><b>Mới (12/11, §32): bộ theo dõi trace và mức phơi nhiễm.</b> Cờ “commit chèn lỗi xuất hiện trong quan sát của agent” bật ở
+<b>34/34</b> lượt khai thác và <b>0/398</b> lượt ở môi trường một commit. Skill Jinja mang hành vi này sang Pygments (9/100 lượt)
+mà không mang theo mức tăng nào. <b>30,5%</b> task của SWE-smith không có mô tả issue.</li>
 <li>Skill do pipeline gskill học cho repo Jinja nâng số task giải được (trên 100 task kiểm tra, bộ chấm
 của benchmark) từ <b>15</b> lên <b>53</b>; phép kiểm định tuần tự Gatekeeper
 chấp nhận (admit) skill sau 29 task.</li>
@@ -106,13 +131,14 @@ split (lấy không hoàn lại); mô phỏng H₀ cho tỉ lệ admit nhầm l�
 <td>Không, với bộ chấm và quy tắc admit phổ biến; có, với harness và Gatekeeper của nhóm.</td></tr>
 <tr><td>RQ2</td><td>Skill học được có chứng nhận được không, và mức tăng đến từ đâu?</td>
 <td>Có. Tối đa khoảng 45% (Jinja) và 43% (Bleve) mức tăng đến từ rò rỉ trong môi trường (cận trên). Bịt rò rỉ
-ngay khi học cho skill không còn chỉ dẫn đọc lịch sử, vẫn được admit.</td></tr>
+ngay khi học cho skill không còn chỉ dẫn đọc lịch sử, vẫn được admit. Kết quả lặp lại với seed thứ hai và được xác nhận trên
+70 task chưa từng dùng (p = 4,2·10<sup>−4</sup>).</td></tr>
 <tr><td>RQ3</td><td>Chứng nhận có mang sang phạm vi khác không?</td>
 <td>Không: đổi lịch sử repo, đổi repo, hoặc đổi cấu hình agent–model đều làm thay đổi giá trị của skill.</td></tr>
 </table></div>
 <p><strong>Đóng góp:</strong> </p>
           <p>(1) chứng nhận anytime-valid cho skill do một pipeline đã công bố tạo ra; </p>
-          <p>(2) phép đo có đối chứng cho thấy bộ học tự đưa một chỉ dẫn khai thác rò rỉ vào skill, định lượng phần mức tăng mà rò rỉ chiếm, và cho thấy bịt rò rỉ ngay trong môi trường học thì chỉ dẫn đó không xuất hiện;</p>
+          <p>(2) phép đo có đối chứng cho thấy bộ học tự đưa một chỉ dẫn khai thác rò rỉ vào skill, định lượng phần mức tăng mà rò rỉ chiếm, và cho thấy bịt rò rỉ ngay trong môi trường học thì chỉ dẫn đó không xuất hiện; kết quả được lặp lại với seed thứ hai và xác nhận bằng một phép thử anytime-valid đăng ký trước trên task chưa dùng; kèm một bộ theo dõi trace và số đo mức phơi nhiễm trên toàn dataset;</p>
           <p>(3) bằng chứng rằng chứng nhận gắn với phạm vi; </p>
           <p>(4) bộ đối chứng cho phép đo; </p>
           <p>(5) bản đăng ký trước, dữ liệu gốc và mã.</p>
@@ -345,6 +371,56 @@ cùng các cặp kết quả, và với hai biên θ đã dùng trong bảng thi
 đo được nhỏ nhất (Bleve một commit, Jinja §30) không còn được admit.</p>
 <p><b>Chi phí admission lại khi đổi scope:</b> mỗi admission ở đây cần 24–65 cặp task; với agent của nhóm, mỗi cặp tốn trung bình
 khoảng 174 nghìn token input và 10 nghìn token output (đếm từ quỹ đạo §30), tức 4,2–11,3 triệu token input cho mỗi scope.</p>
+<h3>Lặp lại với seed thứ hai (§33, đăng ký trước, 12/11)</h3>
+<p>Ba bản phản biện đều nêu “mỗi nhánh một seed”. Bốn nhánh Jinja của skill gốc được chạy lại cùng lúc trong một job với seed 51.
+Kiểm sau khi chạy: 100/100 task ở cả bốn nhánh, 0 lỗi hạ tầng, 0 lượt chạm trần chi phí, kiểm rò rỉ đạt 200/200.</p>
+<table><tr><th>Phép thử (Holm, mức họ 0,025)</th><th>Có skill</th><th>Không skill</th><th>b/c</th><th>p</th><th>Kết luận</th></tr>
+<tr><td>Môi trường gốc</td><td>55</td><td>21</td><td>38/4</td><td>2,8·10<sup>−8</sup></td><td><span class=ok>xác nhận</span></td></tr>
+<tr><td>Một commit</td><td>35</td><td>17</td><td>23/5</td><td>4,6·10<sup>−4</sup></td><td><span class=ok>xác nhận</span></td></tr>
+<tr><td>Phần do môi trường, e-process trên cả 100 task</td><td>—</td><td>—</td><td>—</td><td>0,13</td><td><span class=warn>không bác bỏ</span></td></tr></table>
+<table><tr><th>Đại lượng</th><th>Seed 41</th><th>Seed 51</th></tr>
+<tr><td>Mức tăng, môi trường gốc</td><td>0,38</td><td>0,34 [0,23; 0,44]</td></tr>
+<tr><td>Mức tăng, một commit</td><td>0,21</td><td>0,18 [0,09; 0,28]</td></tr>
+<tr><td>Phần do rò rỉ</td><td>0,17 [0,06; 0,28]</td><td>0,16 [0,04; 0,28]</td></tr>
+<tr><td>34 task không mô tả: có skill, môi trường gốc</td><td>15/34</td><td>17/34</td></tr>
+<tr><td>34 task không mô tả: ba nhánh còn lại</td><td>0/34</td><td>0/34</td></tr>
+<tr><td>Gatekeeper admit sau (gốc; một commit)</td><td>29; 50</td><td>53; 74</td></tr></table>
+<p>Gộp hai seed, phần do rò rỉ là 0,165 [0,075; 0,255]. Phép thử thứ ba không bác bỏ: e-process trên cả 100 task thiếu power ở cỡ mẫu
+này, như phân tích thăm dò trên seed đầu đã cho thấy (p = 0,057). Kết quả này vẫn được báo cáo đầy đủ trong paper.</p>
+<h3>Phép thử xác nhận trên task chưa từng dùng (§35, đăng ký trước, 12/11)</h3>
+<p>Trước khi mở bất kỳ kết quả nào của §33, nhóm đăng ký <b>một</b> phép thử cho đúng nơi cơ chế dự đoán có khác biệt: các task không có
+mô tả issue mà chưa phân tích nào từng nhìn. Tập gồm 34 task test của seed 51 và 36 task Jinja chưa từng dùng, chọn bằng quy tắc cố định
+(36 task không mô tả đầu tiên nằm sau các dòng mà gskill lấy mẫu, theo thứ tự của dataset), chạy đủ bốn nhánh.</p>
+<table><tr><th>Đại lượng</th><th>Kết quả</th></tr>
+<tr><td>E-process trên 70 task (α = 0,025, ngưỡng 40)</td><td><span class=ok>bác bỏ ở task thứ 36</span>; p anytime-valid = 4,2·10<sup>−4</sup></td></tr>
+<tr><td>Hướng của từng task</td><td>36 nghiêng về môi trường gốc; 0 nghiêng về một commit; 34 hòa</td></tr>
+<tr><td>Tỉ lệ thứ tự bác bỏ (10.000 hoán vị)</td><td>100%</td></tr>
+<tr><td>36 task mới, có skill</td><td>20/36 ở môi trường gốc; 1/36 ở một commit</td></tr>
+<tr><td>36 task mới, không skill</td><td>0/36 ở cả hai môi trường</td></tr>
+<tr><td>Agent thấy commit chèn lỗi (môi trường gốc)</td><td>36/36 lượt có skill; 1/36 lượt không skill</td></tr></table>
+<p>Một bản vá của nhánh không skill bị bộ chấm báo quá giờ, kể cả khi chấm lại; theo quy tắc ghi trước khi tính, nó được coi là không giải được.
+Bỏ task đó ra thì kết quả không đổi. <b>Phạm vi của kết luận:</b> skill này, repo Jinja, các task không có mô tả issue.</p>
+<h3>Bộ theo dõi trace và mức phơi nhiễm (§32, thăm dò, 0 USD)</h3>
+<p>Đối chứng “một commit” cần dựng một môi trường thứ hai. Một tín hiệu rẻ hơn đọc được ngay từ trace: gắn cờ một lượt chạy khi
+một quan sát của agent chứa thông điệp của commit chèn lỗi (“Bug Patch”).</p>
+<table><tr><th>Nhóm lượt chạy</th><th>Số lượt có cờ</th></tr>
+<tr><td>Skill gốc, 34 task không mô tả, môi trường gốc</td><td><b>34/34</b></td></tr>
+<tr><td>Mọi lượt ở môi trường một commit (Jinja và Bleve)</td><td><b>0/398</b></td></tr>
+<tr><td>Không skill, Jinja, môi trường gốc</td><td>3/100 (không giải được task nào trong 3 lượt)</td></tr>
+<tr><td>Skill Jinja dùng lại trên Pygments</td><td>9/100 (không giải được task nào trong 9 lượt); không skill: 0/100</td></tr></table>
+<p>Cờ chỉ dựa trên lệnh (<code>git log</code>, <code>git show</code>) không phân biệt được: ở Bleve một commit, nó bật ở 31/98 lượt có skill
+dù không có gì để tìm. Trên toàn SWE-smith, <b>18.033 trong 59.136 task (30,5%; 222 repo)</b> không có mô tả issue, tức đúng điều kiện
+mà rò rỉ phát huy tác dụng ở Jinja; nhóm mới đo tác dụng của rò rỉ trên hai repo.</p>
+<h3>Các quy tắc quyết định trên 20 luồng thật (§32, thăm dò, 0 USD)</h3>
+<table><tr><th>Quy tắc</th><th>Luồng dương được nhận (7)</th><th>Luồng A/A bị nhận (4)</th><th>Skill có hại bị nhận (3)</th><th>A/A bị nhận qua 10.000 thứ tự</th></tr>
+<tr><td>Gatekeeper</td><td>7</td><td>0</td><td>0</td><td>0%</td></tr>
+<tr><td>Kiểm định dấu, xem mỗi 10 task</td><td>7</td><td>0</td><td>0</td><td>tối đa 0,7%</td></tr>
+<tr><td>Mantel–Haenszel, xem mỗi 10 task</td><td>7</td><td>0</td><td>0</td><td><span class=bad>tới 7,9%</span> (vượt 2,5% ở 3/4 luồng)</td></tr>
+<tr><td>Plug-in</td><td>7</td><td><span class=bad>3</span></td><td>0</td><td>—</td></tr>
+<tr><td>Luật GEPA (3 task đầu)</td><td><span class=bad>6</span></td><td>0</td><td>0</td><td><span class=bad>5,8%–20,0%</span></td></tr></table>
+<p>Nhận định trung thực: với tác dụng lớn như ở đây, Gatekeeper cho <b>cùng quyết định</b> với kiểm định dấu cỡ mẫu cố định.
+Điều nó thêm vào là quyền dừng ở bất kỳ task nào mà vẫn giữ mức sai số: bảy admission của bài dừng sau trung bình 45 task,
+trong khi phép kiểm cỡ mẫu cố định được đăng ký ở 100. Hai mươi luồng không đủ để ước lượng một tỉ lệ sai.</p>
 <h2 id="rq3">7. RQ3: Chuyển giao sang phạm vi khác</h2>
 <table><tr><th>Chỉ số</th><th>Kết quả</th></tr><tr><td>Không skill</td><td>5/100</td></tr><tr><td>Có skill</td><td>6/100</td></tr><tr><td>Chênh lệch</td><td>1 task</td></tr><tr><td>95% CI</td><td>[−0,02; 0,05]</td></tr><tr><td>p-value</td><td>1,00</td></tr><tr><td>Gatekeeper</td><td>Không admit</td></tr></table>
 <p>Skill Jinja được chứng nhận ở Jinja nhưng chưa có bằng chứng đủ mạnh về cải thiện ở Pygments. Admission phải gắn với scope. Vì tỷ lệ giải quyết nền thấp, không nên kết luận skill chắc chắn gây hại hoặc chắc chắn không thể chuyển giao.</p></section>
@@ -361,12 +437,14 @@ Tỉ lệ giải nền thấp, nên phép thử này có ít power để phát h
 <ul>
 <li><b>Một họ model</b> cho agent. Model khác hãng chưa chạy được (hạn mức, model đã ngừng, thiếu tool calling, chi phí);
 mục model thứ hai đang tạm dừng theo quyết định ngày 07/11.</li>
-<li><b>Task tổng hợp, ba repo</b> (SWE-smith), mỗi nhánh một seed, 100 cặp task mỗi phép thử.</li>
+<li><b>Task tổng hợp, ba repo</b> (SWE-smith), 100 cặp task mỗi phép thử. Mỗi nhánh một seed, trừ bốn nhánh Jinja của skill gốc đã chạy hai seed (§33).</li>
+<li><b>Phạm vi của phép thử xác nhận §35:</b> một skill, một repo, các task không có mô tả issue. Trên cả 100 task của seed 51, e-process cho phần do môi trường không bác bỏ (p = 0,13).</li>
+<li><b>Gatekeeper không quyết định khác kiểm định dấu</b> trên 20 luồng đã thu; lợi ích đo được là dừng sớm, không phải quyết định đúng hơn.</li>
 <li><b>Một kênh rò rỉ</b> (lịch sử git); các kênh khác trong image chưa được thăm dò.</li>
 <li><b>Một lượt học cho mỗi điều kiện</b>: khác biệt giữa skill gốc và skill §30 không tách được khỏi biến thiên giữa các lượt học.</li>
 <li><b>Bảo đảm cho từng admission</b>, không phải cho cả họ; đọc cả họ (α/8) thì skill §30 không còn được admit.</li>
 <li><b>Chưa có</b>: model khác hãng, nhiều lượt học, repo thật (không tổng hợp), loss nhiều mức thay vì nhị phân, nhiều seed,
-so sánh các quy tắc admission khác trên luồng của skill học được (mới so trên luồng A/A), benchmark có tỉ lệ giải nền cao để đo tác hại.
+benchmark có tỉ lệ giải nền cao để đo tác hại.
 Tất cả đều cần thí nghiệm có phí và đã ghi trong mục Threats của paper.</li>
 <li><b>Thứ tự trial</b>: bảo đảm cần thứ tự không phụ thuộc kết quả. Thứ tự do seed của gskill cố định, nhưng các lượt chạy
 song song trong vài giờ; nếu model của nhà cung cấp đổi giữa chừng thì kết quả có thể gắn với vị trí. Chưa thấy điều này, nhưng không loại trừ được.</li>
@@ -393,9 +471,15 @@ lần rút thứ tự (seed cố định trước khi có kết quả); kiểm t
 ghi rõ các giới hạn còn lại. Bản thảo 11 trang, trong đó phần nội dung kết thúc ở trang 9.</li>
 </ul>
 
+<ul>
+<li><b>Cập nhật 12/11:</b> đổi tên bài và viết lại tóm tắt quanh phát hiện rò rỉ; đưa kết quả §32, §33, §35 vào phần mở đầu, RQ2, đóng góp
+và kết luận; chuyển ba đối chứng phụ (quy lỗi, nhiễu chạy lại, MemGovern) xuống phụ lục. Bản dựng không có dòng tràn lề; phần nội dung
+kết thúc ở trang 10, tổng 12 trang kể cả tài liệu tham khảo và phụ lục.</li>
+</ul>
+
 <h2 id="chi-phi">10. Ngân sách và chi phí</h2>
 <div class="tbl"><table>
-<caption>Chi tiêu USD của giai đoạn 06–11/11 (để kiểm soát ngân sách; theo sổ chi trong bản đăng ký)</caption>
+<caption>Chi tiêu USD của giai đoạn 06–12/11 (để kiểm soát ngân sách; theo sổ chi trong bản đăng ký)</caption>
 <tr><th>Hạng mục</th><th>Trần đã duyệt</th><th>Đã chi</th></tr>
 <tr><td>Kế hoạch tái hiện (§22, §23)</td><td class=n>60,00</td><td class=n>7,18</td></tr>
 <tr><td>Bleve và MemGovern (§25 bước 4, ô MemGovern)</td><td class=n>40,00</td><td class=n>21,16</td></tr>
@@ -403,6 +487,10 @@ ghi rõ các giới hạn còn lại. Bản thảo 11 trang, trong đó phần n
 <tr><td>Ablation (§29)</td><td class=n>4,00</td><td class=n>2,98</td></tr>
 <tr><td>Học lại trong môi trường một commit (§30): học 10,99, chấm 3,67</td><td class=n>20,00</td><td class=n>14,66</td></tr>
 <tr><td>Phản biện 11/11, hai lượt (§31, chỉ tính toán lại)</td><td class=n>—</td><td class=n>0,00</td></tr>
+<tr><td>Bốn phân tích miễn phí (§32)</td><td class=n>—</td><td class=n>0,00</td></tr>
+<tr><td>Seed thứ hai, bốn nhánh Jinja (§33)</td><td class=n>8,35</td><td class=n>6,06</td></tr>
+<tr><td>Xác nhận trên 36 task mới (§35)</td><td class=n>3,95</td><td class=n>1,39</td></tr>
+<tr><td>Agent thứ hai trên 34 task (§34): mới xong bước đo thử 9 lượt</td><td class=n>5,00</td><td class=n>0,71</td></tr>
 </table></div>
 <div class="tbl"><table>
 <caption>Token đã ghi nhận (input gồm cả phần lấy từ cache)</caption>
@@ -411,6 +499,8 @@ ghi rõ các giới hạn còn lại. Bản thảo 11 trang, trong đó phần n
 <tr><td>§30 chấm, không skill (100 task)</td><td class=n>1.155</td><td class=n>6.521.778</td><td class=n>4.103.741</td><td class=n>643.405</td></tr>
 <tr><td>§30 chấm, có skill (100 task)</td><td class=n>1.679</td><td class=n>10.847.704</td><td class=n>7.436.850</td><td class=n>403.040</td></tr>
 <tr><td>§30 chấm, skill trong môi trường gốc (34 task)</td><td class=n>398</td><td class=n>1.853.176</td><td class=n>986.479</td><td class=n>69.825</td></tr>
+<tr><td>§33 seed thứ hai, bốn nhánh (400 lượt chạy agent)</td><td class=n>—</td><td class=n>38.743.222</td><td class=n>27.330.092</td><td class=n>1.682.859</td></tr>
+<tr><td>§35 36 task mới, bốn nhánh (144 lượt chạy agent)</td><td class=n>—</td><td class=n>10.973.752</td><td class=n>7.897.906</td><td class=n>284.337</td></tr>
 </table></div>
 <p class="note">Các lượt chạy trên SWE-smith (§25–§29) ghi chi phí bằng đồng hồ USD của gskill nhưng chưa lưu số token
 theo từng lượt. Từ §30, bước chấm lưu quỹ đạo nên đếm được token (cột “Lượt” ở các dòng §30 là số lần gọi model;
@@ -429,7 +519,11 @@ hoặc thêm một lượt học để tăng bằng chứng; đây là ngân sá
 trừ khi thầy thấy kết luận §30 là trọng tâm của bản nộp.</li>
 <li><b>Các thí nghiệm phản biện thứ ba đề nghị (có phí):</b> model khác hãng (M2), thêm lượt học (M3), repo thật (M4), so sánh
 phương pháp admission trên luồng thật (M5), ablation các chỉ dẫn còn lại, nhiều seed, benchmark có tỉ lệ nền cao. Đề xuất ưu tiên
-nếu có ngân sách: M3 (lặp lượt học §30) vì nó củng cố đúng kết quả yếu nhất khi đọc cả họ; M2 chờ thầy duyệt đề tài như đã thống nhất.</li>
+nếu có ngân sách: M3 (lặp lượt học §30) vì nó củng cố đúng kết quả yếu nhất khi đọc cả họ; M2 chờ thầy duyệt đề tài như đã thống nhất.
+<b>Cập nhật 12/11:</b> “nhiều seed” và “so sánh phương pháp trên luồng thật” đã làm (§33, §32).</li>
+<li><b>Hai hướng mở rộng còn thiếu để vào hội nghị hạng cao nhất (có phí, chưa duyệt):</b> (a) task từ issue thật thay cho task tổng hợp,
+để trả lời câu hỏi về tính khái quát; (b) quan hệ liều – đáp ứng giữa tỉ lệ task không mô tả trong tập học và việc bộ học viết ra
+chỉ dẫn khai thác. Đề xuất: ưu tiên (a).</li>
 </ol>
 </div>
 
