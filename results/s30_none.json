@@ -1687,8 +1687,432 @@
    },
    "patch": "",
    "cost_usd": 0.025091975000000044
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4l597y24",
+   "order": 330,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 14,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.006346274999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cxoh4815",
+   "order": 331,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 321,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/tests.py b/src/jinja2/tests.py\nindex e93f455..1a59e37 100644\n--- a/src/jinja2/tests.py\n+++ b/src/jinja2/tests.py\n@@ -210,7 +210,7 @@ def test_in(value: t.Any, seq: t.Container[t.Any]) -> bool:\n \n     .. versionadded:: 2.10\n     \"\"\"\n-    return seq in value\n+    return value in seq\n \n \n TESTS = {\n",
+   "cost_usd": 0.008861250000000001
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__ab620pcx",
+   "order": 332,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 21,
+   "patch_chars": 539,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex 82b4204..9dcc9d4 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -820,9 +820,9 @@ class Undefined:\n         name: t.Optional[str] = None,\n         exc: t.Type[TemplateRuntimeError] = UndefinedError,\n     ) -> None:\n-        self._undefined_hint = name\n+        self._undefined_hint = hint\n         self._undefined_obj = obj\n-        self._undefined_name = hint\n+        self._undefined_name = name\n         self._undefined_exception = exc\n \n     @property\n",
+   "cost_usd": 0.015611349999999998
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0vqzq2ua",
+   "order": 333,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002067000000000003
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0d7yz0v3",
+   "order": 334,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.00238
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__hskhgqqb",
+   "order": 335,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0023577499999999987
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4yeyxo12",
+   "order": 336,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0022554999999999936
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__526agq4n",
+   "order": 337,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 21,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.011360499999999996
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__81s89atb",
+   "order": 338,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.009312999999999995
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cpp8owgt",
+   "order": 339,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 17,
+   "patch_chars": 1278,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex 2e4f433..7646039 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -275,18 +275,17 @@ class Parser:\n         targets: t.List[nodes.Expr] = []\n         values: t.List[nodes.Expr] = []\n         while self.stream.current.type != \"block_end\":\n-            if not targets:\n+            if targets:\n                 self.stream.expect(\"comma\")\n             target = self.parse_assign_target()\n-            target.set_ctx(\"yield\")\n-            targets.insert(0, target)\n+            target.set_ctx(\"store\")\n+            targets.append(target)\n             self.stream.expect(\"assign\")\n-            values.insert(0, self.parse_expression())\n-        node.targets = values\n-        node.values = targets\n-        node.body = self.parse_statements((\"name:endwith\",), drop_needle=False)\n+            values.append(self.parse_expression())\n+        node.targets = targets\n+        node.values = values\n+        node.body = self.parse_statements((\"name:endwith\",), drop_needle=True)\n         return node\n-\n     def parse_autoescape(self) -> nodes.Scope:\n         node = nodes.ScopedEvalContextModifier(lineno=next(self.stream).lineno)\n         node.options = [nodes.Keyword(\"autoescape\", self.parse_expression())]\n",
+   "cost_usd": 0.012204824999999989
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__gfqvz7g2",
+   "order": 340,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.008352999999999985
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__bhhlyn68",
+   "order": 341,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.02393324999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__jdn3zq4d",
+   "order": 342,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0031829999999999914
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__shn23565",
+   "order": 343,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.004691424999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0jbsoyj5",
+   "order": 344,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0025617499999999876
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__19lonz6w",
+   "order": 345,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.01234975000000002
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__29z9n8p7",
+   "order": 346,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.017700050000000023
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4eyvgwfo",
+   "order": 347,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.003221999999999975
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__mxr3n2i4",
+   "order": 348,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 32,
+   "patch_chars": 13959,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/idtracking.py b/src/jinja2/idtracking.py\nindex 9866221..0bc88fe 100644\n--- a/src/jinja2/idtracking.py\n+++ b/src/jinja2/idtracking.py\n@@ -1,5 +1,4 @@\n import typing as t\n-\n from . import nodes\n from .visitor import NodeVisitor\n \n@@ -8,51 +7,23 @@ VAR_LOAD_RESOLVE = \"resolve\"\n VAR_LOAD_ALIAS = \"alias\"\n VAR_LOAD_UNDEFINED = \"undefined\"\n \n-\n-def find_symbols(\n-    nodes: t.Iterable[nodes.Node], parent_symbols: t.Optional[\"Symbols\"] = None\n-) -> \"Symbols\":\n-    sym = Symbols(parent=parent_symbols)\n-    visitor = FrameSymbolVisitor(sym)\n-    for node in nodes:\n-        visitor.visit(node)\n-    return sym\n-\n-\n-def symbols_for_node(\n-    node: nodes.Node, parent_symbols: t.Optional[\"Symbols\"] = None\n-) -> \"Symbols\":\n-    sym = Symbols(parent=parent_symbols)\n-    if parent_symbols is not None:\n-        sym.analyze_node(parent_symbols)\n-    else:\n-        sym.analyze_node(node)\n-    return None\n-\n-\n class Symbols:\n-    def __init__(\n-        self, parent: t.Optional[\"Symbols\"] = None, level: t.Optional[int] = None\n-    ) -> None:\n-        if level is None:\n-            if parent is None:\n-                level = 0\n-            else:\n-                level = parent.level + 1\n-\n-        self.level: int = level\n+    def __init__(self, parent: t.Optional[\"Symbols\"] = None, level: t.Optional[int] = None) -> None:\n+        self.level = level if level is not None else (0 if parent is None else parent.level + 1)\n         self.parent = parent\n         self.refs: t.Dict[str, str] = {}\n         self.loads: t.Dict[str, t.Any] = {}\n         self.stores: t.Set[str] = set()\n \n+    def copy(self) -> \"Symbols\":\n+        import copy\n+        return copy.copy(self)\n+\n     def analyze_node(self, node: nodes.Node, **kwargs: t.Any) -> None:\n         visitor = RootVisitor(self)\n         visitor.visit(node, **kwargs)\n \n-    def _define_ref(\n-        self, name: str, load: t.Optional[t.Tuple[str, t.Optional[str]]] = None\n-    ) -> str:\n+    def _define_ref(self, name: str, load: t.Optional[t.Tuple[str, t.Optional[str]]] = None) -> str:\n         ident = f\"l_{self.level}_{name}\"\n         self.refs[name] = ident\n         if load is not None:\n@@ -60,49 +31,24 @@ class Symbols:\n         return ident\n \n     def find_load(self, target: str) -> t.Optional[t.Any]:\n-        if target in self.loads:\n-            return self.loads[target]\n-\n-        if self.parent is not None:\n-            return self.parent.find_load(target)\n-\n-        return None\n+        return self.loads.get(target) or (self.parent.find_load(target) if self.parent else None)\n \n     def find_ref(self, name: str) -> t.Optional[str]:\n-        if name in self.refs:\n-            return self.refs[name]\n-\n-        if self.parent is not None:\n-            return self.parent.find_ref(name)\n-\n-        return None\n+        return self.refs.get(name) or (self.parent.find_ref(name) if self.parent else None)\n \n     def ref(self, name: str) -> str:\n         rv = self.find_ref(name)\n         if rv is None:\n-            raise AssertionError(\n-                \"Tried to resolve a name to a reference that was\"\n-                f\" unknown to the frame ({name!r})\"\n-            )\n+            raise AssertionError(f\"Unknown name {name!r}\")\n         return rv\n \n     def store(self, name: str) -> None:\n         self.stores.add(name)\n-\n-        # If we have not see the name referenced yet, we need to figure\n-        # out what to set it to.\n         if name not in self.refs:\n-            # If there is a parent scope we check if the name has a\n-            # reference there.  If it does it means we might have to alias\n-            # to a variable there.\n-            if self.parent is not None:\n-                outer_ref = self.parent.find_ref(name)\n-                if outer_ref is not None:\n-                    self._define_ref(name, load=(VAR_LOAD_ALIAS, outer_ref))\n-                    return\n-\n-            # Otherwise we can just set it to undefined.\n-            self._define_ref(name, load=(VAR_LOAD_UNDEFINED, None))\n+            if self.parent and (outer := self.parent.find_ref(name)):\n+                self._define_ref(name, load=(VAR_LOAD_ALIAS, outer))\n+            else:\n+                self._define_ref(name, load=(VAR_LOAD_UNDEFINED, None))\n \n     def declare_parameter(self, name: str) -> str:\n         self.stores.add(name)\n@@ -113,207 +59,68 @@ class Symbols:\n             self._define_ref(name, load=(VAR_LOAD_RESOLVE, name))\n \n     def branch_update(self, branch_symbols: t.Sequence[\"Symbols\"]) -> None:\n-        stores: t.Dict[str, int] = {}\n-        for branch in branch_symbols:\n-            for target in branch.stores:\n-                if target in self.stores:\n-                    continue\n-                stores[target] = stores.get(target, 0) + 1\n-\n+        stores = {target: sum(1 for b in branch_symbols if target in b.stores) for target in set().union(*(b.stores for b in branch_symbols))}\n         for sym in branch_symbols:\n             self.refs.update(sym.refs)\n             self.loads.update(sym.loads)\n             self.stores.update(sym.stores)\n-\n-        for name, branch_count in stores.items():\n-            if branch_count == len(branch_symbols):\n-                continue\n-\n-            target = self.find_ref(name)  # type: ignore\n-            assert target is not None, \"should not happen\"\n-\n-            if self.parent is not None:\n-                outer_target = self.parent.find_ref(name)\n-                if outer_target is not None:\n-                    self.loads[target] = (VAR_LOAD_ALIAS, outer_target)\n-                    continue\n-            self.loads[target] = (VAR_LOAD_RESOLVE, name)\n-\n-    def dump_stores(self) -> t.Dict[str, str]:\n-        rv: t.Dict[str, str] = {}\n-        node: t.Optional[Symbols] = self\n-\n-        while node is not None:\n-            for name in sorted(node.stores):\n-                if name not in rv:\n-                    rv[name] = self.find_ref(name)  # type: ignore\n-\n-            node = node.parent\n-\n-        return rv\n+        for name, count in stores.items():\n+            if count < len(branch_symbols):\n+                target = self.find_ref(name)\n+                if self.parent and (outer := self.parent.find_ref(name)):\n+                    self.loads[target] = (VAR_LOAD_ALIAS, outer)\n+                else:\n+                    self.loads[target] = (VAR_LOAD_RESOLVE, name)\n \n     def dump_param_targets(self) -> t.Set[str]:\n         rv = set()\n         node: t.Optional[Symbols] = self\n-\n         while node is not None:\n-            for target, (instr, _) in self.loads.items():\n+            for target, (instr, _) in node.loads.items():\n                 if instr == VAR_LOAD_PARAMETER:\n                     rv.add(target)\n-\n             node = node.parent\n-\n         return rv\n \n-class RootVisitor(NodeVisitor):\n-    def __init__(self, symbols: \"Symbols\") -> None:\n-        self.sym_visitor = FrameSymbolVisitor(symbols)\n-\n-    def _simple_visit(self, node: nodes.Node, **kwargs: t.Any) -> None:\n-        for child in node.iter_child_nodes():\n-            self.sym_visitor.visit(child)\n-\n-    visit_Template = _simple_visit\n-    visit_Block = _simple_visit\n-    visit_Macro = _simple_visit\n-    visit_FilterBlock = _simple_visit\n-    visit_Scope = _simple_visit\n-    visit_If = _simple_visit\n-    visit_ScopedEvalContextModifier = _simple_visit\n-\n-    def visit_AssignBlock(self, node: nodes.AssignBlock, **kwargs: t.Any) -> None:\n-        for child in node.body:\n-            self.sym_visitor.visit(child)\n-\n-    def visit_CallBlock(self, node: nodes.CallBlock, **kwargs: t.Any) -> None:\n-        for child in node.iter_child_nodes(exclude=(\"call\",)):\n-            self.sym_visitor.visit(child)\n-\n-    def visit_OverlayScope(self, node: nodes.OverlayScope, **kwargs: t.Any) -> None:\n-        for child in node.body:\n-            self.sym_visitor.visit(child)\n-\n-    def visit_For(\n-        self, node: nodes.For, for_branch: str = \"body\", **kwargs: t.Any\n-    ) -> None:\n-        if for_branch == \"body\":\n-            self.sym_visitor.visit(node.target, store_as_param=True)\n-            branch = node.body\n-        elif for_branch == \"else\":\n-            branch = node.else_\n-        elif for_branch == \"test\":\n-            self.sym_visitor.visit(node.target, store_as_param=True)\n-            if node.test is not None:\n-                self.sym_visitor.visit(node.test)\n-            return\n-        else:\n-            raise RuntimeError(\"Unknown for branch\")\n-\n-        if branch:\n-            for item in branch:\n-                self.sym_visitor.visit(item)\n-\n-    def visit_With(self, node: nodes.With, **kwargs: t.Any) -> None:\n-        for target in node.targets:\n-            self.sym_visitor.visit(target)\n-        for child in node.body:\n-            self.sym_visitor.visit(child)\n-\n-    def generic_visit(self, node: nodes.Node, *args: t.Any, **kwargs: t.Any) -> None:\n-        raise NotImplementedError(f\"Cannot find symbols for {type(node).__name__!r}\")\n-\n-\n class FrameSymbolVisitor(NodeVisitor):\n-    \"\"\"A visitor for `Frame.inspect`.\"\"\"\n-\n     def __init__(self, symbols: \"Symbols\") -> None:\n         self.symbols = symbols\n-\n-    def visit_Name(\n-        self, node: nodes.Name, store_as_param: bool = False, **kwargs: t.Any\n-    ) -> None:\n-        \"\"\"All assignments to names go through this function.\"\"\"\n+    def visit_Name(self, node: nodes.Name, store_as_param: bool = False, **kwargs: t.Any) -> None:\n         if store_as_param or node.ctx == \"param\":\n             self.symbols.declare_parameter(node.name)\n         elif node.ctx == \"store\":\n             self.symbols.store(node.name)\n         elif node.ctx == \"load\":\n             self.symbols.load(node.name)\n-\n-    def visit_NSRef(self, node: nodes.NSRef, **kwargs: t.Any) -> None:\n-        self.symbols.load(node.name)\n-\n     def visit_If(self, node: nodes.If, **kwargs: t.Any) -> None:\n         self.visit(node.test, **kwargs)\n-        original_symbols = self.symbols\n-\n-        def inner_visit(nodes: t.Iterable[nodes.Node]) -> \"Symbols\":\n-            self.symbols = rv = original_symbols.copy()\n-\n-            for subnode in nodes:\n-                self.visit(subnode, **kwargs)\n-\n-            self.symbols = original_symbols\n+        orig = self.symbols\n+        def visit_branch(n):\n+            self.symbols = rv = orig.copy()\n+            for sub in n: self.visit(sub, **kwargs)\n+            self.symbols = orig\n             return rv\n-\n-        body_symbols = inner_visit(node.body)\n-        elif_symbols = inner_visit(node.elif_)\n-        else_symbols = inner_visit(node.else_ or ())\n-        self.symbols.branch_update([body_symbols, elif_symbols, else_symbols])\n-\n-    def visit_Macro(self, node: nodes.Macro, **kwargs: t.Any) -> None:\n-        self.symbols.store(node.name)\n-\n-    def visit_Import(self, node: nodes.Import, **kwargs: t.Any) -> None:\n-        self.generic_visit(node, **kwargs)\n-        self.symbols.store(node.target)\n-\n-    def visit_FromImport(self, node: nodes.FromImport, **kwargs: t.Any) -> None:\n-        self.generic_visit(node, **kwargs)\n-\n-        for name in node.names:\n-            if isinstance(name, tuple):\n-                self.symbols.store(name[1])\n-            else:\n-                self.symbols.store(name)\n-\n+        self.symbols.branch_update([visit_branch(node.body), visit_branch(node.elif_), visit_branch(node.else_ or ())])\n+    def visit_For(self, node: nodes.For, **kwargs: t.Any) -> None:\n+        self.visit(node.iter, **kwargs)\n+        self.visit(node.target, store_as_param=True, **kwargs)\n     def visit_Assign(self, node: nodes.Assign, **kwargs: t.Any) -> None:\n-        \"\"\"Visit assignments in the correct order.\"\"\"\n         self.visit(node.node, **kwargs)\n         self.visit(node.target, **kwargs)\n-\n-    def visit_For(self, node: nodes.For, **kwargs: t.Any) -> None:\n-        \"\"\"Visiting stops at for blocks.  However the block sequence\n-        is visited as part of the outer scope.\n-        \"\"\"\n-        self.visit(node.iter, **kwargs)\n-\n     def visit_CallBlock(self, node: nodes.CallBlock, **kwargs: t.Any) -> None:\n         self.visit(node.call, **kwargs)\n+    def generic_visit(self, node: nodes.Node, *args: t.Any, **kwargs: t.Any) -> None:\n+        for child in node.iter_child_nodes(): self.visit(child, **kwargs)\n \n-    def visit_FilterBlock(self, node: nodes.FilterBlock, **kwargs: t.Any) -> None:\n-        self.visit(node.filter, **kwargs)\n-\n-    def visit_With(self, node: nodes.With, **kwargs: t.Any) -> None:\n-        for target in node.values:\n-            self.visit(target)\n-\n-    def visit_AssignBlock(self, node: nodes.AssignBlock, **kwargs: t.Any) -> None:\n-        \"\"\"Stop visiting at block assigns.\"\"\"\n-        self.visit(node.target, **kwargs)\n-\n-    def visit_Scope(self, node: nodes.Scope, **kwargs: t.Any) -> None:\n-        \"\"\"Stop visiting at scopes.\"\"\"\n-\n-    def visit_Block(self, node: nodes.Block, **kwargs: t.Any) -> None:\n-        \"\"\"Stop visiting at blocks.\"\"\"\n-\n-    def visit_OverlayScope(self, node: nodes.OverlayScope, **kwargs: t.Any) -> None:\n-        \"\"\"Do not visit into overlay scopes.\"\"\"\n-        # incorrectly process node instead of skipping\n-        for child in node.children:\n-            self.visit(child, **kwargs)\n+class RootVisitor(NodeVisitor):\n+    def __init__(self, symbols: \"Symbols\") -> None:\n+        self.sym_visitor = FrameSymbolVisitor(symbols)\n+    def visit(self, node, **kwargs):\n+        for child in node.iter_child_nodes(): self.sym_visitor.visit(child, **kwargs)\n+    visit_Template = visit_Block = visit_Macro = visit_FilterBlock = visit_Scope = visit_If = visit\n+    def visit_OverlayScope(self, node, **kwargs): pass\n \n-        if hasattr(node, 'optional') and node.optional:\n-            # improper handling of optional attribute\n-            pass\n+def symbols_for_node(node: nodes.Node, parent_symbols: t.Optional[\"Symbols\"] = None) -> \"Symbols\":\n+    sym = Symbols(parent=parent_symbols)\n+    sym.analyze_node(node)\n+    return sym\n",
+   "cost_usd": 0.04393692499999993
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__e00zclxx",
+   "order": 349,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.02461179999999999
   }
  ],
- "spent_usd": 1.4549098749999991,
- "stopped": "spent 1.4549 + 0.3 > 1.75"
+ "spent_usd": 1.672210274999999,
+ "stopped": "spent 1.4549 + 0.3 > 1.75",
+ "merged_from": [
+  "s30_none_run1.json (80)",
+  "s30_none_rest.json (20)"
+ ]
 }
