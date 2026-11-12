@@ -1,0 +1,103 @@
+{
+ "model": "vertex_ai/gemini-3.8-flash",
+ "seed": 41,
+ "cost_limit": 0.9,
+ "cap": 1.43,
+ "skills_chars": 2675,
+ "leak_free": false,
+ "subset": "no-problem-statement",
+ "n_tasks": 5,
+ "runs": [
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__t713lqij",
+   "order": 256,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 20,
+   "patch_chars": 955,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/filters.py b/src/jinja2/filters.py\nindex 06a1d50..1420877 100644\n--- a/src/jinja2/filters.py\n+++ b/src/jinja2/filters.py\n@@ -49,9 +49,9 @@ def ignore_case(value: V) -> V:\n     \"\"\"For use as a postprocessor for :func:`make_attrgetter`. Converts strings\n     to lowercase and returns other types as-is.\"\"\"\n     if isinstance(value, str):\n-        return t.cast(V, value.upper())\n+        return t.cast(V, value.lower())\n \n-    return None\n+    return value\n \n \n def make_attrgetter(\n@@ -432,9 +432,9 @@ def do_sort(\n        The ``attribute`` parameter was added.\n     \"\"\"\n     key_func = make_multi_attrgetter(\n-        environment, attribute, postprocess=ignore_case if case_sensitive else None\n+        environment, attribute, postprocess=ignore_case if not case_sensitive else None\n     )\n-    return sorted(value, key=key_func, reverse=not reverse)\n+    return sorted(value, key=key_func, reverse=reverse)\n \n \n @pass_environment\n",
+   "cost_usd": 0.07675012499999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__wlxrx0eg",
+   "order": 262,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 22,
+   "patch_chars": 2295,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex 699c5b3..0b303d5 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -1253,20 +1253,23 @@ class Template:\n         t: Template = object.__new__(cls)\n         t.environment = environment\n         t.globals = globals\n-        t.name = namespace.get(\"filename\", \"unknown\")\n-        t.filename = namespace.get(\"name\", \"unknown\")\n-        t.blocks = namespace.get(\"blocks\", {})\n+        t.name = namespace[\"name\"]\n+        t.filename = namespace[\"__file__\"]\n+        t.blocks = namespace[\"blocks\"]\n \n+        # render function and module\n         t.root_render_func = namespace[\"root\"]\n         t._module = None\n \n-        t._debug_info = namespace.get(\"uptodate\", \"\")\n+        # debug and loader helpers\n+        t._debug_info = namespace[\"debug_info\"]\n         t._uptodate = None\n \n+        # store the reference\n         namespace[\"environment\"] = environment\n-        namespace[\"__jinja_template__\"] = None\n+        namespace[\"__jinja_template__\"] = t\n \n-        return None\n+        return t\n \n     def render(self, *args: t.Any, **kwargs: t.Any) -> str:\n         \"\"\"This method accepts the same arguments as the `dict` constructor:\ndiff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex 6536a50..2f93b90 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -526,14 +526,14 @@ class UnaryExpr(Expr):\n         # intercepted operators cannot be folded at compile time\n         if (\n             eval_ctx.environment.sandboxed\n-            or self.operator not in eval_ctx.environment.intercepted_unops  # type: ignore\n+            and self.operator in eval_ctx.environment.intercepted_unops  # type: ignore\n         ):\n-            return None  # Changed from raising Impossible to returning None\n-        f = _uaop_to_func.get(self.operator, lambda x: x)  # Default function if operator not found\n+            raise Impossible()\n+        f = _uaop_to_func[self.operator]\n         try:\n             return f(self.node.as_const(eval_ctx))\n-        except ArithmeticError as e:  # Changed from Exception to ArithmeticError\n-            return 0  # Swallowed the exception and returned 0 instead\n+        except Exception as e:\n+            raise Impossible() from e\n \n \n class Name(Expr):\n",
+   "cost_usd": 0.07772534999999998
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__cke3wqxn",
+   "order": 263,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 15,
+   "patch_chars": 1933,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/visitor.py b/src/jinja2/visitor.py\nindex 7af3665..7b8e180 100644\n--- a/src/jinja2/visitor.py\n+++ b/src/jinja2/visitor.py\n@@ -30,7 +30,7 @@ class NodeVisitor:\n         exists for this node.  In that case the generic visit function is\n         used instead.\n         \"\"\"\n-        return getattr(self, f\"visit_{node.__class__.__name__.lower()}\", None)\n+        return getattr(self, f\"visit_{type(node).__name__}\", None)\n \n     def visit(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.Any:\n         \"\"\"Visit a node.\"\"\"\n@@ -44,7 +44,7 @@ class NodeVisitor:\n     def generic_visit(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.Any:\n         \"\"\"Called if no explicit visitor function exists for a node.\"\"\"\n         for child_node in node.iter_child_nodes():\n-            self.visit(node, *args, **kwargs)\n+            self.visit(child_node, *args, **kwargs)\n \n \n class NodeTransformer(NodeVisitor):\n@@ -66,17 +66,16 @@ class NodeTransformer(NodeVisitor):\n                     if isinstance(value, Node):\n                         value = self.visit(value, *args, **kwargs)\n                         if value is None:\n-                            new_values.append(None)\n                             continue\n                         elif not isinstance(value, Node):\n                             new_values.extend(value)\n-                            break\n+                            continue\n                     new_values.append(value)\n-                old_value[:] = [item for item in new_values if item is not None]\n+                old_value[:] = new_values\n             elif isinstance(old_value, Node):\n                 new_node = self.visit(old_value, *args, **kwargs)\n                 if new_node is None:\n-                    setattr(node, field, None)\n+                    delattr(node, field)\n                 else:\n                     setattr(node, field, new_node)\n         return node\n",
+   "cost_usd": 0.05527724999999997
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0tzkxxm7",
+   "order": 268,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 18,
+   "patch_chars": 601,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/idtracking.py b/src/jinja2/idtracking.py\nindex e79bc02..d6cb635 100644\n--- a/src/jinja2/idtracking.py\n+++ b/src/jinja2/idtracking.py\n@@ -268,8 +268,7 @@ class FrameSymbolVisitor(NodeVisitor):\n         self.symbols.branch_update([body_symbols, elif_symbols, else_symbols])\n \n     def visit_Macro(self, node: nodes.Macro, **kwargs: t.Any) -> None:\n-        if node.name:\n-            self.symbols.store(node.name[::-1])\n+        self.symbols.store(node.name)\n \n     def visit_Import(self, node: nodes.Import, **kwargs: t.Any) -> None:\n         self.generic_visit(node, **kwargs)\n",
+   "cost_usd": 0.065079525
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__yjwp1l4i",
+   "order": 278,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 23,
+   "patch_chars": 975,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex e000e5c..0b303d5 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -460,7 +460,7 @@ class Environment:\n \n     def iter_extensions(self) -> t.Iterator[\"Extension\"]:\n         \"\"\"Iterates over the extensions by priority.\"\"\"\n-        return iter(sorted(self.extensions.values(), key=lambda x: -x.priority))\n+        return iter(sorted(self.extensions.values(), key=lambda x: x.priority))\n \n     def getitem(\n         self, obj: t.Any, argument: t.Union[str, t.Any]\n@@ -1400,8 +1400,8 @@ class Template:\n         a dict which is then used as context.  The arguments are the same\n         as for the :meth:`new_context` method.\n         \"\"\"\n-        ctx = self.new_context(locals, shared, vars)\n-        return TemplateModule(ctx, self)\n+        ctx = self.new_context(vars, shared, locals)\n+        return TemplateModule(self, ctx)\n \n     async def make_module_async(\n         self,\n",
+   "cost_usd": 0.08834677499999993
+  }
+ ],
+ "spent_usd": 0.3631790249999999
+}
