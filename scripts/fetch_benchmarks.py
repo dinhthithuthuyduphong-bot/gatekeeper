@@ -129,6 +129,16 @@ def main() -> int:
             "created_at_range": [dates[0], dates[-1]] if dates else None,
             "load_warnings": errors,
         }
+        if name == "swe-smith" and "problem_statement" in getattr(ds, "column_names", []):
+            # section 32 (A7): tasks whose issue description is empty, per repository. Column access
+            # only; no task text is stored.
+            empty: Counter = Counter()
+            for repo, ps in zip(ds["repo"], ds["problem_statement"], strict=True):
+                empty[repo] += not (ps or "").strip()
+            summary[name]["empty_problem_statement_per_repo"] = {
+                r: int(empty[r]) for r in summary[name]["tasks_per_repo"]
+            }
+            summary[name]["n_empty_problem_statement"] = int(sum(empty.values()))
         if name in KEEP_ROWS:
             with (OUT / f"{name}.csv").open("w", newline="", encoding="utf-8") as fh:
                 w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))

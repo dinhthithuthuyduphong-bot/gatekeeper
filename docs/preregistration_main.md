@@ -1999,3 +1999,136 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - **31e, chi phí:**
   - Mỗi cặp task tốn khoảng 174 nghìn token input và 10 nghìn token output (quỹ đạo §30).
   - Mỗi admission tốn 4,2–11,3 triệu token input.
+
+## 32. Bậc 0 của `docs/plan_astar.md`: bốn phân tích miễn phí (đăng ký 12/11/2026, trước khi tính)
+
+**Lý do:** @thuthuy 12/11: "Làm bậc 0 và 1 trước". Cả bốn phân tích đều chạy trên dữ liệu đã có, và đều là **thăm dò**: dữ liệu đã được nhìn ở dạng khác. Không phân tích nào thay một phán quyết đã đăng ký.
+
+**Đã thấy trước khi đăng ký:**
+- mọi kết quả của §25–§31;
+- tỉ lệ task không mô tả ở 3 repo (30%, 37%, 7%);
+- số ứng viên có dòng lịch sử ở ba lượt học (5/8, 4/9, 0/8).
+
+### 32a. Bộ theo dõi truy cập lịch sử (A6)
+- **Quy tắc trên trace của một lượt chạy:**
+  - **M1** (không cần biết gì về benchmark): một lệnh của agent khớp `git (log|show|reflog|blame)` hoặc `git (diff|checkout|restore|cat-file) … (HEAD~|HEAD^|[0-9a-f]{7,})`.
+  - **M2** (dùng hiểu biết về SWE-smith): một quan sát (đầu ra lệnh; bỏ đề bài) chứa chuỗi `Bug Patch`.
+- **Dữ liệu:** mọi file `results/*.traces.jsonl.gz` (17 file). Lượt crash trước bước đầu (không có `messages`) bị loại và được đếm.
+- **Nhãn theo cấu trúc, không theo kết quả:**
+  - môi trường một commit: không có gì để khai thác, nên mọi cờ M2 là báo nhầm;
+  - môi trường gốc: commit "Bug Patch" có sẵn.
+- **Báo cáo, theo từng nhánh:**
+  - số lượt; số cờ M1; số cờ M2;
+  - trong môi trường gốc: tỉ lệ giải được (S) của lượt có cờ M2 và của lượt không có cờ.
+- **Không có ngưỡng đạt/không đạt.** Đây là mô tả một đối chứng không cần chạy lại.
+
+### 32b. Các quy tắc quyết định trên luồng thật (A1)
+- **Luồng ghép cặp** (Z_i = 1[có skill không giải] − 1[không skill không giải]):
+  - SWE-smith, theo thứ tự `order` của gskill:
+    - Jinja gốc; Jinja một commit; Bleve gốc; Bleve một commit;
+    - skill bỏ chỉ dẫn (§29); skill học lại (§30);
+    - skill gốc so với placebo; placebo so với không skill;
+    - Pygments.
+  - A/A thật trên SWE-smith (hai lượt không skill của cùng 100 task, khác ngày):
+    - `f1_probe` so với `s29_none` (môi trường gốc);
+    - `s25_leakfree_none` so với `s30_none` (một commit).
+  - E1, E2 (seed s41; task xếp theo mã instance, một thứ tự không phụ thuộc kết quả):
+    - 3 skill của E1; 3 skill có hại theo thiết kế của E1; XRepoSkill;
+    - A/A: không skill s41 so với s51, cho E1 và E2.
+- **Nhãn đặt trước:**
+  - **dương** (tác dụng được một lượt chạy độc lập xác nhận): Jinja gốc, Jinja một commit, Bleve gốc, Bleve một commit, skill bỏ chỉ dẫn, skill học lại, skill gốc so với placebo;
+  - **âm theo cấu trúc:** bốn luồng A/A;
+  - **có hại theo thiết kế** (không nên nhận): ba skill có hại của E1;
+  - **không nhãn:** Pygments, placebo so với không skill, 3 skill E1, XRepoSkill.
+- **Quy tắc đem so** (mỗi quy tắc trả về nhận / không nhận):
+  1. Gatekeeper: θ = 0, α = 0,025, c = 0,5, admit khi E ≥ 40.
+  2. Kiểm định dấu chính xác một phía ở cuối luồng, α = 0,025.
+  3. Như 2, nhưng xem sau mỗi 10 trial và nhận ngay khi p ≤ 0,025.
+  4. Plug-in ở cuối luồng (trung bình Z < 0).
+  5. Plug-in xem sau mỗi 10 trial.
+  6. Cổng Mantel–Haenszel (`gates.b_x2`, mã XRepoSkill ghim `26fd703`) ở cuối luồng.
+  7. Như 6, xem sau mỗi 10 trial.
+  8. Luật GEPA trên 3 trial đầu (`gates.b_g`).
+- **Độ vững theo thứ tự:** mỗi quy tắc được tính thêm trên 10.000 hoán vị ngẫu nhiên của từng luồng (seed 3211); báo cáo tỉ lệ hoán vị được nhận.
+- **Báo cáo:** bảng quyết định theo luồng và quy tắc; với mỗi quy tắc, số luồng âm và có hại bị nhận, số luồng dương bị bỏ.
+- **Giới hạn nêu trước:** 20 luồng; nhãn dương dựa trên các lượt chạy của chính nghiên cứu này; không phải ước lượng tỉ lệ sai.
+
+### 32c. E-process cho phần do môi trường (A2)
+- **Đại lượng:** với task i có cả bốn lượt chạy, D_i = (Z_i^gốc − Z_i^một commit) / 2 ∈ [−1, 1]. D_i < 0 nghĩa là skill giúp nhiều hơn ở môi trường gốc.
+- **Giả thuyết không:** trung bình của D trên pool ≥ 0 (môi trường gốc không cho skill thêm gì).
+- **Phép kiểm:** e-process của Gatekeeper trên D_1, D_2, … theo thứ tự `order`; θ = 0, α = 0,025, c = 0,5; bác bỏ khi E ≥ 40.
+- **Tính hợp lệ:** Proposition pool hữu hạn của paper áp cho mọi dãy giá trị cố định trong [−1, 1] duyệt theo thứ tự không phụ thuộc kết quả; D_i thỏa điều kiện đó.
+- **Vai trò:**
+  - trên Jinja và Bleve (đã nhìn): **minh họa**; kèm tỉ lệ bác bỏ trên 10.000 hoán vị (seed 3212);
+  - trên dữ liệu seed thứ hai của §33 (chưa có): **xác nhận**.
+
+### 32d. Mức phơi nhiễm trên toàn SWE-smith (A7)
+- **Đại lượng:** với mỗi repo của SWE-smith (bản HuggingFace `SWE-bench/SWE-smith`, split `train`), tỉ lệ task có `problem_statement` rỗng.
+- **Cách tính:** `scripts/fetch_benchmarks.py` (workflow `data`) đếm trên cột; không lưu nội dung task.
+- **Báo cáo:**
+  - tỉ lệ trên toàn bộ;
+  - phân phối theo repo (trung vị, tứ phân vị);
+  - danh sách repo có ≥ 350 task, xếp theo tỉ lệ. Danh sách này là đầu vào của quy tắc chọn repo ở bậc 2.
+
+**B3 (thu hồi trên luồng thật) chưa đăng ký ở đây:** e-detector của Qu et al. chưa được cài; sẽ có mục riêng.
+
+## 33. Seed thứ hai cho bốn nhánh Jinja (đăng ký 12/11/2026, trước mọi lần chạy)
+
+**Lý do:** cả ba phản biện nêu "một seed mỗi nhánh". Bậc 1 của `docs/plan_astar.md`.
+
+**Thiết kế:**
+- 100 task test Jinja theo `_gskill_order`; skill gốc (`docs/skills/gskill/jinja_best_skills.txt`), nguyên văn.
+- **Seed 51** cho agent; mọi thiết lập khác như §25 (cost_limit 0,30; 50 bước).
+- **Bốn nhánh chạy cùng lúc trong một job:**
+  - gốc, không skill (`results/s33_ship_none.json`);
+  - gốc, có skill (`results/s33_ship_skill.json`);
+  - một commit, không skill (`results/s33_lf_none.json`);
+  - một commit, có skill (`results/s33_lf_skill.json`).
+
+**Phép thử xác nhận** (Holm ở mức họ α = 0,025 trên ba phép):
+- **P33a:** có skill > không skill, môi trường gốc; kiểm định dấu một phía.
+- **P33b:** có skill > không skill, môi trường một commit; kiểm định dấu một phía.
+- **P33c:** phần do môi trường > 0: e-process của §32c trên D_i của seed 51; bác bỏ khi E ≥ 1/α_k, với α_k là mức Holm của phép này. Vì e-process cho một p-value anytime-valid p = min(1, 1/max E), Holm áp trên ba p-value.
+
+**Phụ (mô tả):**
+1. Gatekeeper trên từng môi trường: admit sau bao nhiêu task.
+2. Δ_leak của seed 51, bootstrap theo task; so với seed 41 (0,17 [0,06; 0,28]).
+3. Gộp hai seed: trung bình theo task của Z qua hai seed, bootstrap theo task.
+4. Nhóm 34 task không mô tả: số task giải được ở bốn nhánh.
+5. Số task có cùng kết quả giữa seed 41 và seed 51, theo từng nhánh. Hai seed chạy khác ngày, nên con số này gồm cả thay đổi theo ngày.
+
+**Diễn giải đặt trước:**
+- Cả ba phép bác bỏ: kết quả chính lặp lại với seed thứ hai.
+- P33c không bác bỏ: báo cáo cả hai seed và ước lượng gộp; câu "khoảng 45%" được thay bằng khoảng gộp. **Không chạy seed thứ ba.**
+
+**Kiểm sau khi chạy:** 100/100 ở mỗi nhánh; `infra_error`; `crashed` (phân biệt lỗi nhà cung cấp, A124); lượt chạm cost_limit; kiểm rò rỉ đạt ở mọi task của hai nhánh một commit.
+
+**Ngân sách:**
+- Dự kiến: 1,44 (`f1_probe`) + 1,94 (`f1_skill_probe`) + 1,82 (không skill một commit, theo mức 0,018 USD mỗi task đo ở §30, A125) + 1,87 (`s25_leakfree_skill`) = **7,07 USD**.
+- Trần mỗi nhánh = dự kiến + 0,30: 1,75; 2,25; 2,15; 2,20. Tổng trần **8,35 USD**.
+- Điều kiện: trần chi tiêu của project GCP đã được nâng (A124). Workflow dừng ngay ở lỗi 403 đầu tiên.
+
+## 34. Agent thứ hai trong họ Gemini trên 34 task không mô tả (đăng ký 12/11/2026, trước mọi lần chạy)
+
+**Lý do:** "một model" là lời chê chung của ba phản biện. Phương án Gemini Flash đã được @thuthuy đồng ý ngày 07/11 (§26, phương án C); 12/11: "Làm bậc 0 và 1 trước". Paper chỉ được viết "hai model của một hãng".
+
+**Câu hỏi:** một agent chạy model khác có làm theo chỉ dẫn đọc lịch sử của skill gốc không?
+
+**Thiết kế:**
+- 34 task test Jinja không có mô tả issue; môi trường gốc của gskill.
+- Agent: Gemini Flash (`gemini-flash` trong `configs/models/vertex_gemini.json`), seed 41, 50 bước; `reasoning_effort` theo file cấu hình.
+- Hai nhánh chạy cùng lúc: không skill và skill gốc.
+- cost_limit mỗi lượt **0,90 USD**: bằng 0,30 nhân tỉ lệ giá 3 lần giữa hai model. Số vận hành, chỉ để chặn trường hợp xấu nhất.
+
+**Bước 0 (đo thử, có phí):** 5 task đầu của mỗi nhánh, trần 1,0 USD. Chỉ dùng để đo chi phí mỗi lượt; kết quả 5 task này thuộc về phép thử chính, không chạy lại.
+
+**Đại lượng (mô tả; không có phép thử xác nhận, vì n = 34 và tỉ lệ nền gần 0):**
+- số task giải được ở mỗi nhánh;
+- số lượt có cờ M1 và M2 của §32a ở mỗi nhánh.
+- Mốc so (model của nghiên cứu, 27c): 15/34 giải được; 34/34 có M2.
+
+**Diễn giải đặt trước:**
+- Nhánh skill có M2 ở đa số lượt và giải được nhiều hơn nhánh không skill: chỉ dẫn được làm theo bởi một model thứ hai.
+- Nhánh không skill cũng có M2 ở nhiều lượt: model mạnh hơn tự tìm ra rò rỉ; khi đó phần của skill nhỏ hơn và được báo cáo như vậy.
+
+**Ngân sách:** ước tính (0,75 + 0,50) × 3 = 3,75 USD theo tỉ lệ giá; chưa có số đo trên model này. Sau bước 0, trần của phần còn lại = chi phí đo mỗi lượt × số lượt còn lại + 0,90, và **tổng không quá 5,0 USD**; nếu số đo cho thấy vượt 5,0 thì dừng và báo @thuthuy.
