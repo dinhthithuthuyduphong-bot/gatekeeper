@@ -49,6 +49,13 @@ def main() -> int:
     ap.add_argument("--test", type=int, required=True)
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--out", required=True)
+    ap.add_argument(
+        "--extra-empty",
+        type=int,
+        help="section 35: also export the first N rows AFTER gskill's sample whose problem "
+        "statement is empty (split 'extra'), to --extra-out",
+    )
+    ap.add_argument("--extra-out")
     a = ap.parse_args()
 
     from datasets import load_dataset
@@ -61,11 +68,18 @@ def main() -> int:
     ds = load_dataset(HF_ID, split="train")
     pattern = a.repo if "/" in a.repo else f"swesmith/{a.repo}"
     need = a.train + a.val + a.test
-    rows = []
+    rows, extra, matched = [], [], 0
     for item in ds:
         if pattern in item.get("repo", ""):
-            rows.append(dict(item))
-            if len(rows) >= need:
+            matched += 1
+            if len(rows) < need:
+                rows.append(dict(item))
+            elif a.extra_empty and not (item.get("problem_statement") or "").strip():
+                # dataset order; rows gskill never reads (it stops at `need` rows)
+                extra.append(
+                    {**dict(item), "_gskill_split": "extra", "_gskill_order": 100000 + matched}
+                )
+            if len(rows) >= need and len(extra) >= (a.extra_empty or 0):
                 break
     out = gskill_split(rows, a.train, a.val, a.test, a.seed)
     p = Path(a.out)
@@ -75,6 +89,15 @@ def main() -> int:
     with opener(p, "wt", encoding="utf-8") as fh:
         for r in out:
             fh.write(json.dumps(r, default=str) + "\n")
+    if a.extra_empty:
+        if len(extra) < a.extra_empty or not a.extra_out:
+            raise SystemExit(f"only {len(extra)} extra rows without a problem statement")
+        sample_ids = {r["instance_id"] for r in out}
+        assert not sample_ids & {r["instance_id"] for r in extra}
+        with open(a.extra_out, "w", encoding="utf-8") as fh:
+            for r in extra:
+                fh.write(json.dumps(r, default=str) + "\n")
+        print(f"extra rows: {len(extra)} -> {a.extra_out}")
     meta = {
         "hf_id": HF_ID,
         "fingerprint": getattr(ds, "_fingerprint", None),

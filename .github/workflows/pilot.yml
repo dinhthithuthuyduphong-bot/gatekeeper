@@ -15,7 +15,7 @@ on:
         required: true
         default: "r15"
         type: choice
-        options: ["r15", "swesmith-f1", "swesmith-refl", "swesmith-learn", "swesmith-eval", "swesmith-republish", "swesmith-leakfree", "swesmith-s27", "swesmith-s29", "swesmith-s30", "swesmith-s33", "swesmith-s34"]
+        options: ["r15", "swesmith-f1", "swesmith-refl", "swesmith-learn", "swesmith-eval", "swesmith-republish", "swesmith-leakfree", "swesmith-s27", "swesmith-s29", "swesmith-s30", "swesmith-s33", "swesmith-s34", "swesmith-s35"]
       name:
         description: "Run name (results/pilot/<name>.json)"
         required: true
@@ -551,6 +551,50 @@ jobs:
           (cd /tmp/work/d && run_probe ${PFX}_lf_skill.json 2.20 --leak-free --skills-file "$SK") > /tmp/d.log 2>&1 & p4=$!
           rc=0; wait $p1 || rc=1; wait $p2 || rc=1; wait $p3 || rc=1; wait $p4 || rc=1  # by PID (L43)
           tail -n 3 /tmp/a.log /tmp/b.log /tmp/c.log /tmp/d.log; exit $rc
+      - name: Section 35 (36 unused jinja tasks without a problem statement - four arms at the same time, capped)
+        if: inputs.plan == 'swesmith-s35'
+        run: |
+          # Tasks: the first 36 rows after gskill's 350-row sample whose problem statement is empty
+          # (scripts/export_swesmith.py --extra-empty 36). Seed 51, original skill verbatim.
+          # Caps = expected spend per arm + one worst run (0.30): 0.85, 1.10, 0.95, 1.05 (total 3.95).
+          [ "${{ inputs.repo }}" = "jinja" ] || { echo "section 35 is registered for jinja only"; exit 1; }
+          mkdir -p /tmp/work results && cd /tmp/work
+          python -c "import sys; sys.exit(0 if float('${{ inputs.budget_usd }}') >= 3.95 else 'budget_usd must cover the four caps (3.95)')"
+          git -C $GITHUB_WORKSPACE fetch -q origin data-snapshots pilot-snapshots
+          git -C $GITHUB_WORKSPACE show "origin/data-snapshots:data/instances/swesmith_pallets__jinja_extra36.jsonl" > /tmp/rows_extra.jsonl
+          python - <<'PY'
+          import json
+          ex = [json.loads(x) for x in open("/tmp/rows_extra.jsonl") if x.strip()]
+          sample = {json.loads(x)["instance_id"] for x in open("/tmp/rows.jsonl") if x.strip()}
+          assert len(ex) == 36 and all(r["_gskill_split"] == "extra" for r in ex), len(ex)
+          assert all(not (r.get("problem_statement") or "").strip() for r in ex)
+          assert not sample & {r["instance_id"] for r in ex}, "an extra task is in gskill's sample"
+          print("36 unused tasks without a problem statement; none in gskill's sample")
+          PY
+          SK="$GITHUB_WORKSPACE/docs/skills/gskill/jinja_best_skills.txt"
+          git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/s25_best_skills.txt" | cmp - "$SK"
+          PFX=s35; MOCK=()
+          if [ "${{ inputs.dryrun }}" = "true" ]; then
+            PFX=s35dry
+            MOCK=(--mock-response $'THOUGHT: dry run.\n\n```bash\necho COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT\n```' --limit 1)
+          fi
+          run_probe() {  # $1 out, $2 cap, rest: extra args
+            out=$1; cap=$2; shift 2
+            PYTHONPATH=/tmp/gepa/src/gepa/gskill:$GITHUB_WORKSPACE/scripts /tmp/venv/bin/python \
+              $GITHUB_WORKSPACE/scripts/f1_probe.py --rows /tmp/rows_extra.jsonl --split extra "$@" \
+              --model vertex_ai/gemini-3.1-flash-lite --seed 51 --cost-limit 0.30 --cap "$cap" \
+              --stop-after-provider-crashes 3 \
+              --registry $GITHUB_WORKSPACE/tests/fixtures/e1_litellm_registry.json \
+              --gskill-yaml /tmp/gepa/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml \
+              --out "$GITHUB_WORKSPACE/results/$out" "${MOCK[@]}"
+          }
+          for d in a b c d; do mkdir -p /tmp/work/$d; done
+          (cd /tmp/work/a && run_probe ${PFX}_ship_none.json 0.85) > /tmp/a.log 2>&1 & p1=$!
+          (cd /tmp/work/b && run_probe ${PFX}_ship_skill.json 1.10 --skills-file "$SK") > /tmp/b.log 2>&1 & p2=$!
+          (cd /tmp/work/c && run_probe ${PFX}_lf_none.json 0.95 --leak-free) > /tmp/c.log 2>&1 & p3=$!
+          (cd /tmp/work/d && run_probe ${PFX}_lf_skill.json 1.05 --leak-free --skills-file "$SK") > /tmp/d.log 2>&1 & p4=$!
+          rc=0; wait $p1 || rc=1; wait $p2 || rc=1; wait $p3 || rc=1; wait $p4 || rc=1
+          tail -n 3 /tmp/a.log /tmp/b.log /tmp/c.log /tmp/d.log; exit $rc
       - name: Section 34 (a second Gemini agent on the 34 jinja tasks without a problem statement, capped)
         if: inputs.plan == 'swesmith-s34'
         run: |
@@ -613,12 +657,13 @@ jobs:
             results/s30*
             results/s33*
             results/s34*
+            results/s35*
           if-no-files-found: warn
       - name: Publish to pilot-snapshots branch
         if: always()
         run: |
           # only files that exist: git add of a missing path fails the publish
-          files=$(ls results/f1_probe.json results/f1_skill_probe.json results/reflection_cost_probe.json results/s25_* results/s25bleve_* results/s27* results/s29* results/s30* results/s33* results/s34* results/*.traces.jsonl.gz 2>/dev/null || true)
+          files=$(ls results/f1_probe.json results/f1_skill_probe.json results/reflection_cost_probe.json results/s25_* results/s25bleve_* results/s27* results/s29* results/s30* results/s33* results/s34* results/s35* results/*.traces.jsonl.gz 2>/dev/null || true)
           echo "publishing: $files"
           scripts/publish_snapshot.sh pilot-snapshots "Section 25 ${{ inputs.plan }} ${{ inputs.half }} run ${GITHUB_RUN_ID}" $files
 
