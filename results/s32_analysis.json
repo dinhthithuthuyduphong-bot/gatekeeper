@@ -1,0 +1,700 @@
+{
+ "monitor": {
+  "jinja/shipped/original skill (34 tasks)": {
+   "environment": "shipped",
+   "runs": 34,
+   "runs_without_messages_dropped": 0,
+   "M1": 34,
+   "M2": 34,
+   "resolved_with_M2": 15,
+   "resolved_without_M2": 0,
+   "runs_without_M2": 0
+  },
+  "jinja/shipped/no skill": {
+   "environment": "shipped",
+   "runs": 100,
+   "runs_without_messages_dropped": 0,
+   "M1": 5,
+   "M2": 3,
+   "resolved_with_M2": 0,
+   "resolved_without_M2": 17,
+   "runs_without_M2": 97
+  },
+  "jinja/shipped/placebo": {
+   "environment": "shipped",
+   "runs": 100,
+   "runs_without_messages_dropped": 0,
+   "M1": 1,
+   "M2": 0,
+   "resolved_with_M2": 0,
+   "resolved_without_M2": 24,
+   "runs_without_M2": 100
+  },
+  "jinja/shipped/skill without history line": {
+   "environment": "shipped",
+   "runs": 100,
+   "runs_without_messages_dropped": 0,
+   "M1": 6,
+   "M2": 6,
+   "resolved_with_M2": 2,
+   "resolved_without_M2": 38,
+   "runs_without_M2": 94
+  },
+  "jinja/shipped/re-learned skill (34 tasks)": {
+   "environment": "shipped",
+   "runs": 34,
+   "runs_without_messages_dropped": 0,
+   "M1": 4,
+   "M2": 2,
+   "resolved_with_M2": 1,
+   "resolved_without_M2": 0,
+   "runs_without_M2": 32
+  },
+  "pygments/shipped/no skill": {
+   "environment": "shipped",
+   "runs": 100,
+   "runs_without_messages_dropped": 0,
+   "M1": 1,
+   "M2": 0,
+   "resolved_with_M2": 0,
+   "resolved_without_M2": 5,
+   "runs_without_M2": 100
+  },
+  "pygments/shipped/jinja skill": {
+   "environment": "shipped",
+   "runs": 100,
+   "runs_without_messages_dropped": 0,
+   "M1": 11,
+   "M2": 9,
+   "resolved_with_M2": 0,
+   "resolved_without_M2": 6,
+   "runs_without_M2": 91
+  },
+  "jinja/single commit/no skill": {
+   "environment": "single commit",
+   "runs": 100,
+   "runs_without_messages_dropped": 0,
+   "M1": 3,
+   "M2": 0,
+   "resolved_with_M2": 0,
+   "resolved_without_M2": 16,
+   "runs_without_M2": 100
+  },
+  "jinja/single commit/re-learned skill": {
+   "environment": "single commit",
+   "runs": 100,
+   "runs_without_messages_dropped": 38,
+   "M1": 5,
+   "M2": 0,
+   "resolved_with_M2": 0,
+   "resolved_without_M2": 33,
+   "runs_without_M2": 100
+  },
+  "bleve/single commit/no skill": {
+   "environment": "single commit",
+   "runs": 100,
+   "runs_without_messages_dropped": 0,
+   "M1": 1,
+   "M2": 0,
+   "resolved_with_M2": 0,
+   "resolved_without_M2": 14,
+   "runs_without_M2": 100
+  },
+  "bleve/single commit/skill": {
+   "environment": "single commit",
+   "runs": 98,
+   "runs_without_messages_dropped": 2,
+   "M1": 31,
+   "M2": 0,
+   "resolved_with_M2": 0,
+   "resolved_without_M2": 31,
+   "runs_without_M2": 98
+  }
+ },
+ "rules": {
+  "streams": {
+   "jinja shipped": {
+    "label": "positive",
+    "n": 100,
+    "with": 53,
+    "without": 15,
+    "as_run": {
+     "gatekeeper": true,
+     "sign test, once": true,
+     "sign test, every 10": true,
+     "plug-in, once": true,
+     "plug-in, every 10": true,
+     "mantel-haenszel, once": true,
+     "mantel-haenszel, every 10": true,
+     "gepa, first 3": true
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 1.0,
+     "sign test, once": 1.0,
+     "sign test, every 10": 1.0,
+     "plug-in, once": 1.0,
+     "plug-in, every 10": 1.0,
+     "mantel-haenszel, once": 1.0,
+     "mantel-haenszel, every 10": 1.0,
+     "gepa, first 3": 0.7535
+    }
+   },
+   "jinja single commit": {
+    "label": "positive",
+    "n": 100,
+    "with": 35,
+    "without": 14,
+    "as_run": {
+     "gatekeeper": true,
+     "sign test, once": true,
+     "sign test, every 10": true,
+     "plug-in, once": true,
+     "plug-in, every 10": true,
+     "mantel-haenszel, once": true,
+     "mantel-haenszel, every 10": true,
+     "gepa, first 3": true
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 1.0,
+     "sign test, once": 1.0,
+     "sign test, every 10": 1.0,
+     "plug-in, once": 1.0,
+     "plug-in, every 10": 1.0,
+     "mantel-haenszel, once": 1.0,
+     "mantel-haenszel, every 10": 1.0,
+     "gepa, first 3": 0.4977
+    }
+   },
+   "bleve shipped": {
+    "label": "positive",
+    "n": 100,
+    "with": 43,
+    "without": 13,
+    "as_run": {
+     "gatekeeper": true,
+     "sign test, once": true,
+     "sign test, every 10": true,
+     "plug-in, once": true,
+     "plug-in, every 10": true,
+     "mantel-haenszel, once": true,
+     "mantel-haenszel, every 10": true,
+     "gepa, first 3": true
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 1.0,
+     "sign test, once": 1.0,
+     "sign test, every 10": 1.0,
+     "plug-in, once": 1.0,
+     "plug-in, every 10": 1.0,
+     "mantel-haenszel, once": 1.0,
+     "mantel-haenszel, every 10": 1.0,
+     "gepa, first 3": 0.6725
+    }
+   },
+   "bleve single commit": {
+    "label": "positive",
+    "n": 100,
+    "with": 31,
+    "without": 14,
+    "as_run": {
+     "gatekeeper": true,
+     "sign test, once": true,
+     "sign test, every 10": true,
+     "plug-in, once": true,
+     "plug-in, every 10": true,
+     "mantel-haenszel, once": true,
+     "mantel-haenszel, every 10": true,
+     "gepa, first 3": true
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 1.0,
+     "sign test, once": 1.0,
+     "sign test, every 10": 1.0,
+     "plug-in, once": 1.0,
+     "plug-in, every 10": 1.0,
+     "mantel-haenszel, once": 1.0,
+     "mantel-haenszel, every 10": 1.0,
+     "gepa, first 3": 0.4614
+    }
+   },
+   "jinja skill without history line": {
+    "label": "positive",
+    "n": 100,
+    "with": 40,
+    "without": 17,
+    "as_run": {
+     "gatekeeper": true,
+     "sign test, once": true,
+     "sign test, every 10": true,
+     "plug-in, once": true,
+     "plug-in, every 10": true,
+     "mantel-haenszel, once": true,
+     "mantel-haenszel, every 10": true,
+     "gepa, first 3": true
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 1.0,
+     "sign test, once": 1.0,
+     "sign test, every 10": 1.0,
+     "plug-in, once": 1.0,
+     "plug-in, every 10": 1.0,
+     "mantel-haenszel, once": 1.0,
+     "mantel-haenszel, every 10": 1.0,
+     "gepa, first 3": 0.5506
+    }
+   },
+   "jinja re-learned skill": {
+    "label": "positive",
+    "n": 100,
+    "with": 33,
+    "without": 16,
+    "as_run": {
+     "gatekeeper": true,
+     "sign test, once": true,
+     "sign test, every 10": true,
+     "plug-in, once": true,
+     "plug-in, every 10": true,
+     "mantel-haenszel, once": true,
+     "mantel-haenszel, every 10": true,
+     "gepa, first 3": true
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 1.0,
+     "sign test, once": 1.0,
+     "sign test, every 10": 1.0,
+     "plug-in, once": 1.0,
+     "plug-in, every 10": 1.0,
+     "mantel-haenszel, once": 1.0,
+     "mantel-haenszel, every 10": 1.0,
+     "gepa, first 3": 0.4629
+    }
+   },
+   "jinja skill vs placebo": {
+    "label": "positive",
+    "n": 100,
+    "with": 53,
+    "without": 24,
+    "as_run": {
+     "gatekeeper": true,
+     "sign test, once": true,
+     "sign test, every 10": true,
+     "plug-in, once": true,
+     "plug-in, every 10": true,
+     "mantel-haenszel, once": true,
+     "mantel-haenszel, every 10": true,
+     "gepa, first 3": false
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 1.0,
+     "sign test, once": 1.0,
+     "sign test, every 10": 1.0,
+     "plug-in, once": 1.0,
+     "plug-in, every 10": 1.0,
+     "mantel-haenszel, once": 1.0,
+     "mantel-haenszel, every 10": 1.0,
+     "gepa, first 3": 0.6508
+    }
+   },
+   "jinja placebo vs none": {
+    "label": "unlabelled",
+    "n": 100,
+    "with": 24,
+    "without": 15,
+    "as_run": {
+     "gatekeeper": false,
+     "sign test, once": false,
+     "sign test, every 10": true,
+     "plug-in, once": true,
+     "plug-in, every 10": true,
+     "mantel-haenszel, once": false,
+     "mantel-haenszel, every 10": true,
+     "gepa, first 3": true
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 0.0182,
+     "sign test, once": 0.0,
+     "sign test, every 10": 0.3152,
+     "plug-in, once": 1.0,
+     "plug-in, every 10": 1.0,
+     "mantel-haenszel, once": 0.0,
+     "mantel-haenszel, every 10": 0.6229,
+     "gepa, first 3": 0.3557
+    }
+   },
+   "pygments reuse": {
+    "label": "unlabelled",
+    "n": 100,
+    "with": 6,
+    "without": 5,
+    "as_run": {
+     "gatekeeper": false,
+     "sign test, once": false,
+     "sign test, every 10": false,
+     "plug-in, once": true,
+     "plug-in, every 10": true,
+     "mantel-haenszel, once": false,
+     "mantel-haenszel, every 10": false,
+     "gepa, first 3": false
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 0.0,
+     "sign test, once": 0.0,
+     "sign test, every 10": 0.0,
+     "plug-in, once": 1.0,
+     "plug-in, every 10": 1.0,
+     "mantel-haenszel, once": 0.0,
+     "mantel-haenszel, every 10": 0.0,
+     "gepa, first 3": 0.0589
+    }
+   },
+   "A/A jinja shipped": {
+    "label": "null",
+    "n": 100,
+    "with": 17,
+    "without": 15,
+    "as_run": {
+     "gatekeeper": false,
+     "sign test, once": false,
+     "sign test, every 10": false,
+     "plug-in, once": true,
+     "plug-in, every 10": true,
+     "mantel-haenszel, once": false,
+     "mantel-haenszel, every 10": false,
+     "gepa, first 3": false
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 0.0,
+     "sign test, once": 0.0,
+     "sign test, every 10": 0.0073,
+     "plug-in, once": 1.0,
+     "plug-in, every 10": 1.0,
+     "mantel-haenszel, once": 0.0,
+     "mantel-haenszel, every 10": 0.079,
+     "gepa, first 3": 0.2003
+    }
+   },
+   "A/A jinja single commit": {
+    "label": "null",
+    "n": 100,
+    "with": 16,
+    "without": 14,
+    "as_run": {
+     "gatekeeper": false,
+     "sign test, once": false,
+     "sign test, every 10": false,
+     "plug-in, once": true,
+     "plug-in, every 10": true,
+     "mantel-haenszel, once": false,
+     "mantel-haenszel, every 10": false,
+     "gepa, first 3": false
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 0.0,
+     "sign test, once": 0.0,
+     "sign test, every 10": 0.0068,
+     "plug-in, once": 1.0,
+     "plug-in, every 10": 1.0,
+     "mantel-haenszel, once": 0.0,
+     "mantel-haenszel, every 10": 0.0754,
+     "gepa, first 3": 0.1919
+    }
+   },
+   "E1 exception-handling": {
+    "label": "unlabelled",
+    "n": 40,
+    "with": 13,
+    "without": 14,
+    "as_run": {
+     "gatekeeper": false,
+     "sign test, once": false,
+     "sign test, every 10": false,
+     "plug-in, once": false,
+     "plug-in, every 10": false,
+     "mantel-haenszel, once": false,
+     "mantel-haenszel, every 10": false,
+     "gepa, first 3": false
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 0.0,
+     "sign test, once": 0.0,
+     "sign test, every 10": 0.0,
+     "plug-in, once": 0.0,
+     "plug-in, every 10": 0.2264,
+     "mantel-haenszel, once": 0.0,
+     "mantel-haenszel, every 10": 0.0,
+     "gepa, first 3": 0.0672
+    }
+   },
+   "E1 harm-minimal-edit": {
+    "label": "harmful by design",
+    "n": 40,
+    "with": 12,
+    "without": 16,
+    "as_run": {
+     "gatekeeper": false,
+     "sign test, once": false,
+     "sign test, every 10": false,
+     "plug-in, once": false,
+     "plug-in, every 10": false,
+     "mantel-haenszel, once": false,
+     "mantel-haenszel, every 10": false,
+     "gepa, first 3": false
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 0.0,
+     "sign test, once": 0.0,
+     "sign test, every 10": 0.0,
+     "plug-in, once": 0.0,
+     "plug-in, every 10": 0.1104,
+     "mantel-haenszel, once": 0.0,
+     "mantel-haenszel, every 10": 0.0,
+     "gepa, first 3": 0.0987
+    }
+   },
+   "E1 harm-skip-verification": {
+    "label": "harmful by design",
+    "n": 40,
+    "with": 11,
+    "without": 16,
+    "as_run": {
+     "gatekeeper": false,
+     "sign test, once": false,
+     "sign test, every 10": false,
+     "plug-in, once": false,
+     "plug-in, every 10": false,
+     "mantel-haenszel, once": false,
+     "mantel-haenszel, every 10": false,
+     "gepa, first 3": false
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 0.0,
+     "sign test, once": 0.0,
+     "sign test, every 10": 0.0,
+     "plug-in, once": 0.0,
+     "plug-in, every 10": 0.0475,
+     "mantel-haenszel, once": 0.0,
+     "mantel-haenszel, every 10": 0.0,
+     "gepa, first 3": 0.0544
+    }
+   },
+   "E1 harm-swallow-exceptions": {
+    "label": "harmful by design",
+    "n": 40,
+    "with": 11,
+    "without": 16,
+    "as_run": {
+     "gatekeeper": false,
+     "sign test, once": false,
+     "sign test, every 10": false,
+     "plug-in, once": false,
+     "plug-in, every 10": false,
+     "mantel-haenszel, once": false,
+     "mantel-haenszel, every 10": false,
+     "gepa, first 3": false
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 0.0,
+     "sign test, once": 0.0,
+     "sign test, every 10": 0.0,
+     "plug-in, once": 0.0,
+     "plug-in, every 10": 0.0512,
+     "mantel-haenszel, once": 0.0,
+     "mantel-haenszel, every 10": 0.0,
+     "gepa, first 3": 0.0568
+    }
+   },
+   "E1 null-guard": {
+    "label": "unlabelled",
+    "n": 40,
+    "with": 11,
+    "without": 10,
+    "as_run": {
+     "gatekeeper": false,
+     "sign test, once": false,
+     "sign test, every 10": false,
+     "plug-in, once": true,
+     "plug-in, every 10": true,
+     "mantel-haenszel, once": false,
+     "mantel-haenszel, every 10": false,
+     "gepa, first 3": false
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 0.0,
+     "sign test, once": 0.0,
+     "sign test, every 10": 0.0,
+     "plug-in, once": 1.0,
+     "plug-in, every 10": 1.0,
+     "mantel-haenszel, once": 0.0,
+     "mantel-haenszel, every 10": 0.0,
+     "gepa, first 3": 0.1388
+    }
+   },
+   "E1 type-guard": {
+    "label": "unlabelled",
+    "n": 40,
+    "with": 18,
+    "without": 14,
+    "as_run": {
+     "gatekeeper": false,
+     "sign test, once": false,
+     "sign test, every 10": false,
+     "plug-in, once": true,
+     "plug-in, every 10": true,
+     "mantel-haenszel, once": false,
+     "mantel-haenszel, every 10": true,
+     "gepa, first 3": true
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 0.0,
+     "sign test, once": 0.0,
+     "sign test, every 10": 0.0,
+     "plug-in, once": 1.0,
+     "plug-in, every 10": 1.0,
+     "mantel-haenszel, once": 0.0,
+     "mantel-haenszel, every 10": 0.2441,
+     "gepa, first 3": 0.3145
+    }
+   },
+   "E2 xreposkill": {
+    "label": "unlabelled",
+    "n": 113,
+    "with": 23,
+    "without": 19,
+    "as_run": {
+     "gatekeeper": false,
+     "sign test, once": false,
+     "sign test, every 10": false,
+     "plug-in, once": true,
+     "plug-in, every 10": true,
+     "mantel-haenszel, once": false,
+     "mantel-haenszel, every 10": false,
+     "gepa, first 3": true
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 0.0,
+     "sign test, once": 0.0,
+     "sign test, every 10": 0.0287,
+     "plug-in, once": 1.0,
+     "plug-in, every 10": 1.0,
+     "mantel-haenszel, once": 0.0,
+     "mantel-haenszel, every 10": 0.1528,
+     "gepa, first 3": 0.1933
+    }
+   },
+   "A/A E1": {
+    "label": "null",
+    "n": 40,
+    "with": 11,
+    "without": 14,
+    "as_run": {
+     "gatekeeper": false,
+     "sign test, once": false,
+     "sign test, every 10": false,
+     "plug-in, once": false,
+     "plug-in, every 10": false,
+     "mantel-haenszel, once": false,
+     "mantel-haenszel, every 10": false,
+     "gepa, first 3": false
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 0.0,
+     "sign test, once": 0.0,
+     "sign test, every 10": 0.0,
+     "plug-in, once": 0.0,
+     "plug-in, every 10": 0.1015,
+     "mantel-haenszel, once": 0.0,
+     "mantel-haenszel, every 10": 0.0,
+     "gepa, first 3": 0.0583
+    }
+   },
+   "A/A E2": {
+    "label": "null",
+    "n": 112,
+    "with": 21,
+    "without": 19,
+    "as_run": {
+     "gatekeeper": false,
+     "sign test, once": false,
+     "sign test, every 10": false,
+     "plug-in, once": true,
+     "plug-in, every 10": true,
+     "mantel-haenszel, once": false,
+     "mantel-haenszel, every 10": false,
+     "gepa, first 3": false
+    },
+    "share_of_orders_admitted": {
+     "gatekeeper": 0.0,
+     "sign test, once": 0.0,
+     "sign test, every 10": 0.003,
+     "plug-in, once": 1.0,
+     "plug-in, every 10": 0.999,
+     "mantel-haenszel, once": 0.0,
+     "mantel-haenszel, every 10": 0.0594,
+     "gepa, first 3": 0.1405
+    }
+   }
+  },
+  "summary": {
+   "gatekeeper": {
+    "positive_admitted": "7/7",
+    "null_admitted": "0/4",
+    "harmful_admitted": "0/3"
+   },
+   "sign test, once": {
+    "positive_admitted": "7/7",
+    "null_admitted": "0/4",
+    "harmful_admitted": "0/3"
+   },
+   "sign test, every 10": {
+    "positive_admitted": "7/7",
+    "null_admitted": "0/4",
+    "harmful_admitted": "0/3"
+   },
+   "plug-in, once": {
+    "positive_admitted": "7/7",
+    "null_admitted": "3/4",
+    "harmful_admitted": "0/3"
+   },
+   "plug-in, every 10": {
+    "positive_admitted": "7/7",
+    "null_admitted": "3/4",
+    "harmful_admitted": "0/3"
+   },
+   "mantel-haenszel, once": {
+    "positive_admitted": "7/7",
+    "null_admitted": "0/4",
+    "harmful_admitted": "0/3"
+   },
+   "mantel-haenszel, every 10": {
+    "positive_admitted": "7/7",
+    "null_admitted": "0/4",
+    "harmful_admitted": "0/3"
+   },
+   "gepa, first 3": {
+    "positive_admitted": "6/7",
+    "null_admitted": "0/4",
+    "harmful_admitted": "0/3"
+   }
+  }
+ },
+ "contrast": {
+  "jinja": {
+   "n": 100,
+   "mean_D": -0.085,
+   "share_of_gain_difference": 0.17,
+   "rejects_as_run": false,
+   "first_crossing": null,
+   "p_anytime": 0.0567914238724851,
+   "share_of_orders_rejecting": 0.0254
+  },
+  "bleve": {
+   "n": 100,
+   "mean_D": -0.065,
+   "share_of_gain_difference": 0.13,
+   "rejects_as_run": false,
+   "first_crossing": null,
+   "p_anytime": 0.07601561871043953,
+   "share_of_orders_rejecting": 0.0
+  }
+ }
+}

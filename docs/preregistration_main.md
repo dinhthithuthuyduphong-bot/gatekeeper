@@ -2132,3 +2132,61 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - Nhánh không skill cũng có M2 ở nhiều lượt: model mạnh hơn tự tìm ra rò rỉ; khi đó phần của skill nhỏ hơn và được báo cáo như vậy.
 
 **Ngân sách:** ước tính (0,75 + 0,50) × 3 = 3,75 USD theo tỉ lệ giá; chưa có số đo trên model này. Sau bước 0, trần của phần còn lại = chi phí đo mỗi lượt × số lượt còn lại + 0,90, và **tổng không quá 5,0 USD**; nếu số đo cho thấy vượt 5,0 thì dừng và báo @thuthuy.
+
+### Kết quả §32a–c (12/11/2026; `scripts/s32_analysis.py` → `results/s32_analysis.json`; thăm dò; 0 USD)
+
+**32a. Bộ theo dõi truy cập lịch sử** (1.004 lượt chạy có trace; 40 lượt crash trước bước đầu bị loại):
+
+| Nhánh | Lượt | M1 | M2 | Giải được khi có M2 | Giải được khi không có M2 |
+| --- | --- | --- | --- | --- | --- |
+| Jinja, gốc, skill gốc (34 task không mô tả) | 34 | 34 | **34** | 15/34 | 0/0 |
+| Jinja, gốc, không skill | 100 | 5 | 3 | 0/3 | 17/97 |
+| Jinja, gốc, placebo | 100 | 1 | 0 | — | 24/100 |
+| Jinja, gốc, skill bỏ chỉ dẫn | 100 | 6 | 6 | 2/6 | 38/94 |
+| Jinja, gốc, skill học lại (34 task) | 34 | 4 | 2 | 1/2 | 0/32 |
+| Pygments, gốc, không skill | 100 | 1 | 0 | — | 5/100 |
+| Pygments, gốc, skill Jinja | 100 | 11 | **9** | 0/9 | 6/91 |
+| Jinja, một commit, không skill | 100 | 3 | 0 | — | 16/100 |
+| Jinja, một commit, skill học lại | 100 | 5 | 0 | — | 33/100 |
+| Bleve, một commit, không skill | 100 | 1 | 0 | — | 14/100 |
+| Bleve, một commit, skill | 98 | 31 | 0 | — | 31/98 |
+
+- **Báo nhầm của M2:** 0/398 lượt ở môi trường một commit.
+- **M1 không phân biệt được:** ở Bleve một commit, 31/98 lượt có skill gọi lệnh lịch sử dù không có gì để tìm.
+- **Agent không skill tự thấy commit "Bug Patch" ở 3/100 lượt** (Jinja gốc) và không giải được task nào trong 3 lượt đó.
+- **Chỉ dẫn đi theo skill sang repo khác:** trên Pygments, skill Jinja khiến agent thấy "Bug Patch" ở 9/100 lượt, và không giải được task nào trong số đó.
+
+**32b. Tám quy tắc trên 20 luồng thật** (7 dương, 4 âm theo cấu trúc, 3 có hại theo thiết kế, 6 không nhãn):
+
+| Quy tắc | Dương được nhận | Âm bị nhận | Có hại bị nhận |
+| --- | --- | --- | --- |
+| Gatekeeper | 7/7 | 0/4 | 0/3 |
+| Kiểm định dấu, một lần | 7/7 | 0/4 | 0/3 |
+| Kiểm định dấu, mỗi 10 trial | 7/7 | 0/4 | 0/3 |
+| Plug-in, một lần | 7/7 | **3/4** | 0/3 |
+| Plug-in, mỗi 10 trial | 7/7 | **3/4** | 0/3 |
+| Mantel–Haenszel, một lần | 7/7 | 0/4 | 0/3 |
+| Mantel–Haenszel, mỗi 10 trial | 7/7 | 0/4 | 0/3 |
+| GEPA, 3 trial đầu | **6/7** | 0/4 | 0/3 |
+
+- **Theo thứ tự đã chạy, Gatekeeper không khác kiểm định dấu và cổng Mantel–Haenszel trên các luồng này.** Tác dụng ở 7 luồng dương đủ lớn để mọi phép kiểm có kiểm soát sai số đều nhận.
+- **Khác biệt xuất hiện khi xét 10.000 thứ tự** của bốn luồng A/A:
+  - Gatekeeper: 0 thứ tự bị nhận ở cả bốn luồng;
+  - kiểm định dấu xem mỗi 10 trial: 0–0,7%;
+  - Mantel–Haenszel xem mỗi 10 trial: 0%; 5,9%; 7,5%; 7,9% (ba luồng vượt mức danh nghĩa 2,5%);
+  - GEPA: 5,8%–20,0%.
+- **GEPA bỏ sót tác dụng thật:** trên 7 luồng dương, luật 3 trial đầu chỉ nhận ở 46%–75% số thứ tự.
+- **Luồng placebo so với không skill** (không nhãn; +0,09): Gatekeeper nhận ở 1,8% số thứ tự; kiểm định dấu xem mỗi 10 trial 31,5%; Mantel–Haenszel xem mỗi 10 trial 62,3%.
+- **Giới hạn:** E1 chỉ dùng 40 task của giai đoạn đầu ở seed s41; 20 luồng không đủ để ước lượng tỉ lệ sai.
+
+**32c. E-process cho phần do môi trường (minh họa trên dữ liệu đã nhìn):**
+
+| Repo | Trung bình D | Hiệu số mức tăng | Bác bỏ theo thứ tự đã chạy | p anytime-valid | Tỉ lệ thứ tự bác bỏ |
+| --- | --- | --- | --- | --- | --- |
+| Jinja | −0,085 | 0,17 | **không** | 0,057 | 2,5% |
+| Bleve | −0,065 | 0,13 | **không** | 0,076 | 0,0% |
+
+- **Phép kiểm không đạt ngưỡng ở cả hai repo.** Với n = 100 và hiệu số 0,13–0,17, e-process trên D (đã chia đôi để nằm trong [−1, 1]) không đủ power.
+- **Hệ quả cho §33:** P33c nhiều khả năng không bác bỏ trên riêng seed 51. Quy tắc đã đăng ký giữ nguyên (R5); diễn giải đặt trước của §33 đã có nhánh này.
+
+**Ghi chú thực thi 33-1** (12/11/2026, trước mọi lần chạy của §33): thêm một đại lượng **mô tả**, không thay phép thử nào: e-process của §32c trên trung bình hai seed của D_i (seed 41 và 51, 100 task). Lý do: 32c cho thấy một seed không đủ power; trung bình hai seed giảm nhiễu trong task. Vì seed 41 đã được nhìn, kết quả này không phải xác nhận.
