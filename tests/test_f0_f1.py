@@ -91,3 +91,15 @@ def test_crash_before_first_step_is_infrastructure():
     assert "before its first step" in crash_infra_reason(t, 0)
     assert crash_infra_reason(t, 3) is None  # the agent acted: an agent outcome
     assert crash_infra_reason("normal trace", 0) is None
+
+
+def test_provider_down_needs_n_consecutive_pre_step_crashes():
+    import f1_probe
+
+    crash = {"infra_error": "agent crashed before its first step: 403 Spend cap breached"}
+    ok = {"steps": 3}
+    other = {"infra_error": "scoring: tests did not run"}
+    assert f1_probe.provider_down([ok, crash, crash, crash], 3)
+    assert not f1_probe.provider_down([crash, crash, ok], 3)
+    assert not f1_probe.provider_down([crash, crash], 3)
+    assert not f1_probe.provider_down([crash, other, crash], 3)

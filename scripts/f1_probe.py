@@ -59,6 +59,16 @@ def crash_infra_reason(trace: str, steps: int) -> str | None:
     return None
 
 
+def provider_down(runs: list[dict], n: int) -> bool:
+    """True when the last n runs all crashed before the agent's first step: the provider or the
+    environment is down (A124), and going on would only burn the task list."""
+    tail = runs[-n:]
+    return len(tail) == n and all(
+        str(r.get("infra_error", "")).startswith("agent crashed before its first step")
+        for r in tail
+    )
+
+
 def make_config(gskill_yaml: Path, out: Path, cost_limit: float, model_kwargs: dict) -> Path:
     cfg = yaml.safe_load(gskill_yaml.read_text())
     cfg["agent"]["cost_limit"] = cost_limit
@@ -94,6 +104,13 @@ def main() -> int:
         action="store_true",
         help="remove the bug commit from the agent's git history",
     )
+    ap.add_argument("--limit", type=int, help="first N selected tasks only (task selection only)")
+    ap.add_argument("--reasoning-effort", help="passed to the model as given (section 34)")
+    ap.add_argument(
+        "--stop-after-provider-crashes",
+        type=int,
+        help="stop (exit 4) after this many consecutive crashes before the first step (A124)",
+    )
     a = ap.parse_args()
     if a.seed == 0:
         raise SystemExit("seed 0 means 'no seed' on Vertex (A14)")
@@ -105,6 +122,8 @@ def main() -> int:
     litellm.register_model(json.loads(Path(a.registry).read_text()))
     litellm.success_callback = [_track]
     kwargs = {"seed": a.seed, "drop_params": True, "parallel_tool_calls": True}
+    if a.reasoning_effort:
+        kwargs["reasoning_effort"] = a.reasoning_effort
     if a.mock_response:
         kwargs["mock_response"] = a.mock_response
     cfg = make_config(
@@ -124,6 +143,8 @@ def main() -> int:
             r["instance_id"] for f in a.skip_done for r in json.loads(Path(f).read_text())["runs"]
         }
         insts = [r for r in insts if r["instance_id"] not in done]
+    if a.limit is not None:
+        insts = insts[: a.limit]
     skills = Path(a.skills_file).read_text() if a.skills_file else ""
     traces_path = Path(a.out).with_suffix(".traces.jsonl.gz")
     traces_path.unlink(missing_ok=True)  # the result file is rewritten, so are its traces
@@ -193,6 +214,12 @@ def main() -> int:
             Path(a.out).write_text(json.dumps(out, indent=1) + "\n")
             return 3
         out["spent_usd"] = _spent
+        if a.stop_after_provider_crashes and provider_down(
+            out["runs"], a.stop_after_provider_crashes
+        ):
+            out["stopped"] = "provider or environment down: consecutive crashes before step 1"
+            Path(a.out).write_text(json.dumps(out, indent=1) + "\n")
+            return 4
         Path(a.out).write_text(json.dumps(out, indent=1) + "\n")
         print(
             f"[{len(out['runs'])}] {inst['instance_id'][:40]} cost={rec['cost_usd']:.4f}"
