@@ -1,0 +1,769 @@
+{
+ "model": "vertex_ai/gemini-3.1-flash-lite",
+ "seed": 51,
+ "cost_limit": 0.3,
+ "cap": 1.05,
+ "skills_chars": 2675,
+ "leak_free": true,
+ "subset": "all",
+ "n_tasks": 36,
+ "runs": [
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__htphunn2",
+   "order": 100387,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 16,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.014097424999999998
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__kyl90ytp",
+   "order": 100429,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.008279625000000004
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_invert_if__1busdu48",
+   "order": 100690,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 15,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.011803174999999992
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_invert_if__75jsmftr",
+   "order": 100695,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 31,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.02381192500000002
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_invert_if__9dqn79vh",
+   "order": 100698,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0034817500000000057
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_invert_if__dfxthl5x",
+   "order": 100708,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 23,
+   "patch_chars": 690,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/optimizer.py b/src/jinja2/optimizer.py\nindex 32d1c71..7f9bb72 100644\n--- a/src/jinja2/optimizer.py\n+++ b/src/jinja2/optimizer.py\n@@ -37,8 +37,9 @@ class Optimizer(NodeTransformer):\n         # as_const, but folding them causes errors later on.\n         if isinstance(node, nodes.Expr):\n             try:\n+                eval_ctx = args[0] if args else nodes.EvalContext(self.environment, None)\n                 return nodes.Const.from_untrusted(\n-                    node.as_const(args[0] if args else None),\n+                    node.as_const(eval_ctx),\n                     lineno=node.lineno,\n                     environment=self.environment,\n                 )\n",
+   "cost_usd": 0.017010125000000008
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_shuffle__hvx9bujc",
+   "order": 100767,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 16,
+   "patch_chars": 597,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/optimizer.py b/src/jinja2/optimizer.py\nindex 32d1c71..908aecd 100644\n--- a/src/jinja2/optimizer.py\n+++ b/src/jinja2/optimizer.py\n@@ -38,7 +38,7 @@ class Optimizer(NodeTransformer):\n         if isinstance(node, nodes.Expr):\n             try:\n                 return nodes.Const.from_untrusted(\n-                    node.as_const(args[0] if args else None),\n+                    node.as_const(args[0] if args and isinstance(args[0], nodes.EvalContext) else None),\n                     lineno=node.lineno,\n                     environment=self.environment,\n                 )\n",
+   "cost_usd": 0.012241349999999998
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_shuffle__l3wqpvmt",
+   "order": 100773,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0018502499999999977
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_op_swap__4ky21i8x",
+   "order": 100791,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0018077499999999969
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_op_swap__vlxm8lg4",
+   "order": 100793,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 15,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.012417825000000007
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__9w32vup3",
+   "order": 100842,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 39,
+   "patch_chars": 1109,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/examples/basic/test.py b/examples/basic/test.py\nindex 7a58e1a..9d869bf 100644\n--- a/examples/basic/test.py\n+++ b/examples/basic/test.py\n@@ -6,12 +6,12 @@ env = Environment(\n         {\n             \"child.html\": \"\"\"\\\n {% extends default_layout or 'default.html' %}\n-{% include helpers = 'helpers.html' %}\n+{% from 'helpers.html' import conspirate %}\n {% macro get_the_answer() %}42{% endmacro %}\n-{% title = 'Hello World' %}\n+{% set title = 'Hello World' %}\n {% block body %}\n     {{ get_the_answer() }}\n-    {{ helpers.conspirate() }}\n+    {{ conspirate() }}\n {% endblock %}\n \"\"\",\n             \"default.html\": \"\"\"\\\ndiff --git a/src/jinja2/lexer.py b/src/jinja2/lexer.py\nindex a2405d2..0dc3022 100644\n--- a/src/jinja2/lexer.py\n+++ b/src/jinja2/lexer.py\n@@ -754,6 +754,7 @@ class Lexer:\n \n                     # update brace/parentheses balance\n                     if tokens == TOKEN_OPERATOR:\n+                        tokens = operators.get(data, tokens)\n                         if data == \"{\":\n                             balancing_stack.append(\"}\")\n                         elif data == \"(\":\n",
+   "cost_usd": 0.038491399999999995
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__bfjq4ukz",
+   "order": 100843,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 17,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.011626175000000016
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__dc8gu7lr",
+   "order": 100844,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 17,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.013611325000000035
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__dg8fpnqe",
+   "order": 100845,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 17,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.011834100000000014
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__dhjygmkf",
+   "order": 100846,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 40,
+   "patch_chars": 618,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex 2f93b90..3bf5d63 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -779,10 +779,14 @@ class _FilterTestCommon(Expr):\n             args.insert(0, eval_ctx.environment)\n \n         try:\n-            return func(*args, **kwargs)\n+            result = func(*args, **kwargs)\n         except Exception as e:\n             raise Impossible() from e\n \n+        if inspect.isawaitable(result):\n+            raise Impossible()\n+        return result\n+\n \n class Filter(_FilterTestCommon):\n     \"\"\"Apply a filter to an expression. ``name`` is the name of the\n",
+   "cost_usd": 0.03367405000000004
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__gr4b0kxq",
+   "order": 100848,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002854000000000051
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__jq7g3hh4",
+   "order": 100849,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 14,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.011116449999999944
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__k2f64bbd",
+   "order": 100850,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0020709999999999895
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__kfa34aj4",
+   "order": 100851,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0035192500000000015
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__kqzfoqk4",
+   "order": 100852,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.001936000000000021
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__kzu2agu1",
+   "order": 100853,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 17,
+   "patch_chars": 611,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex cc96104..9f9fbfd 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -156,7 +156,11 @@ class Node(metaclass=NodeType):\n         should be sets or tuples of field names.\n         \"\"\"\n         for name in self.fields:\n-            pass\n+            if only is not None and name not in only:\n+                continue\n+            if exclude is not None and name in exclude:\n+                continue\n+            yield name, getattr(self, name)\n     def iter_child_nodes(\n         self,\n         exclude: t.Optional[t.Container[str]] = None,\n",
+   "cost_usd": 0.012371575000000079
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__l8jckwc5",
+   "order": 100854,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.007182875000000033
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__mg8q2vv1",
+   "order": 100855,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.006994025000000015
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__mmwb2onb",
+   "order": 100856,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.006878749999999989
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__mr27ot5h",
+   "order": 100857,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 17,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.011934049999999974
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__oqko5wma",
+   "order": 100858,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0021645000000000136
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__oxsw6rai",
+   "order": 100859,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.03490674999999993
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__q6ka1xd8",
+   "order": 100860,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0038972500000000188
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__qc5s5k51",
+   "order": 100861,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0018457499999999794
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__qpbg7wra",
+   "order": 100862,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0022047499999999776
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__rfirqbqa",
+   "order": 100863,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 15,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.008960474999999968
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__vu1h59xu",
+   "order": 100864,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0023769999999999625
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__zd6d290l",
+   "order": 100865,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 24,
+   "patch_chars": 803,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/optimizer.py b/src/jinja2/optimizer.py\nindex 32d1c71..05c06e2 100644\n--- a/src/jinja2/optimizer.py\n+++ b/src/jinja2/optimizer.py\n@@ -37,8 +37,14 @@ class Optimizer(NodeTransformer):\n         # as_const, but folding them causes errors later on.\n         if isinstance(node, nodes.Expr):\n             try:\n+                from .nodes import EvalContext\n+\n+                eval_ctx = None\n+                if self.environment is not None:\n+                    eval_ctx = EvalContext(self.environment, None)\n+\n                 return nodes.Const.from_untrusted(\n-                    node.as_const(args[0] if args else None),\n+                    node.as_const(eval_ctx),\n                     lineno=node.lineno,\n                     environment=self.environment,\n                 )\n",
+   "cost_usd": 0.01675432500000007
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_loop__50h3it6l",
+   "order": 100867,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 15,
+   "patch_chars": 1997,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/utils.py b/src/jinja2/utils.py\nindex 5c1ff5d..6a14c4c 100644\n--- a/src/jinja2/utils.py\n+++ b/src/jinja2/utils.py\n@@ -750,6 +750,12 @@ class Namespace:\n \n     def __setitem__(self, name: str, value: t.Any) -> None:\n         self.__attrs[name] = value\n+    def __setattr__(self, name: str, value: t.Any) -> None:\n+        if name == '_Namespace__attrs':\n+            object.__setattr__(self, name, value)\n+        else:\n+            self.__attrs[name] = value\n+\n \n     def __repr__(self) -> str:\n         return f\"<Namespace {self.__attrs!r}>\"\ndiff --git a/tests/test_utils.py b/tests/test_utils.py\nindex 7b58af1..cdfe8ca 100644\n--- a/tests/test_utils.py\n+++ b/tests/test_utils.py\n@@ -6,7 +6,7 @@ from copy import copy as shallow_copy\n import pytest\n from markupsafe import Markup\n \n-from jinja2.utils import consume\n+from jinja2.utils import consume, Cycler, Joiner, Namespace\n from jinja2.utils import generate_lorem_ipsum\n from jinja2.utils import LRUCache\n from jinja2.utils import missing\n@@ -183,3 +183,36 @@ def test_consume():\n     consume(x)\n     with pytest.raises(StopIteration):\n         next(x)\n+\n+class TestCycler:\n+    def test_cycler(self):\n+        c = Cycler(\"a\", \"b\")\n+        assert c.next() == \"a\"\n+        assert c.current == \"b\"\n+        assert c.next() == \"b\"\n+        assert c.current == \"a\"\n+        c.reset()\n+        assert c.current == \"a\"\n+        assert c.next() == \"a\"\n+\n+    def test_cycler_empty(self):\n+        with pytest.raises(RuntimeError):\n+            Cycler()\n+\n+class TestJoiner:\n+    def test_joiner(self):\n+        j = Joiner(\"|\")\n+        assert j() == \"\"\n+        assert j() == \"|\"\n+        assert j() == \"|\"\n+\n+class TestNamespace:\n+    def test_namespace(self):\n+        n = Namespace(a=1, b=2)\n+        assert n.a == 1\n+        assert n.b == 2\n+        setattr(n, \"c\", 3)\n+        assert n.c == 3\n+        with pytest.raises(AttributeError):\n+            n.d\n+        assert repr(n) == \"<Namespace {'a': 1, 'b': 2, 'c': 3}>\"\n",
+   "cost_usd": 0.013230350000000113
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_loop__baraeosk",
+   "order": 100869,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 1090,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex 2f93b90..061a006 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -761,7 +761,7 @@ class _FilterTestCommon(Expr):\n         func = env_map.get(self.name)\n         pass_arg = _PassArg.from_obj(func)  # type: ignore\n \n-        if func is None or pass_arg is _PassArg.context:\n+        if func is None:\n             raise Impossible()\n \n         if eval_ctx.environment.is_async and (\n@@ -777,6 +777,9 @@ class _FilterTestCommon(Expr):\n             args.insert(0, eval_ctx)\n         elif pass_arg is _PassArg.environment:\n             args.insert(0, eval_ctx.environment)\n+        elif pass_arg is _PassArg.context:\n+            from jinja2.runtime import Context\n+            args.insert(0, Context(eval_ctx.environment, {}, None, {}, None))\n \n         try:\n             return func(*args, **kwargs)\n@@ -1203,4 +1206,4 @@ def _failing_new(*args: t.Any, **kwargs: t.Any) -> \"te.NoReturn\":\n \n \n NodeType.__new__ = staticmethod(_failing_new)  # type: ignore\n-del _failing_new\n+del _failing_new\n\\ No newline at end of file\n",
+   "cost_usd": 0.0491066750000001
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_loop__hdegzouy",
+   "order": 100870,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 25,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.022809450000000064
+  }
+ ],
+ "spent_usd": 0.4411535000000004
+}
