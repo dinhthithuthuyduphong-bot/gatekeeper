@@ -2320,3 +2320,12 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 | Độ nhạy: bỏ task có bản vá timeout (n = 69) | vượt 40 ở task 36; p = 4,2·10⁻⁴ |
 
 **Kết luận theo quy tắc đã đăng ký:** trên 70 task không mô tả mà chưa phân tích nào từng nhìn, mức tăng của skill ở môi trường gốc lớn hơn ở môi trường một commit, với bảo đảm anytime-valid ở mức 0,025. Phạm vi của kết luận: Jinja, skill gốc, các task không có mô tả issue, seed 51. Phép thử P33c trên cả 100 task của seed 51 vẫn không bác bỏ và vẫn được báo cáo (R5).
+
+### §34 bước 0 (đo thử có phí; run sau lần chạy thử miễn phí 43153629398; `results/s34_*_pilot.json`; chỉ đọc các trường vận hành)
+
+- **Số lượt:** nhánh không skill 4/5 (dừng vì trần của bước: 0,342 + 0,90 > 1,17; A128); nhánh skill 5/5. 0 `infra_error`, 0 crash. Task thứ năm của nhánh không skill sẽ chạy ở phần còn lại (`--skip-done`).
+- **Chi phí mỗi lượt:** không skill trung bình 0,0855 USD (lớn nhất 0,1125); skill trung bình 0,0726 USD (lớn nhất 0,0883).
+- **Đã chi:** 0,342 + 0,363 = **0,705 USD**; 1.604.868 token đầu vào (895.429 từ cache), 28.263 token đầu ra.
+- **Theo ghi chú 34-1:** cost_limit của phần còn lại = 3 × 0,1125 = 0,3375 USD (làm tròn 0,34). Trần còn lại = 5,0 − 0,705 = 4,295 USD.
+- **Dự kiến phần còn lại:** 30 × 0,0855 + 29 × 0,0726 = **4,67 USD**; tổng dự kiến 5,38 USD, **vượt mức 5,0 USD đã duyệt**. Để driver chạy hết cả hai nhánh cần thêm một cost_limit mỗi nhánh làm khoảng chặn: trần tổng **6,05 USD**.
+- **Theo quy tắc đã đăng ký ("nếu số đo cho thấy vượt 5,0 thì dừng và báo @thuthuy"): dừng ở đây, chờ @thuthuy quyết.** Chưa mở kết quả giải task hay cờ M1/M2 của 9 lượt này.
