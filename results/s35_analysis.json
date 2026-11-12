@@ -1,0 +1,49 @@
+{
+ "checks": {
+  "n": {
+   "ship_none": 36,
+   "ship_skill": 36,
+   "lf_none": 36,
+   "lf_skill": 36
+  },
+  "infra_error": 0,
+  "crashed": 0,
+  "capped": 0,
+  "leak_free_checks_ok": "72/72",
+  "stopped": {},
+  "spent_usd": 1.3929146499999998
+ },
+ "P35": {
+  "first_crossing_at_40": 36,
+  "p_anytime": 0.000422550200076077,
+  "reject": true,
+  "n": 70,
+  "n_test_seed51": 34,
+  "n_new": 36,
+  "mean_D": -0.2571428571428571,
+  "tasks_with_D_below_0": 36,
+  "tasks_with_D_above_0": 0,
+  "share_of_orders_rejecting": 1.0
+ },
+ "new_tasks_only": {
+  "first_crossing_at_40": 35,
+  "p_anytime": 0.018764998447377078,
+  "mean_D": -0.2638888888888889
+ },
+ "resolved_on_new_tasks": {
+  "ship_none": 0,
+  "ship_skill": 20,
+  "lf_none": 0,
+  "lf_skill": 1
+ },
+ "monitor_M2_as_shipped": {
+  "ship_none": "1/36",
+  "ship_skill": "36/36"
+ },
+ "sensitivity_without_timeout_task": {
+  "excluded": "pallets__jinja.ada0a9a6.func_pm_remove_cond__dc8gu7lr",
+  "n": 69,
+  "first_crossing_at_40": 36,
+  "p_anytime": 0.000422550200076077
+ }
+}
