@@ -870,6 +870,97 @@ def main() -> int:
         if N[k] != v:
             print("MISMATCH s32", k, N[k], v)
             return 1
+    # section 33 (second seed, confirmatory) and section 35 (36 unused tasks, confirmatory)
+    s33 = load(Path("results/s33_analysis.json"))
+    s35 = load(Path("results/s35_analysis.json"))
+    a33, b33, p35 = s33["P33a"], s33["P33b"], s35["P35"]
+    new = s35["resolved_on_new_tasks"]
+    nps = s33["no_problem_statement"]
+    N.update(
+        {
+            "sdSkill": a33["skill"],
+            "sdNone": a33["none"],
+            "sdB": a33["b"],
+            "sdC": a33["c"],
+            "sdP": a33["p_one_sided"],
+            "sdGain": a33["gain"],
+            "sdGainLo": a33["boot95"][0],
+            "sdGainHi": a33["boot95"][1],
+            "sdLFSkill": b33["skill"],
+            "sdLFNone": b33["none"],
+            "sdLFB": b33["b"],
+            "sdLFC": b33["c"],
+            "sdLFP": b33["p_one_sided"],
+            "sdLFGain": b33["gain"],
+            "sdLFGainLo": b33["boot95"][0],
+            "sdLFGainHi": b33["boot95"][1],
+            "sdAdmit": s33["gatekeeper_admit_trial"]["shipped"],
+            "sdLFAdmit": s33["gatekeeper_admit_trial"]["single_commit"],
+            "sdLeak": s33["delta_leak_seed51"]["d"],
+            "sdLeakLo": s33["delta_leak_seed51"]["ci95"][0],
+            "sdLeakHi": s33["delta_leak_seed51"]["ci95"][1],
+            "sdPool": f"{s33['delta_leak_pooled']['d']:.3f}",
+            "sdPoolLo": f"{s33['delta_leak_pooled']['ci95'][0]:.3f}",
+            "sdPoolHi": f"{s33['delta_leak_pooled']['ci95'][1]:.3f}",
+            "sdEnvP": s33["P33c"]["p_anytime"],
+            "sdEnvPFirst": round(s32["contrast"]["jinja"]["p_anytime"], 3),
+            "sdNoPS": nps["ship_skill"],
+            "sdNoPSOther": nps["ship_none"] + nps["lf_none"] + nps["lf_skill"],
+            "sdInfra": s33["checks"]["infra_error"] + s33["checks"]["crashed"],
+            "cfN": p35["n"],
+            "cfOld": p35["n_test_seed51"],
+            "cfNew": p35["n_new"],
+            "cfCross": p35["first_crossing_at_40"],
+            "cfP": p35["p_anytime"],
+            "cfFor": p35["tasks_with_D_below_0"],
+            "cfAgainst": p35["tasks_with_D_above_0"],
+            "cfTies": p35["n"] - p35["tasks_with_D_below_0"] - p35["tasks_with_D_above_0"],
+            "cfOrders": round(100 * p35["share_of_orders_rejecting"]),
+            "cfShipSkill": new["ship_skill"],
+            "cfShipNone": new["ship_none"],
+            "cfLFSkill": new["lf_skill"],
+            "cfLFNone": new["lf_none"],
+            "cfMon": int(s35["monitor_M2_as_shipped"]["ship_skill"].split("/")[0]),
+            "cfMonNone": int(s35["monitor_M2_as_shipped"]["ship_none"].split("/")[0]),
+            "cfSensCross": s35["sensitivity_without_timeout_task"]["first_crossing_at_40"],
+        }
+    )
+    for k, v in {  # values recorded in the preregistration, results of sections 33 and 35
+        "sdSkill": 55,
+        "sdNone": 21,
+        "sdLFSkill": 35,
+        "sdLFNone": 17,
+        "sdAdmit": 53,
+        "sdLFAdmit": 74,
+        "sdNoPS": 17,
+        "sdNoPSOther": 0,
+        "sdInfra": 0,
+        "cfN": 70,
+        "cfCross": 36,
+        "cfFor": 36,
+        "cfAgainst": 0,
+        "cfTies": 34,
+        "cfOrders": 100,
+        "cfShipSkill": 20,
+        "cfShipNone": 0,
+        "cfLFSkill": 1,
+        "cfLFNone": 0,
+        "cfMon": 36,
+        "cfMonNone": 1,
+        "cfSensCross": 36,
+    }.items():
+        if N[k] != v:
+            print("MISMATCH s33/s35", k, N[k], v)
+            return 1
+    if (
+        not (s33["holm_reject"]["P33a"] and s33["holm_reject"]["P33b"])
+        or s33["holm_reject"]["P33c"]
+    ):
+        print("MISMATCH s33 holm")
+        return 1
+    if abs(N["sdLeak"] - 0.16) > 0.005 or not p35["reject"]:
+        print("MISMATCH s33 leak / s35 reject")
+        return 1
     N["leakSharePct"] = round(100 * N["leakShare"])
     N["fzeroGoldMinPct"] = int(100 * f0["S_gold_min"])  # floor: "at least"
     for k in ("sskbOpp", "sskbRho"):
