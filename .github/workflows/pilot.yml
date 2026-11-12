@@ -556,15 +556,19 @@ jobs:
         run: |
           # arm pilot: the first 5 tasks of each arm (cost measurement; kept as part of the test);
           # arm rest: the remaining tasks (--skip-done). Both arms of a step run at the same time.
-          # cost_limit 0.90 = 0.30 x the price ratio 3 (operational). budget_usd = the cap of this step
-          # for BOTH arms together; it is split in the ratio 2:3 (none:skill), as the measured spends.
+          # cost_limit = inputs.cost_limit (note 34-1: 0.90 for the pilot; for the rest, 3 x the largest
+          # pilot run, at most 0.90). budget_usd = the cap of this step for BOTH arms together, split
+          # 45:55 (none:skill). The driver stops when spent + cost_limit > cap, so each arm's cap must
+          # hold its expected spend plus one cost_limit.
           [ "${{ inputs.repo }}" = "jinja" ] || { echo "section 34 is registered for jinja only"; exit 1; }
           mkdir -p /tmp/work results && cd /tmp/work
           SK="$GITHUB_WORKSPACE/docs/skills/gskill/jinja_best_skills.txt"
           git -C $GITHUB_WORKSPACE fetch -q origin pilot-snapshots
           git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/s25_best_skills.txt" | cmp - "$SK"
-          CAPN=$(python -c "print(round(float('${{ inputs.budget_usd }}') * 0.4, 4))")
-          CAPS=$(python -c "print(round(float('${{ inputs.budget_usd }}') * 0.6, 4))")
+          CAPN=$(python -c "print(round(float('${{ inputs.budget_usd }}') * 0.45, 4))")
+          CAPS=$(python -c "print(round(float('${{ inputs.budget_usd }}') * 0.55, 4))")
+          CL="${{ inputs.cost_limit }}"
+          python -c "import sys; sys.exit(0 if 0 < float('$CL') <= 0.90 else 'cost_limit must be in (0, 0.90]')"
           PFX=s34; MOCK=()
           if [ "${{ inputs.dryrun }}" = "true" ]; then
             PFX=s34dry
@@ -575,7 +579,7 @@ jobs:
             PYTHONPATH=/tmp/gepa/src/gepa/gskill:$GITHUB_WORKSPACE/scripts /tmp/venv/bin/python \
               $GITHUB_WORKSPACE/scripts/f1_probe.py --rows "$ROWSLOCAL" --split test \
               --subset no-problem-statement "$@" \
-              --model vertex_ai/gemini-3.8-flash --reasoning-effort low --seed 41 --cost-limit 0.90 --cap "$cap" \
+              --model vertex_ai/gemini-3.8-flash --reasoning-effort low --seed 41 --cost-limit "$CL" --cap "$cap" \
               --stop-after-provider-crashes 3 --registry /tmp/registry.json \
               --gskill-yaml /tmp/gepa/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml \
               --out "$GITHUB_WORKSPACE/results/$out" "${MOCK[@]}"

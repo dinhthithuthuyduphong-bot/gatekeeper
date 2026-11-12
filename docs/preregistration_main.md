@@ -2190,3 +2190,27 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - **Hệ quả cho §33:** P33c nhiều khả năng không bác bỏ trên riêng seed 51. Quy tắc đã đăng ký giữ nguyên (R5); diễn giải đặt trước của §33 đã có nhánh này.
 
 **Ghi chú thực thi 33-1** (12/11/2026, trước mọi lần chạy của §33): thêm một đại lượng **mô tả**, không thay phép thử nào: e-process của §32c trên trung bình hai seed của D_i (seed 41 và 51, 100 task). Lý do: 32c cho thấy một seed không đủ power; trung bình hai seed giảm nhiễu trong task. Vì seed 41 đã được nhìn, kết quả này không phải xác nhận.
+
+### Kết quả §32d: mức phơi nhiễm trên toàn SWE-smith (12/11/2026; workflow `data`, `results/s32d_exposure.json`)
+- **Toàn bộ:** 18.033 trên 59.136 task (30,5%) không có mô tả issue; 222 repo.
+- **Theo repo:** trung vị 27,2%; tứ phân vị 1,7% và 100%; nhỏ nhất 0%, lớn nhất 100%. Phân phối hai đỉnh: 80 repo có tỉ lệ ≤ 10%, 108 repo có tỉ lệ ≥ 30%.
+- **55 repo có ≥ 350 task**, xếp theo tỉ lệ:
+  - thấp nhất: dspy 0%; conan 0%; sunpy 0,4%; parso 1,0%; deepdiff 1,1%;
+  - cao nhất: eliasdb 100%; go-datastructures 99,5%; caddy 89,9%; fvcore 85,1%; boltons 84,5%.
+- **Lưu ý về đơn vị đo:** tỉ lệ trên **cả repo** khác tỉ lệ trên **350 task mà gskill lấy** (gskill dừng đọc khi đủ dòng rồi mới xáo):
+
+| Repo | Cả repo | Mẫu 350 task của gskill |
+| --- | --- | --- |
+| Jinja | 15,9% (957 task) | 30% |
+| Bleve | 37,6% (351 task) | 37% |
+| Pygments | 17,7% (1.430 task) | 7% |
+
+- **Hệ quả cho bậc 2 (S2):** bộ học chỉ thấy mẫu của gskill, nên "liều" phải đo trên **tập train của mẫu đó**, không trên cả repo. Quy tắc chọn repo của S2 sẽ tính tỉ lệ này trên mẫu, bằng `scripts/export_swesmith.py`, trước khi chọn.
+- **conan có 0% task không mô tả:** lượt học trên conan (S3) vì vậy cũng là một điểm "liều thấp" cho S2.
+
+**Ghi chú thực thi 34-1** (12/11/2026, sau lần chạy thử miễn phí, trước mọi lượt có phí của §34):
+- **Lỗi bắt được ở lần chạy thử:** driver dừng khi "đã chi + cost_limit > trần". Với cost_limit 0,90 và trần đo thử 1,0 USD chia cho hai nhánh, không lượt nào chạy được.
+- **Sửa (không đổi câu hỏi, thiết kế hay đại lượng):**
+  - Bước 0 (5 task mỗi nhánh): cost_limit 0,90; trần của bước là **2,60 USD**, chia 45:55, tức mỗi nhánh giữ được chi phí dự kiến của 5 lượt cộng một cost_limit. Chi phí dự kiến của bước vẫn khoảng 0,55 USD; trần chỉ là mức chặn.
+  - Phần còn lại: cost_limit = 3 lần lượt đắt nhất đo ở bước 0, tối đa 0,90 (số vận hành; chỉ chặn trường hợp xấu nhất). Trần của bước = 5,0 − số đã chi ở bước 0.
+  - **Tổng chi của §34 vẫn không quá 5,0 USD.** Nếu số đo ở bước 0 cho thấy phần còn lại không chạy hết trong mức đó thì dừng và báo @thuthuy.
