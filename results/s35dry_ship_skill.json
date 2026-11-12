@@ -1,0 +1,31 @@
+{
+ "model": "vertex_ai/gemini-3.1-flash-lite",
+ "seed": 51,
+ "cost_limit": 0.3,
+ "cap": 1.1,
+ "skills_chars": 2675,
+ "leak_free": false,
+ "subset": "all",
+ "n_tasks": 1,
+ "runs": [
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__htphunn2",
+   "order": 100387,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 1,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 3.2500000000000004e-05
+  }
+ ],
+ "spent_usd": 3.2500000000000004e-05
+}
