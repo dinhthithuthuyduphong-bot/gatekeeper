@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-11-08T06:27:36+00:00",
+  "generated_utc": "2026-11-12T01:26:00+00:00",
   "arxiv_status": "ok",
   "arxiv": [
     {
@@ -481,7 +481,7 @@
     },
     {
       "key": "celeus_2026",
-      "arxiv_id": "2606.20820v2",
+      "arxiv_id": "2606.20820v3",
       "draft_title": null,
       "draft_uses_placeholder_authors": false,
       "exists_on_arxiv": true,
@@ -495,8 +495,8 @@
         "Feng Liu"
       ],
       "published": "2026-06-18",
-      "abstract": "Can we trust evaluation scores to capture an LLM's true real-world performance? Certifiable evaluation answers this question by providing guarantee for LLM evaluation. In particular, existing methods sequentially curate evaluation samples and keep updating confidence intervals (CIs) that cover the true performance with high probability (e.g., 95%) until some conditions are satisfied, e.g., the CI width reaches a target precision. However, existing methods are not generally anytime-valid: the claimed coverage (e.g., 95%) may fail when CIs are repeatedly updated and used to decide when to stop, leaving a gap between theoretical rigor and practice. This paper bridges this gap by proposing Celeus, a Certifiable framework for Efficient LLM evaluation, which leverages E-processes to build anytime-valid CIs. Concretely, we propose signals that combine two ingredients: (i) Uncertainty-guided sampling to select informative samples for evaluation, and (ii) Surrogate-assisted approximations for unevaluated samples. We prove that such signals remain unbiased for the evaluation score conditional on the past, enabling statistically-grounded and anytime-valid $e$-process CIs. More importantly, the two ingredients reduce estimation variance and help reach the target precision with fewer evaluated samples. We also prove that CIs obtained by Celeus can shrink at a near-parametric rate up to logarithmic factors and analyze the oracle variance-optimal sampling rule that motivates the empirical uncertainty-guided one. Experiments show that Celeus reaches the target precision using 54-62% fewer evaluated samples than baselines, while preserving anytime-valid coverage.",
-      "updated": "2026-06-26"
+      "abstract": "Can we trust evaluation scores to capture an LLM's true real-world performance? Certifiable evaluation answers this question by providing a confidence interval (CI) that covers the LLM's true performance with high probability (e.g., 95%). In particular, existing methods sequentially select evaluation samples from a fixed pool and keep updating the CI until certain conditions are satisfied, e.g., the CI width reaches a target precision. However, existing methods are not generally anytime-valid: the claimed coverage (e.g., 95%) may fail when CIs are repeatedly updated and used to decide when to stop, leaving a gap between theoretical rigor and practice. This paper bridges this gap by proposing CELEUS, a Certifiable framework for Efficient LLM evaluation, which leverages E-processes to build anytime-valid CIs. Concretely, we propose a new signal that combines two ingredients: (i) Uncertainty-guided sampling to select informative samples for evaluation, and (ii) Surrogate-assisted approximations for unevaluated samples. We prove that the new signal remains unbiased for the evaluation score conditional on the past, enabling statistically-grounded and anytime-valid e-process CIs. More importantly, the two ingredients reduce estimation variance and help reach the target precision with fewer evaluated samples. We also prove that CIs obtained by CELEUS can shrink at a near-parametric rate up to logarithmic factors and analyze the oracle variance-optimal sampling rule that motivates the empirical uncertainty-guided one. Experiments show that CELEUS reaches the target precision using 54-62% fewer evaluated samples than baselines, while preserving anytime-valid coverage. Code is available at https://github.com/zyecs/celeus.",
+      "updated": "2026-11-07"
     },
     {
       "key": "evaluator_2025",
