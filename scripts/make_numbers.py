@@ -774,11 +774,101 @@ def main() -> int:
             "tokAdmitHi": round(max(firsts) * tk["per_paired_trial_input"] / 1e6, 1),
             "admitMinTrials": min(firsts),
             "admitMaxTrials": max(firsts),
+            "admitMeanTrials": round(sum(firsts) / len(firsts)),
         }
     )
     for k, v in {"famK": 8, "famAdmits": 7, "famKept": 6, "famThr": 320}.items():
         if N[k] != v:
             print("MISMATCH", k, N[k], v)
+            return 1
+    # section 32 (exploratory, 0 USD): history monitor, decision rules on real streams, exposure
+    s32 = load(Path("results/s32_analysis.json"))
+    mon, rl = s32["monitor"], s32["rules"]
+    lf_cells = [v for v in mon.values() if v["environment"] == "single commit"]
+    pyg = mon["pygments/shipped/jinja skill"]
+    jn = mon["jinja/shipped/no skill"]
+    orig = mon["jinja/shipped/original skill (34 tasks)"]
+    blf = mon["bleve/single commit/skill"]
+    streams = rl["streams"]
+    aa = [v["share_of_orders_admitted"] for v in streams.values() if v["label"] == "null"]
+    pos = [v["share_of_orders_admitted"] for v in streams.values() if v["label"] == "positive"]
+    plc = streams["jinja placebo vs none"]["share_of_orders_admitted"]
+    ex = load(Path("results/s32d_exposure.json"))
+
+    def frac(x: str) -> tuple[int, int]:
+        a_, b_ = x.split("/")
+        return int(a_), int(b_)
+
+    def pct(x: float) -> str:  # one decimal, as printed
+        return f"{100 * x:.1f}"
+
+    N.update(
+        {
+            "monExplFlag": orig["M2"],
+            "monExplRuns": orig["runs"],
+            "monLFFlag": sum(v["M2"] for v in lf_cells),
+            "monLFRuns": sum(v["runs"] for v in lf_cells),
+            "monNoneFlag": jn["M2"],
+            "monNoneRuns": jn["runs"],
+            "monNoneSolved": jn["resolved_with_M2"],
+            "monPygFlag": pyg["M2"],
+            "monPygRuns": pyg["runs"],
+            "monPygSolved": pyg["resolved_with_M2"],
+            "monPygNoneFlag": mon["pygments/shipped/no skill"]["M2"],
+            "monCmdBleve": blf["M1"],
+            "monCmdBleveRuns": blf["runs"],
+            "rulesStreams": len(streams),
+            "rulesPos": frac(rl["summary"]["gatekeeper"]["positive_admitted"])[1],
+            "rulesNull": frac(rl["summary"]["gatekeeper"]["null_admitted"])[1],
+            "rulesHarm": frac(rl["summary"]["gatekeeper"]["harmful_admitted"])[1],
+            "rulesPluginNull": frac(rl["summary"]["plug-in, once"]["null_admitted"])[0],
+            "rulesGepaPos": frac(rl["summary"]["gepa, first 3"]["positive_admitted"])[0],
+            "rulesGkAAMax": pct(max(x["gatekeeper"] for x in aa)),
+            "rulesSignAAMax": pct(max(x["sign test, every 10"] for x in aa)),
+            "rulesMHAAMax": pct(max(x["mantel-haenszel, every 10"] for x in aa)),
+            "rulesMHAAOver": sum(x["mantel-haenszel, every 10"] > ALPHA for x in aa),
+            "rulesGepaAAMin": pct(min(x["gepa, first 3"] for x in aa)),
+            "rulesGepaAAMax": pct(max(x["gepa, first 3"] for x in aa)),
+            "rulesGepaPosMin": round(100 * min(x["gepa, first 3"] for x in pos)),
+            "rulesGepaPosMax": round(100 * max(x["gepa, first 3"] for x in pos)),
+            "rulesPlcGk": pct(plc["gatekeeper"]),
+            "rulesPlcSign": pct(plc["sign test, every 10"]),
+            "rulesPlcMH": pct(plc["mantel-haenszel, every 10"]),
+            "expoTasks": f"{ex['n_tasks']:,}".replace(",", "{,}"),
+            "expoEmpty": f"{ex['n_empty']:,}".replace(",", "{,}"),
+            "expoRepos": ex["n_repos"],
+            "expoPct": pct(ex["share_all"]),
+            "expoReposHigh": ex["repos_ge_0.30"],
+            "expoReposLow": ex["repos_le_0.10"],
+        }
+    )
+    for k, v in {  # values recorded in the preregistration, section 32 results
+        "monExplFlag": 34,
+        "monExplRuns": 34,
+        "monLFFlag": 0,
+        "monLFRuns": 398,
+        "monNoneFlag": 3,
+        "monPygFlag": 9,
+        "monPygSolved": 0,
+        "monCmdBleve": 31,
+        "rulesStreams": 20,
+        "rulesPos": 7,
+        "rulesNull": 4,
+        "rulesHarm": 3,
+        "rulesPluginNull": 3,
+        "rulesGepaPos": 6,
+        "rulesGkAAMax": "0.0",
+        "rulesMHAAMax": "7.9",
+        "rulesMHAAOver": 3,
+        "rulesGepaAAMin": "5.8",
+        "rulesGepaAAMax": "20.0",
+        "rulesGepaPosMin": 46,
+        "rulesGepaPosMax": 75,
+        "expoPct": "30.5",
+        "expoRepos": 222,
+    }.items():
+        if N[k] != v:
+            print("MISMATCH s32", k, N[k], v)
             return 1
     N["leakSharePct"] = round(100 * N["leakShare"])
     N["fzeroGoldMinPct"] = int(100 * f0["S_gold_min"])  # floor: "at least"

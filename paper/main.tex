@@ -629,6 +629,24 @@ learned skill's gain only from \njinjaWithPSGain{} to \njinjaWithPSLFGain{} task
 placebo solves \nplcNoPS{}. The placebo arm ran a day after the arms it is compared with; when the skill arm was rerun a
 day later on \ntrN{} tasks, \ntrSame{} kept their outcome.
 
+\paragraph{A trace monitor for the leak (exploratory)}
+The single-commit control needs a second environment. A cheaper signal can be read from the
+traces of the environment as shipped: a run is flagged when one of its observations contains the
+message of the bug-injecting commit, ``Bug Patch''. We defined this flag after the data. It is
+raised in all \nmonExplFlag{} of the \nmonExplRuns{} runs of the original skill on the tasks
+without a description, and in \nmonLFFlag{} of the \nmonLFRuns{} runs in single-commit
+environments, where there is nothing to see. A flag on the command alone (the agent ran
+\texttt{git log} or \texttt{git show}) does not separate the two cases: in the single-commit Bleve
+environment it is raised in \nmonCmdBleve{} of \nmonCmdBleveRuns{} runs with the skill. Without a
+skill, the agent saw the commit in \nmonNoneFlag{} of \nmonNoneRuns{} Jinja runs and resolved
+\nmonNoneSolved{} of them. The instruction also travels with the skill: on Pygments, the Jinja
+skill led the agent to the commit in \nmonPygFlag{} of \nmonPygRuns{} runs (\nmonPygNoneFlag{}
+without the skill), and \nmonPygSolved{} of these runs were resolved. Reuse carried the behaviour
+to the new repository without carrying a gain. The precondition is common in the dataset:
+\nexpoEmpty{} of the \nexpoTasks{} SWE-smith tasks (\nexpoPct\%, in \nexpoRepos{} repositories)
+have no issue description, the subset on which the history carried the gain on Jinja; we measured
+the effect of the leak on two repositories only.
+
 \subsection{RQ3: Does a certification carry over to another scope?}\label{sec:rq3}
 \paragraph{Across environments}
 The Jinja result above is one answer: the same skill, on the same tasks, is worth \njinjaGain{} in
@@ -703,6 +721,26 @@ single-commit history, separates the leak from the skill. Applied to the learnin
 rather than to the evaluation, the same control removed the instruction before it was written and
 left a certified skill whose gain shows no detectable difference from the residual gain of the
 original.
+
+\paragraph{The rules on the collected streams (exploratory)}
+The A/A comparison of Section~\ref{sec:rq1} uses resampled streams. After the data, we replayed
+the same rules on the \nrulesStreams{} paired streams collected for this paper, with labels fixed
+before the replay: \nrulesPos{} streams whose effect a registered test confirmed, \nrulesNull{}
+A/A streams, \nrulesHarm{} skills that are harmful by design, and the rest unlabelled. In the
+order in which the streams were run, Gatekeeper, the exact sign test and the Mantel--Haenszel
+gate decide alike: all \nrulesPos{} positive streams are admitted and none of the A/A or harmful
+ones. The plug-in rule admits \nrulesPluginNull{} of the \nrulesNull{} A/A streams, and GEPA's
+three-task rule admits \nrulesGepaPos{} of the \nrulesPos{} positive ones. On effects of this
+size, the e-process therefore reaches the same decisions as a fixed-sample test; what it adds is
+the right to stop at any task. The \nfamAdmits{} admissions of this paper stopped after
+\nadmitMeanTrials{} tasks on average, where the fixed-sample tests were registered at 100. The
+rules that look repeatedly without this right lose their level: over \npermN{} random orders of
+each A/A stream, Gatekeeper admits in \nrulesGkAAMax\% of the orders, the sign test looked at
+every ten tasks in at most \nrulesSignAAMax\%, the Mantel--Haenszel gate looked at every ten tasks
+in up to \nrulesMHAAMax\% (above its one-sided level of 2.5\% on \nrulesMHAAOver{} of the
+\nrulesNull{} streams), and GEPA's rule in \nrulesGepaAAMin\% to \nrulesGepaAAMax\%. On the
+positive streams, GEPA's rule admits in \nrulesGepaPosMin\% to \nrulesGepaPosMax\% of the orders.
+Twenty streams do not estimate an error rate, and the positive labels rest on runs of this study.
 
 \section{Threats to Validity}\label{sec:threats}
 \paragraph{One model family}
