@@ -844,3 +844,18 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **M2–M5, điểm phụ 3–6:** cần thí nghiệm có phí. Đã ghi vào mục Threats của paper và chờ @thuthuy quyết. M6 đã có ở §31; tóm tắt ghi thêm "per-admission level".
 - **Mã:** `scripts/s31_alpha_family.py` thêm phần (c), (d), (e). Chạy lại thì các phần (a), (b) cho kết quả giống hệt lần trước. `make_numbers.py` thêm các số mới.
 - **Kiểm:** paper biên dịch sạch, không tràn lề; 11 trang, phần nội dung kết thúc ở trang 9.
+
+## R-64. §32–§35: phân tích miễn phí, seed thứ hai, 36 task mới (2026-11-12, trước mỗi lượt có phí)
+
+- **§32 (0 USD):** `scripts/s32_analysis.py` đăng ký trước khi tính; nhãn luồng đặt trước; kết quả ghi là thăm dò.
+- **§33 (trần 8,35 USD):**
+  - Bản đăng ký và `scripts/s33_analysis.py` commit trước lượt có phí; script chạy thử trên file của lần chạy thử miễn phí (`s33dry_*`).
+  - Lần chạy thử miễn phí (run 43134720345): bốn nhánh, kiểm rò rỉ đạt ở hai nhánh một commit.
+  - Trần mỗi nhánh = dự kiến + một cost_limit (bài học A108, A125).
+  - Sau khi chạy (run 43136184298): 100/100 ở bốn nhánh, 0 `infra_error`, 0 crash, 0 lượt chạm cost_limit, 200/200 kiểm rò rỉ đạt; chi 6,06 USD.
+- **§35 (trần 3,95 USD):**
+  - Bản đăng ký, quy tắc chọn 36 task, workflow và `scripts/s35_analysis.py` commit lúc 01:54–01:56 UTC, trước khi mở bất kỳ kết quả nào của §33 (kết quả §33 công bố lúc 04:08 UTC).
+  - File 36 task kiểm trên nhánh `data-snapshots`: 36 dòng, mô tả rỗng cả 36, 0 task trùng với mẫu 350 của gskill; mẫu Jinja không đổi.
+  - Lần chạy thử miễn phí (run 43139341873): bốn nhánh chạy, seed 51, cost_limit 0,30, trần 0,85; 1,10; 0,95; 1,05; dòng kiểm rò rỉ đúng ở hai nhánh một commit.
+- **§34:** lần chạy thử đầu bắt được lỗi trần (ghi chú thực thi 34-1); chạy thử lại trước lượt có phí.
+- **Paper:** hai đoạn §32 (thăm dò), số sinh bằng `make_numbers.py` có đối chiếu với bản đăng ký; biên dịch sạch, 0 tràn lề.
