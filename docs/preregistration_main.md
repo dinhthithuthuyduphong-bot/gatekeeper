@@ -2214,3 +2214,47 @@ if "PASSED" in test_output or "passed" in test_output.lower():
   - Bước 0 (5 task mỗi nhánh): cost_limit 0,90; trần của bước là **2,60 USD**, chia 45:55, tức mỗi nhánh giữ được chi phí dự kiến của 5 lượt cộng một cost_limit. Chi phí dự kiến của bước vẫn khoảng 0,55 USD; trần chỉ là mức chặn.
   - Phần còn lại: cost_limit = 3 lần lượt đắt nhất đo ở bước 0, tối đa 0,90 (số vận hành; chỉ chặn trường hợp xấu nhất). Trần của bước = 5,0 − số đã chi ở bước 0.
   - **Tổng chi của §34 vẫn không quá 5,0 USD.** Nếu số đo ở bước 0 cho thấy phần còn lại không chạy hết trong mức đó thì dừng và báo @thuthuy.
+
+## 35. Xác nhận phần do môi trường trên task chưa dùng (đăng ký 12/11/2026, trước khi mở kết quả §33 và trước mọi lần chạy)
+
+**Lý do:** §32c cho thấy e-process cho phần do môi trường không đạt ngưỡng với 100 task của một seed. Nguyên nhân là số task: mỗi task có rò rỉ nhân e-value tối đa 1,25 lần, nên cần khoảng 17 task như vậy, mà tập test chỉ có 14–15. @thuthuy 12/11: "Chọn bản mạnh hơn" (36 task mới; dự kiến 2,7 USD; trần 3,95 USD).
+
+**Tình trạng dữ liệu lúc đăng ký:** §33 (seed 51) đang chạy; chưa file kết quả nào của §33 được mở.
+
+**Task mới (chọn bằng quy tắc):**
+- Nguồn: `SWE-bench/SWE-smith`, split `train`, các dòng của `swesmith/pallets__jinja`, theo thứ tự của bộ dữ liệu.
+- Loại 350 dòng đầu: đó là mẫu mà gskill đọc (bộ học đã thấy 250 dòng trong đó; 100 dòng là tập test đã dùng).
+- Trong các dòng còn lại, lấy **36 dòng đầu tiên có `problem_statement` rỗng**.
+- Bộ học và mọi lượt chấm trước đây chưa dùng task nào trong số này.
+
+**Thiết kế:**
+- 36 task mới × 4 nhánh, chạy cùng lúc trong một job: môi trường gốc và một commit, có và không skill gốc (nguyên văn).
+- Seed 51; cost_limit 0,30; 50 bước; như §33.
+
+**Đại lượng:** D_i = (Z_i^gốc − Z_i^một commit) / 2 trên **70 task không có mô tả issue**:
+- 34 task test của §33 (seed 51), theo thứ tự của gskill;
+- rồi 36 task mới, theo thứ tự của bộ dữ liệu.
+- Thứ tự này được cố định ở đây, trước mọi kết quả.
+
+**Phép thử xác nhận P35** (một phép; mức riêng α = 0,025; không nằm trong họ Holm của §33):
+- H₀: trung bình của D trên 70 task ≥ 0.
+- E-process của §32c (θ = 0, c = 0,5); bác bỏ khi E ≥ 40 ở bất kỳ thời điểm nào.
+- **Power** (mô phỏng 4.000 lần, D = −0,5 với xác suất p, ngược lại 0): 1,00 ở p = 0,41 (mức của tập test seed 41); 0,82 ở p = 0,30.
+
+**Phụ (mô tả):**
+- số task giải được ở bốn nhánh trên 36 task mới;
+- số lượt có cờ M2 của §32a ở hai nhánh môi trường gốc;
+- e-process trên riêng 36 task mới;
+- tỉ lệ bác bỏ trên 10.000 hoán vị của 70 task (seed 3501).
+
+**Diễn giải đặt trước:**
+- P35 bác bỏ: phần mức tăng do môi trường được chứng nhận anytime-valid trên task chưa dùng.
+- Không bác bỏ: báo cáo p và trung bình D; công cụ được nêu ở mục hạn chế, và paper không gọi nó là một đóng góp. **Không chạy thêm task.**
+
+**Lưu ý về phạm vi:** 70 task đều không có mô tả issue, nên P35 nói về tầng mà rò rỉ tác động, không phải về toàn bộ tập test. P33c vẫn là phép thử trên cả 100 task.
+
+**Kiểm sau khi chạy:** 36/36 ở mỗi nhánh; `infra_error`; lượt chạm cost_limit; kiểm rò rỉ đạt ở mọi task của hai nhánh một commit; dừng sau 3 lần nhà cung cấp từ chối liên tiếp.
+
+**Ngân sách:**
+- Dự kiến mỗi task: 0,0146 (không skill, gốc; `f1_probe`), 0,022 (skill, gốc; `s27_trace34*`), 0,018 (không skill, một commit; A125), 0,020 (skill, một commit; `s25_leakfree_skill`). Tổng 36 × 0,0746 = **2,69 USD**.
+- Trần mỗi nhánh = dự kiến + 0,30: 0,85; 1,10; 0,95; 1,05. Tổng trần **3,95 USD**.
