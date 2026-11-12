@@ -184,7 +184,7 @@ Mỗi mục ghi:
 - **Chi phí:** cần đo thử trước.
   - Học: 11–12 USD (hai lượt Jinja: 12,25 và 10,99).
   - Chấm tổng hợp: khoảng 3,3 USD.
-  - Chấm task thật: trên SWE-bench-Live, một lần chạy tốn khoảng 0,063 USD (đo ở E2 và T4, `docs/preregistration_main.md` §14), nên 60 task × 2 nhánh khoảng 7,6 USD. Task conan có thể dài hơn trung bình, nên cần đo thử.
+  - Chấm task thật: trên SWE-bench-Live, một lần chạy tốn khoảng 0,063 USD (trung bình đo ở E2, ghi ở `docs/preregistration_main.md` §25, mục F1), nên 60 task × 2 nhánh khoảng 7,6 USD. Task conan có thể dài hơn trung bình, nên cần đo thử.
   - Tổng khoảng 22–23 USD. Bản rút gọn (nửa đầu lượt học, 40 task thật) khoảng 14 USD.
 - **Thành công:** một kết luận về scope trên repo thật, trả lời giới hạn lớn nhất về tính tổng quát.
 - **Rủi ro:** tỉ lệ nền trên conan Live có thể thấp. Phải đo trước trên 10 task (khoảng 1 USD) rồi mới quyết.
