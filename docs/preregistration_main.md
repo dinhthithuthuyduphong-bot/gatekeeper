@@ -2285,3 +2285,11 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 6. Ghi chú 33-1 (e-process trên trung bình hai seed của D_i; mô tả): không đạt ngưỡng 40; p anytime-valid 0,053.
 
 **Kết luận theo quy tắc đã đăng ký:** tác dụng của skill ở hai môi trường lặp lại với seed thứ hai (P33a, P33b). Hiệu số do môi trường có ước lượng điểm gần như trùng (0,16 so với 0,17) và khoảng bootstrap của từng seed không chứa 0, nhưng phép thử e-process đã đăng ký cho hiệu số này không bác bỏ trên seed 51. Phép xác nhận cho hiệu số này là P35 (§35), đăng ký trước khi mở các kết quả trên.
+
+**Ghi chú thực thi 35-1** (12/11/2026, sau khi đọc các trường vận hành của run 43153625369, trước khi tính bất kỳ đại lượng nào của §35 và trước khi biết kết quả chấm lại):
+- **Sự việc:** 144/144 lượt chạy xong, 0 crash, không nhánh nào dừng vì trần. Ở nhánh gốc không skill, bộ chấm SWE-smith báo `timeout` cho 1 bản vá (`func_pm_remove_cond__dc8gu7lr`; agent chạy đủ 45 bước và nộp bản vá 5.410 ký tự). Đây là lỗi ở khâu chấm, không phải lỗi của agent.
+- **Cách xử lý, theo tiền lệ đã ghi ở §27b (A108) và A56, không đặt quy tắc mới:**
+  1. Chấm lại **đúng bản vá đã lưu**, một lần, tại máy (`results/s35_timeout_rescore.jsonl`). Không chạy lại agent (L1).
+  2. Nếu lần chấm lại hoàn tất: dùng kết quả đó.
+  3. Nếu vẫn `timeout`: tính là không giải được trong phân tích chính (quy ước của SWE-bench, A56) và báo thêm phân tích độ nhạy bỏ task đó ra.
+- `scripts/s35_analysis.py` không đổi; kết quả chấm lại được ghi vào bản sao của file kết quả (`results/s35_ship_none.json`, trường `S` và `rescored`), bản gốc còn trên nhánh `pilot-snapshots`.

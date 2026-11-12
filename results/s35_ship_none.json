@@ -1,0 +1,662 @@
+{
+ "model": "vertex_ai/gemini-3.1-flash-lite",
+ "seed": 51,
+ "cost_limit": 0.3,
+ "cap": 0.85,
+ "skills_chars": 0,
+ "leak_free": false,
+ "subset": "all",
+ "n_tasks": 36,
+ "runs": [
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__htphunn2",
+   "order": 100387,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0021417499999999996
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__kyl90ytp",
+   "order": 100429,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0018512499999999996
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_invert_if__1busdu48",
+   "order": 100690,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 42,
+   "patch_chars": 14740,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex 817abec..a1154a1 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -30,7 +30,7 @@ _statement_keywords = frozenset(\n         \"import\",\n         \"set\",\n         \"with\",\n-        \"autoescape\",\n+        \"autoescape\", \"ifnot\"\n     ]\n )\n _compare_operators = frozenset([\"eq\", \"ne\", \"lt\", \"lteq\", \"gt\", \"gteq\"])\n@@ -270,6 +270,293 @@ class Parser:\n             break\n         return result\n \n+    def parse_ifnot(self) -> nodes.If:\n+        \"\"\"Parse an ifnot construct.\"\"\"\n+        node = result = nodes.If(lineno=self.stream.expect(\"name:ifnot\").lineno)\n+        while True:\n+            node.test = nodes.Not(self.parse_tuple(with_condexpr=False), lineno=node.lineno)\n+            node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n+            node.elif_ = []\n+            node.else_ = []\n+            token = next(self.stream)\n+            if token.test(\"name:elif\"):\n+                node = nodes.If(lineno=self.stream.current.lineno)\n+                result.elif_.append(node)\n+                continue\n+            elif token.test(\"name:else\"):\n+                result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n+            break\n+        return result\n+    def parse_ifnot(self) -> nodes.If:\n+        \"\"\"Parse an ifnot construct.\"\"\"\n+        node = result = nodes.If(lineno=self.stream.expect(\"name:ifnot\").lineno)\n+        while True:\n+            node.test = nodes.Not(self.parse_tuple(with_condexpr=False), lineno=node.lineno)\n+            node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n+            node.elif_ = []\n+            node.else_ = []\n+            token = next(self.stream)\n+            if token.test(\"name:elif\"):\n+                node = nodes.If(lineno=self.stream.current.lineno)\n+                result.elif_.append(node)\n+                continue\n+            elif token.test(\"name:else\"):\n+                result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n+            break\n+        return result\n+        while True:\n+    def parse_ifnot(self) -> nodes.If:\n+        \"\"\"Parse an ifnot construct.\"\"\"\n+        node = result = nodes.If(lineno=self.stream.expect(\"name:ifnot\").lineno)\n+        while True:\n+            node.test = nodes.Not(self.parse_tuple(with_condexpr=False), lineno=node.lineno)\n+            node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n+            node.elif_ = []\n+            node.else_ = []\n+            token = next(self.stream)\n+            if token.test(\"name:elif\"):\n+                node = nodes.If(lineno=self.stream.current.lineno)\n+                result.elif_.append(node)\n+                continue\n+            elif token.test(\"name:else\"):\n+                result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n+            break\n+        return result\n+            node.test = self.parse_tuple(with_condexpr=False)\n+    def parse_ifnot(self) -> nodes.If:\n+        \"\"\"Parse an ifnot construct.\"\"\"\n+        node = result = nodes.If(lineno=self.stream.expect(\"name:ifnot\").lineno)\n+        while True:\n+            node.test = nodes.Not(self.parse_tuple(with_condexpr=False), lineno=node.lineno)\n+            node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n+            node.elif_ = []\n+            node.else_ = []\n+            token = next(self.stream)\n+            if token.test(\"name:elif\"):\n+                node = nodes.If(lineno=self.stream.current.lineno)\n+                result.elif_.append(node)\n+                continue\n+            elif token.test(\"name:else\"):\n+                result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n+            break\n+        return result\n+            node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n+    def parse_ifnot(self) -> nodes.If:\n+        \"\"\"Parse an ifnot construct.\"\"\"\n+        node = result = nodes.If(lineno=self.stream.expect(\"name:ifnot\").lineno)\n+        while True:\n+            node.test = nodes.Not(self.parse_tuple(with_condexpr=False), lineno=node.lineno)\n+            node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n+            node.elif_ = []\n+            node.else_ = []\n+            token = next(self.stream)\n+            if token.test(\"name:elif\"):\n+                node = nodes.If(lineno=self.stream.current.lineno)\n+                result.elif_.append(node)\n+                continue\n+            elif token.test(\"name:else\"):\n+                result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n+            break\n+        return result\n+            node.elif_ = []\n+    def parse_ifnot(self) -> nodes.If:\n+        \"\"\"Parse an ifnot construct.\"\"\"\n+        node = result = nodes.If(lineno=self.stream.expect(\"name:ifnot\").lineno)\n+        while True:\n+            node.test = nodes.Not(self.parse_tuple(with_condexpr=False), lineno=node.lineno)\n+            node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n+            node.elif_ = []\n+            node.else_ = []\n+            token = next(self.stream)\n+            if token.test(\"name:elif\"):\n+                node = nodes.If(lineno=self.stream.current.lineno)\n+                result.elif_.append(node)\n+                continue\n+            elif token.test(\"name:else\"):\n+                result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n+            break\n+        return result\n+            node.else_ = []\n+    def parse_ifnot(self) -> nodes.If:\n+        \"\"\"Parse an ifnot construct.\"\"\"\n+        node = result = nodes.If(lineno=self.stream.expect(\"name:ifnot\").lineno)\n+        while True:\n+            node.test = nodes.Not(self.parse_tuple(with_condexpr=False), lineno=node.lineno)\n+            node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n+            node.elif_ = []\n+            node.else_ = []\n+            token = next(self.stream)\n+            if token.test(\"name:elif\"):\n+                node = nodes.If(lineno=self.stream.current.lineno)\n+                result.elif_.append(node)\n+                continue\n+            elif token.test(\"name:else\"):\n+                result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n+            break\n+        return result\n+            token = next(self.stream)\n+    def parse_ifnot(self) -> nodes.If:\n+        \"\"\"Parse an ifnot construct.\"\"\"\n+        node = result = nodes.If(lineno=self.stream.expect(\"name:ifnot\").lineno)\n+        while True:\n+            node.test = nodes.Not(self.parse_tuple(with_condexpr=False), lineno=node.lineno)\n+            node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n+            node.elif_ = []\n+            node.else_ = []\n+            token = next(self.stream)\n+            if token.test(\"name:elif\"):\n+                node = nodes.If(lineno=self.stream.current.lineno)\n+                result.elif_.append(node)\n+                continue\n+            elif token.test(\"name:else\"):\n+                result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n+            break\n+        return result\n+            if token.test(\"name:elif\"):\n+    def parse_ifnot(self) -> nodes.If:\n+        \"\"\"Parse an ifnot construct.\"\"\"\n+        node = result = nodes.If(lineno=self.stream.expect(\"name:ifnot\").lineno)\n+        while True:\n+            node.test = nodes.Not(self.parse_tuple(with_condexpr=False), lineno=node.lineno)\n+            node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n+            node.elif_ = []\n+            node.else_ = []\n+            token = next(self.stream)\n+            if token.test(\"name:elif\"):\n+                node = nodes.If(lineno=self.stream.current.lineno)\n+                result.elif_.append(node)\n+                continue\n+            elif token.test(\"name:else\"):\n+                result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n+            break\n+        return result\n+                node = nodes.If(lineno=self.stream.current.lineno)\n+    def parse_ifnot(self) -> nodes.If:\n+        \"\"\"Parse an ifnot construct.\"\"\"\n+        node = result = nodes.If(lineno=self.stream.expect(\"name:ifnot\").lineno)\n+        while True:\n+            node.test = nodes.Not(self.parse_tuple(with_condexpr=False), lineno=node.lineno)\n+            node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n+            node.elif_ = []\n+            node.else_ = []\n+            token = next(self.stream)\n+            if token.test(\"name:elif\"):\n+                node = nodes.If(lineno=self.stream.current.lineno)\n+                result.elif_.append(node)\n+                continue\n+            elif token.test(\"name:else\"):\n+                result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n+            break\n+        return result\n+                result.elif_.append(node)\n+    def parse_ifnot(self) -> nodes.If:\n+        \"\"\"Parse an ifnot construct.\"\"\"\n+        node = result = nodes.If(lineno=self.stream.expect(\"name:ifnot\").lineno)\n+        while True:\n+            node.test = nodes.Not(self.parse_tuple(with_condexpr=False), lineno=node.lineno)\n+            node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n+            node.elif_ = []\n+            node.else_ = []\n+            token = next(self.stream)\n+            if token.test(\"name:elif\"):\n+                node = nodes.If(lineno=self.stream.current.lineno)\n+                result.elif_.append(node)\n+                continue\n+            elif token.test(\"name:else\"):\n+                result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n+            break\n+        return result\n+                continue\n+    def parse_ifnot(self) -> nodes.If:\n+        \"\"\"Parse an ifnot construct.\"\"\"\n+        node = result = nodes.If(lineno=self.stream.expect(\"name:ifnot\").lineno)\n+        while True:\n+            node.test = nodes.Not(self.parse_tuple(with_condexpr=False), lineno=node.lineno)\n+            node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n+            node.elif_ = []\n+            node.else_ = []\n+            token = next(self.stream)\n+            if token.test(\"name:elif\"):\n+                node = nodes.If(lineno=self.stream.current.lineno)\n+                result.elif_.append(node)\n+                continue\n+            elif token.test(\"name:else\"):\n+                result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n+            break\n+        return result\n+            elif token.test(\"name:else\"):\n+    def parse_ifnot(self) -> nodes.If:\n+        \"\"\"Parse an ifnot construct.\"\"\"\n+        node = result = nodes.If(lineno=self.stream.expect(\"name:ifnot\").lineno)\n+        while True:\n+            node.test = nodes.Not(self.parse_tuple(with_condexpr=False), lineno=node.lineno)\n+            node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n+            node.elif_ = []\n+            node.else_ = []\n+            token = next(self.stream)\n+            if token.test(\"name:elif\"):\n+                node = nodes.If(lineno=self.stream.current.lineno)\n+                result.elif_.append(node)\n+                continue\n+            elif token.test(\"name:else\"):\n+                result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n+            break\n+        return result\n+                result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n+    def parse_ifnot(self) -> nodes.If:\n+        \"\"\"Parse an ifnot construct.\"\"\"\n+        node = result = nodes.If(lineno=self.stream.expect(\"name:ifnot\").lineno)\n+        while True:\n+            node.test = nodes.Not(self.parse_tuple(with_condexpr=False), lineno=node.lineno)\n+            node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n+            node.elif_ = []\n+            node.else_ = []\n+            token = next(self.stream)\n+            if token.test(\"name:elif\"):\n+                node = nodes.If(lineno=self.stream.current.lineno)\n+                result.elif_.append(node)\n+                continue\n+            elif token.test(\"name:else\"):\n+                result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n+            break\n+        return result\n+            break\n+    def parse_ifnot(self) -> nodes.If:\n+        \"\"\"Parse an ifnot construct.\"\"\"\n+        node = result = nodes.If(lineno=self.stream.expect(\"name:ifnot\").lineno)\n+        while True:\n+            node.test = nodes.Not(self.parse_tuple(with_condexpr=False), lineno=node.lineno)\n+            node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n+            node.elif_ = []\n+            node.else_ = []\n+            token = next(self.stream)\n+            if token.test(\"name:elif\"):\n+                node = nodes.If(lineno=self.stream.current.lineno)\n+                result.elif_.append(node)\n+                continue\n+            elif token.test(\"name:else\"):\n+                result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n+            break\n+        return result\n+        return result\n+    def parse_ifnot(self) -> nodes.If:\n+        \"\"\"Parse an ifnot construct.\"\"\"\n+        node = result = nodes.If(lineno=self.stream.expect(\"name:ifnot\").lineno)\n+        while True:\n+            node.test = nodes.Not(self.parse_tuple(with_condexpr=False), lineno=node.lineno)\n+            node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n+            node.elif_ = []\n+            node.else_ = []\n+            token = next(self.stream)\n+            if token.test(\"name:elif\"):\n+                node = nodes.If(lineno=self.stream.current.lineno)\n+                result.elif_.append(node)\n+                continue\n+            elif token.test(\"name:else\"):\n+                result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n+            break\n+        return result\n+\n     def parse_with(self) -> nodes.With:\n         node = nodes.With(lineno=next(self.stream).lineno)\n         targets: t.List[nodes.Expr] = []\n@@ -289,7 +576,7 @@ class Parser:\n \n     def parse_autoescape(self) -> nodes.Scope:\n         node = nodes.ScopedEvalContextModifier(lineno=next(self.stream).lineno)\n-        node.options = [nodes.Keyword(\"autoescape\", self.parse_expression())]\n+        node.options = [nodes.Keyword(\"autoescape\", \"ifnot\" self.parse_expression())]\n         node.body = self.parse_statements((\"name:endautoescape\",), drop_needle=True)\n         return nodes.Scope([node])\n \n",
+   "cost_usd": 0.032757100000000004
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_invert_if__75jsmftr",
+   "order": 100695,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0030362500000000042
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_invert_if__9dqn79vh",
+   "order": 100698,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0020312499999999983
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_invert_if__dfxthl5x",
+   "order": 100708,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.001468000000000004
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_shuffle__hvx9bujc",
+   "order": 100767,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.003097125000000006
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_shuffle__l3wqpvmt",
+   "order": 100773,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.001901999999999994
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_op_swap__4ky21i8x",
+   "order": 100791,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0031119999999999967
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_op_swap__vlxm8lg4",
+   "order": 100793,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 12,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0048339500000000105
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__9w32vup3",
+   "order": 100842,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.003224250000000005
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__bfjq4ukz",
+   "order": 100843,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0019592500000000027
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__dc8gu7lr",
+   "order": 100844,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 45,
+   "patch_chars": 5410,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "timeout"
+   },
+   "patch": "diff --git a/src/jinja2/ext.py b/src/jinja2/ext.py\nindex 9fad0aa..9b6fc30 100644\n--- a/src/jinja2/ext.py\n+++ b/src/jinja2/ext.py\n@@ -358,65 +358,54 @@ class InternationalizationExtension(Extension):\n             if variables:\n                 parser.stream.expect(\"comma\")\n \n-            # skip colon for python compatibility\n+        while parser.stream.current.type != \"block_end\":\n+            if variables:\n+                parser.stream.expect(\"comma\")\n             if parser.stream.skip_if(\"colon\"):\n                 break\n-\n             token = parser.stream.expect(\"name\")\n             if token.value in variables:\n-                parser.fail(\n-                    f\"translatable variable {token.value!r} defined twice.\",\n-                    token.lineno,\n-                    exc=TemplateAssertionError,\n-                )\n-\n-            # expressions\n+                parser.fail(f\"translatable variable {token.value!r} defined twice.\", token.lineno, exc=TemplateAssertionError)\n             if parser.stream.current.type == \"assign\":\n                 next(parser.stream)\n-                variables[token.value] = var = parser.parse_expression()\n+                var = parser.parse_expression()\n             elif trimmed is None and token.value in (\"trimmed\", \"notrimmed\"):\n                 trimmed = token.value == \"trimmed\"\n                 continue\n             else:\n-                variables[token.value] = var = nodes.Name(token.value, \"load\")\n-\n-            if plural_expr is None:\n-                if isinstance(var, nodes.Call):\n-                    plural_expr = nodes.Name(\"_trans\", \"load\")\n-                    variables[token.value] = plural_expr\n-                    plural_expr_assignment = nodes.Assign(\n-                        nodes.Name(\"_trans\", \"store\"), var\n-                    )\n+                var = nodes.Name(token.value, \"load\")\n+            if isinstance(var, nodes.Call):\n+                tmp_name = parser.free_identifier()\n+                variables[token.value] = nodes.Name(tmp_name.name, \"load\")\n+                assign = nodes.Assign(tmp_name, var)\n+                if plural_expr_assignment is None:\n+                    plural_expr_assignment = assign\n                 else:\n-                    plural_expr = var\n+                    if not isinstance(plural_expr_assignment, list):\n+                        plural_expr_assignment = [plural_expr_assignment]\n+                    plural_expr_assignment.append(assign)\n+            else:\n+                variables[token.value] = var\n+            if plural_expr is None:\n+                plural_expr = variables[token.value]\n                 num_called_num = token.value == \"num\"\n-\n         parser.stream.expect(\"block_end\")\n-\n         plural = None\n         have_plural = False\n         referenced = set()\n-\n-        # now parse until endtrans or pluralize\n         singular_names, singular = self._parse_block(parser, True)\n         if singular_names:\n             referenced.update(singular_names)\n             if plural_expr is None:\n                 plural_expr = nodes.Name(singular_names[0], \"load\")\n                 num_called_num = singular_names[0] == \"num\"\n-\n-        # if we have a pluralize block, we parse that too\n         if parser.stream.current.test(\"name:pluralize\"):\n             have_plural = True\n             next(parser.stream)\n             if parser.stream.current.type != \"block_end\":\n                 token = parser.stream.expect(\"name\")\n                 if token.value not in variables:\n-                    parser.fail(\n-                        f\"unknown variable {token.value!r} for pluralization\",\n-                        token.lineno,\n-                        exc=TemplateAssertionError,\n-                    )\n+                    parser.fail(f\"unknown variable {token.value!r} for pluralization\", token.lineno, exc=TemplateAssertionError)\n                 plural_expr = variables[token.value]\n                 num_called_num = token.value == \"num\"\n             parser.stream.expect(\"block_end\")\n@@ -425,24 +414,19 @@ class InternationalizationExtension(Extension):\n             referenced.update(plural_names)\n         else:\n             next(parser.stream)\n-\n-        # register free names as simple name expressions\n         for name in referenced:\n             if name not in variables:\n                 variables[name] = nodes.Name(name, \"load\")\n-\n         if not have_plural:\n             plural_expr = None\n         elif plural_expr is None:\n             parser.fail(\"pluralize without variables\", lineno)\n-\n         if trimmed is None:\n             trimmed = self.environment.policies[\"ext.i18n.trimmed\"]\n         if trimmed:\n             singular = self._trim_whitespace(singular)\n             if plural:\n                 plural = self._trim_whitespace(plural)\n-\n         node = self._make_node(\n             singular,\n             plural,\n@@ -454,10 +438,10 @@ class InternationalizationExtension(Extension):\n         )\n         node.set_lineno(lineno)\n         if plural_expr_assignment is not None:\n+            if isinstance(plural_expr_assignment, list):\n+                return [*plural_expr_assignment, node]\n             return [plural_expr_assignment, node]\n-        else:\n-            return node\n-\n+        return node\n     def _trim_whitespace(self, string: str, _ws_re: t.Pattern[str] = _ws_re) -> str:\n         return _ws_re.sub(\" \", string.strip())\n \n",
+   "infra_error": "scoring: strict status 'timeout'",
+   "cost_usd": 0.03510395000000003
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__dg8fpnqe",
+   "order": 100845,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0020582499999999976
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__dhjygmkf",
+   "order": 100846,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0034640000000000087
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__gr4b0kxq",
+   "order": 100848,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002072750000000012
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__jq7g3hh4",
+   "order": 100849,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0021212499999999773
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__k2f64bbd",
+   "order": 100850,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0019407500000000188
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__kfa34aj4",
+   "order": 100851,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0037053249999999816
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__kqzfoqk4",
+   "order": 100852,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.00224325000000003
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__kzu2agu1",
+   "order": 100853,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0032067499999999943
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__l8jckwc5",
+   "order": 100854,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.006047874999999994
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__mg8q2vv1",
+   "order": 100855,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 31,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.01880874999999993
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__mmwb2onb",
+   "order": 100856,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002760499999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__mr27ot5h",
+   "order": 100857,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0042840500000000115
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__oqko5wma",
+   "order": 100858,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0021027500000000143
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__oxsw6rai",
+   "order": 100859,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002005500000000021
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__q6ka1xd8",
+   "order": 100860,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0021479999999999833
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__qc5s5k51",
+   "order": 100861,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0035588500000000023
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__qpbg7wra",
+   "order": 100862,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0029931999999999737
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__rfirqbqa",
+   "order": 100863,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0027804999999999636
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__vu1h59xu",
+   "order": 100864,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.001467999999999997
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__zd6d290l",
+   "order": 100865,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0024995000000000434
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_loop__50h3it6l",
+   "order": 100867,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002823749999999986
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_loop__baraeosk",
+   "order": 100869,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.003320775000000026
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_loop__hdegzouy",
+   "order": 100870,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.004747274999999995
+  }
+ ],
+ "spent_usd": 0.179679725
+}
