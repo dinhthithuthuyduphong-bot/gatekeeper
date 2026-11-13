@@ -2361,3 +2361,60 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - Phạm vi: Jinja, 34 task không mô tả, một seed, hai model Gemini.
 
 **Sửa diễn giải §34 (12/11/2026, A129):** câu "mọi kết quả của agent ... đều bị ảnh hưởng" ở mục "Hệ quả cho paper" phía trên là quá mức bằng chứng. §34 không có nhánh một commit cho Gemini Flash, nên chưa đo được phần nào trong 31/34 task giải được là nhờ lịch sử. Điều dữ liệu cho phép nói: agent này đọc commit chèn lỗi ở 33/34 lượt mà không cần chỉ dẫn, tức rò rỉ nằm trong tầm với của chính agent. Paper và báo cáo đã sửa theo câu này.
+
+## 36. Các phân tích miễn phí để làm paper mạnh hơn (đăng ký 13/11/2026, trước khi tính; tất cả là thăm dò)
+
+**Lý do:** @thuthuy 13/11: "Làm tất cả việc 0đ có ích cho paper". Mọi phân tích dùng dữ liệu đã có. Không phân tích nào thay một quyết định đã đăng ký.
+
+**Đã thấy trước khi đăng ký (khi rà soát ngày 13/11):**
+- Lưu trữ lượt học Jinja gốc (`s25_learn_run.tar.gz`) chỉ còn 6 lần gọi model viết skill. Lý do: gskill đánh số lại `call_001…` khi chạy tiếp ở nửa 2, nên các lần gọi của nửa 1 bị ghi đè (A130). Lượt Bleve còn 7 lần gọi, lượt §30 còn 14.
+- Ở 6 lần gọi còn lại của lượt Jinja gốc, chuỗi "Bug Patch" xuất hiện 0, 0, 0, 14, 56, 46 lần.
+- Lần gọi 4 có bản cha là ứng viên 4 (không có dòng lịch sử) và cho ra ứng viên 6 (có dòng lịch sử).
+- Điểm validation theo L của 9 ứng viên (từ `candidate_tree.html`): 0,48 / 0,74 / 0,84 / 0,70 / 0,78 / 0,84 / 0,94 / 0,90 / 0,80. Ứng viên có dòng lịch sử là 2, 5, 6, 7, 8.
+
+### 36a. Đọc cả họ, cập nhật sau §33 và §35
+- **Họ:** mọi quyết định e-process đã đăng ký trong paper, K = 12:
+  - 8 bài toán của §31;
+  - hai admission của seed 51 (§33);
+  - P33c;
+  - P35.
+- **Bonferroni:** α/12, ngưỡng 480.
+- **Báo cáo:** quyết định nào còn đứng. Với P33c và P35, e-value lớn nhất bằng 1/p anytime.
+
+### 36b. Bộ học tìm ra rò rỉ bằng cách nào
+- **Dữ liệu:** ba lượt học (Jinja gốc, Bleve, Jinja §30).
+- **Theo từng ứng viên:** chỉ số, bản cha, lần lặp tạo ra nó, có dòng khớp quy tắc lịch sử (`make_ablation.RULE`) hay không, điểm validation theo L.
+- **Theo từng lần gọi model viết skill còn lưu:**
+  - bản cha và bản con có dòng lịch sử hay không;
+  - với mỗi quỹ đạo agent được đưa cho model viết skill: mô tả issue rỗng hay không; M1 (agent gọi `git log`/`git show`); M2 (một quan sát chứa "Bug Patch"; phần đề bài và system prompt bị bỏ); điểm của quỹ đạo;
+  - câu trả lời của model viết skill có nhắc "commit", "history" hay "Bug Patch" không.
+- **Đại lượng tóm tắt:**
+  - điểm validation trung bình của ứng viên có và không có dòng lịch sử, theo từng lượt học;
+  - số lần gọi mà model viết skill **thêm** dòng lịch sử vào một bản cha không có dòng đó, và ở các lần đó, số quỹ đạo có M2.
+- **Diễn giải đặt trước:**
+  - Nếu ở những lần thêm dòng lịch sử, model viết skill đã thấy một quỹ đạo agent tự tìm ra "Bug Patch" và quỹ đạo đó được điểm cao, thì cơ chế là: agent tự tìm ra, rồi bộ học khái quát thành chỉ dẫn.
+  - Nếu không, paper chỉ nói chỉ dẫn được thêm và điểm validation tăng.
+  - Mọi kết quả là quan sát trên số lần gọi ít ỏi còn lưu.
+
+### 36c. Bản vá của agent có trùng với bản đảo của commit chèn lỗi không
+- **Dữ liệu:** bốn nhánh Jinja của seed 41 và seed 51 (§25, §33); bốn nhánh của 36 task mới (§35).
+- **Đại lượng:** lấy từng dòng thay đổi, bỏ khoảng trắng cuối dòng. Bản vá của agent là **đảo đúng** khi tập (file, dòng bị xóa) của nó bằng tập (file, dòng được thêm) của commit chèn lỗi, và tập (file, dòng được thêm) của nó bằng tập (file, dòng bị xóa) của commit đó.
+- **Báo cáo theo nhánh:** trong các lượt giải được, tỉ lệ đảo đúng; riêng cho task không mô tả và task có mô tả.
+- **Diễn giải đặt trước:**
+  - Lỗi của SWE-smith thường là một biến đổi nhỏ, nên một bản sửa đúng hay chính là bản đảo. Đảo đúng vì thế không tự chứng minh việc chép.
+  - Chỉ khi tỉ lệ đảo đúng ở môi trường gốc cao hơn rõ ràng so với môi trường một commit, trên cùng loại task, thì nó mới là thêm một dấu hiệu.
+  - Nếu hai tỉ lệ ngang nhau thì paper nói đúng như vậy.
+
+### 36d. Skill sạch khác skill gốc thế nào
+- **Nội dung:** liệt kê các nhóm chỉ dẫn (đề mục đánh số cấp một) của skill gốc và skill §30, và các nhóm chung.
+- **Hành vi trong môi trường một commit** (nhánh không skill và có skill của §33 seed 51 với skill gốc; của §30 với skill sạch):
+  - tỉ lệ lượt chạy test (`pytest` hoặc `python -m pytest` hoặc `unittest`) ít nhất một lần;
+  - số bước trung vị;
+  - tỉ lệ lượt nộp bản vá rỗng.
+- Chỉ mô tả; không có ngưỡng.
+
+**Hình cho paper** (không phải phân tích):
+- đường log E theo task của các luồng chính, cùng ngưỡng 40;
+- số task giải được trên 34 task không mô tả theo điều kiện;
+- sơ đồ cơ chế.
+Số liệu lấy từ file kết quả bằng script, không gõ tay.
