@@ -1,0 +1,1278 @@
+{
+ "36a": {
+  "K": 12,
+  "alpha_bonferroni": 0.0020833333333333333,
+  "threshold": 480,
+  "decisions": {
+   "jinja_as_shipped": {
+    "registered": true,
+    "holds": true,
+    "max_e": 582301.6442161651
+   },
+   "jinja_single_commit": {
+    "registered": true,
+    "holds": true,
+    "max_e": 3325.25673007966
+   },
+   "bleve_as_shipped": {
+    "registered": true,
+    "holds": true,
+    "max_e": 37750.98978647401
+   },
+   "bleve_single_commit": {
+    "registered": true,
+    "holds": false,
+    "max_e": 369.4729700088512
+   },
+   "jinja_content_vs_placebo": {
+    "registered": true,
+    "holds": true,
+    "max_e": 8730.663589079193
+   },
+   "jinja_no_history_instruction": {
+    "registered": true,
+    "holds": true,
+    "max_e": 4208.528049007073
+   },
+   "jinja_relearned_single_commit": {
+    "registered": true,
+    "holds": false,
+    "max_e": 143.68393278121982
+   },
+   "pygments_reuse": {
+    "registered": false,
+    "holds": false,
+    "max_e": 1.0
+   },
+   "seed51_as_shipped": {
+    "registered": true,
+    "holds": true,
+    "first": 53,
+    "first_at_bonferroni": 66
+   },
+   "seed51_single_commit": {
+    "registered": true,
+    "holds": false,
+    "first": 74,
+    "first_at_bonferroni": null
+   },
+   "P33c_environment_contrast": {
+    "registered": false,
+    "holds": false,
+    "p_anytime": 0.1298969031111111
+   },
+   "P35_environment_contrast_unseen": {
+    "registered": true,
+    "holds": true,
+    "p_anytime": 0.000422550200076077
+   }
+  },
+  "registered_positive": 10,
+  "held": 7,
+  "not_held": [
+   "bleve_single_commit",
+   "jinja_relearned_single_commit",
+   "seed51_single_commit"
+  ]
+ },
+ "36b": {
+  "jinja_original": {
+   "candidates": [
+    {
+     "idx": 0,
+     "parent": null,
+     "iteration": null,
+     "history_line": false,
+     "val_L": 0.48
+    },
+    {
+     "idx": 1,
+     "parent": 0,
+     "iteration": 1,
+     "history_line": false,
+     "val_L": 0.74
+    },
+    {
+     "idx": 2,
+     "parent": 1,
+     "iteration": 7,
+     "history_line": true,
+     "val_L": 0.84
+    },
+    {
+     "idx": 3,
+     "parent": 0,
+     "iteration": 12,
+     "history_line": false,
+     "val_L": 0.7
+    },
+    {
+     "idx": 4,
+     "parent": 2,
+     "iteration": 21,
+     "history_line": false,
+     "val_L": 0.78
+    },
+    {
+     "idx": 5,
+     "parent": 2,
+     "iteration": 23,
+     "history_line": true,
+     "val_L": 0.84
+    },
+    {
+     "idx": 6,
+     "parent": 4,
+     "iteration": 24,
+     "history_line": true,
+     "val_L": 0.94
+    },
+    {
+     "idx": 7,
+     "parent": 6,
+     "iteration": 27,
+     "history_line": true,
+     "val_L": 0.9
+    },
+    {
+     "idx": 8,
+     "parent": 7,
+     "iteration": 31,
+     "history_line": true,
+     "val_L": 0.8
+    }
+   ],
+   "val_L_mean_with_history": 0.8640000000000001,
+   "val_L_mean_without_history": 0.7399999999999999,
+   "first_history_candidate": 2,
+   "best_candidate": 6,
+   "best_has_history": true,
+   "proposer_calls_saved": 6,
+   "calls": [
+    {
+     "parent_idx": 2,
+     "child_idx": 4,
+     "parent_history": true,
+     "child_history": false,
+     "response_mentions": false,
+     "trajectories": [
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 4,
+     "child_idx": null,
+     "parent_history": false,
+     "child_history": false,
+     "response_mentions": false,
+     "trajectories": [
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 2,
+     "child_idx": 5,
+     "parent_history": true,
+     "child_history": true,
+     "response_mentions": true,
+     "trajectories": [
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      },
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": true,
+       "M1": true,
+       "M2": false,
+       "score": 0.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 4,
+     "child_idx": 6,
+     "parent_history": false,
+     "child_history": true,
+     "response_mentions": true,
+     "trajectories": [
+      {
+       "empty_issue": true,
+       "M1": true,
+       "M2": true,
+       "score": 1.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 6,
+     "child_idx": 7,
+     "parent_history": true,
+     "child_history": true,
+     "response_mentions": true,
+     "trajectories": [
+      {
+       "empty_issue": true,
+       "M1": true,
+       "M2": true,
+       "score": 0.0
+      },
+      {
+       "empty_issue": true,
+       "M1": true,
+       "M2": true,
+       "score": 1.0
+      },
+      {
+       "empty_issue": true,
+       "M1": true,
+       "M2": true,
+       "score": 1.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 7,
+     "child_idx": 8,
+     "parent_history": true,
+     "child_history": true,
+     "response_mentions": true,
+     "trajectories": [
+      {
+       "empty_issue": false,
+       "M1": true,
+       "M2": true,
+       "score": 1.0
+      },
+      {
+       "empty_issue": true,
+       "M1": true,
+       "M2": true,
+       "score": 0.0
+      },
+      {
+       "empty_issue": true,
+       "M1": true,
+       "M2": true,
+       "score": 0.0
+      }
+     ]
+    }
+   ],
+   "calls_adding_history": 1,
+   "calls_adding_history_with_M2_traj": 1,
+   "calls_adding_history_M2_traj_scores": [
+    [
+     1.0
+    ]
+   ],
+   "trajectories_shown": 18,
+   "trajectories_M2": 7
+  },
+  "bleve": {
+   "candidates": [
+    {
+     "idx": 0,
+     "parent": null,
+     "iteration": null,
+     "history_line": false,
+     "val_L": 0.38
+    },
+    {
+     "idx": 1,
+     "parent": 0,
+     "iteration": 0,
+     "history_line": false,
+     "val_L": 0.58
+    },
+    {
+     "idx": 2,
+     "parent": 0,
+     "iteration": 3,
+     "history_line": false,
+     "val_L": 0.2
+    },
+    {
+     "idx": 3,
+     "parent": 1,
+     "iteration": 6,
+     "history_line": false,
+     "val_L": 0.68
+    },
+    {
+     "idx": 4,
+     "parent": 1,
+     "iteration": 7,
+     "history_line": false,
+     "val_L": 0.74
+    },
+    {
+     "idx": 5,
+     "parent": 4,
+     "iteration": 8,
+     "history_line": true,
+     "val_L": 0.86
+    },
+    {
+     "idx": 6,
+     "parent": 5,
+     "iteration": 11,
+     "history_line": true,
+     "val_L": 0.86
+    },
+    {
+     "idx": 7,
+     "parent": 4,
+     "iteration": 12,
+     "history_line": false,
+     "val_L": 0.76
+    },
+    {
+     "idx": 8,
+     "parent": 5,
+     "iteration": 23,
+     "history_line": true,
+     "val_L": 0.78
+    },
+    {
+     "idx": 9,
+     "parent": 8,
+     "iteration": 25,
+     "history_line": true,
+     "val_L": 0.86
+    }
+   ],
+   "val_L_mean_with_history": 0.84,
+   "val_L_mean_without_history": 0.592,
+   "first_history_candidate": 5,
+   "best_candidate": 5,
+   "best_has_history": true,
+   "proposer_calls_saved": 7,
+   "calls": [
+    {
+     "parent_idx": 5,
+     "child_idx": 6,
+     "parent_history": true,
+     "child_history": true,
+     "response_mentions": true,
+     "trajectories": [
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      },
+      {
+       "empty_issue": true,
+       "M1": true,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 4,
+     "child_idx": 7,
+     "parent_history": false,
+     "child_history": false,
+     "response_mentions": false,
+     "trajectories": [
+      {
+       "empty_issue": true,
+       "M1": true,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 7,
+     "child_idx": null,
+     "parent_history": false,
+     "child_history": false,
+     "response_mentions": false,
+     "trajectories": [
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 6,
+     "child_idx": null,
+     "parent_history": true,
+     "child_history": true,
+     "response_mentions": true,
+     "trajectories": [
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      },
+      {
+       "empty_issue": true,
+       "M1": true,
+       "M2": true,
+       "score": 1.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 5,
+     "child_idx": 8,
+     "parent_history": true,
+     "child_history": true,
+     "response_mentions": true,
+     "trajectories": [
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": true,
+       "M1": true,
+       "M2": true,
+       "score": 1.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 8,
+     "child_idx": null,
+     "parent_history": true,
+     "child_history": true,
+     "response_mentions": true,
+     "trajectories": [
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      },
+      {
+       "empty_issue": true,
+       "M1": true,
+       "M2": true,
+       "score": 1.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 8,
+     "child_idx": 9,
+     "parent_history": true,
+     "child_history": true,
+     "response_mentions": true,
+     "trajectories": [
+      {
+       "empty_issue": false,
+       "M1": true,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": true,
+       "M2": false,
+       "score": 1.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      }
+     ]
+    }
+   ],
+   "calls_adding_history": 0,
+   "calls_adding_history_with_M2_traj": 0,
+   "calls_adding_history_M2_traj_scores": [],
+   "trajectories_shown": 21,
+   "trajectories_M2": 3
+  },
+  "jinja_clean": {
+   "candidates": [
+    {
+     "idx": 0,
+     "parent": null,
+     "iteration": null,
+     "history_line": false,
+     "val_L": 0.48
+    },
+    {
+     "idx": 1,
+     "parent": 0,
+     "iteration": 1,
+     "history_line": false,
+     "val_L": 0.7
+    },
+    {
+     "idx": 2,
+     "parent": 1,
+     "iteration": 2,
+     "history_line": false,
+     "val_L": 0.66
+    },
+    {
+     "idx": 3,
+     "parent": 0,
+     "iteration": 6,
+     "history_line": false,
+     "val_L": 0.68
+    },
+    {
+     "idx": 4,
+     "parent": 1,
+     "iteration": 9,
+     "history_line": false,
+     "val_L": 0.7
+    },
+    {
+     "idx": 5,
+     "parent": 3,
+     "iteration": 24,
+     "history_line": false,
+     "val_L": 0.76
+    },
+    {
+     "idx": 6,
+     "parent": 3,
+     "iteration": 25,
+     "history_line": false,
+     "val_L": 0.7
+    },
+    {
+     "idx": 7,
+     "parent": 0,
+     "iteration": 29,
+     "history_line": false,
+     "val_L": 0.76
+    },
+    {
+     "idx": 8,
+     "parent": 0,
+     "iteration": 30,
+     "history_line": false,
+     "val_L": 0.76
+    }
+   ],
+   "val_L_mean_with_history": null,
+   "val_L_mean_without_history": 0.715,
+   "first_history_candidate": null,
+   "best_candidate": 5,
+   "best_has_history": false,
+   "proposer_calls_saved": 14,
+   "calls": [
+    {
+     "parent_idx": 0,
+     "child_idx": null,
+     "parent_history": false,
+     "child_history": false,
+     "response_mentions": false,
+     "trajectories": [
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 4,
+     "child_idx": null,
+     "parent_history": false,
+     "child_history": false,
+     "response_mentions": false,
+     "trajectories": [
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 4,
+     "child_idx": null,
+     "parent_history": false,
+     "child_history": false,
+     "response_mentions": false,
+     "trajectories": [
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      },
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 0,
+     "child_idx": null,
+     "parent_history": false,
+     "child_history": false,
+     "response_mentions": false,
+     "trajectories": [
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 3,
+     "child_idx": null,
+     "parent_history": false,
+     "child_history": false,
+     "response_mentions": false,
+     "trajectories": [
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 3,
+     "child_idx": null,
+     "parent_history": false,
+     "child_history": false,
+     "response_mentions": false,
+     "trajectories": [
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 4,
+     "child_idx": null,
+     "parent_history": false,
+     "child_history": false,
+     "response_mentions": false,
+     "trajectories": [
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 3,
+     "child_idx": null,
+     "parent_history": false,
+     "child_history": false,
+     "response_mentions": false,
+     "trajectories": [
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      },
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 3,
+     "child_idx": 5,
+     "parent_history": false,
+     "child_history": false,
+     "response_mentions": false,
+     "trajectories": [
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 3,
+     "child_idx": 6,
+     "parent_history": false,
+     "child_history": false,
+     "response_mentions": false,
+     "trajectories": [
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 0,
+     "child_idx": null,
+     "parent_history": false,
+     "child_history": true,
+     "response_mentions": true,
+     "trajectories": [
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 3,
+     "child_idx": null,
+     "parent_history": false,
+     "child_history": false,
+     "response_mentions": false,
+     "trajectories": [
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 0,
+     "child_idx": 7,
+     "parent_history": false,
+     "child_history": false,
+     "response_mentions": false,
+     "trajectories": [
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 1.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      }
+     ]
+    },
+    {
+     "parent_idx": 0,
+     "child_idx": 8,
+     "parent_history": false,
+     "child_history": false,
+     "response_mentions": false,
+     "trajectories": [
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": true,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      },
+      {
+       "empty_issue": false,
+       "M1": false,
+       "M2": false,
+       "score": 0.0
+      }
+     ]
+    }
+   ],
+   "calls_adding_history": 1,
+   "calls_adding_history_with_M2_traj": 0,
+   "calls_adding_history_M2_traj_scores": [
+    []
+   ],
+   "trajectories_shown": 42,
+   "trajectories_M2": 0
+  }
+ },
+ "36c": {
+  "seed41:shipped/skill": {
+   "all": {
+    "resolved": 53,
+    "exact_revert": 29
+   },
+   "no_issue": {
+    "resolved": 15,
+    "exact_revert": 9
+   },
+   "with_issue": {
+    "resolved": 38,
+    "exact_revert": 20
+   }
+  },
+  "seed41:shipped/none": {
+   "all": {
+    "resolved": 15,
+    "exact_revert": 6
+   },
+   "no_issue": {
+    "resolved": 1,
+    "exact_revert": 1
+   },
+   "with_issue": {
+    "resolved": 14,
+    "exact_revert": 5
+   }
+  },
+  "seed41:single/skill": {
+   "all": {
+    "resolved": 35,
+    "exact_revert": 17
+   },
+   "no_issue": {
+    "resolved": 0,
+    "exact_revert": 0
+   },
+   "with_issue": {
+    "resolved": 35,
+    "exact_revert": 17
+   }
+  },
+  "seed41:single/none": {
+   "all": {
+    "resolved": 14,
+    "exact_revert": 6
+   },
+   "no_issue": {
+    "resolved": 0,
+    "exact_revert": 0
+   },
+   "with_issue": {
+    "resolved": 14,
+    "exact_revert": 6
+   }
+  },
+  "seed51:shipped/skill": {
+   "all": {
+    "resolved": 55,
+    "exact_revert": 28
+   },
+   "no_issue": {
+    "resolved": 17,
+    "exact_revert": 9
+   },
+   "with_issue": {
+    "resolved": 38,
+    "exact_revert": 19
+   }
+  },
+  "seed51:shipped/none": {
+   "all": {
+    "resolved": 21,
+    "exact_revert": 10
+   },
+   "no_issue": {
+    "resolved": 0,
+    "exact_revert": 0
+   },
+   "with_issue": {
+    "resolved": 21,
+    "exact_revert": 10
+   }
+  },
+  "seed51:single/skill": {
+   "all": {
+    "resolved": 35,
+    "exact_revert": 16
+   },
+   "no_issue": {
+    "resolved": 0,
+    "exact_revert": 0
+   },
+   "with_issue": {
+    "resolved": 35,
+    "exact_revert": 16
+   }
+  },
+  "seed51:single/none": {
+   "all": {
+    "resolved": 17,
+    "exact_revert": 8
+   },
+   "no_issue": {
+    "resolved": 0,
+    "exact_revert": 0
+   },
+   "with_issue": {
+    "resolved": 17,
+    "exact_revert": 8
+   }
+  },
+  "unseen36:shipped/skill": {
+   "all": {
+    "resolved": 20,
+    "exact_revert": 3
+   },
+   "no_issue": {
+    "resolved": 20,
+    "exact_revert": 3
+   },
+   "with_issue": {
+    "resolved": 0,
+    "exact_revert": 0
+   }
+  },
+  "unseen36:shipped/none": {
+   "all": {
+    "resolved": 0,
+    "exact_revert": 0
+   },
+   "no_issue": {
+    "resolved": 0,
+    "exact_revert": 0
+   },
+   "with_issue": {
+    "resolved": 0,
+    "exact_revert": 0
+   }
+  },
+  "unseen36:single/skill": {
+   "all": {
+    "resolved": 1,
+    "exact_revert": 0
+   },
+   "no_issue": {
+    "resolved": 1,
+    "exact_revert": 0
+   },
+   "with_issue": {
+    "resolved": 0,
+    "exact_revert": 0
+   }
+  },
+  "unseen36:single/none": {
+   "all": {
+    "resolved": 0,
+    "exact_revert": 0
+   },
+   "no_issue": {
+    "resolved": 0,
+    "exact_revert": 0
+   },
+   "with_issue": {
+    "resolved": 0,
+    "exact_revert": 0
+   }
+  }
+ },
+ "36d": {
+  "original_groups": [
+   "CRITICAL: Interaction Format & Hallucinations",
+   "Debugging Unknown Issues (Empty Problem Statements)",
+   "Testing and Verification",
+   "Repository-Specific Knowledge (Jinja2)",
+   "Code Editing Patterns"
+  ],
+  "clean_groups": [
+   "CRITICAL INTERACTION RULES",
+   "Repository Navigation & Search",
+   "Code Editing Strategy",
+   "Testing and Verification",
+   "Completion"
+  ],
+  "single_commit": {
+   "none_seed51": {
+    "runs": 100,
+    "ran_tests": 50,
+    "median_steps": 9.5,
+    "empty_patch": 63,
+    "resolved": 17
+   },
+   "original_skill_seed51": {
+    "runs": 100,
+    "ran_tests": 85,
+    "median_steps": 16.0,
+    "empty_patch": 36,
+    "resolved": 35
+   },
+   "none_s30": {
+    "runs": 100,
+    "ran_tests": 55,
+    "median_steps": 10.5,
+    "empty_patch": 60,
+    "resolved": 16
+   },
+   "clean_skill_s30": {
+    "runs": 100,
+    "ran_tests": 82,
+    "median_steps": 13.5,
+    "empty_patch": 33,
+    "resolved": 33
+   }
+  }
+ }
+}

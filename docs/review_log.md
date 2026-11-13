@@ -878,3 +878,15 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Số sinh bằng `make_numbers.py`, đối chiếu với bản đăng ký (khối `fl*`).
   - Biên dịch sạch, 0 tràn lề; references bắt đầu ở trang 10.
 - **Báo cáo HTML:** sửa trực tiếp, không chạy `build_report.py`. Thêm một dòng trong bảng bằng chứng, một ý mới, mục h3 §34, dòng chi phí (6,05 / 5,20) và dòng token.
+
+## R-65. §36: phân tích miễn phí và sửa paper (0 USD; A130, A131, L59)
+
+- **Đối chiếu bản đăng ký:** §36 được commit (`bcb8fb7`) trước khi tính. Phần "đã thấy trước" ghi rõ các số đã nhìn lúc rà soát.
+- **Ghi chú thực thi 36-1:**
+  - Bản đăng ký nói "đề mục đánh số cấp một". Skill sạch dùng đề mục `#` thay cho đánh số, nên hàm `groups` lấy đề mục `#` khi có và đánh số cấp một khi không có.
+  - Ở lượt học sạch, quy tắc lịch sử khớp một lần với chữ "uncommitted" trong một bản đề xuất bị loại. Đó không phải chỉ dẫn đọc lịch sử, và được báo đúng như vậy.
+- **Mã:**
+  - `scripts/s36_analysis.py`, có test (`tests/test_s36.py`: đảo đúng, tách quỹ đạo, nhóm chỉ dẫn).
+  - `scripts/make_figures.py`: dữ liệu cho hai hình pgfplots.
+  - `make_numbers.py`: thêm số liệu §36; dừng nếu tên macro không chỉ gồm chữ cái.
+- **Kiểm:** lần cắt ngưỡng đầu tiên ở α của hai admission seed 51 tái tạo đúng 53 và 74. Paper biên dịch sạch, không tràn lề; 3 hình đã xem bằng ảnh.

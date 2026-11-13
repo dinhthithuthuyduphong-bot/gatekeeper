@@ -515,3 +515,9 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 ## L58. Câu nhân quả cần nhánh đối chứng trên cùng model (A129)
 - **Nguyên nhân gốc:** kết quả §34 (agent đọc commit 33/34, giải 31/34) được đặt cạnh mốc của một model khác (1/34). Đặt hai con số cạnh nhau làm câu "rò rỉ thổi phồng điểm" nghe như đã chứng minh, trong khi hai nhánh khác nhau cả ở model lẫn lịch sử. Thiết kế §34 chỉ có môi trường gốc.
 - **Phòng ngừa:** trước khi viết một câu nhân quả, gọi tên hai nhánh chỉ khác nhau ở đúng nguyên nhân. Thiếu thì viết điều quan sát được, và nêu nhánh cần chạy. Thêm vào danh sách review `docs/research_rules.md` §4.
+
+## L59. Công cụ bên thứ ba có thể ghi đè log của chính nó khi chạy tiếp (A130)
+- **Nguyên nhân gốc:** tôi lưu trữ thư mục kết quả của lượt học sau khi chạy xong nửa 2, mà không kiểm xem `--resume` có giữ nguyên file của nửa 1 không.
+- **Phòng ngừa:**
+  1. Trước mỗi lần chạy tiếp một công cụ bên thứ ba, lưu trữ toàn bộ thư mục log của lần trước.
+  2. Sau khi lưu trữ, đếm số file log so với số lần gọi trong ledger (ví dụ: số lần gọi model viết skill). Nếu lệch thì ghi ngay vào audit.

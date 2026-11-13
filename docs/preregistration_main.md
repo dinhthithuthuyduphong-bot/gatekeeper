@@ -2418,3 +2418,27 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - số task giải được trên 34 task không mô tả theo điều kiện;
 - sơ đồ cơ chế.
 Số liệu lấy từ file kết quả bằng script, không gõ tay.
+
+### §36: kết quả (13/11/2026; `results/s36_analysis.json`; thăm dò)
+- **36a:**
+  - K = 12, ngưỡng 480.
+  - 10 quyết định bác bỏ ở mức đăng ký; 7 vẫn đứng ở α/12, kể cả P35 (p = 4,2·10⁻⁴).
+  - Không còn đứng: admission một commit của Bleve, của seed 51 và của skill §30.
+- **36b:**
+  - Điểm validation (L) trung bình của ứng viên có dòng lịch sử so với không có: Jinja 0,86 so với 0,74; Bleve 0,84 so với 0,59.
+  - Ứng viên đầu tiên có dòng lịch sử (Jinja, ứng viên 2) nâng điểm từ 0,74 lên 0,84; ứng viên tốt nhất (0,94) có dòng này.
+  - Lần gọi biến ứng viên 4 (đã bỏ dòng lịch sử) thành ứng viên 6 (đưa lại dòng này):
+    - một trong ba quỹ đạo được đưa cho model viết skill là task không mô tả, trên đó agent **không có chỉ dẫn** vẫn chạy `git log`, đọc "Bug Patch" và giải được;
+    - câu trả lời của model nhắc tới lịch sử commit;
+    - điểm tăng từ 0,78 lên 0,94.
+  - Lượt học sạch: 0/42 quỹ đạo có "Bug Patch".
+  - Theo diễn giải đặt trước, đây là **một trường hợp quan sát được** của cơ chế "agent tự tìm ra, bộ học khái quát thành chỉ dẫn". Lần gọi đầu tiên đã mất (A130).
+- **36c** (đảo đúng trong số lượt giải được, skill gốc):
+  - seed 41, môi trường gốc: 9/15 (không mô tả), 20/38 (có mô tả);
+  - một commit: 17/35 (có mô tả);
+  - 36 task mới (§35): 3/20.
+  - Tỉ lệ ở môi trường gốc không cao hơn rõ ràng. Theo diễn giải đặt trước, agent dùng commit để định vị lỗi chứ không chép bản sửa.
+- **36d:**
+  - Nhóm chỉ dẫn chung của hai skill: định dạng tương tác, sửa mã, chạy test. Chỉ skill gốc có nhóm cho task không mô tả (chứa chỉ dẫn lịch sử) và nhóm kiến thức riêng của Jinja.
+  - Trong môi trường một commit, tỉ lệ lượt chạy test: 85/100 (skill gốc) so với 50 (không skill); 82 (skill sạch) so với 55.
+  - Bản vá rỗng: 36 so với 63; 33 so với 60.
