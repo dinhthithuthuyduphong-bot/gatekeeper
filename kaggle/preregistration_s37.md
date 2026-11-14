@@ -71,3 +71,11 @@
   - xoá container dở dang của lần chạy bị ngắt trước khi giải nén lại.
 - **Kiểm tại máy của phiên làm việc** (bỏ `udocker` khỏi PATH): kéo 64 s, giải nén 47 s; P1 chạy được 33 test; chạy lại ô 3 chỉ hiện log; ô 4 (rút gọn) 4/4 bản vá trùng, gốc 2/2, không vá 0/2, 0 lỗi.
 
+### §37: lần chạy thứ sáu trên Kaggle (14/11/2026)
+- Tiến trình nền khởi động (pid 215), in thông tin môi trường, vào bước kéo image; nhịp ở giây 20 cho thấy đã dùng 0,8 GB, RAM trống 30,1 GB. Ô 3 dừng ngay sau đó, không có mã thoát; ô 4 báo `k0a_mode.txt` rỗng. Không biết tiến trình nền có chạy tiếp hay không.
+- **Ghi chú thực thi 37-5** (không đổi điều kiện đạt):
+  - ô 3, ô 4 chỉ khởi động việc nền rồi trả về ngay;
+  - ô 3b, 4b đọc log mỗi lần chạy, báo RUNNING, FINISHED hoặc STOPPED;
+  - nhịp RAM và đĩa do chính tiến trình nền ghi vào log, không phụ thuộc kernel.
+- **Kiểm tại máy của phiên làm việc** (bỏ `udocker` khỏi PATH): ô 3 trả về sau 0,02 s; ô 3b đọc được log khi đang chạy và khi xong; K0a chọn P1, 33 test qua; ô 4 (rút gọn) 4/4 trùng, gốc 2/2, không vá 0/2, 0 lỗi.
+
