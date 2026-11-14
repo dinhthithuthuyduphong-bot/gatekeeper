@@ -43,6 +43,7 @@ def probe() -> dict:
         "udocker_version": sh("udocker --allow-root version")[1][-120:],
         "disk_free_gb": round(du.free / 2**30, 1),
         "cpus": __import__("os").cpu_count(),
+        "udocker_execmode": __import__("os").environ.get("UDOCKER_EXECMODE", "default (P1)"),
     }
 
 

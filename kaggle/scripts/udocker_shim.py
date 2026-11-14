@@ -63,6 +63,11 @@ def base_container(image: str) -> str:
             r = _u("create", f"--name={name}", image)
             if r.returncode != 0:
                 raise RuntimeError(f"udocker create failed: {r.stderr.decode()[-300:]}")
+        mode = os.environ.get("UDOCKER_EXECMODE")  # chosen by the K0a probe of the notebook
+        if mode:
+            r = _u("setup", f"--execmode={mode}", name)
+            if r.returncode != 0:
+                raise RuntimeError(f"udocker setup {mode} failed: {r.stderr.decode()[-300:]}")
         _bases[image] = name
     return _bases[image]
 

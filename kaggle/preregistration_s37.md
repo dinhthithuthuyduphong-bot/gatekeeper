@@ -43,3 +43,15 @@
 - **K0c, K0d (gọi model):** chưa chạy được. Notebook thường không có `kaggle_benchmarks` và không có biến `MODEL_PROXY_*`.
 - **Ghi chú thực thi 37-2:** K0c, K0d chạy trong notebook tạo từ https://www.kaggle.com/benchmarks/tasks/new (cách duy nhất mà quick start của thư viện mô tả), bằng một ô duy nhất `kaggle/notebooks/k0cd_benchmarks_cell.py`. Ô này thêm bước đọc chữ ký hàm `prompt`, `send`, `respond` để biết có đặt được nhiệt độ, seed hay system prompt không. Không đổi điều kiện đạt nào.
 - **Hệ quả cần kiểm thêm:** nếu notebook Benchmarks không bật được Internet hoặc không chạy được udocker, agent và bộ chấm phải chạy ở hai notebook khác nhau. Khi đó cần một cách chuyển bản vá giữa hai notebook; sẽ quyết sau K0c, K0d.
+
+### §37: lần chạy thứ hai và thứ ba trên Kaggle (14/11/2026), và ghi chú thực thi 37-3
+- **Lần 2:** ô 4 báo lỗi vì `{CODE}` không được thay trong lệnh shell nhiều dòng. Đã đổi sang gọi bằng Python.
+- **Lần 3:** ô 1 và ô 2 chạy đúng (clone commit `266b606`, tìm thấy thư mục mã). Ô 3 không in gì, và ô 4 báo `NameError: name 'CODE' is not defined`. Như vậy kernel đã khởi động lại trong lúc chạy ô 3.
+- **Giả thuyết, chưa xác nhận:** udocker giải nén image (khoảng 4,7 GB, đo tại máy của phiên làm việc) vào `~/.udocker`, nằm trên đĩa hệ thống của Kaggle chứ không phải `/kaggle/working` (20 GB).
+- **Ghi chú thực thi 37-3** (không đổi điều kiện đạt nào):
+  - udocker đặt ở `/kaggle/working/udocker`;
+  - mỗi ô tự đủ biến, nên kernel khởi động lại thì chỉ cần chạy lại ô 1;
+  - K0a chạy trong tiến trình riêng (`kaggle/scripts/k0a_probe.py`), in tiến độ ngay và ghi `k0a.json` sau từng bước;
+  - K0a thử lần lượt các cách chạy của udocker (P1, P2, F1, F2, R1, R2) và dùng cách đầu tiên chạy được test; ô 4 dùng đúng cách đó;
+  - `k0a.json` ghi thêm: dung lượng trống của `/`, `~` và `/kaggle/working`, bộ nhớ, quyền (CapEff), user namespace, ptrace.
+- **Đã kiểm tại máy của phiên làm việc:** ô 2–3 chạy hết; P1 chạy được test (33 test qua); `k0a.json` và `k0a_mode.txt` được ghi.

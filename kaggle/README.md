@@ -15,10 +15,12 @@
 | `notebooks/kaggle_stage0.ipynb` | Notebook giai đoạn 0, phần A: K0a, K0b (notebook thường) |
 | `notebooks/k0cd_benchmarks_cell.py` | Giai đoạn 0, phần B: K0c, K0d (một ô, dán vào notebook Benchmarks) |
 | `scripts/udocker_shim.py` | Lớp thay thế Docker: mã chấm của SWE-smith chạy nguyên văn qua udocker |
+| `scripts/k0a_probe.py` | K0a: kéo image, thử các cách chạy của udocker, ghi `k0a.json` và `k0a_mode.txt` |
 | `scripts/k0_stage0.py` | Chạy K0a, K0b; ghi từng lượt chấm, chạy tiếp được khi bị ngắt |
 | `tests/test_udocker_shim.py` | Test của lớp thay thế (chạy: `python -m pytest -q kaggle/tests`) |
 | `results/k0b_local.jsonl` | K0b ở máy của phiên làm việc: 117/117 bản vá trùng điểm, gốc 20/20, không vá 0/20 |
 | `review_r66.md` | Review trước khi chạy (R-66) |
+| `audit.md` | Lỗi của hướng Kaggle (K1–K3) |
 
 ## Trạng thái (14/11/2026)
 
