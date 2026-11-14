@@ -2470,3 +2470,10 @@ Số liệu lấy từ file kết quả bằng script, không gõ tay.
 **Thứ tự chạy:** K0b chạy hai lần: ở máy của phiên làm việc (kiểm lớp thay thế), rồi trong notebook Kaggle (kiểm môi trường Kaggle). Chỉ kết quả trong Kaggle mới mở cổng cho các bước sau.
 
 **Chưa đăng ký ở đây:** chạy agent trong Kaggle (cần một lớp thay thế tương tự cho harness của gskill) và mọi thí nghiệm mới. Chúng có mục riêng sau khi cổng này đạt và @thuthuy quyết.
+
+### §37: kết quả K0b ở máy của phiên làm việc (14/11/2026; `results/k0b_local.jsonl`; chưa phải Kaggle)
+- **Môi trường (K0a):** không có Docker daemon; udocker 1.2.11; 4 CPU.
+- **Điểm chấm:** 117/117 bản vá khác rỗng của `f1_probe.json` và `f1_skill_probe.json` trùng điểm đã ghi dưới Docker (68 giải được, 49 không). Bản vá gốc 20/20; "không vá" 0/20. 157 lượt chấm, 0 lượt khác `completed`; trung vị 5,8 giây mỗi lượt.
+- **Đối chiếu điều kiện đạt:** đạt đủ bốn điều kiện, ở máy này.
+- **Ghi chú thực thi 37-1:** bản đăng ký ghi "các bản vá đã được chấm lại 448 lần". Con số 448 là của bốn file (224 bản vá × 2 lần, P26); hai file dùng ở K0b có 117 bản vá khác rỗng.
+- **Chưa kết luận gì về Kaggle:** cổng chỉ mở khi `notebooks/kaggle_stage0.ipynb` cho cùng kết quả trong Kaggle.
