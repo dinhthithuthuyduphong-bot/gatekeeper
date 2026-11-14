@@ -56,7 +56,7 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 </head>
 <body>
 <main>
-<p class="meta">Dự án Gatekeeper ·bản cập nhật 12/11/2026 · commit <code>42bcc64</code></p>
+<p class="meta">Dự án Gatekeeper ·bản cập nhật 13/11/2026 · commit <code>bc47015</code></p>
 <h1>Bộ học đã tìm ra chỗ rò rỉ: chứng nhận skill học được cho coding agent dưới đối chứng</h1>
 <p class="muted">Tên bài (tiếng Anh): <i>The Learner Found the Leak: Certifying Learned Coding-Agent Skills under Controls</i></p>
 
@@ -82,11 +82,17 @@ chỗ rò rỉ của môi trường đánh giá. Phát hiện này đã được
 <tr><td>36 task hoàn toàn mới</td><td>có skill: <b>20/36</b> khi còn lịch sử, <b>1/36</b> khi bỏ lịch sử; agent đọc commit chèn lỗi ở 36/36 lượt</td><td>mô tả</td></tr>
 <tr><td>Bịt rò rỉ ngay khi học</td><td>0/8 bản viết lại còn chỉ dẫn (trước đó 5/8); skill mới vẫn được chứng nhận (16 → 33)</td><td>xác nhận</td></tr>
 <tr><td>Agent mạnh hơn, <b>không skill</b> (Gemini Flash, 34 task không mô tả)</td><td>mở commit chèn lỗi ở <b>33/34</b> lượt; giải được <b>31/34</b> (model của nghiên cứu: 1/34); có skill 34/34</td><td>mô tả, đăng ký trước</td></tr>
+<tr><td>Bộ học tìm ra rò rỉ bằng cách nào (mới, §36)</td><td>trong một lần gọi model viết skill còn lưu, agent <b>không có chỉ dẫn</b> đã tự đọc commit chèn lỗi và giải được task; model viết skill đưa chỉ dẫn vào skill; điểm validation 0,78 → <b>0,94</b></td><td>mô tả, thăm dò</td></tr>
 <tr><td>Mức phổ biến của điều kiện rò rỉ</td><td><b>30,5%</b> trong 59.136 task của SWE-smith không có mô tả issue</td><td>đo trên toàn bộ dataset</td></tr>
 </table></div>
 <p>Phần mức tăng còn lại của skill là thật và vẫn được chứng nhận. Thông điệp của bài: một skill học được phải được chứng nhận
 theo từng phạm vi, bằng những đối chứng trong đó nguyên nhân được cho là có tác dụng bị loại bỏ.</p></div>
 <ul class="key">
+<li><b>Mới (13/11, §36, 0 USD): bộ học tìm ra rò rỉ bằng cách nào.</b> Trong log của lượt học, các bản viết lại có chỉ dẫn đọc lịch sử
+được điểm validation (bộ chấm L) cao hơn: trung bình <b>0,86</b> so với 0,74 (Jinja) và <b>0,84</b> so với 0,59 (Bleve). Một lần gọi model
+viết skill còn lưu cho thấy đúng đường đi: agent không có chỉ dẫn tự chạy <code>git log</code>, đọc “Bug Patch”, giải được task; model viết
+skill đưa chỉ dẫn vào và điểm tăng 0,78 → 0,94. Lượt học sạch: 0/42 quỹ đạo có commit chèn lỗi. Bản vá của agent phần lớn
+<b>không</b> chép bản đảo của commit (3/20 trên 36 task mới): agent dùng commit để định vị lỗi.</li>
 <li><b>Mới (12/11, §33): lặp lại với seed thứ hai.</b> Chạy lại cả bốn nhánh Jinja cùng lúc với seed 51 (400 lượt, 0 lỗi hạ tầng):
 môi trường gốc <b>55</b> so với 21 (p = 2,8·10<sup>−8</sup>); một commit <b>35</b> so với 17 (p = 4,6·10<sup>−4</sup>); cả hai được xác nhận
 theo Holm ở mức 0,025. Phần do rò rỉ: <b>0,16 [0,04; 0,28]</b>, so với 0,17 ở seed đầu.</li>
@@ -120,9 +126,10 @@ tăng 0,28.</li>
 <li>Bộ chấm công khai của gskill coi một bản vá không đổi gì là đạt ở 206/216 task,
 so với 0 theo bộ chấm của SWE-smith. Dưới phép thử A/A, quy tắc so sánh một lần với ngưỡng
 admit nhầm 0,46 số luồng; Gatekeeper 0,0032.</li>
-<li><b>Mới (phản biện 11/11, §31):</b> paper chứng minh e-process vẫn hợp lệ khi chạy mỗi task một lần theo thứ tự
-split (lấy không hoàn lại); mô phỏng H₀ cho tỉ lệ admit nhầm lớn nhất 0,0075. Mỗi admission có bảo đảm riêng ở
-α = 0,025; đọc cả 8 admission như một họ (α/8, ngưỡng 320) thì <b>6/7 vẫn đứng</b>, skill §30 thì không.</li>
+<li><b>Mới (phản biện 11/11, §31; cập nhật 13/11, §36):</b> paper chứng minh e-process vẫn hợp lệ khi chạy mỗi task một lần theo thứ tự
+split (lấy không hoàn lại); mô phỏng H₀ cho tỉ lệ admit nhầm lớn nhất 0,0075. Mỗi quyết định có bảo đảm riêng ở
+α = 0,025; đọc cả <b>12</b> quyết định e-process đã đăng ký như một họ (α/12, ngưỡng 480) thì <b>7/10 vẫn đứng</b>, kể cả phép xác nhận
+trên task chưa dùng; ba admission ở môi trường một commit (Bleve, seed 51, skill §30) thì không.</li>
 </ul>
 
 <h2 id="cau-hoi">2. Câu hỏi nghiên cứu và đóng góp</h2>
@@ -360,6 +367,13 @@ tức ngưỡng <b>320</b> thay vì 40. Chạy lại đúng quy tắc trên cùn
 <tr><td>Pygments, dùng lại</td><td>—</td><td>—</td></tr></table>
 <p>6/7 admission vẫn đứng, chỉ muộn hơn. Phân tích này chọn sau khi có dữ liệu nên chỉ là thăm dò, không thay quyết định đã đăng ký;
 kiểm định dấu của §30 (p = 2,4·10<sup>−4</sup>) là phép thử riêng, không bị ảnh hưởng.</p>
+<p><b>Cập nhật 13/11 (§36a):</b> sau §33 và §35, paper có 12 quyết định e-process đã đăng ký (8 ở trên, hai admission của seed 51,
+hai phép so môi trường). Đọc cả họ cần α/12, ngưỡng <b>480</b>:</p>
+<table><tr><th>Quyết định</th><th>Ở mức đăng ký</th><th>Ở α/12 (ngưỡng 480)</th></tr>
+<tr><td>6 admission ở môi trường gốc hoặc so với placebo / bỏ chỉ dẫn (Jinja gốc, Bleve gốc, nội dung, §29, seed 51 gốc) và Jinja một commit</td><td>bác bỏ</td><td><span class=ok>vẫn đứng (6)</span></td></tr>
+<tr><td>P35, phép xác nhận trên 70 task chưa dùng</td><td>bác bỏ</td><td><span class=ok>vẫn đứng (p = 4,2·10<sup>−4</sup>)</span></td></tr>
+<tr><td>Bleve một commit; seed 51 một commit; skill §30</td><td>bác bỏ</td><td><span class=bad>không còn đứng (3)</span></td></tr>
+<tr><td>P33c (so môi trường, seed 51); Pygments</td><td>không bác bỏ</td><td>—</td></tr></table>
 <h3>Độ nhạy của admission theo thứ tự task và theo θ (thăm dò, phản biện thứ ba)</h3>
 <p>Thứ tự task là <b>một lần rút</b> từ phép xáo có seed của gskill. Chạy lại đúng quy tắc trên 10.000 thứ tự ngẫu nhiên của
 cùng các cặp kết quả, và với hai biên θ đã dùng trong bảng thiết kế của paper (0,02 và 0,05; θ &gt; 0 nghĩa là chứng nhận mức tăng ít nhất θ):</p>
@@ -437,6 +451,22 @@ Chi phí 5,20 USD (trần 6,05); 11.679.895 token đầu vào (6.473.981 từ ca
 <p>Nhận định trung thực: với tác dụng lớn như ở đây, Gatekeeper cho <b>cùng quyết định</b> với kiểm định dấu cỡ mẫu cố định.
 Điều nó thêm vào là quyền dừng ở bất kỳ task nào mà vẫn giữ mức sai số: bảy admission của bài dừng sau trung bình 45 task,
 trong khi phép kiểm cỡ mẫu cố định được đăng ký ở 100. Hai mươi luồng không đủ để ước lượng một tỉ lệ sai.</p>
+<h3>Bộ học tìm ra rò rỉ bằng cách nào (§36, thăm dò, 0 USD)</h3>
+<p>Phân tích log của ba lượt học (Jinja gốc, Bleve, Jinja §30). gskill lưu mỗi lần gọi model viết skill cùng ba quỹ đạo agent mà model
+được xem. Lưu ý: log của nửa đầu mỗi lượt học bị gskill ghi đè khi chạy tiếp (lỗi A130), nên lần gọi <i>đầu tiên</i> viết chỉ dẫn đã mất.</p>
+<table><tr><th>Chỉ số</th><th>Jinja gốc</th><th>Bleve</th><th>Jinja §30 (bịt rò rỉ)</th></tr>
+<tr><td>Điểm validation (L) trung bình, ứng viên có chỉ dẫn lịch sử</td><td>0,86</td><td>0,84</td><td>— (không ứng viên nào)</td></tr>
+<tr><td>Điểm validation (L) trung bình, ứng viên không có</td><td>0,74</td><td>0,59</td><td>0,715</td></tr>
+<tr><td>Ứng viên tốt nhất có chỉ dẫn lịch sử</td><td>Có (0,94)</td><td>Có (0,86)</td><td>Không</td></tr>
+<tr><td>Quỹ đạo đưa cho model viết skill có “Bug Patch”</td><td>7/18</td><td>3/21</td><td><b>0/42</b></td></tr></table>
+<div class="flow"><div class="step"><b>Ứng viên 4</b><br><small>đã bỏ chỉ dẫn lịch sử; điểm 0,78</small></div><div class="arrow">↓</div><div class="step"><b>Một quỹ đạo được đưa cho model viết skill</b><br><small>task không mô tả; agent <b>không có chỉ dẫn</b> vẫn chạy <code>git log</code>, đọc “Bug Patch”, giải được</small></div><div class="arrow">↓</div><div class="step"><b>Model viết skill</b><br><small>câu trả lời nhắc lịch sử commit; đưa chỉ dẫn trở lại</small></div><div class="arrow">↓</div><div class="ends"><div style="background:#eaf7ef"><b>Ứng viên 6</b><br><small>có chỉ dẫn; điểm 0,94 (tốt nhất)</small></div><div style="background:#fff0f0"><b>Giới hạn</b><br><small>một trường hợp quan sát được, không phải tỉ lệ</small></div></div></div>
+<p><b>Bản vá có chép commit không?</b> Lỗi của SWE-smith là biến đổi nhỏ, nên bản sửa đúng hay trùng với bản đảo của commit. Tỉ lệ đảo đúng
+trong các lượt giải được: môi trường gốc 9/15 (không mô tả), 20/38 (có mô tả); một commit 17/35; 36 task mới chỉ 3/20. Không cao hơn
+ở môi trường gốc: agent dùng commit để <b>định vị</b> lỗi, rồi tự viết bản sửa.</p>
+<p><b>Hai skill giống nhau ở đâu?</b> Cả hai có nhóm chỉ dẫn về định dạng tương tác, sửa mã và chạy test; chỉ skill gốc có nhóm cho task
+không mô tả (chứa chỉ dẫn lịch sử). Trong môi trường một commit, tỉ lệ lượt chạy test: 85 so với 50 (skill gốc), 82 so với 55 (skill
+sạch); bản vá rỗng: 36 so với 63 và 33 so với 60. Phần lợi thật của cả hai skill chủ yếu là khiến agent chạy test và nộp bản sửa.</p>
+
 <h2 id="rq3">7. RQ3: Chuyển giao sang phạm vi khác</h2>
 <table><tr><th>Chỉ số</th><th>Kết quả</th></tr><tr><td>Không skill</td><td>5/100</td></tr><tr><td>Có skill</td><td>6/100</td></tr><tr><td>Chênh lệch</td><td>1 task</td></tr><tr><td>95% CI</td><td>[−0,02; 0,05]</td></tr><tr><td>p-value</td><td>1,00</td></tr><tr><td>Gatekeeper</td><td>Không admit</td></tr></table>
 <p>Skill Jinja được chứng nhận ở Jinja nhưng chưa có bằng chứng đủ mạnh về cải thiện ở Pygments. Admission phải gắn với scope. Vì tỷ lệ giải quyết nền thấp, không nên kết luận skill chắc chắn gây hại hoặc chắc chắn không thể chuyển giao.</p></section>
@@ -490,6 +520,10 @@ ghi rõ các giới hạn còn lại. Bản thảo 11 trang, trong đó phần n
 </ul>
 
 <ul>
+<li><b>Cập nhật 13/11 (§36):</b> thêm 3 hình (sơ đồ cơ chế; đường e-process theo số task; số task giải được trên 34 task không mô tả),
+đoạn “How the learner found it”, phân tích bản vá và hành vi của hai skill, cách đọc cả họ với K = 12. Chuyển định nghĩa loss nhiều mức,
+“harmful acceptance / clean-reuse coverage” và mục Sample Complexity (cùng hai bảng) xuống phụ lục; rút gọn đoạn về model khác hãng.
+Bản dựng không có dòng tràn lề; phần nội dung kết thúc ở trang 10, tổng 13 trang kể cả tài liệu tham khảo và phụ lục.</li>
 <li><b>Cập nhật 12/11:</b> đổi tên bài và viết lại tóm tắt quanh phát hiện rò rỉ; đưa kết quả §32, §33, §35 vào phần mở đầu, RQ2, đóng góp
 và kết luận; chuyển ba đối chứng phụ (quy lỗi, nhiễu chạy lại, MemGovern) xuống phụ lục. Bản dựng không có dòng tràn lề; phần nội dung
 kết thúc ở trang 10, tổng 12 trang kể cả tài liệu tham khảo và phụ lục.</li>
@@ -497,7 +531,7 @@ kết thúc ở trang 10, tổng 12 trang kể cả tài liệu tham khảo và 
 
 <h2 id="chi-phi">10. Ngân sách và chi phí</h2>
 <div class="tbl"><table>
-<caption>Chi tiêu USD của giai đoạn 06–12/11 (để kiểm soát ngân sách; theo sổ chi trong bản đăng ký)</caption>
+<caption>Chi tiêu USD của giai đoạn 06–13/11 (để kiểm soát ngân sách; theo sổ chi trong bản đăng ký)</caption>
 <tr><th>Hạng mục</th><th>Trần đã duyệt</th><th>Đã chi</th></tr>
 <tr><td>Kế hoạch tái hiện (§22, §23)</td><td class=n>60,00</td><td class=n>7,18</td></tr>
 <tr><td>Bleve và MemGovern (§25 bước 4, ô MemGovern)</td><td class=n>40,00</td><td class=n>21,16</td></tr>
@@ -509,6 +543,7 @@ kết thúc ở trang 10, tổng 12 trang kể cả tài liệu tham khảo và 
 <tr><td>Seed thứ hai, bốn nhánh Jinja (§33)</td><td class=n>8,35</td><td class=n>6,06</td></tr>
 <tr><td>Xác nhận trên 36 task mới (§35)</td><td class=n>3,95</td><td class=n>1,39</td></tr>
 <tr><td>Agent thứ hai trên 34 task (§34): bước đo thử 0,71 và phần còn lại 4,50</td><td class=n>6,05</td><td class=n>5,20</td></tr>
+<tr><td>Phân tích log học, bản vá, hành vi; hình cho paper (§36)</td><td class=n>—</td><td class=n>0,00</td></tr>
 </table></div>
 <div class="tbl"><table>
 <caption>Token đã ghi nhận (input gồm cả phần lấy từ cache)</caption>
@@ -539,7 +574,8 @@ trừ khi thầy thấy kết luận §30 là trọng tâm của bản nộp.</l
 <li><b>Các thí nghiệm phản biện thứ ba đề nghị (có phí):</b> model khác hãng (M2), thêm lượt học (M3), repo thật (M4), so sánh
 phương pháp admission trên luồng thật (M5), ablation các chỉ dẫn còn lại, nhiều seed, benchmark có tỉ lệ nền cao. Đề xuất ưu tiên
 nếu có ngân sách: M3 (lặp lượt học §30) vì nó củng cố đúng kết quả yếu nhất khi đọc cả họ; M2 chờ thầy duyệt đề tài như đã thống nhất.
-<b>Cập nhật 12/11:</b> “nhiều seed” và “so sánh phương pháp trên luồng thật” đã làm (§33, §32).</li>
+<b>Cập nhật 12/11:</b> “nhiều seed” và “so sánh phương pháp trên luồng thật” đã làm (§33, §32). <b>Cập nhật 13/11:</b> câu hỏi “phần lợi
+còn lại đến từ chỉ dẫn nào” đã có câu trả lời mô tả (§36d: chủ yếu là chạy test và nộp bản sửa); ablation từng nhóm chỉ dẫn vẫn cần tiền.</li>
 <li><b>Hai hướng mở rộng còn thiếu để vào hội nghị hạng cao nhất (có phí, chưa duyệt):</b> (a) task từ issue thật thay cho task tổng hợp,
 để trả lời câu hỏi về tính khái quát; (b) quan hệ liều – đáp ứng giữa tỉ lệ task không mô tả trong tập học và việc bộ học viết ra
 chỉ dẫn khai thác. Đề xuất: ưu tiên (a).</li>
