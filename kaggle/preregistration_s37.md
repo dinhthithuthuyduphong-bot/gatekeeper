@@ -35,3 +35,11 @@
 - **Đối chiếu điều kiện đạt:** đạt đủ bốn điều kiện, ở máy này.
 - **Ghi chú thực thi 37-1:** bản đăng ký ghi "các bản vá đã được chấm lại 448 lần". Con số 448 là của bốn file (224 bản vá × 2 lần, P26); hai file dùng ở K0b có 117 bản vá khác rỗng.
 - **Chưa kết luận gì về Kaggle:** cổng chỉ mở khi `kaggle/notebooks/kaggle_stage0.ipynb` cho cùng kết quả trong Kaggle.
+
+### §37: lần chạy đầu trên Kaggle (14/11/2026, do @thuthuy chạy; chép từ đầu ra của notebook)
+- **K0a, phần môi trường:** "Docker daemon: KHONG" (xác nhận notebook Kaggle không có Docker daemon); `/kaggle/working` có 20 GB đĩa. Mã được clone từ nhánh mặc định ở commit `d6362c1`.
+- **K0a, phần chạy image và K0b:** chưa chạy. Notebook dùng là bản cũ, đọc mã ở `scripts/` nên báo `No module named 'udocker_shim'` (mã đã chuyển sang `kaggle/scripts/`). Notebook bản mới tự tìm thư mục mã.
+- **K0c (hạn mức, đọc ở trang Settings):** AI theo ngày 10,00 USD; theo tháng 100,00 USD; GPU 30 giờ/tuần; TPU 20 giờ/tuần; dataset riêng 214,75 GB. Số theo ngày và theo tháng khớp với con số người dùng báo trong kaggle-benchmarks#76.
+- **K0c, K0d (gọi model):** chưa chạy được. Notebook thường không có `kaggle_benchmarks` và không có biến `MODEL_PROXY_*`.
+- **Ghi chú thực thi 37-2:** K0c, K0d chạy trong notebook tạo từ https://www.kaggle.com/benchmarks/tasks/new (cách duy nhất mà quick start của thư viện mô tả), bằng một ô duy nhất `kaggle/notebooks/k0cd_benchmarks_cell.py`. Ô này thêm bước đọc chữ ký hàm `prompt`, `send`, `respond` để biết có đặt được nhiệt độ, seed hay system prompt không. Không đổi điều kiện đạt nào.
+- **Hệ quả cần kiểm thêm:** nếu notebook Benchmarks không bật được Internet hoặc không chạy được udocker, agent và bộ chấm phải chạy ở hai notebook khác nhau. Khi đó cần một cách chuyển bản vá giữa hai notebook; sẽ quyết sau K0c, K0d.

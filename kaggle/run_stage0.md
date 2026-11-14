@@ -9,12 +9,17 @@ Mục đích: kiểm xem notebook Kaggle chấm được task SWE-smith với **
 4. Ở khung Settings bên phải: **Internet = On**, **Accelerator = None**.
 
 ## Chạy
-- Chạy lần lượt ô 1 đến ô 5.
-- Ô 4 mất khoảng 30–60 phút. Nếu phiên bị ngắt, chạy lại ô 1, 2 rồi ô 4: nó chạy tiếp từ chỗ dừng.
-- Ô 5 gọi model hai lần, tốn vài xu trong hạn mức AI.
+**Phần A: K0a, K0b (notebook thường).**
+- Dùng file `kaggle/notebooks/kaggle_stage0.ipynb` bản mới nhất của nhánh mặc định (bản cũ đọc mã ở `scripts/`, sẽ báo `No module named 'udocker_shim'`).
+- Chạy lần lượt ô 1 đến ô 4. Ô 4 mất khoảng 30–60 phút. Nếu phiên bị ngắt, chạy lại ô 1, 2 rồi ô 4: nó chạy tiếp từ chỗ dừng.
+
+**Phần B: K0c, K0d (notebook Benchmarks).**
+- Thư viện `kaggle_benchmarks` không có trong notebook thường (lần chạy 14/11 báo `No module named 'kaggle_benchmarks'`, và không có biến môi trường `MODEL_PROXY_*`).
+- Mở https://www.kaggle.com/benchmarks/tasks/new: Kaggle tạo một notebook có sẵn thư viện ("This will automatically create a new Kaggle notebook with `kaggle-benchmarks` and its dependencies pre-installed", quick start của kaggle-benchmarks).
+- Dán toàn bộ file `kaggle/notebooks/k0cd_benchmarks_cell.py` vào một ô và chạy. Ô này gọi model ba lần, tốn vài xu hạn mức.
 
 ## Gửi lại
-- Ba file trong `/kaggle/working/`: `k0a.json`, `k0b_kaggle.jsonl`, `k0cd.json`.
+- `k0a.json`, `k0b_kaggle.jsonl` (phần A) và `k0cd.json` (phần B), đều trong `/kaggle/working/`.
 - Ba ghi chú bằng tay: hạn mức AI theo ngày và tháng ở trang Settings; hạn mức bị trừ sau ô 5; câu điều khoản nói hạn mức được dùng cho việc gì.
 
 ## Điều kiện đạt (đã đăng ký trước)

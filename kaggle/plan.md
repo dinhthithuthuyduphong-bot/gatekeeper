@@ -6,7 +6,7 @@
 
 | Tài nguyên | Dùng cho | Mức chắc chắn |
 | --- | --- | --- |
-| Hạn mức gọi model (AI quota) | Gọi model khác hãng (Claude) và Gemini mà không cần khóa riêng. Người dùng báo 10 USD/ngày và 100 USD/tháng | Số lấy từ một thread GitHub tháng 3/2026 ([kaggle-benchmarks#76](https://github.com/Kaggle/kaggle-benchmarks/issues/76)); chưa đọc được trang chính thức |
+| Hạn mức gọi model (AI quota) | Gọi model khác hãng (Claude) và Gemini mà không cần khóa riêng | **Đã xác nhận ở trang Settings của tài khoản (14/11): 10 USD/ngày, 100 USD/tháng.** Chỉ gọi được trong notebook Benchmarks |
 | Máy CPU, khoảng 30 GB RAM, 70 GB đĩa, phiên tối đa 12 giờ | Chạy agent và chấm bài | Khá chắc |
 | 30 giờ GPU mỗi tuần | Model mã mở làm agent, trọng số cố định | Khá chắc; tốc độ phải đo |
 
