@@ -84,3 +84,8 @@ def start(limit):
         start_new_session=True,
     )
     print("download started; run show() again in 30-60 s")
+
+
+print("Đã nạp hai hàm: show() và start(...). Trạng thái hiện tại:")
+show()
+print("Bước tiếp: chạy start(None) trong một ô mới, rồi show() mỗi 30-60 giây.")
