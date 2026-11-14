@@ -56,7 +56,7 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 </head>
 <body>
 <main>
-<p class="meta">Dự án Gatekeeper ·bản cập nhật 13/11/2026 · commit <code>bc47015</code></p>
+<p class="meta">Dự án Gatekeeper ·bản cập nhật 14/11/2026 · paper ở commit <code>bc47015</code> (nhánh <code>main</code>)</p>
 <h1>Bộ học đã tìm ra chỗ rò rỉ: chứng nhận skill học được cho coding agent dưới đối chứng</h1>
 <p class="muted">Tên bài (tiếng Anh): <i>The Learner Found the Leak: Certifying Learned Coding-Agent Skills under Controls</i></p>
 
@@ -353,8 +353,8 @@ học lại khi bịt rò rỉ (0,17 [0,08; 0,26]). Hiệu số so với 0,21 l�
 <p>Với skill §30, agent gọi <code>git log</code>/<code>git show</code> ở 4/34 lượt và thấy commit “Bug Patch” ở 2/34 (skill gốc: 34/34).</p>
 <div class="box amber"><b>Giới hạn:</b> mỗi điều kiện chỉ có <b>một lượt học</b>, GEPA ngẫu nhiên, nên 0/8 là một quan sát chứ không phải tỉ lệ.
 34 task được chọn vì rò rỉ hiện rõ ở đó, không đại diện cho mọi task; không thêm kiểm định nào sau khi thấy dữ liệu.</div>
-<h3>Đọc các admission như một họ (thăm dò, §31)</h3>
-<p>Mỗi admission được đăng ký riêng ở α = 0,025. Nếu đọc cả 8 bài toán admission trong paper cùng lúc, cần α/8 = 0,003125,
+<h3>Đọc các admission như một họ (thăm dò, §31 và §36)</h3>
+<p><b>Bản đầu (11/11, trước khi có §33 và §35; bảng cập nhật với 12 quyết định nằm ngay bên dưới).</b> Mỗi admission được đăng ký riêng ở α = 0,025. Nếu đọc cả 8 bài toán admission khi đó cùng lúc, cần α/8 = 0,003125,
 tức ngưỡng <b>320</b> thay vì 40. Chạy lại đúng quy tắc trên cùng dữ liệu:</p>
 <table><tr><th>Luồng</th><th>Admit ở α (ngưỡng 40)</th><th>Admit ở α/8 (ngưỡng 320)</th></tr>
 <tr><td>Jinja, lịch sử gốc</td><td>29</td><td><span class=ok>46</span></td></tr>
@@ -490,9 +490,10 @@ Model khác hãng chưa chạy được (hạn mức, model đã ngừng, thiế
 <li><b>Gatekeeper không quyết định khác kiểm định dấu</b> trên 20 luồng đã thu; lợi ích đo được là dừng sớm, không phải quyết định đúng hơn.</li>
 <li><b>Một kênh rò rỉ</b> (lịch sử git); các kênh khác trong image chưa được thăm dò.</li>
 <li><b>Một lượt học cho mỗi điều kiện</b>: khác biệt giữa skill gốc và skill §30 không tách được khỏi biến thiên giữa các lượt học.</li>
-<li><b>Bảo đảm cho từng admission</b>, không phải cho cả họ; đọc cả họ (α/8) thì skill §30 không còn được admit.</li>
-<li><b>Chưa có</b>: model khác hãng, nhiều lượt học, repo thật (không tổng hợp), loss nhiều mức thay vì nhị phân, nhiều seed,
-benchmark có tỉ lệ giải nền cao để đo tác hại.
+<li><b>Bảo đảm cho từng quyết định</b>, không phải cho cả họ; đọc cả họ 12 quyết định (α/12) thì ba admission ở môi trường một commit (Bleve, seed 51, skill §30) không còn đứng.</li>
+<li><b>Log của nửa đầu mỗi lượt học đã mất</b> (gskill ghi đè khi chạy tiếp, lỗi A130): lần gọi đầu tiên viết chỉ dẫn đọc lịch sử không xem lại được; bằng chứng về cách bộ học tìm ra rò rỉ là một trường hợp, không phải tỉ lệ.</li>
+<li><b>Chưa có</b>: model khác hãng, nhiều lượt học, repo thật (không tổng hợp), loss nhiều mức thay vì nhị phân, seed thứ hai cho các
+nhánh ngoài bốn nhánh Jinja, đối chứng một commit cho Gemini Flash, benchmark có tỉ lệ giải nền cao để đo tác hại.
 Tất cả đều cần thí nghiệm có phí và đã ghi trong mục Threats của paper.</li>
 <li><b>Thứ tự trial</b>: bảo đảm cần thứ tự không phụ thuộc kết quả. Thứ tự do seed của gskill cố định, nhưng các lượt chạy
 song song trong vài giờ; nếu model của nhà cung cấp đổi giữa chừng thì kết quả có thể gắn với vị trí. Chưa thấy điều này, nhưng không loại trừ được.</li>
@@ -504,11 +505,26 @@ không lỗi nào làm đổi một kết luận đã đăng ký.</li>
 </ul>
 
 <h2 id="ban-thao">9. Tình trạng bản thảo</h2>
+<div class="tbl"><table>
+<caption>Hiện trạng (14/11/2026; nhánh <code>main</code>, commit <code>bc47015</code>)</caption>
+<tr><th>Mục</th><th>Hiện trạng</th></tr>
+<tr><td>Tên bài</td><td><i>The Learner Found the Leak: Certifying Learned Coding-Agent Skills under Controls</i></td></tr>
+<tr><td>Độ dài</td><td>13 trang mẫu IEEE hai cột: nội dung kết thúc ở trang 10, tài liệu tham khảo ở trang 11, phụ lục ở trang 12–13</td></tr>
+<tr><td>Hình và bảng</td><td>3 hình (sơ đồ cơ chế; đường e-process; 34 task không mô tả); bảng kết quả RQ2 ở thân bài; 2 bảng ở phụ lục</td></tr>
+<tr><td>Tài liệu tham khảo</td><td>45; mọi câu trích dẫn đã đối chiếu với bản gốc đã lưu</td></tr>
+<tr><td>Phụ lục</td><td>định nghĩa không dùng trong thí nghiệm; sample complexity; ba đối chứng phụ (quy lỗi, nhiễu chạy lại, MemGovern)</td></tr>
+<tr><td>Bản dựng</td><td>biên dịch sạch ở máy và ở CI; không có dòng tràn lề; không còn mục TODO</td></tr>
+<tr><td>Chưa làm</td><td>chuẩn bị nộp: ẩn danh, mục Data Availability, artifact, license; đối chiếu giới hạn trang khi có CfP</td></tr>
+</table></div>
+<p class="note"><b>Lưu ý về nhánh:</b> paper mới nhất nằm ở nhánh <code>main</code>. Nhánh mặc định của repo
+(<code>claude/gatekeeper-13-research-nxytoh</code>) có hai file báo cáo này giống hệt <code>main</code>, nhưng thư mục <code>paper/</code>
+ở đó còn là bản 12/11 (chưa có §36, chưa có hình).</p>
+<h3>Nhật ký thay đổi</h3>
 <ul>
-<li>Bản thảo 11 trang (mẫu IEEE hai cột; nội dung 9 trang, phần còn lại là tài liệu tham khảo), 45 tài liệu tham khảo; mọi câu trích dẫn đều đối chiếu với bản gốc đã lưu.
+<li>(10–11/11) Bản thảo khi đó 11 trang (mẫu IEEE hai cột; nội dung 9 trang), 45 tài liệu tham khảo; mọi câu trích dẫn đều đối chiếu với bản gốc đã lưu.
 Không còn mục TODO; bản dựng không có dòng tràn lề. Đã thêm mục Kết luận.</li>
-<li>Đã cắt mục Composition (không có thực nghiệm); giữ mục Sample Complexity (gắn với dữ liệu: ghép cặp tiết kiệm
-4,31 lần số lượt chạy).</li>
+<li>Đã cắt mục Composition (không có thực nghiệm). Mục Sample Complexity (ghép cặp tiết kiệm
+4,31 lần số lượt chạy) được giữ lúc đó; ngày 13/11 đã chuyển xuống phụ lục.</li>
 <li>Một bản phản biện bên ngoài (đánh giá tích cực) đã được trả lời: bổ sung cách hiểu ξ<sub>s</sub>, phiên bản bộ chấm,
 tính đối xứng làm luật GEPA không cải thiện khi tăng minibatch, và thí nghiệm ablation §29.</li>
 <li>Bản phản biện thứ hai (11/11) đã được trả lời: thêm Mệnh đề 1 (e-process hợp lệ khi chạy mỗi task một lần theo thứ tự split)
@@ -516,7 +532,7 @@ kèm chứng minh, test và mô phỏng; nói rõ bảo đảm cho từng admiss
 khi khoảng tin cậy chỉ chứa 0; tóm tắt rút về 3 phát hiện; tách RQ2 thành chuỗi nhân quả; đưa kết quả §30 vào paper.</li>
 <li>Bản phản biện thứ ba (M1–M6, 6 điểm phụ) đã được trả lời trong phạm vi không tốn tiền: làm rõ bảo đảm của Mệnh đề 1 là theo
 lần rút thứ tự (seed cố định trước khi có kết quả); kiểm trên 10.000 thứ tự ngẫu nhiên; độ nhạy theo θ; chi phí admission lại;
-ghi rõ các giới hạn còn lại. Bản thảo 11 trang, trong đó phần nội dung kết thúc ở trang 9.</li>
+ghi rõ các giới hạn còn lại.</li>
 </ul>
 
 <ul>
@@ -568,7 +584,7 @@ chưa có số token.</p>
 Đề xuất: thông báo, vì các phát hiện đã được kiểm trên mã đã ghim và bài không khẳng định gì về con số họ công bố.</li>
 <li><b>Phạm vi model:</b> đã có model thứ hai cùng hãng (§34). Model khác hãng vẫn chưa chạy.
 Đề xuất: giữ như hiện tại cho bản nộp và nêu rõ ở mục hạn chế; đây vẫn là hạn chế lớn nhất mà phản biện nêu.</li>
-<li><b>Củng cố §30 (có phí):</b> skill học lại được admit ở mức đăng ký nhưng không còn đứng khi đọc cả họ (α/8). Có thể thêm task
+<li><b>Củng cố §30 (có phí):</b> skill học lại được admit ở mức đăng ký nhưng không còn đứng khi đọc cả họ (α/12). Có thể thêm task
 hoặc thêm một lượt học để tăng bằng chứng; đây là ngân sách mới. Đề xuất: giữ như hiện tại và nêu rõ trong paper (đã làm),
 trừ khi thầy thấy kết luận §30 là trọng tâm của bản nộp.</li>
 <li><b>Các thí nghiệm phản biện thứ ba đề nghị (có phí):</b> model khác hãng (M2), thêm lượt học (M3), repo thật (M4), so sánh
