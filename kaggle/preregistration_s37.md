@@ -111,3 +111,9 @@
   - cả hai đều không làm khởi động lại → nguyên nhân nằm ở cách udocker giải nén; tự giải nén bằng `tar` (cùng quy tắc xoá file theo whiteout của OCI) rồi đưa vào udocker;
   - cả hai đều làm khởi động lại → Kaggle không chịu được việc giải nén image này; hướng udocker trên Kaggle dừng, cần cách khác (ví dụ chấm bài ở GitHub Actions như trước, chỉ gọi model ở Kaggle).
 
+### §37: kết quả phép thử giải nén (14/11/2026) và ghi chú thực thi 37-7
+- **Kết quả trên Kaggle:** `tar` thường giải nén 12 lớp vào `/tmp/rootfs` rồi vào `/kaggle/working/rootfs`; cả hai lần 84.148 file, 3,3 GB, mã thoát 0; boot id không đổi, uptime tăng (494 → 627 s). Theo diễn giải đặt trước: **lỗi nằm ở cách udocker giải nén**, không ở số file hay vị trí ghi.
+- **Đo tại máy của phiên làm việc:** lệnh `find` sau mỗi lớp của udocker gọi tổng cộng 2 tiến trình `chmod`. Giả thuyết "một tiến trình cho mỗi file" bị bác bỏ; thay đổi theo giả thuyết đó đã bỏ.
+- **Ghi chú thực thi 37-7** (không đổi điều kiện đạt): `udocker create` chạy nguyên văn, kèm ghi log từng lệnh và nhịp tài nguyên mỗi 5 giây; ô 3b tự cập nhật mỗi 5 giây. Mục đích: lần sau, nếu phiên khởi động lại, các dòng cuối trên trang cho biết lệnh nào đang chạy và tài nguyên lúc đó.
+- **Hướng dự phòng, đặt trước khi có kết quả:** nếu log cho thấy phiên chết trong một lệnh `tar` của udocker, sẽ giải nén bằng chính lệnh `tar -xzf --no-same-owner` đã chạy được ở phép thử, rồi áp các file whiteout theo đúng mã `_apply_whiteouts` của udocker. Kết quả phải qua lại phép so cây thư mục với `udocker create` gốc (đường dẫn, quyền, nhóm, kích thước, loại).
+

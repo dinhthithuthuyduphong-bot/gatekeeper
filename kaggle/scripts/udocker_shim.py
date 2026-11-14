@@ -189,6 +189,38 @@ sys.exit(main())
 """
 
 
+# `udocker create` restarted the Kaggle session (kaggle/audit.md K10, K11), while plain tar
+# unpacking of the same layers did not. This runs udocker's own `create` UNCHANGED, but prints every
+# command it starts (tar, find, ...) with time and duration, and a heartbeat every 5 s (free RAM,
+# number of processes, load), so that the last lines before a restart show where it happened.
+_CREATE = """
+import os, subprocess, sys, threading, time, types
+import udocker.container.structure as st
+def beat():
+    while True:
+        mem = [l for l in open('/proc/meminfo') if l.startswith('MemAvailable')][0].split()[1]
+        procs = len([p for p in os.listdir('/proc') if p.isdigit()])
+        load = open('/proc/loadavg').read().split()[0]
+        print(f'    [beat {time.strftime("%T")}] RAM free {int(mem) // 2**20} GB, '
+              f'processes {procs}, load {load}', flush=True)
+        time.sleep(5)
+threading.Thread(target=beat, daemon=True).start()
+_call = subprocess.call
+def call(cmd, *a, **k):
+    t = time.time()
+    print(f'    [{time.strftime("%T")}] start: {" ".join(map(str, cmd))[:160]}', flush=True)
+    rc = _call(cmd, *a, **k)
+    print(f'    [{time.strftime("%T")}] end (rc {rc}, {time.time() - t:.1f} s)', flush=True)
+    return rc
+ns = {n: getattr(subprocess, n) for n in dir(subprocess) if not n.startswith('__')}
+ns['call'] = call
+st.subprocess = types.SimpleNamespace(**ns)
+from udocker.maincmd import main
+sys.argv[0] = 'udocker'
+sys.exit(main())
+"""
+
+
 def pull(image: str) -> None:
     """Make the image available to udocker. Default: curl into an OCI layout, then `udocker load`
     (UDOCKER_PULL=udocker uses `udocker pull` instead)."""
@@ -226,9 +258,20 @@ def base_container(image: str) -> str:
         name = "base_" + "".join(c if c.isalnum() else "_" for c in image)[-60:]
         if _u("inspect", "-p", name).returncode != 0:
             pull(image)
-            r = _u("create", f"--name={name}", image)
+            # output not captured: it goes to the caller's stdout (k0a.log), line by line
+            r = subprocess.run(
+                [
+                    sys.executable,
+                    "-c",
+                    _CREATE,
+                    "--allow-root",
+                    "create",
+                    f"--name={name}",
+                    image,
+                ]
+            )
             if r.returncode != 0:
-                raise RuntimeError(f"udocker create failed: {r.stderr.decode()[-300:]}")
+                raise RuntimeError(f"udocker create failed (rc {r.returncode}); see the log above")
         mode = os.environ.get("UDOCKER_EXECMODE")  # chosen by the K0a probe of the notebook
         if mode:
             r = _u("setup", f"--execmode={mode}", name)
