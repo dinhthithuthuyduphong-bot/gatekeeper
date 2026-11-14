@@ -55,3 +55,10 @@
   - K0a thử lần lượt các cách chạy của udocker (P1, P2, F1, F2, R1, R2) và dùng cách đầu tiên chạy được test; ô 4 dùng đúng cách đó;
   - `k0a.json` ghi thêm: dung lượng trống của `/`, `~` và `/kaggle/working`, bộ nhớ, quyền (CapEff), user namespace, ptrace.
 - **Đã kiểm tại máy của phiên làm việc:** ô 2–3 chạy hết; P1 chạy được test (33 test qua); `k0a.json` và `k0a_mode.txt` được ghi.
+
+### §37: lần chạy thứ tư trên Kaggle (14/11/2026)
+- **Đo được:** `/` và `~` còn 967 GB trống, `/kaggle/working` 19,4 GB; RAM 31 GB; chạy bằng root; ptrace_scope = 1; user namespace có (tối đa 128.361).
+- **Giả thuyết của ghi chú 37-3 sai:** đĩa hệ thống không thiếu. Lý do kernel khởi động lại ở lần 3 vẫn chưa rõ; từ nay việc nặng chạy trong tiến trình riêng nên không còn phụ thuộc vào điều đó.
+- **Lỗi lần này (K4):** tiến trình con không thấy lệnh `udocker` (`FileNotFoundError`). Đã sửa: udocker được gọi qua gói Python của chính trình thông dịch.
+- **Kiểm tại máy của phiên làm việc, bỏ `udocker` khỏi PATH như trên Kaggle:** ô 2–4 chạy hết; K0a chọn P1; 4/4 bản vá trùng điểm; bản vá gốc 2/2; không vá 0/2; 0 lượt lỗi.
+

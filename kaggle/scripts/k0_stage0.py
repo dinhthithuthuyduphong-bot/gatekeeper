@@ -40,7 +40,7 @@ def probe() -> dict:
         "python": sys.version.split()[0],
         "docker_binary": shutil.which("docker"),
         "docker_daemon": sh("docker info")[0] == 0,
-        "udocker_version": sh("udocker --allow-root version")[1][-120:],
+        "udocker_cmd": " ".join(__import__("udocker_shim").UDOCKER[:1]),
         "disk_free_gb": round(du.free / 2**30, 1),
         "cpus": __import__("os").cpu_count(),
         "udocker_execmode": __import__("os").environ.get("UDOCKER_EXECMODE", "default (P1)"),

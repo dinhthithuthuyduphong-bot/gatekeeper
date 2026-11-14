@@ -25,12 +25,28 @@ import shlex
 import shutil
 import signal
 import subprocess
+import sys
 import tarfile
 import tempfile
 import uuid
 from pathlib import Path
 
-UDOCKER = shlex.split(os.environ.get("UDOCKER_CMD", "udocker --allow-root"))
+
+def _udocker_cmd() -> list[str]:
+    """The udocker command line. UDOCKER_CMD if set; else the `udocker` script on PATH; else the
+    udocker package of this very interpreter (on Kaggle the script may not be on the PATH that a
+    subprocess sees, while the package is importable)."""
+    if os.environ.get("UDOCKER_CMD"):
+        return shlex.split(os.environ["UDOCKER_CMD"])
+    if shutil.which("udocker"):
+        return ["udocker", "--allow-root"]
+    entry = (
+        "import sys; from udocker.maincmd import main; sys.argv[0] = 'udocker'; sys.exit(main())"
+    )
+    return [sys.executable, "-c", entry, "--allow-root"]
+
+
+UDOCKER = _udocker_cmd()
 WORKDIR = "/testbed"  # swesmith.constants DOCKER_WORKDIR
 _bases: dict[str, str] = {}  # image -> base container name
 

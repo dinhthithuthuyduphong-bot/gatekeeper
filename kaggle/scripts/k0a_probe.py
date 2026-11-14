@@ -41,7 +41,9 @@ def main() -> int:
     ap.add_argument("--image", required=True)
     ap.add_argument("--out-dir", required=True, type=Path)
     a = ap.parse_args()
-    u = ["udocker", "--allow-root"]
+    import udocker_shim
+
+    u = udocker_shim.UDOCKER
     env = {
         "UDOCKER_DIR": os.environ.get("UDOCKER_DIR", "(unset: ~/.udocker)"),
         "whoami": sh("whoami"),
@@ -56,7 +58,10 @@ def main() -> int:
         "disk_home_gb": round(shutil.disk_usage(os.path.expanduser("~")).free / 2**30, 1),
         "disk_out_gb": round(shutil.disk_usage(a.out_dir).free / 2**30, 1),
         "mem": sh("free -g | sed -n 2p"),
-        "udocker_version": sh("udocker --allow-root version")[-120:],
+        "udocker_cmd": " ".join(u[:1] + u[-1:]),
+        "udocker_version": subprocess.run([*u, "version"], capture_output=True, text=True).stdout[
+            -160:
+        ],
     }
     log(json.dumps(env, indent=1))
     out = {"env": env, "attempts": [], "chosen": None}
@@ -64,8 +69,6 @@ def main() -> int:
     def save() -> None:
         (a.out_dir / "k0a.json").write_text(json.dumps(out, indent=1))
         (a.out_dir / "k0a_mode.txt").write_text(out["chosen"] or "")
-
-    import udocker_shim
 
     os.environ.pop("UDOCKER_EXECMODE", None)
     log("step 1/2: pull and unpack the image (a few minutes the first time) ...")
