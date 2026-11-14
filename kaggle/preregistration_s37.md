@@ -79,3 +79,8 @@
   - nhịp RAM và đĩa do chính tiến trình nền ghi vào log, không phụ thuộc kernel.
 - **Kiểm tại máy của phiên làm việc** (bỏ `udocker` khỏi PATH): ô 3 trả về sau 0,02 s; ô 3b đọc được log khi đang chạy và khi xong; K0a chọn P1, 33 test qua; ô 4 (rút gọn) 4/4 trùng, gốc 2/2, không vá 0/2, 0 lỗi.
 
+### §37: lần chạy thứ bảy trên Kaggle (14/11/2026)
+- Phiên mới; ô 3 chạy khi chưa có mã (`CODE = None`), K0a dừng ngay với mã thoát 2; bấm lại ô 3 báo "already finished".
+- Không có điểm chấm nào được tạo; không ảnh hưởng điều kiện đạt.
+- Đã sửa (K7) và kiểm tại máy của phiên làm việc: ô 3 trên phiên trống dừng với thông báo "chạy ô 2 trước"; sau một lần chạy lỗi, bấm lại ô 3 khởi động lại và K0a chạy xong (P1, 33 test qua, mã thoát 0); bấm ô 3 lần nữa báo "already finished well".
+
