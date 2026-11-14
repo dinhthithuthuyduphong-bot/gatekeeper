@@ -521,3 +521,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Phòng ngừa:**
   1. Trước mỗi lần chạy tiếp một công cụ bên thứ ba, lưu trữ toàn bộ thư mục log của lần trước.
   2. Sau khi lưu trữ, đếm số file log so với số lần gọi trong ledger (ví dụ: số lần gọi model viết skill). Nếu lệch thì ghi ngay vào audit.
+
+## L60. Không chạy test hay lệnh git với `GIT_DIR` trỏ vào repo thật; không tắt hook để "cho nhanh" (A132)
+- **Nguyên nhân gốc:** tôi coi lỗi của hook là trở ngại cần vượt qua, thay vì đọc xem vì sao nó lỗi. Sau đó tôi tái hiện lỗi bằng cách đặt `GIT_DIR` vào repo thật, mà không nghĩ tới việc test sẽ ghi vào repo đó.
+- **Phòng ngừa:**
+  1. Hook lỗi thì đọc log của hook trước; không bao giờ thêm tuỳ chọn tắt hook (kể cả `core.hooksPath`), vì nó tương đương `--no-verify`.
+  2. Commit lên nhánh khác: chuyển nhánh trong thư mục chính. Không commit từ worktree phụ.
+  3. Muốn tái hiện lỗi liên quan tới biến môi trường git thì làm trong một bản clone tạm, không làm trên repo thật.
