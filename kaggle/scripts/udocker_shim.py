@@ -63,11 +63,161 @@ def _root(name: str) -> Path:
     return p
 
 
+_MEDIA = ", ".join(
+    [
+        "application/vnd.docker.distribution.manifest.v2+json",
+        "application/vnd.oci.image.manifest.v1+json",
+        "application/vnd.docker.distribution.manifest.list.v2+json",
+        "application/vnd.oci.image.index.v1+json",
+    ]
+)
+
+
+def _fetch_oci(image: str, dest: Path) -> None:
+    """Download an image from Docker Hub with curl into an OCI layout at `dest`, checking the
+    sha256 of every blob. (On Kaggle, `udocker pull` restarted the whole session; a plain curl
+    download of the same layer did not: kaggle/audit.md K8.)"""
+    import hashlib
+    import json
+    import urllib.request
+
+    repo, _, tag = image.partition(":")
+    tag = tag or "latest"
+    tok = json.load(
+        urllib.request.urlopen(
+            f"https://auth.docker.io/token?service=registry.docker.io&scope=repository:{repo}:pull"
+        )
+    )["token"]
+    base = f"https://registry-1.docker.io/v2/{repo}"
+
+    def get(url: str, accept: str = _MEDIA) -> bytes:
+        """GET with retries on 429 (Docker Hub's rate limit, shared by every user of an IP)."""
+        import time
+        import urllib.error
+
+        req = urllib.request.Request(
+            url, headers={"Authorization": f"Bearer {tok}", "Accept": accept}
+        )
+        for wait in (0, 30, 60, 120, 240):
+            time.sleep(wait)
+            try:
+                return urllib.request.urlopen(req).read()
+            except urllib.error.HTTPError as e:
+                if e.code != 429:
+                    raise
+                print(f"registry rate limit (429); retrying in {wait * 2 or 30} s", flush=True)
+        raise RuntimeError("Docker Hub rate limit (429) after 5 attempts")
+
+    raw = get(f"{base}/manifests/{tag}")
+    man = json.loads(raw)
+    if "manifests" in man:  # an index: take linux/amd64
+        d = next(
+            x
+            for x in man["manifests"]
+            if x.get("platform", {}).get("architecture") == "amd64"
+            and x.get("platform", {}).get("os", "linux") == "linux"
+        )
+        raw = get(f"{base}/manifests/{d['digest']}")
+        man = json.loads(raw)
+    blobs = dest / "blobs" / "sha256"
+    blobs.mkdir(parents=True, exist_ok=True)
+    seen = set()
+    for b in [man["config"], *man["layers"]]:
+        if b["digest"] in seen:
+            continue
+        seen.add(b["digest"])
+        hexd = b["digest"].split(":", 1)[1]
+        out = blobs / hexd
+        r = subprocess.run(
+            [
+                "curl",
+                "-sSfL",
+                "-H",
+                f"Authorization: Bearer {tok}",
+                "-o",
+                str(out),
+                f"{base}/blobs/{b['digest']}",
+            ],
+            capture_output=True,
+        )
+        if r.returncode != 0:
+            raise RuntimeError(f"curl {b['digest'][:19]} failed: {r.stderr.decode()[-300:]}")
+        h = hashlib.sha256()
+        with open(out, "rb") as fh:
+            for chunk in iter(lambda: fh.read(1 << 20), b""):
+                h.update(chunk)
+        if h.hexdigest() != hexd:
+            raise RuntimeError(f"sha256 mismatch for {b['digest'][:19]}")
+    mdig = hashlib.sha256(raw).hexdigest()
+    (blobs / mdig).write_bytes(raw)
+    (dest / "oci-layout").write_text(json.dumps({"imageLayoutVersion": "1.0.0"}))
+    index = {
+        "schemaVersion": 2,
+        "manifests": [
+            {
+                # udocker's OCI loader reads only entries of this media type; the manifest blob
+                # itself keeps the registry's own media type and bytes
+                "mediaType": "application/vnd.oci.image.manifest.v1+json",
+                "digest": f"sha256:{mdig}",
+                "size": len(raw),
+                "annotations": {"org.opencontainers.image.ref.name": tag},
+            }
+        ],
+    }
+    (dest / "index.json").write_text(json.dumps(index))
+
+
+# `udocker load` moves each layer file into its repository (os.rename). An image whose layer list
+# names the same layer twice (the Jinja image does) then fails on the
+# second move. This runs udocker's own `load` with one change: a layer already in the repository
+# is registered again instead of moved again. The bytes and the order of the layers are unchanged.
+_LOAD = """
+import os, sys
+import udocker.commonlocalfile as c
+_orig = c.CommonLocalFileApi._move_layer_to_v1repo
+def _move(self, filepath, layer_id, linkname=None):
+    if not os.path.exists(filepath) and ':' in layer_id and not filepath.endswith('json'):
+        target = self.localrepo.layersdir + '/' + layer_id.split(':', 1)[1] + '.layer'
+        if os.path.exists(target):
+            self.localrepo.add_image_layer(target, linkname)
+            return True
+    return _orig(self, filepath, layer_id, linkname)
+c.CommonLocalFileApi._move_layer_to_v1repo = _move
+from udocker.maincmd import main
+sys.argv[0] = 'udocker'
+sys.exit(main())
+"""
+
+
 def pull(image: str) -> None:
-    if _u("inspect", image).returncode != 0:
+    """Make the image available to udocker. Default: curl into an OCI layout, then `udocker load`
+    (UDOCKER_PULL=udocker uses `udocker pull` instead)."""
+    if _u("inspect", image).returncode == 0:
+        return
+    if os.environ.get("UDOCKER_PULL") == "udocker":
         r = _u("pull", image)
         if r.returncode != 0:
             raise RuntimeError(f"udocker pull {image} failed: {r.stderr.decode()[-300:]}")
+        return
+    work = Path(tempfile.mkdtemp(prefix="oci_", dir=os.environ.get("UDOCKER_DIR")))
+    try:
+        layout = work / "layout"
+        _fetch_oci(image, layout)
+        tar = work / "image.tar"
+        r = subprocess.run(["tar", "-cf", str(tar), "-C", str(layout), "."], capture_output=True)
+        if r.returncode != 0:
+            raise RuntimeError(f"tar failed: {r.stderr.decode()[-300:]}")
+        shutil.rmtree(layout)
+        repo = image.partition(":")[0]
+        _u("rmi", image)  # a half-loaded image left by an interrupted or failed load
+        r = subprocess.run(
+            [sys.executable, "-c", _LOAD, "--allow-root", "load", "-i", str(tar), repo],
+            capture_output=True,
+        )
+        if r.returncode != 0 or _u("inspect", image).returncode != 0:
+            raise RuntimeError(f"udocker load failed: {(r.stdout + r.stderr).decode()[-400:]}")
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
 
 
 def base_container(image: str) -> str:

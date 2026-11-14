@@ -95,3 +95,11 @@
   - phiên không khởi động lại → nguyên nhân nằm ở udocker (cách nó kéo hoặc ghi image); đổi sang tải lớp bằng `curl` rồi nạp vào udocker.
 - Tại máy của phiên làm việc, phép thử tải 467 MB trong 24 giây và in đúng nhật ký.
 
+### §37: kết quả phép thử chẩn đoán (14/11/2026) và ghi chú thực thi 37-6
+- **Kết quả trên Kaggle:** `curl` tải lớp lớn nhất (466.932.925 byte) trong 1,8 s; boot id không đổi, uptime tăng (870 → 1073 s), `/kaggle/working` còn nguyên. Theo diễn giải đặt trước: **tải lớn không làm phiên khởi động lại; nguyên nhân nằm ở udocker.**
+- **Ghi chú thực thi 37-6** (không đổi điều kiện đạt):
+  - không dùng `udocker pull`: image được tải bằng `curl` từ Docker Hub vào dạng OCI, kiểm sha256 của từng blob, rồi nạp bằng mã `load` của chính udocker;
+  - image Jinja có một lớp lặp lại hai lần trong danh sách lớp. `udocker load` di chuyển file lớp nên lần thứ hai thiếu file; lớp đã có được đăng ký lại thay vì di chuyển lần nữa. Byte và thứ tự lớp không đổi;
+  - chờ và thử lại khi Docker Hub trả 429 (giới hạn tần suất theo IP).
+- **Kiểm tại máy của phiên làm việc:** tải và nạp 59 s, giải nén 46 s, 33 test qua. Chấm lại một phần qua đường mới: 17/17 bản vá trùng điểm đã ghi, gốc 5/5, không vá 0/5, 0 lỗi.
+
