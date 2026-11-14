@@ -117,3 +117,9 @@
 - **Ghi chú thực thi 37-7** (không đổi điều kiện đạt): `udocker create` chạy nguyên văn, kèm ghi log từng lệnh và nhịp tài nguyên mỗi 5 giây; ô 3b tự cập nhật mỗi 5 giây. Mục đích: lần sau, nếu phiên khởi động lại, các dòng cuối trên trang cho biết lệnh nào đang chạy và tài nguyên lúc đó.
 - **Hướng dự phòng, đặt trước khi có kết quả:** nếu log cho thấy phiên chết trong một lệnh `tar` của udocker, sẽ giải nén bằng chính lệnh `tar -xzf --no-same-owner` đã chạy được ở phép thử, rồi áp các file whiteout theo đúng mã `_apply_whiteouts` của udocker. Kết quả phải qua lại phép so cây thư mục với `udocker create` gốc (đường dẫn, quyền, nhóm, kích thước, loại).
 
+### §37: K0a đạt trên Kaggle (14/11/2026, lần chạy thứ mười hai)
+- Ô 3b: giải nén 46 s; còn 14,7 GB trống; cách chạy P1: setup và run mã thoát 0; `git log` thấy `83b7314 Initial commit`; Python 3.10.16; 33 test qua; mã thoát 0.
+- **K0a đạt trên Kaggle:** image của task chạy được không cần Docker daemon (P1).
+- Lần này `udocker create` chạy nguyên văn (chỉ thêm log) và không làm phiên khởi động lại. Các lần hỏng trước (K10) vì vậy chưa có lời giải thích; log từng lệnh và nhịp tài nguyên được giữ lại cho các bước sau.
+- Ô 4b báo "not started" cho K0b: chưa rõ ô 4 chưa khởi động K0b hay phiên đã khởi động lại. Ô 4b nay tự in dòng mới mỗi 5 giây và cho biết log của K0a còn hay mất.
+
