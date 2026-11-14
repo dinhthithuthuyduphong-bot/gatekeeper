@@ -103,3 +103,11 @@
   - chờ và thử lại khi Docker Hub trả 429 (giới hạn tần suất theo IP).
 - **Kiểm tại máy của phiên làm việc:** tải và nạp 59 s, giải nén 46 s, 33 test qua. Chấm lại một phần qua đường mới: 17/17 bản vá trùng điểm đã ghi, gốc 5/5, không vá 0/5, 0 lỗi.
 
+### §37: lần chạy thứ mười (14/11/2026) và phép thử chẩn đoán thứ hai
+- Bước tải và nạp image theo ghi chú 37-6 chạy xong (ô 3b thấy bước 1b). Sau đó ô 3b báo `k0a: not started`: phiên lại khởi động lại, lần này ở bước giải nén (`udocker create`).
+- **Phép thử** `kaggle/notebooks/k0_diag_extract.py`: giải nén 12 lớp của image bằng `tar` thường (không dùng udocker), in số file và dung lượng sau mỗi lớp. Tại máy của phiên làm việc: 84.148 file, 3,3 GB.
+- **Diễn giải đặt trước:**
+  - giải nén vào `/tmp` không làm phiên khởi động lại, còn vào `/kaggle/working` thì có → nguyên nhân là ghi nhiều file vào thư mục đầu ra; đặt udocker ở ngoài `/kaggle/working`;
+  - cả hai đều không làm khởi động lại → nguyên nhân nằm ở cách udocker giải nén; tự giải nén bằng `tar` (cùng quy tắc xoá file theo whiteout của OCI) rồi đưa vào udocker;
+  - cả hai đều làm khởi động lại → Kaggle không chịu được việc giải nén image này; hướng udocker trên Kaggle dừng, cần cách khác (ví dụ chấm bài ở GitHub Actions như trước, chỉ gọi model ở Kaggle).
+
