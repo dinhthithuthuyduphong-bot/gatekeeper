@@ -84,3 +84,14 @@
 - Không có điểm chấm nào được tạo; không ảnh hưởng điều kiện đạt.
 - Đã sửa (K7) và kiểm tại máy của phiên làm việc: ô 3 trên phiên trống dừng với thông báo "chạy ô 2 trước"; sau một lần chạy lỗi, bấm lại ô 3 khởi động lại và K0a chạy xong (P1, 33 test qua, mã thoát 0); bấm ô 3 lần nữa báo "already finished well".
 
+### §37: lần chạy thứ tám trên Kaggle (14/11/2026) và phép thử chẩn đoán
+- Ô 3b thấy K0a bắt đầu bước kéo image (1a). Khoảng một phút sau, ô 3b báo `k0a: not started`: file log không còn, nghĩa là `/kaggle/working` đã bị xoá và **cả phiên Kaggle đã khởi động lại**.
+- Các lần 3, 5, 6 dừng cùng chỗ (bước kéo image), nên nhiều khả năng cùng nguyên nhân.
+- **Chưa sửa.** Phép thử `kaggle/notebooks/k0_diag_download.py`:
+  - tải lớp lớn nhất của image Jinja (445 MB) bằng `curl` thẳng từ Docker Hub, không dùng udocker;
+  - in boot id, uptime và nội dung `/kaggle/working`.
+- **Diễn giải đặt trước:**
+  - phiên khởi động lại ở cả lần tải không giới hạn tốc độ → nguyên nhân là tải lớn hoặc tốc độ tải; thử lại với `--limit-rate 20M`;
+  - phiên không khởi động lại → nguyên nhân nằm ở udocker (cách nó kéo hoặc ghi image); đổi sang tải lớp bằng `curl` rồi nạp vào udocker.
+- Tại máy của phiên làm việc, phép thử tải 467 MB trong 24 giây và in đúng nhật ký.
+
