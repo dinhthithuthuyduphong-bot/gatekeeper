@@ -62,3 +62,12 @@
 - **Lỗi lần này (K4):** tiến trình con không thấy lệnh `udocker` (`FileNotFoundError`). Đã sửa: udocker được gọi qua gói Python của chính trình thông dịch.
 - **Kiểm tại máy của phiên làm việc, bỏ `udocker` khỏi PATH như trên Kaggle:** ô 2–4 chạy hết; K0a chọn P1; 4/4 bản vá trùng điểm; bản vá gốc 2/2; không vá 0/2; 0 lượt lỗi.
 
+### §37: lần chạy thứ năm trên Kaggle (14/11/2026)
+- Ô 1 cài được udocker 1.3.17 (udockertools 1.2.11) vào `/usr/bin/python3`; udocker có trên PATH.
+- Ô 3 in thông tin môi trường rồi dừng sau "step 1/2: pull and unpack the image", không có mã thoát; ô 4 báo `k0a_mode.txt` rỗng. Như lần 3, kernel bị ngắt trong lúc kéo hoặc giải nén image, lần này kéo theo cả tiến trình con.
+- **Ghi chú thực thi 37-4** (không đổi điều kiện đạt):
+  - K0a và K0b chạy tách hẳn khỏi kernel, ghi `k0a.log`, `k0b.log`, in nhịp tiến độ mỗi 20 giây (dung lượng đã dùng, RAM còn trống);
+  - tách bước kéo và bước giải nén để biết chỗ dừng;
+  - xoá container dở dang của lần chạy bị ngắt trước khi giải nén lại.
+- **Kiểm tại máy của phiên làm việc** (bỏ `udocker` khỏi PATH): kéo 64 s, giải nén 47 s; P1 chạy được 33 test; chạy lại ô 3 chỉ hiện log; ô 4 (rút gọn) 4/4 bản vá trùng, gốc 2/2, không vá 0/2, 0 lỗi.
+

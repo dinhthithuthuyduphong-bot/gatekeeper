@@ -16,6 +16,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -71,9 +72,19 @@ def main() -> int:
         (a.out_dir / "k0a_mode.txt").write_text(out["chosen"] or "")
 
     os.environ.pop("UDOCKER_EXECMODE", None)
-    log("step 1/2: pull and unpack the image (a few minutes the first time) ...")
+    log("step 1a/2: pull the image layers (1-3 minutes the first time) ...")
+    t = time.time()
     try:
+        udocker_shim.pull(a.image)
+        log(f"pulled in {time.time() - t:.0f} s")
+        log("step 1b/2: unpack the image into a container (1-3 minutes) ...")
+        stale = "base_" + "".join(c if c.isalnum() else "_" for c in a.image)[-60:]
+        if udocker_shim._u("inspect", "-p", stale).returncode == 0:  # left by an interrupted run
+            udocker_shim._u("rm", "-f", stale)
+            log("removed a container left by an earlier, interrupted run")
+        t = time.time()
         name = udocker_shim.base_container(a.image)
+        log(f"unpacked in {time.time() - t:.0f} s")
     except Exception as e:  # noqa: BLE001 - reported, the probe stops here
         out["error"] = f"{type(e).__name__}: {str(e)[-600:]}"
         log("FAILED:", out["error"])
