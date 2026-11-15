@@ -43,7 +43,7 @@ def test_analysis_counts_and_bound():
         {"sha256": "s5", "model": "m", "ok": True, "response": no},
         {"sha256": "s5", "model": "m", "ok": False, "error": "x"},
     ]
-    e = ba.analyse(prompts, res, 0.25)["auditors"]["m"]
+    e = ba.analyse(prompts, res, 0.25, lenient=False)["auditors"]["m"]
     assert e["unparsed"] == 1 and e["n_ok"] == 6
     assert e["real"] == {"k": 2, "n": 4, "share": 0.5, "lower_bound": 0.25}
     assert e["sham"]["k"] == 1 and e["plain"]["k"] == 0
@@ -61,3 +61,11 @@ def test_paper_counts_reproduced_from_saved_rows():
         rows = json.loads((ROOT / "results" / f"{f}.json").read_text())["rows"]
         sham = [r for r in rows if r["condition"] == "sham"]
         assert sum(bool((r.get("decision") or {}).get("attributed")) for r in sham) == k
+
+
+def test_lenient_reading_only_for_unparsed_replies():
+    bad = '{\n  "attributed": true,\n  "confidence": 0. nine,\n  "category": "x"}'
+    assert ba.decide(bad, lenient=False) == (False, False)
+    assert ba.decide(bad, lenient=True) == (True, False)
+    ok = '{"attributed": false, "confidence": 0.5, "category": "x"}'
+    assert ba.decide(ok, lenient=True) == (False, True)

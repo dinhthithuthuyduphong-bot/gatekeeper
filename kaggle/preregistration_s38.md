@@ -140,4 +140,13 @@ Một quỹ đạo **cho thấy rò rỉ** khi một quan sát trả về cho ag
     Không cần giảm seed hay bỏ ô.
   - **Trần ngày (vận hành):** A 7,0 USD và B 2,5 USD mỗi phiên, thay cho 8 USD của mỗi ô. Hai ô chạy cùng ngày vẫn dưới hạn mức 10 USD/ngày của Kaggle (hôm nay đã dùng 0,47).
   - **Họ kiểm định Holm:** 4 model khác hãng (Haiku, nano, Grok, oss), K = 4, như đã mô phỏng power.
+- **38-4 (15/11, sau phiên chạy 1; chưa tính endpoint nào).**
+  - **Đã chạy:** 177 lần gọi, 174 có câu trả lời. Tiền Kaggle báo: 6,91 USD (dừng ở trần ngày 7,0).
+    - Seed 1 gần đủ; seed 2 đã bắt đầu.
+    - Mọi câu trả lời đều có khối ```; không câu trả lời rỗng.
+  - **3 lần gọi Gemini bị Kaggle từ chối** (403: "The max estimated cost of operation ($0.83) exceeds your available quota (based on max_output_tokens)"). Lúc đó hạn mức ngày gần hết (0,47 + 2,50 + 6,91 = 9,88 trên 10 USD).
+    - Đây là lỗi hạ tầng, không có câu trả lời, nên được gửi lại ở phiên sau theo §5.
+    - Lỗi này cũng xác nhận rằng hết hạn mức thì Kaggle từ chối chứ không tính tiền.
+  - **Chi phí thật cao hơn dự kiến:** Gemini trung bình 0,102 USD mỗi lần gọi (3.628 token đầu ra), Grok 0,075. Dự kiến mới cho cả mục A là khoảng 19–20 USD, vẫn dưới trần 40 USD.
+  - **Phiên sau:** chạy B trước (còn 69 lần gọi, khoảng 0,7 USD), rồi A. Tổng hai trần ngày vẫn dưới 10 USD.
 

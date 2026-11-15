@@ -17,10 +17,15 @@ from __future__ import annotations
 import argparse
 import gzip
 import json
+import re
 import sys
 from pathlib import Path
 
 from scipy.stats import beta
+
+# Note 39-2 (registered after 5 of 339 replies of session 1 were seen to fail parse, before any
+# count was computed): a secondary reading takes "attributed": true/false from an unparsed reply.
+LENIENT = re.compile(r'"attributed"\s*:\s*(true|false)', re.IGNORECASE)
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -33,7 +38,16 @@ def cp95(k: int, n: int) -> list[float]:
     return [lo, hi]
 
 
-def analyse(prompts: list[dict], results: list[dict], upper: float) -> dict:
+def decide(text: str, lenient: bool) -> tuple[bool, bool]:
+    """(attributed, parsed) by section 19 C's parse; lenient also reads LENIENT if that fails."""
+    d = parse(text)
+    if d is not None:
+        return bool(d.get("attributed")), True
+    m = LENIENT.search(text or "") if lenient else None
+    return (m is not None and m.group(1).lower() == "true"), False
+
+
+def analyse(prompts: list[dict], results: list[dict], upper: float, lenient: bool) -> dict:
     cond = {p["sha256"]: p["condition"] for p in prompts}
     out = {"U": upper, "auditors": {}}
     for m in sorted({r["model"] for r in results}):
@@ -41,9 +55,9 @@ def analyse(prompts: list[dict], results: list[dict], upper: float) -> dict:
         att: dict[str, list[bool]] = {"real": [], "sham": [], "plain": []}
         unparsed = 0
         for r in rows:
-            d = parse(r["response"])
-            unparsed += d is None
-            att[cond[r["sha256"]]].append(bool((d or {}).get("attributed")))
+            a, parsed = decide(r["response"], lenient)
+            unparsed += not parsed
+            att[cond[r["sha256"]]].append(a)
         e = {"n_ok": len(rows), "unparsed": unparsed}
         for c in ("sham", "plain"):
             k, n = sum(att[c]), len(att[c])
@@ -69,7 +83,11 @@ def main() -> int:
     prompts = [json.loads(x) for x in gzip.open(a.prompts, "rt")]
     results = [json.loads(x) for f in a.results for x in f.read_text().splitlines() if x.strip()]
     s21 = json.loads((ROOT / "results" / "section21.json").read_text())
-    res = analyse(prompts, results, s21["P_A"]["upper95_task_cluster"])
+    u = s21["P_A"]["upper95_task_cluster"]
+    res = {
+        "primary": analyse(prompts, results, u, lenient=False),
+        "secondary_lenient_parse": analyse(prompts, results, u, lenient=True),
+    }
     a.out.write_text(json.dumps(res, indent=1) + "\n")
     print(json.dumps(res, indent=1))
     return 0

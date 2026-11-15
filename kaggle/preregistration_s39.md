@@ -47,3 +47,13 @@ Paper hiện viết "We tested single auditors with one prompt". Kết quả §3
 
 ## 5. Ghi chú thực thi
 - **39-1 (15/11):** áp dụng ghi chú 38-2 của §38: nhiệt độ không được đặt (giống §19 C), Grok không nhận `seed`, tiền tính theo chi phí Kaggle báo. Model chọn theo danh sách ứng viên và sai lệch D-38a.
+- **39-2 (15/11, sau phiên chạy 1; chưa đếm quyết định nào).**
+  - **Đã chạy:** 339/408 lần gọi, không lỗi. Tiền Kaggle báo: 2,50 USD (dừng ở trần ngày 2,5).
+    - Grok tốn 0,027 USD mỗi lần gọi, cao hơn dự kiến.
+    - Dự kiến mới cho cả B là khoảng 3,0 USD, dưới trần 8 USD.
+  - **Câu trả lời không đọc được:** 5/339 (oss 3, nano 1, Haiku 1).
+    - Đã xem 5 câu này khi kiểm chất lượng: JSON sai cú pháp (ví dụ `"confidence": 0. nine`, xuống dòng trong chuỗi), dù trường `attributed` vẫn viết rõ.
+    - Quy tắc chính **giữ nguyên**: không đọc được thì tính là "không quy lỗi". Quy tắc này nghiêng về phía bác bỏ câu chữ của paper.
+    - Thêm một cách đọc **phụ**, đặt sau khi thấy 5 câu trả lời này, nên chỉ báo cáo kèm theo: với câu trả lời không đọc được, lấy giá trị từ `"attributed": true|false`. Cả hai cách đọc đều được báo cáo.
+  - **Lưu trữ:** câu trả lời thô có văn bản trích quỹ đạo. Vì vậy chỉ commit file quyết định đã đọc (`kaggle/results/b39_decisions_*.jsonl`, giống §19 C). Bản thô nằm ở thư mục tạm của phiên và trong Output của notebook Kaggle.
+
