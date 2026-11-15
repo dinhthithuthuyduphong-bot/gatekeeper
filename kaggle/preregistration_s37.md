@@ -123,3 +123,9 @@
 - Lần này `udocker create` chạy nguyên văn (chỉ thêm log) và không làm phiên khởi động lại. Các lần hỏng trước (K10) vì vậy chưa có lời giải thích; log từng lệnh và nhịp tài nguyên được giữ lại cho các bước sau.
 - Ô 4b báo "not started" cho K0b: chưa rõ ô 4 chưa khởi động K0b hay phiên đã khởi động lại. Ô 4b nay tự in dòng mới mỗi 5 giây và cho biết log của K0a còn hay mất.
 
+### §37: lần chạy thứ mười ba (14–15/11/2026) và ghi chú thực thi 37-8
+- Log K0a trên Kaggle (`k0a.log`, `k0a.json` do @thuthuy gửi): tải và nạp 106 s; giải nén 66 s, mọi lệnh `tar` và `find` của udocker trả mã 0; RAM trống 28–30 GB; P1 chạy được 33 test.
+- K0b khởi động; lượt chấm đầu (`f1_probe.json`, `func_basic__arv5rwp0`): ghi dưới Docker là giải được, Kaggle chấm giải được.
+- Khoảng 2 giờ sau, cả hai log đều mất: phiên tương tác tự tắt khi không ai thao tác.
+- **Ghi chú thực thi 37-8** (không đổi điều kiện đạt): K0a và K0b chạy bằng notebook chạy theo lô (`kaggle/notebooks/kaggle_stage0_batch.ipynb`, Save Version → Save & Run All), tiền cảnh, kết quả lưu cùng phiên bản. Đã kiểm tại máy của phiên làm việc (rút gọn): P1; 4/4 bản vá trùng; gốc 2/2; không vá 0/2; 0 lỗi; đủ 6 file kết quả.
+

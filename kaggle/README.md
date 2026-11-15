@@ -12,6 +12,7 @@
 | `plan.md` | Toàn bộ kế hoạch: tài nguyên, nút thắt, giai đoạn 0–3, việc không sửa được |
 | `preregistration_s37.md` | Bản đăng ký trước của giai đoạn 0 (§37) và kết quả đến nay |
 | `run_stage0.md` | Hướng dẫn chạy notebook trên Kaggle |
+| `notebooks/kaggle_stage0_batch.ipynb` | Giai đoạn 0, phần A, **chạy theo lô** (Save & Run All): cách chạy chính từ 15/11 |
 | `notebooks/kaggle_stage0.ipynb` | Notebook giai đoạn 0, phần A: K0a, K0b (notebook thường) |
 | `notebooks/k0cd_benchmarks_cell.py` | Giai đoạn 0, phần B: K0c, K0d (một ô, dán vào notebook Benchmarks) |
 | `scripts/udocker_shim.py` | Lớp thay thế Docker: mã chấm của SWE-smith chạy nguyên văn qua udocker |
