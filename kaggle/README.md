@@ -9,7 +9,8 @@
 
 | File | Là gì |
 | --- | --- |
-| `plan.md` | Toàn bộ kế hoạch: tài nguyên, nút thắt, giai đoạn 0–3, việc không sửa được |
+| `plan_v2.md` | **Kế hoạch hiện hành (15/11):** dùng hạn mức AI cho việc thuần văn bản; chưa duyệt |
+| `plan.md` | Kế hoạch bản 1 (giai đoạn 1–3 của bản này không còn khả thi) |
 | `preregistration_s37.md` | Bản đăng ký trước của giai đoạn 0 (§37) và kết quả đến nay |
 | `run_stage0.md` | Hướng dẫn chạy notebook trên Kaggle |
 | `notebooks/kaggle_stage0_batch.ipynb` | Giai đoạn 0, phần A, **chạy theo lô** (Save & Run All): cách chạy chính từ 15/11 |
