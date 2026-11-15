@@ -18,7 +18,7 @@ CELL = ROOT / "kaggle" / "notebooks" / "a38_run_cell.py"
 
 
 def _cell_ns():
-    ns = {"__name__": "a38_test"}
+    ns = {"__name__": "cell_test"}
     exec(compile(CELL.read_text(), str(CELL), "exec"), ns)
     return ns
 

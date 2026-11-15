@@ -17,6 +17,7 @@ import time
 import urllib.request
 
 # ---- filled in from P0 before this file is sent (registered in preregistration_s38.md, 38-P0) ----
+NAME = "a38"  # section 38; kaggle/notebooks/b39_run_cell.py is this file with its own block
 COMMIT = "__DATA_COMMIT__"
 SHA256 = "2e6425aa48553a2fd337e57935ab924f69bb27348441dda4730ec1e57e718b02"
 MODELS = {}  # kaggle model key -> measured USD per call on the P0 prompt (74,305 characters)
@@ -31,9 +32,9 @@ MAX_ERRORS_IN_A_ROW = 3  # then that model is skipped for this session
 WORK, INPUT = "/kaggle/working", "/kaggle/input"
 URL = (
     "https://raw.githubusercontent.com/dinhthithuthuyduphong-bot/gatekeeper/"
-    f"{COMMIT}/kaggle/data/a38_prompts.jsonl.gz"
+    f"{COMMIT}/kaggle/data/{NAME}_prompts.jsonl.gz"
 )
-OUT = WORK + "/a38_results_" + time.strftime("%Y%m%dT%H%M%SZ", time.gmtime()) + ".jsonl"
+OUT = WORK + f"/{NAME}_results_" + time.strftime("%Y%m%dT%H%M%SZ", time.gmtime()) + ".jsonl"
 
 
 def extract_skills(response_text: str) -> str:
@@ -48,7 +49,7 @@ def extract_skills(response_text: str) -> str:
 
 
 def load_prompts() -> list[dict]:
-    local = glob.glob(INPUT + "/**/a38_prompts.jsonl.gz", recursive=True)
+    local = glob.glob(INPUT + f"/**/{NAME}_prompts.jsonl.gz", recursive=True)
     raw = open(local[0], "rb").read() if local else urllib.request.urlopen(URL, timeout=120).read()
     if hashlib.sha256(raw).hexdigest() != SHA256:
         raise SystemExit("data file does not match the registered sha256; stopping")
@@ -57,8 +58,8 @@ def load_prompts() -> list[dict]:
 
 def previous() -> list[dict]:
     rows = []
-    for f in sorted(set(glob.glob(INPUT + "/**/a38_results_*.jsonl", recursive=True))) + sorted(
-        glob.glob(WORK + "/a38_results_*.jsonl")
+    for f in sorted(set(glob.glob(INPUT + f"/**/{NAME}_results_*.jsonl", recursive=True))) + sorted(
+        glob.glob(WORK + f"/{NAME}_results_*.jsonl")
     ):
         for line in open(f):
             if line.strip():
@@ -129,5 +130,5 @@ def main() -> None:
     print("all done" if not left else f"saved {OUT}; download it and attach it next time")
 
 
-if __name__ != "a38_test":
+if __name__ != "cell_test":
     main()

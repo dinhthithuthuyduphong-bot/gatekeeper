@@ -15,7 +15,10 @@
 | `notebooks/a38_run_cell.py` | Chạy chính §38 (một ô; chạy mỗi ngày đến khi in "all done") |
 | `data/a38_prompts.jsonl.gz` | 33 dòng prompt của §38 (dựng bằng `scripts/a38_build.py`) |
 | `scripts/a38_analyse.py`, `scripts/a38_power.py` | Phân tích đã đăng ký; mô phỏng power |
-| `review_r67.md` | Review trước khi chạy §38 (R-67) |
+| `review_r67.md` | Review trước khi chạy §38 và §39 (R-67) |
+| `preregistration_s39.md` | §39 (mục B): auditor khác hãng trên 102 prompt sham-audit |
+| `notebooks/b39_run_cell.py` | Chạy §39 (giống ô §38 ngoài khối cấu hình; dữ liệu là dataset riêng tư) |
+| `scripts/b39_build.py`, `scripts/b39_analyse.py` | Dựng lại prompt từ dữ liệu gốc E1; phân tích đã đăng ký |
 | `plan.md` | Kế hoạch bản 1 (giai đoạn 1–3 của bản này không còn khả thi) |
 | `preregistration_s37.md` | Bản đăng ký trước của giai đoạn 0 (§37) và kết quả đến nay |
 | `run_stage0.md` | Hướng dẫn chạy notebook trên Kaggle |
@@ -39,6 +42,6 @@
 | 0, trong Kaggle (cũ) | Đã có: không có Docker daemon; hạn mức AI 10 USD/ngày, 100 USD/tháng. Chờ chạy lại phần A bằng notebook mới, và phần B trong notebook Benchmarks |
 | 1–3 (container) | Không khả thi trên Kaggle |
 | §38 (mục A) | Đã đăng ký, test xong; chờ chạy P0 |
-| §39 (mục B) | Chưa viết (cần dựng lại prompt từ dữ liệu gốc E1) |
+| §39 (mục B) | Đã đăng ký, test xong; chờ P0 |
 
 Chi phí đến nay: 0 USD.

@@ -23,3 +23,9 @@
   - với model giả lập: notebook dừng ở trần ngày, chạy tiếp không gửi lại lần gọi đã có, và từ chối khi cấu hình chưa điền.
 - **Mô phỏng (L11):** `a38_power.py`. Tỉ lệ bác bỏ dưới H0 là 0,011 ở mức 0,025; power 0,92 khi chênh lệch là 0,8 so với 0,2.
 - **Chưa kiểm được:** thư viện `kaggle_benchmarks` có nhận `temperature=None` không, và có báo chi phí mỗi lần gọi không (P0 đo).
+
+### Bổ sung: §39 (mục B)
+- **Dữ liệu:** 102 prompt dựng lại bằng `build_prompt` không sửa, trên 58 lô gốc của E1. Không so được byte với bản gốc (đã mất); kiểm gián tiếp bằng tỉ lệ ký tự trên token (2,35–4,04). File không commit vì chứa quỹ đạo.
+- **Ô chạy:** giống hệt ô §38 ngoài khối cấu hình (test). `SEEDS=(1,)`, không đặt nhiệt độ, như §19 C.
+- **Phân tích:** dùng `parse` của §19 C. Quy tắc đếm áp lên các dòng Gemini đã lưu cho lại đúng 25, 3, 5 trên 25 của paper (test).
+- **Test:** `kaggle/tests/test_b39.py`, 5 test, đạt.
