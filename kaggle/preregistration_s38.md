@@ -99,4 +99,4 @@ Một quỹ đạo **cho thấy rò rỉ** khi một quan sát trả về cho ag
   - thư viện Kaggle có thể thêm system prompt của riêng nó (không kiểm được từ notebook).
 
 ## 7. Ghi chú thực thi
-(chưa có)
+- **38-1 (15/11, trước P0):** @thuthuy xác nhận: "Tài khoản không gắn thanh toán". Hết hạn mức thì Kaggle không thể tính tiền thật. P0 đang chạy.
