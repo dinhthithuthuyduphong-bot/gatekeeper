@@ -20,7 +20,7 @@ import time
 import traceback
 import urllib.request
 
-COMMIT = "__DATA_COMMIT__"  # commit of kaggle/data/a38_prompts.jsonl.gz (filled in before sending)
+COMMIT = "989d6ec31818ece5a2762d9380493a7e92dfbee9"  # holds the data file
 SHA256 = "2e6425aa48553a2fd337e57935ab924f69bb27348441dda4730ec1e57e718b02"  # sha256 of that file
 URL = (
     "https://raw.githubusercontent.com/dinhthithuthuyduphong-bot/gatekeeper/"
