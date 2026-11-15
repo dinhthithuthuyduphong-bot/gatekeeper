@@ -141,3 +141,17 @@
 - **Phần còn mở:** K0c, K0d (hạn mức gọi model trong notebook Benchmarks), dùng cho việc thuần văn bản (phương án 2), chờ @thuthuy quyết.
 - Không có số liệu nào của paper phụ thuộc vào thư mục này; `main` không đổi.
 
+### §37: K0c, K0d trong notebook Benchmarks (15/11/2026, do @thuthuy chạy; `kaggle_benchmarks` 0.6.3)
+- **K0c (model có sẵn):** 37 model của 4 hãng và một họ trọng số mở:
+  - Anthropic (Claude Haiku, Sonnet, Opus, nhiều phiên bản);
+  - OpenAI (GPT-5.4 đến GPT-6.1, cả `gpt-oss-120b` trọng số mở);
+  - xAI (Grok 4.5–4.7);
+  - Google (Gemini 2.5–4, Gemma 4).
+  Model mặc định là một model Gemini Flash. Hạn mức: 10 USD/ngày, 100 USD/tháng (trang Settings). Mức trừ của ô này: chờ @thuthuy báo.
+- **K0d (giao diện):**
+  - `prompt()` là một lượt: lượt thứ hai không thấy lượt đầu (`reply_2`: "This is the start of our conversation…");
+  - hội thoại nhiều lượt và system prompt đi qua `respond(system=..., input_messages=[...])` (có trong chữ ký hàm; chưa chạy thử);
+  - `prompt()` nhận `seed` (mặc định 0) và `temperature` (mặc định 0), cùng `reasoning` và `extra_api_params`.
+- Trong notebook có các biến `MODEL_PROXY_URL` và `MODEL_PROXY_API_KEY`. Khóa này chỉ dùng trong notebook Kaggle; không mang ra ngoài.
+- **Đánh giá:** gọi model khác hãng từ Kaggle là khả thi cho việc thuần văn bản. Chạy agent thì vẫn vướng phần container (K14).
+
