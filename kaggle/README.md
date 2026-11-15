@@ -9,7 +9,13 @@
 
 | File | Là gì |
 | --- | --- |
-| `plan_v2.md` | **Kế hoạch hiện hành (15/11):** dùng hạn mức AI cho việc thuần văn bản; chưa duyệt |
+| `plan_v2.md` | **Kế hoạch hiện hành (15/11):** dùng hạn mức AI cho việc thuần văn bản; @thuthuy duyệt A và B ngày 15/11 |
+| `preregistration_s38.md` | §38 (mục A): model viết skill khác hãng trên 32 prompt gskill đã lưu |
+| `notebooks/a38_p0_cell.py` | P0: đo chi phí, kiểm `temperature=None` (một ô, notebook Benchmarks) |
+| `notebooks/a38_run_cell.py` | Chạy chính §38 (một ô; chạy mỗi ngày đến khi in "all done") |
+| `data/a38_prompts.jsonl.gz` | 33 dòng prompt của §38 (dựng bằng `scripts/a38_build.py`) |
+| `scripts/a38_analyse.py`, `scripts/a38_power.py` | Phân tích đã đăng ký; mô phỏng power |
+| `review_r67.md` | Review trước khi chạy §38 (R-67) |
 | `plan.md` | Kế hoạch bản 1 (giai đoạn 1–3 của bản này không còn khả thi) |
 | `preregistration_s37.md` | Bản đăng ký trước của giai đoạn 0 (§37) và kết quả đến nay |
 | `run_stage0.md` | Hướng dẫn chạy notebook trên Kaggle |
@@ -31,6 +37,8 @@
 | 0, ở máy của phiên làm việc | Đạt K0a, K0b |
 | 0, trong Kaggle (cập nhật 15/11) | K0a đạt một lần; K0b không hoàn thành (Kaggle ngắt phiên nhiều lần); **dừng việc chạy container trên Kaggle** (K14). K0c, K0d chờ quyết |
 | 0, trong Kaggle (cũ) | Đã có: không có Docker daemon; hạn mức AI 10 USD/ngày, 100 USD/tháng. Chờ chạy lại phần A bằng notebook mới, và phần B trong notebook Benchmarks |
-| 1–3 | Chưa duyệt |
+| 1–3 (container) | Không khả thi trên Kaggle |
+| §38 (mục A) | Đã đăng ký, test xong; chờ chạy P0 |
+| §39 (mục B) | Chưa viết (cần dựng lại prompt từ dữ liệu gốc E1) |
 
 Chi phí đến nay: 0 USD.

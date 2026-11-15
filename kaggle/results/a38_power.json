@@ -1,0 +1,54 @@
+{
+ "reps": 2000,
+ "alpha": 0.025,
+ "k": 4,
+ "calls": [
+  6,
+  7
+ ],
+ "seeds": 3,
+ "rows": [
+  {
+   "p_leak": 0.9,
+   "p_noleak": 0.1,
+   "reject_at_alpha": 1.0,
+   "reject_at_alpha_over_k": 0.989
+  },
+  {
+   "p_leak": 0.8,
+   "p_noleak": 0.2,
+   "reject_at_alpha": 0.9165,
+   "reject_at_alpha_over_k": 0.7165
+  },
+  {
+   "p_leak": 0.7,
+   "p_noleak": 0.3,
+   "reject_at_alpha": 0.5155,
+   "reject_at_alpha_over_k": 0.2445
+  },
+  {
+   "p_leak": 0.6,
+   "p_noleak": 0.4,
+   "reject_at_alpha": 0.1195,
+   "reject_at_alpha_over_k": 0.027
+  },
+  {
+   "p_leak": 0.9,
+   "p_noleak": 0.5,
+   "reject_at_alpha": 0.6165,
+   "reject_at_alpha_over_k": 0.3145
+  },
+  {
+   "p_leak": 0.5,
+   "p_noleak": 0.5,
+   "reject_at_alpha": 0.0105,
+   "reject_at_alpha_over_k": 0.001
+  },
+  {
+   "p_leak": 0.2,
+   "p_noleak": 0.2,
+   "reject_at_alpha": 0.0075,
+   "reject_at_alpha_over_k": 0.001
+  }
+ ]
+}
