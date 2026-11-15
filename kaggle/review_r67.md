@@ -1,7 +1,7 @@
 ## R-67. §38 mục A: model viết skill khác hãng (P0 và chạy chính; chỉ hạn mức miễn phí của Kaggle)
 
 - **Đối chiếu bản đăng ký:** `kaggle/preregistration_s38.md` được commit trước mọi lần gọi model của §38. Dữ liệu đã thấy trước khi đăng ký: phân loại 27 lần gọi của §36 (đã công bố trong paper), và nội dung các dòng lịch sử của skill cha và skill con (để định nghĩa endpoint G).
-- **Nguồn (R1):** đã đọc bản gốc `train_optimize_anything.py` và `gepa/lm.py` ở commit ghim `8c7b697`, kiểm sha256. Đã thêm `gskill_proposer_call`, `gepa_lm_defaults` vào `configs/sources.json` (main, `e1240b3`); chờ workflow `sources` lưu đoạn trích.
+- **Nguồn (R1):** đã đọc bản gốc `train_optimize_anything.py` và `gepa/lm.py` ở commit ghim `8c7b697`, kiểm sha256. Đã thêm `gskill_proposer_call`, `gepa_lm_defaults` vào `configs/sources.json` (main, `e1240b3`). Workflow `sources` (lần 67) đã lưu đoạn trích; sha256 trùng bản đã đọc, đủ 8/8 câu cần dùng.
 - **Con số (R2):**
   - 6/7/14/6 lần gọi, 32 prompt khác nhau: suy ra từ dữ liệu;
   - α = 0,025 một phía: mức đã dùng ở §25;
