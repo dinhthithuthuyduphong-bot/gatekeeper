@@ -28,7 +28,8 @@
 | Giai đoạn | Trạng thái |
 | --- | --- |
 | 0, ở máy của phiên làm việc | Đạt K0a, K0b |
-| 0, trong Kaggle | Đã có: không có Docker daemon; hạn mức AI 10 USD/ngày, 100 USD/tháng. Chờ chạy lại phần A bằng notebook mới, và phần B trong notebook Benchmarks |
+| 0, trong Kaggle (cập nhật 15/11) | K0a đạt một lần; K0b không hoàn thành (Kaggle ngắt phiên nhiều lần); **dừng việc chạy container trên Kaggle** (K14). K0c, K0d chờ quyết |
+| 0, trong Kaggle (cũ) | Đã có: không có Docker daemon; hạn mức AI 10 USD/ngày, 100 USD/tháng. Chờ chạy lại phần A bằng notebook mới, và phần B trong notebook Benchmarks |
 | 1–3 | Chưa duyệt |
 
 Chi phí đến nay: 0 USD.

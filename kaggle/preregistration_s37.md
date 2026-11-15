@@ -134,3 +134,10 @@
 - **Tình trạng các cổng:** K0a đạt trên Kaggle (lần 12). K0b chưa có kết quả trên Kaggle (lượt chấm đầu trùng điểm, rồi phiên tắt ở lần 13; lần 14 bị hủy). K0c, K0d chưa chạy.
 - **Nhận định:** trong 14 lần chạy, Kaggle đã ngắt việc nhiều lần (phiên khởi động lại, ô bị ngắt, phiên tắt khi không ai thao tác, lần chạy theo lô bị hủy) mà phần lớn không cho biết lý do. Các thí nghiệm của giai đoạn 1–3 cần hàng nghìn lượt chạy container trong nhiều giờ, nên rủi ro bị ngắt sẽ lớn hơn nhiều. Chờ @thuthuy quyết.
 
+### §37: lần chạy thứ mười lăm (15/11/2026): dừng việc chạy container trên Kaggle
+- Cách B (chạy tương tác, @thuthuy giữ tab mở): log tự mất giữa chừng; phiên khởi động lại.
+- **Kết luận giai đoạn 0, phần chấm bài (K0a, K0b):** K0a đạt một lần (lần 12). K0b không hoàn thành được trên Kaggle sau nhiều lần thử; Kaggle ngắt phiên hoặc hủy lần chạy mà không cho biết lý do (K3, K5, K6, K8, K10, K12–K14).
+- **Theo điều kiện dừng đã nêu trước lần chạy này**, việc chạy container (udocker) trên Kaggle dừng tại đây. Các giai đoạn 1–3 cần chạy agent trong container trên Kaggle vì vậy không khả thi theo cách này.
+- **Phần còn mở:** K0c, K0d (hạn mức gọi model trong notebook Benchmarks), dùng cho việc thuần văn bản (phương án 2), chờ @thuthuy quyết.
+- Không có số liệu nào của paper phụ thuộc vào thư mục này; `main` không đổi.
+
