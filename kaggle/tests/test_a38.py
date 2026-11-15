@@ -143,6 +143,7 @@ def test_run_cell_resumes_caps_and_never_resends(tmp_path, monkeypatch):
 
 def test_run_cell_refuses_unfilled_config(monkeypatch):
     ns = _cell_ns()
+    ns["MODELS"] = {}
     mod, _ = _mock_kbench(lambda m, t, s: "")
     monkeypatch.setitem(sys.modules, "kaggle_benchmarks", mod)
     with pytest.raises(SystemExit):

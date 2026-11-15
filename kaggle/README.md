@@ -21,7 +21,9 @@
 | `scripts/b39_build.py`, `scripts/b39_analyse.py` | Dựng lại prompt từ dữ liệu gốc E1; phân tích đã đăng ký |
 | `plan.md` | Kế hoạch bản 1 (giai đoạn 1–3 của bản này không còn khả thi) |
 | `preregistration_s37.md` | Bản đăng ký trước của giai đoạn 0 (§37) và kết quả đến nay |
-| `run_stage0.md` | Hướng dẫn chạy notebook trên Kaggle |
+| `run_stage0.md` | Hướng dẫn chạy notebook trên Kaggle (giai đoạn 0) |
+| `run_s38_s39.md` | Hướng dẫn chạy §38 và §39 mỗi ngày |
+| `notebooks/a38_p0b_cell.py` | P0b: đo chi phí từng model trên tin nhắn trả lời |
 | `notebooks/kaggle_stage0_batch.ipynb` | Giai đoạn 0, phần A, **chạy theo lô** (Save & Run All): cách chạy chính từ 15/11 |
 | `notebooks/kaggle_stage0.ipynb` | Notebook giai đoạn 0, phần A: K0a, K0b (notebook thường) |
 | `notebooks/k0cd_benchmarks_cell.py` | Giai đoạn 0, phần B: K0c, K0d (một ô, dán vào notebook Benchmarks) |
@@ -41,7 +43,7 @@
 | 0, trong Kaggle (cập nhật 15/11) | K0a đạt một lần; K0b không hoàn thành (Kaggle ngắt phiên nhiều lần); **dừng việc chạy container trên Kaggle** (K14). K0c, K0d chờ quyết |
 | 0, trong Kaggle (cũ) | Đã có: không có Docker daemon; hạn mức AI 10 USD/ngày, 100 USD/tháng. Chờ chạy lại phần A bằng notebook mới, và phần B trong notebook Benchmarks |
 | 1–3 (container) | Không khả thi trên Kaggle |
-| §38 (mục A) | Đã đăng ký, test xong; chờ chạy P0 |
-| §39 (mục B) | Đã đăng ký, test xong; chờ P0 |
+| §38 (mục A) | P0 và P0b xong (0,47 USD hạn mức); đã chọn model (ghi chú 38-3); chờ chạy (`run_s38_s39.md`) |
+| §39 (mục B) | Sẵn sàng chạy cùng A |
 
 Chi phí đến nay: 0 USD.

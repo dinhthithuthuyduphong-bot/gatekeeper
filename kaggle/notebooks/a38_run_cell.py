@@ -20,13 +20,19 @@ import urllib.request
 
 # ---- filled in from P0 before this file is sent (registered in preregistration_s38.md, 38-P0) ----
 NAME = "a38"  # section 38; kaggle/notebooks/b39_run_cell.py is this file with its own block
-COMMIT = "__DATA_COMMIT__"
+COMMIT = "989d6ec31818ece5a2762d9380493a7e92dfbee9"
 SHA256 = "2e6425aa48553a2fd337e57935ab924f69bb27348441dda4730ec1e57e718b02"
-MODELS = {}  # kaggle model key -> measured USD per call on the P0 prompt (74,305 characters)
+MODELS = {  # note 38-3: P0b cost per call on the P0 prompt (USD of quota, reported by Kaggle)
+    "anthropic/claude-haiku-5-5": 0.0053621,
+    "openai/gpt-5.4-nano-2026-03-17": 0.00623725,
+    "xai/grok-4.6": 0.08435,
+    "openai/gpt-oss-120b": 0.00282546,
+    "google/gemini-3.1-pro-preview": 0.08918,
+}
 P0_CHARS = 74305
 SEEDS = (1, 2, 3)
 TEMPERATURE = None  # gskill sets none (gepa/lm.py at 8c7b697): provider default
-DAY_CAP_USD = 8.0  # 80% of the 10 USD daily quota
+DAY_CAP_USD = 7.0  # note 38-3: A 7.0 + B 2.5 per day stays under the 10 USD daily quota
 ITEM_CAP_USD = 40.0  # approved cap of item A (plan_v2.md)
 SAFETY = 1.5  # estimate is multiplied by this (output length varies; P0 measured one reply)
 MAX_ERRORS_IN_A_ROW = 3  # then that model is skipped for this session

@@ -16,7 +16,7 @@ def _body(p: Path) -> list[str]:
     return s[s.index("# " + "-" * 98) :].splitlines()
 
 
-def test_b39_cell_is_a38_cell_outside_its_config_block():
+def test_b39_cell_is_a38_cell_outside_its_config_block():  # noqa: D103
     assert _body(NB / "a38_run_cell.py") == _body(NB / "b39_run_cell.py")
 
 
@@ -24,7 +24,8 @@ def test_b39_cell_config():
     ns = {"__name__": "cell_test"}
     exec(compile((NB / "b39_run_cell.py").read_text(), "b39", "exec"), ns)
     assert ns["NAME"] == "b39" and ns["SEEDS"] == (1,) and ns["TEMPERATURE"] is None
-    assert ns["ITEM_CAP_USD"] == 8.0 and ns["MODELS"] == {}
+    assert ns["ITEM_CAP_USD"] == 8.0 and ns["DAY_CAP_USD"] == 2.5
+    assert len(ns["MODELS"]) == 4 and not any("gemini" in m for m in ns["MODELS"])
 
 
 def test_analysis_counts_and_bound():

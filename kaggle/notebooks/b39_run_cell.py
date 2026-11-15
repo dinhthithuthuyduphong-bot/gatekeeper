@@ -23,11 +23,16 @@ import urllib.request
 NAME = "b39"  # section 39; this is kaggle/notebooks/a38_run_cell.py with its own block
 COMMIT = "not-in-repo"  # the data file holds trajectory text: attach it as a private dataset
 SHA256 = "de507e4bb30caf587d15b37caaafb436d0331e368d81bfcf33878249e76f48d5"
-MODELS = {}  # kaggle model key -> measured USD per call on the P0 prompt (74,305 characters)
+MODELS = {  # note 38-3: P0b cost per call on the P0 prompt (USD of quota, reported by Kaggle)
+    "anthropic/claude-haiku-5-5": 0.0053621,
+    "openai/gpt-5.4-nano-2026-03-17": 0.00623725,
+    "xai/grok-4.6": 0.08435,
+    "openai/gpt-oss-120b": 0.00282546,
+}
 P0_CHARS = 74305
 SEEDS = (1,)  # section 19 C called each auditor once per prompt, with seed 1
 TEMPERATURE = None  # section 19 C set no temperature (configs/models/vertex_gemini.json)
-DAY_CAP_USD = 8.0  # 80% of the 10 USD daily quota
+DAY_CAP_USD = 2.5  # note 38-3: A 7.0 + B 2.5 per day stays under the 10 USD daily quota
 ITEM_CAP_USD = 8.0  # approved cap of item B (plan_v2.md)
 SAFETY = 1.5  # estimate is multiplied by this (output length varies; P0 measured one reply)
 MAX_ERRORS_IN_A_ROW = 3  # then that model is skipped for this session

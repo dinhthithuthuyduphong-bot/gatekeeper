@@ -118,4 +118,26 @@ Một quỹ đạo **cho thấy rò rỉ** khi một quan sát trả về cho ag
     - mốc: `gemini-3.1-pro-preview`, trùng đúng tên model viết skill gốc.
     Quy tắc chọn giữ nguyên: mỗi hãng chọn model có chi phí đo được thấp nhất.
   - **Sai lệch D-38a:** "rẻ nhất của mỗi hãng" chỉ được xét trong danh sách ứng viên trên, không phải mọi model của hãng. Lý do: đo cả model lớn (Opus, GPT-6) tốn nhiều hạn mức trong P0. Theo tên hạng mà hãng đặt, các model lớn không phải hạng rẻ; đây là giả định, ghi lại để reviewer thấy.
+- **38-3 (15/11, sau P0b, trước mọi lần chạy của A): chọn model.**
+  - **Đối chiếu:** P0b báo 0,366 USD trên các tin nhắn trả lời. Hạn mức tăng từ 0,10 lên 0,47 USD, khớp với số báo. P0 và P0b dùng hết 0,47 USD, trong trần 0,50 USD.
+  - **Model chọn** (chi phí đo được thấp nhất mỗi lần gọi trên prompt P0):
+
+    | Nhóm | Model | USD mỗi lần gọi (P0b) |
+    | --- | --- | --- |
+    | Anthropic | `claude-haiku-5-5` (rẻ hơn `haiku-4-5`: 0,0329) | 0,00536 |
+    | OpenAI | `gpt-5.4-nano` (rẻ hơn `mini`: 0,0232) | 0,00624 |
+    | xAI | `grok-4.6` (`grok-4.7`: 0,1120; `grok-4.5-0708` báo 404, không có trên Kaggle) | 0,0844 |
+    | Trọng số mở | `gpt-oss-120b` (Gemma 26B: 0,0053; 31B: 0,0049) | 0,00283 |
+    | Mốc, ngoài họ kiểm định | `gemini-3.1-pro-preview` | 0,0892 |
+
+  - **Dự kiến chi phí** (chi phí P0b × tổng số ký tự / 74.305; chưa tính độ dài câu trả lời thay đổi):
+
+    | Mục | Haiku | nano | Grok | oss | Gemini | Tổng | Trần |
+    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | A (32 prompt × 3 seed) | 0,63 | 0,73 | 9,83 | 0,33 | 10,40 | 21,9 USD | 40 |
+    | B (102 prompt × 1, không có Gemini) | 0,11 | 0,13 | 1,78 | 0,06 | — | 2,1 USD | 8 |
+
+    Không cần giảm seed hay bỏ ô.
+  - **Trần ngày (vận hành):** A 7,0 USD và B 2,5 USD mỗi phiên, thay cho 8 USD của mỗi ô. Hai ô chạy cùng ngày vẫn dưới hạn mức 10 USD/ngày của Kaggle (hôm nay đã dùng 0,47).
+  - **Họ kiểm định Holm:** 4 model khác hãng (Haiku, nano, Grok, oss), K = 4, như đã mô phỏng power.
 
