@@ -23,6 +23,9 @@ import urllib.request
 NAME = "b39"  # section 39; this is kaggle/notebooks/a38_run_cell.py with its own block
 COMMIT = "not-in-repo"  # the data file holds trajectory text: attach it as a private dataset
 SHA256 = "de507e4bb30caf587d15b37caaafb436d0331e368d81bfcf33878249e76f48d5"
+SHA256_JSONL = (
+    "c3b47d5d2e818f991cf85f9dbea27648891701bbeb1eec6fc7631d11cb6aaf51"  # the same file unpacked
+)
 MODELS = {  # note 38-3: P0b cost per call on the P0 prompt (USD of quota, reported by Kaggle)
     "anthropic/claude-haiku-5-5": 0.0053621,
     "openai/gpt-5.4-nano-2026-03-17": 0.00623725,
@@ -56,12 +59,35 @@ def extract_skills(response_text: str) -> str:
     return response_text[first.end() : last_pos].strip()
 
 
-def load_prompts() -> list[dict]:
-    local = glob.glob(INPUT + f"/**/{NAME}_prompts.jsonl.gz", recursive=True)
-    raw = open(local[0], "rb").read() if local else urllib.request.urlopen(URL, timeout=120).read()
-    if hashlib.sha256(raw).hexdigest() != SHA256:
-        raise SystemExit("data file does not match the registered sha256; stopping")
-    return [json.loads(x) for x in gzip.decompress(raw).decode().splitlines()]
+def load_prompts() -> list[dict] | None:
+    """The registered data file: attached as .jsonl.gz, or as .jsonl if Kaggle unpacked it on
+    upload (then the sha256 of the unpacked text must match SHA256_JSONL); else from GitHub.
+    Returns None (and prints why) instead of raising, so a later cell of a batch run still runs."""
+    gz = glob.glob(INPUT + f"/**/{NAME}_prompts.jsonl.gz", recursive=True)
+    js = glob.glob(INPUT + f"/**/{NAME}_prompts.jsonl", recursive=True)
+    try:
+        if gz:
+            raw = open(gz[0], "rb").read()
+            ok, text = hashlib.sha256(raw).hexdigest() == SHA256, gzip.decompress(raw)
+        elif js:
+            text = open(js[0], "rb").read()
+            ok = hashlib.sha256(text).hexdigest() == SHA256_JSONL
+        elif COMMIT != "not-in-repo":
+            raw = urllib.request.urlopen(URL, timeout=120).read()
+            ok, text = hashlib.sha256(raw).hexdigest() == SHA256, gzip.decompress(raw)
+        else:
+            seen = sorted(
+                os.path.relpath(p, INPUT) for p in glob.glob(INPUT + "/**/*", recursive=True)
+            )
+            print(f"{NAME}: data file not attached; files under {INPUT}: {seen[:50]}")
+            return None
+    except Exception as e:
+        print(f"{NAME}: could not read the data file: {e!r}"[:500])
+        return None
+    if not ok:
+        print(f"{NAME}: data file does not match the registered sha256; nothing sent")
+        return None
+    return [json.loads(x) for x in text.decode().splitlines()]
 
 
 def previous() -> list[dict]:
@@ -112,8 +138,11 @@ def main() -> None:
     import kaggle_benchmarks as kbench
 
     if not MODELS or "__" in COMMIT:
-        raise SystemExit("MODELS/COMMIT not filled in from P0; do not run this file yet")
+        print(f"{NAME}: MODELS/COMMIT not filled in from P0; nothing sent")
+        return
     prompts = load_prompts()
+    if prompts is None:
+        return
     jobs, uniq = plan(prompts)
     old = previous()
     done = {(r["sha256"], r["model"], r["seed"]) for r in old if r.get("ok")}

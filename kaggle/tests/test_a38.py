@@ -141,13 +141,32 @@ def test_run_cell_resumes_caps_and_never_resends(tmp_path, monkeypatch):
     assert len(sent) == len(keys) + len(keys2)
 
 
-def test_run_cell_refuses_unfilled_config(monkeypatch):
+def test_run_cell_refuses_unfilled_config(monkeypatch, capsys):
     ns = _cell_ns()
     ns["MODELS"] = {}
-    mod, _ = _mock_kbench(lambda m, t, s: "")
+    mod, calls = _mock_kbench(lambda m, t, s: "")
     monkeypatch.setitem(sys.modules, "kaggle_benchmarks", mod)
-    with pytest.raises(SystemExit):
-        ns["main"]()
+    ns["main"]()  # prints and returns, so a later cell of a batch run still runs
+    assert not calls and "nothing sent" in capsys.readouterr().out
+
+
+def test_run_cell_reads_an_unpacked_upload_and_never_raises_on_missing_data(
+    tmp_path, monkeypatch, capsys
+):
+    ns = _cell_ns()
+    work, inp = tmp_path / "w", tmp_path / "i"
+    work.mkdir()
+    (inp / "d").mkdir(parents=True)
+    mod, calls = _mock_kbench(lambda m, t, s: "x")
+    monkeypatch.setitem(sys.modules, "kaggle_benchmarks", mod)
+    ns.update(WORK=str(work), INPUT=str(inp), COMMIT="not-in-repo")
+    assert ns["load_prompts"]() is None  # nothing attached: printed, not raised
+    assert "not attached" in capsys.readouterr().out
+    (inp / "d" / "a38_prompts.jsonl").write_bytes(gzip.decompress(DATA.read_bytes()))
+    rows = ns["load_prompts"]()
+    assert len(rows) == 33
+    (inp / "d" / "a38_prompts.jsonl").write_bytes(b"{}\n")
+    assert ns["load_prompts"]() is None and "does not match" in capsys.readouterr().out
 
 
 def test_analysis_on_mock_results():
