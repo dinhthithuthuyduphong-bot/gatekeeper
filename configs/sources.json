@@ -2141,6 +2141,32 @@
     "step_limit",
     "bash -lc"
    ]
+  },
+  {
+   "id": "gskill_proposer_call",
+   "claim": "gskill's batch proposer sends the formatted prompt as the only user message through gepa.lm.LM(reflection_lm), built without temperature, and extracts the skills from the first to the last code fence; pinned 8c7b697 (section 38)",
+   "urls": [
+    "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/gskill/gskill/train_optimize_anything.py"
+   ],
+   "keywords": [
+    "self._lm = LM(reflection_lm)",
+    "return self._lm(prompt)",
+    "def extract_skills",
+    "response_text.rfind(\"```\")",
+    "(No skills learned yet)"
+   ]
+  },
+  {
+   "id": "gepa_lm_defaults",
+   "claim": "gepa.lm.LM passes temperature and max_tokens to litellm only when given (default None), and wraps a string prompt as one user message; pinned 8c7b697 (section 38)",
+   "urls": [
+    "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/lm.py"
+   ],
+   "keywords": [
+    "temperature: float | None = None",
+    "if temperature is not None",
+    "\"role\": \"user\", \"content\": prompt"
+   ]
   }
  ]
 }
