@@ -1,11 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="vi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <title>Báo cáo Gatekeeper</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap">
+<meta content="cover" name="claude:viewport-fit-sides"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600&amp;family=Source+Serif+4:opsz,wght@8..60,600&amp;display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#f8f8f6;--fg:#1c1f24;--muted:#5b616b;--card:#ffffff;--line:#dfe1dc;--accent:#2b5b8f;
 --good:#2c7a4b;--bad:#a8322a;--warn:#8a6100;--code:#eef0ec;--bar0:#a9b4bf;--bar1:#2b5b8f;
@@ -60,14 +61,7 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 <h1>Bộ học đã tìm ra chỗ rò rỉ: chứng nhận skill học được cho coding agent dưới đối chứng</h1>
 <p class="muted">Tên bài: <i>The Learner Found the Leak: Certifying Learned Coding-Agent Skills under Controls</i></p>
 <p class="lead">Bản dành cho trao đổi học thuật: tóm tắt câu hỏi, phương pháp, bằng chứng thực nghiệm, giới hạn và các con số chính. Mọi kết luận dưới đây được giới hạn theo đúng phạm vi paper đã kiểm tra.</p>
-<ol class="toc">
-<li><a href="#tom-tat">Tóm tắt và kết quả chính</a></li><li><a href="#cau-hoi">Câu hỏi và đóng góp</a></li>
-<li><a href="#khai-niem">Mô hình và Gatekeeper</a></li><li><a href="#phuong-phap">Thiết kế thực nghiệm</a></li>
-<li><a href="#rq1">RQ1: Độ tin cậy của phép đo</a></li><li><a href="#rq2">RQ2: Skill, leakage và nguồn gốc mức tăng</a></li>
-<li><a href="#rq3">RQ3: Chuyển giao giữa các scope</a></li><li><a href="#han-che">Bảo đảm thống kê và giới hạn</a></li>
-<li><a href="#tai-lap">Tái lập và chi phí admission</a></li><li><a href="./explantation.html" target="_blank">Bản giải thích chi tiết</a></li>
-</ol>
-
+<div class="grid"><nav><b>Mục lục</b><a href="#tom-tat">Tóm tắt và kết quả chính</a><a href="#cau-hoi">Câu hỏi và đóng góp</a><a href="#khai-niem">Mô hình và Gatekeeper</a><a href="#phuong-phap">Thiết kế thực nghiệm</a><a href="#rq1">RQ1: Độ tin cậy của phép đo</a><a href="#rq2">RQ2: Skill, leakage và nguồn gốc mức tăng</a><a href="#rq3">RQ3: Chuyển giao giữa các scope</a><a href="#han-che">Bảo đảm thống kê và giới hạn</a><a href="#tai-lap">Tái lập và chi phí admission</a><a href="./explantation.html" target="_blank">Bản giải thích chi tiết</a></nav><article>
 <h2 id="tom-tat">1. Tóm tắt và kết quả chính</h2>
 <div class="ask">
 <p class="lead"><b>Phát hiện trung tâm.</b> Một pipeline học skill đã tạo ra skill giúp tăng mạnh số task được giải quyết, và mức tăng này vượt qua phép kiểm định paired anytime-valid. Tuy nhiên, một phần mức tăng đến từ việc skill học được chỉ dẫn khai thác lịch sử Git của benchmark: commit chèn lỗi vẫn còn trong repository history. Vì vậy, một skill có thể tạo ra mức tăng đo được và được admit, nhưng một phần lợi ích lại phụ thuộc vào artifact của môi trường đánh giá.</p>
@@ -86,7 +80,6 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 </table></div>
 <p><b>Kết luận cần giữ chính xác:</b> rò rỉ không giải thích toàn bộ lợi ích. Phần gain còn lại vẫn được chứng nhận trong các scope Jinja và Bleve tương ứng. Con số 45%/43% là <b>cận trên</b> của phần gain gắn với lịch sử, vì đối chứng một commit loại bỏ toàn bộ lịch sử Git chứ không chỉ commit gây rò rỉ.</p>
 </div>
-
 <h2 id="cau-hoi">2. Câu hỏi nghiên cứu và đóng góp</h2>
 <p><b>Câu hỏi trung tâm:</b> Khi một coding-agent skill được học từ benchmark và dự định tái sử dụng, làm thế nào xác định mức tăng hiệu năng có thực sự thuộc về skill trong một scope cụ thể, thay vì đến từ nhiễu, bộ chấm lỗi hoặc artifact của môi trường?</p>
 <table><tr><th>Đóng góp</th><th>Nội dung</th><th>Bằng chứng trong paper</th></tr>
@@ -97,7 +90,6 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 <tr><td>5. Bằng chứng giới hạn chuyển giao</td><td>Đánh giá reuse sang repository khác và đối chiếu độ tương quan hiệu ứng giữa cấu hình agent–model.</td><td>Pygments; phân tích SWE-Skills-Bench.</td></tr>
 </table>
 <p class="note"><b>Định vị đóng góp:</b> Paper không tuyên bố phát hiện đầu tiên về Git-history leakage, cũng không tuyên bố mọi learned skill đều có vấn đề. Đóng góp là chỉ ra learner có thể chuyển một leak thành chỉ dẫn tái sử dụng, định lượng phần gain liên quan, và đề xuất cách admission theo scope với kiểm định anytime-valid.</p>
-
 <h2 id="khai-niem">3. Mô hình và Gatekeeper</h2>
 <h3>3.1. Định nghĩa dùng trong paper</h3>
 <table><tr><th>Ký hiệu</th><th>Định nghĩa</th></tr>
@@ -109,7 +101,7 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 <tr><td>STR(S,s)</td><td>Kỳ vọng của chênh lệch loss trong phân phối task thuộc scope s; giá trị âm nghĩa là skill giảm loss.</td></tr>
 <tr><td>ξ<sub>s</sub></td><td>Khoảng cách total variation giữa phân phối task kiểm định P<sub>s</sub> và phân phối triển khai Q<sub>s</sub>.</td></tr></table>
 <h3>3.2. Gatekeeper ra quyết định thế nào?</h3>
-<div class="flow"><div class="step"><b>Khai báo skill và scope</b><br><small>Thủ tục π, điều kiện kích hoạt I, repository, revision, môi trường, agent/model</small></div><div class="arrow">↓</div><div class="step"><b>Paired trials</b><br><small>Mỗi task chạy hai nhánh tương ứng: có skill và không skill</small></div><div class="arrow">↓</div><div class="step"><b>Tính Z<sub>i</sub> và cập nhật e-process</b><br><small>Tích lũy bằng chứng sau từng cặp, mức cược chỉ phụ thuộc dữ liệu đã quan sát</small></div><div class="arrow">↓</div><div class="ends"><div style="background:#eaf7ef"><b>Admit</b><br><small>Khi E<sub>n</sub> ≥ 1/α = 40</small></div><div style="background:#fff0f0"><b>Không admit</b><br><small>Nếu hết 100 task vẫn chưa đạt ngưỡng; chưa đủ bằng chứng, không đồng nghĩa skill chắc chắn xấu</small></div></div></div>
+<div class="flow"><div class="step"><b>Khai báo skill và scope</b><br/><small>Thủ tục π, điều kiện kích hoạt I, repository, revision, môi trường, agent/model</small></div><div class="arrow">↓</div><div class="step"><b>Paired trials</b><br/><small>Mỗi task chạy hai nhánh tương ứng: có skill và không skill</small></div><div class="arrow">↓</div><div class="step"><b>Tính Z<sub>i</sub> và cập nhật e-process</b><br/><small>Tích lũy bằng chứng sau từng cặp, mức cược chỉ phụ thuộc dữ liệu đã quan sát</small></div><div class="arrow">↓</div><div class="ends"><div style="background:#eaf7ef"><b>Admit</b><br/><small>Khi E<sub>n</sub> ≥ 1/α = 40</small></div><div style="background:#fff0f0"><b>Không admit</b><br/><small>Nếu hết 100 task vẫn chưa đạt ngưỡng; chưa đủ bằng chứng, không đồng nghĩa skill chắc chắn xấu</small></div></div></div>
 <p>Paper không mô tả một bước tự động “scope screening” riêng để loại skill theo ngôn ngữ hay dependency. Cốt lõi của Gatekeeper trong paper là <b>paired evaluation + e-process + admission gắn với scope được khai báo</b>.</p>
 <h3>3.3. Công thức và ý nghĩa</h3>
 <div class="formula">Zᵢ = ℓ(xᵢ, π) − ℓ(xᵢ, ∅)</div>
@@ -117,7 +109,7 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 <tr><td>Thất bại</td><td>Thành công</td><td>−1</td><td>Skill giúp task này</td></tr>
 <tr><td>Thành công</td><td>Thất bại</td><td>+1</td><td>Skill làm task này tệ đi</td></tr>
 <tr><td>Cùng kết quả</td><td>Cùng kết quả</td><td>0</td><td>Không có khác biệt quan sát được</td></tr></table>
-<div class="formula">H₀: E[Z] ≥ −θ<br>Eₙ = ∏<sub>i≤n</sub> [1 + λᵢ(−θ − Zᵢ)]</div>
+<div class="formula">H₀: E[Z] ≥ −θ<br/>Eₙ = ∏<sub>i≤n</sub> [1 + λᵢ(−θ − Zᵢ)]</div>
 <p>Trong các admission chính, θ = 0, α = 0,025 và c = 0,5. Vì vậy ngưỡng là 1/α = 40. λ<sub>i</sub> là mức cược có thể dự đoán được từ dữ liệu trước trial i; paper dùng aGRAPA. E-process không phải số task được giải, cũng không phải p-value thông thường: nó là lượng bằng chứng tích lũy theo quy tắc cá cược.</p>
 <p><b>Ý nghĩa anytime-valid:</b> nếu giả định thống kê thỏa mãn, có thể theo dõi E<sub>n</sub> sau từng task và dừng ngay khi vượt ngưỡng mà vẫn kiểm soát xác suất vượt ngưỡng nhầm ở mức α. Admit sau 29 task nghĩa là bằng chứng đạt ngưỡng ở task thứ 29, không phải chỉ cần 29 task trong mọi trường hợp.</p>
 <h3>3.4. Vì sao task chạy một lần theo thứ tự cố định vẫn có thể dùng e-process?</h3>
@@ -125,7 +117,6 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 <p>Proposition 1 chứng minh rằng với một pool hữu hạn được xáo ngẫu nhiên trước khi quan sát kết quả, chiến lược aGRAPA chỉ cược khi tổng kết quả đã thấy đủ thuận lợi; dưới H₀, trung bình có điều kiện của phần tử còn lại vẫn khiến yếu tố cập nhật có kỳ vọng không vượt 1. Do đó E<sub>n</sub> vẫn là supermartingale và bất đẳng thức Ville áp dụng. Mô phỏng riêng khi agent còn ngẫu nhiên: 6 pool H₀, 20.000 lần mỗi pool; tỉ lệ admit nhầm lớn nhất 0,0075, cận trên Clopper–Pearson 95% là 0,0087, thấp hơn 0,025.</p>
 <h3>3.5. Vì sao không được chuyển admission sang scope khác?</h3>
 <p>Theorem 2 nêu: nếu phân phối triển khai Q<sub>s</sub> cách phân phối kiểm định P<sub>s</sub> không quá ξ<sub>s</sub> theo total variation, thì giới hạn bảo đảm yếu đi thành STR<sub>Q</sub> ≤ −θ + 2ξ<sub>s</sub>. Với θ = 0, bất kỳ ξ<sub>s</sub> dương nào cũng có thể để ngỏ khả năng hại trong phân phối triển khai. Paper còn có Proposition 3: không tồn tại bảo đảm chuyển giao distribution-free sang repository tùy ý chỉ từ hữu hạn quan sát ở repository khác. Vì vậy, đổi repository hoặc môi trường cần một admission mới.</p>
-
 <h2 id="phuong-phap">4. Thiết kế thực nghiệm</h2>
 <h3>4.1. Agent, task và scope</h3>
 <ul>
@@ -155,7 +146,6 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 <li><b>Skill không liên quan cùng độ dài:</b> tách tác động nội dung khỏi tác động đơn thuần của việc thêm nhiều chữ.</li>
 <li><b>Single-commit history:</b> thay toàn bộ Git history bằng một commit chứa cây mã đang lỗi; đây là đối chứng chính cho lịch sử, nhưng không chỉ xóa riêng commit “Bug Patch”.</li>
 </ul>
-
 <h2 id="rq1">5. RQ1: Các phép đo có đứng vững trước đối chứng không?</h2>
 <h3>5.1. Scorer công khai của gskill</h3>
 <table><tr><th>Kiểm tra</th><th>Kết quả</th><th>Ý nghĩa</th></tr>
@@ -184,7 +174,6 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 <li>7/13 gain được công bố cho XRepoSkill và MemGovern không lớn hơn mức nhiễu chạy lại 97,5th percentile ở sample size tương ứng. Đây là cảnh báo tham khảo, không phải kiểm định lại các paper đó bằng đúng model gốc.</li>
 <li>MemGovern: manipulation check yêu cầu agent gọi retrieval tools, nhưng agent chỉ gọi 0/20 lượt; theo preregistration, thí nghiệm dừng trước khi tính effect. Điều này không đánh giá MemGovern trong harness/model chính thức của nó.</li>
 </ul>
-
 <h2 id="rq2">6. RQ2: Skill có lợi không, và phần gain đến từ đâu?</h2>
 <h3>6.1. Kết quả chính theo scorer S</h3>
 <div class="tbl"><table><tr><th>Repository</th><th>Điều kiện</th><th>Không skill</th><th>Có skill</th><th>Gain [95% CI]</th><th>Admit</th></tr>
@@ -242,7 +231,6 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 <li>Phân tích log §36 còn giữ được một lần gọi: agent không có chỉ dẫn vẫn đọc commit và giải task; model viết skill nhìn thấy trace đó rồi đưa lời khuyên đọc history vào skill. Validation score tăng từ 0,78 lên 0,94 trong rewrite được quan sát. Log nửa đầu các lượt học bị gskill ghi đè, nên đây là một trường hợp quan sát, không phải tần suất.</li>
 <li>Phân tích patch cho thấy agent chủ yếu dùng commit để định vị lỗi, không đơn thuần sao chép bản sửa: exact reverse xuất hiện ở 9/15 task không mô tả và 20/38 task có mô tả ở history gốc; 17/35 ở single-commit; 3/20 ở 36 task mới.</li>
 </ul>
-
 <h2 id="rq3">7. RQ3: Chứng nhận có chuyển sang scope khác không?</h2>
 <h3>7.1. Sang repository khác: Pygments</h3>
 <table><tr><th>Chỉ số</th><th>Kết quả</th></tr><tr><td>No-skill resolved</td><td>5/100</td></tr><tr><td>Skill Jinja reused verbatim</td><td>6/100</td></tr><tr><td>Gain [95% CI]</td><td>0,01 [−0,02; 0,05]</td></tr><tr><td>Exact sign test</td><td>b/c = 2/1; p = 1,00 (two-sided)</td></tr><tr><td>Gatekeeper</td><td>Không admit</td></tr><tr><td>gskill scorer L trên cùng patches</td><td>70 so với 42</td></tr></table>
@@ -250,7 +238,6 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 <h3>7.2. Cấu hình agent–model khác</h3>
 <p>Trên 98 skill chung của SWE-Skills-Bench qua bốn cấu hình agent–model, chỉ khoảng 7% phương sai hiệu ứng được chia sẻ giữa các cấu hình (ρ = 0,07). Nếu một cấu hình có thay đổi pass rate ít nhất 6 điểm, cấu hình khác đổi cùng chiều ít nhất 6 điểm ở 25% trường hợp và ngược chiều ở 19%. Vì mỗi cấu hình chỉ có một run/skill, số liệu không tách được scope effect khỏi run noise; nó chỉ cho thấy hiệu ứng ở một cấu hình dự đoán yếu hiệu ứng ở cấu hình khác.</p>
 <p>Hai skill được thử thêm trên Gemini 3.1 Pro (preview): 8/8 cặp không thay đổi pass rate; median no-skill pass rate 0,93, tức ceiling effect khiến skill ít khoảng trống để cải thiện.</p>
-
 <h2 id="han-che">8. Bảo đảm thống kê và giới hạn</h2>
 <h3>8.1. Bảo đảm từng admission và phân tích cả họ</h3>
 <p>Mỗi admission trong paper được đăng ký riêng ở α = 0,025. Điều này bảo đảm sai số loại I cho <b>từng quyết định</b>, không tự động bảo đảm xác suất có ít nhất một false admission trong toàn bộ 12 quyết định ≤ 0,025. Nếu đọc cả 12 như một họ và dùng Bonferroni, ngưỡng phải là 1/(0,025/12) = <b>480</b>. Phân tích sensitivity sau dữ liệu cho thấy trong 10 quyết định bác bỏ ở mức đăng ký, 7 vẫn đứng ở ngưỡng 480 (bao gồm phép xác nhận trên task chưa dùng); 3 không còn đứng: Bleve single-commit, Jinja seed 51 single-commit và skill học lại §30 (e-value lớn nhất 144). Đây là cách đọc family-wise sau dữ liệu, không thay thế các quyết định đã đăng ký. Holm của sign tests là correction riêng cho các kiểm định sign, không kiểm soát họ e-process.</p>
@@ -268,7 +255,6 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 <li><b>Contamination:</b> không xác minh được training cutoff của model từ nguồn chính thức; không tuyên bố task là unseen đối với model.</li>
 </ul>
 <p class="note"><b>Claim boundary:</b> Paper cho thấy leak này xảy ra trong các scope đã nghiên cứu, learner biến nó thành instruction, và controls đo được phần gain liên quan. Paper không chứng minh mọi skill learner đều học leak, không ước lượng xác suất chung của hành vi đó, và không chứng minh Gatekeeper làm skill an toàn ở mọi repository.</p>
-
 <h2 id="tai-lap">9. Tái lập và chi phí admission</h2>
 <ul>
 <li>Paper công bố preregistrations, raw runs và code. Các phân tích confirmatory, threshold và decision rules được đăng ký trước khi xem dữ liệu áp dụng; các phân tích exploratory được gắn nhãn.</li>
@@ -276,11 +262,10 @@ main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minma
 <li>Appendix B dùng 3.920 cặp từ SWE-Skills-Bench: phương sai độ khó task chung σ²<sub>T</sub> = 0,067; phương sai nhiễu chênh lệch ghép cặp σ²<sub>S</sub> = 0,040; pairing saving = 4,31; 69% paired differences bằng 0. Đây là ước lượng sample-complexity từ dữ liệu benchmark, không phải cam kết chi phí tiết kiệm thực tế ở mọi dự án.</li>
 <li>Độ tin cậy hiệu ứng skill giữa cấu hình khác nhau: cross-configuration 0,07; within-configuration 0,16. Bảng sample-complexity trong Appendix B mô phỏng số cặp cần cho 80% admission power tùy θ, effect size và số cell chia sẻ α.</li>
 </ul>
-
 <h2 id="ket-luan">10. Kết luận</h2>
 <p>Paper đưa ra một thông điệp có phạm vi rõ: <b>mức tăng resolve rate chỉ chứng nhận skill trong scope mà nó được đo, và chính evaluation environment là một phần của scope đó.</b> Trên Jinja và Bleve, skill gskill có lợi ích thực, nhưng một phần gain đến từ việc learner khái quát hóa hành vi đọc commit chèn lỗi thành instruction. Phần lợi ích còn lại vẫn được chứng nhận; khi đổi repository, admission không tự động chuyển theo.</p>
 <p>Đóng góp không phải một tuyên bố rằng “skill learning là vô dụng”, mà là một phương pháp để phân biệt lợi ích skill với lợi ích do môi trường đánh giá tạo ra, đồng thời đặt ra yêu cầu tái-admit khi scope thay đổi.</p>
 <footer>Được cập nhật theo nội dung của <code>Mainpaper(2).pdf</code>. Bản giải thích chi tiết dành cho người mới nghiên cứu nằm trong <a href="./explantation.html">explantation.html</a>.</footer>
-</main>
+</article></div></main>
 </body>
 </html>
