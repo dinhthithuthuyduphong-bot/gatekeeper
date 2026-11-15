@@ -129,3 +129,8 @@
 - Khoảng 2 giờ sau, cả hai log đều mất: phiên tương tác tự tắt khi không ai thao tác.
 - **Ghi chú thực thi 37-8** (không đổi điều kiện đạt): K0a và K0b chạy bằng notebook chạy theo lô (`kaggle/notebooks/kaggle_stage0_batch.ipynb`, Save Version → Save & Run All), tiền cảnh, kết quả lưu cùng phiên bản. Đã kiểm tại máy của phiên làm việc (rút gọn): P1; 4/4 bản vá trùng; gốc 2/2; không vá 0/2; 0 lỗi; đủ 6 file kết quả.
 
+### §37: lần chạy thứ mười bốn (15/11/2026): chạy theo lô bị hủy
+- Phiên bản Save & Run All bị hủy: "Canceled by backend. Exit code: 137". Không có log, không có file kết quả.
+- **Tình trạng các cổng:** K0a đạt trên Kaggle (lần 12). K0b chưa có kết quả trên Kaggle (lượt chấm đầu trùng điểm, rồi phiên tắt ở lần 13; lần 14 bị hủy). K0c, K0d chưa chạy.
+- **Nhận định:** trong 14 lần chạy, Kaggle đã ngắt việc nhiều lần (phiên khởi động lại, ô bị ngắt, phiên tắt khi không ai thao tác, lần chạy theo lô bị hủy) mà phần lớn không cho biết lý do. Các thí nghiệm của giai đoạn 1–3 cần hàng nghìn lượt chạy container trong nhiều giờ, nên rủi ro bị ngắt sẽ lớn hơn nhiều. Chờ @thuthuy quyết.
+
