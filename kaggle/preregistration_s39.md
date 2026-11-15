@@ -46,4 +46,4 @@ Paper hiện viết "We tested single auditors with one prompt". Kết quả §3
   3. Mọi trường hợp đều báo đủ số của từng auditor.
 
 ## 5. Ghi chú thực thi
-(chưa có)
+- **39-1 (15/11):** áp dụng ghi chú 38-2 của §38: nhiệt độ không được đặt (giống §19 C), Grok không nhận `seed`, tiền tính theo chi phí Kaggle báo. Model chọn theo danh sách ứng viên và sai lệch D-38a.

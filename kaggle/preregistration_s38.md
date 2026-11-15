@@ -100,3 +100,22 @@ Một quỹ đạo **cho thấy rò rỉ** khi một quan sát trả về cho ag
 
 ## 7. Ghi chú thực thi
 - **38-1 (15/11, trước P0):** @thuthuy xác nhận: "Tài khoản không gắn thanh toán". Hết hạn mức thì Kaggle không thể tính tiền thật. P0 đang chạy.
+- **38-2 (15/11, sau P0, trước mọi lần chạy của A).**
+  - **Kết quả P0:** hạn mức đã dùng từ 0,00 lên 0,10 USD cho 9 lần gọi ngắn và 5 lần gọi prompt thật. Mọi model nhận `temperature=None`. Câu trả lời của P0 chỉ dùng để đo, không đưa vào phân tích.
+  - **Đọc mã nguồn thư viện** (`kaggle_benchmarks` 0.6.3, wheel trên PyPI, sha256 `afd24c59…`):
+    1. Chat mặc định là `GoldfishChat`, "keeps only the last message". Vậy mỗi lần `prompt()` gửi đúng một tin nhắn user, như gskill. Kết luận "một lượt" của K0d có lý do ở đây.
+    2. Model được gọi qua API OpenAI của Model Proxy với `support_temperature=False`. Thư viện gửi `"temperature": temperature if self.support_temperature else None`. Nghĩa là nhiệt độ **không bao giờ** được đặt, mọi model chạy ở mặc định của nhà cung cấp, đúng như gskill. Tham số `TEMPERATURE` của ô chạy không có tác dụng; chỉ được ghi lại.
+    3. Với Grok từ 4.5 trở lên, thư viện bỏ tham số `seed`. Ba seed của Grok là ba lần lấy mẫu không có seed.
+    4. Chi phí mỗi lần gọi nằm trên tin nhắn trả lời (`input_tokens_cost_nanodollars`, `output_tokens_cost_nanodollars`). P0 đọc nhầm lớp `Usage`, nên không đo được theo model.
+  - **Sửa (máy kiểm, không phải sau khi thấy dữ liệu A):**
+    - thêm P0b (`notebooks/a38_p0b_cell.py`): gửi lại đúng prompt của P0 tới danh sách ứng viên cố định, đọc chi phí trên tin nhắn trả lời;
+    - ô chạy tính tiền theo chi phí Kaggle báo cho từng lần gọi. Ước tính chỉ dùng để kiểm trước mỗi lần gọi, và khi không có số báo. Vì kiểm trước bằng ước tính, chi tiêu có thể vượt trần tối đa một lần gọi (dưới 0,10 USD ở mức P0).
+  - **Quy tắc tên của xAI không khớp model nào** (không có model "fast"; Kaggle có `grok-4.5-0708`, `grok-4.6`, `grok-4.7`). Danh sách ứng viên mới, chốt trước khi chạy A:
+    - Anthropic: tên chứa "haiku";
+    - OpenAI: tên chứa "nano" hoặc "mini";
+    - xAI: cả ba model;
+    - trọng số mở: `gpt-oss-120b`, `gemma-4-26b-a4b`, `gemma-4-31b`;
+    - mốc: `gemini-3.1-pro-preview`, trùng đúng tên model viết skill gốc.
+    Quy tắc chọn giữ nguyên: mỗi hãng chọn model có chi phí đo được thấp nhất.
+  - **Sai lệch D-38a:** "rẻ nhất của mỗi hãng" chỉ được xét trong danh sách ứng viên trên, không phải mọi model của hãng. Lý do: đo cả model lớn (Opus, GPT-6) tốn nhiều hạn mức trong P0. Theo tên hạng mà hãng đặt, các model lớn không phải hạng rẻ; đây là giả định, ghi lại để reviewer thấy.
+

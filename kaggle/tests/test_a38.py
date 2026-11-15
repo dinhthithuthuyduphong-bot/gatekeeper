@@ -168,3 +168,38 @@ def test_analysis_on_mock_results():
     assert h[key]["diff"] == 1.0
     assert h[key]["p_one_sided"] == pytest.approx(1 / 1716)  # C(13, 6)
     assert out["holm_primary_H"] == {"x": True}
+
+
+def test_run_cell_charges_the_cost_kaggle_reports(tmp_path, monkeypatch):
+    ns = _cell_ns()
+    work, inp = tmp_path / "w", tmp_path / "i"
+    work.mkdir()
+    (inp / "d").mkdir(parents=True)
+    (inp / "d" / "a38_prompts.jsonl.gz").write_bytes(DATA.read_bytes())
+    reply = "x\n```\n- run tests\n```"
+    mod, calls = _mock_kbench(lambda m, t, s: reply)
+    last = types.SimpleNamespace(
+        content=reply,
+        usage=types.SimpleNamespace(
+            input_tokens=20000, output_tokens=900, total_cost_nanodollars=50_000_000
+        ),
+    )
+    mod.chats = types.SimpleNamespace(
+        get_current_chat=lambda: types.SimpleNamespace(messages=[last])
+    )
+    monkeypatch.setitem(sys.modules, "kaggle_benchmarks", mod)
+    ns.update(
+        WORK=str(work),
+        INPUT=str(inp),
+        COMMIT="c0ffee",
+        SHA256=hashlib.sha256(DATA.read_bytes()).hexdigest(),
+        MODELS={"m-a": 0.001},  # estimate far below the reported 0.05 USD per call
+        OUT=str(work / "a38_results_1.jsonl"),
+        DAY_CAP_USD=0.5,
+        ITEM_CAP_USD=5.0,
+    )
+    ns["main"]()
+    rows = [json.loads(x) for x in (work / "a38_results_1.jsonl").read_text().splitlines()]
+    assert all(r["charged_usd"] == 0.05 and r["tokens_in"] == 20000 for r in rows)
+    assert sum(r["charged_usd"] for r in rows) <= 0.5 + 1e-9
+    assert len(rows) == 10  # 10 x 0.05 = 0.5; the 11th would pass the day cap

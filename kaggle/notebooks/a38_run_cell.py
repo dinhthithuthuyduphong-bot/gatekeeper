@@ -2,10 +2,12 @@
 # Paste this whole file into ONE cell of a notebook created from
 # https://www.kaggle.com/benchmarks/tasks/new and run it once a day until it prints "all done".
 #
-# Safety (registered): it stops before the estimated spend of THIS session would pass DAY_CAP_USD,
-# and before the estimated spend of all sessions (previous result files attached as a dataset, plus
-# this one) would pass ITEM_CAP_USD. The estimate per call is the measured P0 cost per call times
-# the prompt's length ratio, times SAFETY. A call that already has a reply is never sent again.
+# Safety (registered): before each call it checks that the spend of THIS session plus the
+# estimate of the call stays within DAY_CAP_USD, and that the spend of all sessions (previous
+# result files attached as a dataset, plus this one) stays within ITEM_CAP_USD. Spend = the cost
+# Kaggle reports on each reply; the estimate (measured P0b cost per call x prompt length ratio x
+# SAFETY) is used before a call and when no cost is reported. A call that already has a reply is
+# never sent again.
 # It prints no key, no account detail and no environment value.
 import glob
 import gzip
@@ -84,6 +86,22 @@ def estimate(model: str, chars: int) -> float:
     return MODELS[model] * chars / P0_CHARS * SAFETY
 
 
+def reported(text: str) -> tuple:
+    """Tokens and cost that Model Proxy attached to the reply just received (kaggle_benchmarks
+    0.6.3: the global chat keeps only the last message, the reply; its .usage holds them)."""
+    try:
+        from kaggle_benchmarks import chats
+
+        msg = chats.get_current_chat().messages[-1]
+        if str(msg.content) != text:
+            return None, None, None
+        u = msg.usage
+        c = u.total_cost_nanodollars
+        return u.input_tokens, u.output_tokens, None if c is None else c / 1e9
+    except Exception:
+        return None, None, None
+
+
 def main() -> None:
     import kaggle_benchmarks as kbench
 
@@ -93,10 +111,10 @@ def main() -> None:
     jobs, uniq = plan(prompts)
     old = previous()
     done = {(r["sha256"], r["model"], r["seed"]) for r in old if r.get("ok")}
-    spent_before = sum(r.get("est_usd", 0.0) for r in old)
+    spent_before = sum(r.get("charged_usd", r.get("est_usd", 0.0)) for r in old)
     spent_now, errors, skipped = 0.0, {}, set()
     todo = [j for j in jobs if j not in done]
-    print(f"jobs {len(jobs)}, done {len(jobs) - len(todo)}, est. spent so far {spent_before:.2f}")
+    print(f"jobs {len(jobs)}, done {len(jobs) - len(todo)}, spent so far {spent_before:.2f}")
     with open(OUT, "a") as fh:
         for sha, m, s in todo:
             if m in skipped:
@@ -114,19 +132,23 @@ def main() -> None:
                 r = kbench.llms[m].prompt(uniq[sha]["prompt"], temperature=TEMPERATURE, seed=s)
                 text = str(r)
                 row.update(ok=True, response=text, new_skills=extract_skills(text))
+                row["tokens_in"], row["tokens_out"], row["cost_usd"] = reported(text)
                 errors[m] = 0
             except Exception as e:
                 row.update(ok=False, error=repr(e)[:600])
                 errors[m] = errors.get(m, 0) + 1
                 if errors[m] >= MAX_ERRORS_IN_A_ROW:
                     skipped.add(m)
-            row.update(secs=round(time.time() - t0, 1), est_usd=est, utc=time.time())
-            spent_now += est
+            # charged: the cost Kaggle reported, else the estimate (a failed call counts in full)
+            charged = row.get("cost_usd") if row.get("cost_usd") is not None else est
+            row.update(secs=round(time.time() - t0, 1), est_usd=est, charged_usd=charged)
+            row["utc"] = time.time()
+            spent_now += charged
             fh.write(json.dumps(row) + "\n")
             fh.flush()
             os.fsync(fh.fileno())
     left = [j for j in jobs if j not in done and j[1] not in skipped]
-    print(f"est. spent this session {spent_now:.2f}; skipped models {sorted(skipped)}")
+    print(f"spent this session {spent_now:.2f} USD of quota; skipped models {sorted(skipped)}")
     print("all done" if not left else f"saved {OUT}; download it and attach it next time")
 
 
