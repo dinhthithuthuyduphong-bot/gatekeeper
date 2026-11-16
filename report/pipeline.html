@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cách dự án Gatekeeper vận hành</title>
+<style>
+:root{--ink:#192338;--muted:#64718a;--line:#e3e8f0;--blue:#2457b8;--pale:#eef4ff;--green:#eaf7ef;--amber:#fff5dc;--red:#fdecec}
+*{box-sizing:border-box}body{margin:0;background:#f4f6fa;color:var(--ink);font:16px/1.7 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:linear-gradient(130deg,#14264b,#2d5eae);color:white;padding:42px 22px}header div,main{max-width:1100px;margin:auto}header h1{font-size:clamp(1.9rem,5vw,2.9rem);line-height:1.15;margin:0}header p{color:#e1eaff;max-width:820px}
+main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px;align-items:start}nav,article{background:white;border:1px solid var(--line);border-radius:15px}nav{position:sticky;top:16px;padding:18px;max-height:calc(100vh - 32px);overflow:auto}nav a{display:block;text-decoration:none;color:var(--muted);font-size:14px;padding:4px 0}nav a:hover{color:var(--blue)}article{padding:clamp(20px,4vw,42px);min-width:0}
+h2{font-size:1.6rem;margin:2.2em 0 .65em;padding-bottom:9px;border-bottom:1px solid var(--line)}h2:first-child{margin-top:0}h3{font-size:1.2rem;margin:1.6em 0 .5em}h4{font-size:1.02rem;margin:1.2em 0 .3em}p{margin:.65em 0}li{margin:.25em 0}
+.tbl{overflow-x:auto}table{border-collapse:collapse;width:100%;margin:14px 0;font-size:.93rem}th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}th{background:#f1f4f9}
+.box{padding:15px 17px;border-left:4px solid var(--blue);background:var(--pale);border-radius:9px;margin:15px 0}.green{background:var(--green);border-color:#238653}.amber{background:var(--amber);border-color:#bd8712}.red{background:var(--red);border-color:#c0392b}
+.flow{max-width:680px;margin:18px auto;text-align:center}.step{padding:11px 13px;border:1px solid #cbd8f3;background:var(--pale);border-radius:10px;margin:6px}.step small{display:block;color:var(--muted)}.arrow{color:#8592a8;font-size:19px;line-height:1}
+.gate{border-color:#bd8712;background:var(--amber)}.pay{border-color:#c0392b;background:var(--red)}.ok{border-color:#238653;background:var(--green)}
+code.nw{white-space:nowrap}
+code{background:#f1f4f8;padding:1px 5px;border-radius:4px;font-family:ui-monospace,Consolas,monospace;font-size:.9em;overflow-wrap:anywhere}
+pre{background:#182235;color:#e8eefc;padding:14px 16px;border-radius:9px;overflow-x:auto;font:13.5px/1.55 ui-monospace,Consolas,monospace;margin:12px 0}pre code{background:none;padding:0;color:inherit}
+dl.terms dt{font-weight:700;margin-top:1em}dl.terms dd{margin:.2em 0 0 0;padding-left:14px;border-left:3px solid var(--line)}
+.why{color:#1c5f3b}.tag{display:inline-block;font-size:.78rem;padding:1px 8px;border-radius:99px;background:#eef1f6;color:var(--muted);white-space:nowrap}.tag.free{background:var(--green);color:#1c5f3b}.tag.paid{background:var(--red);color:#96281b}
+.muted{color:var(--muted);font-size:.9rem}footer{max-width:1100px;margin:auto;padding:0 18px 30px;color:var(--muted);font-size:.85rem}
+@media(max-width:800px){.grid{grid-template-columns:1fr}nav{position:static;max-height:none}table{font-size:.85rem}th,td{padding:6px}}
+@media print{body{background:white}header{print-color-adjust:exact}.grid{display:block}nav{display:none}article{border:0;padding:0}}
+</style></head><body>
+<header><div><h1>Cách dự án Gatekeeper vận hành</h1>
+<p>Giải thích từ con số 0 cho người chưa biết CI/CD, DevOps, build pipeline hay triển khai lên đám mây: từng khái niệm, lý do chọn, và từng luồng thực thi chạy như thế nào. Viết theo trạng thái của repo ngày 16/11/2026, trên mọi nhánh.</p></div></header>
+<main><div class="grid"><nav><b>Mục lục</b>
+<a href="#tong-quan">1. Bức tranh tổng thể</a>
+<a href="#doi-chieu">2. GitLab, AWS và dự án này</a>
+<a href="#tu-dien">3. Từ điển khái niệm</a>
+<a href="#repo">4. Bản đồ thư mục</a>
+<a href="#nhanh">5. Bản đồ 20 nhánh</a>
+<a href="#cong">6. Bốn lớp cổng chặn</a>
+<a href="#workflow">7. Danh sách 14 workflow</a>
+<a href="#luong-mien-phi">8. Các luồng miễn phí</a>
+<a href="#luong-co-phi">9. Các luồng có phí</a>
+<a href="#luong-may">10. Luồng chạy tại máy phiên làm việc</a>
+<a href="#vi-du">11. Ví dụ trọn vẹn: §34</a>
+<a href="#tien">12. Kiểm soát tiền</a>
+<a href="#tai-lap">13. Tái lập và lưu trữ</a>
+<a href="#bao-mat">14. Bảo mật và giấy phép</a>
+<a href="#kaggle">15. Hướng Kaggle</a>
+<a href="#thoi-gian">16. Dòng thời gian</a>
+<a href="#tu-chay">17. Tự chạy từng việc</a>
+<a href="#bai-hoc">18. Lỗi đã gặp và bài học</a>
+<a href="#hoi-dap">19. Hỏi nhanh, đáp nhanh</a>
+<a href="./index.html">← Báo cáo chính</a>
+<a href="./explantation.html">← Giải thích nghiên cứu</a>
+</nav><article>
+
+<h2 id="tong-quan">1. Bức tranh tổng thể</h2>
+<p>Gatekeeper là một dự án <b>nghiên cứu</b>, không phải một ứng dụng web. Vì vậy thứ được “sản xuất” ở đây không phải một trang web cho khách hàng dùng, mà là ba thứ:</p>
+<ul>
+<li><b>Số liệu thí nghiệm</b>: các file JSON ghi lại agent đã giải được task nào, tốn bao nhiêu.</li>
+<li><b>Bài báo</b>: file PDF dựng từ LaTeX, trong đó mọi con số được sinh tự động từ số liệu.</li>
+<li><b>Báo cáo HTML</b>: thư mục <code>report/</code> mà bạn đang đọc.</li>
+</ul>
+<p>Toàn bộ máy móc quanh đó tồn tại để trả lời một câu hỏi: <b>làm sao để một con số trong bài báo có thể tin được?</b> Mỗi phần của hệ thống chặn một cách sai cụ thể: mã sai, chạy nhầm cấu hình, tiêu quá tiền, mất dữ liệu gốc, lộ khóa bí mật, hoặc sửa quy tắc sau khi đã thấy kết quả.</p>
+<div class="flow">
+<div class="step">Ý tưởng thí nghiệm<small>câu hỏi, cách đo, quy tắc quyết định</small></div><div class="arrow">↓</div>
+<div class="step">Bản đăng ký trước<small>viết quy tắc vào <code>docs/preregistration_*.md</code> trước khi có dữ liệu</small></div><div class="arrow">↓</div>
+<div class="step">Viết mã và test</div><div class="arrow">↓</div>
+<div class="step gate">Cổng kiểm tra tự động (preflight)<small>không đạt thì không commit được, không chạy được</small></div><div class="arrow">↓</div>
+<div class="step ok">Chạy thử miễn phí<small>dùng model giả, tốn 0 đồng, kiểm toàn bộ đường ống</small></div><div class="arrow">↓</div>
+<div class="step pay">Chạy thật, có phí<small>máy của GitHub gọi model Gemini trên Google Cloud, có trần ngân sách</small></div><div class="arrow">↓</div>
+<div class="step">Kết quả được ghi lên một nhánh riêng<small>nhánh “snapshot”, tách khỏi mã</small></div><div class="arrow">↓</div>
+<div class="step">Phân tích bằng script đã viết sẵn</div><div class="arrow">↓</div>
+<div class="step">Số liệu → bài báo và báo cáo<small>CI dựng lại PDF và kiểm bố cục</small></div>
+</div>
+<div class="box"><b>Cách đọc tài liệu này.</b> Mục 3 là từ điển: gặp chữ lạ ở đâu thì quay về đó. Mục 5 đến 10 mô tả từng luồng. Mục 11 kể lại một thí nghiệm thật từ đầu đến cuối, nên đọc mục đó nếu bạn chỉ có 10 phút.</div>
+
+<h2 id="doi-chieu">2. GitLab CI/CD, AWS và dự án này</h2>
+<p>Dự án <b>không dùng GitLab và không dùng AWS</b>. Nó dùng hai dịch vụ làm cùng việc: <b>GitHub Actions</b> để chạy đường ống tự động, và <b>Google Cloud (Vertex AI)</b> để gọi model ngôn ngữ. Các khái niệm gần như trùng nhau, nên hiểu một bên là hiểu được bên kia. Bảng dưới là phép đối chiếu khái niệm chung để bạn định hướng; cột GitLab và AWS không mô tả thứ gì có trong repo.</p>
+<div class="tbl"><table>
+<tr><th>Việc cần làm</th><th>Trong dự án này</th><th>Tên tương ứng ở GitLab CI/CD</th><th>Tên tương ứng ở AWS</th></tr>
+<tr><td>Nơi giữ mã và lịch sử</td><td>Repo trên GitHub</td><td>Project trên GitLab</td><td>CodeCommit</td></tr>
+<tr><td>File mô tả đường ống</td><td>14 file trong <code>.github/workflows/*.yml</code></td><td>một file <code>.gitlab-ci.yml</code></td><td>CodePipeline, CodeBuild (<code>buildspec.yml</code>)</td></tr>
+<tr><td>Một lần chạy đường ống</td><td>workflow run</td><td>pipeline</td><td>pipeline execution</td></tr>
+<tr><td>Một khối việc trên một máy</td><td>job</td><td>job (xếp trong stage)</td><td>build project</td></tr>
+<tr><td>Máy thực thi</td><td>runner do GitHub cấp (<code>ubuntu-latest</code>)</td><td>GitLab Runner</td><td>máy của CodeBuild hoặc EC2</td></tr>
+<tr><td>Chạy cùng một job với nhiều tham số</td><td><code>strategy.matrix</code></td><td><code>parallel:matrix</code></td><td>batch build</td></tr>
+<tr><td>Chỉ chạy khi file nào đó đổi</td><td><code>on.push.paths</code></td><td><code>rules:changes</code></td><td>bộ lọc trigger</td></tr>
+<tr><td>Bấm tay để chạy, có tham số</td><td><code>workflow_dispatch</code> với <code>inputs</code></td><td>“Run pipeline” với variables</td><td>start execution</td></tr>
+<tr><td>Không cho hai lần chạy cùng lúc</td><td><code>concurrency.group</code></td><td><code>resource_group</code></td><td>—</td></tr>
+<tr><td>File sinh ra giữ lại sau khi chạy</td><td>artifact</td><td>artifact</td><td>S3</td></tr>
+<tr><td>Giá trị bí mật</td><td>repository secrets</td><td>CI/CD variables (masked)</td><td>Secrets Manager</td></tr>
+<tr><td>Danh tính của máy khi gọi đám mây</td><td>service account của Google Cloud</td><td>—</td><td>IAM role</td></tr>
+<tr><td>Dịch vụ gọi model ngôn ngữ</td><td>Vertex AI (model Gemini)</td><td>—</td><td>Bedrock</td></tr>
+<tr><td>Cảnh báo chi tiêu ở phía đám mây</td><td>budget alert của Google Cloud Billing</td><td>—</td><td>AWS Budgets</td></tr>
+</table></div>
+<div class="box amber"><b>“Deploy” ở đây nghĩa là gì?</b> Trong một dự án phần mềm thông thường, bước cuối của đường ống là đưa ứng dụng lên máy chủ. Ở dự án này không có máy chủ nào cần đưa ứng dụng lên. Thứ gần nhất với “deploy” là bước <b>công bố kết quả</b>: cuối mỗi lần chạy, script <code>scripts/publish_snapshot.sh</code> ghi các file kết quả lên một nhánh riêng của repo. Ngoài ra GitHub tự chạy một luồng “pages build and deployment” mỗi lần có push lên nhánh mặc định.</div>
+
+<h2 id="tu-dien">3. Từ điển khái niệm</h2>
+<p>Mỗi mục gồm ba ý: nghĩa đời thường, nó là gì trong dự án, và <span class="why">vì sao dự án chọn dùng như vậy</span>.</p>
+
+<h3>3.1 Git và nhánh</h3>
+<dl class="terms">
+<dt>Repo (repository)</dt><dd>Một thư mục dự án có kèm toàn bộ lịch sử thay đổi. Bản chính nằm trên GitHub, gọi là <i>remote</i>; mỗi máy làm việc giữ một bản sao.</dd>
+<dt>Commit</dt><dd>Một lần “chụp ảnh” trạng thái các file, kèm lời nhắn. Mỗi commit có một mã băm riêng (ví dụ <code>095f68c</code>). <span class="why">Vì mã băm không thể giả, dự án dùng nó để ghim phiên bản: “kết quả này sinh ra từ đúng commit kia”.</span></dd>
+<dt>Push và fetch</dt><dd>Push là gửi commit từ máy mình lên GitHub. Fetch là lấy commit mới từ GitHub về.</dd>
+<dt>Nhánh (branch)</dt><dd>Một dòng lịch sử có tên. Nhiều nhánh cùng tồn tại trong một repo. Dự án có 20 nhánh, chia ba loại: nhánh mã, nhánh dữ liệu và nhánh sổ chi (mục 5).</dd>
+<dt>Nhánh mồ côi (orphan branch)</dt><dd>Một nhánh không chung lịch sử với nhánh nào khác. <span class="why">Các nhánh dữ liệu được tạo kiểu này để chúng không mang theo mã, chỉ mang file kết quả.</span></dd>
+<dt>Git hook</dt><dd>Một đoạn script mà git tự chạy tại một thời điểm nhất định. Dự án dùng hook <code>pre-commit</code>: chạy ngay trước khi tạo commit, và nếu nó báo lỗi thì git từ chối commit.</dd>
+</dl>
+
+<h3>3.2 CI/CD và đường ống</h3>
+<dl class="terms">
+<dt>CI (Continuous Integration, tích hợp liên tục)</dt><dd>Mỗi lần có mã mới được đẩy lên, một máy sạch tự cài dự án và chạy toàn bộ kiểm tra. <span class="why">Máy sạch không có “thứ chỉ có trên máy tôi”, nên nếu nó chạy được thì người khác cũng chạy được.</span></dd>
+<dt>CD (Continuous Delivery/Deployment)</dt><dd>Phần nối tiếp của CI: tự động đóng gói và đưa sản phẩm đi. Ở đây sản phẩm là PDF bài báo, báo cáo và file kết quả.</dd>
+<dt>Workflow</dt><dd>Một file YAML mô tả một đường ống: khi nào chạy, chạy trên máy gì, gồm những bước nào. GitLab gọi là pipeline.</dd>
+<dt>Trigger (điều kiện kích hoạt)</dt><dd>Dự án dùng ba kiểu. <code>push</code>: chạy khi có commit mới, có thể lọc theo nhánh và theo file bị đổi (<code>paths</code>). <code>pull_request</code>: chạy khi có đề nghị nhập mã. <code>workflow_dispatch</code>: chỉ chạy khi có người bấm nút và điền tham số. <span class="why">Mọi luồng tốn tiền chỉ có kiểu thứ ba, để không bao giờ tự tiêu tiền khi ai đó push mã.</span></dd>
+<dt>Job và step</dt><dd>Một workflow gồm một hay nhiều <i>job</i>. Mỗi job chạy trên một máy riêng và gồm các <i>step</i> chạy lần lượt. Job này có thể chờ job kia bằng từ khóa <code>needs</code>.</dd>
+<dt>Runner</dt><dd>Máy ảo mà GitHub cho mượn để chạy một job. Dự án dùng loại <code>ubuntu-latest</code>. Máy được tạo mới cho mỗi job và bị hủy khi job xong, nên mọi thứ cần giữ phải được gửi ra ngoài trước khi job kết thúc. Giới hạn dự án đã ghi lại: tối đa 20 job chạy cùng lúc và 6 giờ cho mỗi job.</dd>
+<dt>Matrix và shard</dt><dd>Matrix là cách bảo “chạy job này nhiều lần, mỗi lần một giá trị tham số”. Shard là một phần của công việc lớn được cắt ra. <span class="why">Thí nghiệm E2 cắt danh sách task thành 20 shard chạy song song trên 20 runner, vì một runner không thể làm hết trong 6 giờ.</span></dd>
+<dt>Artifact</dt><dd>File mà một job gửi lên kho của GitHub để tải về sau, hoặc để job khác dùng. Artifact có hạn lưu, nên dự án không coi nó là nơi lưu lâu dài.</dd>
+<dt>Concurrency group</dt><dd>Một cái khóa có tên. Hai lần chạy cùng nhóm không chạy đồng thời: lần sau phải xếp hàng. <span class="why">Luồng có phí dùng nhóm <code>pilot-paid</code> để hai lần chạy không cùng tiêu một ngân sách và không ghi đè file của nhau.</span></dd>
+<dt>Timeout</dt><dd>Thời gian tối đa của một job. Các job dài đặt 350 đến 360 phút, sát giới hạn 6 giờ.</dd>
+<dt>Permissions</dt><dd>Quyền của job đối với repo. <code>contents: read</code> là chỉ đọc; <code>contents: write</code> là được ghi nhánh. <span class="why">Chỉ những workflow cần công bố kết quả mới được cấp quyền ghi.</span></dd>
+</dl>
+
+<h3>3.3 Môi trường chạy</h3>
+<dl class="terms">
+<dt>Docker image và container</dt><dd>Image là một “hộp” đóng sẵn hệ điều hành, thư viện và mã của một dự án phần mềm. Container là một hộp đang chạy. <span class="why">Mỗi task của benchmark có image riêng, để việc chạy test của task đó cho cùng kết quả ở mọi máy.</span> Image nặng vài GB, nên nhiều workflow có bước đầu tiên là dọn đĩa của runner.</dd>
+<dt>Môi trường ảo Python (venv)</dt><dd>Một thư mục chứa bộ thư viện Python riêng. <span class="why">Một số workflow tạo hai venv vì hai công cụ cần hai phiên bản khác nhau của cùng một thư viện: ví dụ gskill cần swebench 4.1.0, còn harness chính của dự án dùng 5.0.2.</span></dd>
+<dt>Ghim phiên bản (pin)</dt><dd>Ghi rõ số phiên bản thay vì “bản mới nhất”, ví dụ <code>mini-swe-agent==2.4.6</code>. Với mã lấy từ repo khác, dự án ghim tới từng commit, ví dụ <code>GEPA_COMMIT</code>. <span class="why">Nếu không ghim, thư viện tự cập nhật có thể làm kết quả hôm nay khác hôm qua mà không ai biết lý do.</span></dd>
+<dt>Lint và format</dt><dd>Công cụ <code>ruff</code> soát lỗi mã hiển nhiên và kiểm cách trình bày.</dd>
+<dt>Unit test và coverage</dt><dd><code>pytest</code> chạy các bài kiểm tra tự động. Coverage là tỉ lệ dòng mã được test chạy qua; CI yêu cầu ít nhất 80% cho gói <code>gatekeeper</code>.</dd>
+</dl>
+
+<h3>3.4 Model, agent và benchmark</h3>
+<dl class="terms">
+<dt>LLM và API</dt><dd>Model ngôn ngữ lớn, gọi qua mạng: gửi văn bản đi, nhận văn bản về, trả tiền theo lượng chữ.</dd>
+<dt>Token</dt><dd>Đơn vị đếm lượng chữ của model. Có ba loại được ghi riêng: token đầu vào, token đầu vào lấy từ cache (rẻ hơn), và token đầu ra. Dự án báo cáo chi phí bằng token; USD chỉ dùng để giữ ngân sách.</dd>
+<dt>Vertex AI</dt><dd>Dịch vụ của Google Cloud cho thuê model Gemini. Dự án dùng ba model: một model nhỏ làm agent chính, một model mạnh hơn làm agent thứ hai, và một model lớn để viết skill.</dd>
+<dt>LiteLLM</dt><dd>Thư viện trung gian: mã chỉ gọi một kiểu, LiteLLM dịch sang cách gọi của từng nhà cung cấp và tính tiền từng lần gọi. <span class="why">Con số tiền mà dự án cộng dồn để so với trần ngân sách đến từ đây.</span></dd>
+<dt>Agent</dt><dd>Một vòng lặp: model đọc đề bài, đề xuất một lệnh, lệnh chạy trong container, model đọc kết quả rồi đề xuất lệnh tiếp. Dự án dùng <code>mini-swe-agent</code>.</dd>
+<dt>Skill</dt><dd>Một đoạn hướng dẫn bằng chữ được chèn vào đề bài của agent. Đây là đối tượng nghiên cứu.</dd>
+<dt>Benchmark, task và harness</dt><dd>Benchmark là bộ đề: mỗi <i>task</i> là một lỗi thật hoặc lỗi được chèn vào một repo, kèm bộ test. <i>Harness</i> là chương trình chấm: áp bản vá của agent rồi chạy test. Dự án dùng SWE-bench, SWE-bench-Live và SWE-smith.</dd>
+<dt>Patch, gold patch và no-op patch</dt><dd>Patch là bản vá mã. Gold patch là lời giải chuẩn của task. No-op patch là bản vá không đổi gì. <span class="why">Hai bản vá này là đối chứng có đáp án biết trước: gold phải được chấm là đúng, no-op phải bị chấm là sai. Nếu không, bộ chấm có vấn đề.</span></dd>
+<dt>Seed</dt><dd>Con số khởi tạo sự ngẫu nhiên. Cùng seed thì dễ so sánh hai nhánh; seed khác thì kiểm được kết quả có lặp lại không.</dd>
+<dt>Nhánh thí nghiệm (arm)</dt><dd>Một điều kiện chạy, ví dụ “có skill” và “không skill”. Lưu ý: chữ “nhánh” ở đây khác với nhánh git.</dd>
+</dl>
+
+<h3>3.5 Kiểm soát</h3>
+<dl class="terms">
+<dt>Preflight</dt><dd>Script <code>scripts/preflight.py</code>: danh sách kiểm tra tự động trước khi được phép commit hay chạy có phí (mục 6).</dd>
+<dt>Chạy thử miễn phí (dry run)</dt><dd>Chạy đúng đường ống thật nhưng thay model bằng một kịch bản cố định. Tốn 0 đồng. <span class="why">Phần lớn lỗi nằm ở đường ống chứ không ở model, nên bắt chúng trước khi trả tiền.</span></dd>
+<dt>cost_limit và trần (cap)</dt><dd><code>cost_limit</code> là số tiền tối đa cho một lượt chạy của agent. Trần là số tiền tối đa cho cả một bước. Quy tắc dừng: nếu <code>đã chi + cost_limit &gt; trần</code> thì không bắt đầu lượt mới.</dd>
+<dt>Sổ chi (ledger)</dt><dd>Một nhánh git dùng làm sổ kế toán chung cho nhiều job chạy song song (mục 12).</dd>
+<dt>Bản đăng ký trước (preregistration)</dt><dd>Văn bản ghi câu hỏi, cách đo và quy tắc quyết định, được commit trước khi có dữ liệu. <span class="why">Thời điểm commit là bằng chứng rằng quy tắc không bị sửa cho hợp với kết quả.</span></dd>
+<dt>SHA-256</dt><dd>Một “dấu vân tay” của nội dung file. Hai file khác nhau một ký tự cho hai dấu vân tay khác nhau. Dùng để chứng minh file không bị đổi.</dd>
+<dt>Secret, service account và khóa</dt><dd>Service account là một “tài khoản cho máy” trên Google Cloud. Khóa của nó là một file JSON, ai cầm file đó là gọi được model và tiêu tiền. Secret là chỗ GitHub cất giá trị bí mật: workflow dùng được nhưng không ai đọc lại được.</dd>
+</dl>
+
+<h2 id="repo">4. Bản đồ thư mục</h2>
+<div class="tbl"><table>
+<tr><th>Đường dẫn</th><th>Chứa gì</th></tr>
+<tr><td><code>src/gatekeeper/</code></td><td>Mã lõi, không cần model: phép kiểm thống kê (<code>eprocess.py</code>), thuật toán admit (<code>admission.py</code>), cách tính loss, bộ điều khiển thí nghiệm (<code>pilot.py</code>), lớp gọi harness.</td></tr>
+<tr><td><code>scripts/</code></td><td>Hơn 100 script: chạy thí nghiệm, phân tích từng mục, sinh số cho bài báo, kiểm tra, lưu trữ.</td></tr>
+<tr><td><code>tests/</code></td><td>Gần 50 file test cho mã lõi và cho các script.</td></tr>
+<tr><td><code>configs/</code></td><td>Cấu hình: danh sách model và giá (<code>models/</code>), các tập task (<code>pools/</code>), các skill (<code>skills/</code>), danh sách nguồn tài liệu (<code>sources.json</code>).</td></tr>
+<tr><td><code>docs/</code></td><td>Bản đăng ký trước, sổ lỗi, bài học, sổ review, quy tắc nghiên cứu, kế hoạch.</td></tr>
+<tr><td><code>results/</code></td><td>Kết quả dạng JSON đã được đưa về <code>main</code> để phân tích.</td></tr>
+<tr><td><code>paper/</code></td><td>Bài báo LaTeX. <code>numbers.tex</code> là file số sinh tự động.</td></tr>
+<tr><td><code>report/</code></td><td>Ba trang HTML: báo cáo chính, giải thích nghiên cứu, và trang này.</td></tr>
+<tr><td><code>kaggle/</code></td><td>Mọi thứ của hướng Kaggle; chỉ có trên nhánh mặc định (mục 15).</td></tr>
+<tr><td><code>.github/workflows/</code></td><td>14 file workflow (mục 7).</td></tr>
+<tr><td><code>.claude/hooks/</code></td><td>Script chạy mỗi khi mở một phiên làm việc (mục 6).</td></tr>
+<tr><td><code>runs/</code>, <code>logs/</code></td><td>Dữ liệu gốc sinh ra khi chạy trên máy. Không vào git của <code>main</code>; được nén và đưa lên nhánh <code>raw-archive</code>.</td></tr>
+</table></div>
+
+<h2 id="nhanh">5. Bản đồ 20 nhánh</h2>
+<p>Ý tưởng chính: <b>mã ở một nơi, dữ liệu máy sinh ra ở nơi khác</b>. Có bốn lý do.</p>
+<ol>
+<li><b>Máy làm việc không vào được mọi trang web.</b> Runner của GitHub thì vào được. Vì vậy runner đi tải (bài báo gốc, dữ liệu benchmark), ghi lên một nhánh, rồi máy làm việc đọc từ nhánh đó.</li>
+<li><b>Giữ <code>main</code> nhẹ.</b> Dữ liệu gốc nặng hàng chục MB mỗi đợt.</li>
+<li><b>Chạy tiếp được sau khi bị ngắt.</b> Một lần chạy mới đọc kết quả của lần trước từ nhánh dữ liệu và bỏ qua task đã xong.</li>
+<li><b>Giới hạn quyền.</b> Mã thông báo mà GitHub cấp cho workflow không được sửa các file workflow. Một nhánh dữ liệu vì thế không thể được tạo lại từ <code>main</code>; script công bố chỉ thêm commit chứa dữ liệu lên trên nhánh đó.</li>
+</ol>
+<div class="tbl"><table>
+<tr><th>Nhánh</th><th>Số commit</th><th>Ai ghi</th><th>Chứa gì, để làm gì</th></tr>
+<tr><th colspan="4">Nhánh mã</th></tr>
+<tr><td><code>main</code></td><td>749</td><td>phiên làm việc</td><td>Bản chính thức của mã, tài liệu, kết quả và bài báo. Các workflow dữ liệu và workflow Paper chỉ tự chạy khi push lên nhánh này.</td></tr>
+<tr><td><code>claude/gatekeeper-13-research-nxytoh</code></td><td>775</td><td>phiên làm việc</td><td>Nhánh mặc định của repo và nhánh phát triển. Đi trước <code>main</code> 36 commit: phần chênh là thư mục <code>kaggle/</code>, được giữ ở đây cho tới khi chạy ổn.</td></tr>
+<tr><td><code>trial</code></td><td>601</td><td>phiên làm việc</td><td>Nhánh thử của giai đoạn 06–08/11 (SWE-smith, Bleve, MemGovern). Việc nhập vào <code>main</code> phải đánh số lại các mã lỗi bị trùng; kế hoạch ở <code>docs/merge_plan_trial.md</code>.</td></tr>
+<tr><th colspan="4">Nhánh dữ liệu (“snapshot”), do workflow ghi</th></tr>
+<tr><td><code>sources-snapshots</code></td><td>63</td><td>Source verification</td><td>Đoạn trích từ bài báo và tài liệu gốc mà dự án trích dẫn.</td></tr>
+<tr><td><code>data-snapshots</code></td><td>53</td><td>Data snapshots</td><td>Thông tin benchmark, các tập task, dữ liệu trích dẫn.</td></tr>
+<tr><td><code>harness-snapshots</code></td><td>24</td><td>Harness smoke</td><td>Kết quả thử bộ chấm trên 5 task.</td></tr>
+<tr><td><code>pilot-snapshots</code></td><td>109</td><td>Pilot, Pilot dry run, Validate pool</td><td>Kết quả của các lượt chạy thử, chạy có phí trên SWE-smith, và kết quả kiểm tập task.</td></tr>
+<tr><td><code>e2-results</code></td><td>5</td><td>E2 shards, E2 collect</td><td>Kết quả thí nghiệm E2; lần chạy sau đọc từ đây để chạy tiếp.</td></tr>
+<tr><td><code>rescore-results</code>, <code>s28-results</code></td><td>1 và 1</td><td>Rescore, S28</td><td>Kết quả chấm lại không gọi model.</td></tr>
+<tr><td><code>mg-results</code>, <code>mg-cell-results</code></td><td>1 và 5</td><td>MemGovern trial</td><td>Kết quả của ô thí nghiệm MemGovern (đã dừng ngày 07/11).</td></tr>
+<tr><td><code>raw-archive</code></td><td>108</td><td><code>archive_raw.py</code></td><td>Dữ liệu gốc nén: quỹ đạo của agent, bản vá, log test (mục 13).</td></tr>
+<tr><th colspan="4">Nhánh sổ chi</th></tr>
+<tr><td><code>e2-ledger</code></td><td>696</td><td>20 shard của E2</td><td>Mỗi commit là một lần “giữ chỗ” hoặc “quyết toán” tiền (mục 12).</td></tr>
+<tr><td><code>mg-ledger</code></td><td>40</td><td>MemGovern trial</td><td>Sổ chi của ô MemGovern.</td></tr>
+<tr><td><code>e2-ledger-dryrun-*</code> (2 nhánh), <code>mg-ledger-dryrun-*</code> (3 nhánh)</td><td>1–4</td><td>các lần chạy thử</td><td>Sổ chi giả của từng lần chạy thử miễn phí, để kiểm chính cơ chế sổ chi mà không đụng sổ thật.</td></tr>
+</table></div>
+<h3>Script công bố chạy thế nào</h3>
+<p><code>scripts/publish_snapshot.sh &lt;nhánh&gt; &lt;lời nhắn&gt; &lt;file…&gt;</code> làm năm việc:</p>
+<ol>
+<li>Chép các file cần công bố sang một thư mục tạm.</li>
+<li>Dọn sạch thư mục làm việc của runner.</li>
+<li>Chuyển sang nhánh đích. Nếu nhánh chưa có thì tạo một nhánh mồ côi.</li>
+<li>Chép file trở lại và tạo commit. Nếu không có gì mới thì dừng.</li>
+<li>Push, không dùng chế độ ép ghi đè.</li>
+</ol>
+<p class="muted">Vì bước 2 xóa sạch thư mục làm việc, việc lưu trữ dữ liệu gốc phải chạy <b>trước</b> bước công bố. Thứ tự này từng bị đặt sai và đã được ghi thành lỗi A68.</p>
+
+<h2 id="cong">6. Bốn lớp cổng chặn</h2>
+<p>Dự án không dựa vào việc ai đó nhớ quy tắc. Mỗi quy tắc kiểm được bằng máy đều được đưa vào một script, và script đó được đặt ở bốn chỗ mà mã bắt buộc phải đi qua.</p>
+<div class="flow">
+<div class="step gate"><b>Lớp 1: mở phiên làm việc</b><small><code>.claude/hooks/session-start.sh</code> cài thư viện, cài hook commit, in lại quy tắc, báo thí nghiệm dở dang và dữ liệu chưa lưu trữ, rồi chạy preflight</small></div><div class="arrow">↓</div>
+<div class="step gate"><b>Lớp 2: trước mỗi commit</b><small>git hook <code>pre-commit</code> chạy preflight đầy đủ (có cả lint và test); không đạt thì git từ chối commit</small></div><div class="arrow">↓</div>
+<div class="step gate"><b>Lớp 3: sau mỗi lần push</b><small>workflow CI chạy lại mọi thứ trên máy sạch, với hai phiên bản Python</small></div><div class="arrow">↓</div>
+<div class="step gate"><b>Lớp 4: trước mỗi lần chạy có phí</b><small>bước “Preflight gate” trong workflow: <code>python scripts/preflight.py --ci || exit 7</code></small></div>
+</div>
+<h3>Preflight kiểm những gì</h3>
+<div class="tbl"><table>
+<tr><th>Tên kiểm tra</th><th>Kiểm gì</th><th>Chặn lỗi nào đã từng xảy ra</th></tr>
+<tr><td><code class="nw">[defaults]</code></td><td>Không hàm nào có giá trị mặc định cho tham số khoa học (α, θ, cách chia α).</td><td>Một con số khoa học “tự có” mà không ai chọn.</td></tr>
+<tr><td><code class="nw">[sources]</code></td><td>Mỗi nguồn trong <code>configs/sources.json</code> đã được tải về và chứa đúng từ khóa cần dùng. Hiện có 115 nguồn; nguồn chưa kiểm được thì bị liệt kê và không được dùng để kết luận.</td><td>Trích dẫn theo trí nhớ.</td></tr>
+<tr><td><code class="nw">[results]</code></td><td>Không file kết quả nào có chỗ lệch không giải thích được.</td><td>Số liệu hỏng lọt vào phân tích.</td></tr>
+<tr><td><code class="nw">[terms]</code></td><td>Tài liệu sẽ vào bài báo không có từ đánh giá mơ hồ mà thiếu con số.</td><td>Câu chữ mà reviewer bắt bẻ được.</td></tr>
+<tr><td><code class="nw">[workflow deps]</code></td><td>Thư viện mà workflow cài khớp với thứ mã cần.</td><td>Workflow hỏng vì thiếu một gói.</td></tr>
+<tr><td><code class="nw">[secrets]</code></td><td>Không file nào đang theo dõi hoặc sắp commit chứa khóa bí mật.</td><td>Lộ khóa lên repo công khai.</td></tr>
+<tr><td>ruff, format, pytest</td><td>Lint, cách trình bày, toàn bộ test.</td><td>Mã lỗi lọt vào <code>main</code>.</td></tr>
+</table></div>
+<div class="box"><b>Vì sao cần cả bốn lớp?</b> Mỗi lớp bắt một trường hợp mà lớp khác bỏ sót. Hook commit chạy trên máy làm việc, nên không bắt được lỗi “chỉ chạy được trên máy tôi”; CI bắt được. CI chạy sau khi push, nên không ngăn được một workflow có phí bị bấm chạy trên commit hỏng; cổng trong workflow ngăn được. Quy ước của dự án là không dùng <code>--no-verify</code> để vượt hook.</div>
+
+<h2 id="workflow">7. Danh sách 14 workflow</h2>
+<p>Tính đến ngày 16/11, repo đã ghi nhận khoảng 2.690 lần chạy workflow.</p>
+<div class="tbl"><table>
+<tr><th>Workflow (file)</th><th>Chạy khi nào</th><th>Phí</th><th>Kết quả đi đâu</th></tr>
+<tr><td><b>CI</b> (<code>ci.yml</code>)</td><td>mọi push lên <code>main</code>, <code>claude/**</code>, <code>trial</code>; mọi pull request</td><td><span class="tag free">0</span></td><td>artifact</td></tr>
+<tr><td><b>Paper</b> (<code>paper.yml</code>)</td><td>push lên <code>main</code> có đổi <code>paper/</code> hoặc <code>results/</code></td><td><span class="tag free">0</span></td><td>artifact PDF</td></tr>
+<tr><td><b>Source verification</b> (<code>sources.yml</code>)</td><td>push lên <code>main</code> có đổi danh sách nguồn</td><td><span class="tag free">0</span></td><td><code>sources-snapshots</code></td></tr>
+<tr><td><b>Data snapshots</b> (<code>data.yml</code>)</td><td>push lên <code>main</code> có đổi script chọn task hoặc tập task</td><td><span class="tag free">0</span></td><td><code>data-snapshots</code></td></tr>
+<tr><td><b>Harness smoke</b> (<code>harness.yml</code>)</td><td>push lên <code>main</code> có đổi mã chấm</td><td><span class="tag free">0</span></td><td><code>harness-snapshots</code></td></tr>
+<tr><td><b>Pilot dry run</b> (<code>pilot-dryrun.yml</code>)</td><td>push lên <code>main</code> có đổi mã điều khiển thí nghiệm</td><td><span class="tag free">0</span></td><td><code>pilot-snapshots</code></td></tr>
+<tr><td><b>Validate pilot pool</b> (<code>validate-pool.yml</code>)</td><td>bấm tay, hoặc khi tập task đổi</td><td><span class="tag free">0</span></td><td><code>pilot-snapshots</code></td></tr>
+<tr><td><b>Vertex credentials check</b> (<code>vertex-check.yml</code>)</td><td>bấm tay</td><td><span class="tag paid">vài token</span></td><td>chỉ in ra log</td></tr>
+<tr><td><b>Pilot (paid, Vertex AI)</b> (<code>pilot.yml</code>)</td><td>chỉ bấm tay</td><td><span class="tag paid">có phí</span> (có chế độ chạy thử 0 đồng)</td><td><code>pilot-snapshots</code></td></tr>
+<tr><td><b>E2 shards</b> (<code>e2-shards.yml</code>)</td><td>chỉ bấm tay</td><td><span class="tag paid">có phí</span> (có chế độ chạy thử)</td><td><code>e2-results</code>, <code>e2-ledger</code>, <code>raw-archive</code></td></tr>
+<tr><td><b>E2 collect</b> (<code>e2-collect.yml</code>)</td><td>chỉ bấm tay</td><td><span class="tag free">0</span></td><td><code>e2-results</code>, <code>raw-archive</code></td></tr>
+<tr><td><b>MemGovern trial</b> (<code>memgovern-trial.yml</code>)</td><td>chỉ bấm tay</td><td><span class="tag free">0</span> hoặc <span class="tag paid">có phí</span> tùy chế độ</td><td><code>mg-results</code>, <code>mg-cell-results</code>, <code>mg-ledger</code></td></tr>
+<tr><td><b>Harness rescoring</b> (<code>rescore.yml</code>)</td><td>chỉ bấm tay</td><td><span class="tag free">0</span></td><td><code>rescore-results</code></td></tr>
+<tr><td><b>Section 28m step 2</b> (<code>s28.yml</code>)</td><td>chỉ bấm tay</td><td><span class="tag free">0</span></td><td><code>s28-results</code></td></tr>
+</table></div>
+
+<h2 id="luong-mien-phi">8. Các luồng miễn phí, từng bước</h2>
+
+<h3>8.1 CI: kiểm mã sau mỗi lần push</h3>
+<p><b>Mục đích:</b> bảo đảm mã trên GitHub luôn cài được, qua được test, và cho lại đúng kết quả mô phỏng đã ghi.</p>
+<p>Workflow gồm ba job. Hai job đầu chạy song song; job thứ ba chờ chúng.</p>
+<ol>
+<li><b>Job <code>test</code></b>, chạy hai lần nhờ matrix: một lần với Python 3.11, một lần với 3.12.
+  <ol>
+  <li>Lấy mã về (<code>actions/checkout</code>).</li>
+  <li>Cài Python và cài dự án: <code>pip install -e ".[dev]"</code>.</li>
+  <li>Lint: <code>ruff check .</code> và <code>ruff format --check .</code>.</li>
+  <li>Preflight ở chế độ <code>--ci</code>.</li>
+  <li>Chạy test, yêu cầu coverage từ 80%.</li>
+  <li>Chạy lại toàn bộ mô phỏng thống kê.</li>
+  <li>So kết quả mô phỏng vừa chạy với file đã commit. Phải trùng khít; lệch là job thất bại.</li>
+  <li>Gửi thư mục <code>results/</code> lên làm artifact.</li>
+  </ol></li>
+<li><b>Job <code>confseq-crosscheck</code></b>: đối chiếu phép kiểm thống kê của dự án với một thư viện độc lập (<code>confseq</code>). Job này dùng Python 3.10 và cài thêm thư viện C++ Boost, vì thư viện kia chỉ dựng được trong điều kiện đó.</li>
+<li><b>Job <code>report</code></b>: tải artifact của hai job trên rồi dựng báo cáo.</li>
+</ol>
+<p class="why">Vì sao chạy lại mô phỏng trong CI: một con số thống kê trong bài báo phải ra lại được từ mã hiện tại. Nếu ai đó sửa mã làm con số đổi mà quên cập nhật file, CI báo ngay.</p>
+<p class="muted">CI dùng <code>cancel-in-progress: true</code>: push hai lần liên tiếp thì lần chạy cũ bị hủy, vì chỉ kết quả của commit mới nhất có ý nghĩa. Các luồng công bố dữ liệu thì ngược lại, đặt <code>false</code>, để không bị cắt giữa chừng khi đang ghi.</p>
+
+<h3>8.2 Paper: dựng bài báo</h3>
+<ol>
+<li>Sinh lại các bảng từ <code>results/</code> bằng <code>scripts/make_tables.py</code>. Nếu bảng sinh ra khác bảng đã commit thì dừng: bảng trong repo đã cũ.</li>
+<li>Biên dịch <code>paper/main.tex</code> thành PDF.</li>
+<li>Tìm chuỗi “Overfull \hbox” trong log biên dịch. Có là thất bại: chữ đã tràn sang cột bên cạnh.</li>
+<li>Gửi PDF lên làm artifact.</li>
+</ol>
+<p>Phần liên quan: <code>scripts/make_numbers.py</code> đọc các file kết quả rồi viết <code>paper/numbers.tex</code>, mỗi con số là một lệnh LaTeX. Bài báo không gõ tay con số nào. Script này cũng so từng số với giá trị đã ghi trong bản đăng ký; lệch thì báo <code>MISMATCH</code> và dừng.</p>
+
+<h3>8.3 Source verification: tải bản gốc của tài liệu</h3>
+<p><b>Vấn đề:</b> quy tắc R1 yêu cầu mọi lập luận dựa trên bản gốc đã đọc, không theo trí nhớ. Máy làm việc lại không vào được nhiều trang tài liệu.</p>
+<ol>
+<li>Thêm một mục vào <code>configs/sources.json</code>: địa chỉ và các từ khóa phải có trong tài liệu.</li>
+<li>Push lên <code>main</code>. Workflow tự chạy vì file đó đổi.</li>
+<li>Runner tải từng tài liệu, trích đoạn chứa từ khóa.</li>
+<li>Ghi các đoạn trích lên nhánh <code>sources-snapshots</code>. Nếu tải lại thất bại thì giữ bản tốt gần nhất.</li>
+<li>Từ đó, preflight <code>[sources]</code> kiểm rằng nguồn đã được tải và chứa từ khóa.</li>
+</ol>
+
+<h3>8.4 Data snapshots: chuẩn bị dữ liệu đề bài</h3>
+<p>Runner tải thông tin các benchmark, kiểm trích dẫn, chọn các tập task theo quy tắc đã ghi, xuất các dòng task thành file, rồi ghi tất cả lên <code>data-snapshots</code>. Các luồng có phí sau này <b>không tự tải dữ liệu</b>: chúng đọc từ nhánh này. <span class="why">Nhờ vậy mọi lần chạy dùng cùng một bộ đề, và việc chọn task xảy ra trước khi có kết quả.</span></p>
+<p class="muted">Một số bước ở đây có <code>continue-on-error: true</code>, tức lỗi của bước đó không làm hỏng cả job (ví dụ trang trích dẫn tạm thời không vào được). Các bước đã đăng ký trước thì không có cờ này: lỗi phải lộ ra.</p>
+
+<h3>8.5 Harness smoke: thử bộ chấm</h3>
+<p>Chạy bộ chấm chính thức của SWE-bench trên 5 task, mỗi task hai lần: một lần với gold patch, một lần với bản vá rỗng. Không gọi model. Đây là một “cặp thử nghiệm” đầu-cuối không tốn tiền: nếu gold không được chấm đúng hoặc bản rỗng không bị chấm sai, có lỗi ở khâu chấm.</p>
+
+<h3>8.6 Pilot dry run: thử toàn bộ đường ống với model giả</h3>
+<ol>
+<li>Dọn đĩa runner để có chỗ cho image Docker.</li>
+<li>Cài dự án, harness và agent với phiên bản đã ghim.</li>
+<li>Chạy agent thật trong container thật của 2 task, nhưng “model” là một kịch bản cố định. Skill dùng ở đây là một skill “biết đáp án”: nó áp luôn gold patch.</li>
+<li>Kiểm kết quả mong đợi: nhánh có skill đạt loss 0; nhánh không skill đạt loss 2/3; cả hai task đều được ghép cặp.</li>
+<li>Ghi kết quả lên <code>pilot-snapshots</code>.</li>
+</ol>
+<p class="why">Vì đáp án biết trước, bất kỳ sai lệch nào cũng là lỗi của đường ống: ghép cặp sai, chấm sai, tính loss sai.</p>
+
+<h3>8.7 Validate pilot pool: kiểm từng task trước khi dùng</h3>
+<p>Không phải task nào của benchmark cũng chấm ổn định. Workflow này cắt tập task thành 8 shard, chạy tối đa 4 shard cùng lúc. Với mỗi task: chấm gold patch hai lần (để phát hiện test chập chờn) và chấm no-op một lần. Sau đó job <code>merge</code> gộp 8 phần và ghi danh sách task “dùng được” lên <code>pilot-snapshots</code>. Luồng có phí chỉ lấy task từ danh sách này.</p>
+
+<h3>8.8 Rescore và S28: chấm lại không gọi model</h3>
+<p>Hai workflow này lấy các bản vá <b>đã lưu</b> và chấm lại trên runner, chia 10 hoặc 20 shard. Lý do: container chấm trên runner có mạng đầy đủ, còn container trên máy làm việc thì không; một số test cần mạng. Chấm lại trên runner cho phép tách “agent sai” khỏi “môi trường chấm thiếu mạng”.</p>
+
+<h3>8.9 E2 collect: gom lại kết quả của một lần chạy cũ</h3>
+<p>Nếu job gom kết quả của E2 thất bại, bấm “chạy lại” trên GitHub sẽ dùng <b>mã cũ</b> của lần chạy đó. Workflow này nhận mã số của lần chạy cũ, tải artifact của nó, rồi lưu trữ và công bố bằng <b>mã hiện tại</b>.</p>
+
+<h2 id="luong-co-phi">9. Các luồng có phí, từng bước</h2>
+
+<h3>9.1 Vertex credentials check: kiểm chìa khóa trước</h3>
+<p>Bấm tay. Workflow in ra secret nào đã được đặt, tài khoản dịch vụ nào đang nằm trong secret (chỉ in tên tài khoản và 8 ký tự đầu của mã khóa, không in nội dung khóa), rồi gọi model một lần với vài token. <span class="why">Kiểm việc “có gọi được không” bằng vài token, thay vì phát hiện ra khi đã dựng xong cả thí nghiệm.</span></p>
+
+<h3>9.2 Pilot (paid, Vertex AI): luồng chính của các thí nghiệm SWE-smith</h3>
+<p>Đây là workflow lớn nhất (705 dòng). Nó chỉ chạy khi bấm tay, và người bấm phải điền các tham số:</p>
+<div class="tbl"><table>
+<tr><th>Tham số</th><th>Ý nghĩa</th></tr>
+<tr><td><code>plan</code></td><td>Chạy thí nghiệm nào: <code>r15</code> (pilot gốc), hoặc một trong các kế hoạch <code>swesmith-*</code> ứng với các mục của bản đăng ký (§25, §27, §29, §30, §33, §34, §35).</td></tr>
+<tr><td><code>repo</code></td><td>Repo của benchmark: jinja, bleve hoặc pygments.</td></tr>
+<tr><td><code>arm</code></td><td>Nhánh thí nghiệm hoặc bước con: không skill, có skill, placebo, bước đo thử (<code>pilot</code>), phần còn lại (<code>rest</code>)…</td></tr>
+<tr><td><code>model</code></td><td>Tên ngắn của model trong <code>configs/models/vertex_gemini.json</code>.</td></tr>
+<tr><td><code>cost_limit</code></td><td>Số tiền tối đa cho một lượt agent.</td></tr>
+<tr><td><code>budget_usd</code></td><td>Trần cứng cho cả lần chạy.</td></tr>
+<tr><td><code>dryrun</code></td><td><code>true</code> thì dùng model giả trên task đầu tiên của mỗi nhánh, tốn 0 đồng.</td></tr>
+<tr><td><code>half</code></td><td>Với lượt học skill: nửa đầu (300 lần chấm) hay chạy tiếp tới 600.</td></tr>
+</table></div>
+<p>Các bước của job <code>swesmith_f1</code>, dùng chung cho mọi kế hoạch <code>swesmith-*</code>:</p>
+<ol>
+<li><b>Đặt biến theo repo.</b> Từ tham số <code>repo</code> suy ra tên image Docker, tên file dữ liệu và tiền tố của file kết quả, rồi ghi vào môi trường của job.</li>
+<li><b>Dọn đĩa</b> để có chỗ cho image.</li>
+<li><b>Lấy mã</b> của đúng commit đang chạy.</li>
+<li><b>Cổng preflight.</b> Không đạt thì thoát với mã 7; không đồng nào được tiêu.</li>
+<li><b>Kiểm có khóa không.</b> Không có secret thì dừng sớm với thông báo rõ.</li>
+<li><b>Đăng nhập Google Cloud</b> bằng khóa trong secret <code>GCP_SA_KEY</code>.</li>
+<li><b>Dựng môi trường của gskill</b> đúng như bản gốc: lấy mã GEPA ở commit đã ghim, tạo một venv riêng với các phiên bản mà gskill dùng. Đồng thời sinh bảng giá của ba model để LiteLLM tính tiền.</li>
+<li><b>Lấy đề bài</b> từ nhánh <code>data-snapshots</code>, kéo image của repo, và dựng một image có sẵn các nhánh của từng task.</li>
+<li><b>Chạy đúng một bước thí nghiệm</b>, chọn theo <code>plan</code> và <code>arm</code>. Mỗi bước là một khối lệnh có điều kiện <code>if</code>. Các nhánh thí nghiệm của cùng một bước chạy <b>cùng lúc</b> trên cùng runner, mỗi nhánh có trần riêng.</li>
+<li><b>Gửi artifact</b>, kể cả khi bước trước thất bại (<code>if: always()</code>).</li>
+<li><b>Công bố</b> các file kết quả và quỹ đạo lên <code>pilot-snapshots</code>, cũng với <code>if: always()</code>.</li>
+</ol>
+<div class="box"><b>Vì sao bước 10 và 11 luôn chạy?</b> Nếu thí nghiệm dừng giữa chừng sau khi đã tiêu tiền, phần đã chạy vẫn là dữ liệu đã trả tiền. Mất nó là mất tiền và mất bằng chứng.</div>
+<h4>Hai script điều khiển bên trong</h4>
+<ul>
+<li><code>scripts/f1_probe.py</code>: chạy agent của gskill trên một danh sách task, một nhánh thí nghiệm mỗi lần gọi. Trước mỗi lượt, nó kiểm quy tắc dừng theo trần. Mỗi bản vá được chấm bằng cả hai bộ chấm (S của benchmark và L của gskill). Tham số <code>--skip-done</code> cho phép bỏ qua task đã có kết quả. Tham số <code>--stop-after-provider-crashes 3</code> dừng nếu nhà cung cấp model lỗi ba lần liên tiếp.</li>
+<li><code>scripts/gskill_learn.py</code>: gọi nguyên văn chương trình học của gskill, bọc thêm một bộ đếm tiền. Khi tổng chi vượt trần, nó ghi sổ rồi thoát với mã 5. Lượt học được chia hai nửa; nửa sau tải thư mục chạy của nửa đầu từ <code>pilot-snapshots</code> rồi chạy tiếp bằng <code>--resume</code>.</li>
+</ul>
+<h4>Môi trường “một commit”</h4>
+<p>Một số bước chạy agent trong môi trường đã xóa lịch sử git. Sau khi gskill dựng xong task, script chạy một đoạn lệnh trong container của agent: tạo một commit duy nhất chứa trạng thái hiện tại, xóa mọi nhánh và tham chiếu khác, xóa remote, rồi in một dòng kiểm tra:</p>
+<pre><code>commits=1 refs=1 remotes=0 objects_with_bug_msg=0</code></pre>
+<p>Dòng này là bằng chứng máy ghi lại rằng không còn gì để agent tìm thấy trong lịch sử. Container chấm điểm là container mới, không bị ảnh hưởng.</p>
+<h4>Job <code>swesmith_republish</code></h4>
+<p>Từng có lần bước công bố thất bại sau khi lượt học đã xong. Job này tải artifact của lần chạy đó rồi công bố lại, không gọi model nào.</p>
+
+<h3>9.3 E2 shards: 20 máy chạy song song với một ví chung</h3>
+<p>Thí nghiệm E2 chạy trên SWE-bench-Live với ba seed. Một runner không làm xuể, nên workflow gồm ba job nối nhau.</p>
+<div class="flow">
+<div class="step"><b>Job <code>plan</code></b><small>kiểm số shard hợp lệ (lần chạy có phí bắt buộc 20, để mỗi task luôn rơi vào cùng một shard); sinh danh sách 0…19</small></div><div class="arrow">↓</div>
+<div class="step pay"><b>Job <code>run</code> × 20</b><small>mỗi shard: cài môi trường, lấy phần task của mình, đọc kết quả cũ để chạy tiếp, qua cổng preflight, rồi lặp “giữ chỗ → chạy một task → quyết toán”</small></div><div class="arrow">↓</div>
+<div class="step"><b>Job <code>collect</code></b><small>tải artifact của 20 shard, đưa dữ liệu gốc lên <code>raw-archive</code>, rồi công bố kết quả lên <code>e2-results</code></small></div>
+</div>
+<p>Các điểm đáng chú ý trong job <code>run</code>:</p>
+<ul>
+<li><b>Chia task:</b> shard số <i>k</i> lấy task thứ <i>k</i>, <i>k</i>+20, <i>k</i>+40… của danh sách đã chọn.</li>
+<li><b>Chạy tiếp:</b> shard tải các file kết quả của mình từ <code>e2-results</code> và bỏ qua task đã xong. Nếu sổ chi ghi rằng shard này từng tiêu tiền mà không thấy file kết quả nào, shard <b>dừng</b>: thà dừng còn hơn trả tiền hai lần cho cùng một việc.</li>
+<li><b>Hạn giờ:</b> shard tự dừng trước giới hạn 6 giờ của runner, chừa thời gian để gửi kết quả.</li>
+<li><b>Không tiến triển thì dừng:</b> một vòng lặp không hoàn thành được task nào sẽ kết thúc shard, không thử lại vô hạn.</li>
+<li><b>Xóa nội dung bên thứ ba:</b> skill của XRepoSkill không có giấy phép phân phối. Trước khi gửi artifact, một script xóa phần văn bản đó khỏi dữ liệu gốc. Nếu việc xóa thất bại, dữ liệu gốc bị bỏ, không gửi đi.</li>
+</ul>
+<p>Chế độ <code>dryrun</code> của workflow này dùng model giả trên 2 task mỗi shard và một nhánh sổ chi riêng. Nó kiểm Docker, harness, đĩa, và chính cơ chế sổ chi.</p>
+
+<h3>9.4 MemGovern trial</h3>
+<p>Một ô thí nghiệm so với hệ thống MemGovern, có bốn chế độ: thử khả thi miễn phí, kiểm model (có phí rất nhỏ), chạy thử ô, và chạy ô có phí. MemGovern không có giấy phép, nên mã và dữ liệu của nó được tải về runner từ commit đã ghim, và <b>không có gì của nó được gửi đi hay lưu trữ</b>; chỉ các con số tổng hợp được công bố. Ô này đã dừng ngày 07/11 theo quyết định của người phụ trách.</p>
+
+<h2 id="luong-may">10. Luồng chạy tại máy phiên làm việc</h2>
+<p>Không phải mọi thứ chạy trên GitHub. Giai đoạn pilot và thí nghiệm E1 chạy trong container của phiên làm việc, nơi có Docker. Khóa dùng ở đó là một khóa khác với khóa trên GitHub, nằm trong thư mục tạm của phiên và không vào git.</p>
+<p>Bộ điều khiển là <code>scripts/run_batched_pilot.py</code>. Nó được thiết kế quanh một thực tế: <b>container của phiên có thể bị thu hồi bất cứ lúc nào</b>, kéo theo mọi tiến trình đang chạy.</p>
+<ol>
+<li><b>Chia lô nhỏ.</b> Mỗi lô vài task, là một lần gọi <code>run_pilot.py</code> riêng với tên <code>&lt;tên&gt;-pNN</code>. Mất container thì mất nhiều nhất một lô; lô đã xong được bỏ qua khi chạy lại.</li>
+<li><b>Kiểm trần trước mỗi lô.</b> Tổng đã chi của mọi file kết quả, kể cả các lần chạy bị loại (vì tiền đó đã tiêu), cộng với trường hợp xấu nhất của lô sắp chạy, phải không vượt trần.</li>
+<li><b>Dọn image sau mỗi lô.</b> Mỗi image nặng 2 đến 4 GB; đĩa đầy làm container sau đó hỏng và sinh lỗi hạ tầng giả.</li>
+<li><b>Chạy song song các nhánh thí nghiệm</b> trong một lô (<code>--arm-parallel</code>), sau khi đã rà từng tài nguyên dùng chung: thư mục, tên container, file báo cáo.</li>
+<li><b>Lưu trữ.</b> Sau mỗi giai đoạn, <code>scripts/archive_raw.py</code> nén dữ liệu gốc và đưa lên <code>raw-archive</code>.</li>
+<li><b>Gộp.</b> Cuối cùng các file lô được gộp thành một file kết quả.</li>
+</ol>
+<p>Khi một phiên mới mở, hook khởi động phiên dò xem thí nghiệm nào còn dở và lô nào chưa lên <code>raw-archive</code>, rồi in ra. Nhờ vậy việc chạy tiếp không phụ thuộc vào trí nhớ của ai.</p>
+<p class="muted"><code>CLAUDE.md</code> nhắc tới hai script điều phối <code>run_e1_par.sh</code> và <code>run_e2.sh</code>. Hai file này hiện không nằm trong git; phần được theo dõi trong repo là <code>run_batched_pilot.py</code> mà chúng gọi.</p>
+
+<h2 id="vi-du">11. Ví dụ trọn vẹn: thí nghiệm §34 từ đầu đến cuối</h2>
+<p>§34 hỏi: một agent chạy model mạnh hơn có làm theo chỉ dẫn đọc lịch sử git của skill không? Dưới đây là mọi bước đã thật sự xảy ra, ngày 12/11/2026.</p>
+<div class="tbl"><table>
+<tr><th>Bước</th><th>Việc làm</th><th>Khái niệm được dùng</th></tr>
+<tr><td>1</td><td>Viết mục §34 vào <code>docs/preregistration_main.md</code>: 34 task, hai nhánh thí nghiệm, đại lượng đo, cách diễn giải, trần 5,0 USD. Commit trước mọi lần chạy.</td><td>bản đăng ký trước</td></tr>
+<tr><td>2</td><td>Thêm bước “Section 34” vào <code>pilot.yml</code>. Commit đi qua hook <code>pre-commit</code>; push; đọc kết luận của CI.</td><td>cổng lớp 2 và 3</td></tr>
+<tr><td>3</td><td>Bấm chạy workflow với <code>dryrun=true</code>. Lần chạy thử bắt được một lỗi: với cost_limit 0,90 và trần của bước chia cho hai nhánh, quy tắc dừng không cho lượt nào bắt đầu. Sửa bằng một “ghi chú thực thi 34-1” có ngày và lý do.</td><td>chạy thử miễn phí; không đổi quy tắc trong im lặng</td></tr>
+<tr><td>4</td><td>Chạy bước đo thử có phí: 5 task đầu của mỗi nhánh. Chỉ đọc các trường vận hành (số lượt, chi phí), chưa mở kết quả giải task.</td><td>đo chi phí thật trước khi chạy cả mẻ</td></tr>
+<tr><td>5</td><td>Số đo cho thấy cả mục cần khoảng 5,38 USD, vượt mức 5,0 đã duyệt. Theo quy tắc đã đăng ký: <b>dừng và hỏi</b>. Người phụ trách duyệt nâng trần lên 6,05 USD.</td><td>trần ngân sách; quyền quyết định về tiền</td></tr>
+<tr><td>6</td><td>Ghi “ghi chú thực thi 34-2”: cost_limit mới 0,34 và cách chia trần theo chi phí đo được. Viết <code>scripts/s34_analysis.py</code>, thử nó trên file của lần chạy thử, commit <b>trước khi</b> có kết quả thật.</td><td>script phân tích có trước dữ liệu</td></tr>
+<tr><td>7</td><td>Chạy thử miễn phí phần còn lại để kiểm <code>--skip-done</code> chọn đúng task. Rồi bấm chạy có phí: 59 lượt, trần 5,345 USD.</td><td><code>workflow_dispatch</code>, chạy tiếp</td></tr>
+<tr><td>8</td><td>Runner chạy hai nhánh cùng lúc, gửi artifact, công bố lên <code>pilot-snapshots</code>.</td><td>runner, artifact, nhánh snapshot</td></tr>
+<tr><td>9</td><td>Tại máy làm việc: lấy file từ <code>pilot-snapshots</code>. Kiểm sau khi chạy: 34/34 task ở cả hai nhánh, 0 lỗi hạ tầng, 0 crash, không lượt nào chạm cost_limit.</td><td>kiểm vận hành trước khi tin số liệu</td></tr>
+<tr><td>10</td><td>Chạy script phân tích. Đọc trace thật của vài lượt để chắc bộ đếm không bắt nhầm.</td><td>không tin một con số chỉ vì script in ra</td></tr>
+<tr><td>11</td><td>Ghi kết quả vào bản đăng ký. Thêm khối số mới vào <code>make_numbers.py</code>, kèm đối chiếu. Sửa bài báo và báo cáo. Dựng thử PDF: 0 dòng tràn lề.</td><td>số liệu sinh tự động</td></tr>
+<tr><td>12</td><td>Commit, push lên cả hai nhánh mã, chờ CI và workflow Paper báo đạt.</td><td>cổng lớp 3</td></tr>
+<tr><td>13</td><td>Rà lại câu chữ và thấy một câu nói quá mức bằng chứng (kết luận nhân quả mà thiếu nhánh đối chứng). Sửa câu, ghi lỗi A129, bài học L58, thêm một mục vào danh sách review.</td><td>mọi lỗi đều được ghi lại</td></tr>
+</table></div>
+<p>Kết quả vận hành của mục này: tổng chi 5,20 USD trong trần 6,05; 11.679.895 token đầu vào (6.473.981 từ cache) và 217.112 token đầu ra.</p>
+
+<h2 id="tien">12. Kiểm soát tiền: năm tầng</h2>
+<div class="tbl"><table>
+<tr><th>Tầng</th><th>Cơ chế</th><th>Chặn điều gì</th></tr>
+<tr><td>1. Mỗi lượt agent</td><td><code>cost_limit</code>: agent tự dừng khi lượt đó tiêu quá mức. Thêm giới hạn số bước.</td><td>Một task “điên” ngốn hết ngân sách.</td></tr>
+<tr><td>2. Mỗi bước, mỗi nhánh thí nghiệm</td><td>Trần riêng. Không bắt đầu lượt mới nếu <code>đã chi + cost_limit &gt; trần</code>.</td><td>Vượt trần do lượt cuối cùng. Vì quy tắc tính trường hợp xấu nhất, tổng chi không thể vượt trần.</td></tr>
+<tr><td>3. Nhiều máy song song</td><td>Sổ chi trên một nhánh git.</td><td>20 máy cùng nghĩ rằng “vẫn còn tiền”.</td></tr>
+<tr><td>4. Cả dự án</td><td>Mức đã duyệt cho từng thí nghiệm, ghi nguyên văn kèm ngày trong <code>CLAUDE.md</code>. Chạm mức thì dừng và hỏi.</td><td>Tự ý tiêu quá mức được phép.</td></tr>
+<tr><td>5. Phía đám mây</td><td>Cảnh báo ngân sách trên Google Cloud Billing.</td><td>Mọi thứ ở trên cùng hỏng.</td></tr>
+</table></div>
+<h3>Sổ chi hoạt động thế nào</h3>
+<p>Mỗi job song song có một khóa tên <code>&lt;mã lần chạy&gt;-k&lt;số shard&gt;</code> và một file trên nhánh sổ, ghi hai số: <code>spent</code> (đã chi) và <code>reserved</code> (đang giữ chỗ).</p>
+<ol>
+<li><b>Giữ chỗ (reserve).</b> Trước mỗi lần gọi có phí, job xin giữ đúng bằng trường hợp xấu nhất của lần gọi đó: số nhánh × số task × cost_limit.</li>
+<li><b>Kiểm.</b> Yêu cầu chỉ được chấp nhận nếu tổng <code>spent</code> + tổng <code>reserved</code> của mọi job, cộng khoản mới, không vượt trần. Nếu chỉ vì các job khác đang giữ chỗ thì chờ rồi thử lại; nếu hết tiền thật thì dừng hẳn.</li>
+<li><b>Chạy.</b></li>
+<li><b>Quyết toán (settle).</b> Ghi số thực chi và nhả phần giữ chỗ. Nếu lần gọi đã bắt đầu mà không để lại kết quả, khoản giữ chỗ được giữ nguyên: số tiền thật chưa biết, nên tính theo trường hợp xấu nhất.</li>
+</ol>
+<p><b>Làm sao 20 máy không ghi đè nhau?</b> Mỗi lần ghi là một commit đặt lên đúng đỉnh nhánh vừa đọc, và được push không ép. Nếu trong lúc đó máy khác đã ghi, đỉnh nhánh đã đổi và git từ chối push. Máy bị từ chối đọc lại rồi thử lại. Kỹ thuật này gọi là “so sánh rồi mới ghi” (compare-and-swap). <span class="why">Dự án chọn cách này vì nó không cần thêm dịch vụ nào: git đã có sẵn và vốn từ chối việc ghi đè lịch sử.</span></p>
+<div class="box amber"><b>Vì sao trần của bước phải rộng hơn chi phí dự kiến?</b> Quy tắc dừng cộng thêm một <code>cost_limit</code>. Nếu trần chỉ bằng chi phí dự kiến, lượt cuối sẽ không được chạy. Vì vậy trần mỗi nhánh = chi phí dự kiến + một <code>cost_limit</code>. Bài học này đã phải trả giá ba lần (lỗi A108, A125, A128).</div>
+
+<h2 id="tai-lap">13. Tái lập và lưu trữ</h2>
+<h3>Những thứ được cố định để chạy lại cho cùng kết quả</h3>
+<ul>
+<li><b>Phiên bản thư viện</b>: ghim bằng <code>==</code> trong từng workflow.</li>
+<li><b>Mã của bên thứ ba</b>: ghim tới commit (GEPA/gskill, bản SWE-bench-Live, XRepoSkill, MemGovern).</li>
+<li><b>Bộ đề</b>: lấy từ <code>data-snapshots</code>, không tải lại mỗi lần.</li>
+<li><b>Seed</b>: ghi trong bản đăng ký và trong file kết quả. Một chi tiết đã đo được: nhà cung cấp coi seed bằng 0 như “chưa đặt”, nên seed bắt đầu từ 1.</li>
+<li><b>Model</b>: mã phiên bản và ngày gọi được ghi lại, vì model đóng có thể đổi phía sau cùng một tên.</li>
+<li><b>Con số trong bài báo</b>: sinh từ file kết quả, có đối chiếu.</li>
+</ul>
+<h3>Nhánh <code>raw-archive</code></h3>
+<p>File kết quả chỉ là bảng tổng hợp. Bằng chứng gốc gồm quỹ đạo của agent, bản vá nó nộp, đề bài đúng như nó nhận, và log test. Các file này sinh trên một máy sẽ bị hủy, nên cần một nơi ở lâu dài.</p>
+<ul>
+<li>Mỗi lô được nén thành một file <code>archive/&lt;giai đoạn&gt;/&lt;lô&gt;.tar.gz</code>. Cách nén là <b>tất định</b>: cùng nội dung thì cùng từng byte, cùng SHA-256.</li>
+<li><code>archive/MANIFEST.json</code> ghi SHA-256, kích thước, số quỹ đạo và trạng thái của từng lô: hợp lệ, bị loại (giữ làm bằng chứng nhưng không vào phân tích), hoặc bị dừng trước khi ghi.</li>
+<li><code>python scripts/verify_archive.py</code> đối chiếu ba thứ: dấu vân tay của file nén, số quỹ đạo so với số lượt chạy trong file kết quả, và file kết quả hiện tại so với lúc lưu trữ.</li>
+<li>Trước khi ghi, mọi file được quét tìm khóa bí mật. Mỗi file nén phải dưới 95 MB, vì GitHub giới hạn 100 MB mỗi file.</li>
+</ul>
+<p class="muted">Số liệu ghi ngày 03/11/2026: 119 lô, 1.052 quỹ đạo, 61,5 MB sau khi nén. Các lô sau ngày đó cũng đã được đưa lên; hook khởi động phiên hiện báo “mọi lô đã lên nhánh raw-archive”.</p>
+<h3>Sổ sách đi kèm</h3>
+<div class="tbl"><table>
+<tr><th>File</th><th>Ghi gì</th><th>Mã mới nhất</th></tr>
+<tr><td><code>docs/audit_pilot.md</code></td><td>Mỗi lỗi: lỗi gì, ảnh hưởng, cách sửa, bằng chứng.</td><td>A129</td></tr>
+<tr><td><code>docs/lessons_learned.md</code></td><td>Nguyên nhân gốc và cách phòng ngừa.</td><td>L58</td></tr>
+<tr><td><code>docs/review_log.md</code></td><td>Biên bản review trước mỗi lần chạy.</td><td>R-65 (hướng Kaggle: R-67)</td></tr>
+<tr><td><code>docs/number_provenance.md</code></td><td>Nguồn gốc của từng con số.</td><td>—</td></tr>
+<tr><td><code>docs/research_rules.md</code></td><td>Sáu quy tắc R1–R6 và danh sách review.</td><td>—</td></tr>
+</table></div>
+
+<h2 id="bao-mat">14. Bảo mật và giấy phép</h2>
+<ul>
+<li><b>Khóa không bao giờ vào git.</b> <code>.gitignore</code> chặn các tên file khóa. Preflight <code>[secrets]</code> quét nội dung và chặn commit nếu thấy dấu hiệu khóa thật. Một lệnh chỉ đếm số dòng khớp thì không chặn được gì; đó là lỗi A47.</li>
+<li><b>Hai khóa cho hai nơi.</b> Máy làm việc và GitHub Actions dùng hai khóa khác nhau, nhận diện bằng 8 ký tự đầu của mã khóa. Mã khóa chỉ là định danh, không phải bí mật. Bảng “khóa nào dùng ở đâu” nằm trong <code>docs/vertex_setup.md</code>.</li>
+<li><b>Cách đăng nhập.</b> Có hai cách. Cách không dùng khóa lâu dài (Workload Identity Federation): GitHub chứng minh danh tính của workflow với Google bằng một mã ngắn hạn. Cách dùng file khóa JSON đặt trong secret. Dự án đang dùng cách thứ hai; tài liệu ghi rõ cách thứ nhất an toàn hơn.</li>
+<li><b>Log không in bí mật.</b> Luồng kiểm khóa chỉ in tên tài khoản và 8 ký tự đầu của mã khóa; mã dự án đám mây bị che trong thông báo lỗi.</li>
+<li><b>Nội dung không có giấy phép.</b> Repo là công khai. Văn bản của XRepoSkill và MemGovern không được phân phối lại: chỉ commit mã quy tắc và số tổng hợp; dữ liệu gốc bị xóa phần văn bản đó trước khi gửi đi; nếu việc xóa lỗi thì không gửi gì.</li>
+</ul>
+
+<h2 id="kaggle">15. Hướng Kaggle (thư mục <code>kaggle/</code>, chỉ trên nhánh mặc định)</h2>
+<p><b>Lý do mở hướng này:</b> Kaggle cấp sẵn một hạn mức gọi model, nên có thể chạy thêm thí nghiệm với model khác hãng mà không tốn tiền của dự án. Theo yêu cầu ngày 14/11, mọi thứ của hướng này nằm trong một thư mục riêng trên nhánh mặc định và chỉ được đưa lên <code>main</code> khi tất cả đã chạy ổn.</p>
+<div class="tbl"><table>
+<tr><th>Việc</th><th>Cách làm</th><th>Trạng thái ghi trong <code>kaggle/README.md</code></th></tr>
+<tr><td>Giai đoạn 0 (§37): thử chạy container trên Kaggle</td><td>Kaggle không có Docker. Dự án viết một lớp thay thế (<code>udocker_shim.py</code>) để mã chấm của SWE-smith chạy nguyên văn qua công cụ <code>udocker</code>.</td><td>Trên máy làm việc: đạt (117/117 bản vá trùng điểm). Trên Kaggle: phiên bị ngắt nhiều lần; <b>đã dừng</b> việc chạy container trên Kaggle.</td></tr>
+<tr><td>§38 (mục A): model viết skill khác hãng</td><td>Chỉ dùng văn bản: gửi lại các prompt đã lưu của gskill cho model khác. Mỗi ngày chạy một ô notebook cho tới khi in “all done”, vì hạn mức tính theo ngày.</td><td>Đã đo chi phí và chọn model; chờ chạy.</td></tr>
+<tr><td>§39 (mục B): bộ kiểm khác hãng</td><td>Chỉ dùng văn bản, trên 102 prompt.</td><td>Xong ngày 16/11: 408/408 lần gọi.</td></tr>
+<tr><td>Mục C: agent khác hãng không cần container</td><td>Đề xuất trong <code>plan_v3.md</code>.</td><td>Chưa được duyệt.</td></tr>
+</table></div>
+<p class="why">Bài học vận hành: khi nền tảng không cho chạy container ổn định, dự án chuyển sang các thí nghiệm thuần văn bản, vốn không cần container, thay vì tiếp tục vật lộn với hạ tầng.</p>
+
+<h2 id="thoi-gian">16. Dòng thời gian</h2>
+<div class="tbl"><table>
+<tr><th>Thời gian</th><th>Việc chính</th><th>Chạy ở đâu</th></tr>
+<tr><td>01/11</td><td>Khởi tạo repo: rà soát bản thảo, lõi thống kê, CI, chọn Gemini qua Vertex AI.</td><td>máy làm việc, CI</td></tr>
+<tr><td>02–03/11</td><td>Pilot G1 theo giai đoạn: thử đường ống với model giả; đo chi phí và chọn model; ba vòng kiểm thước đo; sàng lọc skill; xác nhận trên dữ liệu mới.</td><td>máy làm việc</td></tr>
+<tr><td>03/11</td><td>Dựng hook khởi động phiên và hook commit; quy tắc R6; chạy song song các nhánh thí nghiệm; nhánh <code>raw-archive</code>.</td><td>—</td></tr>
+<tr><td>03–04/11</td><td>E1 (SWE-bench, ba seed) và E2 (SWE-bench-Live, 20 shard, sổ chi chung).</td><td>E1: máy làm việc; E2: GitHub Actions</td></tr>
+<tr><td>05/11</td><td>Tái định vị bài báo theo hướng “làm mạnh nhất”; các phép kiểm T1–T4.</td><td>—</td></tr>
+<tr><td>06–08/11</td><td>Kế hoạch tái hiện; SWE-smith với gskill trên Jinja và Bleve (§25); ô MemGovern (dừng 07/11); §27; ablation §29. Phần lớn nằm trên nhánh <code>trial</code>.</td><td>GitHub Actions (<code>pilot.yml</code>)</td></tr>
+<tr><td>10/11</td><td>§30: học lại skill trong môi trường một commit.</td><td>GitHub Actions</td></tr>
+<tr><td>11/11</td><td>§31: trả lời phản biện, chỉ tính toán lại.</td><td>máy làm việc</td></tr>
+<tr><td>12/11</td><td>§32 (phân tích miễn phí), §33 (seed thứ hai), §35 (36 task mới), §34 (agent thứ hai). Cập nhật bài báo và báo cáo.</td><td>GitHub Actions</td></tr>
+<tr><td>14–16/11</td><td>Hướng Kaggle: §37, §38, §39.</td><td>Kaggle</td></tr>
+</table></div>
+
+<h2 id="tu-chay">17. Tự chạy từng việc</h2>
+<h3>Trên máy của bạn (miễn phí)</h3>
+<pre><code># cài đặt, cần Python 3.11
+python -m venv .venv &amp;&amp; . .venv/bin/activate
+pip install -e ".[dev]"
+
+# toàn bộ kiểm tra, giống hook commit
+python scripts/preflight.py
+
+# chỉ lint và test
+ruff check . &amp;&amp; ruff format --check .
+pytest
+
+# chạy lại mô phỏng thống kê
+python scripts/run_simulations.py
+
+# sinh lại số cho bài báo rồi dựng PDF
+python scripts/make_numbers.py --trial . --rows &lt;thư mục chứa các dòng task&gt;
+cd paper &amp;&amp; latexmk -pdf main.tex</code></pre>
+<h3>Đọc kết quả từ một nhánh dữ liệu</h3>
+<pre><code>git fetch origin pilot-snapshots
+git ls-tree --name-only origin/pilot-snapshots results/        # xem có file gì
+git show origin/pilot-snapshots:results/s34_none_rest.json &gt; results/s34_none_rest.json
+
+# lấy bằng chứng gốc của một lô
+git fetch origin raw-archive
+git show origin/raw-archive:archive/g1-e1-s41/g1-e1-s41-p05.tar.gz | tar -xz -C /tmp/lo
+python scripts/verify_archive.py</code></pre>
+<h3>Bấm chạy một workflow trên GitHub</h3>
+<ol>
+<li>Vào tab <b>Actions</b> của repo.</li>
+<li>Chọn workflow ở cột trái, ví dụ “Pilot dry run”.</li>
+<li>Bấm <b>Run workflow</b>, chọn nhánh, điền tham số, bấm chạy.</li>
+<li>Mở lần chạy vừa tạo để xem từng job và từng step. Dấu xanh là đạt, đỏ là thất bại; bấm vào step để đọc log.</li>
+<li>Khi xong, kết quả nằm ở mục Artifacts của lần chạy và trên nhánh snapshot tương ứng.</li>
+</ol>
+<div class="box red"><b>Trước khi bấm một workflow có phí</b>, thứ tự bắt buộc của dự án là: bản đăng ký đã commit → review đã ghi vào sổ → chạy thử miễn phí đã đạt → ngân sách đã được người phụ trách duyệt → mới bấm chạy với <code>budget_usd</code> bằng đúng mức đã duyệt trừ số đã chi.</div>
+<h3>Sau khi một lần chạy có phí xong</h3>
+<ol>
+<li>Lấy file kết quả từ nhánh snapshot.</li>
+<li>Kiểm các trường vận hành: số lượt, lỗi hạ tầng, crash, lượt chạm cost_limit, lý do dừng.</li>
+<li>Chạy script phân tích đã commit từ trước.</li>
+<li>Ghi kết quả, số token và số tiền vào bản đăng ký.</li>
+<li>Commit, push, và đọc kết luận của CI.</li>
+</ol>
+
+<h2 id="bai-hoc">18. Lỗi đã gặp và bài học vận hành</h2>
+<p>Mỗi dòng dưới đây là một lỗi thật, và cơ chế hiện có sinh ra từ nó.</p>
+<div class="tbl"><table>
+<tr><th>Mã</th><th>Chuyện gì đã xảy ra</th><th>Cơ chế sinh ra</th></tr>
+<tr><td>L1</td><td>“Không có kết quả” bị hiểu thành “kết quả xấu” khi chưa đọc log.</td><td>Luôn đọc log của công cụ; không chạy lại một lỗi do agent gây ra cho tới khi “thành công”.</td></tr>
+<tr><td>A47</td><td>Một lệnh chỉ đếm số dòng khớp được dùng làm “kiểm tra khóa”; nó không chặn gì.</td><td>Preflight <code>[secrets]</code> trả mã lỗi và chặn commit.</td></tr>
+<tr><td>A48</td><td>Hai artifact chứa cùng một file bị trộn vào nhau khi tải về.</td><td>Mỗi file chỉ đến từ đúng một job.</td></tr>
+<tr><td>A52</td><td>Dữ liệu gốc sinh trên container của phiên làm việc, và mất khi container bị thu hồi.</td><td>Chạy theo lô nhỏ; nhánh <code>raw-archive</code>; hook báo lô chưa lưu.</td></tr>
+<tr><td>A60</td><td>Nhiều job song song cần chung một ngân sách.</td><td>Sổ chi giữ chỗ và quyết toán.</td></tr>
+<tr><td>A68</td><td>Nhánh kết quả không được ghi một lần; chạy lại sẽ trả tiền hai lần.</td><td>Shard dừng nếu sổ có chi mà không có kết quả; workflow <code>e2-collect</code>.</td></tr>
+<tr><td>A94, A95</td><td>Bước công bố hỏng sau một lượt học; lượt chạy tiếp ghi vào thư mục mới.</td><td>Job công bố lại; luôn lấy thư mục chạy mới nhất.</td></tr>
+<tr><td>A123</td><td>Chữ trong PDF tràn sang cột bên cạnh.</td><td>Workflow Paper tìm “Overfull”.</td></tr>
+<tr><td>A127, L57</td><td>Bộ chấm bị timeout mà bản đăng ký không nói phải xử lý ra sao.</td><td>Quy tắc ghi sẵn: chấm lại một lần; vẫn timeout thì tính là không giải được, kèm phân tích độ nhạy.</td></tr>
+<tr><td>A128</td><td>Trần của bước tính từ chi phí ước đoán, nên một nhánh dừng sớm.</td><td>Đo chi phí thật ở bước đo thử rồi mới đặt trần.</td></tr>
+<tr><td>A129, L58</td><td>Một câu nhân quả được viết khi thiếu nhánh đối chứng.</td><td>Mục review mới: câu nhân quả phải chỉ ra hai nhánh chỉ khác nhau ở đúng nguyên nhân.</td></tr>
+<tr><td>L50</td><td>Test đọc file chỉ có trên máy làm việc, nên CI hỏng.</td><td>Sau mỗi lần push phải đọc kết luận CI; dữ liệu cho test nằm trong <code>tests/fixtures/</code>.</td></tr>
+</table></div>
+
+<h2 id="hoi-dap">19. Hỏi nhanh, đáp nhanh</h2>
+<dl class="terms">
+<dt>Vì sao không gộp 14 workflow thành một?</dt><dd>Mỗi workflow có điều kiện kích hoạt, quyền và chi phí khác nhau. Tách ra thì luồng tốn tiền không bao giờ tự chạy theo một lần push, và luồng chỉ đọc không cần quyền ghi.</dd>
+<dt>Vì sao kết quả nằm trên nhánh riêng mà không commit thẳng vào <code>main</code>?</dt><dd>Workflow không được sửa file workflow, nên nó không thể đẩy an toàn vào một nhánh có mã đang thay đổi. Thêm nữa, kết quả do máy ghi cần được người kiểm trước khi trở thành một phần của <code>main</code>.</dd>
+<dt>Runner bị hủy sau mỗi job, vậy dữ liệu sống ở đâu?</dt><dd>Ở ba nơi, theo độ bền tăng dần: artifact của lần chạy, nhánh snapshot, và nhánh <code>raw-archive</code>.</dd>
+<dt>Chạy thử miễn phí có thật sự giống chạy thật không?</dt><dd>Giống ở mọi thứ trừ model: cùng workflow, cùng container, cùng bộ chấm, cùng cách ghi file. Nó không kiểm được hành vi của model và chi phí thật; hai thứ đó do bước đo thử có phí trên vài task đảm nhận.</dd>
+<dt>Nếu tôi chỉ nhớ được một điều?</dt><dd>Mỗi con số đi qua cùng một con đường: quy tắc viết trước → kiểm tự động → chạy thử 0 đồng → chạy thật có trần → kết quả lưu ở nơi không sửa lén được → script phân tích có từ trước → con số tự sinh vào bài báo. Mỗi chặng tồn tại vì đã có một lỗi thật xảy ra ở đó.</dd>
+</dl>
+
+</article></div></main>
+<footer>Viết từ nội dung của repo ngày 16/11/2026: 14 workflow trong <code>.github/workflows/</code>, các script trong <code>scripts/</code>, <code>CLAUDE.md</code>, <code>docs/raw_archive.md</code>, <code>docs/vertex_setup.md</code>, <code>docs/review_log.md</code>, <code>kaggle/README.md</code>, và lịch sử của 20 nhánh trên remote. Bảng đối chiếu với GitLab CI/CD và AWS ở mục 2 là phép so sánh khái niệm chung, không mô tả thành phần nào của dự án.</footer>
+</body></html>
