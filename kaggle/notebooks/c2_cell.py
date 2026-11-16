@@ -16,7 +16,7 @@ import sys
 import time
 import urllib.request
 
-COMMIT = "__CODE_COMMIT__"  # commit of the default branch holding the files below
+COMMIT = "6265c2561ef52a7d518ec0a181ecf924f939544a"  # holds the files below
 RAW = "https://raw.githubusercontent.com/dinhthithuthuyduphong-bot/gatekeeper/"
 FILES = {
     "local_shim.py": f"{COMMIT}/kaggle/scripts/local_shim.py",
