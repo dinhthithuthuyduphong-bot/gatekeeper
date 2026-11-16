@@ -223,3 +223,21 @@ def test_run_cell_charges_the_cost_kaggle_reports(tmp_path, monkeypatch):
     assert all(r["charged_usd"] == 0.05 and r["tokens_in"] == 20000 for r in rows)
     assert sum(r["charged_usd"] for r in rows) <= 0.5 + 1e-9
     assert len(rows) == 10  # 10 x 0.05 = 0.5; the 11th would pass the day cap
+
+
+def test_previous_rows_counted_once_and_carried_forward(tmp_path, monkeypatch):
+    ns = _cell_ns()
+    work, inp = tmp_path / "w", tmp_path / "i"
+    work.mkdir()
+    (inp / "day1").mkdir(parents=True)
+    (inp / "d").mkdir()
+    (inp / "d" / "a38_prompts.jsonl.gz").write_bytes(DATA.read_bytes())
+    row = {"sha256": "s", "model": "m-a", "seed": 1, "ok": True, "charged_usd": 1.0, "utc": 5.0}
+    (inp / "day1" / "a38_results_1.jsonl").write_text(json.dumps(row) + "\n")
+    (inp / "day1" / "a38_results_carried.jsonl").write_text(json.dumps(row) + "\n")
+    ns.update(WORK=str(work), INPUT=str(inp))
+    rows = ns["previous"]()
+    assert len(rows) == 1  # the same row from two files counts once
+    ns["carry"](rows)
+    carried = (work / "a38_results_carried.jsonl").read_text().splitlines()
+    assert [json.loads(x) for x in carried] == [row]

@@ -91,14 +91,28 @@ def load_prompts() -> list[dict] | None:
 
 
 def previous() -> list[dict]:
-    rows = []
-    for f in sorted(set(glob.glob(INPUT + f"/**/{NAME}_results_*.jsonl", recursive=True))) + sorted(
-        glob.glob(WORK + f"/{NAME}_results_*.jsonl")
-    ):
+    """Every earlier result row, from any attached input and this session's folder, each row once
+    (the same row can arrive twice, e.g. in a carried file and in its original file)."""
+    rows, seen = [], set()
+    files = sorted(set(glob.glob(INPUT + f"/**/{NAME}_results_*.jsonl", recursive=True)))
+    for f in files + sorted(glob.glob(WORK + f"/{NAME}_results_*.jsonl")):
         for line in open(f):
             if line.strip():
-                rows.append(json.loads(line))
+                r = json.loads(line)
+                key = (r.get("sha256"), r.get("model"), r.get("seed"), r.get("utc"))
+                if key not in seen:
+                    seen.add(key)
+                    rows.append(r)
     return rows
+
+
+def carry(rows: list[dict]) -> None:
+    """Copy all earlier rows into this session's output, so the next session needs only this
+    session's output as input (Kaggle attaches one version of a notebook's output at a time)."""
+    if rows:
+        with open(WORK + f"/{NAME}_results_carried.jsonl", "w") as fh:
+            for r in rows:
+                fh.write(json.dumps(r) + "\n")
 
 
 def plan(prompts: list[dict]) -> tuple[list[tuple[str, str, int]], dict]:
@@ -145,6 +159,7 @@ def main() -> None:
         return
     jobs, uniq = plan(prompts)
     old = previous()
+    carry(old)
     done = {(r["sha256"], r["model"], r["seed"]) for r in old if r.get("ok")}
     spent_before = sum(r.get("charged_usd", r.get("est_usd", 0.0)) for r in old)
     spent_now, errors, skipped = 0.0, {}, set()
