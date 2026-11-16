@@ -15,7 +15,7 @@ import sys
 import time
 import urllib.request
 
-COMMIT = "__CODE_COMMIT__"  # holds kaggle/scripts of section 40
+COMMIT = "c0b2e64ff6835a52ca794b03a5c74dd31791a56f"  # holds kaggle/scripts of section 40
 TRIAL = "97cd0a5c9d69b45b95a978dc872ad91ac6f90e91"  # branch trial: the paper's agent-run script
 GEPA = "8c7b697a71977980afc7537dac0881e784eef99f"  # gskill, as in every run of the paper
 RAW = "https://raw.githubusercontent.com/dinhthithuthuyduphong-bot/gatekeeper/"
