@@ -208,3 +208,32 @@ Hai phép nhận này đúng là hai phép nhận của §25 và §25 bước 3,
   Hai điều đáng chú ý cho kế hoạch: tỉ lệ giải nền của Haiku cao (khoảng hai phần ba, cao hơn nhiều so với agent của paper); và skill làm agent đọc lịch sử git ở 44/50 lượt nhưng số task giải thêm nhỏ.
 - **Theo quy tắc của mục 4** ("không sửa môi trường cho trùng"): không vá từng chỗ rồi chạy tiếp. Muốn tiếp tục mục C thì phải có lớp cách ly thật và một cổng mới kiểm chính điều đó (`plan_v4.md`, cổng C5). 189 lượt này không được dùng lại.
 
+### Ghi chú 40-4 (16/11): lớp cách ly bằng `chroot` trên hệ thống file của image gốc (cổng C5)
+
+- **@thuthuy 16/11:** "có làm C5".
+- **Thăm dò notebook Benchmarks** (`notebooks/c5_probe_cell.py`, 0 USD): quyền root; có `CAP_SYS_CHROOT` và `CAP_MKNOD`; **không** có `CAP_SYS_ADMIN` (mọi lệnh `unshare` bị từ chối); `ptrace_scope` = 1; không có `proot`, `bwrap`, `runc`. Vậy cách S1 của `plan_v4.md` không dùng được.
+- **Cách được chọn (S4, mới, mạnh hơn S2 và S3):** `kaggle/scripts/chroot_shim.py`.
+  - **Nền:** các lớp của **image gốc** (`swebench/swesmith.x86_64.pallets_1776_jinja.ada0a9a6`) tải bằng `curl`, kiểm sha256, giải nén bằng `tarfile` có xử lý whiteout; rồi hai bước của Dockerfile đã dùng ở §25 (mirror ở `/opt/mirror.git`, `git fetch` trong `/testbed`). Không còn dựng lại môi trường Python theo danh sách gói: dùng đúng file của image.
+  - **Mỗi task:** một cây thư mục riêng. Mọi file của nền là liên kết cứng; riêng `/testbed`, `/tmp`, `/root`, `/var/tmp`, `/opt/mirror.git`, `/dev` là bản sao thật. Lệnh chạy sau `chroot()` vào cây đó, với biến môi trường của image và `bash -lc` của image.
+  - **Khi task xong:** mọi tiến trình có thư mục gốc là cây đó bị dừng; cây bị xóa; nền được so với ảnh chụp (kích thước, thời điểm sửa) của từng file. Một lần ghi tại chỗ qua liên kết cứng bị phát hiện: lượt đó hỏng, không container nào được tạo tiếp, nền được dựng lại.
+- **Khác Docker, nêu trước:**
+  - không có `/proc` và `/sys` bên trong (không gắn được): `ps`, `/dev/fd`, `/dev/stdin` không dùng được;
+  - `/dev` chỉ có `null`, `zero`, `full`, `random`, `urandom`, `tty`;
+  - không giới hạn bộ nhớ;
+  - ghi tại chỗ vào file của nền được **phát hiện**, không được ngăn;
+  - root trong `chroot` có thể cố ý thoát ra. Agent chỉ thăm dò thì không thấy gì bên ngoài (phép thử 1 và 5).
+- **Cổng C5, sáu phép thử đo bằng máy** (`kaggle/scripts/c5_gate.py`), giá trị đạt đặt trước:
+
+  | # | Phép thử | Đạt khi |
+  | --- | --- | --- |
+  | 1 | File đánh dấu đặt trên máy chủ (thư mục trạng thái, `/tmp` của máy chủ, thư mục làm việc, thư mục thêm) và trong `/testbed`, `/tmp`, `/root`, mirror của container khác; tìm bằng `find /` từ trong một container | tìm thấy 0 |
+  | 2 | Tiến trình nền của một container | còn sống sau khi lệnh trả về (như Docker); 0 còn sống sau khi container bị xóa |
+  | 3 | File container A ghi; container B thấy; nền bị đổi | 0 và 0 |
+  | 4 | Môi trường lệnh | `python` ở `/opt/miniconda3/envs/testbed/bin/python`; `pwd -P` là `/testbed`; 3 commit đúng tên; `HOME=/root`; biến đánh dấu của máy chủ không có trong `env` |
+  | 5 | `/proc/1`, `/kaggle`, `/benchmarks`, thư mục trạng thái, mã chấm, file task | không tồn tại bên trong |
+  | 6 | Ghi tại chỗ vào một file của nền | bị phát hiện khi xóa container; container sau bị từ chối; nền dựng lại nguyên vẹn |
+
+  Kèm: chạy lại C1 qua lớp này (224 bản vá, gốc 20, "không vá" 20) phải trùng 100%; trên Kaggle: 6 phép thử đạt và bản vá gốc 5/5, "không vá" 0/5.
+- **Kết quả tại máy của phiên** (máy có đúng mức quyền của Kaggle: có `chroot`, `mknod`, không `SYS_ADMIN`), `kaggle/results/c5_gate_local.json`: **đạt cả 6**. 8 file đánh dấu, tìm thấy 0. Dựng nền 69 giây; tạo một container 2,4 giây; dựng lại nền 98 giây. Lần chấm thử: 38/38 bản vá trùng, gốc 2/2, "không vá" 0/2; mỗi lượt chấm khoảng 15 giây (bộ chấm không-container cũ: 3 giây).
+- **C1 qua lớp `chroot`:** đang chạy; kết quả ghi bên dưới.
+

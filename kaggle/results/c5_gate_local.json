@@ -1,0 +1,102 @@
+{
+ "probe": {
+  "uid": 0,
+  "cap_sys_chroot": true,
+  "cap_mknod": true,
+  "cap_sys_admin": false,
+  "state_dir": "/var/lib/cshim",
+  "free_gb": 13.0
+ },
+ "prepare_seconds": 68.6,
+ "prepared": {
+  "image": "swebench/swesmith.x86_64.pallets_1776_jinja.ada0a9a6",
+  "workdir": "/testbed",
+  "files_in_snapshot": 64099,
+  "python": [
+   "Python",
+   "3.10.16",
+   "/opt/miniconda3/envs/testbed/bin/python"
+  ],
+  "branches": 959
+ },
+ "create_seconds": 2.4,
+ "1_canaries": {
+  "planted": 8,
+  "found_from_inside": []
+ },
+ "2_processes": {
+  "alive_after_command": 1,
+  "alive_after_remove": 0
+ },
+ "3_cross_write": {
+  "seen_by_b": [],
+  "base_changed": []
+ },
+ "4_shell": {
+  "python": [
+   "/opt/miniconda3/envs/testbed/bin/python",
+   "Python 3.10.16"
+  ],
+  "pwd": "/testbed",
+  "commits": [
+   "Remove F2P Tests",
+   "Bug Patch",
+   "Initial commit"
+  ],
+  "home": "/root",
+  "host_marker_in_env": false,
+  "env_names": [
+   "CONDA_DEFAULT_ENV",
+   "CONDA_EXE",
+   "CONDA_PREFIX",
+   "CONDA_PROMPT_MODIFIER",
+   "CONDA_PYTHON_EXE",
+   "CONDA_SHLVL",
+   "HOME",
+   "PATH",
+   "PWD",
+   "SHLVL",
+   "TZ",
+   "_",
+   "_CE_CONDA",
+   "_CE_M"
+  ]
+ },
+ "5_host": {
+  "exists_inside": [],
+  "top_level": [
+   "bin",
+   "boot",
+   "dev",
+   "etc",
+   "home",
+   "lib",
+   "lib32",
+   "lib64",
+   "libx32",
+   "media",
+   "miniconda.sh",
+   "mnt",
+   "opt",
+   "proc",
+   "root",
+   "run",
+   "sbin",
+   "srv",
+   "sys",
+   "testbed",
+   "tmp",
+   "usr",
+   "var"
+  ]
+ },
+ "base_intact_before_test_6": true,
+ "6_detection": {
+  "detected": true,
+  "message": "the shared base was written to through a hard link: ['/var/lib/cshim/base/usr/lib/os-release']",
+  "later_container_refused": true
+ },
+ "rebuild_seconds": 97.8,
+ "base_intact_after_rebuild": true,
+ "passed": true
+}

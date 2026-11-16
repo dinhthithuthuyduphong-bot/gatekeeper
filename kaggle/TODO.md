@@ -1,7 +1,7 @@
 # Việc của hướng Kaggle: đã làm, đang làm, đang chờ
 
-**Cập nhật:** 16/11/2026, sau phiên 1 của C4.
-**Hướng đang chọn:** `plan_v4.md`. Xong mục A (chờ seed 3), rồi dựng lớp cách ly (C5) trước khi chạy lại agent khác hãng (C4′).
+**Cập nhật:** 16/11/2026, sau khi cổng C5 đạt tại máy của phiên.
+**Hướng đang chọn:** `plan_v4.md`. Xong mục A (chờ seed 3). Mục C: lớp cách ly bằng `chroot` trên hệ thống file của image gốc (S4, ghi chú 40-4); chờ cổng C5 trên Kaggle, rồi C6 và C4′.
 **Quy tắc của file này:** mỗi khi một việc đổi trạng thái hoặc hướng đi đổi, sửa file này trong cùng commit với thay đổi đó.
 
 Hạn mức AI Kaggle đã dùng trong tháng: **khoảng 18,0 trên 100 USD** (P0 0,47; B 3,05; A 13,73; C3 0,01; C4 phiên 1 0,77). Tiền thật: 0.
@@ -11,7 +11,7 @@ Hạn mức AI Kaggle đã dùng trong tháng: **khoảng 18,0 trên 100 USD** (
 | # | Việc | Cần gì | Ghi chú |
 | --- | --- | --- | --- |
 | T1 | **Chạy phiên 3 của mục A** (seed 3, khoảng 7 USD) | Notebook mục A chỉ còn một ô `a38_run_cell.py`; gắn dataset `gatekeeper-a38-results`; dòng đầu log phải là `jobs 480, done 321` | Hướng dẫn: `run_s38_s39.md`. Gửi file `a38_results_*.jsonl` mới |
-| T2 | Trả lời Q1 của `plan_v4.md` §12: tiếp tục mục C bằng lớp cách ly? | Một chữ: có / không | Phần 0 USD tôi làm trước trong lúc chờ |
+| T2 | **Chạy ô `c5_cell.py`** trên một notebook Benchmarks (0 USD, khoảng 10 phút) | Gửi `c5.json` và `c5.log` | Q1 đã trả lời 16/11: "có làm C5" |
 | T3 | Chép câu điều khoản Kaggle về việc dùng hạn mức AI | Treo từ giai đoạn 0 (K0e) | Cần trước C4′ |
 | T4 | **Không chạy lại ô `c4_cell.py`** | — | Kết quả phiên 1 không hợp lệ (K21); ô này sẽ được thay |
 
@@ -19,15 +19,16 @@ Hạn mức AI Kaggle đã dùng trong tháng: **khoảng 18,0 trên 100 USD** (
 
 | # | Việc | Trạng thái |
 | --- | --- | --- |
-| D1 | Lớp cách ly cho agent: thử S1 (`unshare`), S2 (`proot`), S3 (người dùng thường) tại máy của phiên | Bắt đầu sau commit này |
-| D2 | Ô thử C5 cho notebook Benchmarks (0 USD) | Sau D1 |
+| D1 | Chạy lại C1 qua lớp `chroot` (264 lượt chấm) tại máy của phiên | Đang chạy nền |
+| D2 | Nối bộ chạy agent (`c3_agent.py`, `c4_driver.py`) với lớp `chroot`; chạy thử miễn phí | Sau D1 |
+| D3 | Ô C6 (6 task, 3 không mô tả) và ô C4′ | Sau D2 |
 
 ## Việc tiếp theo, theo thứ tự
 
 | # | Việc | Điều kiện | Ai |
 | --- | --- | --- | --- |
 | N1 | Phân tích mục A theo bản đăng ký; xác định kịch bản A1–A4 | T1 xong | Claude |
-| N2 | Chạy ô C5 trên Kaggle | D2 xong | @thuthuy |
+| N2 | Chạy ô C5 trên Kaggle | Ô đã gửi | @thuthuy |
 | N3 | C6: 6 task (3 không mô tả) qua lớp cách ly, trần 0,5 USD | C5 đạt | cả hai |
 | N4 | C4′: ba agent, 4 nhánh, 100 task, chạy lại từ đầu | C6 đạt | @thuthuy chạy, Claude phân tích |
 | N5 | Đề xuất C7 (Pygments), C8 (seed 2), C9 (agent hạng giữa), D (lượt học) | Có kết quả C4′ | Claude đề xuất, @thuthuy duyệt |
@@ -47,6 +48,8 @@ Hạn mức AI Kaggle đã dùng trong tháng: **khoảng 18,0 trên 100 USD** (
 | 16/11 | C2: bộ chấm trên Kaggle | Đạt (5/5, 0/5), cả trên notebook Benchmarks | `preregistration_s40.md` §5 |
 | 16/11 | C3: 3 task với agent thật | Đạt; 0,011 USD | `results/c3/` |
 | 16/11 | Kế hoạch bản 4 và file này | — | `plan_v4.md` |
+| 16/11 | Thăm dò quyền của notebook Benchmarks | Có `chroot`, `mknod`; không có không gian tên | `preregistration_s40.md` 40-4 |
+| 16/11 | Lớp cách ly `chroot` và cổng C5 tại máy của phiên | Đạt cả 6 phép thử; chấm thử 38/38 | `results/c5_gate_local.json` |
 
 ## Đã dừng hoặc không tính
 

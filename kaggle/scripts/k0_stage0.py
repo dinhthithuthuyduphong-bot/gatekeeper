@@ -97,13 +97,30 @@ def main() -> int:
         help="plan v3, gate C1: grade with no container (local_shim), the environment rebuilt "
         "from this list of the image's packages (JSON: packages, python)",
     )
+    ap.add_argument(
+        "--chroot",
+        action="store_true",
+        help="plan v4, gate C5: grade in a chroot of the task image's own file system",
+    )
     a = ap.parse_args()
     if a.summary_only:
         print(json.dumps(summarise(a.out), indent=1))
         return 0
     from f0_scorer_check import assume_public
 
-    if a.local_packages:
+    if a.chroot:
+        import chroot_shim
+        from swesmith.profiles import registry
+
+        first_row = json.loads(next(x for x in a.rows.read_text().splitlines() if x.strip()))
+        rp = registry.get_from_inst(first_row)
+        print(json.dumps({"C5_probe": chroot_shim.probe()}, indent=1), flush=True)
+        info = chroot_shim.prepare(rp.image_name, f"https://github.com/{rp.mirror_name}")
+        print(
+            json.dumps({"C5_prepared": {k: v for k, v in info.items() if k != "env"}}), flush=True
+        )
+        chroot_shim.install()
+    elif a.local_packages:
         import local_shim
         from swesmith.profiles import registry
 

@@ -84,7 +84,9 @@ Phép kiểm chính: tỉ lệ skill có dòng lịch sử, ô có rò rỉ (6 l
 | S2. `proot` (gắn thư mục ở mức người dùng) | Tải được một file chạy; `ptrace` được phép | Đã chạy được trên notebook thường (K0a, chế độ P1) | Chậm hơn; chưa thử trên notebook Benchmarks |
 | S3. Chạy lệnh của agent bằng người dùng thường, thư mục nhạy cảm đặt quyền chỉ root đọc, `/tmp` dọn giữa các task | Không cần gì thêm | Luôn làm được | Yếu nhất: `/tmp` vẫn chung trong lúc một task chạy; agent không còn là root như trong Docker (sai lệch) |
 
-**Cổng C5 đạt khi (đo bằng máy, đặt trước):**
+**Cập nhật 16/11 (sau ô thăm dò):** notebook Benchmarks không cho S1 (không có `CAP_SYS_ADMIN`) và không có sẵn `proot`. Nó có `CAP_SYS_CHROOT` và `CAP_MKNOD`. **Cách được chọn là S4:** tải hệ thống file của image gốc, mỗi task chạy trong `chroot` của một bản sao riêng (`scripts/chroot_shim.py`; chi tiết ở `preregistration_s40.md` ghi chú 40-4). S4 mạnh hơn S2 và S3: agent thấy đúng file của image thật và không thấy gì của máy chủ. Sáu phép thử của cổng được viết lại cho S4 ở ghi chú 40-4.
+
+**Cổng C5 đạt khi (đo bằng máy, đặt trước; bản ban đầu):**
 1. **Chim mồi:** đặt file đánh dấu ở mọi nơi cần che (bản clone gốc, mirror, `/kaggle/working`, `/tmp` của task trước, `/root` của task trước). Từ trong môi trường của task, `find / ` không thấy file nào: **0 / số file đặt**.
 2. **Tiến trình:** một tiến trình nền do task tạo không còn sống sau khi task kết thúc: 0 còn sống.
 3. **Ghi chéo:** task A ghi vào `/testbed`, `/tmp`; task B không thấy: 0 file.
