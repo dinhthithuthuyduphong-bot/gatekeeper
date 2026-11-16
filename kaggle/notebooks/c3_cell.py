@@ -46,29 +46,41 @@ def save():
 
 
 PREFLIGHT = r"""
-import json, os, sys
-import litellm
-base = os.environ["MODEL_PROXY_URL"].rstrip("/")
-for s in ("/openapi", "/genai"):
-    base = base.removesuffix(s)
-res = {}
-tries = (("full", {"seed": 41, "parallel_tool_calls": True}), ("no_parallel", {"seed": 41}))
-for name, kw in tries:
-    try:
-        r = litellm.completion(model="openai/" + sys.argv[1], api_base=base + "/openapi",
-            api_key=os.environ["MODEL_PROXY_API_KEY"], drop_params=True,
-            messages=[{"role": "user", "content": "Reply with the single word OK."}], **kw)
-        u = r.usage
-        res[name] = {"ok": True, "reply": r.choices[0].message.content[:40],
-            "tokens": [u.prompt_tokens, u.completion_tokens],
-            "cost_field": str(getattr(u, "cost", None))[:200]}
-        break
-    except Exception as e:
-        res[name] = {"ok": False, "error": type(e).__name__ + ": " + str(e)[:300]}
+import json, os, sys, traceback
+names = ("MODEL_PROXY_URL", "MODEL_PROXY_API_KEY")
+res = {"env_present": {k: bool(os.environ.get(k)) for k in names}}
+try:
+    import litellm
+    base = os.environ["MODEL_PROXY_URL"].rstrip("/")
+    for s in ("/openapi", "/genai"):
+        base = base.removesuffix(s)
+    tries = (("full", {"seed": 41, "parallel_tool_calls": True}), ("no_parallel", {"seed": 41}))
+    for name, kw in tries:
+        try:
+            r = litellm.completion(model="openai/" + sys.argv[1], api_base=base + "/openapi",
+                api_key=os.environ["MODEL_PROXY_API_KEY"], drop_params=True,
+                messages=[{"role": "user", "content": "Reply with the single word OK."}], **kw)
+            u = r.usage
+            res[name] = {"ok": True, "reply": r.choices[0].message.content[:40],
+                "tokens": [u.prompt_tokens, u.completion_tokens],
+                "cost_field": str(getattr(u, "cost", None))[:200]}
+            break
+        except Exception as e:
+            res[name] = {"ok": False, "error": type(e).__name__ + ": " + str(e)[:300]}
+except BaseException as e:
+    res["setup_error"] = type(e).__name__ + ": " + traceback.format_exc()[-600:]
 print("PREFLIGHT " + json.dumps(res))
 """
 
 try:
+    try:  # the library puts the endpoint and the key into this process's environment
+        import kaggle_benchmarks  # noqa: F401
+
+        out["kaggle_benchmarks"] = "imported"
+    except Exception as e:
+        out["kaggle_benchmarks"] = repr(e)[:200]
+    names = ("MODEL_PROXY_URL", "MODEL_PROXY_API_KEY")
+    out["env_present"] = {k: bool(os.environ.get(k)) for k in names}  # presence only, no value
     os.makedirs(W + "/code", exist_ok=True)
     os.makedirs(OUTDIR, exist_ok=True)
     for name, path in FILES.items():
@@ -106,13 +118,16 @@ try:
         json.dump({n: spec for n in names}, fh)
     with open(W + "/preflight.py", "w") as fh:
         fh.write(PREFLIGHT)
-    rc, tail = sh(f"{hv}/bin/python {W}/preflight.py {MODEL} 2>&1 | grep PREFLIGHT")
-    pre = json.loads(tail.split("PREFLIGHT ", 1)[1]) if "PREFLIGHT " in tail else {}
+    rc, tail = sh(f"{hv}/bin/python {W}/preflight.py {MODEL} 2>&1")
+    if "PREFLIGHT " in tail:
+        pre = json.loads(tail.split("PREFLIGHT ", 1)[1].splitlines()[0])
+    else:
+        pre = {"no_output": tail[-600:]}
     out["preflight"] = pre
     save()
-    if not any(v.get("ok") for v in pre.values()):
+    if not any(isinstance(v, dict) and v.get("ok") for v in pre.values()):
         raise RuntimeError("the model call does not work through LiteLLM; agent not started")
-    drop = "" if pre.get("full", {}).get("ok") else "--drop-kwargs parallel_tool_calls"
+    drop = "" if (pre.get("full") or {}).get("ok") else "--drop-kwargs parallel_tool_calls"
     out["dropped_kwargs"] = drop
     os.makedirs(W + "/run", exist_ok=True)
     t0 = time.time()
