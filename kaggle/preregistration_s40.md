@@ -53,7 +53,23 @@ Việc điểm chấm có giống Docker hay không **không được giả đ�
 Ngưỡng 100% ở C1 là ngưỡng của K0b (§37): mọi lệch điểm đều là một khác biệt giữa hai môi trường, không có mức lệch nào được coi là chấp nhận được.
 
 ## 5. Kết quả các cổng
-(điền khi có)
+
+- **C0 (16/11): đạt.** Các câu trích ở mục 2.
+- **C1 (16/11): đạt.** Chạy trên một máy sạch (image `python:3.13`, không có `/testbed`), `kaggle/results/c1_local.jsonl`:
+
+  | Loại | Số lượt chấm | Kết quả |
+  | --- | --- | --- |
+  | Bản vá đã có điểm Docker | 224 (`f1_probe` 38, `f1_skill_probe` 79, `s25_leakfree_none` 41, `s25_leakfree_skill` 66) | **224/224 trùng** (117 đạt, 107 không đạt) |
+  | Bản vá gốc | 20 | 20/20 đạt |
+  | Không vá | 20 | 0/20 đạt |
+  | Lỗi hạ tầng | | 0 |
+
+  Trung vị 2,9 giây mỗi lượt chấm.
+- **Hai lỗi của chính môi trường, gặp và sửa trước khi có điểm nào được dùng** (`audit.md` K17, K18):
+  - bản đầu dùng liên kết tượng trưng cho `/testbed`: "không vá" được chấm đạt, vì gói cài ở chế độ editable trỏ vào bản clone gốc. Đã đổi sang thư mục thật, đổi chỗ bằng rename;
+  - lần chạy đầy đủ đầu tiên: cả 264 lượt báo lỗi hạ tầng, vì trạng thái ở `/opt` còn mà `/testbed` đã mất cùng máy cũ. `prepare()` giờ tự dựng lại phần thiếu. Không lượt nào của lần đó được tính.
+- **Chạy thử ô C2 trên máy sạch (không phải Kaggle):** 5/5 và 0/5, 44 giây kể cả dựng môi trường.
+- **C2 trên Kaggle:** chờ @thuthuy chạy `notebooks/c2_cell.py`.
 
 ## 6. C4: thiết kế chạy chính
 (chốt sau C3, trước khi chạy; gồm model agent, số task, quy tắc nhận của §25, trần tiền)
