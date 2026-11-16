@@ -1,0 +1,101 @@
+{
+ "started": "2026-11-16T09:46:32Z",
+ "model": "anthropic/claude-haiku-5-5",
+ "kaggle_benchmarks": "imported",
+ "env_present": {
+  "MODEL_PROXY_URL": true,
+  "MODEL_PROXY_API_KEY": true
+ },
+ "machine": {
+  "uid": 0,
+  "root_writable": true,
+  "opt_writable": true,
+  "testbed_exists": true,
+  "git": "/usr/bin/git",
+  "patch": "/usr/bin/patch",
+  "uv": "/usr/bin/uv",
+  "python": "3.12.10"
+ },
+ "tasks": [
+  "pallets__jinja.ada0a9a6.func_basic__arv5rwp0",
+  "pallets__jinja.ada0a9a6.func_basic__2lu2b8x6",
+  "pallets__jinja.ada0a9a6.func_basic__5w1ny04u"
+ ],
+ "preflight": {
+  "env_present": {
+   "MODEL_PROXY_URL": true,
+   "MODEL_PROXY_API_KEY": true
+  },
+  "full": {
+   "ok": true,
+   "reply": "OK",
+   "tokens": [
+    18,
+    4
+   ],
+   "cost_field": "{'input_tokens_cost_nanodollars': 1800, 'output_tokens_cost_nanodollars': 2000}"
+  }
+ },
+ "dropped_kwargs": "",
+ "agent_seconds": 133.3,
+ "agent_tail": "rc=0\n[1] pallets__jinja.ada0a9a6.func_basic__arv5 cost=0.0032 spent=0.0032 infra=False\n[2] pallets__jinja.ada0a9a6.func_basic__2lu2 cost=0.0041 spent=0.0074 infra=False\n[3] pallets__jinja.ada0a9a6.func_basic__5w1n cost=0.0072 spent=0.0145 infra=False\n",
+ "runs": [
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__arv5rwp0",
+   "steps": 9,
+   "crashed": false,
+   "patch_chars": 446,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "cost_usd": 0.0032417,
+   "infra_error": null
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__2lu2b8x6",
+   "steps": 7,
+   "crashed": false,
+   "patch_chars": 965,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "cost_usd": 0.0041378000000000005,
+   "infra_error": null
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__5w1ny04u",
+   "steps": 10,
+   "crashed": false,
+   "patch_chars": 724,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "cost_usd": 0.0071702,
+   "infra_error": null
+  }
+ ],
+ "stopped": null,
+ "cost": {
+  "calls": 26,
+  "endpoint_usd": 0.011043209999999998,
+  "tokens_in": 83792,
+  "tokens_out": 12341,
+  "litellm_usd": 0.0145497
+ },
+ "finished": "2026-11-16T09:48:52Z"
+}

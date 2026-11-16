@@ -41,7 +41,7 @@ WORKDIR = Path("/testbed")
 MIRROR = Path("/opt/mirror.git")
 ACTIVATE = Path("/opt/miniconda3/bin/activate")
 ENV = Path("/opt/miniconda3/envs/testbed")  # where the image has its environment
-STATE = Path(os.environ.get("LOCAL_SHIM_DIR", "/opt/local_shim"))  # base clone, parked copies
+STATE = Path(os.environ.get("LOCAL_SHIM_DIR", "/var/lib/lshim"))  # base clone, parked copies
 # What `bash -lc` gives inside the image (measured: docker run <image> bash -lc env), and nothing
 # else: the caller's own variables (API keys among them) never reach a command.
 SHELL_ENV = {

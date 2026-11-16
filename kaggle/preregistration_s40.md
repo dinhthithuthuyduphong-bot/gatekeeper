@@ -104,12 +104,78 @@ Ngưỡng 100% ở C1 là ngưỡng của K0b (§37): mọi lệch điểm đề
   - trước khi chạy agent, ô gọi thử model một lần. Nếu endpoint từ chối tham số `parallel_tool_calls` thì bỏ tham số đó và ghi là sai lệch.
 - **Rủi ro còn lại, nêu trước:** agent chạy bằng quyền root trên máy notebook. Nó không thấy khóa qua biến môi trường, nhưng về nguyên tắc có thể đọc bộ nhớ tiến trình khác. Nhiệm vụ của agent là sửa bug trong `/testbed`; mọi lệnh nó chạy đều được ghi vào trace và được kiểm sau khi chạy.
 
-## 6. C4: thiết kế chạy chính
-(chốt sau C3, trước khi chạy; gồm model agent, số task, quy tắc nhận của §25, trần tiền)
-
 ### Ghi chú 40-2 (16/11, trước C3)
 
 - Hai lần chạy ô C3 đầu dừng trước khi gọi model (0 USD): notebook được dùng **không phải notebook Benchmarks** (`No module named 'kaggle_benchmarks'`, không có `MODEL_PROXY_*`). Xem `audit.md` K19, K20.
 - **Hệ quả cho C2:** lần C2 đạt hôm nay chạy trên một notebook Kaggle thường (Python 3.13, quyền root). Máy của notebook Benchmarks có thể khác. Ô C3 vì vậy ghi lại thông tin máy và tự dựng lại môi trường ở đó; phần chấm của C3 (bộ chấm S chạy trên từng bản vá) đóng vai kiểm tra lại. **C2 phải được chạy lại trong notebook Benchmarks trước C4.**
 - **C1 chạy lại với môi trường ở đường dẫn của image (16/11): đạt.** `kaggle/results/c1_local_envpath.jsonl`: 224/224 bản vá trùng điểm Docker đã ghi; bản vá gốc 20/20; "không vá" 0/20; 0 lỗi hạ tầng.
+
+## 6. C4: thiết kế chạy chính (chốt 16/11, sau C3, trước mọi lượt chạy của C4)
+
+### Kết quả C3 (16/11): đạt
+
+- Notebook Benchmarks: quyền root, ghi được `/`, có `git`, `patch`, `uv`, Python 3.12.10.
+- Endpoint nhận đủ tham số của paper (`seed`, `parallel_tool_calls`); không tham số nào bị bỏ.
+- 3/3 task: agent chạy hết vòng lặp (7, 9, 10 bước), không lỗi hạ tầng, cả ba bản vá được S và L chấm đạt.
+- Chi phí: 26 lần gọi, 83.792 token vào, 12.341 token ra. Kaggle báo 0,0110 USD; LiteLLM tính theo bảng giá 0,0145 USD (cao hơn, nên giới hạn tiền theo LiteLLM là an toàn). Trung bình 0,0037 USD mỗi task.
+- Trace (`kaggle/results/c3/`): không lệnh nào đọc lịch sử git, không lệnh nào đụng tới khóa, biến môi trường hay đường dẫn của máy chủ.
+- Cả 3 task này đều có mô tả lỗi. Chi phí của 34 task không có mô tả chưa đo.
+
+### Câu hỏi và giả thuyết
+
+Với agent của hãng khác, trên 100 task test Jinja của gskill:
+- **H-ship:** trong môi trường gốc, skill đã học làm giảm tỉ lệ thất bại (bộ chấm S).
+- **H-single:** trong môi trường một commit, skill đó không còn làm giảm.
+Hai phép nhận này đúng là hai phép nhận của §25 và §25 bước 3, lặp lại với agent khác.
+
+### Thiết kế
+
+| Thành phần | Giá trị | Căn cứ |
+| --- | --- | --- |
+| Task | 100 task test Jinja, thứ tự `_gskill_order` | như §25 |
+| Nhánh | `none`, `skill` (môi trường gốc); `lf_none`, `lf_skill` (một commit, `f1_probe.py --leak-free`) | như §25 và bước 3 |
+| Skill | `docs/skills/gskill/jinja_best_skills.txt` (2.681 byte), skill của paper | không đổi |
+| Agent | gskill `8c7b697`, mini-swe-agent 1.17.5, `f1_probe.py` của `trial` nguyên văn; `seed=41`; giới hạn 0,30 USD mỗi task; 50 bước | như §25 |
+| Model agent | Haiku 5.5, GPT-5.4 nano, gpt-oss-120b, chạy theo thứ tự đó | quy tắc: mọi model khác Google có giá token đo được chính xác (bảng ở ghi chú 40-1) |
+| Thứ tự chạy | từng khối 10 task; trong mỗi khối chạy lần lượt 4 nhánh | hai lượt của một cặp cách nhau vài phút (model có thể thay đổi theo thời gian) |
+| Bộ chấm | S (SWE-smith) là chính; L (gskill) báo kèm | như §25 |
+
+### Quy tắc quyết định (mỗi model, mỗi môi trường): `scripts/s25_ab.py` của `trial`, không sửa
+
+- **Gatekeeper:** `BettingEProcess` trên Z = 1[skill thất bại] − 1[không skill thất bại], theo thứ tự task; θ = 0, c = 0,5, α = 0,025 (ngưỡng 40).
+- Kèm phép kiểm dấu chính xác một phía trên các cặp lệch và khoảng bootstrap của mức tăng, như §25.
+- **Đọc theo họ:** 3 model × 2 môi trường = 6 phép nhận. Báo cả mức riêng (α = 0,025) và mức Bonferroni (α / 6), như paper đã làm với K = 12.
+- **Lỗi hạ tầng:** một khối có agent crash hoặc lỗi hạ tầng không được tính; nó được để riêng (`.bad`) và chạy lại. Đây không phải chạy lại lỗi của agent: agent chưa cho kết quả.
+
+### Diễn giải đặt trước (mỗi model)
+
+| Môi trường gốc | Một commit | Ý nghĩa |
+| --- | --- | --- |
+| nhận | không nhận | Lặp lại được phát hiện chính của paper với agent này |
+| không nhận | không nhận | Skill không giúp agent này. Báo tỉ lệ giải nền và tỉ lệ lượt có thấy commit rò rỉ ở nhánh không skill (agent có tự tìm ra không) |
+| nhận | nhận | Với agent này skill giúp cả khi không còn rò rỉ; kết luận "mất tác dụng" của paper không mở rộng sang agent này |
+| không nhận | nhận | Không dự kiến; báo nguyên trạng |
+
+"Không nhận" không có nghĩa là không có hiệu ứng: e-process cần hiệu ứng đủ lớn trên 100 task. Mức tăng và khoảng tin cậy luôn được báo kèm.
+
+### Kiểm sau khi chạy (đếm bằng máy)
+
+- **Bộ theo dõi rò rỉ** (định nghĩa M1, M2 của §36): số lượt có lệnh `git log`/`git show`, số lượt có "Bug Patch" trong quan sát, theo từng nhánh.
+- **Rò rỉ ngoài `/testbed`, riêng của môi trường không-container:** máy notebook còn chứa bản clone gốc và mirror (ở `/var/lib/lshim`) và file task (ở `/kaggle/working`). Mọi lượt có lệnh đụng tới `/var/lib/lshim`, `/kaggle`, `mirror`, hoặc có "Bug Patch" trong quan sát ở nhánh một commit, đều bị **đánh dấu**. Kết quả được báo cả khi tính và khi loại các lượt đó.
+- Mọi lệnh đụng tới khóa hay biến môi trường của máy chủ: phải bằng 0; nếu khác 0 thì dừng và báo @thuthuy.
+
+### Tiền và thời gian (chỉ hạn mức miễn phí)
+
+- **Trần mỗi model: 12 USD hạn mức.** Căn cứ: C3 đo 0,0037 USD mỗi task có mô tả với Haiku. Một lượt dài nhất (50 bước, khoảng 20 nghìn token mỗi bước) tốn khoảng 0,1 USD với Haiku và 0,2 USD với nano. 400 lượt ở mức đó là 40–80 USD, nhưng ở §25 chỉ khoảng một phần ba số task chạm 50 bước. Trần 12 USD là mức dừng để xem lại, không phải dự toán.
+- **Trần mỗi phiên: 2,0 USD cho cả ba model**, để ngày nào cũng còn chỗ cho phiên cuối của §38 (khoảng 7 USD). Một trần có thể bị vượt tối đa bằng chi phí của một khối (10 task của một nhánh).
+- **Tổng C4 tối đa: 36 USD.** Hạn mức tháng đã dùng 17,3 USD; §38 còn khoảng 7 USD. Tổng vẫn dưới 100 USD.
+- Mỗi phiên dừng nhận khối mới sau 8 giờ.
+- **Trước mỗi phiên, ô chạy lại cổng C2 trên chính máy đó** (bản vá gốc 5/5, "không vá" 0/5). Không đạt thì không chạy agent.
+
+### Giới hạn nêu trước
+
+- Một repo (Jinja), một seed, mỗi model một lượt.
+- Môi trường không có lớp cách ly (xem bộ theo dõi ở trên).
+- Ba model đều là hạng nhỏ của hãng (giá thấp). Kết luận chỉ nói về các model đã chạy.
+- Skill được học bởi agent Gemini; ở đây chỉ đo skill đó trên agent khác.
 

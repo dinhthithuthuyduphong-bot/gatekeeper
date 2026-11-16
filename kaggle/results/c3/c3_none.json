@@ -1,0 +1,67 @@
+{
+ "model": "openai/anthropic/claude-haiku-5-5",
+ "seed": 41,
+ "cost_limit": 0.3,
+ "cap": 1.0,
+ "skills_chars": 0,
+ "leak_free": false,
+ "subset": "all",
+ "n_tasks": 3,
+ "runs": [
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__arv5rwp0",
+   "order": 250,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 446,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex 64e432d..b8c0da7 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -241,7 +241,7 @@ class Node(metaclass=NodeType):\n         if type(self) is not type(other):\n             return False\n \n-        return tuple(self.iter_fields()[::-1]) == tuple(other.iter_fields())\n+        return tuple(self.iter_fields()) == tuple(other.iter_fields())\n \n     __hash__ = object.__hash__\n \n",
+   "cost_usd": 0.0032417
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__2lu2b8x6",
+   "order": 251,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 965,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex 29947c1..817abec 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -225,12 +225,12 @@ class Parser:\n     def parse_set(self) -> t.Union[nodes.Assign, nodes.AssignBlock]:\n         \"\"\"Parse an assign statement.\"\"\"\n         lineno = next(self.stream).lineno\n-        target = self.parse_assign_target(with_namespace=False)\n-        if not self.stream.skip_if(\"assign\"):\n+        target = self.parse_assign_target(with_namespace=True)\n+        if self.stream.skip_if(\"assign\"):\n             expr = self.parse_tuple()\n             return nodes.Assign(target, expr, lineno=lineno)\n         filter_node = self.parse_filter(None)\n-        body = self.parse_statements((\"name:endset\",), drop_needle=False)\n+        body = self.parse_statements((\"name:endset\",), drop_needle=True)\n         return nodes.AssignBlock(target, filter_node, body, lineno=lineno)\n \n     def parse_for(self) -> nodes.For:\n",
+   "cost_usd": 0.0041378000000000005
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__5w1ny04u",
+   "order": 252,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 724,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex c87475e..9dcc9d4 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -575,12 +575,12 @@ class LoopContext:\n \n         The loop must have the ``recursive`` marker for this to work.\n         \"\"\"\n-        if self._recurse is not None:\n+        if self._recurse is None:\n             raise TypeError(\n                 \"The loop must have the 'recursive' marker to be called recursively.\"\n             )\n \n-        return self._recurse(iterable, self.depth, self._recurse)\n+        return self._recurse(iterable, self._recurse, depth=self.depth)\n \n     def __repr__(self) -> str:\n         return f\"<{type(self).__name__} {self.index}/{self.length}>\"\n",
+   "cost_usd": 0.0071702
+  }
+ ],
+ "spent_usd": 0.0145497
+}
