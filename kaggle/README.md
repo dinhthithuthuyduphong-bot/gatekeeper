@@ -9,7 +9,8 @@
 
 | File | Là gì |
 | --- | --- |
-| `plan_v2.md` | **Kế hoạch hiện hành (15/11):** dùng hạn mức AI cho việc thuần văn bản; @thuthuy duyệt A và B ngày 15/11 |
+| `plan_v3.md` | **Kế hoạch hiện hành (16/11):** việc sau A và B; mục C (agent khác hãng, không container) chờ duyệt |
+| `plan_v2.md` | Kế hoạch bản 2 (15/11): dùng hạn mức AI cho việc thuần văn bản; @thuthuy duyệt A và B ngày 15/11 |
 | `preregistration_s38.md` | §38 (mục A): model viết skill khác hãng trên 32 prompt gskill đã lưu |
 | `notebooks/a38_p0_cell.py` | P0: đo chi phí, kiểm `temperature=None` (một ô, notebook Benchmarks) |
 | `notebooks/a38_run_cell.py` | Chạy chính §38 (một ô; chạy mỗi ngày đến khi in "all done") |
