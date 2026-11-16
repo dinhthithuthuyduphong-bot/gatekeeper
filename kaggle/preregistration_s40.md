@@ -179,3 +179,32 @@ Hai phép nhận này đúng là hai phép nhận của §25 và §25 bước 3,
 - Ba model đều là hạng nhỏ của hãng (giá thấp). Kết luận chỉ nói về các model đã chạy.
 - Skill được học bởi agent Gemini; ở đây chỉ đo skill đó trên agent khác.
 
+### Ghi chú 40-3 (16/11, sau phiên 1 của C4): **C4 dừng; kết quả phiên 1 không được tính**
+
+- **Đã chạy:** Haiku 5.5, 18/40 khối (189 lượt có kết quả), 139,6 phút, 1.703 lần gọi, 8,57 triệu token vào, 0,88 triệu token ra, **0,766 USD hạn mức**. Cổng C2 trên máy đó đạt (5/5, 0/5). Dữ liệu: `kaggle/results/c4_session1_invalid/`.
+- **Vì sao dừng:** khối `lf_none` thứ 5 báo lỗi hạ tầng "Failed to checkout … Your local changes … would be overwritten". Bản clone gốc trên máy notebook đã bị sửa. Đọc trace cho thấy nguyên nhân: ở task không có mô tả (thứ tự 290), agent chạy `find / -name compiler.py`, tìm thấy bản clone gốc ở `/var/lib/lshim/testbed`, làm việc trong đó và chép đè hai file nguồn vào đó.
+- **Bộ theo dõi đã đăng ký (mục 6) trên 189 lượt:**
+
+  | Nhánh | n | Lượt có lệnh đụng đường dẫn ngoài `/testbed` |
+  | --- | --- | --- |
+  | `none` | 50 | 7 |
+  | `skill` | 50 | 1 |
+  | `lf_none` | 49 | 16 |
+  | `lf_skill` | 40 | 3 |
+  | Tổng | 189 | **27** |
+
+  Loại đường dẫn (một lượt có thể có nhiều loại): `find /` 22; `/tmp/patch.diff` (file bản vá mà bộ chấm của task trước để lại) 12; `/var/lib/lshim` 4; `/tmp/jj` (bản Jinja 3.1.6 một lượt trước tải về) 4; `/benchmarks` 3; `/root/.cache` 2; mirror 1.
+  Lệnh đụng tới khóa hay biến môi trường của máy chủ: **0**.
+- **Đánh giá:** C1 và C2 chỉ chứng minh **bộ chấm** cho điểm giống Docker. Chúng không chứng minh **môi trường agent nhìn thấy** giống Docker. Trong Docker, mỗi task có `/tmp`, `/root` và hệ thống file riêng; ở đây các task dùng chung, và agent thật đã dùng tới phần chung đó. Vì vậy mọi con số của phiên 1 chỉ là dữ liệu thử, **không dùng để kết luận** và không đưa vào paper.
+- **Số mô tả của phiên 1 (chỉ để lập kế hoạch, bộ chấm S):**
+
+  | Nhánh | Giải được | Task không mô tả giải được | Có lệnh `git log`/`git show` | Thấy "Bug Patch" |
+  | --- | --- | --- | --- | --- |
+  | `none` | 33/50 | 1/13 | 14 | 14 |
+  | `skill` | 36/50 | 3/13 | 44 | 44 |
+  | `lf_none` | 28/40 | 0/9 | 11 | 0 |
+  | `lf_skill` | 29/40 | 1/9 | 36 | 0 |
+
+  Hai điều đáng chú ý cho kế hoạch: tỉ lệ giải nền của Haiku cao (khoảng hai phần ba, cao hơn nhiều so với agent của paper); và skill làm agent đọc lịch sử git ở 44/50 lượt nhưng số task giải thêm nhỏ.
+- **Theo quy tắc của mục 4** ("không sửa môi trường cho trùng"): không vá từng chỗ rồi chạy tiếp. Muốn tiếp tục mục C thì phải có lớp cách ly thật và một cổng mới kiểm chính điều đó (`plan_v4.md`, cổng C5). 189 lượt này không được dùng lại.
+

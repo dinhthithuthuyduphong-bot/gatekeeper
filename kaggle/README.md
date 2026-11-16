@@ -9,7 +9,10 @@
 
 | File | Là gì |
 | --- | --- |
-| `plan_v3.md` | **Kế hoạch hiện hành (16/11):** việc sau A và B; mục C (agent khác hãng, không container) chờ duyệt |
+| `TODO.md` | **Đã làm gì, đang làm gì, đang chờ gì** (cập nhật cùng hướng đang chọn) |
+| `plan_v4.md` | **Kế hoạch hiện hành (16/11):** mọi kịch bản sau A, B và phiên 1 của C4 |
+| `plan_v3.md` | Kế hoạch bản 3 (16/11) |
+| `preregistration_s40.md` | §40 (mục C): agent khác hãng không cần container; C0–C3 đạt, C4 phiên 1 không hợp lệ |
 | `plan_v2.md` | Kế hoạch bản 2 (15/11): dùng hạn mức AI cho việc thuần văn bản; @thuthuy duyệt A và B ngày 15/11 |
 | `preregistration_s38.md` | §38 (mục A): model viết skill khác hãng trên 32 prompt gskill đã lưu |
 | `notebooks/a38_p0_cell.py` | P0: đo chi phí, kiểm `temperature=None` (một ô, notebook Benchmarks) |
@@ -44,7 +47,8 @@
 | 0, trong Kaggle (cập nhật 15/11) | K0a đạt một lần; K0b không hoàn thành (Kaggle ngắt phiên nhiều lần); **dừng việc chạy container trên Kaggle** (K14). K0c, K0d chờ quyết |
 | 0, trong Kaggle (cũ) | Đã có: không có Docker daemon; hạn mức AI 10 USD/ngày, 100 USD/tháng. Chờ chạy lại phần A bằng notebook mới, và phần B trong notebook Benchmarks |
 | 1–3 (container) | Không khả thi trên Kaggle |
-| §38 (mục A) | P0 và P0b xong (0,47 USD hạn mức); đã chọn model (ghi chú 38-3); chờ chạy (`run_s38_s39.md`) |
+| §38 (mục A) | Seed 1 và 2 xong; chờ phiên 3 |
+| §40 (mục C) | C0–C3 đạt; **C4 phiên 1 không hợp lệ (K21)**; chờ lớp cách ly (C5) |
 | §39 (mục B) | **Xong 16/11:** 408/408 lần gọi, 3,05 USD hạn mức; kết quả ở `preregistration_s39.md` §6 |
 
 Chi phí đến nay: 0 USD.
