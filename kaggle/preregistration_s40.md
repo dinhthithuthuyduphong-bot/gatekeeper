@@ -111,4 +111,5 @@ Ngưỡng 100% ở C1 là ngưỡng của K0b (§37): mọi lệch điểm đề
 
 - Hai lần chạy ô C3 đầu dừng trước khi gọi model (0 USD): notebook được dùng **không phải notebook Benchmarks** (`No module named 'kaggle_benchmarks'`, không có `MODEL_PROXY_*`). Xem `audit.md` K19, K20.
 - **Hệ quả cho C2:** lần C2 đạt hôm nay chạy trên một notebook Kaggle thường (Python 3.13, quyền root). Máy của notebook Benchmarks có thể khác. Ô C3 vì vậy ghi lại thông tin máy và tự dựng lại môi trường ở đó; phần chấm của C3 (bộ chấm S chạy trên từng bản vá) đóng vai kiểm tra lại. **C2 phải được chạy lại trong notebook Benchmarks trước C4.**
+- **C1 chạy lại với môi trường ở đường dẫn của image (16/11): đạt.** `kaggle/results/c1_local_envpath.jsonl`: 224/224 bản vá trùng điểm Docker đã ghi; bản vá gốc 20/20; "không vá" 0/20; 0 lỗi hạ tầng.
 
