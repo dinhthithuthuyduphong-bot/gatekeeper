@@ -69,7 +69,40 @@ Ngưỡng 100% ở C1 là ngưỡng của K0b (§37): mọi lệch điểm đề
   - bản đầu dùng liên kết tượng trưng cho `/testbed`: "không vá" được chấm đạt, vì gói cài ở chế độ editable trỏ vào bản clone gốc. Đã đổi sang thư mục thật, đổi chỗ bằng rename;
   - lần chạy đầy đủ đầu tiên: cả 264 lượt báo lỗi hạ tầng, vì trạng thái ở `/opt` còn mà `/testbed` đã mất cùng máy cũ. `prepare()` giờ tự dựng lại phần thiếu. Không lượt nào của lần đó được tính.
 - **Chạy thử ô C2 trên máy sạch (không phải Kaggle):** 5/5 và 0/5, 44 giây kể cả dựng môi trường.
-- **C2 trên Kaggle:** chờ @thuthuy chạy `notebooks/c2_cell.py`.
+- **C2 trên Kaggle (16/11): đạt.** Bản vá gốc 5/5, "không vá" 0/5, 0 lỗi hạ tầng, 69 giây. Máy Kaggle: quyền root, ghi được `/` và `/opt`, có `git`, `patch`, `uv`, 4 CPU, 19,5 GB đĩa trống.
+
+### Ghi chú 40-1 (16/11, sau C2, trước C3)
+
+- **Môi trường lệnh của agent, đo trong image gốc** (`docker run <image> bash -lc env`):
+  - `PATH` bắt đầu bằng `/opt/miniconda3/envs/testbed/bin`;
+  - `python`, `pytest`, `pip` nằm ở đó; Python 3.10.16;
+  - `HOME=/root`, `TZ=Etc/UTC`, `CONDA_DEFAULT_ENV=testbed`.
+- **Thay đổi sau C1 và C2:** môi trường dựng lại được đặt ở **đúng đường dẫn đó** (`/opt/miniconda3/envs/testbed`), thay cho `/opt/local_shim/env`. Mọi lệnh (của agent và của bộ chấm) chạy với đúng các biến trên và không biến nào khác của máy chủ.
+  - Hệ quả về an toàn: lệnh của agent không thấy khóa của Kaggle. Chạy thử: 0 biến của máy chủ lọt vào.
+  - Vì đường dẫn môi trường đổi, **C1 được chạy lại** với bản này. Kết quả ghi bên dưới. C4 chỉ chạy nếu lượt chạy lại cũng trùng 100%.
+- **Agent chạy thế nào khi không có Docker:**
+  - `scripts/f1_probe.py` của nhánh `trial` (`97cd0a5`), script của mọi lượt agent trong paper, chạy **nguyên văn**;
+  - gskill ở `8c7b697`, mini-swe-agent 1.17.5, swesmith 0.0.9, swebench 4.1.0 như các lượt của paper; litellm 1.108.2;
+  - mini-swe-agent gọi lệnh `docker exec … bash -lc <lệnh>`. Biến `MSWEA_DOCKER_EXECUTABLE` trỏ lệnh đó tới `kaggle/scripts/fake_docker.py`, chạy lệnh thành tiến trình thường trong `/testbed` của task;
+  - `bash -c` thay cho `bash -lc`: file đăng nhập của image chỉ bật môi trường `testbed`, điều mà các biến ở trên đã mô tả.
+- **Chạy thử miễn phí (model giả lập, máy sạch, 2 task):** agent chạy đủ vòng lặp; thấy `python` ở đường dẫn của image, `pwd -P` là `/testbed`, `git log` cho 3 commit ("Remove F2P Tests", "Bug Patch", "Initial commit"). Bản vá vô hại được bộ chấm L của gskill cho đạt và bộ chấm S cho không đạt, đúng như phát hiện F0 của paper.
+- **Giá, đo từ 321 lần gọi của §38** (chi phí Kaggle báo = token vào × giá vào + token ra × giá ra, sai số 0 ở 4 model):
+
+  | Model | USD mỗi triệu token vào | ra |
+  | --- | --- | --- |
+  | Haiku 5.5 | 0,10 | 0,50 |
+  | GPT-5.4 nano | 0,20 | 1,25 |
+  | gpt-oss-120b | 0,09 | 0,36 |
+  | Gemini 3.1 Pro preview | 2,00 | 12,00 |
+
+  Grok 4.6 không khớp công thức tuyến tính (sai số tới 0,07 USD), nên không dùng làm agent ở C3.
+- **C3 (`notebooks/c3_cell.py`), chốt trước khi chạy:**
+  - model agent: Haiku 5.5, model khác Google có giá token vào thấp nhất trong các model đo được giá chính xác và không phải model trọng số mở cỡ nhỏ. Lựa chọn này chỉ để đo chi phí; model của C4 chốt ở mục 6;
+  - 3 task test đầu theo thứ tự của gskill, không skill, môi trường gốc;
+  - `seed=41`, giới hạn mỗi task 0,30 USD, như §25; trần cả ô 1,00 USD;
+  - giới hạn tiền tính bằng giá ở bảng trên (LiteLLM); chi phí Kaggle báo trên từng câu trả lời được ghi song song để đối chiếu;
+  - trước khi chạy agent, ô gọi thử model một lần. Nếu endpoint từ chối tham số `parallel_tool_calls` thì bỏ tham số đó và ghi là sai lệch.
+- **Rủi ro còn lại, nêu trước:** agent chạy bằng quyền root trên máy notebook. Nó không thấy khóa qua biến môi trường, nhưng về nguyên tắc có thể đọc bộ nhớ tiến trình khác. Nhiệm vụ của agent là sửa bug trong `/testbed`; mọi lệnh nó chạy đều được ghi vào trace và được kiểm sau khi chạy.
 
 ## 6. C4: thiết kế chạy chính
 (chốt sau C3, trước khi chạy; gồm model agent, số task, quy tắc nhận của §25, trần tiền)
