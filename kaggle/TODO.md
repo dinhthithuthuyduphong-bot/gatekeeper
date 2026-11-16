@@ -19,7 +19,6 @@ Hạn mức AI Kaggle đã dùng trong tháng: **khoảng 18,0 trên 100 USD** (
 
 | # | Việc | Trạng thái |
 | --- | --- | --- |
-| D1 | Chạy lại C1 qua lớp `chroot` (264 lượt chấm) tại máy của phiên | Đang chạy nền |
 | D2 | Nối bộ chạy agent (`c3_agent.py`, `c4_driver.py`) với lớp `chroot`; chạy thử miễn phí | Sau D1 |
 | D3 | Ô C6 (6 task, 3 không mô tả) và ô C4′ | Sau D2 |
 
@@ -49,7 +48,8 @@ Hạn mức AI Kaggle đã dùng trong tháng: **khoảng 18,0 trên 100 USD** (
 | 16/11 | C3: 3 task với agent thật | Đạt; 0,011 USD | `results/c3/` |
 | 16/11 | Kế hoạch bản 4 và file này | — | `plan_v4.md` |
 | 16/11 | Thăm dò quyền của notebook Benchmarks | Có `chroot`, `mknod`; không có không gian tên | `preregistration_s40.md` 40-4 |
-| 16/11 | Lớp cách ly `chroot` và cổng C5 tại máy của phiên | Đạt cả 6 phép thử; chấm thử 38/38 | `results/c5_gate_local.json` |
+| 16/11 | Lớp cách ly `chroot` và cổng C5 tại máy của phiên | Đạt cả 6 phép thử | `results/c5_gate_local.json` |
+| 16/11 | C1 chạy lại qua lớp `chroot` | Đạt: 224/224, gốc 20/20, "không vá" 0/20 | `results/c1_chroot.jsonl` |
 
 ## Đã dừng hoặc không tính
 

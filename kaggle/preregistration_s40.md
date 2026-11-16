@@ -235,5 +235,5 @@ Hai phép nhận này đúng là hai phép nhận của §25 và §25 bước 3,
 
   Kèm: chạy lại C1 qua lớp này (224 bản vá, gốc 20, "không vá" 20) phải trùng 100%; trên Kaggle: 6 phép thử đạt và bản vá gốc 5/5, "không vá" 0/5.
 - **Kết quả tại máy của phiên** (máy có đúng mức quyền của Kaggle: có `chroot`, `mknod`, không `SYS_ADMIN`), `kaggle/results/c5_gate_local.json`: **đạt cả 6**. 8 file đánh dấu, tìm thấy 0. Dựng nền 69 giây; tạo một container 2,4 giây; dựng lại nền 98 giây. Lần chấm thử: 38/38 bản vá trùng, gốc 2/2, "không vá" 0/2; mỗi lượt chấm khoảng 15 giây (bộ chấm không-container cũ: 3 giây).
-- **C1 qua lớp `chroot`:** đang chạy; kết quả ghi bên dưới.
+- **C1 qua lớp `chroot` (16/11): đạt.** `kaggle/results/c1_chroot.jsonl`: 224/224 bản vá trùng điểm Docker đã ghi; bản vá gốc 20/20; "không vá" 0/20; 0 lỗi hạ tầng; trung vị 13,6 giây mỗi lượt chấm.
 
