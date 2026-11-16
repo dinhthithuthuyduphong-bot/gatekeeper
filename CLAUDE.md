@@ -83,6 +83,7 @@ Gửi yêu cầu **sớm nhất có thể**, kèm hạn cần trả lời, để
 | Việc | File |
 | --- | --- |
 | Kim chỉ nam, nhật ký tiến độ | `TODO.md` |
+| **Việc sửa bài cho EASE 2027 sau review của thầy 16/11 (đọc trước khi đụng tới `paper/`)** | `docs/todo_ease_revision.md` |
 | Quy tắc, danh sách review §4, mục đang vi phạm §5 | `docs/research_rules.md` |
 | Sổ review trước khi chạy | `docs/review_log.md` |
 | Lỗi đã gặp (A#, B#, C#) | `docs/audit_pilot.md` |
