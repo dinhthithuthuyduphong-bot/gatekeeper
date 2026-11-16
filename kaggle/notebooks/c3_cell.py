@@ -81,6 +81,22 @@ try:
         out["kaggle_benchmarks"] = repr(e)[:200]
     names = ("MODEL_PROXY_URL", "MODEL_PROXY_API_KEY")
     out["env_present"] = {k: bool(os.environ.get(k)) for k in names}  # presence only, no value
+    out["machine"] = {
+        "uid": os.getuid(),
+        "root_writable": os.access("/", os.W_OK),
+        "opt_writable": os.access("/opt", os.W_OK),
+        "testbed_exists": os.path.exists("/testbed"),
+        "git": shutil.which("git"),
+        "patch": shutil.which("patch"),
+        "uv": shutil.which("uv"),
+        "python": sys.version.split()[0],
+    }
+    save()
+    if not all(out["env_present"].values()):
+        raise RuntimeError(
+            "this is not a Benchmarks notebook (no model endpoint): create the notebook from "
+            "https://www.kaggle.com/benchmarks/tasks/new and paste this cell there"
+        )
     os.makedirs(W + "/code", exist_ok=True)
     os.makedirs(OUTDIR, exist_ok=True)
     for name, path in FILES.items():
