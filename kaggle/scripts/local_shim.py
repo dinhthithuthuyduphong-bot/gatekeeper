@@ -40,7 +40,19 @@ from pathlib import Path
 WORKDIR = Path("/testbed")
 MIRROR = Path("/opt/mirror.git")
 ACTIVATE = Path("/opt/miniconda3/bin/activate")
-STATE = Path(os.environ.get("LOCAL_SHIM_DIR", "/opt/local_shim"))  # base clone, environment
+ENV = Path("/opt/miniconda3/envs/testbed")  # where the image has its environment
+STATE = Path(os.environ.get("LOCAL_SHIM_DIR", "/opt/local_shim"))  # base clone, parked copies
+# What `bash -lc` gives inside the image (measured: docker run <image> bash -lc env), and nothing
+# else: the caller's own variables (API keys among them) never reach a command.
+SHELL_ENV = {
+    "PATH": f"{ENV}/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:"
+    "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "HOME": "/root",
+    "TZ": "Etc/UTC",
+    "CONDA_DEFAULT_ENV": "testbed",
+    "CONDA_PREFIX": str(ENV),
+    "VIRTUAL_ENV": str(ENV),
+}
 SKIP = {"pip", "jinja2"}  # pip comes with the environment; the repository is installed editable
 
 
@@ -105,14 +117,17 @@ def prepare(
         _swap(STATE / "testbed")
         return json.loads(done.read_text())
     MIRROR.parent.mkdir(parents=True, exist_ok=True)
-    if not MIRROR.exists():
-        _sh(f"git clone -q --mirror {shlex.quote(mirror_url)} {MIRROR}")
+    keep = STATE / "mirror.keep"  # the leak-free arm deletes /opt/mirror.git in its container
+    if not keep.exists():
+        _sh(f"git clone -q --mirror {shlex.quote(mirror_url)} {keep}")
+    _restore_mirror()
     base = STATE / "testbed"
     if not base.exists() and not mark.exists():
         _sh(f"git clone -q -o origin {MIRROR} {base}")
     _swap(base)
-    env = STATE / "env"
-    if not env.exists():
+    env = ENV
+    if not (env / "bin" / "python").exists():
+        env.parent.mkdir(parents=True, exist_ok=True)
         _sh(f"uv venv -q --python {python} {env}")
         reqs = STATE / "requirements.txt"
         reqs.write_text(
@@ -134,6 +149,13 @@ def prepare(
     }
     done.write_text(json.dumps(info))
     return info
+
+
+def _restore_mirror() -> None:
+    """A fresh container of the image has /opt/mirror.git, whatever an earlier one did to it."""
+    if not MIRROR.exists():
+        MIRROR.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(STATE / "mirror.keep", MIRROR, symlinks=True)
 
 
 class ExecResult:
@@ -174,10 +196,14 @@ class Container:
     def __init__(self, client: Client, image: str, name: str):
         self.client, self.image, self.name = client, image, name
         self.id = uuid.uuid4().hex
+        if (STATE / "mirror.keep").exists():
+            _restore_mirror()
         _swap(STATE / "testbed")  # the base clone is at /testbed; copy it to a parking place
         self.testbed = Path(tempfile.mkdtemp(prefix="testbed_", dir=STATE))
         self.testbed.rmdir()
         shutil.copytree(WORKDIR, self.testbed, symlinks=True)
+        (STATE / "containers").mkdir(exist_ok=True)  # read by fake_docker.py (another process)
+        (STATE / "containers" / self.id).write_text(str(self.testbed))
         Container.by_id[self.id] = self
 
     def start(self) -> None:
@@ -186,9 +212,7 @@ class Container:
     def _popen(self, cmd, workdir, environment) -> subprocess.Popen:
         _swap(self.testbed)  # every command of this container sees its own /testbed
         argv = shlex.split(cmd) if isinstance(cmd, str) else list(cmd)
-        env = {**os.environ, **(environment or {})}
-        for k in ("VIRTUAL_ENV", "PYTHONPATH", "PYTHONHOME"):  # the caller's own environment
-            env.pop(k, None)
+        env = {**SHELL_ENV, **(environment or {})}
         return subprocess.Popen(
             argv,
             cwd=workdir or "/",
@@ -226,6 +250,7 @@ class Container:
     def remove(self, force: bool = True) -> None:
         _swap(STATE / "testbed")  # parks this container's copy, if it was the active one
         shutil.rmtree(self.testbed, ignore_errors=True)
+        (STATE / "containers" / self.id).unlink(missing_ok=True)
         Container.by_id.pop(self.id, None)
 
 
@@ -261,3 +286,9 @@ def install() -> None:
     hu.docker = _DockerModule()
     pb.docker = _DockerModule()
     RepoProfile.pull_image = lambda self: None
+    try:  # gskill's harness, when it is on the path (the agent runs; not needed for grading)
+        import gskill.swe_harness as gh
+
+        gh.docker = _DockerModule()
+    except ImportError:
+        pass

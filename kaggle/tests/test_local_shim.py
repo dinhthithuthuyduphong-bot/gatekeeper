@@ -30,7 +30,8 @@ def test_each_container_sees_its_own_testbed_at_the_fixed_path(box):
     c1.remove()
     c2.remove()
     assert (ls.WORKDIR / "a.py").read_text() == "x = 1\n"  # the base clone is back and unchanged
-    assert sorted(p.name for p in ls.STATE.iterdir()) == ["active"]
+    assert sorted(p.name for p in ls.STATE.iterdir()) == ["active", "containers"]
+    assert not list((ls.STATE / "containers").iterdir())
 
 
 def test_exec_result_and_missing_command(box):
