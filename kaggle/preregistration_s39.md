@@ -57,3 +57,27 @@ Paper hiện viết "We tested single auditors with one prompt". Kết quả §3
     - Thêm một cách đọc **phụ**, đặt sau khi thấy 5 câu trả lời này, nên chỉ báo cáo kèm theo: với câu trả lời không đọc được, lấy giá trị từ `"attributed": true|false`. Cả hai cách đọc đều được báo cáo.
   - **Lưu trữ:** câu trả lời thô có văn bản trích quỹ đạo. Vì vậy chỉ commit file quyết định đã đọc (`kaggle/results/b39_decisions_*.jsonl`, giống §19 C). Bản thô nằm ở thư mục tạm của phiên và trong Output của notebook Kaggle.
 
+## 6. Kết quả (16/11/2026; `kaggle/results/b39_analysis.json`)
+
+- **Đã chạy:** 408/408 lần gọi trong 2 phiên, 0 lỗi, 0 lần gọi trùng. Tiền Kaggle báo: 3,05 USD hạn mức (trần 8 USD).
+- **Kiểm sau khi chạy:** không có `infra_failures`; mỗi (prompt, model) có đúng một câu trả lời.
+
+| Auditor | Không đọc được | Sham: quy lỗi skill giả | CP 95% | Plain | Real: quy lỗi | Cận dưới quy lỗi sai (U = 0,468) |
+| --- | --- | --- | --- | --- | --- | --- |
+| Grok 4.6 (xAI) | 0 | **10/25** | [0,21; 0,61] | 0/25 | 30/52 = 0,577 | **0,109** |
+| gpt-oss-120b (trọng số mở) | 5 | 4/25 | [0,05; 0,36] | 14/25 | 22/52 = 0,423 | 0 |
+| Haiku 5.5 (Anthropic) | 1 | 1/25 | [0,00; 0,20] | 0/25 | 20/52 = 0,385 | 0 |
+| GPT-5.4 nano (OpenAI) | 1 | 1/25 | [0,00; 0,20] | 6/25 | 1/52 = 0,019 | 0 |
+| *Đã có (§19 C):* Gemini Flash-Lite | | 25/25 | | 20/25 | 51/52 | 0,512 |
+| *Đã có:* Gemini Flash | | 3/25 | | 0/25 | 20/52 | 0 |
+| *Đã có:* Gemini Pro | | 5/25 | | 0/25 | 29/52 | 0,089 |
+
+- **Cách đọc phụ** (ghi chú 39-2) chỉ đổi: Haiku real 21/52; oss real 23/52, plain 17/25. Không cận dưới nào đổi.
+- **Theo diễn giải đặt trước (§4):**
+  - Điều kiện 1 **đạt**: cận dưới trên lỗi thật > 0 ở một auditor khác hãng (Grok 4.6: 0,109).
+  - Skill giả bị quy lỗi ở **cả bốn** auditor khác hãng, từ 1/25 đến 10/25. Với Haiku và nano, khoảng tin cậy chứa 0.
+- **Điều paper được nói:** hiện tượng quy lỗi cho skill giả không riêng họ Gemini; mức độ khác nhau nhiều giữa các model (1/25 đến 25/25 trên 7 auditor của 4 hãng và một model trọng số mở).
+- **Điều paper không được nói:** "mọi auditor đều quy lỗi sai". Ba trong bốn auditor khác hãng có cận dưới bằng 0 trên lỗi thật.
+- **Quan sát ngoài đăng ký (chỉ mô tả):** ở điều kiện plain (không nêu skill), oss quy lỗi cho "cấu hình" 14/25 lần, nano 6/25; Grok và Haiku 0/25.
+- **Giới hạn:** mỗi auditor một lần gọi mỗi prompt; một prompt; model nhỏ nhất của Anthropic và OpenAI (D-38a); không đặt `reasoning_effort`.
+

@@ -149,4 +149,5 @@ Một quỹ đạo **cho thấy rò rỉ** khi một quan sát trả về cho ag
     - Lỗi này cũng xác nhận rằng hết hạn mức thì Kaggle từ chối chứ không tính tiền.
   - **Chi phí thật cao hơn dự kiến:** Gemini trung bình 0,102 USD mỗi lần gọi (3.628 token đầu ra), Grok 0,075. Dự kiến mới cho cả mục A là khoảng 19–20 USD, vẫn dưới trần 40 USD.
   - **Phiên sau:** chạy B trước (còn 69 lần gọi, khoảng 0,7 USD), rồi A. Tổng hai trần ngày vẫn dưới 10 USD.
+- **38-5 (16/11, sau phiên chạy 2; chưa tính endpoint nào).** 324 lần gọi, 321 có câu trả lời; 0 lần gọi trùng. Seed 1 và 2 đủ cho cả 5 model (32/32 mỗi seed); 3 lần gọi Gemini bị từ chối hôm 15/11 đã được gửi lại và có câu trả lời. Tiền Kaggle báo cộng dồn: 13,73 USD. Còn seed 3 (159 lần gọi, khoảng 7 USD): một phiên nữa.
 

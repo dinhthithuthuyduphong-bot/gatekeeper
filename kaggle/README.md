@@ -44,6 +44,6 @@
 | 0, trong Kaggle (cũ) | Đã có: không có Docker daemon; hạn mức AI 10 USD/ngày, 100 USD/tháng. Chờ chạy lại phần A bằng notebook mới, và phần B trong notebook Benchmarks |
 | 1–3 (container) | Không khả thi trên Kaggle |
 | §38 (mục A) | P0 và P0b xong (0,47 USD hạn mức); đã chọn model (ghi chú 38-3); chờ chạy (`run_s38_s39.md`) |
-| §39 (mục B) | Sẵn sàng chạy cùng A |
+| §39 (mục B) | **Xong 16/11:** 408/408 lần gọi, 3,05 USD hạn mức; kết quả ở `preregistration_s39.md` §6 |
 
 Chi phí đến nay: 0 USD.
