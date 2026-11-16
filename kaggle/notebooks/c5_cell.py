@@ -12,7 +12,7 @@ import sys
 import time
 import urllib.request
 
-COMMIT = "__CODE_COMMIT__"  # holds kaggle/scripts of section 40
+COMMIT = "48a0bfffc97fab008ca4ef7a89c16b6393b8cfd0"  # holds kaggle/scripts of section 40
 TRIAL = "97cd0a5c9d69b45b95a978dc872ad91ac6f90e91"
 RAW = "https://raw.githubusercontent.com/dinhthithuthuyduphong-bot/gatekeeper/"
 FILES = {
