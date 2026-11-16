@@ -91,15 +91,39 @@ def main() -> int:
     ap.add_argument("--controls", required=True, type=int)
     ap.add_argument("--out", required=True, type=Path)
     ap.add_argument("--summary-only", action="store_true")
+    ap.add_argument(
+        "--local-packages",
+        type=Path,
+        help="plan v3, gate C1: grade with no container (local_shim), the environment rebuilt "
+        "from this list of the image's packages (JSON: packages, python)",
+    )
     a = ap.parse_args()
     if a.summary_only:
         print(json.dumps(summarise(a.out), indent=1))
         return 0
-    print(json.dumps({"K0a": probe()}, indent=1), flush=True)
-    import udocker_shim
     from f0_scorer_check import assume_public
 
-    udocker_shim.install()
+    if a.local_packages:
+        import local_shim
+        from swesmith.profiles import registry
+
+        first_row = json.loads(next(x for x in a.rows.read_text().splitlines() if x.strip()))
+        rp = registry.get_from_inst(first_row)
+        spec = json.loads(a.local_packages.read_text())
+        print(json.dumps({"C1_probe": local_shim.probe()}, indent=1), flush=True)
+        info = local_shim.prepare(
+            f"https://github.com/{rp.mirror_name}",
+            spec["python"],
+            spec["packages"],
+            list(rp.install_cmds),
+        )
+        print(json.dumps({"C1_prepared": info}), flush=True)
+        local_shim.install()
+    else:
+        print(json.dumps({"K0a": probe()}, indent=1), flush=True)
+        import udocker_shim
+
+        udocker_shim.install()
     rows = {}
     for x in a.rows.read_text().splitlines():
         if x.strip():
