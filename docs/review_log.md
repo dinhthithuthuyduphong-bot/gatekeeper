@@ -1081,3 +1081,9 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - CI xanh;
   - chạy thử miễn phí `c10r70` (model giả lập);
   - @thuthuy xác nhận credit.
+- **Chạy thử miễn phí `c10r70` đạt** (run 44114737043, commit `af7d584`, model giả lập, 1 task mỗi nhánh):
+  - 8/8 nhánh: seed 61, trần đúng `configs/c10r.json`;
+  - `history_check` đúng chuỗi của từng biến thể (A 3/1/1, B 3/0/1, C 3/1/0, D 2/0/0);
+  - câu trung tính chỉ ở B; skill (2.675 ký tự) chỉ ở nhánh có skill;
+  - 0 lỗi hạ tầng.
+- **Ngân sách:** @thuthuy 17/11 duyệt 12,64 USD, chấp nhận trả phần vượt credit (CLAUDE.md).
