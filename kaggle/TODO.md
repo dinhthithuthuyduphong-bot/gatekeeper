@@ -15,6 +15,8 @@ Hạn mức AI Kaggle đã dùng trong tháng: **khoảng 18,0 trên 100 USD** (
 | T3 | Chép câu điều khoản Kaggle về việc dùng hạn mức AI | Treo từ giai đoạn 0 (K0e) | Cần trước C4′ |
 | T4 | **Không chạy lại ô `c4_cell.py`** | — | Kết quả phiên 1 không hợp lệ (K21); ô này sẽ được thay |
 
+| T5 | **Chọn A hay B cho C4′** (ghi chú 40-5, `preregistration_s40.md`): A giữ 100 task (power 0,63); B thêm 36 task không mô tả (power 1,00; khoảng +36% thời gian và hạn mức) | Một chữ: A hoặc B | Lời khuyên: B. Cần trước khi chạy C4′ |
+
 ## Đang làm (Claude)
 
 | # | Việc | Trạng thái |

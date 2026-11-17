@@ -237,3 +237,40 @@ Hai phép nhận này đúng là hai phép nhận của §25 và §25 bước 3,
 - **Kết quả tại máy của phiên** (máy có đúng mức quyền của Kaggle: có `chroot`, `mknod`, không `SYS_ADMIN`), `kaggle/results/c5_gate_local.json`: **đạt cả 6**. 8 file đánh dấu, tìm thấy 0. Dựng nền 69 giây; tạo một container 2,4 giây; dựng lại nền 98 giây. Lần chấm thử: 38/38 bản vá trùng, gốc 2/2, "không vá" 0/2; mỗi lượt chấm khoảng 15 giây (bộ chấm không-container cũ: 3 giây).
 - **C1 qua lớp `chroot` (16/11): đạt.** `kaggle/results/c1_chroot.jsonl`: 224/224 bản vá trùng điểm Docker đã ghi; bản vá gốc 20/20; "không vá" 0/20; 0 lỗi hạ tầng; trung vị 13,6 giây mỗi lượt chấm.
 
+
+### Ghi chú 40-5 (17/11/2026, trước mọi lượt của C4′; phiên làm việc chính, theo C1a và C1b của `docs/todo_ease_revision.md`)
+
+**Dữ liệu đã thấy lúc viết ghi chú:** các số mô tả của phiên 1 không hợp lệ (bảng ở ghi chú 40-3), và mọi kết quả của agent nghiên cứu. Không có lượt C4′ nào.
+
+**1. Đích tái lập là hiệu của hai mức tăng, không phải cặp quyết định "nhận / không nhận".**
+- Bảng "Diễn giải đặt trước" ở mục 6 coi "nhận ở môi trường gốc, không nhận ở một commit" là lặp lại được phát hiện của paper. Nhưng trong paper, skill được nhận ở **cả hai** môi trường. Phát hiện là mức tăng tụt từ 0,38 xuống 0,21 khi bỏ hai commit do benchmark tạo ra (§41).
+- Thay bằng: **phép thử chính của mỗi agent** là hiệu giữa hai môi trường trên từng task, Dᵢ = (Z_gốc − Z_một commit)/2, như §33 (P33c) và §35 (P35). Giả thuyết không: tổng E[Dᵢ | C] ≥ 0.
+- Hai phép nhận theo từng môi trường của mục 6 vẫn được tính và báo cáo như đã đăng ký (R5).
+
+**2. Thống kê của phép thử chính:** phép kiểm cuối pool (`docs/method_end_of_pool.md`; `end_of_pool_log_e`, λ = 0,5, θ = 0), bác bỏ khi E ≥ 40. Đọc theo họ: 3 agent nên ngưỡng 3/α = 120. E-process tuần tự được báo cáo kèm.
+
+**3. Pool của phép thử chính: chỉ các task không có mô tả issue.**
+- **Vì sao:** cả hai kênh rò rỉ chỉ phát huy khi task thiếu mô tả (§41: mọi task không mô tả mà agent nghiên cứu giải được ở môi trường gốc đều có diff "Bug Patch" trong trace). Trên các task có mô tả, D gần 0 và chỉ làm loãng phép thử.
+- **Power, nếu agent mới hành xử như agent nghiên cứu** (lấy mẫu lại có hoàn lại từ Dᵢ đo được ở seed 51; 20.000 lần; seed 40050; `kaggle/scripts/c4_contrast_power.py` → `kaggle/results/c4_contrast_power.json`):
+
+  | Pool | Power |
+  | --- | --- |
+  | 100 task test (như đang đăng ký) | 0,28 |
+  | 34 task test không mô tả | 0,63 |
+  | 70 task không mô tả (34 + 36 task của §35) | 1,00 |
+
+- **Lựa chọn chờ @thuthuy:**
+  - **A:** giữ 100 task như đăng ký; phép thử chính trên 34 task không mô tả trong đó (power 0,63 theo kịch bản trên).
+  - **B (khuyên):** thêm 36 task của §35 (`data/instances/swesmith_pallets__jinja_extra36.jsonl` trên `data-snapshots`); phép thử chính trên 70 task không mô tả (power 1,00). Tốn thêm 36 × 4 lượt mỗi agent, tức khoảng 36% thời gian và hạn mức (theo C3: khoảng 0,004 USD hạn mức mỗi lượt Haiku). Không dùng tiền thật.
+- **Giới hạn của con số power:** agent khác hãng có thể khác hẳn agent nghiên cứu. Phiên 1 (không hợp lệ, chỉ để lập kế hoạch) gợi ý Haiku có tỉ lệ giải nền cao hơn nhiều và skill thêm ít task. Nếu agent mới tự tìm ra rò rỉ mà không cần skill (như agent thứ hai ở §34), D gần 0 và phép thử sẽ không bác bỏ. Kết quả đó vẫn có nghĩa: phần của skill nhỏ với agent đó.
+
+**4. Theo dõi cả hai kênh rò rỉ (§41).** Sau khi chạy, áp các quy tắc của `scripts/history_audit.py` cho từng nhánh: thấy diff "Bug Patch"; thấy nội dung test bị xóa; khôi phục rồi chạy test. Báo cáo theo nhánh, cạnh số task giải được.
+
+**5. Diễn giải đặt trước (thay bảng ở mục 6, cho phép thử chính):**
+
+| Phép thử chính (D, task không mô tả) | Ý nghĩa với agent đó |
+| --- | --- |
+| Bác bỏ | Lặp lại được phát hiện: mức tăng của skill ở môi trường gốc lớn hơn ở môi trường một commit |
+| Không bác bỏ; nhánh không skill ở môi trường gốc giải được nhiều task không mô tả và trace cho thấy agent dùng các kênh rò rỉ | Agent tự tìm ra rò rỉ; phần của skill nhỏ (như agent thứ hai ở §34) |
+| Không bác bỏ; agent hầu như không dùng các kênh rò rỉ ở cả hai nhánh | Skill không làm agent này khai thác rò rỉ |
+| Ngược chiều (D trung bình > 0) | Không dự kiến; báo nguyên trạng |
