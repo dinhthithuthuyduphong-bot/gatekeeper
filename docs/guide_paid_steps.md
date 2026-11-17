@@ -103,7 +103,7 @@ Model giả lập trả lời ngay "nộp bài", nên không có lệnh gọi mo
   - D: `commits=2`, `bug_msg=0`, `t0_present=0`;
 - `spent_usd` = 0 ở cả tám file.
 
-Một lần chạy thử với `arm` = `c10all70` kiểm thêm phần 36 task.
+**Đã chạy 17/11:** `c10test34` (8/8) và `c10all70` (16/16) đều đạt (R-71). Chỉ chạy lại nếu mã đổi.
 
 **Bước 5. Chạy có phí (Claude bấm, sau bước 1–4).** Như bước 4, nhưng:
 - `dryrun` = `false`;

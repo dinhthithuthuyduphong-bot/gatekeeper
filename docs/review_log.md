@@ -987,3 +987,11 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - Không lượt nào sập.
 - `spent_usd` = 0,0000325 mỗi nhánh. Đây là giá LiteLLM tự tính cho câu trả lời giả lập, không có lệnh gọi model nào; chạy thử §35 cho đúng con số này (`s35dry_ship_none.json`).
 - Chưa chạy thử `c10all70`.
+
+**Bổ sung R-71 (sau A136):** script đọc ngày dạng raw; test có thêm múi giờ +07:00. Lần chạy thử đầu kiểm bản script trước khi sửa, nên phải chạy thử lại `c10test34` trên commit sửa trước mọi lượt có phí.
+
+**Bổ sung R-71: chạy thử lần 2 (run 44017477445, commit 0ef09dc đã xanh CI), `c10all70`.**
+- 16 file (8 nhánh × 2 phần), mỗi file 1 lượt: task đầu của 34 task test và task đầu của 36 task mới.
+- `history_check` đúng chuỗi mong đợi ở 16/16 file, cả với bản script đọc ngày dạng raw.
+- Không lượt nào sập. Không có lệnh gọi model.
+- Mặt máy móc của C10 đã sẵn sàng. Còn lại là bản đăng ký §43 và câu duyệt ngân sách của @thuthuy.
