@@ -135,3 +135,7 @@ Mọi con số khác bên dưới đều được **suy ra từ α**, **suy ra t
 | **cost_limit 0,30 USD** (§25 F1) | Vận hành | Chặn trường hợp xấu nhất; gấp khoảng 4,7 lần chi phí trung bình E2 (0,063 USD). Chỉ ảnh hưởng số lần chạy trong trần, không ảnh hưởng đại lượng đo |
 | **step_limit 50** (§25 F1) | Bên thứ ba | Gán cứng trong `gskill/swe_harness.py::run_agent` (`gepa@8c7b697`) |
 | **100 task, 200/50/100, seed 42** (§25) | Bên thứ ba | Mặc định của gskill (`train_optimize_anything.py`) |
+| **C10, λ = 0,5; θ = 0; ngưỡng E ≥ 40** (§43) | Suy ra / chuẩn công bố | Giống phép kiểm cuối pool đã đăng ký: λ = c/(1 + θ) với c = 0,5 của §25; ngưỡng 1/α với α = 0,025 (ICH E9, một phía); `docs/method_end_of_pool.md` |
+| **C10, câu trung tính "Merge branch 'stable'"** (§43) | Định nghĩa can thiệp | Quy tắc ở §43: thông điệp của commit upstream `ada0a9a6` (pallets/jinja), hoặc tổ tiên gần nhất theo first-parent không chứa `bug`, `fix`, `test`, `patch`, `error`, `issue`, `fail`, `regress`, `revert` hay tên file. Danh sách từ được suy ra từ mục đích (không trỏ tới lỗi, test, hay tên "Bug Patch") |
+| **C10, trần mỗi nhánh = dự kiến + 0,30** (§43) | Vận hành | Quy tắc của §35. Dự kiến = `cost_usd` đã chi của nhánh tương ứng ở §33 (34 task không mô tả) và §35 (36 task); B và C lấy nhánh đắt hơn (L63) |
+| **C10, seed mô phỏng 4301, seed bootstrap 4302, 20.000 / 10.000 lần** (§43) | Vận hành | Chỉ cố định phép tính; không ảnh hưởng quyết định. Số lần lặp theo tiền lệ ghi chú 40-5 (20.000) và §33 (10.000) |

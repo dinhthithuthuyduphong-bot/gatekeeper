@@ -157,7 +157,7 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 | [ ] C1 | Chạy C4′ trên Kaggle (ba agent khác hãng, hai môi trường, 100 task). Cần cổng cách ly C5 đạt. | Theo `kaggle/TODO.md` | đã duyệt (hạn mức Kaggle) |
 | [ ] C2 | §38 phiên 3 và phân tích. Báo cáo tỉ lệ theo từng model; các đầu ra không phải là các lượt học độc lập. | Theo `kaggle/TODO.md` | đã duyệt |
 | [x] C3 | §39 (auditor bốn hãng). | Xong 16/11 | — |
-| [ ] C10 | Can thiệp lịch sử git có kiểm soát. Đặc tả ở mục 7. **Phần miễn phí đã làm 17/11:** `scripts/history_variants.py` (bốn biến thể A–D, giữ nguyên commit "Remove F2P Tests"; A dựng lại đúng mã băm gốc), `--history-variant` trong `scripts/f1_probe.py`, plan `swesmith-c10` trong `pilot.yml` (tám nhánh cùng lúc; đọc mọi giá trị đã đăng ký từ `configs/c10.json`). **Chạy thử miễn phí đạt 17/11:** `c10test34` 8/8 và `c10all70` 16/16 lượt đúng chuỗi kiểm trên container thật (R-71). Còn lại: bản đăng ký §43, chạy có phí. Từng bước: `docs/guide_paid_steps.md` mục 1. | — | **chờ** (ngân sách mới: trần khoảng 5,4 USD cho 34 task, 10,6 USD cho 70 task) |
+| [ ] C10 | Can thiệp lịch sử git có kiểm soát. Đặc tả ở mục 7. **Phần miễn phí đã làm 17/11:** `scripts/history_variants.py` (bốn biến thể A–D, giữ nguyên commit "Remove F2P Tests"; A dựng lại đúng mã băm gốc), `--history-variant` trong `scripts/f1_probe.py`, plan `swesmith-c10` trong `pilot.yml` (tám nhánh cùng lúc; đọc mọi giá trị đã đăng ký từ `configs/c10.json`). **Chạy thử miễn phí đạt 17/11:** `c10test34` 8/8 và `c10all70` 16/16 lượt đúng chuỗi kiểm trên container thật (R-71). **Bản đăng ký §43 xong 17/11** (phép thử chính A − C). Còn lại: câu duyệt ngân sách, chạy thử với câu trung tính thật, chạy có phí. Từng bước: `docs/guide_paid_steps.md` mục 1. | — | **chờ** (ngân sách mới: trần 5,49 USD cho 34 task, 10,83 USD cho 70 task) |
 | [ ] C6 | Dự phòng nếu C1 không chạy được: agent Flash, môi trường một commit, trên Vertex, khoảng 5,9 USD cho hai nhánh. | — | **chờ**; hiện chưa duyệt |
 
 **Định nghĩa đóng băng (đề xuất, chờ @thuthuy xác nhận):** sau 01/12 không mở thí nghiệm xác nhận mới. Vẫn được sửa lỗi phân tích và tính lại, có ghi nhật ký. Không đổi giả thuyết hay quy tắc phân tích sau khi thấy kết quả.
@@ -259,8 +259,8 @@ Miễn phí, chỉ đọc. Kết quả quyết định có chạy C10 không và
 - Mô phỏng power trước khi đăng ký.
 
 **Chi phí ước tính (sửa 17/11, A135; bản cũ ghi 7,5 USD theo một số dự kiến bị gọi nhầm là số đo):**
-- 34 task: dự kiến khoảng 3,0 USD, trần khoảng 5,4 USD.
-- 70 task: dự kiến khoảng 5,8 USD, trần khoảng 10,6 USD.
+- 34 task: dự kiến 3,09 USD, trần 5,49 USD.
+- 70 task: dự kiến 6,03 USD, trần 10,83 USD (§43).
 - Cách tính và nguồn: `docs/guide_paid_steps.md` mục 1.
 - Tiền thật trên Vertex. **Là ngân sách mới; @thuthuy chưa duyệt.**
 
@@ -308,7 +308,7 @@ Bản gốc (meta-review và PDF có 27 ghi chú) do @thuthuy giữ; chưa đưa
 | Q1 | Xác nhận đích là EASE 2027 (hạn 22/01). `CLAUDE.md` và `README.md` vẫn ghi ASE 2027. | Xác nhận rồi cập nhật hai file |
 | Q2 | Mốc đóng băng 01/12 theo định nghĩa ở đợt 3. | Đồng ý |
 | Q3 | Tên bài: giữ hay bỏ chữ "Certifying". | Bỏ, vì chứng nhận không còn là đóng góp chính |
-| Q4 | Ngân sách C10: trần khoảng 5,4 USD cho 34 task, hoặc khoảng 10,6 USD cho 70 task (A135 sửa con số 7,5 cũ). | Quyết sau khi có kết quả S0 |
+| Q4 | Ngân sách C10: trần 5,49 USD cho 34 task, hoặc 10,83 USD cho 70 task (§43) (A135 sửa con số 7,5 cũ). | Quyết sau khi có kết quả S0 |
 | Q5 | Ngân sách C6 (khoảng 5,9 USD). | Chỉ khi C1 không chạy được |
 | Q6 | Nơi đặt gói tái lập ẩn danh, và thời điểm đưa ra ngoài. | Dựng nội bộ trước; chỉ đưa ra khi đã xem bản cuối |
 | Q7 | Dừng mở rộng hướng Kaggle (C7, C8, C9, D, E trong `kaggle/plan_v4.md`). | Dừng cho tới khi bài về 10 trang |

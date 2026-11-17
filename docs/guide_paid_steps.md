@@ -63,30 +63,21 @@ Ai làm bước nào: "**@thuthuy**" là việc chỉ @thuthuy làm được (ti
 | §35, 36 task mới không mô tả (`spent_usd`, `results/s35_*.json`) | 1,393 | 36 | 0,0387 |
 
 - **34 task:**
-  - dự kiến 2 × 34 × 0,0445 = **3,03 USD**;
-  - trần = dự kiến + một cost_limit (0,30) cho mỗi nhánh = 3,03 + 8 × 0,30 = **5,43 USD**.
+  - dự kiến **3,09 USD**; trần **5,49 USD** (từng nhánh: `configs/c10.json`; cách tính ở §43).
 - **70 task:**
-  - dự kiến 2 × (1,513 + 1,393) = **5,81 USD**;
-  - trần = 5,81 + 16 × 0,30 = **10,61 USD**, vì mỗi nhánh chạy hai phần: 34 task test và 36 task mới.
+  - dự kiến **6,03 USD**; trần **10,83 USD** (mỗi nhánh chạy hai phần, mỗi phần có một khoảng chặn 0,30).
+  - Số này cao hơn ước tính thô trước đó (5,81 và 10,61), vì B và C được tính theo nhánh đắt hơn trong hai nhánh đã đo.
 - **Giới hạn của ước tính:** B và C chưa từng chạy. Nếu agent ở B hay C lục lịch sử lâu hơn, chi phí mỗi lượt có thể cao hơn. Trần của từng nhánh chặn việc này: nhánh dừng khi số đã chi cộng cost_limit vượt trần.
 
 **Bước 1. @thuthuy duyệt** (thuộc quyền @thuthuy: ngân sách mới, thêm thí nghiệm). Một câu, chọn một trong hai:
-- "Duyệt C10 34 task, trần 5,43 USD": power thấp hơn, và tập task được chú ý vì đã thấy hiệu ứng ở đó.
-- **"Duyệt C10 70 task, trần 10,61 USD" (lời khuyên).** Lý do: 36 task thêm được chọn bằng quy tắc trước khi có kết quả (§35), nên tránh được lời bắt bẻ "chọn tập sau khi thấy dữ liệu". Ở phép so tương tự của §40 (ghi chú 40-5), power tăng từ 0,63 lên 1,00 khi đi từ 34 lên 70 task.
+- "Duyệt C10 34 task, trần 5,49 USD": power 0,57 nếu rò rỉ là toàn bộ nguyên nhân, 0,001 nếu C giữ một nửa mức tăng; và tập task được chú ý vì đã thấy hiệu ứng ở đó.
+- **"Duyệt C10 70 task, trần 10,83 USD" (lời khuyên).** Power 1,00 và 0,65 trong hai kịch bản trên (`results/c10_power.json`). 36 task thêm được chọn bằng quy tắc trước khi có kết quả (§35), nên tránh được lời bắt bẻ "chọn tập sau khi thấy dữ liệu".
 
-**Bước 2. Bản đăng ký `docs/preregistration_main.md` §43 (Claude, miễn phí).** Phải chốt trước khi chạy:
-1. **Phép so chính, chỉ một:** đề xuất (B − D) trên Z gộp theo task, bằng phép kiểm cuối pool (λ = 0,5, θ = 0, ngưỡng 40), tức "diff không kèm thông điệp có đủ tạo mức tăng không".
-   - Phép kiểm tương tác (A − B − C + D) được đăng ký là phép phụ.
-   - Đọc kết quả theo bảng đặt trước, như ghi chú 40-5 mục 5.
-2. **Câu trung tính của B,** kèm quy tắc chọn:
-   - không chứa từ chỉ lỗi, sửa, test hay tên file;
-   - lấy từ lịch sử thật của repo jinja (một thông điệp có sẵn, chọn bằng quy tắc nêu trước, ví dụ commit gần nhất trước mã gốc của task mà thông điệp thỏa các điều trên).
-   - Ghi câu đó vào `configs/c10.json` (`neutral_message`). Mã từ chối câu rỗng hoặc chứa "Bug".
-3. **Trần từng nhánh:** `caps_test34` (và `caps_extra36` nếu 70 task), tám khóa `A_none` … `D_skill`. Mỗi trần = số dự kiến của nhánh + 0,30. Số dự kiến của nhánh lấy từ nhánh tương ứng của §33/§35: có skill hay không, gốc hay một commit. Script trong workflow kiểm tổng các trần ≤ `budget_usd`.
-4. **Mô phỏng power** cho phép so chính trong `scripts/verify_methods.py`, dưới hai kịch bản:
-   - B giống A;
-   - B giống D.
-5. Quy tắc chạy bù hạ tầng (L57) và theo dõi cả hai kênh rò rỉ bằng `scripts/history_audit.py` cho từng nhánh.
+**Bước 2. Bản đăng ký: xong 17/11, `docs/preregistration_main.md` §43.**
+- Phép thử chính là **A − C**: cùng commit và thông điệp, chỉ khác ở chỗ mã trước lỗi có trong lịch sử hay không. Đây là phép thử "rò rỉ thuần" (D1).
+- B − D, A − B, C − D và tương tác là phép phụ, chỉ mô tả.
+- Câu trung tính của B: "Merge branch 'stable'", chọn bằng quy tắc ở §43.
+- Script phân tích viết trước dữ liệu: `scripts/c10_analysis.py`.
 
 **Bước 3. Review (Claude):** ghi R-# vào `docs/review_log.md`, chạy preflight, commit, push.
 
