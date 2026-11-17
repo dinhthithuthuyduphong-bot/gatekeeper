@@ -975,3 +975,15 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - 70 task: dự kiến 5,81, trần 10,61 USD.
 - **Con số C6 (5,9 USD)** khớp số đo: §34 đã chi 5,2042 USD, cộng 2 × cost_limit 0,34.
 - `bash -n` trên bước workflow đã thay biến: đạt. YAML hợp lệ.
+
+**Bổ sung R-71: kết quả chạy thử miễn phí C10 (run 44016252054, 17/11).**
+- Có tám file `results/c10dry_*_test34.json` trên `pilot-snapshots`, mỗi file 1 lượt.
+- `history_check` đúng chuỗi mong đợi ở cả tám nhánh, trên container task thật:
+  - A: `commits=3 bug_msg=1 t0_present=1`;
+  - B: `bug_msg=0 t0_present=1`;
+  - C: `bug_msg=1 t0_present=0`;
+  - D: `commits=2 bug_msg=0 t0_present=0`.
+- Như vậy gc đã xóa cả các đối tượng trong file pack của image thật. Điều này trước đó chưa kiểm được ở máy của phiên.
+- Không lượt nào sập.
+- `spent_usd` = 0,0000325 mỗi nhánh. Đây là giá LiteLLM tự tính cho câu trả lời giả lập, không có lệnh gọi model nào; chạy thử §35 cho đúng con số này (`s35dry_ship_none.json`).
+- Chưa chạy thử `c10all70`.
