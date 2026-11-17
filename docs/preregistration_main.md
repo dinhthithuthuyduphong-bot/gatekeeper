@@ -2447,3 +2447,53 @@ Số liệu lấy từ file kết quả bằng script, không gõ tay.
 
 Theo yêu cầu của @thuthuy ngày 14/11/2026 ("Đưa các kế hoạch dưới dạng .md của kaggle lên 1 folder riêng ở nhánh default để dễ kiểm soát. Khi tất cả đều chạy ổn mới đưa lên main"), bản đăng ký, mã, notebook và kết quả của hướng Kaggle nằm ở thư mục `kaggle/` của nhánh `claude/gatekeeper-13-research-nxytoh`. Nội dung bản đăng ký giữ nguyên; lịch sử commit trên `main` (`17c6634`, `3cd7c8d`, `f9e957b`) vẫn ghi lại thời điểm đăng ký trước khi chạy. Số mục §37 được giữ cho hướng này.
 
+
+## 41. Kiểm toán lịch sử git của task và trace (S0 của `docs/todo_ease_revision.md`; 17/11/2026; thăm dò; 0 USD)
+
+**Lý do:** bản review của thầy (16/11) hỏi việc xóa lịch sử có xóa cả lịch sử hợp lệ không, và trace có cho thấy agent dùng thông tin rò rỉ không. Đây là phân tích mô tả trên dữ liệu đã có. Không phép thử nào được đăng ký ở đây.
+
+**Cách làm:** `scripts/history_audit.py` → `results/history_audit.json`; test `tests/test_history_audit.py`. Ba mức không gộp:
+- **Mức 1, tồn tại:** đọc thẳng từ repo task trên GitHub (`swesmith/<repo>`, mỗi task một nhánh), không suy từ trace.
+- **Mức 2, đã hiển thị:** trên 29 file trace của `results/`.
+- **Mức 3, chỉ báo sử dụng:** bản vá là đảo ngược chính xác của bản vá chèn lỗi; lệnh khôi phục test từ lịch sử rồi chạy chúng. Đây là chỉ báo gián tiếp; trace không cho thấy agent "dùng" thông tin.
+
+**Quy tắc nhận diện được sửa một lần, trước khi đọc kết quả theo nhánh thí nghiệm:** bộ quy tắc đầu báo nhầm ở môi trường một commit, nơi không có gì để thấy (`git show HEAD` in cả cây mã với dấu `+`; agent tự `git diff` bản sửa của một lỗi đảo nhánh `if`). Bộ quy tắc cuối ở docstring của script; bộ đầu vẫn được tính, tên `*_loose`.
+
+### Kết quả mức 1: mỗi task có đúng ba commit
+
+| Repo | Task | Ba commit | Diff "Bug Patch" trùng bản vá của benchmark | Commit "Remove F2P Tests" chỉ xóa file | Mọi test F2P nằm trong nội dung bị xóa |
+| --- | --- | --- | --- | --- | --- |
+| Jinja (350 mẫu gskill + 36 task của §35) | 386 | 386 | 386 | 386 (2.619 file bị xóa) | 386 |
+| Bleve | 350 | 350 | 350 | 350 (1.005 file) | 350 |
+| Pygments | 350 | 350 | 350 | 350 (6.423 file) | 307 trên 307 task có test dạng hàm |
+
+Ba commit, theo thứ tự: `Initial commit` (toàn bộ mã của dự án trong một commit), `Bug Patch` (chèn lỗi), `Remove F2P Tests` (xóa nguyên các file chứa bài kiểm tra tái hiện lỗi).
+
+**Hệ quả:**
+- **Không có lịch sử thật nào của dự án.** Môi trường một commit chỉ bỏ đúng hai commit do benchmark tạo ra, cùng việc tách bản mã trước lỗi thành một commit riêng. Câu "đây là cận trên vì cũng xóa lịch sử thật" trong paper không đúng với SWE-smith (A133).
+- **Có hai kênh rò rỉ, không phải một:** diff của `Bug Patch` (chỉ ra lỗi), và nội dung của `Remove F2P Tests` (chính các bài kiểm tra tái hiện lỗi). Môi trường một commit bỏ cả hai.
+
+### Kết quả mức 2 và 3: trên các task không có mô tả issue
+
+| Agent, nhánh | Lượt | Thấy thông điệp "Bug Patch" | Thấy diff "Bug Patch" | Thấy nội dung test bị xóa | Lệnh khôi phục từ lịch sử | Khôi phục rồi chạy test (cận dưới) | Giải được | Giải được mà không thấy kênh nào |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Agent nghiên cứu, gốc, skill gốc, seed 41 | 34 | 34 | 29 | 0 | 1 | 0 | 15 | 0 |
+| Agent nghiên cứu, gốc, skill gốc, seed 51 | 34 | 34 | 32 | 0 | 3 | 0 | 17 | 0 |
+| Agent nghiên cứu, gốc, skill gốc, 36 task mới | 36 | 36 | 35 | 0 | 1 | 0 | 20 | 0 |
+| Agent nghiên cứu, gốc, không skill, seed 41 | 34 | 3 | 2 | 0 | 1 | 0 | 0 | 0 |
+| Agent nghiên cứu, gốc, không skill, seed 51 | 34 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| Agent nghiên cứu, gốc, skill bỏ dòng lịch sử | 34 | 6 | 5 | 0 | 0 | 0 | 2 | 0 |
+| Agent thứ hai (§34), gốc, không skill | 34 | 34 | 33 | 29 | 32 | 9 | 31 | 0 |
+| Agent thứ hai (§34), gốc, skill gốc | 34 | 34 | 34 | 30 | 32 | 18 | 34 | 0 |
+| Mọi nhánh ở môi trường một commit (Jinja, Bleve; mọi task) | 730 | 0 | 0 | 0 | 0 | 0 | — | — |
+
+- **Agent của nghiên cứu chỉ dùng một kênh.** Nó thấy diff của "Bug Patch" ở 29–35 lượt có skill, và không lần nào thấy hay chạy các test bị xóa. Mọi task không mô tả mà nó giải được ở môi trường gốc đều có diff "Bug Patch" hiện trong trace (15/15, 17/17, 20/20).
+- **Agent thứ hai dùng cả hai kênh, kể cả khi không có skill.** Nó mở nội dung test bị xóa ở 29/34 lượt không skill. Lệnh khôi phục điển hình: `git checkout <Initial commit> -- tests`, rồi chạy `pytest`.
+- **Đảo ngược chính xác** trong các lượt giải được (task không mô tả): agent nghiên cứu có skill 8/15, 9/17, 3/20; agent thứ hai không skill 26/31, có skill 28/34.
+- **Giới hạn:** "khôi phục rồi chạy" là cận dưới, vì kết quả của lệnh test bị cắt khi quá dài. Mức 3 là chỉ báo, không phải bằng chứng agent đã dùng thông tin.
+
+### Hệ quả cho bài và cho C10
+
+- **Đổi tên đại lượng:** "phần do rò rỉ" thành "tác động của việc bỏ hai commit do benchmark tạo ra". Bỏ chữ "cận trên".
+- **Threats:** thay câu "chúng tôi đo một kênh" bằng hai kênh và mức dùng của từng agent.
+- **C10:** với agent nghiên cứu, kênh test không được dùng, nên bảng 2 × 2 (thông điệp × diff của "Bug Patch") là thiết kế đúng; commit "Remove F2P Tests" phải được giữ y nguyên ở cả bốn ô. Với agent thứ hai, cần thêm một chiều cho kênh test.

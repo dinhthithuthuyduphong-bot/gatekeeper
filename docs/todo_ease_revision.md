@@ -131,7 +131,7 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 | --- | --- | --- | --- |
 | [ ] G2 | Gộp `main` và nhánh mặc định thành một nguồn duy nhất. Trước đó: gắn tag cho đầu hai nhánh, liệt kê file khác nhau, **báo phiên Kaggle đang đẩy commit lên nhánh mặc định**. | Một nhánh chứa cả bài mới nhất lẫn `kaggle/`; CI đạt | tự làm, nhưng phải phối hợp |
 | [ ] D8 | Sửa ba câu sai dữ kiện trên `main`: "All agent runs use one model" (mâu thuẫn với §34); "609 rewrites" (đếm sai đơn vị); câu "chỉ so trên luồng A/A" ở Threats (bài đã so trên 20 luồng thật). Ghi vào `docs/audit_pilot.md`. | Ba câu khớp với dữ liệu | tự làm |
-| [ ] S0 | **Bước 0: kiểm toán lịch sử git và trace.** Đặc tả ở mục 6. | Có bảng kết quả và file JSON | tự làm |
+| [x] S0 | **Bước 0: kiểm toán lịch sử git và trace.** Xong 17/11: `docs/preregistration_main.md` §41. Mỗi task có đúng ba commit; không có lịch sử thật; có **hai** kênh rò rỉ (diff "Bug Patch" và test bị xóa trong "Remove F2P Tests"); agent nghiên cứu chỉ dùng kênh thứ nhất, agent thứ hai dùng cả hai. | Có bảng kết quả và file JSON | tự làm |
 | [ ] A5a | Đưa chính sách của ACM về AI vào `configs/sources.json`, để runner tải, rồi đọc. | Có trích đoạn trên `sources-snapshots` | tự làm |
 | [ ] D9a | Tải toàn văn PACE (hiện mới có tóm tắt) và đọc. | Biết chính xác quy tắc của PACE | tự làm |
 
@@ -166,7 +166,7 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 
 | # | Việc |
 | --- | --- |
-| [ ] D1 | "Phần do rò rỉ" thành "tác động của việc xóa lịch sử", trừ khi S0 hoặc C10 cho phép nói hơn. |
+| [ ] D1 | Theo §41: "phần do rò rỉ" thành "tác động của việc bỏ hai commit do benchmark tạo ra"; bỏ chữ "cận trên" (không có lịch sử thật để xóa nhầm). Threats: thay "một kênh" bằng hai kênh và mức dùng của từng agent (A133). |
 | [ ] D2 | "Genuine" thành "còn lại dưới đối chứng một commit, theo bộ chấm của benchmark". |
 | [ ] D3 | "Tác dụng của độ dài" thành "tác dụng của một skill không liên quan". |
 | [ ] D4 | Tách so sánh cùng ngày khỏi so sánh khác ngày (placebo chạy sau một ngày; 21 task Pygments chạy lại). |
@@ -241,7 +241,9 @@ Miễn phí, chỉ đọc. Kết quả quyết định có chạy C10 không và
 
 **Câu hỏi:** thành phần nào của lịch sử git tạo ra mức tăng?
 
-**Thiết kế cơ sở**, nếu S0 cho thấy chỉ có một kênh:
+**Kết quả S0 (§41):** có hai kênh, nhưng agent nghiên cứu chỉ dùng kênh diff "Bug Patch" (0 lượt thấy test bị xóa). Vậy với agent nghiên cứu, thiết kế cơ sở dưới đây là đúng, với điều kiện commit "Remove F2P Tests" được giữ y nguyên ở cả bốn ô. Với agent thứ hai cần thêm một chiều cho kênh test.
+
+**Thiết kế cơ sở** (agent nghiên cứu):
 
 | | Diff xem được | Diff không xem được |
 | --- | --- | --- |

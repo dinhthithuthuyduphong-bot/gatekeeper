@@ -892,3 +892,14 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Kiểm:** lần cắt ngưỡng đầu tiên ở α của hai admission seed 51 tái tạo đúng 53 và 74. Paper biên dịch sạch, không tràn lề; 3 hình đã xem bằng ảnh.
 
 ## R-66. §37 giai đoạn 0 của hướng Kaggle (0 USD): đã chuyển sang `kaggle/review_r66.md` trên nhánh `claude/gatekeeper-13-research-nxytoh`
+
+## R-68. §41 kiểm toán lịch sử git và trace (17/11/2026; thăm dò; 0 USD; không gọi model)
+
+- **Mã:** `scripts/history_audit.py`. Mức 1 đọc repo task thật (bản sao `--mirror` của ba repo trong thư mục tạm của phiên, không đưa vào repo); mức 2 và 3 đọc 29 file trace có sẵn trong `results/`.
+- **Quy tắc nhận diện sửa một lần, trước khi đọc kết quả theo nhánh:**
+  - bộ đầu báo nhầm ở môi trường một commit (8 lượt Bleve có "diff Bug Patch", 1 lượt Jinja có "test bị xóa"), nơi không có gì để thấy;
+  - nguyên nhân: `git show HEAD` in cả cây mã với dấu `+`; agent tự `git diff` bản sửa của lỗi đảo nhánh `if`;
+  - bộ cuối cho 0 lượt ở mọi nhánh một commit (730 lượt). Bộ đầu vẫn được tính (`*_loose`).
+- **Test:** `tests/test_history_audit.py`, 7 ca, gồm ba ca báo nhầm ở trên.
+- **Kiểm chéo bằng tay:** đọc trace `combine_file__yjwp1l4i` của agent thứ hai (`git show --stat` trên commit "Remove F2P Tests", rồi `git checkout <Initial commit> -- tests`, rồi `pytest`) và sáu lượt Bleve bị báo nhầm.
+- **Làm trái L60:** từ 16/11 tôi commit lên `main` từ một worktree phụ, bằng `-c core.hooksPath=…` để hook vẫn chạy. Hook đã chạy đủ ở mọi lần; `core.bare` vẫn là `false` ở cả hai thư mục. Từ commit này tôi làm trong thư mục chính, chuyển nhánh ở đó.

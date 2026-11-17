@@ -528,3 +528,7 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   1. Hook lỗi thì đọc log của hook trước; không bao giờ thêm tuỳ chọn tắt hook (kể cả `core.hooksPath`), vì nó tương đương `--no-verify`.
   2. Commit lên nhánh khác: chuyển nhánh trong thư mục chính. Không commit từ worktree phụ.
   3. Muốn tái hiện lỗi liên quan tới biến môi trường git thì làm trong một bản clone tạm, không làm trên repo thật.
+
+## L61. Mô tả một môi trường của bên thứ ba thì mở chính nó ra xem, không suy từ một vài trace (A133)
+- **Nguyên nhân gốc:** câu "xóa cả lịch sử thật" được viết theo hình dung chung về một repo git, và câu "một kênh rò rỉ" theo commit mà agent của nghiên cứu hay mở. Không ai đếm commit trên nhánh task, dù repo task công khai và tải về mất 20 giây.
+- **Phòng ngừa:** trước khi một câu về cấu trúc của benchmark (lịch sử git, file, cách chấm) vào paper, kiểm câu đó trên chính artifact (repo, image, mã chấm), trên mọi task, bằng một script lưu trong repo. Thêm vào danh sách review `docs/research_rules.md` §4.
