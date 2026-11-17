@@ -2668,3 +2668,9 @@ Ba commit, theo thứ tự: `Initial commit` (toàn bộ mã của dự án tron
 - Workflow kiểm `budget_usd` ≥ tổng trần của các phần được chạy.
 
 **Phân tích:** `scripts/c10_analysis.py` (viết trước dữ liệu; test ở `tests/test_c10_analysis.py`) → `results/c10_analysis.json`.
+
+**Ghi chú thực thi 43-1** (17/11/2026, sau lượt bị chặn ở bước kiểm ngân sách, trước mọi lệnh gọi model của C10):
+- **Sự việc:** run 44070820273 dừng ở bước kiểm ngân sách của workflow: "budget_usd must cover the eight caps (10.83)". Không có lệnh gọi model nào; 0 USD.
+- **Nguyên nhân (A137):** tổng trần thật của 16 phần là 10,8302 USD. Bảng ở §43 và câu xin duyệt làm tròn xuống thành 10,83, nên mức @thuthuy duyệt nhỏ hơn tổng trần 0,0002 USD.
+- **Sửa:** mỗi trần trong `configs/c10.json` được làm tròn xuống 3 chữ số thập phân. Tổng mới 10,825 USD, nằm trong 10,83 đã duyệt. Mỗi nhánh giảm tối đa 0,001 USD.
+- Không đổi câu hỏi, thiết kế, task, model, seed, phép thử hay quy tắc chọn trần. Chưa có dữ liệu nào của C10.

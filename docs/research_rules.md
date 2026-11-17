@@ -158,6 +158,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Đổi mẫu LaTeX (L62)**
 - [ ] Mọi gói phông của mẫu có trên máy dựng (`kpsewhich`); số trang chỉ đọc từ bản dựng không lỗi; mỗi mục của danh mục có năm, hoặc không trùng nhãn với mục không năm khác (A134).
 
+**Trần xin duyệt làm tròn lên (L65)**
+- [ ] Trần gửi @thuthuy duyệt không nhỏ hơn tổng các trần mà workflow sẽ kiểm; đã chạy bước kiểm đó với con số xin duyệt (A137).
+
 **CI xanh trước khi dùng tiếp một commit (L64)**
 - [ ] Không chạy workflow hay gộp nhánh từ một commit trước khi đọc kết luận CI của nó; test về đầu ra của git không so chuỗi có định dạng phụ thuộc phiên bản (A136).
 

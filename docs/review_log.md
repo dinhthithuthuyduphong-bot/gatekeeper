@@ -1019,3 +1019,10 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - Bốn file của B ghi `neutral_message` = "Merge branch 'stable'".
 - Bước kiểm ngân sách cho qua với `budget_usd` = 11 (tổng trần 10,83).
 - Không có lệnh gọi model. Mọi khâu trước khi chi đã xong; còn chờ câu duyệt ngân sách.
+
+## R-73. Ghi chú thực thi 43-1: trần C10 làm tròn xuống (17/11/2026; 0 USD)
+
+- Lỗi A137: tổng trần 10,8302 USD lớn hơn mức đã duyệt 10,83 USD. Workflow chặn trước mọi lệnh gọi model.
+- Sửa `configs/c10.json`: mỗi trần làm tròn xuống 3 chữ số thập phân, tổng 10,825. Đã chạy lại đúng phép kiểm của workflow với `budget_usd` = 10,83: đạt.
+- Không đổi gì khác của §43. Chưa có dữ liệu C10.
+- **Chưa chạy lại:** @thuthuy báo 17/11 đã tắt API gọi tới tài khoản Vertex AI. Lượt có phí chỉ chạy lại khi @thuthuy bật lại và xác nhận.

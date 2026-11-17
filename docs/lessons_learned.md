@@ -544,3 +544,7 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 ## L64. Một commit chỉ được dùng tiếp (chạy workflow, gộp nhánh) sau khi CI của nó xanh (A136)
 - **Nguyên nhân gốc:** tôi coi test chạy đạt ở máy của phiên là đủ, rồi bấm chạy thử và gộp nhánh ngay sau khi push. Máy CI có phiên bản git khác.
 - **Phòng ngừa:** sau mỗi push, đọc kết luận CI trước mọi bước dùng tới commit đó. Test về đầu ra của git không so chuỗi có định dạng phụ thuộc phiên bản (ngày ISO, màu, thông báo); so dạng raw hoặc đối tượng. Thêm vào danh sách review `docs/research_rules.md` §4.
+
+## L65. Con số trần gửi đi duyệt phải được làm tròn lên, hoặc ghi đủ chữ số (A137)
+- **Nguyên nhân gốc:** tôi tính tổng trần ra 10,8302, rồi viết "10,83" theo thói quen làm tròn đến cent, mà không so với bước kiểm của workflow (so chính xác).
+- **Phòng ngừa:** trần xin duyệt = tổng trần làm tròn **lên** đến cent; hoặc chỉnh từng trần để tổng đúng bằng con số xin duyệt. Trước khi xin duyệt, chạy đúng bước kiểm của workflow với con số đó. Thêm vào danh sách review `docs/research_rules.md` §4.
