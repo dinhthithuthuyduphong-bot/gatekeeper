@@ -1026,3 +1026,31 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - Sửa `configs/c10.json`: mỗi trần làm tròn xuống 3 chữ số thập phân, tổng 10,825. Đã chạy lại đúng phép kiểm của workflow với `budget_usd` = 10,83: đạt.
 - Không đổi gì khác của §43. Chưa có dữ liệu C10.
 - **Chưa chạy lại:** @thuthuy báo 17/11 đã tắt API gọi tới tài khoản Vertex AI. Lượt có phí chỉ chạy lại khi @thuthuy bật lại và xác nhận.
+
+## R-74. Ghi chú thực thi 43-2: một lượt 70 task cho mỗi nhánh (17/11/2026; 0 USD)
+
+- **Vì sao:** @thuthuy chỉ muốn trừ vào credit 10 USD. Tổng trần cũ (10,825) có thể vượt credit.
+- **Đây là phương án trội:** cùng thiết kế, cùng dữ liệu, trường hợp xấu nhất thấp hơn (8,426 so với 10,825 USD). Tôi tự quyết theo quy tắc quyền quyết định và báo sau.
+- **Kiểm:**
+  - Bước dựng hàng task của workflow chạy trên dữ liệu thật: 70 hàng, đúng thứ tự (34 task test trước, rồi 36 task mới), cùng một nhãn split.
+  - `bash -n` trên bước workflow đạt; YAML hợp lệ.
+  - Phép kiểm ngân sách chỉ cộng `caps_all70`: 8,426 ≤ 10,83.
+- **Còn phải làm trước khi chi:** CI xanh, rồi chạy thử miễn phí `c10all70` với model giả lập (L64).
+
+## R-75. Phân tích C10 sau lượt có phí; thêm 8 nhánh C10 vào kiểm toán trace; số của paper (17/11/2026; 0 USD)
+
+- **Phân tích chính:** chạy đúng lệnh đã đăng ký, không sửa `scripts/c10_analysis.py`. Kết quả: `results/c10_analysis.json`.
+- **`scripts/history_audit.py`:**
+  - Chỉ thêm 8 dòng vào `ARMS` (nhãn môi trường "C10 A/B/C/D: …"). Quy tắc phát hiện không đổi.
+  - Kiểm: phần level 1 và mọi lượt của 29 nhánh cũ trong `results/history_audit.json` giống hệt bản trước khi chạy (so bằng máy).
+- **`scripts/make_numbers.py`:**
+  - Các con số §41 về cờ "Bug Patch" (`monConf*`) bỏ qua các nhánh `c10_`, để giữ đúng tập trace mà các giá trị đã kiểm tham chiếu.
+  - Thêm macro `cten*` từ `results/c10_analysis.json` và kiểm toán trace, với các phép kiểm khớp (n, số dấu, quyết định, "tối đa" không skill).
+  - `paper/numbers.tex` chỉ thêm dòng; mọi macro cũ giữ nguyên giá trị (diff).
+- **Paper:**
+  - Thêm đoạn "Separating the message from the diff".
+  - Threats, Interventions: bỏ câu "we did not separate the two channels in an experiment".
+  - Trích Ramdas et al. (arXiv 2210.01948) cho bảo đảm ở thời điểm dừng. Câu trích đã kiểm trong bản chụp `ville_inequality`.
+  - Bài dựng không lỗi: 8 trang.
+- **Ghi lỗi:** A138, L66 (danh sách §4); ghi chú thực thi 43-3.
+

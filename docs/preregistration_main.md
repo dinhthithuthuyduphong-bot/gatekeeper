@@ -2674,3 +2674,91 @@ Ba commit, theo thứ tự: `Initial commit` (toàn bộ mã của dự án tron
 - **Nguyên nhân (A137):** tổng trần thật của 16 phần là 10,8302 USD. Bảng ở §43 và câu xin duyệt làm tròn xuống thành 10,83, nên mức @thuthuy duyệt nhỏ hơn tổng trần 0,0002 USD.
 - **Sửa:** mỗi trần trong `configs/c10.json` được làm tròn xuống 3 chữ số thập phân. Tổng mới 10,825 USD, nằm trong 10,83 đã duyệt. Mỗi nhánh giảm tối đa 0,001 USD.
 - Không đổi câu hỏi, thiết kế, task, model, seed, phép thử hay quy tắc chọn trần. Chưa có dữ liệu nào của C10.
+
+**Ghi chú thực thi 43-2** (17/11/2026, trước mọi lệnh gọi model của C10):
+- **Lý do:** @thuthuy 17/11: "tôi muốn trừ đúng cái 10 đô của Google Developer Program premium benefit". Credit đó là 259.706 ₫ (khoảng 10 USD theo @thuthuy). Tổng trần sau ghi chú 43-1 (10,825 USD) có thể vượt credit trong trường hợp xấu nhất.
+- **Thay đổi:** với `arm` = `c10all70`, mỗi nhánh chạy **một lượt duy nhất** trên 70 task, thay cho hai lượt 34 + 36.
+  - Hàng task: 34 task test không mô tả, rồi 36 task của §35. Thứ tự gskill của 36 task mới (100387–100870) đều lớn hơn của 34 task test (256–348), nên thứ tự đã cố định ở §35 được giữ.
+  - Mỗi nhánh chỉ cần một khoảng chặn 0,30 USD thay vì hai.
+  - Trần mỗi nhánh = dự kiến 34 task + dự kiến 36 task + 0,30, làm tròn xuống 3 chữ số thập phân (`configs/c10.json`, `caps_all70`).
+  - **Tổng trần mới 8,426 USD** (dự kiến 6,03 USD), dưới credit 10 USD và dưới mức đã duyệt 10,83 USD.
+- **Không đổi:** câu hỏi, 8 nhánh chạy cùng lúc, task, thứ tự, model, seed, cost_limit, phép thử và diễn giải.
+- **Phân tích:** `scripts/c10_analysis.py --prefix c10 --parts all70`.
+- **Bảo đảm "chỉ dùng credit":** Cloud Billing không có công tắc này. Bảo đảm đến từ việc tổng trần (8,426 USD theo bảng giá trong `tests/fixtures/e1_litellm_registry.json`) nhỏ hơn credit. Đây cũng là bảng giá đã dùng cho mọi lượt Vertex trước đây.
+  - Giới hạn: credit tính bằng ₫, theo giá niêm yết ("List pricing"). Tôi chưa đối chiếu được tỉ giá Google dùng. Biên an toàn là 10 − 8,426 = 1,57 USD, tức 16% credit.
+
+**Kết quả C10** (17/11/2026; run 44074372949; dữ liệu `results/c10_*_all70.*`; phân tích bằng đúng lệnh đã đăng ký: `python scripts/c10_analysis.py --prefix c10 --parts all70 --out results/c10_analysis.json`):
+
+*Kiểm sau khi chạy (đủ các mục đã đăng ký):*
+- 0 `infra_error`, 0 `crashed` ở cả 8 nhánh.
+- `history_check` đúng chuỗi mong đợi ở mọi lượt (487/487).
+- 0 lượt chạm cost_limit; lượt đắt nhất 0,1223 USD.
+- 0 bản vá bị bộ chấm báo timeout, nên ghi chú 35-1 không phải dùng.
+- 0 lần nhà cung cấp từ chối.
+- **6 trên 8 nhánh dừng vì trần** trước task thứ 70. Xem ghi chú thực thi 43-3.
+
+| Nhánh | Lượt chạy | Giải được (S) | Đã chi (USD) | Trần (USD) |
+| --- | --- | --- | --- | --- |
+| A không skill | 51 | 1 | 0,2999 | 0,594 |
+| A có skill | 70 | 35 | 1,2187 | 1,542 |
+| B không skill | 62 | 0 | 0,3254 | 0,619 |
+| B có skill | 69 | 2 | 1,2994 | 1,542 |
+| C không skill | 45 | 0 | 0,3196 | 0,619 |
+| C có skill | 54 | 1 | 1,2479 | 1,542 |
+| D không skill | 70 | 0 | 0,2541 | 0,619 |
+| D có skill | 66 | 2 | 1,0495 | 1,349 |
+| **Tổng** | 487 | | **6,0145** | 8,426 |
+
+Ở mọi nhánh, các task đã chạy là đoạn đầu của cùng thứ tự đã đăng ký. Đã kiểm: danh sách task của mỗi nhánh trùng với phần đầu danh sách của D không skill (70 task).
+
+*Phép thử chính A − C* (n = 45 task hoàn tất ở cả bốn nhánh):
+- D_i < 0 ở 22 task, D_i > 0 ở 2 task.
+- Trung bình D = −0,222, khoảng bootstrap 95% [−0,300; −0,133].
+- **E = 76,2 ≥ 40: bác bỏ H₀.**
+- Câu viết trong paper, theo bảng diễn giải đặt trước: "Với cùng số commit và cùng thông điệp, mức tăng của skill lớn hơn khi mã trước lỗi có trong lịch sử: mức tăng cần nội dung bị rò rỉ (Jinja, skill gốc, task không mô tả, seed 51)."
+- Giới hạn về tính hợp lệ: xem ghi chú 43-3.
+
+*Phép phụ (mô tả, không chứng nhận):*
+
+| Phép so | n | D < 0 | D > 0 | Trung bình D | Bootstrap 95% | E |
+| --- | --- | --- | --- | --- | --- | --- |
+| B − D (diff, không thông điệp) | 62 | 2 | 2 | 0,000 | [−0,032; 0,032] | 0,88 |
+| A − B (thông điệp, khi có diff) | 51 | 25 | 2 | −0,225 | [−0,304; −0,147] | 148,9 |
+| C − D (commit "Bug Patch" rỗng) | 45 | 1 | 0 | −0,011 | [−0,033; 0,000] | 1,25 |
+| Tương tác (A − B) − (C − D) | 45 | | | −0,211 | [−0,300; −0,122] | |
+
+*Kiểm toán trace* (`scripts/history_audit.py`, quy tắc phát hiện không đổi; 8 nhánh C10 được thêm vào danh sách nhánh của script):
+
+| Nhánh có skill | Lượt | Lệnh đọc lịch sử | Thấy diff lỗi | Khôi phục rồi chạy test bị xóa | Giải được |
+| --- | --- | --- | --- | --- | --- |
+| A | 70 | 66 | 66 | 0 | 35 |
+| B | 69 | 26 | 2 | 14 | 2 |
+| C | 54 | 54 | 2 | 8 | 1 |
+| D | 66 | 24 | 1 | 9 | 2 |
+
+- Ở C và D không có T0 trong lịch sử. Quy tắc chặt vẫn báo "thấy diff lỗi" ở 3 trên 235 lượt của bốn nhánh C, D. Đây là dương tính giả của quy tắc phát hiện. Không lượt nào trong số đó giải được task.
+- Diễn giải (mô tả): thông điệp "Bug Patch" dẫn agent tới diff. Khi không có thông điệp trỏ tới diff (B), hoặc không có diff (C, D), agent có skill đôi khi khôi phục và chạy các test bị xóa, nhưng gần như không giải được task.
+
+*Chi phí bằng token* (tổng `usage` trong trace của 8 nhánh): 50,99 triệu token vào, trong đó 38,55 triệu từ cache; 1,29 triệu token ra.
+
+**Ghi chú thực thi 43-3** (17/11/2026, sau lượt chạy có phí, trước khi viết kết luận):
+- **Sự việc:** 6 nhánh dừng trước task thứ 70 vì chạm trần. Số task hoàn tất là 45 đến 70 tùy nhánh. Số task của mỗi phép so là 45 đến 62.
+- **Nguyên nhân (A138):**
+  - Trần được đặt bằng dự kiến + 0,30, với 0,30 là "một lượt xấu nhất".
+  - Nhưng `f1_probe.py` dừng trước một task khi đã chi + cost_limit > trần, tức nó giữ lại đúng 0,30 đó cho task kế tiếp.
+  - Vì thế mỗi nhánh dừng ngay khi số đã chi vượt số dự kiến.
+  - Chi phí thật cao hơn dự kiến ở 6 nhánh. Ngoại suy chi phí mỗi task lên 70 task:
+    - C có skill 1,62 USD, so với dự kiến 1,242;
+    - C không skill 0,50 USD, so với dự kiến 0,319;
+    - A không skill 0,41 USD, so với dự kiến 0,294.
+- **Xử lý:** theo đúng quy tắc đã đăng ký cho trường hợp này: "không xin thêm tiền; mỗi phép so dùng các task hoàn tất ở bốn nhánh của nó; báo số task bị thiếu". Không chạy thêm task.
+- **Tính hợp lệ của phép thử chính:**
+  - Phép kiểm cuối pool chỉ bảo đảm cho một pool cố định (`docs/method_end_of_pool.md` §5).
+  - Ở đây điểm cắt (task 45, do nhánh C không skill quyết định) phụ thuộc vào số tiền đã chi, mà số tiền đó tương quan với hành vi của agent. Nên bảo đảm cho pool cố định **không áp dụng chặt chẽ**.
+  - **Điều vẫn đúng:**
+    - Mỗi nhánh dừng trước task k + 1 chỉ dựa vào chi phí của các task 1..k. Vì vậy điểm dừng của mỗi nhánh, và giá trị nhỏ nhất của chúng, là thời điểm dừng theo thứ tự task.
+    - Dưới giả thuyết hẹp hơn "mỗi task có E[D_i | quá khứ] ≥ 0", tích với λ cố định là một supermartingale không âm bắt đầu từ 1.
+    - Bảo đảm của nó đúng "at all stopping times, accommodating continuous monitoring and analysis of accumulating data and optional stopping or continuation for any reason" (Ramdas, Grünwald, Vovk & Shafer, arXiv 2210.01948, tóm tắt; nguồn `ville_inequality` trong `configs/sources.json`).
+    - Đây là dòng "E-process tuần tự" của `docs/method_end_of_pool.md` §7.
+  - Paper nêu cả hai điều.
+- **Không đổi:** câu hỏi, task, thứ tự, model, seed, phép thử, ngưỡng, diễn giải. Không có quy tắc nào được chọn sau khi thấy dữ liệu.

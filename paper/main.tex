@@ -336,6 +336,31 @@ resolves \nbleveNoPS{} with the commits and \nbleveNoPSLF{} without. In J1, J2, 
 of a comparison ran in different runs; the same contrast with all four arms in one job is S3
 (Section~\ref{sec:replication}).
 
+\paragraph{Separating the message from the diff}
+The single-commit control removes the message ``Bug Patch'', its diff and a commit at once. A
+registered experiment (C10) rebuilt four histories for the \nctenTasks{} Jinja tasks without a
+description, all with the same working tree and the same ``Remove F2P Tests'' commit: A, the shipped
+history (rebuilt to the same hashes); B, the same diff under a neutral message from the upstream
+history; C, an empty commit named ``Bug Patch'' on the buggy tree, so the pre-bug code is absent; D,
+no bug commit. The eight arms (four histories, with and without the skill) ran in one job. The skill
+resolves \nctenASkill{} of \nctenASkillN{} tasks in A and \nctenBSkill{}, \nctenCSkill{} and
+\nctenDSkill{} in B, C and D; without it, at most \nctenANone{} per history. The registered test
+compares A with C, which have the same commits and messages and differ only in whether the pre-bug
+code is in the history: over the \nctenACN{} tasks complete in its four arms the difference of gains
+favours A on \nctenACNeg{} tasks and C on \nctenACPos{}, mean $D=\nctenACMean{}$ [\nctenACLo{},
+\nctenACHi{}], $E=\nctenACE{}\geq 40$: certified. Neither part carries a gain alone: the diff under
+a neutral message (B$-$D, $D=\nctenBDMean{}$ [\nctenBDLo{}, \nctenBDHi{}]) and the message without
+the diff (C$-$D, $D=\nctenCDMean{}$ [\nctenCDLo{}, \nctenCDHi{}]); the interaction is
+\nctenIxMean{} [\nctenIxLo{}, \nctenIxHi{}]. The message leads the agent to the diff: with the skill
+it displays the diff in \nctenADiff{} of \nctenASkillN{} runs in A. When no message points to the
+diff (B) or no diff exists (C, D), it restores and runs the deleted tests instead in some runs
+(\nctenBTests{}, \nctenCTests{} and \nctenDTests{}) and still rarely resolves the task.
+Six arms stopped at their spending cap before the last task (our caps left no margin above the
+cost estimate), so each contrast uses \nctenACN{} to \nctenBDN{} tasks, as registered. Because the
+cut depends on the spend, the end-of-pool guarantee for a fixed pool does not strictly apply; the
+same statistic is a test supermartingale under the narrower per-task null, whose guarantee holds
+``at all stopping times''~\cite{savi_ramdas_2023}.
+
 \paragraph{Removing the instruction}
 A fixed rule deletes every line of the skill that mentions a commit or the history; on the Jinja
 skill it deletes exactly one line. With both arms in one job, the skill without it resolves
@@ -572,8 +597,9 @@ a skill are low (\njinjaNone{}, \nbleveNone{}, \npygNone{} of 100), so the tests
 detect harm. We could not verify the model's training cutoff and make no claim that tasks are unseen.
 
 \paragraph{Interventions}
-The single-commit control removes both construction commits at once; we did not separate the two
-channels in an experiment, and the trace audit shows that our agent used only the bug-injecting diff.
+The single-commit control removes both construction commits at once. C10 separates the message of
+the bug-injecting commit from its diff on one repository, one skill and one seed; it keeps the
+``Remove F2P Tests'' commit in every history, so that channel was not varied.
 Other channels (image artefacts, file names, timestamps) were not probed. One learning run per
 condition: the presence or absence of the instruction is an observation, and the learning calls of
 the first half were overwritten. The reflection model was not varied.

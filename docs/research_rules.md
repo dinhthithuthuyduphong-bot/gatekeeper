@@ -158,6 +158,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Đổi mẫu LaTeX (L62)**
 - [ ] Mọi gói phông của mẫu có trên máy dựng (`kpsewhich`); số trang chỉ đọc từ bản dựng không lỗi; mỗi mục của danh mục có năm, hoặc không trùng nhãn với mục không năm khác (A134).
 
+**Trần thử với đúng bước dừng của script (L66)**
+- [ ] Trần mỗi nhánh được mô phỏng với đúng điều kiện dừng của script chạy, trên chi phí mỗi task đã đo; bản đăng ký ghi xác suất chạy đủ task và điều xảy ra với tính hợp lệ của phép thử nếu pool bị cắt (A138).
+
 **Trần xin duyệt làm tròn lên (L65)**
 - [ ] Trần gửi @thuthuy duyệt không nhỏ hơn tổng các trần mà workflow sẽ kiểm; đã chạy bước kiểm đó với con số xin duyệt (A137).
 

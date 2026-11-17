@@ -548,3 +548,8 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 ## L65. Con số trần gửi đi duyệt phải được làm tròn lên, hoặc ghi đủ chữ số (A137)
 - **Nguyên nhân gốc:** tôi tính tổng trần ra 10,8302, rồi viết "10,83" theo thói quen làm tròn đến cent, mà không so với bước kiểm của workflow (so chính xác).
 - **Phòng ngừa:** trần xin duyệt = tổng trần làm tròn **lên** đến cent; hoặc chỉnh từng trần để tổng đúng bằng con số xin duyệt. Trước khi xin duyệt, chạy đúng bước kiểm của workflow với con số đó. Thêm vào danh sách review `docs/research_rules.md` §4.
+
+## L66. Trần của một nhánh phải được thử với đúng bước dừng của script chạy (A138)
+- **Nguyên nhân gốc:** tôi đặt trần = dự kiến + 0,30 và gọi 0,30 là "một lượt xấu nhất", mà không đọc lại bước dừng của `f1_probe.py`. Bước đó dừng khi đã chi + cost_limit > trần, nên khoảng 0,30 không cho thêm task nào, chỉ là phần giữ lại. Số dự kiến lấy từ các nhánh A và D của §33, §35; B và C là môi trường mới, chi phí mỗi task cao hơn.
+- **Phòng ngừa:** trước khi xin duyệt trần, mô phỏng đúng bước dừng của script chạy trên phân phối chi phí mỗi task đã đo (lấy mẫu lại `cost_usd`), và báo xác suất mỗi nhánh chạy đủ số task. Với môi trường chưa từng chạy, dùng chi phí mỗi task lớn nhất trong các nhánh đã đo, không dùng trung bình. Ghi trong bản đăng ký điều sẽ xảy ra với tính hợp lệ của phép thử khi pool bị cắt. Thêm vào danh sách review `docs/research_rules.md` §4.
+
