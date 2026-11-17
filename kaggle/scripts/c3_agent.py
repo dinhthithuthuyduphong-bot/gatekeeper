@@ -3,8 +3,10 @@ OpenAI-compatible endpoint (Kaggle's Model Proxy).
 
 A thin wrapper around scripts/f1_probe.py of branch `trial` (the script of every paid agent run of
 the paper), which is executed unchanged. The wrapper only
-  * points mini-swe-agent's `docker` command at fake_docker.py and SWE-smith's and gskill's Docker
-    SDK at local_shim (environment rebuilt from the image's package list; gate C1);
+  * points mini-swe-agent's `docker` command and SWE-smith's and gskill's Docker SDK at one of two
+    stand-ins (--isolation): local_shim + fake_docker.py (environment rebuilt from the image's
+    package list; gate C1; no isolation, kaggle/audit.md K21), or chroot_shim (a chroot of the
+    image's own file system per task; gate C5, note 40-4);
   * gives the model call its endpoint: OPENAI_API_BASE / OPENAI_API_KEY are set in this process
     from the two variables named by --base-env / --key-env (never printed, never written), and the
     base URL is also put into the model kwargs because gskill's run_agent would otherwise send any
@@ -13,7 +15,7 @@ the paper), which is executed unchanged. The wrapper only
     own figure from --registry, and writes both to <out>.cost.json.
 
   PYTHONPATH=<gepa>/src/gepa/gskill:<dir with f1_probe.py, f0_scorer_check.py> python c3_agent.py \
-      --packages jinja_image_packages.json --base-env MODEL_PROXY_URL \
+      --isolation chroot --base-env MODEL_PROXY_URL \
       --key-env MODEL_PROXY_API_KEY --base-suffix /openapi -- <arguments of f1_probe.py>
 """
 
@@ -31,7 +33,13 @@ sys.path.insert(0, str(HERE))
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--packages", required=True, type=Path)
+    ap.add_argument(
+        "--isolation",
+        required=True,
+        choices=["local", "chroot"],
+        help="local: local_shim (no isolation; C3, C4 session 1); chroot: chroot_shim (gate C5)",
+    )
+    ap.add_argument("--packages", type=Path, help="local isolation only: the image's packages")
     ap.add_argument("--base-env", required=True)
     ap.add_argument("--key-env", required=True)
     ap.add_argument(
@@ -50,7 +58,10 @@ def main() -> int:
     rows = Path(rest[rest.index("--rows") + 1])
     mock = "--mock-response" in rest
 
-    os.environ["MSWEA_DOCKER_EXECUTABLE"] = str(HERE / "fake_docker.py")  # before minisweagent
+    if a.isolation == "local" and a.packages is None:
+        raise SystemExit("--packages is required with --isolation local")
+    docker_cli = "fake_docker.py" if a.isolation == "local" else "chroot_shim.py"
+    os.environ["MSWEA_DOCKER_EXECUTABLE"] = str(HERE / docker_cli)  # before minisweagent
     base = os.environ.get(a.base_env, "").rstrip("/")
     for suffix in ("/openapi", "/genai"):
         base = base.removesuffix(suffix)
@@ -63,7 +74,6 @@ def main() -> int:
 
     import gzip
 
-    import local_shim
     from swesmith.profiles import registry
 
     raw = rows.read_bytes()
@@ -71,16 +81,19 @@ def main() -> int:
     first = json.loads(next(x for x in text.splitlines() if x.strip()))
     rp = registry.get_from_inst(first)
     rp._cache_repo_private = False  # the mirror is public (cloned anonymously); f0: assume_public
-    spec = json.loads(a.packages.read_text())
-    local_shim.prepare(
-        f"https://github.com/{rp.mirror_name}",
-        spec["python"],
-        spec["packages"],
-        list(rp.install_cmds),
-    )
+    mirror = f"https://github.com/{rp.mirror_name}"
+    if a.isolation == "local":
+        import local_shim as shim
+
+        spec = json.loads(a.packages.read_text())
+        shim.prepare(mirror, spec["python"], spec["packages"], list(rp.install_cmds))
+    else:
+        import chroot_shim as shim
+
+        shim.prepare(rp.image_name, mirror)
     import gskill.swe_harness  # noqa: F401 - must be imported before install() patches it
 
-    local_shim.install()
+    shim.install()
 
     import f1_probe
 

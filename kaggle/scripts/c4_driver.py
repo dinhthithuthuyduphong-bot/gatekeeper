@@ -13,7 +13,8 @@ has reached --total-cap, or after --hours of wall clock. A cap can be passed by 
 of one chunk of one arm (each task is itself limited by --cost-limit).
 
   python c4_driver.py --tag haiku --model openai/anthropic/claude-haiku-5-5 --rows rows.jsonl \
-      --skills-file skill.txt --registry registry.json --packages packages.json \
+      --skills-file skill.txt --registry registry.json --isolation chroot \
+      [--extra-rows rows_extra36.jsonl] [--arms lf_none] \
       --gskill-yaml mini.yaml --outdir out --prev <dirs of earlier sessions> --chunk 10 \
       --seed 41 --cost-limit 0.30 --day-cap 2.0 --total-cap 10.0 --hours 8
 """
@@ -60,8 +61,23 @@ def spent(folder: Path) -> float:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    for k in ("--tag", "--model", "--rows", "--skills-file", "--registry", "--packages"):
+    for k in ("--tag", "--model", "--rows", "--skills-file", "--registry"):
         ap.add_argument(k, required=True)
+    ap.add_argument("--isolation", required=True, choices=["local", "chroot"])
+    ap.add_argument("--packages", help="local isolation only")
+    ap.add_argument(
+        "--extra-rows",
+        help="note 40-5 option B: rows of section 35's 36 tasks (split 'extra'), run after the "
+        "test "
+        "tasks in their own chunks",
+    )
+    ap.add_argument("--arms", nargs="+", choices=list(ARMS), default=list(ARMS))
+    ap.add_argument(
+        "--chunk-cap",
+        type=float,
+        help="f1_probe.py's own cap for one chunk (it stops before a task when spent + cost_limit "
+        "would pass it); default: chunk size x cost_limit + cost_limit",
+    )
     ap.add_argument("--gskill-yaml", required=True)
     ap.add_argument("--outdir", required=True, type=Path)
     ap.add_argument("--prev", nargs="*", default=[], type=Path)
@@ -83,14 +99,21 @@ def main() -> int:
             if f.is_file() and not (a.outdir / f.name).exists():
                 shutil.copy2(f, a.outdir / f.name)
     before = spent(a.outdir)
-    rows = [json.loads(x) for x in Path(a.rows).read_text().splitlines() if x.strip()]
-    test = sorted(
-        (r for r in rows if r["_gskill_split"] == "test"), key=lambda r: r["_gskill_order"]
-    )
-    chunks = [test[i : i + a.chunk] for i in range(0, len(test), a.chunk)]
+
+    def load(path: str, split: str) -> list[dict]:
+        rows = [json.loads(x) for x in Path(path).read_text().splitlines() if x.strip()]
+        sel = (r for r in rows if r["_gskill_split"] == split)
+        return sorted(sel, key=lambda r: r["_gskill_order"])
+
+    chunks = []  # (split, tasks): test tasks first, then the extra tasks, never mixed in a chunk
+    for split, path in (("test", a.rows), ("extra", a.extra_rows)):
+        if path:
+            ts = load(path, split)
+            chunks += [(split, ts[i : i + a.chunk]) for i in range(0, len(ts), a.chunk)]
     status = "all done"
-    for k, chunk in enumerate(chunks):
-        for arm, (skill, lf) in ARMS.items():
+    arms = {k: v for k, v in ARMS.items() if k in a.arms}
+    for k, (split, chunk) in enumerate(chunks):
+        for arm, (skill, lf) in arms.items():
             out = a.outdir / f"{a.tag}_{arm}_c{k:02d}.json"
             if complete(out, len(chunk)):
                 continue
@@ -107,12 +130,15 @@ def main() -> int:
                 break
             sub = work / f"rows_c{k:02d}.jsonl"
             sub.write_text("".join(json.dumps(r) + "\n" for r in chunk))
-            cmd = [sys.executable, str(HERE / "c3_agent.py"), "--packages", a.packages]
+            cmd = [sys.executable, str(HERE / "c3_agent.py"), "--isolation", a.isolation]
+            if a.packages:
+                cmd += ["--packages", a.packages]
             cmd += ["--base-env", "MODEL_PROXY_URL", "--key-env", "MODEL_PROXY_API_KEY"]
             cmd += ["--base-suffix", "/openapi", "--drop-kwargs", *a.drop_kwargs, "--"]
-            cmd += ["--rows", str(sub), "--split", "test", "--model", a.model]
+            cmd += ["--rows", str(sub), "--split", split, "--model", a.model]
             cmd += ["--seed", str(a.seed), "--cost-limit", str(a.cost_limit)]
-            cmd += ["--cap", str(worst + a.cost_limit), "--registry", a.registry]
+            cap = a.chunk_cap if a.chunk_cap is not None else worst + a.cost_limit
+            cmd += ["--cap", str(cap), "--registry", a.registry]
             cmd += ["--gskill-yaml", a.gskill_yaml, "--out", str(out)]
             if skill:
                 cmd += ["--skills-file", a.skills_file]
@@ -138,14 +164,14 @@ def main() -> int:
         break
     done = sum(
         complete(a.outdir / f"{a.tag}_{arm}_c{k:02d}.json", len(c))
-        for k, c in enumerate(chunks)
-        for arm in ARMS
+        for k, (_, c) in enumerate(chunks)
+        for arm in arms
     )
     summary = {
         "tag": a.tag,
         "status": status,
         "chunks_done": done,
-        "chunks_total": len(chunks) * len(ARMS),
+        "chunks_total": len(chunks) * len(arms),
         "spent_this_session": round(spent(a.outdir) - before, 4),
         "spent_total": round(spent(a.outdir), 4),
         "minutes": round((time.time() - t0) / 60, 1),
