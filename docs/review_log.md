@@ -878,3 +878,28 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Số sinh bằng `make_numbers.py`, đối chiếu với bản đăng ký (khối `fl*`).
   - Biên dịch sạch, 0 tràn lề; references bắt đầu ở trang 10.
 - **Báo cáo HTML:** sửa trực tiếp, không chạy `build_report.py`. Thêm một dòng trong bảng bằng chứng, một ý mới, mục h3 §34, dòng chi phí (6,05 / 5,20) và dòng token.
+
+## R-65. §36: phân tích miễn phí và sửa paper (0 USD; A130, A131, L59)
+
+- **Đối chiếu bản đăng ký:** §36 được commit (`bcb8fb7`) trước khi tính. Phần "đã thấy trước" ghi rõ các số đã nhìn lúc rà soát.
+- **Ghi chú thực thi 36-1:**
+  - Bản đăng ký nói "đề mục đánh số cấp một". Skill sạch dùng đề mục `#` thay cho đánh số, nên hàm `groups` lấy đề mục `#` khi có và đánh số cấp một khi không có.
+  - Ở lượt học sạch, quy tắc lịch sử khớp một lần với chữ "uncommitted" trong một bản đề xuất bị loại. Đó không phải chỉ dẫn đọc lịch sử, và được báo đúng như vậy.
+- **Mã:**
+  - `scripts/s36_analysis.py`, có test (`tests/test_s36.py`: đảo đúng, tách quỹ đạo, nhóm chỉ dẫn).
+  - `scripts/make_figures.py`: dữ liệu cho hai hình pgfplots.
+  - `make_numbers.py`: thêm số liệu §36; dừng nếu tên macro không chỉ gồm chữ cái.
+- **Kiểm:** lần cắt ngưỡng đầu tiên ở α của hai admission seed 51 tái tạo đúng 53 và 74. Paper biên dịch sạch, không tràn lề; 3 hình đã xem bằng ảnh.
+
+## R-66. §37 giai đoạn 0 của hướng Kaggle (0 USD): đã chuyển sang `kaggle/review_r66.md` trên nhánh `claude/gatekeeper-13-research-nxytoh`
+
+## R-68. §41 kiểm toán lịch sử git và trace (17/11/2026; thăm dò; 0 USD; không gọi model)
+
+- **Mã:** `scripts/history_audit.py`. Mức 1 đọc repo task thật (bản sao `--mirror` của ba repo trong thư mục tạm của phiên, không đưa vào repo); mức 2 và 3 đọc 29 file trace có sẵn trong `results/`.
+- **Quy tắc nhận diện sửa một lần, trước khi đọc kết quả theo nhánh:**
+  - bộ đầu báo nhầm ở môi trường một commit (8 lượt Bleve có "diff Bug Patch", 1 lượt Jinja có "test bị xóa"), nơi không có gì để thấy;
+  - nguyên nhân: `git show HEAD` in cả cây mã với dấu `+`; agent tự `git diff` bản sửa của lỗi đảo nhánh `if`;
+  - bộ cuối cho 0 lượt ở mọi nhánh một commit (730 lượt). Bộ đầu vẫn được tính (`*_loose`).
+- **Test:** `tests/test_history_audit.py`, 7 ca, gồm ba ca báo nhầm ở trên.
+- **Kiểm chéo bằng tay:** đọc trace `combine_file__yjwp1l4i` của agent thứ hai (`git show --stat` trên commit "Remove F2P Tests", rồi `git checkout <Initial commit> -- tests`, rồi `pytest`) và sáu lượt Bleve bị báo nhầm.
+- **Làm trái L60:** từ 16/11 tôi commit lên `main` từ một worktree phụ, bằng `-c core.hooksPath=…` để hook vẫn chạy. Hook đã chạy đủ ở mọi lần; `core.bare` vẫn là `false` ở cả hai thư mục. Từ commit này tôi làm trong thư mục chính, chuyển nhánh ở đó.

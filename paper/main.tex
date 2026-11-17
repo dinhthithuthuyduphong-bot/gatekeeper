@@ -9,6 +9,10 @@
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
 \hypersetup{hidelinks}  % links stay clickable; no coloured boxes over the text
 
 \newtheorem{theorem}{Theorem}
@@ -111,6 +115,24 @@ about \nbleveLeakSharePct\% of the in-scope gain, against \nleakSharePct\% on Ji
 upper bounds on the leak's share: the single commit removes the whole history, not only the
 bug-injecting commit.
 
+\begin{figure}[t]\centering
+\begin{tikzpicture}[node distance=4mm and 3mm, every node/.style={font=\scriptsize,align=center},
+  box/.style={draw,rounded corners=2pt,inner sep=2.5pt,minimum height=7mm,text width=19mm},
+  arr/.style={-{Stealth[length=1.6mm]}}]
+\node[box] (env) {SWE-smith task:\\bug-injecting commit\\below HEAD};
+\node[box,right=of env] (agent) {agent (no hint)\\runs \texttt{git log},\\finds ``Bug Patch''};
+\node[box,right=of agent] (refl) {skill writer sees\\a solved trace and\\writes the advice};
+\node[box,below=of refl] (skill) {skill: ``run \texttt{git log}, look\\for `Bug Patch'\,''};
+\node[box,left=of skill] (gain) {gain $+$\njinjaGain{}\\(up to $+$\nleak{}\\from the history)};
+\node[box,left=of gain] (ctrl) {single-commit\\control: gain\\$+$\njinjaLFGain{}};
+\draw[arr] (env) -- (agent); \draw[arr] (agent) -- (refl); \draw[arr] (refl) -- (skill);
+\draw[arr] (skill) -- (gain); \draw[arr] (gain) -- (ctrl);
+\end{tikzpicture}
+\caption{The mechanism on Jinja. The agent can find the leak without any instruction; the learner
+turns a solved trace into advice; the single-commit control removes what the advice relies on.}
+\label{fig:mech}
+\end{figure}
+
 \paragraph{Replicated, then confirmed on unseen tasks}
 The finding does not rest on one draw. Rerun with a second agent seed, all four Jinja arms at the
 same time, the skill is confirmed in both environments (\nsdSkill{} against \nsdNone{} as shipped,
@@ -203,27 +225,15 @@ A skill $S$ consists of a procedure $\pi$ (here, the text loaded into the agent'
 activation predicates $\mathcal{I}$ that say where it applies. A context $x$ is a
 (repository, revision, environment, task) tuple and $\mathcal{S}$ a finite, declared family of scopes.
 
-\begin{definition}[Normalised functional loss]
-With $F$ the fraction of \texttt{FAIL\_TO\_PASS} tests still failing, $R$ the fraction of
-\texttt{PASS\_TO\_PASS} tests broken and $w>0$,
-$\ell(x,\pi)=\frac{F+wR}{1+w}\in[0,1]$.
-\end{definition}
-Every experiment in this paper uses the binary special case $\ell=1-\mathbb{1}[\text{resolved}]$
-under the scorer $S$ of Section~\ref{sec:design}, so that $Z_i\in\{-1,0,1\}$ below compares the two
-arms task by task.
+The loss of a run is $\ell(x,\pi)=1-\mathbb{1}[\text{resolved}]$ under the scorer $S$ of
+Section~\ref{sec:design}, so that $Z_i\in\{-1,0,1\}$ below compares the two arms task by task; a
+graded loss is given in Appendix~\ref{app:defs}.
 
 \begin{definition}[Selective transfer risk]
 $P_s$ is the distribution of tasks in scope $s$ on which the activation predicates $\mathcal{I}(x)$
 hold. $\STR(S,s)=\mathbb{E}_{x\sim P_s}[\ell(x,\pi)-\ell(x,\varnothing)]$; $S$ is admitted in $s$
 only if $\STR(S,s)\le-\theta$.
 \end{definition}
-
-A pair (skill, context) is \emph{harmful} if $\STR>0$, \emph{neutral} if $-\theta<\STR\le0$ and
-\emph{beneficial} if $\STR\le-\theta$, measured on an independent scoring pool disjoint from the
-admission pool. Harmful acceptance is the fraction of harmful pairs admitted; clean-reuse coverage
-the fraction of beneficial pairs admitted. In this paper harmful acceptance and clean-reuse coverage are estimated by simulation on measured
-agent noise (plasmode~\cite{franklin_2014_plasmode}); we did not compare systems on real skill
-pairs along the harm--coverage curve.
 
 \section{Admission with Anytime-Valid Guarantees}\label{sec:admission}
 For paired differences $Z_i=\ell(x_i,\pi)-\ell(x_i,\varnothing)\in[-1,1]$ and the null
@@ -288,9 +298,9 @@ $\xi_s$ below.
 The $\alpha$ budget is fixed in advance: $\sum_{(S,s)}\alpha_{S,s}\le\alpha$ bounds the probability
 of at least one false admission among all cells (family-wise). Each admission in this paper was
 registered as its own cell with $\alpha_{S,s}=\alpha=0.025$, so each carries a \emph{per-admission}
-guarantee. Read together, the \nfamK{} admission problems we report are bounded only by the union
-bound, $\nfamK\alpha=\nfamUnion$. Section~\ref{sec:family} gives the family-wise reading with
-$\alpha_{S,s}=\alpha/\nfamK$.
+guarantee. Read together, the \nfamAllK{} e-process decisions we registered are bounded only by
+the union bound, $\nfamAllK\alpha$. Section~\ref{sec:family} gives the family-wise reading with
+$\alpha_{S,s}=\alpha/\nfamAllK$.
 
 \begin{theorem}[Admission bound]
 Under the assumption,
@@ -331,25 +341,6 @@ repositories, which may be close to $1$.
 \end{proof}
 The learned skills of Section~\ref{sec:rq2} are a measured instance: on the same tasks, a change
 the trials never observe (the repository history) changes what the admitted skill is worth.
-
-\section{Sample Complexity and the Value of Pairing}
-\begin{proposition}[Paired trials]
-If $\ell(x,\pi)=\mu_\pi+T(x)+e_\pi$ and $\ell(x,\varnothing)=\mu_\varnothing+T(x)+e_\varnothing$ with
-$\mathrm{Var}\,T=\sigma_T^2$ and $\mathrm{Var}(e_\pi-e_\varnothing)=\sigma_S^2$, then
-$n_{\mathrm{unpaired}}/n_{\mathrm{paired}}=1+2\sigma_T^2/\sigma_S^2$; both designs cost two runs per sample.
-\end{proposition}
-On the published per-requirement results of SWE-Skills-Bench, the variance components give a
-saving of \npairSaving{} (Table~\ref{tab:sskb}): an unpaired comparison would need \npairSaving{} times
-as many runs for the same precision. Table~\ref{tab:design} gives, by simulation, the paired trials Gatekeeper needs to admit a
-skill with 80\% probability, by threshold $\theta$, true effect, and the number of cells that share
-the error budget.
-
-\begin{table}[t]\centering\caption{Real paired data (SWE-Skills-Bench, 3{,}920 pairs): pairing and effect sizes.}\label{tab:sskb}
-\input{tables/sskb.tex}\end{table}
-
-\begin{table}[t]\centering\caption{Paired trials per cell for 80\% admission power (simulation); ``cells'' is the number of
-(skill, scope) cells sharing $\alpha$.}\label{tab:design}
-\resizebox{\linewidth}{!}{\input{tables/design.tex}}\end{table}
 
 \section{Evaluation Design}\label{sec:design}
 \paragraph{Agent and tasks}
@@ -509,6 +500,26 @@ tasks against \njinjaNone{}; on Bleve \nbleveSkill{} against \nbleveNone{}. Both
 reject under Holm's procedure over the two scorers, and Gatekeeper admits each skill after \njinjaAdmit{} and
 \nbleveAdmit{} tasks. These are skills produced by a published pipeline, used verbatim.
 
+\begin{figure}[t]\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.92\linewidth,height=38mm,xmin=0,xmax=100,ymin=0,ymax=6.5,
+  xlabel={paired tasks $k$},ylabel={$\log_{10}E_k$},
+  label style={font=\scriptsize},ticklabel style={font=\scriptsize},
+  legend style={font=\tiny,at={(0.5,1.03)},anchor=south,draw=none,fill=none,legend columns=3},legend cell align=left]
+\addplot[thick,black] table[x=k,y=shipped]{figures/eprocess.dat};
+\addplot[thick,dashed,blue] table[x=k,y=single]{figures/eprocess.dat};
+\addplot[thick,dotted,red] table[x=k,y=ablated]{figures/eprocess.dat};
+\addplot[thick,dashdotted,teal] table[x=k,y=relearned]{figures/eprocess.dat};
+\addplot[thin,gray] table[x=k,y=pygments]{figures/eprocess.dat};
+\addplot[thin,densely dashed,black,domain=0:100] {log10(40)};
+\legend{Jinja as shipped,single commit,instruction removed,re-learned,Pygments reuse,threshold $1/\alpha$}
+\end{axis}
+\end{tikzpicture}
+\caption{Gatekeeper's e-process on the Jinja streams of Table~\ref{tab:rq2} and the Pygments reuse
+test. A stream is admitted when it first crosses $1/\alpha=40$.}
+\label{fig:eproc}
+\end{figure}
+
 \paragraph{The learner wrote the instruction}
 Both learned skills tell the agent to read recent commits when the issue is unclear. The seed
 from which gskill starts is empty, its agent configuration does not contain ``git'', and its
@@ -516,6 +527,23 @@ skill-writing prompts mention \texttt{git} once, as an available command, and ne
 commits~\cite{gskill_seed_candidate,gskill_mini_yaml}: the instruction was introduced by the
 optimisation itself. In the Jinja learning run it first appears in the second rewrite, and
 \ncandHist{} of the \ncandNonEmpty{} rewrites the loop kept contain a line about commits or history.
+
+\paragraph{How the learner found it (exploratory)}
+The learning logs show the path (Figure~\ref{fig:mech}). Under gskill's own scorer, the rewrites
+that contain the instruction score higher on the 50 validation tasks than those that do not: on
+average \nlrnValHist{} against \nlrnValNoHist{} on Jinja and \nlrnBleveValHist{} against
+\nlrnBleveValNoHist{} on Bleve. The first such rewrite on Jinja raised the validation score from
+\nlrnFirstParentVal{} to \nlrnFirstVal{}, and the best rewrite (\nlrnBestVal{}) also contains it.
+gskill keeps every call to the skill-writing model with the three agent traces it was shown; in
+the call that turned rewrite \nlrnAddParent{}, which had dropped the instruction, into rewrite
+\nlrnAddChild{}, which put it back, one of the three traces is a task without a description on
+which the agent, with no such instruction, ran \texttt{git log}, read the ``Bug Patch'' commit and
+solved the task; the model's answer mentions the commit history, and the validation score rose
+from \nlrnAddParentVal{} to \nlrnAddChildVal{}. In the learning run with the single-commit
+history, none of the \nlrnCleanTrajShown{} traces shown to the model contains the commit. The
+calls of the first learning half were overwritten when gskill resumed (only \nlrnCallsSaved{} of
+the Jinja calls are kept), so the call that first wrote the instruction is lost; what remains is one
+observed instance of the path, not a rate.
 
 \paragraph{How much of the gain the history explains}
 Changing only the history of the Jinja tasks, to a single commit that
@@ -550,6 +578,28 @@ skill called \texttt{go} in \ngoNoneCmd{} of \ngoNoneTraced{} runs and met ``not
 This note does not carry the remaining gain: on the \ngoNoneErr{} tasks where the no-skill run met
 the error the skill raises the resolved count from \ngoHitNone{} to \ngoHitSkill{}, and on the other
 \ngoRestN{} from \ngoRestNone{} to \ngoRestSkill{}.
+
+The agent uses the commit to locate the bug, not to copy a fix. A fix that undoes a small
+mutation often coincides with the reversed bug-injecting commit, so we counted exact reversals among
+resolved patches (exploratory): \nrvShipNoIssue{} of \nrvShipNoIssueN{} on the tasks without a
+description and \nrvShipWith{} of \nrvShipWithN{} on those with one, against \nrvLFWith{} of
+\nrvLFWithN{} with the single commit, where nothing can be copied. On the \ncfNew{} unseen tasks of
+the confirmatory test, \nrvUnseen{} of the \nrvUnseenN{} resolved patches are exact reversals.
+
+\begin{figure}[t]\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.72\linewidth,height=30mm,xbar,xmin=0,xmax=34,bar width=6pt,
+  ytick=data,yticklabels from table={figures/nops.dat}{label},y dir=reverse,
+  xlabel={resolved of the \njinjaNoPSTasks{} Jinja tasks without a description (as shipped)},
+  xlabel style={font=\scriptsize},ticklabel style={font=\scriptsize},
+  nodes near coords,nodes near coords style={font=\scriptsize},enlarge y limits=0.2]
+\addplot table[x=y,y expr=\coordindex]{figures/nops.dat};
+\end{axis}
+\end{tikzpicture}
+\caption{Where the leak pays off: the learned skill solves \njinjaNoPSn{} of these tasks with the
+history; with its instruction removed, or re-learned without the leak, almost none.}
+\label{fig:nops}
+\end{figure}
 
 \paragraph{The rest of the gain is genuine}
 Without the leak, the Jinja skill still raises the resolved count from \njinjaLFNone{} to
@@ -597,8 +647,8 @@ admits it after \ncleanAdmit{} tasks; under $L$ the counts are \ncleanLSkill{} a
 retains a positive effect under the controlled history, with no statistically detectable difference
 from the residual effect of the original skill; without a registered margin this is not evidence of
 equivalence, and the two arms of that comparison ran on different days. Under the family-wise
-reading of Section~\ref{sec:family} this skill is the one admission that does not hold (largest
-e-value \ncleanMaxE{} against \nfamThr). Moved into the original environment, where the bug-injecting
+reading of Section~\ref{sec:family} this admission does not hold (largest e-value \ncleanMaxE{}
+against \nfamAllThr). Moved into the original environment, where the bug-injecting
 commit is present, the new skill solves \ncleanShipSolved{} of the \ncleanShipN{} tasks without a
 description, against \njinjaNoPSn{} for the original skill, \nabNoPS{} for the original skill
 without its instruction and \njinjaNoPSNoneBase{} without a skill; the agent ran \texttt{git log}
@@ -607,6 +657,13 @@ or \texttt{git show} in \ncleanShipGit{} of these runs and saw the ``Bug Patch''
 \ncleanShipN{} tasks are the subset without a description, chosen because the leak is visible
 there, not a sample of all tasks. Each condition has one learning run, and GEPA is stochastic: the absence of the
 instruction is an observation on this run, not an estimated rate.
+What the two skills share is a way of working, not a fact about the bug (exploratory). Both keep
+groups on the interaction format, on editing code, and on testing; only the original has a group
+for tasks without a description, the one with the history instruction. In the single-commit
+environment, the agent ran the tests in \nbhOrigTest{} of 100 runs with the original skill and
+\nbhCleanTest{} with the re-learned one, against \nbhNoneTest{} and \nbhNoneCleanTest{} without a
+skill, and submitted an empty patch in \nbhOrigEmpty{} and \nbhCleanEmpty{} runs against
+\nbhNoneEmpty{} and \nbhNoneCleanEmpty{}.
 
 \paragraph{A second seed, and a confirmatory test on unseen tasks}
 The measurements above use one seed per arm, and the difference between the environments rests
@@ -717,16 +774,17 @@ change.
 
 \subsection{Sensitivity of the admissions (exploratory)}\label{sec:family}
 \paragraph{One family}
-Each admission was registered as its own cell at $\alpha=0.025$. A reader who takes all \nfamK{}
-admission problems of this paper together (the \nfamAdmits{} admitted streams of
-Table~\ref{tab:rq2} and of the placebo comparison, and the Pygments reuse test) needs
-$\alpha_{S,s}=\alpha/\nfamK$, a threshold of \nfamThr{} instead of $40$. Rerunning the same rule on
-the same streams with this threshold, \nfamKept{} of the \nfamAdmits{} admissions still hold, later
-in the stream; the exception is the re-learned Jinja skill, whose largest e-value is \ncleanMaxE{}.
-This reading was chosen after the data and does not replace the registered per-cell decisions; its
-sign test ($p=\ncleanP$) is unaffected, since it is a separate registered test with its own
-correction (Section~\ref{sec:design}). Holm's procedure over the sign tests does not control the
-error of the e-process admissions, which are separate decisions.
+Each e-process decision was registered as its own cell at $\alpha=0.025$. A reader who takes all
+\nfamAllK{} registered decisions together (the eight admission problems of Table~\ref{tab:rq2},
+the placebo comparison and the Pygments reuse test, the two admissions of the second seed, and the
+two environment contrasts) needs $\alpha/\nfamAllK$, a threshold of \nfamAllThr{} instead of $40$.
+Of the \nfamAllReg{} decisions that rejected at their registered level, \nfamAllHeld{} still do,
+including the confirmatory test on unseen tasks; the three that do not are the single-commit
+admissions of the Bleve skill, of the second seed, and of the re-learned skill (largest e-value
+\ncleanMaxE{}). This reading was chosen after the data and does not replace the registered
+decisions; the sign tests are separate registered tests with their own correction
+(Section~\ref{sec:design}), and Holm's procedure over them does not control the error of the
+e-process decisions.
 \paragraph{The order of the tasks}
 Each stream was run in one order, gskill's. Rerunning the same rule on \npermN{} uniformly random
 orders of the same paired outcomes, every stream admitted in the registered order is admitted in
@@ -785,11 +843,9 @@ Twenty streams do not estimate an error rate, and the positive labels rest on ru
 Our confirmatory agent runs use one model, \agentmodel{}; the descriptive runs with \promodel{} and
 \flashmodel{} are from the same vendor. The model behind the same name changed between our earlier and later runs (a
 registered check found identical first responses on \ndriftMatch{} of \ndriftTasks{} tasks), so we never pair runs from
-different periods. We did not run a model from another vendor: of the per-token models available
-to our account, one had no quota, one had been retired, one lacked tool calling in our agent
-framework, and the remaining one was an experimental model priced above our budget; a request for an
-open-weight model was pending when we stopped. Whether the leak-seeking instruction is learned, and
-followed, with models of other vendors is open; the second Gemini model follows it, and finds the leak without it.
+different periods. No model of another vendor was available to us under our quota. Whether the
+leak-seeking instruction is learned, and followed, with models of other vendors is open; the
+second Gemini model follows it, and finds the leak without it.
 \paragraph{Synthetic tasks and three repositories}
 The learned skills are evaluated on SWE-smith's synthetic tasks for two repositories, and the reuse
 test on a third, 100 paired tasks each, with one seed per arm except the four Jinja arms of the
@@ -802,8 +858,8 @@ from a real, non-synthetic repository. Base rates without a skill are low (\njin
 \nbleveNone{} and \npygNone{} of 100), so a skill can mostly help rather than harm; benchmarks with
 higher base rates are needed to measure harm.
 \paragraph{Loss, seeds and comparison methods}
-Every experiment uses the binary loss of Section~\ref{sec:admission} (resolved or not); the graded loss
-$\ell=(F+wR)/(1+w)$ is defined but not evaluated, and we did not choose a $w$. Each arm ran with one
+Every experiment uses the binary loss (resolved or not); the graded loss of
+Appendix~\ref{app:defs} is not evaluated, and we did not choose its weight. Each arm ran with one
 seed, except the four Jinja arms of the original skill (Section~\ref{sec:rq2}). Other admission rules are compared on A/A streams (Section~\ref{sec:rq1}), not on the
 learned-skill streams.
 \paragraph{Order of the trials}
@@ -816,7 +872,8 @@ such change within a run, but we cannot exclude it.
 Each skill comes from one run of gskill's stochastic loop; we did not repeat the learning, so the
 difference between the original and the re-learned Jinja skill cannot be separated from the
 variation between learning runs, and we report the presence or absence of the history instruction
-as an observation, not a rate.
+as an observation, not a rate. The learning logs of the first half of each run were overwritten
+when gskill resumed, so the call that first wrote the instruction cannot be inspected.
 \paragraph{One leak channel}
 We measured one leak channel, the bug-injecting commit in the history. Other channels, such as
 artefacts in the image, file names or timestamps, were not probed, and the single-commit control
@@ -922,6 +979,37 @@ leak channel.
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
 \appendices
+\section{Definitions not used in the experiments}\label{app:defs}
+\begin{definition}[Normalised functional loss]
+With $F$ the fraction of \texttt{FAIL\_TO\_PASS} tests still failing, $R$ the fraction of
+\texttt{PASS\_TO\_PASS} tests broken and $w>0$,
+$\ell(x,\pi)=\frac{F+wR}{1+w}\in[0,1]$; the experiments use the binary case.
+\end{definition}
+A pair (skill, context) is \emph{harmful} if $\STR>0$, \emph{neutral} if $-\theta<\STR\le0$ and
+\emph{beneficial} if $\STR\le-\theta$. Harmful acceptance is the fraction of harmful pairs
+admitted; clean-reuse coverage the fraction of beneficial pairs admitted. We estimate them only by
+simulation on measured agent noise (plasmode~\cite{franklin_2014_plasmode}), not on real skill
+pairs.
+
+\section{Sample complexity and the value of pairing}\label{app:pairing}
+\begin{proposition}[Paired trials]
+If $\ell(x,\pi)=\mu_\pi+T(x)+e_\pi$ and $\ell(x,\varnothing)=\mu_\varnothing+T(x)+e_\varnothing$ with
+$\mathrm{Var}\,T=\sigma_T^2$ and $\mathrm{Var}(e_\pi-e_\varnothing)=\sigma_S^2$, then
+$n_{\mathrm{unpaired}}/n_{\mathrm{paired}}=1+2\sigma_T^2/\sigma_S^2$; both designs cost two runs per sample.
+\end{proposition}
+On the published per-requirement results of SWE-Skills-Bench, the variance components give a
+saving of \npairSaving{} (Table~\ref{tab:sskb}): an unpaired comparison would need \npairSaving{} times
+as many runs for the same precision. Table~\ref{tab:design} gives, by simulation, the paired trials Gatekeeper needs to admit a
+skill with 80\% probability, by threshold $\theta$, true effect, and the number of cells that share
+the error budget.
+
+\begin{table}[t]\centering\caption{Real paired data (SWE-Skills-Bench, 3{,}920 pairs): pairing and effect sizes.}\label{tab:sskb}
+\input{tables/sskb.tex}\end{table}
+
+\begin{table}[t]\centering\caption{Paired trials per cell for 80\% admission power (simulation); ``cells'' is the number of
+(skill, scope) cells sharing $\alpha$.}\label{tab:design}
+\resizebox{\linewidth}{!}{\input{tables/design.tex}}\end{table}
+
 \section{Further controls}\label{app:controls}
 \paragraph{Attribution of failures to skills}
 A published procedure flags a failure as skill-induced when the run with the skill fails a task

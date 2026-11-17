@@ -995,10 +995,83 @@ def main() -> int:
     if fs["runs"] != 34:
         print("MISMATCH s34 skill runs")
         return 1
+    # section 36 (exploratory, 0 USD): family after sections 33/35, learner provenance, patches
+    s36 = load(Path("results/s36_analysis.json"))
+    fa, lj, lb, lc = (
+        s36["36a"],
+        s36["36b"]["jinja_original"],
+        s36["36b"]["bleve"],
+        s36["36b"]["jinja_clean"],
+    )
+    add = next(c for c in lj["calls"] if c["child_history"] and not c["parent_history"])
+    rv, bh = s36["36c"], s36["36d"]["single_commit"]
+    vals = {c["idx"]: c["val_L"] for c in lj["candidates"]}
+    N.update(
+        {
+            "famAllK": fa["K"],
+            "famAllThr": fa["threshold"],
+            "famAllReg": fa["registered_positive"],
+            "famAllHeld": fa["held"],
+            "lrnFirst": lj["first_history_candidate"],
+            "lrnCands": len(lj["candidates"]) - 1,
+            "lrnValHist": lj["val_L_mean_with_history"],
+            "lrnValNoHist": lj["val_L_mean_without_history"],
+            "lrnBleveValHist": lb["val_L_mean_with_history"],
+            "lrnBleveValNoHist": lb["val_L_mean_without_history"],
+            "lrnFirstVal": vals[lj["first_history_candidate"]],
+            "lrnFirstParentVal": vals[lj["candidates"][lj["first_history_candidate"]]["parent"]],
+            "lrnAddParent": add["parent_idx"],
+            "lrnAddChild": add["child_idx"],
+            "lrnAddParentVal": vals[add["parent_idx"]],
+            "lrnAddChildVal": vals[add["child_idx"]],
+            "lrnBestVal": max(vals.values()),
+            "lrnCallsSaved": lj["proposer_calls_saved"],
+            "lrnCallsSavedBleve": lb["proposer_calls_saved"],
+            "lrnCallsSavedClean": lc["proposer_calls_saved"],
+            "lrnTrajLeak": lj["trajectories_M2"],
+            "lrnTrajShown": lj["trajectories_shown"],
+            "lrnCleanTrajLeak": lc["trajectories_M2"],
+            "lrnCleanTrajShown": lc["trajectories_shown"],
+            "rvShipNoIssue": rv["seed41:shipped/skill"]["no_issue"]["exact_revert"],
+            "rvShipNoIssueN": rv["seed41:shipped/skill"]["no_issue"]["resolved"],
+            "rvShipWith": rv["seed41:shipped/skill"]["with_issue"]["exact_revert"],
+            "rvShipWithN": rv["seed41:shipped/skill"]["with_issue"]["resolved"],
+            "rvLFWith": rv["seed41:single/skill"]["with_issue"]["exact_revert"],
+            "rvLFWithN": rv["seed41:single/skill"]["with_issue"]["resolved"],
+            "rvUnseen": rv["unseen36:shipped/skill"]["no_issue"]["exact_revert"],
+            "rvUnseenN": rv["unseen36:shipped/skill"]["no_issue"]["resolved"],
+            "bhNoneTest": bh["none_seed51"]["ran_tests"],
+            "bhOrigTest": bh["original_skill_seed51"]["ran_tests"],
+            "bhNoneCleanTest": bh["none_s30"]["ran_tests"],
+            "bhCleanTest": bh["clean_skill_s30"]["ran_tests"],
+            "bhNoneEmpty": bh["none_seed51"]["empty_patch"],
+            "bhOrigEmpty": bh["original_skill_seed51"]["empty_patch"],
+            "bhNoneCleanEmpty": bh["none_s30"]["empty_patch"],
+            "bhCleanEmpty": bh["clean_skill_s30"]["empty_patch"],
+        }
+    )
+    for k, v in {
+        "famAllK": 12,
+        "famAllHeld": 7,
+        "lrnFirst": 2,
+        "lrnAddParent": 4,
+        "lrnAddChild": 6,
+        "lrnCleanTrajLeak": 0,
+        "rvUnseen": 3,
+        "bhOrigTest": 85,
+        "bhCleanTest": 82,
+    }.items():
+        if N[k] != v:
+            print("MISMATCH", k, N[k], v)
+            return 1
     N["leakSharePct"] = round(100 * N["leakShare"])
     N["fzeroGoldMinPct"] = int(100 * f0["S_gold_min"])  # floor: "at least"
     for k in ("sskbOpp", "sskbRho"):
         N[k + "Pct"] = round(100 * N[k])
+    bad = [k for k in N if not k.isascii() or not k.isalpha()]
+    if bad:  # a LaTeX macro name may hold letters only (A131)
+        print("BAD MACRO NAMES", bad)
+        return 1
     for k, v in N.items():
         if isinstance(v, float) and v != 0 and abs(v) < 1e-3:
             m, e = f"{v:.1e}".split("e")

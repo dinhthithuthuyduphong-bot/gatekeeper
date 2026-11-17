@@ -175,7 +175,7 @@
   },
   {
    "id": "waudby_smith_ramdas",
-   "claim": "betting confidence sequences; aGRAPA; default prior mean/variance; truncation c",
+   "claim": "betting confidence sequences; aGRAPA; default prior mean/variance; truncation c; diversified (grid) Kelly: averaging the wealth over a fixed grid of bets (fixed-horizon e-value, section 41)",
    "urls": [
     "https://arxiv.org/pdf/2010.09686"
    ],
@@ -193,7 +193,13 @@
     "σ̂2",
     "a.s.",
     "sqrt(2 log",
-    "predictable"
+    "predictable",
+    "dKelly",
+    "diversified",
+    "evenly-spaced",
+    "grid",
+    "mixture",
+    "Markov"
    ]
   },
   {
@@ -2140,6 +2146,97 @@
     "PASSED",
     "step_limit",
     "bash -lc"
+   ]
+  },
+  {
+   "id": "gskill_proposer_call",
+   "claim": "gskill's batch proposer sends the formatted prompt as the only user message through gepa.lm.LM(reflection_lm), built without temperature, and extracts the skills from the first to the last code fence; pinned 8c7b697 (section 38)",
+   "urls": [
+    "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/gskill/gskill/train_optimize_anything.py"
+   ],
+   "keywords": [
+    "self._lm = LM(reflection_lm)",
+    "return self._lm(prompt)",
+    "def extract_skills",
+    "response_text.rfind(\"```\")",
+    "(No skills learned yet)"
+   ]
+  },
+  {
+   "id": "gepa_lm_defaults",
+   "claim": "gepa.lm.LM passes temperature and max_tokens to litellm only when given (default None), and wraps a string prompt as one user message; pinned 8c7b697 (section 38)",
+   "urls": [
+    "https://raw.githubusercontent.com/gepa-ai/gepa/8c7b697a71977980afc7537dac0881e784eef99f/src/gepa/lm.py"
+   ],
+   "keywords": [
+    "temperature: float | None = None",
+    "if temperature is not None",
+    "\"role\": \"user\", \"content\": prompt"
+   ]
+  },
+  {
+   "id": "pace_paired_anytime_gate",
+   "claim": "PACE full text: the rule, the null, the guarantee, the benchmarks, and whether it discusses leaks (todo_ease_revision D9a)",
+   "urls": [
+    "https://arxiv.org/pdf/2606.08106",
+    "https://arxiv.org/abs/2606.08106"
+   ],
+   "keywords": [
+    "anytime-valid",
+    "paired",
+    "e-process",
+    "e-value",
+    "gate",
+    "skill",
+    "betting",
+    "Theorem",
+    "Proposition",
+    "null",
+    "H_0",
+    "incumbent",
+    "Ville",
+    "SWE-bench",
+    "GEPA",
+    "leak",
+    "contaminat",
+    "reward hacking",
+    "baseline",
+    "family-wise",
+    "false commit"
+   ]
+  },
+  {
+   "id": "ease_2027_research_cfp",
+   "claim": "EASE 2027 research papers call: format, page limit, anonymity, dates, open-science policy (meta-review of 16/11/2026, submission compliance)",
+   "urls": [
+    "https://conf.researchr.org/track/ease-2027/ease-2027-papers"
+   ],
+   "keywords": [
+    "anonymous",
+    "pages",
+    "ACM",
+    "references",
+    "deadline",
+    "Open Science",
+    "artifact",
+    "Submission"
+   ]
+  },
+  {
+   "id": "acm_authorship_ai_policy",
+   "claim": "ACM policy on authorship and on generative AI, linked from the EASE 2027 call: what must be disclosed and where (todo_ease_revision A5)",
+   "urls": [
+    "https://www.acm.org/publications/policies/new-acm-policy-on-authorship"
+   ],
+   "keywords": [
+    "generative AI",
+    "disclos",
+    "acknowledg",
+    "Methods",
+    "author",
+    "tools",
+    "AI",
+    "responsib"
    ]
   }
  ]

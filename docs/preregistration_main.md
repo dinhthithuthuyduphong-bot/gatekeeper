@@ -2361,3 +2361,208 @@ if "PASSED" in test_output or "passed" in test_output.lower():
 - Phạm vi: Jinja, 34 task không mô tả, một seed, hai model Gemini.
 
 **Sửa diễn giải §34 (12/11/2026, A129):** câu "mọi kết quả của agent ... đều bị ảnh hưởng" ở mục "Hệ quả cho paper" phía trên là quá mức bằng chứng. §34 không có nhánh một commit cho Gemini Flash, nên chưa đo được phần nào trong 31/34 task giải được là nhờ lịch sử. Điều dữ liệu cho phép nói: agent này đọc commit chèn lỗi ở 33/34 lượt mà không cần chỉ dẫn, tức rò rỉ nằm trong tầm với của chính agent. Paper và báo cáo đã sửa theo câu này.
+
+## 36. Các phân tích miễn phí để làm paper mạnh hơn (đăng ký 13/11/2026, trước khi tính; tất cả là thăm dò)
+
+**Lý do:** @thuthuy 13/11: "Làm tất cả việc 0đ có ích cho paper". Mọi phân tích dùng dữ liệu đã có. Không phân tích nào thay một quyết định đã đăng ký.
+
+**Đã thấy trước khi đăng ký (khi rà soát ngày 13/11):**
+- Lưu trữ lượt học Jinja gốc (`s25_learn_run.tar.gz`) chỉ còn 6 lần gọi model viết skill. Lý do: gskill đánh số lại `call_001…` khi chạy tiếp ở nửa 2, nên các lần gọi của nửa 1 bị ghi đè (A130). Lượt Bleve còn 7 lần gọi, lượt §30 còn 14.
+- Ở 6 lần gọi còn lại của lượt Jinja gốc, chuỗi "Bug Patch" xuất hiện 0, 0, 0, 14, 56, 46 lần.
+- Lần gọi 4 có bản cha là ứng viên 4 (không có dòng lịch sử) và cho ra ứng viên 6 (có dòng lịch sử).
+- Điểm validation theo L của 9 ứng viên (từ `candidate_tree.html`): 0,48 / 0,74 / 0,84 / 0,70 / 0,78 / 0,84 / 0,94 / 0,90 / 0,80. Ứng viên có dòng lịch sử là 2, 5, 6, 7, 8.
+
+### 36a. Đọc cả họ, cập nhật sau §33 và §35
+- **Họ:** mọi quyết định e-process đã đăng ký trong paper, K = 12:
+  - 8 bài toán của §31;
+  - hai admission của seed 51 (§33);
+  - P33c;
+  - P35.
+- **Bonferroni:** α/12, ngưỡng 480.
+- **Báo cáo:** quyết định nào còn đứng. Với P33c và P35, e-value lớn nhất bằng 1/p anytime.
+
+### 36b. Bộ học tìm ra rò rỉ bằng cách nào
+- **Dữ liệu:** ba lượt học (Jinja gốc, Bleve, Jinja §30).
+- **Theo từng ứng viên:** chỉ số, bản cha, lần lặp tạo ra nó, có dòng khớp quy tắc lịch sử (`make_ablation.RULE`) hay không, điểm validation theo L.
+- **Theo từng lần gọi model viết skill còn lưu:**
+  - bản cha và bản con có dòng lịch sử hay không;
+  - với mỗi quỹ đạo agent được đưa cho model viết skill: mô tả issue rỗng hay không; M1 (agent gọi `git log`/`git show`); M2 (một quan sát chứa "Bug Patch"; phần đề bài và system prompt bị bỏ); điểm của quỹ đạo;
+  - câu trả lời của model viết skill có nhắc "commit", "history" hay "Bug Patch" không.
+- **Đại lượng tóm tắt:**
+  - điểm validation trung bình của ứng viên có và không có dòng lịch sử, theo từng lượt học;
+  - số lần gọi mà model viết skill **thêm** dòng lịch sử vào một bản cha không có dòng đó, và ở các lần đó, số quỹ đạo có M2.
+- **Diễn giải đặt trước:**
+  - Nếu ở những lần thêm dòng lịch sử, model viết skill đã thấy một quỹ đạo agent tự tìm ra "Bug Patch" và quỹ đạo đó được điểm cao, thì cơ chế là: agent tự tìm ra, rồi bộ học khái quát thành chỉ dẫn.
+  - Nếu không, paper chỉ nói chỉ dẫn được thêm và điểm validation tăng.
+  - Mọi kết quả là quan sát trên số lần gọi ít ỏi còn lưu.
+
+### 36c. Bản vá của agent có trùng với bản đảo của commit chèn lỗi không
+- **Dữ liệu:** bốn nhánh Jinja của seed 41 và seed 51 (§25, §33); bốn nhánh của 36 task mới (§35).
+- **Đại lượng:** lấy từng dòng thay đổi, bỏ khoảng trắng cuối dòng. Bản vá của agent là **đảo đúng** khi tập (file, dòng bị xóa) của nó bằng tập (file, dòng được thêm) của commit chèn lỗi, và tập (file, dòng được thêm) của nó bằng tập (file, dòng bị xóa) của commit đó.
+- **Báo cáo theo nhánh:** trong các lượt giải được, tỉ lệ đảo đúng; riêng cho task không mô tả và task có mô tả.
+- **Diễn giải đặt trước:**
+  - Lỗi của SWE-smith thường là một biến đổi nhỏ, nên một bản sửa đúng hay chính là bản đảo. Đảo đúng vì thế không tự chứng minh việc chép.
+  - Chỉ khi tỉ lệ đảo đúng ở môi trường gốc cao hơn rõ ràng so với môi trường một commit, trên cùng loại task, thì nó mới là thêm một dấu hiệu.
+  - Nếu hai tỉ lệ ngang nhau thì paper nói đúng như vậy.
+
+### 36d. Skill sạch khác skill gốc thế nào
+- **Nội dung:** liệt kê các nhóm chỉ dẫn (đề mục đánh số cấp một) của skill gốc và skill §30, và các nhóm chung.
+- **Hành vi trong môi trường một commit** (nhánh không skill và có skill của §33 seed 51 với skill gốc; của §30 với skill sạch):
+  - tỉ lệ lượt chạy test (`pytest` hoặc `python -m pytest` hoặc `unittest`) ít nhất một lần;
+  - số bước trung vị;
+  - tỉ lệ lượt nộp bản vá rỗng.
+- Chỉ mô tả; không có ngưỡng.
+
+**Hình cho paper** (không phải phân tích):
+- đường log E theo task của các luồng chính, cùng ngưỡng 40;
+- số task giải được trên 34 task không mô tả theo điều kiện;
+- sơ đồ cơ chế.
+Số liệu lấy từ file kết quả bằng script, không gõ tay.
+
+### §36: kết quả (13/11/2026; `results/s36_analysis.json`; thăm dò)
+- **36a:**
+  - K = 12, ngưỡng 480.
+  - 10 quyết định bác bỏ ở mức đăng ký; 7 vẫn đứng ở α/12, kể cả P35 (p = 4,2·10⁻⁴).
+  - Không còn đứng: admission một commit của Bleve, của seed 51 và của skill §30.
+- **36b:**
+  - Điểm validation (L) trung bình của ứng viên có dòng lịch sử so với không có: Jinja 0,86 so với 0,74; Bleve 0,84 so với 0,59.
+  - Ứng viên đầu tiên có dòng lịch sử (Jinja, ứng viên 2) nâng điểm từ 0,74 lên 0,84; ứng viên tốt nhất (0,94) có dòng này.
+  - Lần gọi biến ứng viên 4 (đã bỏ dòng lịch sử) thành ứng viên 6 (đưa lại dòng này):
+    - một trong ba quỹ đạo được đưa cho model viết skill là task không mô tả, trên đó agent **không có chỉ dẫn** vẫn chạy `git log`, đọc "Bug Patch" và giải được;
+    - câu trả lời của model nhắc tới lịch sử commit;
+    - điểm tăng từ 0,78 lên 0,94.
+  - Lượt học sạch: 0/42 quỹ đạo có "Bug Patch".
+  - Theo diễn giải đặt trước, đây là **một trường hợp quan sát được** của cơ chế "agent tự tìm ra, bộ học khái quát thành chỉ dẫn". Lần gọi đầu tiên đã mất (A130).
+- **36c** (đảo đúng trong số lượt giải được, skill gốc):
+  - seed 41, môi trường gốc: 9/15 (không mô tả), 20/38 (có mô tả);
+  - một commit: 17/35 (có mô tả);
+  - 36 task mới (§35): 3/20.
+  - Tỉ lệ ở môi trường gốc không cao hơn rõ ràng. Theo diễn giải đặt trước, agent dùng commit để định vị lỗi chứ không chép bản sửa.
+- **36d:**
+  - Nhóm chỉ dẫn chung của hai skill: định dạng tương tác, sửa mã, chạy test. Chỉ skill gốc có nhóm cho task không mô tả (chứa chỉ dẫn lịch sử) và nhóm kiến thức riêng của Jinja.
+  - Trong môi trường một commit, tỉ lệ lượt chạy test: 85/100 (skill gốc) so với 50 (không skill); 82 (skill sạch) so với 55.
+  - Bản vá rỗng: 36 so với 63; 33 so với 60.
+
+## 37. Giai đoạn 0 của hướng Kaggle (đăng ký 14/11/2026, commit `17c6634`): đã chuyển sang nhánh mặc định
+
+Theo yêu cầu của @thuthuy ngày 14/11/2026 ("Đưa các kế hoạch dưới dạng .md của kaggle lên 1 folder riêng ở nhánh default để dễ kiểm soát. Khi tất cả đều chạy ổn mới đưa lên main"), bản đăng ký, mã, notebook và kết quả của hướng Kaggle nằm ở thư mục `kaggle/` của nhánh `claude/gatekeeper-13-research-nxytoh`. Nội dung bản đăng ký giữ nguyên; lịch sử commit trên `main` (`17c6634`, `3cd7c8d`, `f9e957b`) vẫn ghi lại thời điểm đăng ký trước khi chạy. Số mục §37 được giữ cho hướng này.
+
+
+## 41. Kiểm toán lịch sử git của task và trace (S0 của `docs/todo_ease_revision.md`; 17/11/2026; thăm dò; 0 USD)
+
+**Lý do:** bản review của thầy (16/11) hỏi việc xóa lịch sử có xóa cả lịch sử hợp lệ không, và trace có cho thấy agent dùng thông tin rò rỉ không. Đây là phân tích mô tả trên dữ liệu đã có. Không phép thử nào được đăng ký ở đây.
+
+**Cách làm:** `scripts/history_audit.py` → `results/history_audit.json`; test `tests/test_history_audit.py`. Ba mức không gộp:
+- **Mức 1, tồn tại:** đọc thẳng từ repo task trên GitHub (`swesmith/<repo>`, mỗi task một nhánh), không suy từ trace.
+- **Mức 2, đã hiển thị:** trên 29 file trace của `results/`.
+- **Mức 3, chỉ báo sử dụng:** bản vá là đảo ngược chính xác của bản vá chèn lỗi; lệnh khôi phục test từ lịch sử rồi chạy chúng. Đây là chỉ báo gián tiếp; trace không cho thấy agent "dùng" thông tin.
+
+**Quy tắc nhận diện được sửa một lần, trước khi đọc kết quả theo nhánh thí nghiệm:** bộ quy tắc đầu báo nhầm ở môi trường một commit, nơi không có gì để thấy (`git show HEAD` in cả cây mã với dấu `+`; agent tự `git diff` bản sửa của một lỗi đảo nhánh `if`). Bộ quy tắc cuối ở docstring của script; bộ đầu vẫn được tính, tên `*_loose`.
+
+### Kết quả mức 1: mỗi task có đúng ba commit
+
+| Repo | Task | Ba commit | Diff "Bug Patch" trùng bản vá của benchmark | Commit "Remove F2P Tests" chỉ xóa file | Mọi test F2P nằm trong nội dung bị xóa |
+| --- | --- | --- | --- | --- | --- |
+| Jinja (350 mẫu gskill + 36 task của §35) | 386 | 386 | 386 | 386 (2.619 file bị xóa) | 386 |
+| Bleve | 350 | 350 | 350 | 350 (1.005 file) | 350 |
+| Pygments | 350 | 350 | 350 | 350 (6.423 file) | 307 trên 307 task có test dạng hàm |
+
+Ba commit, theo thứ tự: `Initial commit` (toàn bộ mã của dự án trong một commit), `Bug Patch` (chèn lỗi), `Remove F2P Tests` (xóa nguyên các file chứa bài kiểm tra tái hiện lỗi).
+
+**Hệ quả:**
+- **Không có lịch sử thật nào của dự án.** Môi trường một commit chỉ bỏ đúng hai commit do benchmark tạo ra, cùng việc tách bản mã trước lỗi thành một commit riêng. Câu "đây là cận trên vì cũng xóa lịch sử thật" trong paper không đúng với SWE-smith (A133).
+- **Có hai kênh rò rỉ, không phải một:** diff của `Bug Patch` (chỉ ra lỗi), và nội dung của `Remove F2P Tests` (chính các bài kiểm tra tái hiện lỗi). Môi trường một commit bỏ cả hai.
+
+### Kết quả mức 2 và 3: trên các task không có mô tả issue
+
+| Agent, nhánh | Lượt | Thấy thông điệp "Bug Patch" | Thấy diff "Bug Patch" | Thấy nội dung test bị xóa | Lệnh khôi phục từ lịch sử | Khôi phục rồi chạy test (cận dưới) | Giải được | Giải được mà không thấy kênh nào |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Agent nghiên cứu, gốc, skill gốc, seed 41 | 34 | 34 | 29 | 0 | 1 | 0 | 15 | 0 |
+| Agent nghiên cứu, gốc, skill gốc, seed 51 | 34 | 34 | 32 | 0 | 3 | 0 | 17 | 0 |
+| Agent nghiên cứu, gốc, skill gốc, 36 task mới | 36 | 36 | 35 | 0 | 1 | 0 | 20 | 0 |
+| Agent nghiên cứu, gốc, không skill, seed 41 | 34 | 3 | 2 | 0 | 1 | 0 | 0 | 0 |
+| Agent nghiên cứu, gốc, không skill, seed 51 | 34 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| Agent nghiên cứu, gốc, skill bỏ dòng lịch sử | 34 | 6 | 5 | 0 | 0 | 0 | 2 | 0 |
+| Agent thứ hai (§34), gốc, không skill | 34 | 34 | 33 | 29 | 32 | 9 | 31 | 0 |
+| Agent thứ hai (§34), gốc, skill gốc | 34 | 34 | 34 | 30 | 32 | 18 | 34 | 0 |
+| Mọi nhánh ở môi trường một commit (Jinja, Bleve; mọi task) | 730 | 0 | 0 | 0 | 0 | 0 | — | — |
+
+- **Agent của nghiên cứu chỉ dùng một kênh.** Nó thấy diff của "Bug Patch" ở 29–35 lượt có skill, và không lần nào thấy hay chạy các test bị xóa. Mọi task không mô tả mà nó giải được ở môi trường gốc đều có diff "Bug Patch" hiện trong trace (15/15, 17/17, 20/20).
+- **Agent thứ hai dùng cả hai kênh, kể cả khi không có skill.** Nó mở nội dung test bị xóa ở 29/34 lượt không skill. Lệnh khôi phục điển hình: `git checkout <Initial commit> -- tests`, rồi chạy `pytest`.
+- **Đảo ngược chính xác** trong các lượt giải được (task không mô tả): agent nghiên cứu có skill 8/15, 9/17, 3/20; agent thứ hai không skill 26/31, có skill 28/34.
+- **Giới hạn:** "khôi phục rồi chạy" là cận dưới, vì kết quả của lệnh test bị cắt khi quá dài. Mức 3 là chỉ báo, không phải bằng chứng agent đã dùng thông tin.
+
+### Hệ quả cho bài và cho C10
+
+- **Đổi tên đại lượng:** "phần do rò rỉ" thành "tác động của việc bỏ hai commit do benchmark tạo ra". Bỏ chữ "cận trên".
+- **Threats:** thay câu "chúng tôi đo một kênh" bằng hai kênh và mức dùng của từng agent.
+- **C10:** với agent nghiên cứu, kênh test không được dùng, nên bảng 2 × 2 (thông điệp × diff của "Bug Patch") là thiết kế đúng; commit "Remove F2P Tests" phải được giữ y nguyên ở cả bốn ô. Với agent thứ hai, cần thêm một chiều cho kênh test.
+
+## 42. Phép kiểm cuối pool trên 12 quyết định đã có (đặc tả ghi 17/11/2026, trước khi tính trên dữ liệu ghép cặp gốc; phân tích sau dữ liệu; 0 USD)
+
+**Lý do:** B1–B7 của `docs/todo_ease_revision.md`. Phương pháp và chứng minh: `docs/method_end_of_pool.md`.
+
+**Dữ liệu đã thấy lúc ghi đặc tả:** mọi số cặp lợi/hại của 12 quyết định đã có trong paper. Sáu e-value đã được tính sơ bộ từ các số đó ngày 16/11 (λ = 0,5: 6.313; 416; 307.000; 351; 554; 1,1). Vì vậy toàn bộ mục này là **phân tích sau dữ liệu**, không phải xác nhận. Không có quyết định nào về việc báo cáo cái gì phụ thuộc vào kết quả: cả 12 quyết định đều được báo cáo.
+
+**Đơn vị:** 12 quyết định của §36a, cùng file và cùng bộ nạp đã đăng ký (`scripts/s25_ab.py`: `paired`, `passed` với bộ chấm S):
+
+| # | Quyết định | Nhánh skill | Nhánh so sánh |
+| --- | --- | --- | --- |
+| 1 | Jinja, môi trường gốc | `f1_skill_probe` | `f1_probe` |
+| 2 | Jinja, một commit | `s25_leakfree_skill` | `s25_leakfree_none` |
+| 3 | Bleve, môi trường gốc | `s25bleve_skill_probe` | `s25bleve_f1_probe` |
+| 4 | Bleve, một commit | `s25bleve_leakfree_skill_all` | `s25bleve_leakfree_none` |
+| 5 | Jinja, nội dung so với placebo | `f1_skill_probe` | `s27_placebo` |
+| 6 | Jinja, skill bỏ dòng lịch sử | `s29_ablate` | `s29_none` |
+| 7 | Jinja, skill học lại, một commit | `s30_skill` | `s30_none` |
+| 8 | Pygments, dùng lại skill Jinja | `s27pyg_skill_all` | `s27pyg_none_all` |
+| 9 | Jinja seed 51, môi trường gốc | `s33_ship_skill` | `s33_ship_none` |
+| 10 | Jinja seed 51, một commit | `s33_lf_skill` | `s33_lf_none` |
+| 11 | P33c: hiệu giữa hai môi trường, seed 51, 100 task | bốn nhánh `s33_*` | |
+| 12 | P35: hiệu giữa hai môi trường, 70 task không mô tả | `s33_*` (34 task) và `s35_*` (36 task) | |
+
+**Thống kê:** với quyết định 1–10, Zᵢ như ở §25. Với quyết định 11–12, Dᵢ = (Z_gốc − Z_một commit)/2, như ở §32c và §35. Tính `end_of_pool_log_e(z, lam=0.5, theta=0)` trên cả pool.
+
+**Báo cáo cho mỗi quyết định:**
+- n; số cặp lợi, hại, hòa (với 11–12: số Dᵢ theo từng giá trị);
+- E; vượt 40 không; vượt 480 không;
+- thời điểm vượt ngưỡng đầu tiên của e-process tuần tự (đã có, để so);
+- **cấu trúc lượt chạy (B0):** cùng một job, hai lượt khác nhau trong cùng ngày, hay khác ngày. Căn cứ: mã run và thời điểm công bố đầu tiên của từng file trên nhánh `pilot-snapshots`;
+- **chẩn đoán độc lập (B6), mô tả:** số lượt sập; số lượt sập vì giới hạn tốc độ (`RateLimitError` trong `crash_head`); hệ số Kendall τ giữa vị trí chạy và Zᵢ, kèm p hai phía qua 10.000 hoán vị (seed 4201).
+
+**Đọc kết quả:**
+- Quyết định nhận của một phép so (1–10) giữ được khi E ≥ 40.
+- Ngưỡng 480 là phân tích độ nhạy cho cả 12 quyết định.
+- Quyết định có hai nhánh ở hai lượt chạy khác nhau được báo cáo riêng: đại lượng T1 khi đó trộn tác dụng của skill với khác biệt giữa hai lượt.
+- Chẩn đoán độc lập không xác nhận giả định A; một τ có p nhỏ được ghi là dấu hiệu vi phạm và nêu cạnh quyết định.
+
+### Kết quả §42 (17/11/2026; `scripts/s42_end_of_pool.py` → `results/s42_end_of_pool.json`)
+
+| # | Quyết định | n | E (λ = 0,5) | Vượt 40 | Vượt 480 | Vượt ngưỡng tuần tự ở task | Task có mọi nhánh cùng một job | Sập vì giới hạn tốc độ | Kendall τ theo thứ tự (p) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | jinja as shipped | 100 | 8.747e+05 | có | có | 29 | 0/100 | 0 | 0.090 (0.279) |
+| 2 | jinja single commit | 100 | 4988 | có | có | 50 | 0/100 | 0 | 0.069 (0.410) |
+| 3 | bleve as shipped | 100 | 6.067e+04 | có | có | 34 | 0/100 | 0 | 0.008 (0.927) |
+| 4 | bleve single commit | 100 | 554.2 | có | có | 61 | 0/100 | 2 | 0.014 (0.865) |
+| 5 | jinja content vs placebo | 100 | 2.275e+04 | có | có | 50 | 0/100 | 0 | -0.005 (0.955) |
+| 6 | jinja no history instruction | 100 | 6313 | có | có | 24 | 100/100 | 0 | 0.138 (0.093) |
+| 7 | jinja relearned single commit | 100 | 415.7 | có | không | 65 | 82/100 | 0 | 0.095 (0.248) |
+| 8 | pygments reuse | 100 | 1.125 | không | không | — | 79/100 | 0 | -0.081 (0.354) |
+| 9 | seed51 as shipped | 100 | 3.071e+05 | có | có | 53 | 100/100 | 0 | -0.116 (0.156) |
+| 10 | seed51 single commit | 100 | 350.7 | có | không | 74 | 100/100 | 0 | 0.031 (0.703) |
+| 11 | P33c environment contrast | 100 | 16.77 | không | không | — | 100/100 | 0 | -0.153 (0.052) |
+| 12 | P35 environment contrast unseen | 70 | 3081 | có | có | 36 | 70/70 | 0 | -0.026 (0.801) |
+
+- **Ở ngưỡng 40, phép kiểm cuối pool ra đúng các quyết định đã đăng ký:** nhận ở 1–7, 9, 10 và P35; không nhận Pygments và P33c.
+- **Ở ngưỡng 480 (đọc cả 12 quyết định):** giữ 8 trong 10 quyết định nhận. Không giữ: học lại một commit (416) và seed 51 một commit (351). E-process tuần tự (§36a) giữ 7 trong 10; khác biệt là Bleve một commit (554 ở đây).
+- **Cấu trúc lượt chạy (B0):**
+  - **Mọi nhánh cùng một job ở mọi task:** 6, 9, 10, 11, 12.
+  - **Phần lớn task cùng job:** 7 (82/100; 18 task chạy lại trong job thứ hai cùng ngày) và 8 (79/100; 21 task chạy lại cùng ngày).
+  - **Hai lượt khác nhau, cùng ngày:** 1, 2.
+  - **Khác ngày:** 3, 4, 5.
+  - Hệ quả: kết quả chính của Bảng I (quyết định 1, Jinja 15 → 53) so hai lượt chạy khác nhau. Phép so cùng job tương ứng là quyết định 9 (seed 51, 21 → 55; E = 307.100).
+- **Chẩn đoán độc lập (B6):** không quyết định nào có p của τ dưới 0,05 (nhỏ nhất: P33c, 0,052). 2 lượt sập vì giới hạn tốc độ, cả hai ở quyết định 4. Chẩn đoán không xác nhận giả định A.
+- **Mô phỏng (B7, `results/method_check.json`, mục `end_of_pool`; 12.000 lần mỗi pool, sai số Monte Carlo 0.0014):**
+  - Tỉ lệ nhận nhầm trên ba pool có trung bình bằng 0 (đồng nhất; nửa lợi nửa hại; 10 task khó nhất luôn được giải, còn lại bị hại): phép kiểm cuối pool cao nhất 0.0013, kiểm định dấu cao nhất 0.0120; mức 0,025.
+  - Trạng thái chung cho cả lượt chạy (ngoài phạm vi bảo đảm; hai trạng thái đồng xác suất, trung bình qua hai trạng thái bằng 0): 0.042 và 0.112.
+  - **Power (mức tăng tỉ lệ giải: phép kiểm cuối pool so với kiểm định dấu):** 0.02: 0.01 so với 0.04 ; 0.05: 0.04 so với 0.15 ; 0.109: 0.35 so với 0.58 ; 0.15: 0.66 so với 0.84 ; 0.2: 0.91 so với 0.97 ; 0.3: 1.00 so với 1.00. Phép kiểm cuối pool **kém power hơn** kiểm định dấu ở mức tăng nhỏ; ở các mức tăng của Bảng I (0,17–0,38) cả hai trên 0,9.

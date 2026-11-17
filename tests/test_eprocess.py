@@ -76,3 +76,45 @@ def test_theta_zero_is_a_valid_null():
     for _ in range(200):
         ep.update(-1.0)
     assert ep.crossed  # a skill that always helps is admitted under H0: E[Z] >= 0
+
+
+# ---- end-of-pool test (section 42, docs/method_end_of_pool.md)
+def test_end_of_pool_matches_closed_form():
+    import math
+
+    from gatekeeper.eprocess import end_of_pool_log_e
+
+    z = [-1.0] * 25 + [1.0] * 2 + [0.0] * 73
+    want = 25 * math.log(1.5) + 2 * math.log(0.5)
+    assert abs(end_of_pool_log_e(z, lam=0.5, theta=0.0) - want) < 1e-12
+
+
+def test_end_of_pool_rejects_bad_parameters():
+    import pytest
+
+    from gatekeeper.eprocess import end_of_pool_log_e
+
+    for lam, theta in [(1.0, 0.0), (-0.1, 0.0), (0.5, 1.0), (0.9, 0.2)]:
+        with pytest.raises(ValueError):
+            end_of_pool_log_e([0.0], lam=lam, theta=theta)
+    with pytest.raises(ValueError):
+        end_of_pool_log_e([1.5], lam=0.5, theta=0.0)
+
+
+def test_end_of_pool_expectation_is_exactly_bounded_on_a_heterogeneous_null():
+    # exact expectation, no simulation: independent tasks, pool mean of E[Z] equal to 0
+    import math
+    from itertools import product
+
+    from gatekeeper.eprocess import end_of_pool_log_e
+
+    tasks = [(0.9, 0.0), (0.0, 0.3), (0.0, 0.3), (0.0, 0.3)]  # (P[Z=-1], P[Z=+1]) per task
+    mean = sum(pp - pm for pm, pp in tasks)
+    assert abs(mean) < 1e-12
+    expect = 0.0
+    for zs in product((-1.0, 0.0, 1.0), repeat=len(tasks)):
+        p = 1.0
+        for z, (pm, pp) in zip(zs, tasks, strict=True):
+            p *= pm if z == -1 else pp if z == 1 else 1 - pm - pp
+        expect += p * math.exp(end_of_pool_log_e(zs, lam=0.5, theta=0.0))
+    assert expect <= 1.0 + 1e-12

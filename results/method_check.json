@@ -234,5 +234,61 @@
     "reps": 2500
    }
   }
+ },
+ "end_of_pool": {
+  "inputs": {
+   "q_source": "s29_none, s33_ship_none",
+   "n": 100,
+   "mean_q": 0.19
+  },
+  "type1": {
+   "homogeneous (skill = baseline on every task)": {
+    "pool_mean_EZ": 0.0,
+    "end_of_pool_reject": 0.0013333333333333333,
+    "sign_test_reject": 0.012
+   },
+   "heterogeneous: half +0.3, half -0.3, recentred": {
+    "pool_mean_EZ": -7.274475466445552e-13,
+    "end_of_pool_reject": 0.0008333333333333334,
+    "sign_test_reject": 0.005916666666666666
+   },
+   "heterogeneous: 10 hardest tasks always solved, the rest harmed": {
+    "pool_mean_EZ": -9.430034531021647e-13,
+    "end_of_pool_reject": 0.0005833333333333334,
+    "sign_test_reject": 0.0026666666666666666
+   },
+   "shared run state (two states, mean over states exactly 0): NOT covered": {
+    "pool_mean_EZ_over_states": -1.1657341758564143e-17,
+    "end_of_pool_reject": 0.041833333333333333,
+    "sign_test_reject": 0.11175
+   }
+  },
+  "type1_mcse": 0.0014252192813739226,
+  "power": {
+   "0.02": {
+    "end_of_pool": 0.0072,
+    "sign_test": 0.0368
+   },
+   "0.05": {
+    "end_of_pool": 0.044,
+    "sign_test": 0.1544
+   },
+   "0.109": {
+    "end_of_pool": 0.3472,
+    "sign_test": 0.5848
+   },
+   "0.15": {
+    "end_of_pool": 0.6576,
+    "sign_test": 0.8432
+   },
+   "0.2": {
+    "end_of_pool": 0.9112,
+    "sign_test": 0.9728
+   },
+   "0.3": {
+    "end_of_pool": 0.9992,
+    "sign_test": 1.0
+   }
+  }
  }
 }

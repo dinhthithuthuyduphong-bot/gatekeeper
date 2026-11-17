@@ -1,0 +1,570 @@
+{
+ "parameters": {
+  "lam": 0.5,
+  "theta": 0.0,
+  "alpha": 0.025,
+  "family": 12
+ },
+ "decisions": {
+  "1 jinja_as_shipped": {
+   "n": 100,
+   "values": {
+    "-1.0": 44,
+    "0.0": 50,
+    "1.0": 6
+   },
+   "log10_E": 5.941835424466083,
+   "E": 874652.2636680991,
+   "reject_at_40": true,
+   "reject_at_480": true,
+   "sequential_first_crossing_at_40": 29,
+   "run_structure": {
+    "arms": {
+     "f1_skill_probe": {
+      "f1_skill_probe": {
+       "tasks": 100,
+       "time": "2026-11-06T14:31:56+00:00",
+       "run": "42212566015"
+      }
+     },
+     "f1_probe": {
+      "f1_probe": {
+       "tasks": 100,
+       "time": "2026-11-06T07:28:42+00:00",
+       "run": "42169544117"
+      }
+     }
+    },
+    "tasks_same_job": 0,
+    "tasks_same_day": 100,
+    "verdict": "all arms the same day; same job for 0 of 100 tasks"
+   },
+   "diagnostics": {
+    "crashed": 0,
+    "rate_limit_crashes": 0,
+    "kendall_tau": 0.08975661484613685,
+    "kendall_p_two_sided_perm": 0.27857214278572145
+   }
+  },
+  "2 jinja_single_commit": {
+   "n": 100,
+   "values": {
+    "-1.0": 21,
+    "0.0": 79
+   },
+   "log10_E": 3.6979164401693065,
+   "E": 4987.885095119486,
+   "reject_at_40": true,
+   "reject_at_480": true,
+   "sequential_first_crossing_at_40": 50,
+   "run_structure": {
+    "arms": {
+     "s25_leakfree_skill": {
+      "s25_leakfree_skill": {
+       "tasks": 100,
+       "time": "2026-11-06T19:55:17+00:00",
+       "run": "42244580170"
+      }
+     },
+     "s25_leakfree_none": {
+      "s25_leakfree_none": {
+       "tasks": 100,
+       "time": "2026-11-06T17:30:28+00:00",
+       "run": "42244574979"
+      }
+     }
+    },
+    "tasks_same_job": 0,
+    "tasks_same_day": 100,
+    "verdict": "all arms the same day; same job for 0 of 100 tasks"
+   },
+   "diagnostics": {
+    "crashed": 0,
+    "rate_limit_crashes": 0,
+    "kendall_tau": 0.0687448919476796,
+    "kendall_p_two_sided_perm": 0.4096590340965903
+   }
+  },
+  "3 bleve_as_shipped": {
+   "n": 100,
+   "values": {
+    "-1.0": 34,
+    "0.0": 62,
+    "1.0": 4
+   },
+   "log10_E": 4.7829828252372355,
+   "E": 60671.23358540452,
+   "reject_at_40": true,
+   "reject_at_480": true,
+   "sequential_first_crossing_at_40": 34,
+   "run_structure": {
+    "arms": {
+     "s25bleve_skill_probe": {
+      "s25bleve_skill_probe": {
+       "tasks": 100,
+       "time": "2026-11-07T09:47:13+00:00",
+       "run": "42342066372"
+      }
+     },
+     "s25bleve_f1_probe": {
+      "s25bleve_f1_probe": {
+       "tasks": 100,
+       "time": "2026-11-06T23:06:39+00:00",
+       "run": "42292893852"
+      }
+     }
+    },
+    "tasks_same_job": 0,
+    "tasks_same_day": 0,
+    "verdict": "same job for 0, same day for 0, of 100 tasks"
+   },
+   "diagnostics": {
+    "crashed": 0,
+    "rate_limit_crashes": 0,
+    "kendall_tau": 0.007972259246255217,
+    "kendall_p_two_sided_perm": 0.9273072692730727
+   }
+  },
+  "4 bleve_single_commit": {
+   "n": 100,
+   "values": {
+    "-1.0": 19,
+    "0.0": 79,
+    "1.0": 2
+   },
+   "log10_E": 2.7436739307299822,
+   "E": 554.209455013277,
+   "reject_at_40": true,
+   "reject_at_480": true,
+   "sequential_first_crossing_at_40": 61,
+   "run_structure": {
+    "arms": {
+     "s25bleve_leakfree_skill_all": {
+      "s25bleve_leakfree_skill": {
+       "tasks": 98,
+       "time": "2026-11-08T02:45:04+00:00",
+       "run": "42414050530"
+      },
+      "s25bleve_leakfree_skillb": {
+       "tasks": 2,
+       "time": "2026-11-08T03:27:19+00:00",
+       "run": "42442262299"
+      }
+     },
+     "s25bleve_leakfree_none": {
+      "s25bleve_leakfree_none": {
+       "tasks": 100,
+       "time": "2026-11-07T20:15:41+00:00",
+       "run": "42399244153"
+      }
+     }
+    },
+    "tasks_same_job": 0,
+    "tasks_same_day": 0,
+    "verdict": "same job for 0, same day for 0, of 100 tasks"
+   },
+   "diagnostics": {
+    "crashed": 2,
+    "rate_limit_crashes": 2,
+    "kendall_tau": 0.014146217661567288,
+    "kendall_p_two_sided_perm": 0.8645135486451355
+   }
+  },
+  "5 jinja_content_vs_placebo": {
+   "n": 100,
+   "values": {
+    "-1.0": 35,
+    "0.0": 59,
+    "1.0": 6
+   },
+   "log10_E": 4.357014092964955,
+   "E": 22751.712594526758,
+   "reject_at_40": true,
+   "reject_at_480": true,
+   "sequential_first_crossing_at_40": 50,
+   "run_structure": {
+    "arms": {
+     "f1_skill_probe": {
+      "f1_skill_probe": {
+       "tasks": 100,
+       "time": "2026-11-06T14:31:56+00:00",
+       "run": "42212566015"
+      }
+     },
+     "s27_placebo": {
+      "s27_placebo": {
+       "tasks": 100,
+       "time": "2026-11-07T09:51:09+00:00",
+       "run": "42350825429"
+      }
+     }
+    },
+    "tasks_same_job": 0,
+    "tasks_same_day": 0,
+    "verdict": "same job for 0, same day for 0, of 100 tasks"
+   },
+   "diagnostics": {
+    "crashed": 0,
+    "rate_limit_crashes": 0,
+    "kendall_tau": -0.004712496371932074,
+    "kendall_p_two_sided_perm": 0.9545045495450455
+   }
+  },
+  "6 jinja_no_history_instruction": {
+   "n": 100,
+   "values": {
+    "-1.0": 25,
+    "0.0": 73,
+    "1.0": 2
+   },
+   "log10_E": 3.8002214850640694,
+   "E": 6312.7920735106045,
+   "reject_at_40": true,
+   "reject_at_480": true,
+   "sequential_first_crossing_at_40": 24,
+   "run_structure": {
+    "arms": {
+     "s29_ablate": {
+      "s29_ablate": {
+       "tasks": 100,
+       "time": "2026-11-08T10:07:01+00:00",
+       "run": "42459831026"
+      }
+     },
+     "s29_none": {
+      "s29_none": {
+       "tasks": 100,
+       "time": "2026-11-08T10:07:01+00:00",
+       "run": "42459831026"
+      }
+     }
+    },
+    "tasks_same_job": 100,
+    "tasks_same_day": 100,
+    "verdict": "every task: all arms in the same job"
+   },
+   "diagnostics": {
+    "crashed": 0,
+    "rate_limit_crashes": 0,
+    "kendall_tau": 0.1381642490042824,
+    "kendall_p_two_sided_perm": 0.09309069093090691
+   }
+  },
+  "7 jinja_relearned_single_commit": {
+   "n": 100,
+   "values": {
+    "-1.0": 20,
+    "0.0": 77,
+    "1.0": 3
+   },
+   "log10_E": 2.618735194121682,
+   "E": 415.6570912599574,
+   "reject_at_40": true,
+   "reject_at_480": false,
+   "sequential_first_crossing_at_40": 65,
+   "run_structure": {
+    "arms": {
+     "s30_skill": {
+      "s30_skill_run1": {
+       "tasks": 62,
+       "time": "2026-11-10T16:21:38+00:00",
+       "run": "42808049387"
+      },
+      "s30_skill_rest": {
+       "tasks": 38,
+       "time": "2026-11-10T17:39:37+00:00",
+       "run": "42858029048"
+      }
+     },
+     "s30_none": {
+      "s30_none_run1": {
+       "tasks": 80,
+       "time": "2026-11-10T16:21:38+00:00",
+       "run": "42808049387"
+      },
+      "s30_none_rest": {
+       "tasks": 20,
+       "time": "2026-11-10T17:39:37+00:00",
+       "run": "42858029048"
+      }
+     }
+    },
+    "tasks_same_job": 82,
+    "tasks_same_day": 100,
+    "verdict": "all arms the same day; same job for 82 of 100 tasks"
+   },
+   "diagnostics": {
+    "crashed": 0,
+    "rate_limit_crashes": 0,
+    "kendall_tau": 0.09466688531275094,
+    "kendall_p_two_sided_perm": 0.24817518248175183
+   }
+  },
+  "8 pygments_reuse": {
+   "n": 100,
+   "values": {
+    "-1.0": 2,
+    "0.0": 97,
+    "1.0": 1
+   },
+   "log10_E": 0.0511525224473813,
+   "E": 1.125,
+   "reject_at_40": false,
+   "reject_at_480": false,
+   "sequential_first_crossing_at_40": null,
+   "run_structure": {
+    "arms": {
+     "s27pyg_skill_all": {
+      "s27pyg_skill": {
+       "tasks": 79,
+       "time": "2026-11-07T10:01:05+00:00",
+       "run": "42361883832"
+      },
+      "s27pyg_skillb": {
+       "tasks": 14,
+       "time": "2026-11-07T17:41:39+00:00",
+       "run": "42393651143"
+      },
+      "s27pyg_skillc": {
+       "tasks": 7,
+       "time": "2026-11-07T18:00:42+00:00",
+       "run": "42397649759"
+      }
+     },
+     "s27pyg_none_all": {
+      "s27pyg_none": {
+       "tasks": 100,
+       "time": "2026-11-07T10:01:05+00:00",
+       "run": "42361883832"
+      }
+     }
+    },
+    "tasks_same_job": 79,
+    "tasks_same_day": 100,
+    "verdict": "all arms the same day; same job for 79 of 100 tasks"
+   },
+   "diagnostics": {
+    "crashed": 0,
+    "rate_limit_crashes": 0,
+    "kendall_tau": -0.08054439516938247,
+    "kendall_p_two_sided_perm": 0.3544645535446455
+   }
+  },
+  "9 seed51_as_shipped": {
+   "n": 100,
+   "values": {
+    "-1.0": 38,
+    "0.0": 58,
+    "1.0": 4
+   },
+   "log10_E": 5.48734786145996,
+   "E": 307148.12002611015,
+   "reject_at_40": true,
+   "reject_at_480": true,
+   "sequential_first_crossing_at_40": 53,
+   "run_structure": {
+    "arms": {
+     "s33_ship_skill": {
+      "s33_ship_skill": {
+       "tasks": 100,
+       "time": "2026-11-12T04:08:45+00:00",
+       "run": "43136184298"
+      }
+     },
+     "s33_ship_none": {
+      "s33_ship_none": {
+       "tasks": 100,
+       "time": "2026-11-12T04:08:45+00:00",
+       "run": "43136184298"
+      }
+     }
+    },
+    "tasks_same_job": 100,
+    "tasks_same_day": 100,
+    "verdict": "every task: all arms in the same job"
+   },
+   "diagnostics": {
+    "crashed": 0,
+    "rate_limit_crashes": 0,
+    "kendall_tau": -0.11566863370343149,
+    "kendall_p_two_sided_perm": 0.1563843615638436
+   }
+  },
+  "10 seed51_single_commit": {
+   "n": 100,
+   "values": {
+    "-1.0": 23,
+    "0.0": 72,
+    "1.0": 5
+   },
+   "log10_E": 2.544948979960764,
+   "E": 350.7106707505892,
+   "reject_at_40": true,
+   "reject_at_480": false,
+   "sequential_first_crossing_at_40": 74,
+   "run_structure": {
+    "arms": {
+     "s33_lf_skill": {
+      "s33_lf_skill": {
+       "tasks": 100,
+       "time": "2026-11-12T04:08:45+00:00",
+       "run": "43136184298"
+      }
+     },
+     "s33_lf_none": {
+      "s33_lf_none": {
+       "tasks": 100,
+       "time": "2026-11-12T04:08:45+00:00",
+       "run": "43136184298"
+      }
+     }
+    },
+    "tasks_same_job": 100,
+    "tasks_same_day": 100,
+    "verdict": "every task: all arms in the same job"
+   },
+   "diagnostics": {
+    "crashed": 0,
+    "rate_limit_crashes": 0,
+    "kendall_tau": 0.031097612631951176,
+    "kendall_p_two_sided_perm": 0.7033296670332967
+   }
+  },
+  "11 P33c_environment_contrast": {
+   "n": 100,
+   "values": {
+    "-1.0": 1,
+    "-0.5": 25,
+    "0.0": 63,
+    "0.5": 11
+   },
+   "log10_E": 1.2245154815657922,
+   "E": 16.76932113326239,
+   "reject_at_40": false,
+   "reject_at_480": false,
+   "sequential_first_crossing_at_40": null,
+   "run_structure": {
+    "arms": {
+     "s33_ship_skill": {
+      "s33_ship_skill": {
+       "tasks": 100,
+       "time": "2026-11-12T04:08:45+00:00",
+       "run": "43136184298"
+      }
+     },
+     "s33_ship_none": {
+      "s33_ship_none": {
+       "tasks": 100,
+       "time": "2026-11-12T04:08:45+00:00",
+       "run": "43136184298"
+      }
+     },
+     "s33_lf_skill": {
+      "s33_lf_skill": {
+       "tasks": 100,
+       "time": "2026-11-12T04:08:45+00:00",
+       "run": "43136184298"
+      }
+     },
+     "s33_lf_none": {
+      "s33_lf_none": {
+       "tasks": 100,
+       "time": "2026-11-12T04:08:45+00:00",
+       "run": "43136184298"
+      }
+     }
+    },
+    "tasks_same_job": 100,
+    "tasks_same_day": 100,
+    "verdict": "every task: all arms in the same job"
+   },
+   "diagnostics": {
+    "crashed": 0,
+    "rate_limit_crashes": 0,
+    "kendall_tau": -0.15264060250740705,
+    "kendall_p_two_sided_perm": 0.0522947705229477
+   }
+  },
+  "12 P35_environment_contrast_unseen": {
+   "n": 70,
+   "values": {
+    "-0.5": 36,
+    "0.0": 34
+   },
+   "log10_E": 3.488760468290031,
+   "E": 3081.4879110195775,
+   "reject_at_40": true,
+   "reject_at_480": true,
+   "sequential_first_crossing_at_40": 36,
+   "run_structure": {
+    "arms": {
+     "s33_ship_skill": {
+      "s33_ship_skill": {
+       "tasks": 100,
+       "time": "2026-11-12T04:08:45+00:00",
+       "run": "43136184298"
+      }
+     },
+     "s33_ship_none": {
+      "s33_ship_none": {
+       "tasks": 100,
+       "time": "2026-11-12T04:08:45+00:00",
+       "run": "43136184298"
+      }
+     },
+     "s33_lf_skill": {
+      "s33_lf_skill": {
+       "tasks": 100,
+       "time": "2026-11-12T04:08:45+00:00",
+       "run": "43136184298"
+      }
+     },
+     "s33_lf_none": {
+      "s33_lf_none": {
+       "tasks": 100,
+       "time": "2026-11-12T04:08:45+00:00",
+       "run": "43136184298"
+      }
+     },
+     "s35_ship_skill": {
+      "s35_ship_skill": {
+       "tasks": 36,
+       "time": "2026-11-12T05:13:54+00:00",
+       "run": "43153625369"
+      }
+     },
+     "s35_ship_none": {
+      "s35_ship_none": {
+       "tasks": 36,
+       "time": "2026-11-12T05:13:54+00:00",
+       "run": "43153625369"
+      }
+     },
+     "s35_lf_skill": {
+      "s35_lf_skill": {
+       "tasks": 36,
+       "time": "2026-11-12T05:13:54+00:00",
+       "run": "43153625369"
+      }
+     },
+     "s35_lf_none": {
+      "s35_lf_none": {
+       "tasks": 36,
+       "time": "2026-11-12T05:13:54+00:00",
+       "run": "43153625369"
+      }
+     }
+    },
+    "tasks_same_job": 70,
+    "tasks_same_day": 70,
+    "verdict": "every task: all arms in the same job"
+   },
+   "diagnostics": {
+    "crashed": 0,
+    "rate_limit_crashes": 0,
+    "kendall_tau": -0.025591951264527967,
+    "kendall_p_two_sided_perm": 0.8013198680131987
+   }
+  }
+ }
+}
