@@ -19,7 +19,7 @@ import math
 from collections.abc import Iterable
 from dataclasses import dataclass
 
-__all__ = ["AdmissionResult", "BettingEProcess", "run_admission"]
+__all__ = ["AdmissionResult", "BettingEProcess", "end_of_pool_log_e", "run_admission"]
 
 
 class BettingEProcess:
@@ -125,3 +125,28 @@ def run_admission(
         if ep.crossed:
             return AdmissionResult(True, ep.n, ep.log_e)
     return AdmissionResult(False, ep.n, ep.log_e)
+
+
+def end_of_pool_log_e(paired_differences: Iterable[float], lam: float, theta: float) -> float:
+    """log E of the end-of-pool test (docs/method_end_of_pool.md; section 42).
+
+    E = prod_i (1 + lam * (-theta - Z_i)) over a FIXED pool, with lam fixed before the data.
+    Given the run state C, if the Z_i are independent across tasks, then under
+    H0(C): sum_i E[Z_i | C] >= -N * theta, E[E | C] <= 1, so Pr[E >= 1/alpha | C] <= alpha
+    (Markov). Valid only at the end of the pool: it is not an e-process for optional stopping.
+    With theta = 0 and Z in {-1, 0, 1} this is (1 + lam)^b (1 - lam)^c, the statistic of PACE's
+    paired gate (arXiv 2606.08106, eq. 2) on the discordant pairs.
+
+    lam must lie in [0, 1 / (1 + theta)) so that every factor is > 0 for every Z in [-1, 1].
+    No default values: lam and theta are scientific numbers of the registered design.
+    """
+    if not 0.0 <= theta < 1.0:
+        raise ValueError("theta must be in [0, 1)")
+    if not 0.0 <= lam < 1.0 / (1.0 + theta):
+        raise ValueError("lam must be in [0, 1 / (1 + theta))")
+    total = 0.0
+    for z in paired_differences:
+        if not -1.0 <= z <= 1.0:
+            raise ValueError(f"paired difference must lie in [-1, 1], got {z}")
+        total += math.log1p(lam * (-theta - z))
+    return total

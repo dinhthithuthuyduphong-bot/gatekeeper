@@ -2497,3 +2497,41 @@ Ba commit, theo thứ tự: `Initial commit` (toàn bộ mã của dự án tron
 - **Đổi tên đại lượng:** "phần do rò rỉ" thành "tác động của việc bỏ hai commit do benchmark tạo ra". Bỏ chữ "cận trên".
 - **Threats:** thay câu "chúng tôi đo một kênh" bằng hai kênh và mức dùng của từng agent.
 - **C10:** với agent nghiên cứu, kênh test không được dùng, nên bảng 2 × 2 (thông điệp × diff của "Bug Patch") là thiết kế đúng; commit "Remove F2P Tests" phải được giữ y nguyên ở cả bốn ô. Với agent thứ hai, cần thêm một chiều cho kênh test.
+
+## 42. Phép kiểm cuối pool trên 12 quyết định đã có (đặc tả ghi 17/11/2026, trước khi tính trên dữ liệu ghép cặp gốc; phân tích sau dữ liệu; 0 USD)
+
+**Lý do:** B1–B7 của `docs/todo_ease_revision.md`. Phương pháp và chứng minh: `docs/method_end_of_pool.md`.
+
+**Dữ liệu đã thấy lúc ghi đặc tả:** mọi số cặp lợi/hại của 12 quyết định đã có trong paper. Sáu e-value đã được tính sơ bộ từ các số đó ngày 16/11 (λ = 0,5: 6.313; 416; 307.000; 351; 554; 1,1). Vì vậy toàn bộ mục này là **phân tích sau dữ liệu**, không phải xác nhận. Không có quyết định nào về việc báo cáo cái gì phụ thuộc vào kết quả: cả 12 quyết định đều được báo cáo.
+
+**Đơn vị:** 12 quyết định của §36a, cùng file và cùng bộ nạp đã đăng ký (`scripts/s25_ab.py`: `paired`, `passed` với bộ chấm S):
+
+| # | Quyết định | Nhánh skill | Nhánh so sánh |
+| --- | --- | --- | --- |
+| 1 | Jinja, môi trường gốc | `f1_skill_probe` | `f1_probe` |
+| 2 | Jinja, một commit | `s25_leakfree_skill` | `s25_leakfree_none` |
+| 3 | Bleve, môi trường gốc | `s25bleve_skill_probe` | `s25bleve_f1_probe` |
+| 4 | Bleve, một commit | `s25bleve_leakfree_skill_all` | `s25bleve_leakfree_none` |
+| 5 | Jinja, nội dung so với placebo | `f1_skill_probe` | `s27_placebo` |
+| 6 | Jinja, skill bỏ dòng lịch sử | `s29_ablate` | `s29_none` |
+| 7 | Jinja, skill học lại, một commit | `s30_skill` | `s30_none` |
+| 8 | Pygments, dùng lại skill Jinja | `s27pyg_skill_all` | `s27pyg_none_all` |
+| 9 | Jinja seed 51, môi trường gốc | `s33_ship_skill` | `s33_ship_none` |
+| 10 | Jinja seed 51, một commit | `s33_lf_skill` | `s33_lf_none` |
+| 11 | P33c: hiệu giữa hai môi trường, seed 51, 100 task | bốn nhánh `s33_*` | |
+| 12 | P35: hiệu giữa hai môi trường, 70 task không mô tả | `s33_*` (34 task) và `s35_*` (36 task) | |
+
+**Thống kê:** với quyết định 1–10, Zᵢ như ở §25. Với quyết định 11–12, Dᵢ = (Z_gốc − Z_một commit)/2, như ở §32c và §35. Tính `end_of_pool_log_e(z, lam=0.5, theta=0)` trên cả pool.
+
+**Báo cáo cho mỗi quyết định:**
+- n; số cặp lợi, hại, hòa (với 11–12: số Dᵢ theo từng giá trị);
+- E; vượt 40 không; vượt 480 không;
+- thời điểm vượt ngưỡng đầu tiên của e-process tuần tự (đã có, để so);
+- **cấu trúc lượt chạy (B0):** cùng một job, hai lượt khác nhau trong cùng ngày, hay khác ngày. Căn cứ: mã run và thời điểm công bố đầu tiên của từng file trên nhánh `pilot-snapshots`;
+- **chẩn đoán độc lập (B6), mô tả:** số lượt sập; số lượt sập vì giới hạn tốc độ (`RateLimitError` trong `crash_head`); hệ số Kendall τ giữa vị trí chạy và Zᵢ, kèm p hai phía qua 10.000 hoán vị (seed 4201).
+
+**Đọc kết quả:**
+- Quyết định nhận của một phép so (1–10) giữ được khi E ≥ 40.
+- Ngưỡng 480 là phân tích độ nhạy cho cả 12 quyết định.
+- Quyết định có hai nhánh ở hai lượt chạy khác nhau được báo cáo riêng: đại lượng T1 khi đó trộn tác dụng của skill với khác biệt giữa hai lượt.
+- Chẩn đoán độc lập không xác nhận giả định A; một τ có p nhỏ được ghi là dấu hiệu vi phạm và nêu cạnh quyết định.
