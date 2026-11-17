@@ -667,12 +667,14 @@ jobs:
             [ -f "$CFG" ] || CFG=$GITHUB_WORKSPACE/tests/fixtures/c10_dryrun.json
           fi
           [ -f "$CFG" ] || { echo "configs/c10.json missing: register C10 first"; exit 1; }
-          python - "$CFG" "${{ inputs.budget_usd }}" <<'PY'
+          python - "$CFG" "${{ inputs.budget_usd }}" "${{ inputs.arm }}" <<'PY'
           import json, sys
           c = json.load(open(sys.argv[1]))
           arms = [f"{v}_{s}" for v in "ABCD" for s in ("none", "skill")]
-          tot = sum(c["caps_test34"][a] + c.get("caps_extra36", {}).get(a, 0) for a in arms)
-          assert set(c["caps_test34"]) == set(arms), sorted(c["caps_test34"])
+          parts = ["caps_test34"] + (["caps_extra36"] if sys.argv[3] == "c10all70" else [])
+          for p in parts:
+              assert set(c[p]) == set(arms), (p, sorted(c[p]))
+          tot = sum(c[p][a] for p in parts for a in arms)
           assert float(sys.argv[2]) >= tot, f"budget_usd must cover the eight caps ({tot:.2f})"
           print(f"caps total {tot:.2f}; neutral message: {c['neutral_message']!r}")
           PY

@@ -2566,3 +2566,105 @@ Ba commit, theo thứ tự: `Initial commit` (toàn bộ mã của dự án tron
   - Tỉ lệ nhận nhầm trên ba pool có trung bình bằng 0 (đồng nhất; nửa lợi nửa hại; 10 task khó nhất luôn được giải, còn lại bị hại): phép kiểm cuối pool cao nhất 0.0013, kiểm định dấu cao nhất 0.0120; mức 0,025.
   - Trạng thái chung cho cả lượt chạy (ngoài phạm vi bảo đảm; hai trạng thái đồng xác suất, trung bình qua hai trạng thái bằng 0): 0.042 và 0.112.
   - **Power (mức tăng tỉ lệ giải: phép kiểm cuối pool so với kiểm định dấu):** 0.02: 0.01 so với 0.04 ; 0.05: 0.04 so với 0.15 ; 0.109: 0.35 so với 0.58 ; 0.15: 0.66 so với 0.84 ; 0.2: 0.91 so với 0.97 ; 0.3: 1.00 so với 1.00. Phép kiểm cuối pool **kém power hơn** kiểm định dấu ở mức tăng nhỏ; ở các mức tăng của Bảng I (0,17–0,38) cả hai trên 0,9.
+
+## 43. C10: lịch sử git có kiểm soát, thông điệp × diff (đăng ký 17/11/2026, trước mọi lượt có phí; chờ @thuthuy duyệt ngân sách)
+
+**Câu hỏi:** mức tăng của skill ở môi trường gốc có cần **nội dung bị rò rỉ** (mã trước khi chèn lỗi, T0) không? Hay chỉ cần cấu trúc lịch sử và thông điệp "Bug Patch"?
+- Đây là lời bắt bẻ D1 của bản review 16/11: "xóa lịch sử là can thiệp vào lịch sử, chưa chắc là rò rỉ thuần".
+- Môi trường một commit của §25–§35 bỏ cùng lúc thông điệp, diff và một commit. Thiết kế dưới đây tách các phần đó.
+
+**Tình trạng dữ liệu lúc đăng ký:**
+- Đã thấy mọi kết quả của §25–§42, gồm cả các con số của 70 task không mô tả ở §33 và §35.
+- Chưa có lượt nào của C10 có model thật. Hai lần chạy thử miễn phí (model giả lập, R-71) chỉ đọc các trường vận hành.
+
+**Bốn biến thể** (`scripts/history_variants.py`; T0 = mã đã sửa, T1 = mã có lỗi, T2 = T1 bỏ các test tái hiện lỗi; agent làm việc trên T2 ở mọi biến thể):
+
+| | Lịch sử | Thông điệp "Bug Patch" | T0 có trong lịch sử |
+| --- | --- | --- | --- |
+| A | T0 → T1 "Bug Patch" → T2 (dựng lại đúng mã băm gốc) | có | có |
+| B | T0 → T1 \<câu trung tính\> → T2 | không | có |
+| C | T1 → T1 "Bug Patch" (rỗng) → T2 | có | không |
+| D | T1 → T2 | không | không |
+
+- Commit "Remove F2P Tests" (T1 → T2) giống hệt nhau ở bốn biến thể. §41: agent nghiên cứu không dùng kênh này (0 lượt).
+- Bốn biến thể có cùng bước dọn dẹp: bỏ remote, mirror, reflog và đối tượng không còn tham chiếu.
+- Mỗi lượt ghi `history_check`. Lượt nào có chuỗi khác `expected_check` thì bị dừng trước khi agent chạy, và tính là lỗi hạ tầng.
+
+**Câu trung tính của B (quy tắc):**
+- Lấy thông điệp của commit upstream mà SWE-smith chụp lại (pallets/jinja `ada0a9a6`). Nếu thông điệp đó vi phạm, lấy tổ tiên gần nhất theo first-parent không vi phạm.
+- Vi phạm nghĩa là chứa một trong các chuỗi `bug`, `fix`, `test`, `patch`, `error`, `issue`, `fail`, `regress`, `revert` (không phân biệt hoa thường), hoặc chứa một đường dẫn hay tên file.
+- `ada0a9a6` là "update test workflow trigger", có chữ "test", nên vi phạm. Tổ tiên gần nhất theo first-parent là `ee6c734` "Merge branch 'stable'": không vi phạm.
+- **Câu đã chọn: "Merge branch 'stable'".** Ghi trong `configs/c10.json`.
+- Minh bạch: danh sách từ cấm được viết sau khi đã liệt kê 15 thông điệp tổ tiên gần nhất. Lúc đó chưa có kết quả nào của agent. Danh sách được suy ra từ mục đích: câu không được trỏ tới lỗi, tới test, hay tới tên commit "Bug Patch".
+- Giới hạn: đây là thông điệp của một commit merge, đặt lên một commit thường. Agent có thể thấy điều đó lạ, nhưng câu không mang thông tin nào về lỗi.
+
+**Task:** 70 task không mô tả, theo thứ tự đã cố định ở §35: 34 task test (thứ tự gskill), rồi 36 task mới (thứ tự bộ dữ liệu). Bản 34 task chỉ dùng phần đầu. Số task chạy theo câu duyệt của @thuthuy.
+
+**Chạy:**
+- 8 nhánh (4 biến thể × có/không skill), chạy cùng lúc trong một job: plan `swesmith-c10`, `arm` = `c10all70` (hoặc `c10test34`).
+- Skill gốc nguyên văn; seed 51; cost_limit 0,30; bước tối đa như §33 và §35.
+- Ô A và D được chạy **mới**, không dùng lại số của §33 và §35.
+
+**Đại lượng:**
+- Z_i^v = 1[nhánh có skill của biến thể v thất bại] − 1[nhánh không skill của v thất bại], theo bộ chấm SWE-smith (trường `S`).
+- Phép so X − Y: D_i = (Z_i^X − Z_i^Y)/2, trên các task hoàn tất ở cả bốn nhánh liên quan.
+- D_i < 0 nghĩa là skill giúp nhiều hơn ở X.
+
+**Phép thử chính, chỉ một: A − C** (một mức riêng α = 0,025, không thuộc họ nào trước đây):
+- H₀: Σ E[D_i | C_run] ≥ 0, tức thêm T0 vào lịch sử không làm mức tăng của skill lớn hơn.
+- Phép kiểm cuối pool (`docs/method_end_of_pool.md`; `end_of_pool_log_e`): λ = 0,5, θ = 0; bác bỏ khi E ≥ 40. Chỉ đọc ở cuối pool.
+- Vì sao A − C: hai ô có cùng số commit, cùng thông điệp, cùng cây ở HEAD. Chúng chỉ khác ở chỗ T0 có trong lịch sử hay không. Đó là phép so "rò rỉ thuần".
+- **Power** (`scripts/c10_power.py` → `results/c10_power.json`; lấy mẫu lại từ D_i của seed 51 ở §33 và §35; 20.000 lần; seed 4301):
+
+  | Kịch bản | 34 task | 70 task |
+  | --- | --- | --- |
+  | C giống môi trường một commit | 0,57 | 1,00 |
+  | C giữ một nửa mức tăng (mỗi D_i = −0,5 thành 0 với xác suất 1/2) | 0,001 | 0,65 |
+  | C giống A (H₀ đúng; hai ô rút độc lập từ cùng tỉ lệ giải 0,529 và 0) | 0,000 | 0,0006 |
+
+  Con số 0,63 ở ghi chú 40-5 lấy mẫu 34 task từ cả 70 task; ở đây bản 34 task lấy mẫu từ chính 34 task test, nên ra 0,57.
+
+**Phép phụ (mô tả; tính cùng thống kê E, nhưng không có kết luận chứng nhận):**
+- B − D: diff không kèm thông điệp, so với không có commit lỗi.
+- A − B: tác dụng của thông điệp khi có diff.
+- C − D: commit "Bug Patch" rỗng, so với không có.
+- Tương tác (A − B) − (C − D): trung bình và khoảng bootstrap.
+- Thông điệp và diff có thể bổ trợ nhau (thông điệp chỉ đường tới diff), nên không chia mức tăng thành hai phần cộng lại.
+- Số task giải được ở 8 nhánh, so với §33 và §35 (mô tả).
+- `scripts/history_audit.py` cho từng nhánh: thấy diff "Bug Patch"; thấy test bị xóa; khôi phục rồi chạy test.
+- Bootstrap theo task: 10.000 lần, seed 4302.
+
+**Diễn giải đặt trước (phép thử chính):**
+
+| Kết quả | Câu được viết trong paper |
+| --- | --- |
+| Bác bỏ | Với cùng số commit và cùng thông điệp, mức tăng của skill lớn hơn khi mã trước lỗi có trong lịch sử: mức tăng cần nội dung bị rò rỉ (Jinja, skill gốc, task không mô tả, seed 51). |
+| Không bác bỏ | Không chứng nhận được rằng mức tăng cần nội dung bị rò rỉ. Báo trung bình D và khoảng bootstrap. Câu "phần do rò rỉ" trong paper đổi thành "phần do lịch sử do benchmark tạo ra". |
+| D trung bình > 0 | Không dự kiến; báo nguyên trạng. |
+
+- Không chạy thêm task hay seed theo kết quả.
+
+**Kiểm sau khi chạy:**
+- số lượt mỗi nhánh (34 hoặc 34 + 36);
+- `infra_error`, `crashed`, `stopped`;
+- `history_check` đúng chuỗi mong đợi ở mọi lượt;
+- lượt chạm cost_limit; 3 lần nhà cung cấp từ chối liên tiếp thì dừng (A124).
+- **Bản vá bị bộ chấm báo timeout:** theo ghi chú 35-1 (A108, A56, L57). Chấm lại đúng bản vá một lần; vẫn timeout thì tính là không giải được, và báo độ nhạy bỏ task đó.
+- **Nhánh dừng vì trần:** không xin thêm tiền. Mỗi phép so dùng các task hoàn tất ở bốn nhánh của nó; báo số task bị thiếu.
+
+**Ngân sách (L63: từ số đã chi, `cost_usd` của từng lượt):**
+- Dự kiến của mỗi nhánh:
+  - A lấy theo nhánh gốc, D theo nhánh một commit, cùng tình trạng skill;
+  - B và C chưa từng chạy, nên lấy nhánh đắt hơn trong hai nhánh đó.
+  - Phần 34 task lấy từ §33 (34 task không mô tả); phần 36 task từ §35.
+- Trần mỗi nhánh và phần = dự kiến + 0,30 (một lượt xấu nhất), như §35. Giá trị ghi trong `configs/c10.json`.
+
+  | Phần | Dự kiến | Tổng trần |
+  | --- | --- | --- |
+  | 34 task test | 3,09 USD | 5,49 USD |
+  | 36 task mới | 2,94 USD | 5,34 USD |
+  | **Cả 70 task** | **6,03 USD** | **10,83 USD** |
+
+- Workflow kiểm `budget_usd` ≥ tổng trần của các phần được chạy.
+
+**Phân tích:** `scripts/c10_analysis.py` (viết trước dữ liệu; test ở `tests/test_c10_analysis.py`) → `results/c10_analysis.json`.

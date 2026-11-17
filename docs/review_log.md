@@ -995,3 +995,27 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - `history_check` đúng chuỗi mong đợi ở 16/16 file, cả với bản script đọc ngày dạng raw.
 - Không lượt nào sập. Không có lệnh gọi model.
 - Mặt máy móc của C10 đã sẵn sàng. Còn lại là bản đăng ký §43 và câu duyệt ngân sách của @thuthuy.
+
+## R-72. Bản đăng ký §43 (C10), `configs/c10.json`, `scripts/c10_power.py`, `scripts/c10_analysis.py` (17/11/2026; 0 USD)
+
+**Vì sao làm trước:** @thuthuy 17/11: "Chọn phần sẽ cải thiện mạnh làm trước". C10 trả lời thẳng lời bắt bẻ D1 của bản review, và mọi khâu trừ tiền đều do tôi làm được. C4′ thì phụ thuộc các ô Kaggle do @thuthuy chạy.
+
+**Kiểm theo §4:**
+- **Phép thử chính chỉ có một (A − C)**, chọn trước dữ liệu. Lý do: chỉ cặp này giữ nguyên số commit và thông điệp. Ở các bản nháp trước (todo mục 7 và hướng dẫn), phép so chính là B − D; đổi sang A − C vì cặp đó đúng là phép thử "rò rỉ thuần". Lúc đổi chưa có dữ liệu C10 nào (R5 không áp dụng).
+- **Power** mô phỏng đúng quy tắc quyết định cuối cùng (L11): phép kiểm cuối pool trên D_i, cả power lẫn tỉ lệ sai dưới H₀ (≤ 0,0006).
+  - Giới hạn: kịch bản H₀ dùng tỉ lệ giải gộp, không theo từng task. Tính hợp lệ của phép thử đã được chứng minh ở `docs/method_end_of_pool.md` và không dựa vào mô phỏng này.
+- **Câu trung tính:** quy tắc và danh sách từ cấm được viết sau khi xem 15 thông điệp upstream, trước mọi kết quả của agent. Điều này ghi minh bạch ở §43.
+  - Đã mở chính commit upstream: `ada0a9a6` là "update test workflow trigger"; `ee6c734` là "Merge branch 'stable'".
+- **Trần:** từ `cost_usd` đã chi (L63). Bước kiểm ngân sách trong workflow đã sửa để chỉ cộng các phần được chạy; trước đó lượt `c10test34` sẽ đòi `budget_usd` ≥ tổng của cả hai phần.
+- **Script phân tích:**
+  - 2 test tổng hợp: bác bỏ khi chỉ A có lợi; không bác bỏ khi C bằng A; bỏ task thiếu hoặc lỗi hạ tầng.
+  - Chạy được trên 16 file của lần chạy thử thật.
+  - Script dừng nếu `history_variant` của file không khớp với tên file.
+- **Nguồn gốc con số:** 4 dòng mới trong `docs/number_provenance.md`.
+- **Còn phải làm trước khi chi:** chạy thử miễn phí lại với `configs/c10.json` thật (câu trung tính thật), sau khi CI của commit này xanh (L64).
+
+**Bổ sung R-72: chạy thử với cấu hình thật (run 44022855259; commit 4c132ab đã xanh CI; 17/11).**
+- `c10all70` với `configs/c10.json`: 16/16 lượt có `history_check` đúng, 0 lượt sập.
+- Bốn file của B ghi `neutral_message` = "Merge branch 'stable'".
+- Bước kiểm ngân sách cho qua với `budget_usd` = 11 (tổng trần 10,83).
+- Không có lệnh gọi model. Mọi khâu trước khi chi đã xong; còn chờ câu duyệt ngân sách.
