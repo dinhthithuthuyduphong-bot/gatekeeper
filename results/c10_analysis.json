@@ -1,0 +1,169 @@
+{
+ "solved": {
+  "A_none": [
+   1,
+   51
+  ],
+  "A_skill": [
+   35,
+   70
+  ],
+  "B_none": [
+   0,
+   62
+  ],
+  "B_skill": [
+   2,
+   69
+  ],
+  "C_none": [
+   0,
+   45
+  ],
+  "C_skill": [
+   1,
+   54
+  ],
+  "D_none": [
+   0,
+   70
+  ],
+  "D_skill": [
+   2,
+   66
+  ]
+ },
+ "contrasts": {
+  "main A-C": {
+   "n": 45,
+   "n_negative": 22,
+   "n_positive": 2,
+   "mean_D": -0.2222222222222222,
+   "bootstrap_95": [
+    -0.3,
+    -0.13333333333333333
+   ],
+   "E": 76.23296525288697,
+   "reject_at_threshold": true
+  },
+  "B-D": {
+   "n": 62,
+   "n_negative": 2,
+   "n_positive": 2,
+   "mean_D": 0.0,
+   "bootstrap_95": [
+    -0.03225806451612903,
+    0.03225806451612903
+   ],
+   "E": 0.8789062500000001,
+   "reject_at_threshold": false
+  },
+  "A-B": {
+   "n": 51,
+   "n_negative": 25,
+   "n_positive": 2,
+   "mean_D": -0.22549019607843138,
+   "bootstrap_95": [
+    -0.30392156862745096,
+    -0.14705882352941177
+   ],
+   "E": 148.892510259545,
+   "reject_at_threshold": true
+  },
+  "C-D": {
+   "n": 45,
+   "n_negative": 1,
+   "n_positive": 0,
+   "mean_D": -0.011111111111111112,
+   "bootstrap_95": [
+    -0.03333333333333333,
+    0.0
+   ],
+   "E": 1.25,
+   "reject_at_threshold": false
+  }
+ },
+ "interaction (A-B)-(C-D)": {
+  "n": 45,
+  "mean": -0.2111111111111111,
+  "bootstrap_95": [
+   -0.3,
+   -0.12222222222222222
+  ]
+ },
+ "checks": {
+  "A_none_all70": {
+   "n_runs": 51,
+   "stopped": "spent 0.2999 + 0.3 > 0.594",
+   "spent_usd": 0.2998506250000001,
+   "infra_error": 0,
+   "crashed": 0,
+   "history_variant": "A",
+   "runs_without_history_check": []
+  },
+  "A_skill_all70": {
+   "n_runs": 70,
+   "stopped": null,
+   "spent_usd": 1.2186576250000005,
+   "infra_error": 0,
+   "crashed": 0,
+   "history_variant": "A",
+   "runs_without_history_check": []
+  },
+  "B_none_all70": {
+   "n_runs": 62,
+   "stopped": "spent 0.3254 + 0.3 > 0.619",
+   "spent_usd": 0.3254177500000002,
+   "infra_error": 0,
+   "crashed": 0,
+   "history_variant": "B",
+   "runs_without_history_check": []
+  },
+  "B_skill_all70": {
+   "n_runs": 69,
+   "stopped": "spent 1.2994 + 0.3 > 1.542",
+   "spent_usd": 1.299393225,
+   "infra_error": 0,
+   "crashed": 0,
+   "history_variant": "B",
+   "runs_without_history_check": []
+  },
+  "C_none_all70": {
+   "n_runs": 45,
+   "stopped": "spent 0.3196 + 0.3 > 0.619",
+   "spent_usd": 0.3196440000000005,
+   "infra_error": 0,
+   "crashed": 0,
+   "history_variant": "C",
+   "runs_without_history_check": []
+  },
+  "C_skill_all70": {
+   "n_runs": 54,
+   "stopped": "spent 1.2479 + 0.3 > 1.542",
+   "spent_usd": 1.2479017749999992,
+   "infra_error": 0,
+   "crashed": 0,
+   "history_variant": "C",
+   "runs_without_history_check": []
+  },
+  "D_none_all70": {
+   "n_runs": 70,
+   "stopped": null,
+   "spent_usd": 0.25406982499999997,
+   "infra_error": 0,
+   "crashed": 0,
+   "history_variant": "D",
+   "runs_without_history_check": []
+  },
+  "D_skill_all70": {
+   "n_runs": 66,
+   "stopped": "spent 1.0495 + 0.3 > 1.349",
+   "spent_usd": 1.0495408250000013,
+   "infra_error": 0,
+   "crashed": 0,
+   "history_variant": "D",
+   "runs_without_history_check": []
+  }
+ },
+ "task_order_n": 70
+}
