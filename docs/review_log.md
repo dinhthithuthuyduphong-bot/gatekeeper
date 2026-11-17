@@ -914,3 +914,37 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Mọi con số là macro** (`make_numbers.py`, có đối chiếu); thêm khối §41, §42, nhóm task của phép thử C, bảng chéo của cờ theo dõi. Bộ đối chiếu bắt được một lỗi cộng tay của tôi (730 thành 669, §41).
 - **Danh mục:** thêm PACE qua `configs/bib_overrides.json` (tên và tác giả đối chiếu với bản lưu); năm của mọi mục lấy từ bản lưu (A134).
 - **Chờ @thuthuy:** tên bài (Q3); nội dung khai báo dùng AI (A5, chưa đọc được chính sách ACM); đường dẫn gói tái lập ẩn danh (A4).
+
+## R-70. Minh bạch và gói tái lập ẩn danh: F1–F4, A4 nội bộ (17/11/2026; 0 USD)
+
+**Phạm vi:** `scripts/registration_timeline.py`, `scripts/build_replication_package.py`, `scripts/package_manifest.py`, tùy chọn `--named-only` của `scripts/check_anonymity.py`, và các file kết quả `results/registration_timeline.json`, `results/package_manifest.json`.
+
+**Kiểm theo danh sách §4:**
+- **Không có con số khoa học mới.** Các script chỉ đọc git và file kết quả có sẵn.
+- **F1, thời điểm đăng ký:**
+  - lấy commit đầu tiên chứa dòng tiêu đề (`git log -S`, ngày commit);
+  - kết quả đầu tiên lấy từ lần thêm file trên `pilot-snapshots`, theo ngày tác giả, vì ngày commit đã bị đặt lại khi nhánh được viết lại;
+  - lần chạy đầu cho thấy mọi mục cùng một thời điểm 01/11. Nguyên nhân là đọc `%cI` và tách khối sai; đã sửa trước khi dùng.
+  - Kết quả: 52 dòng, 0 mục có kết quả trước đăng ký.
+- **A4, quét danh tính:** lần dựng đầu báo 300 chỗ. Phân loại từng nhóm:
+  - phần lớn là của bên thứ ba: tổ chức GitHub và email trong patch của task;
+  - 43 chỗ là chữ "thuyết", do từ "Thuy" trần trong danh sách tên;
+  - chỗ lộ thật duy nhất nằm trong chính script dựng gói (mẫu REDACT).
+- **A4, cách sửa:**
+  - bỏ script dựng gói ra khỏi gói;
+  - danh sách tên chỉ dùng các dạng đầy đủ;
+  - thêm `--named-only`: email và URL tài khoản chỉ bị báo khi chứa một tên. Có test `test_named_only_keeps_named_addresses_and_drops_third_party`. Chế độ mặc định không đổi.
+- **A4, kết quả:** lần dựng lại có 2034 file và 0 chỗ lộ. Kiểm thêm ngoài công cụ:
+  - `grep` trên mọi file văn bản;
+  - `zcat | grep` trên mọi file `.gz` (trace), vì công cụ quét không đọc file nén.
+  - Cả hai đều 0 kết quả.
+- **F4:** trong thư mục gói, chạy `make_numbers.py --trial trial --rows <rows>`. Kết quả:
+  - `paper/numbers.tex` giống hệt bản trong repo;
+  - `src/` của gói giống hệt repo, trừ thư mục egg-info.
+  - Giới hạn: đây là thư mục sạch, không phải máy cài mới.
+- **F2, ý nghĩa trường "L":** ban đầu tôi viết docstring theo trí nhớ ("1 = vẫn lỗi"). Đọc `passed()` trong `scripts/s25_ab.py` thì thấy sai:
+  - "S" là bộ chấm chặt, đọc trường `resolved`;
+  - "L" là bộ chấm nới, đọc trường `passed`.
+  - Đã sửa docstring trước khi commit.
+- **F2, còn thiếu:** phiên bản bộ chấm, và mã bản dựng model của nhà cung cấp. Đã ghi trong todo.
+- `python scripts/preflight.py --ci`: PASS.

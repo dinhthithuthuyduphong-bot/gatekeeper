@@ -35,3 +35,15 @@ def test_pdf_anonymous_author_is_not_a_leak(tmp_path):
     )
     assert anon.scan(tmp_path, []) == []
     assert anon._pdf_string(rb"\376\377\000J\000o") == "Jo"
+
+
+def test_named_only_keeps_named_addresses_and_drops_third_party(tmp_path):
+    (tmp_path / "patch.json").write_text(
+        "author dev@golang.org see github.com/blevesearch; jane.doe@uni.edu github.com/janedoe\n"
+    )
+    found = {f["match"] for f in anon.scan(tmp_path, ["janedoe", "jane.doe"], named_only=True)}
+    assert "jane.doe@uni.edu" in found and "github.com/janedoe" in found
+    assert "dev@golang.org" not in found and "github.com/blevesearch" not in found
+    # without the flag every address is reported
+    loose = {f["match"] for f in anon.scan(tmp_path, [])}
+    assert "dev@golang.org" in loose

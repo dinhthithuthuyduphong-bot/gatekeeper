@@ -43,7 +43,15 @@ def _pdf_string(raw: bytes) -> str:
     return b.decode("latin-1", "replace").strip()
 
 
-def scan(root: Path, names: list[str], allowed_urls: set[str] = frozenset()) -> list[dict]:
+def _keep(match: str, name_res: list, named_only: bool) -> bool:
+    return not named_only or any(r.search(match) for r in name_res)
+
+
+def scan(
+    root: Path, names: list[str], allowed_urls: set[str] = frozenset(), named_only: bool = False
+) -> list[dict]:
+    """named_only: report an e-mail address or account URL only when it contains one of the names
+    (an exported package carries third-party addresses and project URLs from task patches)."""
     findings = []
     name_res = [re.compile(re.escape(n), re.IGNORECASE) for n in names if n]
     for p in sorted(root.rglob("*")):
@@ -60,10 +68,10 @@ def scan(root: Path, names: list[str], allowed_urls: set[str] = frozenset()) -> 
             continue
         for i, line in enumerate(p.read_text(encoding="utf-8", errors="replace").splitlines(), 1):
             for m in EMAIL.finditer(line):
-                if m.group(0) not in ALLOWED_EMAILS:
+                if m.group(0) not in ALLOWED_EMAILS and _keep(m.group(0), name_res, named_only):
                     findings.append({"file": rel, "line": i, "kind": "email", "match": m.group(0)})
             for m in ACCOUNT_URL.finditer(line):
-                if m.group(0) not in allowed_urls:
+                if m.group(0) not in allowed_urls and _keep(m.group(0), name_res, named_only):
                     findings.append(
                         {"file": rel, "line": i, "kind": "account-url", "match": m.group(0)}
                     )
@@ -79,8 +87,9 @@ def main() -> int:
     ap.add_argument("--names", default="")
     ap.add_argument("--allow-url", action="append", default=[])
     ap.add_argument("--json")
+    ap.add_argument("--named-only", action="store_true")
     a = ap.parse_args()
-    f = scan(Path(a.root), [n.strip() for n in a.names.split(",")], set(a.allow_url))
+    f = scan(Path(a.root), [n.strip() for n in a.names.split(",")], set(a.allow_url), a.named_only)
     for x in f:
         print(f"{x['file']}:{x['line']}: {x['kind']}: {x['match']}")
     if a.json:

@@ -188,10 +188,10 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 | [x] E6 | Xong 17/11 (Hình 2). Hình mức tăng theo cặp và tương tác, có khoảng tin cậy. |
 | [x] E7 | Xong 17/11: Bảng 2, Bảng 3; bỏ Bảng II, III và Hình 2 cũ. Sửa Hình 2, Hình 3, Bảng I theo ghi chú của thầy; bỏ hoặc gộp Bảng II, III. |
 | [x] E8 | Xong 17/11 (Threats theo đối tượng). Ký hiệu riêng cho skill và bộ chấm; sắp lại Threats theo đại lượng mục tiêu. |
-| [ ] F1 | Bảng đăng ký: mỗi mục kèm mã commit, thời điểm, và dữ liệu nào đã thấy lúc đó. |
-| [ ] F2 | Trong gói: mã task, mã băm skill, phiên bản model, ngày chạy, phiên bản bộ chấm, kết quả chấm, mã tính thời điểm vượt ngưỡng. |
-| [ ] F3 | Ghi rõ nhật ký học nào đã bị ghi đè. |
-| [ ] F4 | Dựng lại mọi con số từ gói, trên một máy sạch. |
+| [x] F1 | Bảng đăng ký: mỗi mục kèm mã commit, thời điểm, và dữ liệu nào đã thấy lúc đó. **Xong 17/11:** `scripts/registration_timeline.py` → `results/registration_timeline.json` (52 dòng: mục và ghi chú thực thi, commit đầu tiên chứa tiêu đề; file kết quả đầu tiên trên `pilot-snapshots`). Không mục nào có kết quả công bố trước khi đăng ký. Giới hạn: "dữ liệu đã thấy" chỉ chứng minh được bằng thứ tự thời gian, không bằng nội dung đã đọc. |
+| [~] F2 | Trong gói: mã task, mã băm skill, phiên bản model, ngày chạy, phiên bản bộ chấm, kết quả chấm, mã tính thời điểm vượt ngưỡng. **Phần lớn xong 17/11:** `scripts/package_manifest.py` → `results/package_manifest.json` (42 file lượt chạy: chuỗi model do runner ghi, seed, số lượt, sha256 danh sách task, sha256 file, thời điểm công bố đầu tiên; 26 file skill kèm sha256). Kết quả chấm S và L nằm trong từng bản ghi; mã tính thời điểm vượt ngưỡng là `src/gatekeeper/eprocess.py`. **Còn thiếu:** phiên bản bộ chấm (ảnh Docker của từng task) chưa được ghi riêng; chuỗi model là tên endpoint, không phải mã bản dựng của nhà cung cấp. |
+| [x] F3 | Ghi rõ nhật ký học nào đã bị ghi đè. **Đã có:** A130 và `docs/preregistration_main.md` (lượt học Jinja gốc còn 6 lần gọi; Bleve 7; §30 14); cả hai file nằm trong gói. Paper phải nhắc lại câu này ở mục Threats (kiểm ở G1). |
+| [x] F4 | Dựng lại mọi con số từ gói, trên một máy sạch. **Xong 17/11 (trong một thư mục sạch, không phải máy sạch):** chạy `make_numbers.py --trial trial --rows <rows>` trong gói cho ra `paper/numbers.tex` **giống hệt** bản trong repo. Mã `src/` của gói giống hệt repo. Chưa thử trên một máy cài mới từ đầu (cần cài `pip install -e .` trong gói). |
 
 ### Đợt 6: định dạng và nộp
 
@@ -200,7 +200,7 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 | [x] A1 | Xong 17/11: `acmart` sigconf,review,anonymous. Chuyển sang mẫu ACM `acmart` (`sigconf,review,anonymous`). | tự làm |
 | [x] A2 | Xong 17/11: 7 trang kể cả tham khảo. Cắt còn 10 trang, tính cả hình, bảng, phụ lục. | tự làm |
 | [x] A3 | Xong 17/11 trong PDF; gói tái lập vẫn ở A4. Ẩn danh trong PDF: tên tác giả, đường dẫn repo, siêu dữ liệu, cách nhắc tới việc của chính mình. | tự làm |
-| [ ] A4 | Gói tái lập ẩn danh, dựng thành **bản xuất có chọn lọc** trong một thư mục của repo. Không dùng repo kèm lịch sử: repo chứa tên người phụ trách (`CLAUDE.md`), địa chỉ tài khoản dịch vụ (`docs/vertex_setup.md`), đường dẫn phiên trong lời nhắn commit. Bằng chứng thời điểm đăng ký giữ bằng một file liệt kê mã commit, thời điểm, lời nhắn đã gỡ danh tính. | dựng nội bộ: tự làm. **Đưa ra ngoài (Zenodo hay nơi khác): chờ @thuthuy.** Bản trên Zenodo không xóa được. |
+| [~] A4 | Gói tái lập ẩn danh, dựng thành **bản xuất có chọn lọc** trong một thư mục của repo. Không dùng repo kèm lịch sử: repo chứa tên người phụ trách (`CLAUDE.md`), địa chỉ tài khoản dịch vụ (`docs/vertex_setup.md`), đường dẫn phiên trong lời nhắn commit. Bằng chứng thời điểm đăng ký giữ bằng một file liệt kê mã commit, thời điểm, lời nhắn đã gỡ danh tính. | **Bản nội bộ xong 17/11:** `python scripts/build_replication_package.py --trial <worktree nhánh trial> --rows <rows> --out <thư mục rỗng>`: 2034 file, quét danh tính 0 chỗ lộ (kể cả các file `.gz`, kiểm riêng bằng `zcat`). **Đưa ra ngoài (Zenodo hay nơi khác): chờ @thuthuy.** Bản trên Zenodo không xóa được. |
 | [ ] A5 | Khai báo việc dùng AI theo chính sách của ACM. Lập bảng: công cụ, việc AI đã làm, phần nào tác giả đã kiểm. Viết sau A5a. | **chờ** (nội dung khai báo) |
 | [ ] A6 | Đăng ký tóm tắt trước 15/01; nộp trước 22/01. | @thuthuy |
 | [ ] G1 | Bảng đối chiếu: 27 ghi chú trên PDF và danh sách của thầy (mục 8) với từng chỗ sửa. | tự làm |
