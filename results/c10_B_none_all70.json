@@ -1,0 +1,1318 @@
+{
+ "model": "vertex_ai/gemini-3.1-flash-lite",
+ "seed": 51,
+ "cost_limit": 0.3,
+ "cap": 0.619,
+ "skills_chars": 0,
+ "leak_free": false,
+ "history_variant": "B",
+ "neutral_message": "Merge branch 'stable'",
+ "subset": "no-problem-statement",
+ "n_tasks": 70,
+ "runs": [
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__t713lqij",
+   "order": 256,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0020947500000000003
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__wlxrx0eg",
+   "order": 262,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.006064249999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__cke3wqxn",
+   "order": 263,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.005827275000000003
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0tzkxxm7",
+   "order": 268,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002024500000000002
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__yjwp1l4i",
+   "order": 278,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0020592499999999986
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__dzxjns4n",
+   "order": 279,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0021274999999999974
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__rqsq4z8d",
+   "order": 281,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0023247500000000004
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__x1566v4x",
+   "order": 284,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.007325499999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__jchskyp9",
+   "order": 289,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.001468999999999998
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0ofeumg4",
+   "order": 293,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002477999999999994
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__8ggcjvy7",
+   "order": 294,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.001712750000000006
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__d50plzg6",
+   "order": 295,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0020045000000000063
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__iwpdq8v2",
+   "order": 296,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0037102499999999983
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__fgsjolap",
+   "order": 301,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.003612999999999998
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__olcbzbnr",
+   "order": 303,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0019592500000000027
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__7baipc0w",
+   "order": 306,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0019214999999999927
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__216m0rv4",
+   "order": 307,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.003150999999999994
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__yo6160eg",
+   "order": 315,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.005513825000000007
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__vqa91owm",
+   "order": 316,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0022612499999999924
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__wcqv4idg",
+   "order": 320,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002285500000000003
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__1yn8jahd",
+   "order": 321,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002007250000000009
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0dk3n3w5",
+   "order": 325,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 15,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0070805999999999925
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__mc9x7b9m",
+   "order": 328,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.00401725
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4l597y24",
+   "order": 330,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 19,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.012036250000000026
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0vqzq2ua",
+   "order": 333,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0027072499999999944
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0d7yz0v3",
+   "order": 334,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 21,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.013721425000000023
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__hskhgqqb",
+   "order": 335,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0027202499999999935
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4yeyxo12",
+   "order": 336,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0020295000000000035
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__526agq4n",
+   "order": 337,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 20,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.01318235000000001
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__jdn3zq4d",
+   "order": 342,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0019309999999999883
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__shn23565",
+   "order": 343,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002614000000000005
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0jbsoyj5",
+   "order": 344,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.003275550000000016
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4eyvgwfo",
+   "order": 347,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 31,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.02001607500000005
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__mxr3n2i4",
+   "order": 348,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0020057500000000006
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__htphunn2",
+   "order": 100387,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.004624250000000052
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__kyl90ytp",
+   "order": 100429,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.00278825000000002
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_invert_if__1busdu48",
+   "order": 100690,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0027976999999999863
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_invert_if__75jsmftr",
+   "order": 100695,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0012329999999999841
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_invert_if__9dqn79vh",
+   "order": 100698,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0027165000000000106
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_invert_if__dfxthl5x",
+   "order": 100708,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0014300000000000146
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_shuffle__hvx9bujc",
+   "order": 100767,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.007895774999999994
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_shuffle__l3wqpvmt",
+   "order": 100773,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0038227500000000414
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_op_swap__4ky21i8x",
+   "order": 100791,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0020687499999999526
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_op_swap__vlxm8lg4",
+   "order": 100793,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.001985500000000001
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__9w32vup3",
+   "order": 100842,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.003913749999999994
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__bfjq4ukz",
+   "order": 100843,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.001957499999999973
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__dc8gu7lr",
+   "order": 100844,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.004824450000000036
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__dg8fpnqe",
+   "order": 100845,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.003781499999999993
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__dhjygmkf",
+   "order": 100846,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002239249999999998
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__gr4b0kxq",
+   "order": 100848,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 16,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.009024875000000016
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__jq7g3hh4",
+   "order": 100849,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 14,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.007066625000000021
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__k2f64bbd",
+   "order": 100850,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 16,
+   "patch_chars": 691,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/ext.py b/src/jinja2/ext.py\nindex 9fad0aa..13a4102 100644\n--- a/src/jinja2/ext.py\n+++ b/src/jinja2/ext.py\n@@ -248,12 +248,6 @@ class InternationalizationExtension(Extension):\n \n     tags = {\"trans\"}\n \n-    # TODO: the i18n extension is currently reevaluating values in a few\n-    # situations.  Take this example:\n-    #   {% trans count=something() %}{{ count }} foo{% pluralize\n-    #     %}{{ count }} fooss{% endtrans %}\n-    # something is called twice here.  One time for the gettext value and\n-    # the other time for the n-parameter of the ngettext function.\n \n     def __init__(self, environment: Environment) -> None:\n         super().__init__(environment)\n",
+   "cost_usd": 0.011695899999999981
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__kfa34aj4",
+   "order": 100851,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 46,
+   "patch_chars": 10343,
+   "L": {
+    "passed": false,
+    "status": "p2p_failed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/ext.py b/src/jinja2/ext.py\nindex 9fad0aa..d0ac7c5 100644\n--- a/src/jinja2/ext.py\n+++ b/src/jinja2/ext.py\n@@ -133,7 +133,6 @@ class Extension:\n \n             self.attr('_my_attribute', lineno=lineno)\n         \"\"\"\n-        return nodes.ExtensionAttribute(self.identifier, name, lineno=lineno)\n \n     def call_method(\n         self,\n@@ -151,14 +150,12 @@ class Extension:\n             args = []\n         if kwargs is None:\n             kwargs = []\n-        return nodes.Call(\n             self.attr(name, lineno=lineno),\n             args,\n             kwargs,\n             dyn_args,\n             dyn_kwargs,\n             lineno=lineno,\n-        )\n \n \n @pass_context\n@@ -222,53 +219,11 @@ def _make_new_npgettext(\n     func: t.Callable[[str, str, str, int], str],\n ) -> t.Callable[..., str]:\n     @pass_context\n-    def npgettext(\n-        __context: Context,\n-        __string_ctx: str,\n-        __singular: str,\n-        __plural: str,\n-        __num: int,\n-        **variables: t.Any,\n-    ) -> str:\n-        variables.setdefault(\"context\", __string_ctx)\n-        variables.setdefault(\"num\", __num)\n-        rv = __context.call(func, __string_ctx, __singular, __plural, __num)\n-\n-        if __context.eval_ctx.autoescape:\n-            rv = Markup(rv)\n-\n-        # Always treat as a format string, see gettext comment above.\n-        return rv % variables  # type: ignore\n-\n-    return npgettext\n-\n-\n-class InternationalizationExtension(Extension):\n-    \"\"\"This extension adds gettext support to Jinja.\"\"\"\n-\n-    tags = {\"trans\"}\n-\n-    # TODO: the i18n extension is currently reevaluating values in a few\n-    # situations.  Take this example:\n-    #   {% trans count=something() %}{{ count }} foo{% pluralize\n-    #     %}{{ count }} fooss{% endtrans %}\n-    # something is called twice here.  One time for the gettext value and\n-    # the other time for the n-parameter of the ngettext function.\n-\n-    def __init__(self, environment: Environment) -> None:\n-        super().__init__(environment)\n-        environment.globals[\"_\"] = _gettext_alias\n-        environment.extend(\n-            install_gettext_translations=self._install,\n-            install_null_translations=self._install_null,\n-            install_gettext_callables=self._install_callables,\n-            uninstall_gettext_translations=self._uninstall,\n-            extract_translations=self._extract,\n-            newstyle_gettext=False,\n-        )\n+        def npgettext(\n+            self, context: str, singular: str, plural: str, n: int\n+        ) -> str: ...\n \n-    def _install(\n-        self, translations: \"_SupportedTranslations\", newstyle: t.Optional[bool] = None\n+    _SupportedTranslations\", newstyle: t.Optional[bool] = None\n     ) -> None:\n         # ugettext and ungettext are preferred in case the I18N library\n         # is providing compatibility with older Python versions.\n@@ -283,7 +238,6 @@ class InternationalizationExtension(Extension):\n         npgettext = getattr(translations, \"npgettext\", None)\n         self._install_callables(\n             gettext, ngettext, newstyle=newstyle, pgettext=pgettext, npgettext=npgettext\n-        )\n \n     def _install_null(self, newstyle: t.Optional[bool] = None) -> None:\n         import gettext\n@@ -295,7 +249,6 @@ class InternationalizationExtension(Extension):\n             newstyle=newstyle,\n             pgettext=translations.pgettext,\n             npgettext=translations.npgettext,\n-        )\n \n     def _install_callables(\n         self,\n@@ -319,7 +272,6 @@ class InternationalizationExtension(Extension):\n \n         self.environment.globals.update(\n             gettext=gettext, ngettext=ngettext, pgettext=pgettext, npgettext=npgettext\n-        )\n \n     def _uninstall(self, translations: \"_SupportedTranslations\") -> None:\n         for key in (\"gettext\", \"ngettext\", \"pgettext\", \"npgettext\"):\n@@ -368,7 +320,6 @@ class InternationalizationExtension(Extension):\n                     f\"translatable variable {token.value!r} defined twice.\",\n                     token.lineno,\n                     exc=TemplateAssertionError,\n-                )\n \n             # expressions\n             if parser.stream.current.type == \"assign\":\n@@ -377,7 +328,6 @@ class InternationalizationExtension(Extension):\n             elif trimmed is None and token.value in (\"trimmed\", \"notrimmed\"):\n                 trimmed = token.value == \"trimmed\"\n                 continue\n-            else:\n                 variables[token.value] = var = nodes.Name(token.value, \"load\")\n \n             if plural_expr is None:\n@@ -386,8 +336,6 @@ class InternationalizationExtension(Extension):\n                     variables[token.value] = plural_expr\n                     plural_expr_assignment = nodes.Assign(\n                         nodes.Name(\"_trans\", \"store\"), var\n-                    )\n-                else:\n                     plural_expr = var\n                 num_called_num = token.value == \"num\"\n \n@@ -416,14 +364,12 @@ class InternationalizationExtension(Extension):\n                         f\"unknown variable {token.value!r} for pluralization\",\n                         token.lineno,\n                         exc=TemplateAssertionError,\n-                    )\n                 plural_expr = variables[token.value]\n                 num_called_num = token.value == \"num\"\n             parser.stream.expect(\"block_end\")\n             plural_names, plural = self._parse_block(parser, False)\n             next(parser.stream)\n             referenced.update(plural_names)\n-        else:\n             next(parser.stream)\n \n         # register free names as simple name expressions\n@@ -442,6 +388,7 @@ class InternationalizationExtension(Extension):\n             singular = self._trim_whitespace(singular)\n             if plural:\n                 plural = self._trim_whitespace(plural)\n+            plural_expr = nodes.Name(\"_trans\", \"load\")\n \n         node = self._make_node(\n             singular,\n@@ -456,7 +403,7 @@ class InternationalizationExtension(Extension):\n         if plural_expr_assignment is not None:\n             return [plural_expr_assignment, node]\n         else:\n-            return node\n+            num_called_num and have_plural,\n \n     def _trim_whitespace(self, string: str, _ws_re: t.Pattern[str] = _ws_re) -> str:\n         return _ws_re.sub(\" \", string.strip())\n@@ -484,7 +431,6 @@ class InternationalizationExtension(Extension):\n                     parser.stream.current.value\n                     if parser.stream.current.type == \"name\"\n                     else None\n-                )\n                 if block_name == \"endtrans\":\n                     break\n                 elif block_name == \"pluralize\":\n@@ -492,18 +438,14 @@ class InternationalizationExtension(Extension):\n                         break\n                     parser.fail(\n                         \"a translatable section can have only one pluralize section\"\n-                    )\n                 elif block_name == \"trans\":\n                     parser.fail(\n                         \"trans blocks can't be nested; did you mean `endtrans`?\"\n-                    )\n                 parser.fail(\n                     f\"control structures in translatable sections are not allowed; \"\n                     f\"saw `{block_name}`\"\n-                )\n             elif parser.stream.eos:\n                 parser.fail(\"unclosed translation block\")\n-            else:\n                 raise RuntimeError(\"internal parser error\")\n \n         return referenced, concat(buf)\n@@ -554,7 +496,6 @@ class InternationalizationExtension(Extension):\n                 node.kwargs.append(nodes.Keyword(key, value))\n \n         # otherwise do that here\n-        else:\n             # mark the return value as safe if we are in an\n             # environment with autoescaping turned on\n             node = nodes.MarkSafeIfAutoescape(node)\n@@ -566,9 +507,6 @@ class InternationalizationExtension(Extension):\n                             nodes.Pair(nodes.Const(key), value)\n                             for key, value in variables.items()\n                         ]\n-                    ),\n-                )\n-        return nodes.Output([node])\n \n \n class ExprStmtExtension(Extension):\n@@ -581,7 +519,6 @@ class ExprStmtExtension(Extension):\n     def parse(self, parser: \"Parser\") -> nodes.ExprStmt:\n         node = nodes.ExprStmt(lineno=next(parser.stream).lineno)\n         node.node = parser.parse_tuple()\n-        return node\n \n \n class LoopControlExtension(Extension):\n@@ -592,8 +529,6 @@ class LoopControlExtension(Extension):\n     def parse(self, parser: \"Parser\") -> t.Union[nodes.Break, nodes.Continue]:\n         token = next(parser.stream)\n         if token.value == \"break\":\n-            return nodes.Break(lineno=token.lineno)\n-        return nodes.Continue(lineno=token.lineno)\n \n \n class DebugExtension(Extension):\n@@ -623,7 +558,6 @@ class DebugExtension(Extension):\n         lineno = parser.stream.expect(\"name:debug\").lineno\n         context = nodes.ContextReference()\n         result = self.call_method(\"_render\", [context], lineno=lineno)\n-        return nodes.Output([result], lineno=lineno)\n \n     def _render(self, context: Context) -> str:\n         result = {\n@@ -683,7 +617,6 @@ def extract_from_ast(\n         if (\n             not isinstance(node.node, nodes.Name)\n             or node.node.name not in gettext_functions\n-        ):\n             continue\n \n         strings: t.List[t.Optional[str]] = []\n@@ -691,7 +624,6 @@ def extract_from_ast(\n         for arg in node.args:\n             if isinstance(arg, nodes.Const) and isinstance(arg.value, str):\n                 strings.append(arg.value)\n-            else:\n                 strings.append(None)\n \n         for _ in node.kwargs:\n@@ -706,10 +638,8 @@ def extract_from_ast(\n \n             if not out:\n                 continue\n-        else:\n             if len(strings) == 1:\n                 out = strings[0]\n-            else:\n                 out = tuple(strings)\n \n         yield node.lineno, node.node.name, out\n@@ -734,7 +664,6 @@ class _CommentFinder:\n         try:\n             for _, token_type, token_value in reversed(\n                 self.tokens[self.offset : offset]\n-            ):\n                 if token_type in (\"comment\", \"linecomment\"):\n                     try:\n                         prefix, comment = token_value.split(None, 1)\n",
+   "cost_usd": 0.03513649999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__kqzfoqk4",
+   "order": 100852,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002291500000000002
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__kzu2agu1",
+   "order": 100853,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 16,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.007630250000000061
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__l8jckwc5",
+   "order": 100854,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 28,
+   "patch_chars": 615,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/ext.py b/src/jinja2/ext.py\nindex 9fad0aa..9586d90 100644\n--- a/src/jinja2/ext.py\n+++ b/src/jinja2/ext.py\n@@ -381,7 +381,7 @@ class InternationalizationExtension(Extension):\n                 variables[token.value] = var = nodes.Name(token.value, \"load\")\n \n             if plural_expr is None:\n-                if isinstance(var, nodes.Call):\n+                if not isinstance(var, (nodes.Name, nodes.Const)):\n                     plural_expr = nodes.Name(\"_trans\", \"load\")\n                     variables[token.value] = plural_expr\n                     plural_expr_assignment = nodes.Assign(\n",
+   "cost_usd": 0.02132125000000007
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__mg8q2vv1",
+   "order": 100855,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002267750000000013
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__mmwb2onb",
+   "order": 100856,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.00130524999999998
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__mr27ot5h",
+   "order": 100857,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0034350750000000096
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__oqko5wma",
+   "order": 100858,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0023207499999999825
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__oxsw6rai",
+   "order": 100859,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 18,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.014125999999999916
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__q6ka1xd8",
+   "order": 100860,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 14,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.008445000000000036
+  }
+ ],
+ "spent_usd": 0.3254177500000002,
+ "stopped": "spent 0.3254 + 0.3 > 0.619"
+}
