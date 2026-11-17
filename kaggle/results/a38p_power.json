@@ -1,0 +1,20 @@
+{
+ "model": "google/gemini-3.1-pro-preview",
+ "alpha": 0.025,
+ "reps": 20000,
+ "seed": 4405,
+ "original_shares": [
+  0.6666666666666666,
+  1.0,
+  1.0,
+  1.0,
+  1.0,
+  1.0
+ ],
+ "rejection_rate": {
+  "renamed like clean cell (0.05)": 0.9919,
+  "like no-leak cell (0.29)": 0.70255,
+  "half (0.50)": 0.25665,
+  "null (renamed = original share)": 0.0
+ }
+}

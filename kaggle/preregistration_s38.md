@@ -237,3 +237,59 @@ Một quỹ đạo **cho thấy rò rỉ** khi một quan sát trả về cho ag
      - Với Haiku và Grok, phép so không có thông tin, vì cả hai viết chỉ dẫn lịch sử gần như ở mọi prompt.
      - Với nano và gpt-oss, chênh lệch cùng chiều với model của gskill.
      - Phép so là giữa các lần gọi có sẵn, không phải can thiệp trên cùng prompt.
+
+### Ghi chú 38-10 (17/11/2026): thí nghiệm A′, ghép cặp với model mốc. Đăng ký trước mọi lần gọi của A′
+
+**Duyệt:** @thuthuy 17/11: "Duyệt chạy". Phương án trình duyệt: Gemini Pro, 6 cặp, 3 seed, khoảng 1,8 USD hạn mức Kaggle, trong trần 40 USD của §38.
+
+**Vì sao đổi tên commit, không cắt quỹ đạo** (tôi chọn; @thuthuy không chọn khi được hỏi):
+- Trong 12/15 quỹ đạo có rò rỉ, agent thấy "Bug Patch" ở 3–7% đầu của quỹ đạo. Sau đó lời của agent nhắc lại tên commit và nội dung diff.
+- Cắt quỹ đạo tại chỗ đó sẽ bỏ tới khoảng 95% quỹ đạo, cả kết quả của task. Hiệu ứng khi đó lẫn với độ dài và kết quả.
+- Đổi tên là cặp duy nhất làm sạch được: mọi byte khác giữ nguyên.
+- **Câu hỏi hẹp hơn, nêu trước:** tên "Bug Patch" có làm model viết chỉ dẫn đọc lịch sử không, khi diff và việc agent đọc lịch sử vẫn còn trong prompt.
+- Câu hỏi "thấy rò rỉ có làm model viết chỉ dẫn không" **không** được trả lời bằng A′.
+
+**Dữ liệu** (`kaggle/scripts/a38p_build.py` → `kaggle/data/a38p_prompts.jsonl.gz`):
+- Với mỗi prompt của ô `leak/ablated`, mọi chuỗi khớp `bug[ _-]?patch` (không phân biệt hoa thường) được thay bằng câu trung tính của §43, "Merge branch 'stable'" (`configs/c10.json`).
+- 75 lần thay: 6, 26, 31, 3, 3, 6 theo thứ tự Jinja c04–c06, Bleve c04–c06. Dạng gặp: "Bug Patch", "bug patch", "bug-patch".
+- Một lần thay nằm trong skill cha của Jinja c06 ("bug patch").
+- Script kiểm: dựng ngược từ bản đã đổi tên và vị trí các lần thay ra đúng bản gốc, từng byte.
+- sha256 gz `0f3fe9b4a337fc177f9c2f262b858b7694684d5ead557599bde0c28f824a30b3`, jsonl `51aded479f0cbbe02b6e43412e8e36db46264caacdcdac720abe850e014aa91b`.
+
+**Gửi:**
+- `google/gemini-3.1-pro-preview` trên Kaggle; seed 1, 2, 3; `temperature=None`; một tin nhắn user, như §38.
+- Ô `kaggle/notebooks/a38p_run_cell.py`: bản sao của ô §38, chỉ khác khối cấu hình.
+
+**Trần:**
+- 2,1 USD hạn mức (ngày và cả mục).
+- Theo L66: mô phỏng đúng bước kiểm của ô (ước tính × 1,5 trước mỗi lần gọi), trên chi phí đo được của chính 6 prompt này ở §38 (18 lần gọi, 1,762 USD), với nhiễu ±15%.
+- Xác suất chạy đủ 18 lần gọi: 0,997 ở trần 2,0; 1,000 ở trần 2,1. Chi dự kiến 1,76 USD.
+
+**Đại lượng và phép thử:**
+- d_j = tỉ lệ seed có H trên prompt gốc − tỉ lệ trên prompt đã đổi tên, j = 1..6.
+  - Phần gốc dùng lại câu trả lời của §38 (Kaggle, cùng model, seed 1–3).
+  - Hai phần chạy ở hai ngày khác nhau. Giới hạn này được nêu trước; ghi chú 38-7 cho thấy model này ổn định giữa hai nền tảng (64/69).
+- **Phép thử chính:** đổi dấu chính xác một phía trên 2⁶ = 64 cách gán; bác bỏ khi p ≤ 0,025.
+  - Phép thử chỉ bác bỏ được khi cả 6 cặp có d_j > 0 (p = 1/64). Một cặp bằng 0 cho p = 2/64.
+  - Phép thử đơn lẻ, ngoài họ Holm của §38. Không có kết luận nào về các model khác hãng.
+- **Phụ:** cùng phép thử với G; báo từng cặp.
+- Lần gọi bị từ chối: gửi lại ở phiên sau (như §38). Thiếu cặp nào thì không bác bỏ.
+
+**Power** (`kaggle/scripts/a38p_power.py` → `kaggle/results/a38p_power.json`; seed 4405; 20.000 lần):
+
+| Tỉ lệ H mỗi seed trên prompt đổi tên | Tỉ lệ bác bỏ |
+| --- | --- |
+| 0,05 (như ô một commit) | 0,992 |
+| 0,29 (như ô không rò rỉ) | 0,703 |
+| 0,50 | 0,257 |
+| bằng tỉ lệ gốc (H0) | 0,000 |
+
+**Diễn giải đặt trước:**
+
+| Kết quả | Câu được viết |
+| --- | --- |
+| Bác bỏ | Với model viết skill của gskill, chỉ đổi tên commit "Bug Patch" (diff giữ nguyên) làm giảm việc viết chỉ dẫn đọc lịch sử trên cả 6 lần gọi: thông điệp là một nguyên nhân của chỉ dẫn. |
+| Không bác bỏ, trung bình d gần 0 | Tên commit một mình không giải thích chỉ dẫn. Chỉ dẫn có thể đến từ việc agent dùng lịch sử thành công, mà A′ không tách được. |
+| Không bác bỏ, d dương ở một số cặp | Báo từng cặp. Không có kết luận nhân quả. |
+
+**Phân tích:** `kaggle/scripts/a38p_analyse.py`, viết trước dữ liệu; test ở `kaggle/tests/test_a38p.py`.
