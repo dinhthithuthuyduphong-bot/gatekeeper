@@ -155,6 +155,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Timeout ở khâu chấm (L57)**
 - [ ] Bản đăng ký có chấm bằng SWE-smith hoặc SWE-bench ghi sẵn cách xử lý timeout của bộ chấm: chấm lại đúng bản vá một lần; hoàn tất thì dùng kết quả đó; vẫn timeout thì tính là không giải được và báo phân tích độ nhạy bỏ task đó (A56, A108, A127).
 
+**Đổi mẫu LaTeX (L62)**
+- [ ] Mọi gói phông của mẫu có trên máy dựng (`kpsewhich`); số trang chỉ đọc từ bản dựng không lỗi; mỗi mục của danh mục có năm, hoặc không trùng nhãn với mục không năm khác (A134).
+
 **Câu về cấu trúc của benchmark phải kiểm trên chính artifact (L61)**
 - [ ] Mỗi câu trong paper về lịch sử git, file hay cách chấm của một benchmark được kiểm trên chính repo, image hoặc mã chấm, trên mọi task dùng trong bài, bằng một script lưu trong repo (A133: "một kênh rò rỉ", "xóa cả lịch sử thật").
 

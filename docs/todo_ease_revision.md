@@ -130,7 +130,7 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 | # | Việc | Xong khi | Duyệt |
 | --- | --- | --- | --- |
 | [ ] G2 | Gộp `main` và nhánh mặc định thành một nguồn duy nhất. Trước đó: gắn tag cho đầu hai nhánh, liệt kê file khác nhau, **báo phiên Kaggle đang đẩy commit lên nhánh mặc định**. | Một nhánh chứa cả bài mới nhất lẫn `kaggle/`; CI đạt | tự làm, nhưng phải phối hợp |
-| [ ] D8 | Sửa ba câu sai dữ kiện trên `main`: "All agent runs use one model" (mâu thuẫn với §34); "609 rewrites" (đếm sai đơn vị); câu "chỉ so trên luồng A/A" ở Threats (bài đã so trên 20 luồng thật). Ghi vào `docs/audit_pilot.md`. | Ba câu khớp với dữ liệu | tự làm |
+| [x] D8 | Xong 17/11 (R-69). Sửa ba câu sai dữ kiện trên `main`: "All agent runs use one model" (mâu thuẫn với §34); "609 rewrites" (đếm sai đơn vị); câu "chỉ so trên luồng A/A" ở Threats (bài đã so trên 20 luồng thật). Ghi vào `docs/audit_pilot.md`. | Ba câu khớp với dữ liệu | tự làm |
 | [x] S0 | **Bước 0: kiểm toán lịch sử git và trace.** Xong 17/11: `docs/preregistration_main.md` §41. Mỗi task có đúng ba commit; không có lịch sử thật; có **hai** kênh rò rỉ (diff "Bug Patch" và test bị xóa trong "Remove F2P Tests"); agent nghiên cứu chỉ dùng kênh thứ nhất, agent thứ hai dùng cả hai. | Có bảng kết quả và file JSON | tự làm |
 | [ ] A5a | Đưa chính sách của ACM về AI vào `configs/sources.json`, để runner tải, rồi đọc. | Có trích đoạn trên `sources-snapshots` | tự làm |
 | [ ] D9a | Tải toàn văn PACE (hiện mới có tóm tắt) và đọc. | Biết chính xác quy tắc của PACE | tự làm |
@@ -145,8 +145,8 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 | [x] B7 | Xong 17/11: `verify_methods.py` mục `end_of_pool`. Nhận nhầm ≤ 0,0013 trên ba pool có trung bình 0; trạng thái chung 0,042; power kém kiểm định dấu ở mức tăng nhỏ. Đưa mô phỏng của mục 3.4 vào `scripts/verify_methods.py`: tỉ lệ nhận nhầm và power, trên đúng quy tắc cuối cùng. | `results/method_check.json` cập nhật | tự làm |
 | [x] B5 | Xong 17/11 (§42): ngưỡng 40 ra đúng mọi quyết định đã đăng ký; ngưỡng 480 giữ 8/10. Tính đủ 12 quyết định **từ dữ liệu ghép cặp gốc**. Mỗi dòng: mã phép so, giả thuyết không, pool, trạng thái từng task (timeout, lỗi hạ tầng), cấu trúc lượt chạy, λ, E, ngưỡng, có nằm trong phạm vi chứng nhận có điều kiện không. Thiếu dữ liệu gốc thì ghi rõ thiếu gì. | Một file JSON và một bảng | tự làm |
 | [x] B6 | Xong 17/11 (§42): không τ nào có p < 0,05; 2 lượt sập vì giới hạn tốc độ (Bleve một commit). Chẩn đoán giả định độc lập: số lượt sập vì giới hạn tốc độ ở từng phép so; tương quan của Z theo thứ tự chạy. Ghi rõ đây là chẩn đoán, không phải xác nhận. | Có số cho từng phép so | tự làm |
-| [ ] B3 | Trong bài: thu hẹp Định lý 2 về phần đã chứng minh. Sửa Mệnh đề 3 bằng điều kiện "thủ tục nhận skill với xác suất dương". | Sau B5 | **chờ** (phạm vi tuyên bố) |
-| [ ] B4 | Trong bài: §35 ghi là "34 task đã dùng với seed mới + 36 task mới"; báo cáo riêng từng nhóm. | Sau B5 | tự làm |
+| [x] B3 | Xong 17/11: Định lý 2 và Mệnh đề 3 cũ được thay bằng mệnh đề cuối pool có chứng minh. Trong bài: thu hẹp Định lý 2 về phần đã chứng minh. Sửa Mệnh đề 3 bằng điều kiện "thủ tục nhận skill với xác suất dương". | Sau B5 | **chờ** (phạm vi tuyên bố) |
+| [x] B4 | Xong 17/11. Trong bài: §35 ghi là "34 task đã dùng với seed mới + 36 task mới"; báo cáo riêng từng nhóm. | Sau B5 | tự làm |
 
 ### Đợt 3: thí nghiệm (đóng băng ngày 01/12)
 
@@ -166,28 +166,28 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 
 | # | Việc |
 | --- | --- |
-| [ ] D1 | Theo §41: "phần do rò rỉ" thành "tác động của việc bỏ hai commit do benchmark tạo ra"; bỏ chữ "cận trên" (không có lịch sử thật để xóa nhầm). Threats: thay "một kênh" bằng hai kênh và mức dùng của từng agent (A133). |
-| [ ] D2 | "Genuine" thành "còn lại dưới đối chứng một commit, theo bộ chấm của benchmark". |
-| [ ] D3 | "Tác dụng của độ dài" thành "tác dụng của một skill không liên quan". |
-| [ ] D4 | Tách so sánh cùng ngày khỏi so sánh khác ngày (placebo chạy sau một ngày; 21 task Pygments chạy lại). |
-| [ ] D5 | Đặt giới hạn "một lượt học" ngay cạnh kết luận học lại. |
-| [ ] D6 | Pygments: chỉ nói "chưa có bằng chứng", kèm tỉ lệ nền thấp. |
-| [ ] D7 | Chi phí tiết kiệm: ghi là ước tính hồi cứu, vì mọi task đều đã chạy. |
-| [ ] D9 | Đối chiếu PACE: cổng thống kê trả lời "điểm có tăng thật không"; bài này hỏi thêm "mức tăng có hợp lệ không". Viết sau D9a. |
+| [x] D1 | Xong 17/11. Theo §41: "phần do rò rỉ" thành "tác động của việc bỏ hai commit do benchmark tạo ra"; bỏ chữ "cận trên" (không có lịch sử thật để xóa nhầm). Threats: thay "một kênh" bằng hai kênh và mức dùng của từng agent (A133). |
+| [x] D2 | Xong 17/11. "Genuine" thành "còn lại dưới đối chứng một commit, theo bộ chấm của benchmark". |
+| [x] D3 | Xong 17/11. "Tác dụng của độ dài" thành "tác dụng của một skill không liên quan". |
+| [x] D4 | Xong 17/11 (cột cấu trúc lượt chạy). Tách so sánh cùng ngày khỏi so sánh khác ngày (placebo chạy sau một ngày; 21 task Pygments chạy lại). |
+| [x] D5 | Xong 17/11. Đặt giới hạn "một lượt học" ngay cạnh kết luận học lại. |
+| [x] D6 | Xong 17/11. Pygments: chỉ nói "chưa có bằng chứng", kèm tỉ lệ nền thấp. |
+| [x] D7 | Xong 17/11. Chi phí tiết kiệm: ghi là ước tính hồi cứu, vì mọi task đều đã chạy. |
+| [x] D9 | Xong 17/11. Đối chiếu PACE: cổng thống kê trả lời "điểm có tăng thật không"; bài này hỏi thêm "mức tăng có hợp lệ không". Viết sau D9a. |
 | [ ] D10 | Bỏ mọi chỗ gọi Gatekeeper là đóng góp phương pháp. Cân nhắc bỏ chữ "Certifying" khỏi tên bài: **chờ @thuthuy**. |
 
 ### Đợt 5: mạch bài, hình, minh bạch
 
 | # | Việc |
 | --- | --- |
-| [ ] E1 | Mạch: mức tăng → cơ chế trong trace → can thiệp → phần còn lại → phạm vi. |
-| [ ] E2 | Rút ngắn tóm tắt; bỏ lặp con số ở mở đầu và kết luận. |
-| [ ] E3 | Bảng kê thí nghiệm: câu hỏi → can thiệp → nhóm task → seed → bộ chấm → phân tích. |
-| [ ] E4 | Vẽ lại Hình 1: nét liền cho điều đo được, nét đứt cho điều suy ra. |
-| [ ] E5 | Hình dòng thời gian đăng ký và nhóm task (34 + 36). |
-| [ ] E6 | Hình mức tăng theo cặp và tương tác, có khoảng tin cậy. |
-| [ ] E7 | Sửa Hình 2, Hình 3, Bảng I theo ghi chú của thầy; bỏ hoặc gộp Bảng II, III. |
-| [ ] E8 | Ký hiệu riêng cho skill và bộ chấm; sắp lại Threats theo đại lượng mục tiêu. |
+| [x] E1 | Xong 17/11. Mạch: mức tăng → cơ chế trong trace → can thiệp → phần còn lại → phạm vi. |
+| [x] E2 | Xong 17/11. Rút ngắn tóm tắt; bỏ lặp con số ở mở đầu và kết luận. |
+| [x] E3 | Xong 17/11 (Bảng 1). Bảng kê thí nghiệm: câu hỏi → can thiệp → nhóm task → seed → bộ chấm → phân tích. |
+| [x] E4 | Xong 17/11. Vẽ lại Hình 1: nét liền cho điều đo được, nét đứt cho điều suy ra. |
+| [x] E5 | Xong 17/11 (Hình 3). Hình dòng thời gian đăng ký và nhóm task (34 + 36). |
+| [x] E6 | Xong 17/11 (Hình 2). Hình mức tăng theo cặp và tương tác, có khoảng tin cậy. |
+| [x] E7 | Xong 17/11: Bảng 2, Bảng 3; bỏ Bảng II, III và Hình 2 cũ. Sửa Hình 2, Hình 3, Bảng I theo ghi chú của thầy; bỏ hoặc gộp Bảng II, III. |
+| [x] E8 | Xong 17/11 (Threats theo đối tượng). Ký hiệu riêng cho skill và bộ chấm; sắp lại Threats theo đại lượng mục tiêu. |
 | [ ] F1 | Bảng đăng ký: mỗi mục kèm mã commit, thời điểm, và dữ liệu nào đã thấy lúc đó. |
 | [ ] F2 | Trong gói: mã task, mã băm skill, phiên bản model, ngày chạy, phiên bản bộ chấm, kết quả chấm, mã tính thời điểm vượt ngưỡng. |
 | [ ] F3 | Ghi rõ nhật ký học nào đã bị ghi đè. |
@@ -197,9 +197,9 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 
 | # | Việc | Duyệt |
 | --- | --- | --- |
-| [ ] A1 | Chuyển sang mẫu ACM `acmart` (`sigconf,review,anonymous`). | tự làm |
-| [ ] A2 | Cắt còn 10 trang, tính cả hình, bảng, phụ lục. | tự làm |
-| [ ] A3 | Ẩn danh trong PDF: tên tác giả, đường dẫn repo, siêu dữ liệu, cách nhắc tới việc của chính mình. | tự làm |
+| [x] A1 | Xong 17/11: `acmart` sigconf,review,anonymous. Chuyển sang mẫu ACM `acmart` (`sigconf,review,anonymous`). | tự làm |
+| [x] A2 | Xong 17/11: 7 trang kể cả tham khảo. Cắt còn 10 trang, tính cả hình, bảng, phụ lục. | tự làm |
+| [x] A3 | Xong 17/11 trong PDF; gói tái lập vẫn ở A4. Ẩn danh trong PDF: tên tác giả, đường dẫn repo, siêu dữ liệu, cách nhắc tới việc của chính mình. | tự làm |
 | [ ] A4 | Gói tái lập ẩn danh, dựng thành **bản xuất có chọn lọc** trong một thư mục của repo. Không dùng repo kèm lịch sử: repo chứa tên người phụ trách (`CLAUDE.md`), địa chỉ tài khoản dịch vụ (`docs/vertex_setup.md`), đường dẫn phiên trong lời nhắn commit. Bằng chứng thời điểm đăng ký giữ bằng một file liệt kê mã commit, thời điểm, lời nhắn đã gỡ danh tính. | dựng nội bộ: tự làm. **Đưa ra ngoài (Zenodo hay nơi khác): chờ @thuthuy.** Bản trên Zenodo không xóa được. |
 | [ ] A5 | Khai báo việc dùng AI theo chính sách của ACM. Lập bảng: công cụ, việc AI đã làm, phần nào tác giả đã kiểm. Viết sau A5a. | **chờ** (nội dung khai báo) |
 | [ ] A6 | Đăng ký tóm tắt trước 15/01; nộp trước 22/01. | @thuthuy |

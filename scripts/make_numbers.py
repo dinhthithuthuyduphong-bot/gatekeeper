@@ -1064,6 +1064,177 @@ def main() -> int:
         if N[k] != v:
             print("MISMATCH", k, N[k], v)
             return 1
+    # section 41 (exploratory, 0 USD): the git history of every task, and what the agent was shown
+    ha = load(Path("results/history_audit.json"))
+    l1 = ha["level1_exists"]
+    arm = {
+        (r["agent"], r["environment"], r["condition"]): r
+        for r in ha["level2_3_by_arm"]
+        if r["subset"] == "no description"
+    }
+    s41 = "study agent, seed 41"
+    s51 = "study agent, seed 51"
+    s36n = "study agent, seed 51, 36 new tasks"
+    fl = "second Gemini agent, seed 41"
+    study = [
+        arm[(s41, "shipped", "original skill")],
+        arm[(s51, "shipped", "original skill")],
+        arm[(s36n, "shipped", "original skill")],
+    ]
+    single = [r for r in ha["level2_3_by_arm"] if r["environment"] == "single commit"]
+    single = [r for r in single if r["subset"] == "all"]
+    N.update(
+        {
+            "hiTasks": sum(v["tasks"] for v in l1.values()),
+            "hiThree": sum(v["three_commit_structure"] for v in l1.values()),
+            "hiBugEq": sum(v["bug_patch_equals_benchmark_patch"] for v in l1.values()),
+            "hiOnlyDel": sum(v["f2p_commit_only_deletes_files"] for v in l1.values()),
+            "hiStudyDiffA": study[0]["bug_diff_shown"],
+            "hiStudyDiffB": study[1]["bug_diff_shown"],
+            "hiStudyDiffC": study[2]["bug_diff_shown"],
+            "hiStudyNA": study[0]["runs"],
+            "hiStudyNC": study[2]["runs"],
+            "hiStudyTests": max(
+                r["deleted_tests_shown"] + r["tests_restored_and_run"] for r in study
+            ),
+            "hiStudyResNone": sum(r["resolved_with_neither"] for r in study),
+            "hiFlNoneDiff": arm[(fl, "shipped", "no skill")]["bug_diff_shown"],
+            "hiFlNoneTests": arm[(fl, "shipped", "no skill")]["deleted_tests_shown"],
+            "hiFlNoneRestore": arm[(fl, "shipped", "no skill")]["restore_or_read_old_file_cmd"],
+            "hiFlSkillTests": arm[(fl, "shipped", "original skill")]["deleted_tests_shown"],
+            "hiSingleRuns": sum(r["runs"] for r in single),
+            "hiSingleSeen": sum(
+                r["bug_diff_shown"] + r["deleted_tests_shown"] + r["tests_restored_and_run"]
+                for r in single
+            ),
+        }
+    )
+    conf = {(True, True): 0, (True, False): 0, (False, True): 0, (False, False): 0}
+    for runs in ha["runs"].values():  # every saved trace, one row per traced run
+        for r in runs:
+            conf[(r["seen_bug_msg"], r["bug_diff_shown"])] += 1
+    N.update(
+        {
+            "monConfTP": conf[(True, True)],
+            "monConfFP": conf[(True, False)],
+            "monConfFN": conf[(False, True)],
+            "monConfTN": conf[(False, False)],
+            "monConfN": sum(conf.values()),
+            "monConfAgree": conf[(True, True)] + conf[(False, False)],
+        }
+    )
+    for k, v in {
+        "hiTasks": 1086,
+        "hiThree": 1086,
+        "hiBugEq": 1086,
+        "hiOnlyDel": 1086,
+        "hiStudyDiffA": 29,
+        "hiStudyDiffB": 32,
+        "hiStudyDiffC": 35,
+        "hiStudyTests": 0,
+        "hiStudyResNone": 0,
+        "hiFlNoneDiff": 33,
+        "hiFlNoneTests": 29,
+        "hiFlNoneRestore": 32,
+        "hiFlSkillTests": 30,
+        "hiSingleRuns": 669,
+        "hiSingleSeen": 0,
+        "monConfTP": 185,
+        "monConfFP": 13,
+        "monConfFN": 0,
+        "monConfN": 1573,
+    }.items():
+        if N[k] != v:
+            print("MISMATCH s41", k, N[k], v)
+            return 1
+    # section 42 (post hoc, 0 USD): end-of-pool test on the 12 decisions; method check
+    e42 = load(Path("results/s42_end_of_pool.json"))["decisions"]
+    mc = load(Path("results/method_check.json"))["end_of_pool"]
+
+    def sci(x: float) -> str:
+        if x < 1000:
+            return f"{x:.0f}" if x >= 10 else f"{x:.1f}"
+        m, e = f"{x:.1e}".split("e")
+        return rf"\ensuremath{{{m}\times10^{{{int(e)}}}}}"
+
+    keys = {
+        "1": "A",
+        "2": "B",
+        "3": "C",
+        "4": "D",
+        "5": "E",
+        "6": "F",
+        "7": "G",
+        "8": "H",
+        "9": "I",
+        "10": "J",
+        "11": "K",
+        "12": "L",
+    }
+    for name, d in e42.items():
+        num = name.split()[0]
+        N["eop" + keys[num]] = sci(d["E"])
+        N["eopSame" + keys[num]] = d["run_structure"]["tasks_same_job"]
+    regs = [d for n, d in e42.items() if n.split()[0] not in ("8", "11")]
+    cov = [v for k, v in mc["type1"].items() if "NOT" not in k]
+    sh = [v for k, v in mc["type1"].items() if "NOT" in k][0]
+    N.update(
+        {
+            "eopRegN": len(regs),
+            "eopHeldForty": sum(d["reject_at_40"] for d in regs),
+            "eopHeldFam": sum(d["reject_at_480"] for d in regs),
+            "eopTauMinP": min(
+                d["diagnostics"]["kendall_p_two_sided_perm"]
+                for d in e42.values()
+                if d["diagnostics"]["kendall_tau"] is not None
+            ),
+            "eopRateCrash": sum(d["diagnostics"]["rate_limit_crashes"] for d in e42.values()),
+            "eopTypeMax": max(v["end_of_pool_reject"] for v in cov),
+            "eopSignTypeMax": max(v["sign_test_reject"] for v in cov),
+            "eopShared": sh["end_of_pool_reject"],
+            "eopSignShared": sh["sign_test_reject"],
+            "eopPowSmall": mc["power"]["0.109"]["end_of_pool"],
+            "eopSignPowSmall": mc["power"]["0.109"]["sign_test"],
+            "eopPowMid": mc["power"]["0.2"]["end_of_pool"],
+            "eopSignPowMid": mc["power"]["0.2"]["sign_test"],
+            "eopValidReps": int(round((1 / mc["type1_mcse"] ** 2) * 0.025 * 0.975)),
+        }
+    )
+    for k, v in {
+        "eopRegN": 10,
+        "eopHeldForty": 10,
+        "eopHeldFam": 8,
+        "eopRateCrash": 2,
+        "eopSameI": 100,
+        "eopSameA": 0,
+        "eopValidReps": 12000,
+    }.items():
+        if N[k] != v:
+            print("MISMATCH s42", k, N[k], v)
+            return 1
+    # cohorts of the 70-task test (reviewer P0: 34 known task ids with a new seed + 36 new ids):
+    # every D_i is -0.5 or 0 (section 42 values), so each cohort's count follows from its mean
+    vals = e42["12 P35_environment_contrast_unseen"]["values"]
+    if set(vals) != {"-0.5", "0.0"}:
+        print("MISMATCH s42 P35 values", vals)
+        return 1
+    s35a = load(Path("results/s35_analysis.json"))
+    n_new = s35a["P35"]["n_new"]
+    new_for = round(-s35a["new_tasks_only"]["mean_D"] * n_new / 0.5)
+    N["cfNewFor"] = new_for
+    N["cfOldFor"] = vals["-0.5"] - new_for
+    N["cfNewSignP"] = 0.5**new_for  # exact one-sided sign test, no discordant pair against
+    if (N["cfNewFor"], N["cfOldFor"]) != (19, 17):
+        print("MISMATCH cohorts", N["cfNewFor"], N["cfOldFor"])
+        return 1
+    for k in ("eopTauMinP", "eopSignTypeMax", "eopShared", "eopSignShared"):
+        N[k] = f"{N[k]:.3f}"  # three decimals: 0.052 must not print as 0.05
+    if (
+        e42["8 pygments_reuse"]["reject_at_40"]
+        or e42["11 P33c_environment_contrast"]["reject_at_40"]
+    ):
+        print("MISMATCH s42 non-rejections")
+        return 1
     N["leakSharePct"] = round(100 * N["leakShare"])
     N["fzeroGoldMinPct"] = int(100 * f0["S_gold_min"])  # floor: "at least"
     for k in ("sskbOpp", "sskbRho"):

@@ -899,7 +899,18 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Quy tắc nhận diện sửa một lần, trước khi đọc kết quả theo nhánh:**
   - bộ đầu báo nhầm ở môi trường một commit (8 lượt Bleve có "diff Bug Patch", 1 lượt Jinja có "test bị xóa"), nơi không có gì để thấy;
   - nguyên nhân: `git show HEAD` in cả cây mã với dấu `+`; agent tự `git diff` bản sửa của lỗi đảo nhánh `if`;
-  - bộ cuối cho 0 lượt ở mọi nhánh một commit (730 lượt). Bộ đầu vẫn được tính (`*_loose`).
+  - bộ cuối cho 0 lượt ở mọi nhánh một commit (669 lượt; bản đầu của mục này và của §41 ghi nhầm 730 do cộng tay, được `make_numbers.py` bắt khi đối chiếu ngày 17/11 và sửa trước khi vào paper). Bộ đầu vẫn được tính (`*_loose`).
 - **Test:** `tests/test_history_audit.py`, 7 ca, gồm ba ca báo nhầm ở trên.
 - **Kiểm chéo bằng tay:** đọc trace `combine_file__yjwp1l4i` của agent thứ hai (`git show --stat` trên commit "Remove F2P Tests", rồi `git checkout <Initial commit> -- tests`, rồi `pytest`) và sáu lượt Bleve bị báo nhầm.
 - **Làm trái L60:** từ 16/11 tôi commit lên `main` từ một worktree phụ, bằng `-c core.hooksPath=…` để hook vẫn chạy. Hook đã chạy đủ ở mọi lần; `core.bare` vẫn là `false` ở cả hai thư mục. Từ commit này tôi làm trong thư mục chính, chuyển nhánh ở đó.
+
+## R-69. Paper viết lại cho EASE 2027 (17/11/2026; 0 USD)
+
+- **Mẫu:** `acmart` (`sigconf,review,anonymous`), đúng tùy chọn CFP yêu cầu; không tên tác giả, không đường dẫn repo. 7 trang kể cả tài liệu tham khảo (giới hạn: 10 trang nội dung, thêm 2 trang tham khảo). 0 lỗi, 0 tràn lề.
+- **Mạch:** mức tăng → cơ chế → can thiệp → phần còn lại → phạm vi → kiểm tra đo lường (theo meta-review).
+- **Thống kê:** chứng nhận = phép kiểm cuối pool (§42, `docs/method_end_of_pool.md`), mệnh đề có chứng minh; ba đại lượng T1–T3; bỏ Định lý 2 cũ (phần chưa chứng minh trên rủi ro kỳ vọng) và Mệnh đề 3 cũ (sai với thủ tục không bao giờ nhận); e-process tuần tự giữ vai trò đã đăng ký; trích PACE là nơi đã công bố thống kê.
+- **Dữ kiện mới:** §41 (ba commit, hai kênh rò rỉ) thay câu "cận trên" và câu "một kênh"; §42 (12 quyết định, cấu trúc lượt chạy). "609 rewrites" sửa thành 609 container (một cho mỗi lần chấm). "All agent runs use one model" bỏ.
+- **Bảng và hình:** bảng kê thí nghiệm; bảng 12 quyết định (cùng job hay khác lượt chạy, E, ngưỡng 40 và 480, điểm vượt ngưỡng hồi cứu); bảng task không mô tả có mẫu số; bảng các quy tắc quyết định theo mục đích, mức, số lần nhìn; hình cơ chế với nét liền (đo được) và nét đứt (suy ra); biểu đồ mức tăng có khoảng tin cậy; dòng thời gian đăng ký và hai nhóm task.
+- **Mọi con số là macro** (`make_numbers.py`, có đối chiếu); thêm khối §41, §42, nhóm task của phép thử C, bảng chéo của cờ theo dõi. Bộ đối chiếu bắt được một lỗi cộng tay của tôi (730 thành 669, §41).
+- **Danh mục:** thêm PACE qua `configs/bib_overrides.json` (tên và tác giả đối chiếu với bản lưu); năm của mọi mục lấy từ bản lưu (A134).
+- **Chờ @thuthuy:** tên bài (Q3); nội dung khai báo dùng AI (A5, chưa đọc được chính sách ACM); đường dẫn gói tái lập ẩn danh (A4).

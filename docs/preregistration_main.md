@@ -2485,7 +2485,7 @@ Ba commit, theo thứ tự: `Initial commit` (toàn bộ mã của dự án tron
 | Agent nghiên cứu, gốc, skill bỏ dòng lịch sử | 34 | 6 | 5 | 0 | 0 | 0 | 2 | 0 |
 | Agent thứ hai (§34), gốc, không skill | 34 | 34 | 33 | 29 | 32 | 9 | 31 | 0 |
 | Agent thứ hai (§34), gốc, skill gốc | 34 | 34 | 34 | 30 | 32 | 18 | 34 | 0 |
-| Mọi nhánh ở môi trường một commit (Jinja, Bleve; mọi task) | 730 | 0 | 0 | 0 | 0 | 0 | — | — |
+| Mọi nhánh ở môi trường một commit (Jinja, Bleve; mọi task) | 669 | 0 | 0 | 0 | 0 | 0 | — | — |
 
 - **Agent của nghiên cứu chỉ dùng một kênh.** Nó thấy diff của "Bug Patch" ở 29–35 lượt có skill, và không lần nào thấy hay chạy các test bị xóa. Mọi task không mô tả mà nó giải được ở môi trường gốc đều có diff "Bug Patch" hiện trong trace (15/15, 17/17, 20/20).
 - **Agent thứ hai dùng cả hai kênh, kể cả khi không có skill.** Nó mở nội dung test bị xóa ở 29/34 lượt không skill. Lệnh khôi phục điển hình: `git checkout <Initial commit> -- tests`, rồi chạy `pytest`.

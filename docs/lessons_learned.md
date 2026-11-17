@@ -532,3 +532,7 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 ## L61. Mô tả một môi trường của bên thứ ba thì mở chính nó ra xem, không suy từ một vài trace (A133)
 - **Nguyên nhân gốc:** câu "xóa cả lịch sử thật" được viết theo hình dung chung về một repo git, và câu "một kênh rò rỉ" theo commit mà agent của nghiên cứu hay mở. Không ai đếm commit trên nhánh task, dù repo task công khai và tải về mất 20 giây.
 - **Phòng ngừa:** trước khi một câu về cấu trúc của benchmark (lịch sử git, file, cách chấm) vào paper, kiểm câu đó trên chính artifact (repo, image, mã chấm), trên mọi task, bằng một script lưu trong repo. Thêm vào danh sách review `docs/research_rules.md` §4.
+
+## L62. Đổi mẫu LaTeX thì dựng thử với đủ phụ thuộc của mẫu, và kiểm danh mục tài liệu theo kiểu trích dẫn mới (A134)
+- **Nguyên nhân gốc:** máy của phiên chỉ có các gói đủ cho mẫu IEEE. Bản dựng ACM vẫn ra PDF (phông thay thế), nên số trang và lỗi trông như thật. Kiểu trích dẫn mới có ràng buộc mà kiểu cũ không có (mục không năm trùng nhãn).
+- **Phòng ngừa:** khi đổi mẫu, kiểm `kpsewhich` cho mọi gói phông của mẫu trước khi đọc số trang; dựng một tài liệu tối thiểu với danh mục thật; `make_bib.py` dừng khi danh mục vi phạm ràng buộc của kiểu trích dẫn. Thêm vào danh sách review `docs/research_rules.md` §4.
