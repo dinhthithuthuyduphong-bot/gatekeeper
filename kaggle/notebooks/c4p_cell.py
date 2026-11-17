@@ -22,7 +22,7 @@ import urllib.request
 # ---- set before running (note 40-5) --------------------------------------------------------------
 POOL = None  # "A": 100 test tasks; "B": 100 test tasks + the 36 tasks of section 35
 
-COMMIT = "063c796d172d784e53a1ca58d023e4acdefd5ecc"  # kaggle/scripts of section 40, note 40-6
+COMMIT = "d93487173fe386075f726a3611ae3eaec650954f"  # notes 40-6, 40-7
 TRIAL = "97cd0a5c9d69b45b95a978dc872ad91ac6f90e91"  # branch trial: the paper's agent-run script
 GEPA = "8c7b697a71977980afc7537dac0881e784eef99f"  # gskill, as in every run of the paper
 RAW = "https://raw.githubusercontent.com/dinhthithuthuyduphong-bot/gatekeeper/"
