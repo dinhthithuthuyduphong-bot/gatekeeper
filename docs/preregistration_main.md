@@ -2674,3 +2674,15 @@ Ba commit, theo thứ tự: `Initial commit` (toàn bộ mã của dự án tron
 - **Nguyên nhân (A137):** tổng trần thật của 16 phần là 10,8302 USD. Bảng ở §43 và câu xin duyệt làm tròn xuống thành 10,83, nên mức @thuthuy duyệt nhỏ hơn tổng trần 0,0002 USD.
 - **Sửa:** mỗi trần trong `configs/c10.json` được làm tròn xuống 3 chữ số thập phân. Tổng mới 10,825 USD, nằm trong 10,83 đã duyệt. Mỗi nhánh giảm tối đa 0,001 USD.
 - Không đổi câu hỏi, thiết kế, task, model, seed, phép thử hay quy tắc chọn trần. Chưa có dữ liệu nào của C10.
+
+**Ghi chú thực thi 43-2** (17/11/2026, trước mọi lệnh gọi model của C10):
+- **Lý do:** @thuthuy 17/11: "tôi muốn trừ đúng cái 10 đô của Google Developer Program premium benefit". Credit đó là 259.706 ₫ (khoảng 10 USD theo @thuthuy). Tổng trần sau ghi chú 43-1 (10,825 USD) có thể vượt credit trong trường hợp xấu nhất.
+- **Thay đổi:** với `arm` = `c10all70`, mỗi nhánh chạy **một lượt duy nhất** trên 70 task, thay cho hai lượt 34 + 36.
+  - Hàng task: 34 task test không mô tả, rồi 36 task của §35. Thứ tự gskill của 36 task mới (100387–100870) đều lớn hơn của 34 task test (256–348), nên thứ tự đã cố định ở §35 được giữ.
+  - Mỗi nhánh chỉ cần một khoảng chặn 0,30 USD thay vì hai.
+  - Trần mỗi nhánh = dự kiến 34 task + dự kiến 36 task + 0,30, làm tròn xuống 3 chữ số thập phân (`configs/c10.json`, `caps_all70`).
+  - **Tổng trần mới 8,426 USD** (dự kiến 6,03 USD), dưới credit 10 USD và dưới mức đã duyệt 10,83 USD.
+- **Không đổi:** câu hỏi, 8 nhánh chạy cùng lúc, task, thứ tự, model, seed, cost_limit, phép thử và diễn giải.
+- **Phân tích:** `scripts/c10_analysis.py --prefix c10 --parts all70`.
+- **Bảo đảm "chỉ dùng credit":** Cloud Billing không có công tắc này. Bảo đảm đến từ việc tổng trần (8,426 USD theo bảng giá trong `tests/fixtures/e1_litellm_registry.json`) nhỏ hơn credit. Đây cũng là bảng giá đã dùng cho mọi lượt Vertex trước đây.
+  - Giới hạn: credit tính bằng ₫, theo giá niêm yết ("List pricing"). Tôi chưa đối chiếu được tỉ giá Google dùng. Biên an toàn là 10 − 8,426 = 1,57 USD, tức 16% credit.

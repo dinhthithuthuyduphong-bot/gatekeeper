@@ -671,7 +671,7 @@ jobs:
           import json, sys
           c = json.load(open(sys.argv[1]))
           arms = [f"{v}_{s}" for v in "ABCD" for s in ("none", "skill")]
-          parts = ["caps_test34"] + (["caps_extra36"] if sys.argv[3] == "c10all70" else [])
+          parts = ["caps_all70"] if sys.argv[3] == "c10all70" else ["caps_test34"]  # note 43-2
           for p in parts:
               assert set(c[p]) == set(arms), (p, sorted(c[p]))
           tot = sum(c[p][a] for p in parts for a in arms)
@@ -690,15 +690,31 @@ jobs:
               --gskill-yaml /tmp/gepa/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml \
               --out "$GITHUB_WORKSPACE/results/$out" "${MOCK[@]}"
           }
+          # note 43-2: c10all70 runs each arm ONCE over the 70 tasks (34 test tasks without a
+          # problem statement, then the 36 tasks of section 35; their gskill orders keep that order),
+          # so each arm needs one worst-run margin, not two.
+          python - "$ROWSLOCAL" /tmp/rows_extra.jsonl /tmp/rows_c10all70.jsonl <<'PY'
+          import json, sys
+          t = [json.loads(x) for x in open(sys.argv[1]) if x.strip()]
+          e = [json.loads(x) for x in open(sys.argv[2]) if x.strip()]
+          t = [r for r in t if r["_gskill_split"] == "test" and not (r.get("problem_statement") or "").strip()]
+          assert len(t) == 34 and len(e) == 36, (len(t), len(e))
+          assert max(r["_gskill_order"] for r in t) < min(r["_gskill_order"] for r in e)
+          with open(sys.argv[3], "w") as fh:
+              for r in t + e:
+                  fh.write(json.dumps({**r, "_gskill_split": "c10"}) + "\n")
+          print("70 rows: 34 test tasks without a problem statement, then 36 tasks of section 35")
+          PY
           arm() {  # $1 variant, $2 none|skill
             v=$1; s=$2; a="${v}_${s}"; extra=(--history-variant "$v")
             [ "$v" = "B" ] && extra+=(--neutral-message "$NEUTRAL")
             [ "$s" = "skill" ] && extra+=(--skills-file "$SK")
-            run_probe ${PFX}_${a}_test34.json "$(cap caps_test34 $a)" --rows "$ROWSLOCAL" --split test \
-              --subset no-problem-statement "${extra[@]}" || return 1
             if [ "${{ inputs.arm }}" = "c10all70" ]; then
-              run_probe ${PFX}_${a}_extra36.json "$(cap caps_extra36 $a)" --rows /tmp/rows_extra.jsonl \
-                --split extra "${extra[@]}" || return 1
+              run_probe ${PFX}_${a}_all70.json "$(cap caps_all70 $a)" --rows /tmp/rows_c10all70.jsonl \
+                --split c10 --subset no-problem-statement "${extra[@]}" || return 1
+            else
+              run_probe ${PFX}_${a}_test34.json "$(cap caps_test34 $a)" --rows "$ROWSLOCAL" --split test \
+                --subset no-problem-statement "${extra[@]}" || return 1
             fi
           }
           pids=()

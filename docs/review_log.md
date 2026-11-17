@@ -1026,3 +1026,13 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - Sửa `configs/c10.json`: mỗi trần làm tròn xuống 3 chữ số thập phân, tổng 10,825. Đã chạy lại đúng phép kiểm của workflow với `budget_usd` = 10,83: đạt.
 - Không đổi gì khác của §43. Chưa có dữ liệu C10.
 - **Chưa chạy lại:** @thuthuy báo 17/11 đã tắt API gọi tới tài khoản Vertex AI. Lượt có phí chỉ chạy lại khi @thuthuy bật lại và xác nhận.
+
+## R-74. Ghi chú thực thi 43-2: một lượt 70 task cho mỗi nhánh (17/11/2026; 0 USD)
+
+- **Vì sao:** @thuthuy chỉ muốn trừ vào credit 10 USD. Tổng trần cũ (10,825) có thể vượt credit.
+- **Đây là phương án trội:** cùng thiết kế, cùng dữ liệu, trường hợp xấu nhất thấp hơn (8,426 so với 10,825 USD). Tôi tự quyết theo quy tắc quyền quyết định và báo sau.
+- **Kiểm:**
+  - Bước dựng hàng task của workflow chạy trên dữ liệu thật: 70 hàng, đúng thứ tự (34 task test trước, rồi 36 task mới), cùng một nhãn split.
+  - `bash -n` trên bước workflow đạt; YAML hợp lệ.
+  - Phép kiểm ngân sách chỉ cộng `caps_all70`: 8,426 ≤ 10,83.
+- **Còn phải làm trước khi chi:** CI xanh, rồi chạy thử miễn phí `c10all70` với model giả lập (L64).

@@ -65,7 +65,7 @@ Ai làm bước nào: "**@thuthuy**" là việc chỉ @thuthuy làm được (ti
 - **34 task:**
   - dự kiến **3,09 USD**; trần **5,49 USD** (từng nhánh: `configs/c10.json`; cách tính ở §43).
 - **70 task:**
-  - dự kiến **6,03 USD**; trần **10,83 USD**; tổng trần từng nhánh sau ghi chú 43-1 là 10,825 (mỗi nhánh chạy hai phần, mỗi phần có một khoảng chặn 0,30).
+  - dự kiến **6,03 USD**; trần **10,83 USD**; sau ghi chú 43-2 mỗi nhánh chạy một lượt 70 task, tổng trần từng nhánh 8,426 USD, dưới credit 10 USD (mỗi nhánh chạy hai phần, mỗi phần có một khoảng chặn 0,30).
   - Số này cao hơn ước tính thô trước đó (5,81 và 10,61), vì B và C được tính theo nhánh đắt hơn trong hai nhánh đã đo.
 - **Giới hạn của ước tính:** B và C chưa từng chạy. Nếu agent ở B hay C lục lịch sử lâu hơn, chi phí mỗi lượt có thể cao hơn. Trần của từng nhánh chặn việc này: nhánh dừng khi số đã chi cộng cost_limit vượt trần.
 
