@@ -21,6 +21,8 @@ from pathlib import Path
 
 import a38_analyse as an
 
+N_SEEDS = 3  # registered (note 38-10): seeds 1, 2, 3
+
 
 def signflip_p(d: list[float]) -> float:
     obs = sum(d)
@@ -29,6 +31,14 @@ def signflip_p(d: list[float]) -> float:
         n += 1
         hits += sum(s * x for s, x in zip(signs, d, strict=True)) >= obs - 1e-12
     return hits / n
+
+
+def seeds_per_prompt(results: list[dict], model: str) -> dict[str, int]:
+    out: dict[str, int] = {}
+    for r in an.dedupe(results):
+        if r["model"] == model and r.get("ok"):
+            out[r["sha256"]] = out.get(r["sha256"], 0) + 1
+    return out
 
 
 def shares(results: list[dict], model: str, rule) -> dict[str, float]:
@@ -58,7 +68,11 @@ def analyse(pairs, original, renamed, model, alpha) -> dict:
             "n_negative": sum(x < 0 for x in d),
             "p_one_sided": signflip_p(d) if d else None,
         }
-    out["reject_H"] = out["H"]["n_pairs"] == len(pairs) and out["H"]["p_one_sided"] <= alpha
+    n_seeds = seeds_per_prompt(renamed, model)
+    out["renamed_seeds"] = {p["pid"]: n_seeds.get(p["sha256"], 0) for p in pairs}
+    complete = all(v == N_SEEDS for v in out["renamed_seeds"].values())
+    out["complete"] = complete  # registered: a missing call means no rejection
+    out["reject_H"] = complete and out["H"]["p_one_sided"] <= alpha
     return out
 
 

@@ -34,3 +34,20 @@ def test_data_file_pairs_and_hashes():
             len("Merge branch 'stable'") - len(t)
             for t in [m.group(0) for m in pb.RENAME.finditer(o["prompt"])]
         )
+
+
+def test_incomplete_seeds_never_reject():
+    pairs = [{"pid": f"p{i}", "pair_of": f"o{i}", "sha256": f"r{i}"} for i in range(6)]
+    ok = lambda sha, seed, txt: {  # noqa: E731
+        "model": "m",
+        "sha256": sha,
+        "seed": seed,
+        "ok": True,
+        "new_skills": txt,
+    }
+    original = [ok(f"o{i}", s, "git log") for i in range(6) for s in (1, 2, 3)]
+    renamed = [ok(f"r{i}", s, "run tests") for i in range(6) for s in (1, 2, 3)]
+    full = pa.analyse(pairs, original, renamed, "m", 0.025)
+    assert full["complete"] and full["reject_H"]
+    cut = pa.analyse(pairs, original, renamed[:-1], "m", 0.025)
+    assert not cut["complete"] and not cut["reject_H"]
