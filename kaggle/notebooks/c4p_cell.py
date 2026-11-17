@@ -20,7 +20,7 @@ import time
 import urllib.request
 
 # ---- set before running (note 40-5) --------------------------------------------------------------
-POOL = None  # "A": 100 test tasks; "B": 100 test tasks + the 36 tasks of section 35
+POOL = "B"  # T5, @thuthuy 17/11: "chọn B" (100 test tasks + the 36 tasks of section 35)
 
 COMMIT = "d93487173fe386075f726a3611ae3eaec650954f"  # notes 40-6, 40-7
 TRIAL = "97cd0a5c9d69b45b95a978dc872ad91ac6f90e91"  # branch trial: the paper's agent-run script

@@ -331,3 +331,10 @@ Hai phép nhận này đúng là hai phép nhận của §25 và §25 bước 3,
 - Lượt chạy thử C6: attempt 6/6, exposure 0. Quy tắc "Đạt khi" của ghi chú 40-6 (không đổi) cho kết quả đạt.
 
 **Không đổi:** task, model, seed, cost_limit, trần, quy tắc đạt của C6, thiết kế C4′. Ô C6 và ô C4′ chỉ đổi `COMMIT` sang commit chứa bộ theo dõi đã sửa. Lượt có model thật vẫn chưa chạy.
+
+### Ghi chú 40-8 (17/11/2026, trước mọi lượt C4′): phương án B
+
+- @thuthuy 17/11, trả lời T5: "Oke chọn B".
+- C4′ chạy 100 task test, rồi 36 task không mô tả của §35 trong các khối riêng (phương án B của ghi chú 40-5; power 1,00).
+- `kaggle/notebooks/c4p_cell.py` đặt `POOL = "B"`. Mọi giá trị khác của ghi chú 40-6 không đổi.
+- Ô chỉ được gửi sau khi C6 có model thật đạt.
