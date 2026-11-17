@@ -178,3 +178,16 @@ Một quỹ đạo **cho thấy rò rỉ** khi một quan sát trả về cho ag
     - Hai model khác hãng cùng chiều nhưng không qua Holm. Hai model khác viết dòng lịch sử bất kể có rò rỉ hay không.
     - Vì vậy cơ chế "rò rỉ được biến thành chỉ dẫn" chỉ được nói cho model viết skill của gskill. Với các model khác, việc có một dòng lịch sử trong skill không phải bằng chứng là có rò rỉ.
     - Kết quả chính (mức tăng mất đi khi bịt rò rỉ, C10) không phụ thuộc vào phần này.
+- **38-7 (17/11, sau 38-6; phân tích sau dữ liệu, chỉ mô tả, 0 USD): khác biệt nền tảng.** Kiểm theo câu hỏi phản biện của @thuthuy: kết quả có bị lẫn giữa model và nền tảng không.
+  - **Cả 5 model, kể cả model mốc Gemini Pro, đều chạy trên Kaggle** trong cùng 480 lần gọi, cùng prompt, cùng cách gửi (32 prompt × 3 seed mỗi model). Mọi phép so trong bảng 38-6 là giữa các model trên cùng một nền tảng. Không có lẫn giữa model và nền tảng bên trong §38.
+  - **§38 không chạy agent.** Mỗi lần gọi gửi một prompt đã lưu (văn bản cố định, kiểm bằng sha256) và nhận một câu trả lời. Không có repo, lịch sử git, thư mục làm việc, shell hay công cụ. Các khác biệt môi trường của agent (đường dẫn, mount, phiên bản git, sandbox) không tác động tới đại lượng H.
+  - Khác biệt nền tảng **còn lại** chỉ nằm ở đường gọi model: proxy của Kaggle so với Vertex AI gọi từ workflow GitHub. Có thể có system prompt riêng của thư viện Kaggle (giới hạn đã nêu ở mục 6).
+  - **Phép so trực tiếp hai nền tảng** (`kaggle/scripts/a38_platform_check.py` → `kaggle/results/a38_platform_check.json`):
+    - Dùng 23 prompt được gửi lên Kaggle đúng từng byte như đã lưu (không bỏ dòng nào của skill cha).
+    - So câu trả lời gốc (lượt học trong workflow GitHub, `vertex_ai/gemini-3.1-pro-preview`, 1 câu trả lời mỗi prompt) với Gemini Pro trên Kaggle (3 seed).
+    - **Khớp ở 64/69 cặp (prompt, seed).** Theo đa số của 3 seed, khớp 22/23 prompt.
+    - Theo ô: rò rỉ 1,00 (gốc) so với 0,94 (Kaggle); không rò rỉ 0,00 so với 0,11 (3 prompt); môi trường một commit 0,07 so với 0,05 (14 prompt).
+  - **Giới hạn:**
+    - Bản gốc chỉ có 1 câu trả lời mỗi prompt, nên không tách được nhiễu lấy mẫu với khác biệt nền tảng. 5 cặp lệch phù hợp với mức lệch giữa các seed trên chính Kaggle, nhưng đây không phải phép kiểm tương đương.
+    - Không chạy được các model khác hãng trên workflow GitHub: mỗi model cần một tài khoản hay khóa riêng.
+  - **Hệ quả cho câu viết:** câu ở 38-6 so các model trên cùng nền tảng, nên giữ nguyên. Câu "model của gskill cư xử như trong lượt học gốc" được phép viết, kèm số khớp 64/69.

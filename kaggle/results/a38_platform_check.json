@@ -1,0 +1,192 @@
+{
+ "model": "google/gemini-3.1-pro-preview",
+ "prompts": 23,
+ "seed_level_agreement": [
+  64,
+  69
+ ],
+ "majority_agreement": [
+  22,
+  23
+ ],
+ "cells": {
+  "noleak_leaky_env": {
+   "calls": 3,
+   "original_share": 0.0,
+   "kaggle_share": 0.1111111111111111
+  },
+  "leak": {
+   "calls": 6,
+   "original_share": 1.0,
+   "kaggle_share": 0.9444444444444443
+  },
+  "clean": {
+   "calls": 14,
+   "original_share": 0.07142857142857142,
+   "kaggle_share": 0.047619047619047616
+  }
+ },
+ "rows": [
+  {
+   "pid": "jinja-c02-ablated",
+   "condition": "noleak_leaky_env",
+   "original_H": false,
+   "kaggle_H": 0,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "jinja-c04-ablated",
+   "condition": "leak",
+   "original_H": true,
+   "kaggle_H": 2,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "jinja-c05-original",
+   "condition": "leak",
+   "original_H": true,
+   "kaggle_H": 3,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "jinja-c06-original",
+   "condition": "leak",
+   "original_H": true,
+   "kaggle_H": 3,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "bleve-c02-ablated",
+   "condition": "noleak_leaky_env",
+   "original_H": false,
+   "kaggle_H": 1,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "bleve-c03-ablated",
+   "condition": "noleak_leaky_env",
+   "original_H": false,
+   "kaggle_H": 0,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "bleve-c04-original",
+   "condition": "leak",
+   "original_H": true,
+   "kaggle_H": 3,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "bleve-c05-original",
+   "condition": "leak",
+   "original_H": true,
+   "kaggle_H": 3,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "bleve-c06-original",
+   "condition": "leak",
+   "original_H": true,
+   "kaggle_H": 3,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "clean-c01-ablated",
+   "condition": "clean",
+   "original_H": false,
+   "kaggle_H": 0,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "clean-c02-ablated",
+   "condition": "clean",
+   "original_H": false,
+   "kaggle_H": 0,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "clean-c03-ablated",
+   "condition": "clean",
+   "original_H": false,
+   "kaggle_H": 0,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "clean-c04-ablated",
+   "condition": "clean",
+   "original_H": false,
+   "kaggle_H": 0,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "clean-c05-ablated",
+   "condition": "clean",
+   "original_H": false,
+   "kaggle_H": 0,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "clean-c06-ablated",
+   "condition": "clean",
+   "original_H": false,
+   "kaggle_H": 0,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "clean-c07-ablated",
+   "condition": "clean",
+   "original_H": false,
+   "kaggle_H": 0,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "clean-c08-ablated",
+   "condition": "clean",
+   "original_H": false,
+   "kaggle_H": 0,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "clean-c09-ablated",
+   "condition": "clean",
+   "original_H": false,
+   "kaggle_H": 0,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "clean-c10-ablated",
+   "condition": "clean",
+   "original_H": false,
+   "kaggle_H": 1,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "clean-c11-ablated",
+   "condition": "clean",
+   "original_H": true,
+   "kaggle_H": 1,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "clean-c12-ablated",
+   "condition": "clean",
+   "original_H": false,
+   "kaggle_H": 0,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "clean-c13-ablated",
+   "condition": "clean",
+   "original_H": false,
+   "kaggle_H": 0,
+   "kaggle_n": 3
+  },
+  {
+   "pid": "clean-c14-ablated",
+   "condition": "clean",
+   "original_H": false,
+   "kaggle_H": 0,
+   "kaggle_n": 3
+  }
+ ]
+}
