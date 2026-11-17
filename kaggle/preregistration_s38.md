@@ -214,3 +214,26 @@ Một quỹ đạo **cho thấy rò rỉ** khi một quan sát trả về cho ag
      - Thiết kế mạnh hơn là ghép cặp: cùng prompt, bỏ các quan sát chứa "Bug Patch" khỏi quỹ đạo. Đây là một thí nghiệm mới, chưa chạy.
   6. **Holm:** đúng như đăng ký. P nhỏ nhất 0,0076 > 0,025/4 = 0,00625. Không bỏ hiệu chỉnh.
   - **Kết luận của kiểm toán:** không tìm thấy lỗi đo hay lỗi đơn vị làm kết quả âm tính giả. Điểm yếu thật là thiết kế không ghép cặp (mục 5): nó có thể làm phép so kém nhạy, và nó giới hạn mọi câu về nguyên nhân.
+- **38-9 (17/11, tiếp kiểm toán theo phản biện; 0 USD; phân tích độ nhạy sau dữ liệu, chỉ báo cáo, không thay phép thử đã đăng ký).**
+  1. **Mã của phép hoán vị.**
+     - `perm_p` liệt kê đủ `itertools.combinations(range(13), 6)` (1.716 cách gán) và đếm các cách có chênh lệch ≥ chênh lệch quan sát.
+     - Test `test_perm_p_matches_brute_force_and_holm` so với phép tính tay: 1/35 cho 3 so với 4 giá trị.
+  2. **Khả năng hoán đổi nhãn: không được thiết kế bảo đảm, và không cân bằng.**
+     - Nhãn không được gán ngẫu nhiên. Ô `leak` là các lần gọi 4–6 của mỗi lượt học. Ô `noleak` là các lần gọi 1–3 (cộng lần gọi 7 của Bleve). Thứ tự lần gọi tách hoàn toàn hai ô.
+     - Độ dài prompt: ô `leak` 70.314–114.612 ký tự; ô `noleak` 50.210–178.265 ký tự, phần lớn dài hơn.
+     - Vì vậy phép hoán vị chỉ kiểm "giá trị không phụ thuộc nhãn", với giả định các lần gọi hoán đổi được. Bác bỏ sẽ không chứng minh nguyên nhân là rò rỉ. Không bác bỏ cũng có thể do yếu tố lẫn (thứ tự lần gọi, độ dài).
+     - **Độ nhạy: hoán vị trong từng repo** (Jinja 3 so với 3, Bleve 3 so với 4; 700 cách gán).
+       - p của Gemini 0,0114, nano 0,0114, gpt-oss 0,0171, Grok 0,143, Haiku 0,286.
+       - Lớn hơn bản không phân tầng ở 3 model, và không model nào dưới 0,00625.
+  3. **Tính giá trị của đại lượng đo: hiệu ứng trần ở Haiku và Grok.**
+     - H đo "skill có chỉ dẫn đọc lịch sử", không đo "chỉ dẫn được học từ rò rỉ". Phép so D (rò rỉ − không rò rỉ) là phần nhắm vào "học từ rò rỉ".
+     - D lớn nhất có thể = 1 − tỉ lệ ở ô không rò rỉ: Haiku 0,10, Grok 0,14. D quan sát được đúng bằng các giá trị đó, vì ô rò rỉ đạt 1,00.
+     - Với hai model này, phép kiểm **không còn chỗ** để thấy hiệu ứng. Kết quả của chúng là không có thông tin, không phải âm tính.
+  4. **Lấy mẫu giữa các prompt.**
+     - 32 prompt là **toàn bộ** các lần gọi model viết skill còn lưu (27 lần gọi; xem mục 3), không phải một mẫu ngẫu nhiên.
+     - Suy luận có điều kiện trên đúng các lần gọi này. Không có câu nào về "các prompt nói chung".
+  5. **Câu viết trong paper (thay câu của 38-6, theo R5 câu cũ vẫn ghi):**
+     - Các model khác hãng không được chứng nhận.
+     - Với Haiku và Grok, phép so không có thông tin, vì cả hai viết chỉ dẫn lịch sử gần như ở mọi prompt.
+     - Với nano và gpt-oss, chênh lệch cùng chiều với model của gskill.
+     - Phép so là giữa các lần gọi có sẵn, không phải can thiệp trên cùng prompt.
