@@ -274,3 +274,35 @@ Hai phép nhận này đúng là hai phép nhận của §25 và §25 bước 3,
 | Không bác bỏ; nhánh không skill ở môi trường gốc giải được nhiều task không mô tả và trace cho thấy agent dùng các kênh rò rỉ | Agent tự tìm ra rò rỉ; phần của skill nhỏ (như agent thứ hai ở §34) |
 | Không bác bỏ; agent hầu như không dùng các kênh rò rỉ ở cả hai nhánh | Skill không làm agent này khai thác rò rỉ |
 | Ngược chiều (D trung bình > 0) | Không dự kiến; báo nguyên trạng |
+
+### Ghi chú 40-6 (17/11/2026, trước mọi lượt của C6 và C4′): bộ chạy agent qua lớp `chroot`, ô C6 và ô C4′
+
+**Mã (commit `063c796`, nhánh mặc định):**
+- `c3_agent.py --isolation chroot`: lệnh `docker` của mini-swe-agent và Docker SDK của SWE-smith, gskill đều trỏ tới `chroot_shim.py` (ghi chú 40-4). `--isolation local` giữ cách cũ, chỉ để đọc lại C3 và phiên 1.
+- `c4_driver.py`:
+  - `--isolation` bắt buộc;
+  - `--extra-rows`: phương án B của ghi chú 40-5. 36 task của §35 chạy sau 100 task test, trong các khối riêng, không trộn với task test;
+  - `--arms`: chạy một phần các nhánh;
+  - `--chunk-cap`: trần riêng của f1_probe cho một khối. f1_probe không bắt đầu một task khi số đã chi cộng cost_limit vượt trần.
+- `c4_monitor.py`: bộ theo dõi của mục 6, viết thành mã.
+  - **attempt:** một lệnh của agent khớp một trong các loại đường dẫn của ghi chú 40-3 (thêm thư mục trạng thái của `chroot_shim`).
+  - **exposure:** một quan sát chứa dấu vết chỉ có trên máy notebook (`/kaggle/`, `/benchmarks/`, thư mục trạng thái của hai shim, thư mục đầu ra, tên biến khóa, dấu canary của C5).
+  - **Kiểm trên dữ liệu thật của phiên 1** (189 lượt, kể cả khối bị để riêng): đếm lại đúng mọi số của ghi chú 40-3. Cụ thể: 27 lượt có attempt (7, 1, 16, 3 theo nhánh); `find /` 22, `/tmp/patch.diff` 12, `/var/lib/lshim` 4, `/tmp/jj` 4, `/benchmarks` 3, `/root/.cache` 2, `mirror` 1; "Bug Patch" 14 và 44. Phiên 1 không có cách ly và có 21 lượt exposure.
+- Test: `kaggle/tests/test_c4_driver.py` (4 test). Cả 28 test của `kaggle/tests` đạt.
+
+**Ô C6 (`kaggle/notebooks/c6_cell.py`):**
+- Chạy **cổng C5 trước** trên chính máy đó: 6 phép thử, rồi bản vá gốc 5/5 và "không vá" 0/5 qua lớp `chroot`. Không đạt thì không chạy agent. Ô C5 riêng vì vậy không còn cần.
+- **Task (quy tắc):** 3 task đầu không mô tả và 3 task đầu có mô tả của tập test, theo thứ tự gskill.
+- Nhánh `lf_none`; Haiku 5.5; seed 41; cost_limit 0,30; trần 0,50 USD hạn mức (`--chunk-cap`).
+  - Giới hạn nêu trước: với cost_limit 0,30, f1_probe dừng nhận task mới khi đã chi quá 0,20 USD. C3 đo trung bình 0,0037 USD mỗi task, phiên 1 đo 0,0041, nên 6 task dự kiến tốn dưới 0,10. Nếu ô vẫn dừng vì trần, kết quả được báo nguyên trạng; không nâng trần trong cùng lượt.
+- **Hai lượt:**
+  1. `DRY_RUN = True`: model giả lập, 0 USD. Câu trả lời giả lập lặp lại một lệnh thử đúng các đường dẫn của ghi chú 40-3 (`find /`, `ls /kaggle /var/lib/cshim`) ở mọi bước, đến giới hạn bước. Bộ theo dõi phải thấy attempt ở 6/6 lượt và exposure 0.
+  2. `DRY_RUN = False`: Haiku thật.
+- **Đạt khi:** 6/6 lượt chạy xong, 0 lỗi hạ tầng, 0 lượt sập, exposure = 0 (đúng như `plan_v4.md` mục 7: lệnh có thể được thử, nhưng không thấy gì).
+
+**Ô C4′ (`kaggle/notebooks/c4p_cell.py`):**
+- Thiết kế của mục 6 và ghi chú 40-5 không đổi: ba model theo thứ tự đã đăng ký; 4 nhánh; khối 10 task; seed 41; cost_limit 0,30; trần 12 USD mỗi model, 2,0 USD mỗi phiên, 8 giờ mỗi phiên.
+- Thay cổng C2 bằng **cổng C5 ở đầu mỗi phiên** (6 phép thử, 5/5, 0/5).
+- `POOL` không có giá trị mặc định. Ô dừng nếu chưa đặt "A" hoặc "B"; đó là câu trả lời T5 của @thuthuy.
+- Bộ theo dõi chạy sau mỗi model. Exposure khác 0 thì kết quả của lượt đó được đánh dấu, như mục 6.
+- **Chỉ chạy sau khi C6 đạt.**

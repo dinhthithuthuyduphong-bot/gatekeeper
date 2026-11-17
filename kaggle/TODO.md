@@ -11,7 +11,7 @@ Hạn mức AI Kaggle đã dùng trong tháng: **khoảng 18,0 trên 100 USD** (
 | # | Việc | Cần gì | Ghi chú |
 | --- | --- | --- | --- |
 | T1 | **Chạy phiên 3 của mục A** (seed 3, khoảng 7 USD) | Notebook mục A chỉ còn một ô `a38_run_cell.py`; gắn dataset `gatekeeper-a38-results`; dòng đầu log phải là `jobs 480, done 321` | Hướng dẫn: `run_s38_s39.md`. Gửi file `a38_results_*.jsonl` mới |
-| T2 | **Chạy ô `c5_cell.py`** trên một notebook Benchmarks (0 USD, khoảng 10 phút) | Gửi `c5.json` và `c5.log` | Q1 đã trả lời 16/11: "có làm C5" |
+| T2 | **Chạy ô `c6_cell.py`** (thay cho ô C5 riêng; ghi chú 40-6) trên một notebook Benchmarks: lượt 1 với `DRY_RUN = True` (0 USD, khoảng 20–30 phút), gửi `c6.json` và `c6_results.zip`; lượt 2 với `DRY_RUN = False` (Haiku, ≤ 0,5 USD hạn mức) sau khi Claude đọc lượt 1 | Gửi hai file sau mỗi lượt | Ô tự chạy cổng C5 trước |
 | T3 | Chép câu điều khoản Kaggle về việc dùng hạn mức AI | Treo từ giai đoạn 0 (K0e) | Cần trước C4′ |
 | T4 | **Không chạy lại ô `c4_cell.py`** | — | Kết quả phiên 1 không hợp lệ (K21); ô này sẽ được thay |
 
@@ -21,8 +21,8 @@ Hạn mức AI Kaggle đã dùng trong tháng: **khoảng 18,0 trên 100 USD** (
 
 | # | Việc | Trạng thái |
 | --- | --- | --- |
-| D2 | Nối bộ chạy agent (`c3_agent.py`, `c4_driver.py`) với lớp `chroot`; chạy thử miễn phí | Sau D1 |
-| D3 | Ô C6 (6 task, 3 không mô tả) và ô C4′ | Sau D2 |
+| D2 | Nối bộ chạy agent với lớp `chroot` | **Xong 17/11** (ghi chú 40-6). Chạy thử trên Kaggle là lượt 1 của ô C6 |
+| D3 | Ô C6 và ô C4′ | **Xong 17/11:** `notebooks/c6_cell.py`, `notebooks/c4p_cell.py` |
 
 ## Việc tiếp theo, theo thứ tự
 
