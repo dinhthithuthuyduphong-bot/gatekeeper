@@ -65,7 +65,7 @@ on:
         required: true
         default: "none"
         type: choice
-        options: ["none", "skill", "placebo", "trace34", "trace34b", "pair", "skillb", "skillc", "learn", "eval", "evalrest", "pilot", "rest", "c10test34", "c10all70"]
+        options: ["none", "skill", "placebo", "trace34", "trace34b", "pair", "skillb", "skillc", "learn", "eval", "evalrest", "pilot", "rest", "c10test34", "c10all70", "c10r70"]
       dryrun:
         description: "swesmith-s27 only: true = scripted model (0 USD) on the first task of each arm"
         required: false
@@ -653,7 +653,7 @@ jobs:
           # message of variant B and one cap per arm and part. Without that file only the dry run
           # (scripted model, first task of each arm, 0 USD) is allowed.
           [ "${{ inputs.repo }}" = "jinja" ] || { echo "C10 is designed for jinja only"; exit 1; }
-          case "${{ inputs.arm }}" in c10test34|c10all70) ;; *) echo "arm must be c10test34 or c10all70"; exit 1;; esac
+          case "${{ inputs.arm }}" in c10test34|c10all70|c10r70) ;; *) echo "arm must be c10test34, c10all70 or c10r70"; exit 1;; esac
           mkdir -p /tmp/work results && cd /tmp/work
           SK="$GITHUB_WORKSPACE/docs/skills/gskill/jinja_best_skills.txt"
           git -C $GITHUB_WORKSPACE fetch -q origin data-snapshots pilot-snapshots
@@ -661,8 +661,11 @@ jobs:
           git -C $GITHUB_WORKSPACE show "origin/data-snapshots:data/instances/swesmith_pallets__jinja_extra36.jsonl" > /tmp/rows_extra.jsonl
           CFG=$GITHUB_WORKSPACE/configs/c10.json
           PFX=c10; MOCK=()
+          if [ "${{ inputs.arm }}" = "c10r70" ]; then  # section 44: replication, fixed pool, own seed
+            CFG=$GITHUB_WORKSPACE/configs/c10r.json; PFX=c10r
+          fi
           if [ "${{ inputs.dryrun }}" = "true" ]; then
-            PFX=c10dry
+            PFX=${PFX}dry
             MOCK=(--mock-response $'THOUGHT: dry run.\n\n```bash\necho COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT\n```' --limit 1)
             [ -f "$CFG" ] || CFG=$GITHUB_WORKSPACE/tests/fixtures/c10_dryrun.json
           fi
@@ -671,20 +674,22 @@ jobs:
           import json, sys
           c = json.load(open(sys.argv[1]))
           arms = [f"{v}_{s}" for v in "ABCD" for s in ("none", "skill")]
-          parts = ["caps_all70"] if sys.argv[3] == "c10all70" else ["caps_test34"]  # note 43-2
+          parts = ["caps_all70"] if sys.argv[3] in ("c10all70", "c10r70") else ["caps_test34"]  # 43-2
           for p in parts:
               assert set(c[p]) == set(arms), (p, sorted(c[p]))
           tot = sum(c[p][a] for p in parts for a in arms)
           assert float(sys.argv[2]) >= tot, f"budget_usd must cover the eight caps ({tot:.2f})"
           print(f"caps total {tot:.2f}; neutral message: {c['neutral_message']!r}")
           PY
+          SEED=$(python -c "import json,sys; print(json.load(open(sys.argv[1])).get('seed', 51))" "$CFG")
+          echo "seed $SEED"
           NEUTRAL=$(python -c "import json,sys; print(json.load(open(sys.argv[1]))['neutral_message'])" "$CFG")
           cap() { python -c "import json,sys; print(json.load(open(sys.argv[1]))[sys.argv[2]][sys.argv[3]])" "$CFG" "$1" "$2"; }
           run_probe() {  # $1 out, $2 cap, rest: extra args
             out=$1; cap=$2; shift 2
             PYTHONPATH=/tmp/gepa/src/gepa/gskill:$GITHUB_WORKSPACE/scripts /tmp/venv/bin/python \
               $GITHUB_WORKSPACE/scripts/f1_probe.py "$@" \
-              --model vertex_ai/gemini-3.1-flash-lite --seed 51 --cost-limit 0.30 --cap "$cap" \
+              --model vertex_ai/gemini-3.1-flash-lite --seed "$SEED" --cost-limit 0.30 --cap "$cap" \
               --stop-after-provider-crashes 3 \
               --registry $GITHUB_WORKSPACE/tests/fixtures/e1_litellm_registry.json \
               --gskill-yaml /tmp/gepa/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml \
@@ -709,7 +714,7 @@ jobs:
             v=$1; s=$2; a="${v}_${s}"; extra=(--history-variant "$v")
             [ "$v" = "B" ] && extra+=(--neutral-message "$NEUTRAL")
             [ "$s" = "skill" ] && extra+=(--skills-file "$SK")
-            if [ "${{ inputs.arm }}" = "c10all70" ]; then
+            if [ "${{ inputs.arm }}" = "c10all70" ] || [ "${{ inputs.arm }}" = "c10r70" ]; then
               run_probe ${PFX}_${a}_all70.json "$(cap caps_all70 $a)" --rows /tmp/rows_c10all70.jsonl \
                 --split c10 --subset no-problem-statement "${extra[@]}" || return 1
             else

@@ -2762,3 +2762,137 @@ Ba commit, theo thứ tự: `Initial commit` (toàn bộ mã của dự án tron
     - Đây là dòng "E-process tuần tự" của `docs/method_end_of_pool.md` §7.
   - Paper nêu cả hai điều.
 - **Không đổi:** câu hỏi, task, thứ tự, model, seed, phép thử, ngưỡng, diễn giải. Không có quy tắc nào được chọn sau khi thấy dữ liệu.
+
+**Ghi chú thực thi 43-4** (17/11/2026, sau ghi chú 43-3; kiểm toán điểm cắt theo chi phí, theo nhận xét phản biện cùng ngày; 0 USD):
+- **Lệnh:** `python scripts/c10_stop_audit.py --prefix c10 --part all70 --lam 0.5 --theta 0 --threshold 40 --n-fixed 34 --out results/c10_stop_audit.json`. Test ở `tests/test_c10_stop_audit.py`.
+- **1. Điểm dừng chỉ phụ thuộc chi phí của các task trước.** Đã kiểm trên cả 8 nhánh:
+  - `f1_probe.py` chạy các task của một nhánh tuần tự, trong một tiến trình riêng. Trước mỗi task, nó so số đã chi + cost_limit với trần.
+  - Số đã chi ghi trong file kết quả đúng bằng tổng `cost_usd` của các lượt.
+  - Chạy lại bước kiểm từ `cost_usd`: 0 lượt bắt đầu sau khi bước kiểm lẽ ra đã dừng.
+  - Mọi nhánh dừng sớm đều có số đã chi + 0,30 > trần sau lượt cuối.
+  - Vậy điểm dừng của mỗi nhánh là một thời điểm dừng theo thứ tự task. Điểm cắt của một phép so, là giá trị nhỏ nhất trên bốn nhánh, cũng vậy.
+- **2. Không chọn task theo kết quả.** Mọi nhánh là đoạn đầu của cùng thứ tự đã đăng ký. Phép so dùng n task đầu; chỉ n phụ thuộc chi phí.
+  - Nhánh đặt n = 45 cho A − C là C không skill. Nhánh này giải được 0 trong 45 task, nên chi phí của nó không chứa thông tin về kết quả của chính nó. Chi phí vẫn có thể tương quan với độ khó của task.
+- **3. Pool cố định trước khi chạy.** 34 task test là bản nhỏ đã đăng ký ở §43. Trên pool đó, A − C có E = 26,65 < 40 (16 task lệch về A, 1 về C): **không bác bỏ**.
+- **4. Đường đi của E** (A − C): E lần đầu ≥ 40 ở task 36, và không xuống dưới 41,6 sau đó. E ở n = 45 là 76,2.
+- **Kết luận được phép viết:**
+  - Bảo đảm cho pool cố định, đúng như đã đăng ký, **không có** cho kết quả này.
+  - Kết quả bác bỏ một giả thuyết hẹp hơn: "mỗi task có E[D_k | các task trước] ≥ 0". Dưới giả thuyết đó, tích với λ cố định (mỗi thừa số 1 − 0,5·D_k > 0) là một supermartingale không âm bắt đầu từ 1. Theo Ville, Pr(E ≥ 40 ở một thời điểm dừng nào đó) ≤ 1/40 (Ramdas và cộng sự, arXiv 2210.01948: "valid at all stopping times").
+  - Giả thuyết hẹp hơn nghĩa là mệnh đề bị bác bỏ mạnh hơn. Bác bỏ nó chỉ nói rằng không phải task nào cũng có chênh lệch kỳ vọng không âm. Nó **không** nói trung bình của pool 70 task là âm.
+  - Paper dùng đúng câu này. Câu "certified" được bỏ khỏi đoạn C10.
+- **Sửa đề xuất (chờ @thuthuy, vì cần tiền):** lần chạy xác nhận với pool cố định, đăng ký trước ở §44.
+
+## 44. C10R: lặp lại C10 trên pool 70 task cố định (đăng ký 17/11/2026, trước mọi lượt có phí của §44)
+
+**Vì sao:** lượt C10 đầu (§43) bị cắt theo chi phí (A138). Nó chỉ bác bỏ một giả thuyết hẹp hơn, và trên 34 task cố định trước, E = 26,65 < 40 (ghi chú 43-4). Phép thử xác nhận như đã đăng ký cần một pool cố định không bị cắt. @thuthuy 17/11 chọn "Đủ 8 nhánh".
+
+**Tình trạng dữ liệu lúc đăng ký:** đã thấy mọi kết quả của §43. Chưa có lượt nào của §44.
+
+**Không đổi so với §43:**
+- 4 biến thể × có/không skill, 8 nhánh chạy cùng lúc trong một job;
+- 70 task theo đúng thứ tự §43;
+- câu trung tính "Merge branch 'stable'";
+- skill gốc nguyên văn; model, cost_limit 0,30, số bước tối đa;
+- `history_check` trước mỗi lượt;
+- đại lượng D_i; phép thử chính A − C; λ = 0,5; θ = 0; ngưỡng E ≥ 40; α = 0,025 một phía;
+- phép phụ B − D, A − B, C − D và tương tác, chỉ mô tả;
+- kiểm toán trace.
+
+**Khác §43:**
+- **Seed 61.** Seed cách nhau 10 như các lượt trước (41, 51), để không trùng seed + 1 (C2 ở `docs/audit_pilot.md`).
+- **Tiền tố file `c10r`**: không ghi đè dữ liệu của §43 (L6).
+- **Trần mỗi nhánh theo L66** (`scripts/c10r_caps.py` → `configs/c10r.json`):
+  - Trần = phân vị 0,999 của tổng chi phí mô phỏng trên 70 task + cost_limit 0,30, làm tròn lên 3 chữ số.
+  - Chi phí mỗi task lấy mẫu lại từ chính nhánh đó ở §43, theo hai tầng (task 1–45, task 46–70).
+  - Nhánh có ít hơn 10 chi phí ở tầng sau thì lấy tầng trước × 1,971. Đây là tỉ lệ lớn nhất đo được giữa chi phí trung bình của tầng sau và tầng trước, trong các nhánh có đủ số liệu.
+  - Với quy tắc dừng của `f1_probe.py`, xác suất một nhánh bị cắt ≤ 0,001 theo mô hình này. Phân vị 0,999 là con số vận hành: nó chỉ ảnh hưởng xác suất bị cắt, không ảnh hưởng phép thử.
+
+  | Nhánh | Trần (USD) | Dự kiến (USD) |
+  | --- | --- | --- |
+  | A không skill | 1,071 | 0,51 |
+  | A có skill | 2,031 | 1,22 |
+  | B không skill | 0,861 | 0,39 |
+  | B có skill | 1,998 | 1,32 |
+  | C không skill | 1,292 | 0,67 |
+  | C có skill | 2,935 | 2,15 |
+  | D không skill | 0,668 | 0,26 |
+  | D có skill | 1,784 | 1,12 |
+  | **Tổng** | **12,640** | **7,64** |
+
+- Workflow: plan `swesmith-c10`, `arm` = `c10r70`, `budget_usd` = 12,64. Bước kiểm ngân sách cộng `caps_all70` của `configs/c10r.json` (L65: đúng bằng 12,64).
+
+**Power** (`scripts/c10r_power.py` → `results/c10r_power.json`; 20.000 lần; seed 4403; 70 task):
+
+| Kịch bản | Tỉ lệ bác bỏ |
+| --- | --- |
+| D_i như lượt đầu (lấy mẫu lại 45 giá trị A − C của §43) | 0,994 |
+| Một nửa mức chênh (mỗi D_i < 0 thành 0 với xác suất 1/2) | 0,214 |
+| H₀: A và C rút độc lập từ cùng tỉ lệ giải của A | 0,0006 |
+
+**Quan hệ với §43:**
+- §44 là phép thử xác nhận. §43 được báo là lượt đầu, dưới giả thuyết hẹp hơn (ghi chú 43-4).
+- Không gộp hai lượt. Không cộng hay nhân E của hai lượt.
+
+**Diễn giải đặt trước (phép thử chính của §44):**
+
+| Kết quả | Câu được viết trong paper |
+| --- | --- |
+| Bác bỏ, không nhánh nào bị cắt | Câu bác bỏ của §43, với bảo đảm cho pool cố định (Jinja, skill gốc, task không mô tả, seed 61). §43 được báo là lượt đầu. |
+| Không bác bỏ, không nhánh nào bị cắt | Không chứng nhận được rằng mức tăng cần nội dung bị rò rỉ. Báo D, khoảng bootstrap và E của cả hai lượt. Câu của §43 chỉ còn là mô tả. |
+| Có nhánh bị cắt | Báo như ghi chú 43-4: giả thuyết hẹp hơn, E trên phần pool cố định trước. Không chạy thêm. |
+
+**Kiểm sau khi chạy:** như §43, cộng thêm `scripts/c10_stop_audit.py --prefix c10r`.
+
+**Phân tích:**
+- `python scripts/c10_analysis.py --prefix c10r --parts all70 --out results/c10r_analysis.json` (script của §43, không sửa);
+- `scripts/history_audit.py` với 8 nhánh `c10r_*`.
+
+**Ngân sách:** tổng trần 12,64 USD (dự kiến 7,64). Chỉ chạy sau khi @thuthuy xác nhận credit còn lại đủ cho tổng trần, hoặc chấp nhận phần vượt.
+
+**Kết quả C10R** (17/11/2026; run 44116782851; dữ liệu `results/c10r_*_all70.*`; lệnh đã đăng ký: `python scripts/c10_analysis.py --prefix c10r --parts all70 --out results/c10r_analysis.json`):
+
+*Kiểm sau khi chạy:*
+- **Cả 8 nhánh chạy đủ 70 task**, không nhánh nào dừng vì trần. `scripts/c10_stop_audit.py --prefix c10r` → `results/c10r_stop_audit.json`: mọi nhánh là đúng thứ tự đã đăng ký, 0 lượt bắt đầu sau khi bước kiểm lẽ ra đã dừng.
+- 0 `infra_error`, 0 lượt sập; `history_check` đúng chuỗi mong đợi ở 560/560 lượt.
+- 0 lượt chạm cost_limit (lượt đắt nhất 0,0665 USD); 0 bản vá bị bộ chấm báo timeout.
+- Seed 61 ở mọi nhánh; trần đúng `configs/c10r.json`.
+
+| Nhánh | Giải được (S) / 70 | Đã chi (USD) | Trần (USD) |
+| --- | --- | --- | --- |
+| A không skill | 0 | 0,3968 | 1,071 |
+| A có skill | 41 | 1,3781 | 2,031 |
+| B không skill | 0 | 0,3003 | 0,861 |
+| B có skill | 5 | 1,4416 | 1,998 |
+| C không skill | 1 | 0,3219 | 1,292 |
+| C có skill | 1 | 1,5298 | 2,935 |
+| D không skill | 0 | 0,3181 | 0,668 |
+| D có skill | 3 | 1,1264 | 1,784 |
+| **Tổng** | | **6,8130** | 12,640 |
+
+*Phép thử chính A − C (pool 70 task cố định):*
+- D_i < 0 ở 40 task, D_i > 0 ở 0 task. Trung bình D = −0,293, bootstrap 95% [−0,350; −0,236].
+- **E = 9.028 ≥ 40: bác bỏ H₀**, với bảo đảm cho pool cố định, như đã đăng ký.
+- Câu viết trong paper, theo hàng "Bác bỏ, không nhánh nào bị cắt" của bảng diễn giải §44: "Với cùng số commit và cùng thông điệp, mức tăng của skill lớn hơn khi mã trước lỗi có trong lịch sử: mức tăng cần nội dung bị rò rỉ (Jinja, skill gốc, task không mô tả, seed 61)." §43 được báo là lượt đầu.
+- Mô tả: E lần đầu ≥ 40 ở task 35; E trên 34 task đầu là 35,5.
+
+*Phép phụ (mô tả):*
+
+| Phép so | D < 0 | D > 0 | Trung bình D | Bootstrap 95% | E |
+| --- | --- | --- | --- | --- | --- |
+| B − D | 4 | 2 | −0,014 | [−0,050; 0,021] | 1,37 |
+| A − B | 38 | 2 | −0,257 | [−0,321; −0,193] | 2.708 |
+| C − D | 1 | 3 | +0,021 | [−0,014; 0,064] | 0,35 |
+| Tương tác (A − B) − (C − D) | | | −0,279 | [−0,357; −0,207] | |
+
+*Kiểm toán trace* (`scripts/history_audit.py`, quy tắc không đổi; 8 nhánh `c10r_*` được thêm vào danh sách nhánh):
+
+| Nhánh có skill | Lệnh đọc lịch sử | Thấy diff lỗi | Khôi phục rồi chạy test bị xóa | Giải được |
+| --- | --- | --- | --- | --- |
+| A | 70 | 70 | 0 | 41 |
+| B | 30 | 6 | 16 | 5 |
+| C | 69 | 1 | 9 | 1 |
+| D | 20 | 2 | 10 | 3 |
+
+*Chi phí bằng token:* 53,96 triệu token vào (39,34 triệu từ cache), 1,45 triệu token ra.
+
+*Quan hệ với §43:* cùng chiều ở mọi phép so. §43: 22 so với 2 trên 45 task, E = 76,2, chỉ dưới giả thuyết hẹp hơn. Hai lượt không gộp.

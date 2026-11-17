@@ -1054,3 +1054,53 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Bài dựng không lỗi: 8 trang.
 - **Ghi lỗi:** A138, L66 (danh sách §4); ghi chú thực thi 43-3.
 
+
+## R-76. Kiểm toán điểm cắt theo chi phí của C10; sửa câu chữ trong paper (17/11/2026; 0 USD)
+
+- **Vì sao:** phản biện của @thuthuy cùng ngày nêu hai điều cần kiểm: (1) điều kiện "dự đoán được" của điểm dừng; (2) 45 task có bị chọn theo kết quả không.
+- **Mã mới:** `scripts/c10_stop_audit.py`, test `tests/test_c10_stop_audit.py` (2 test).
+  - Không có giá trị mặc định cho λ, θ, ngưỡng, kích thước pool cố định.
+  - Đọc chỉ file kết quả.
+- **Kết quả:** xem ghi chú thực thi 43-4. Phát hiện mới: trên pool 34 task cố định trước, E = 26,65, không bác bỏ.
+- **`scripts/make_numbers.py`:** thêm 4 macro (`ctenACEfixed`, `ctenACFirstK`, `ctenACMinAfter`, `ctenFixedN`), kèm kiểm khớp. Mọi macro cũ không đổi.
+- **Paper:** đoạn C10 viết lại. Bỏ chữ "certified". Nêu pool cố định 34 task không bác bỏ; nêu giả thuyết hẹp hơn và lý do điểm cắt là thời điểm dừng. Bài dựng không lỗi, 8 trang.
+
+## R-77. Đăng ký §44 (C10R): cấu hình, workflow, trần, power (17/11/2026; 0 USD)
+
+- **Mã mới:**
+  - `scripts/c10r_caps.py` (quy tắc L66; test `tests/test_c10r_caps.py`, 2 test);
+  - `scripts/c10r_power.py`;
+  - `configs/c10r.json` do script sinh.
+- **Workflow:** arm `c10r70` trong bước C10.
+  - Đọc `configs/c10r.json`, tiền tố `c10r`, seed từ cấu hình. Các arm cũ giữ seed 51 qua giá trị mặc định khi cấu hình không có khóa `seed`.
+  - Kiểm `bash -n` trên bước này đạt; YAML hợp lệ.
+- **Đã kiểm:**
+  - Tổng trần đúng bằng 12,64 dưới phép cộng số thực (L65).
+  - Không hàm nào nhận λ, θ, ngưỡng hay phân vị có giá trị mặc định.
+- **Còn phải làm trước khi chi:**
+  - CI xanh;
+  - chạy thử miễn phí `c10r70` (model giả lập);
+  - @thuthuy xác nhận credit.
+- **Chạy thử miễn phí `c10r70` đạt** (run 44114737043, commit `af7d584`, model giả lập, 1 task mỗi nhánh):
+  - 8/8 nhánh: seed 61, trần đúng `configs/c10r.json`;
+  - `history_check` đúng chuỗi của từng biến thể (A 3/1/1, B 3/0/1, C 3/1/0, D 2/0/0);
+  - câu trung tính chỉ ở B; skill (2.675 ký tự) chỉ ở nhánh có skill;
+  - 0 lỗi hạ tầng.
+- **Ngân sách:** @thuthuy 17/11 duyệt 12,64 USD, chấp nhận trả phần vượt credit (CLAUDE.md).
+
+## R-78. Phân tích C10R (§44) sau lượt có phí; kiểm toán trace; số và đoạn văn của paper (17/11/2026; 0 USD)
+
+- **Phân tích:** chạy đúng lệnh đã đăng ký (`c10_analysis.py --prefix c10r`) và `c10_stop_audit.py --prefix c10r`. Không sửa script nào.
+- **`scripts/history_audit.py`:**
+  - Thêm 8 nhánh `c10r_*` (seed 61). Quy tắc phát hiện không đổi.
+  - Mọi lượt của 37 nhánh cũ và phần level 1 giống hệt bản trước (so bằng máy).
+  - Lần thêm đầu không áp được: dòng mốc đã bị ruff tách thành nhiều dòng, và phép assert của chính bước thêm đã chặn lại. Không có dữ liệu sai.
+- **`scripts/make_numbers.py`:**
+  - Bảng tra nhánh C10 thêm điều kiện seed 51. Trước đó (môi trường, điều kiện) của seed 61 sẽ ghi đè lên seed 51.
+  - Phép đếm cờ của §41 bỏ mọi nhánh bắt đầu bằng `c10` (gồm `c10r_`).
+  - Thêm macro `ctr*` kèm kiểm khớp: đủ 70 task ở mọi nhánh, n = 70, 40/0, 41 giải được, 70 lượt thấy diff, quyết định bác bỏ.
+  - Mọi macro cũ không đổi (diff).
+- **Paper:** đoạn "Separating the message from the diff" viết lại.
+  - C10R là phép thử xác nhận trên pool cố định ("certified").
+  - Lượt đầu chỉ được báo là cùng chiều, và chỉ hợp lệ dưới giả thuyết hẹp hơn.
+  - Bài dựng không lỗi, 8 trang.

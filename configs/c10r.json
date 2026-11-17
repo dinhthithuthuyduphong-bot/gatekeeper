@@ -1,0 +1,60 @@
+{
+ "_registration": "docs/preregistration_main.md section 44",
+ "neutral_message": "Merge branch 'stable'",
+ "seed": 61,
+ "caps_all70": {
+  "A_none": 1.071,
+  "A_skill": 2.031,
+  "B_none": 0.861,
+  "B_skill": 1.998,
+  "C_none": 1.292,
+  "C_skill": 2.935,
+  "D_none": 0.668,
+  "D_skill": 1.784
+ },
+ "_caps_rule": "scripts/c10r_caps.py: quantile 0.999 of the simulated spend over 70 tasks + cost_limit 0.3, rounded up; strata 1-45 and 46-70; later/earlier ratio 1.971",
+ "_caps_total": 12.64,
+ "_expected_total": 7.643,
+ "_detail": {
+  "A_none": {
+   "expected": 0.5134709083892047,
+   "quantile_spend": 0.7702635794958211,
+   "later_costs": "earlier x 1.971"
+  },
+  "A_skill": {
+   "expected": 1.2186151744375007,
+   "quantile_spend": 1.7306949000000018,
+   "later_costs": "observed"
+  },
+  "B_none": {
+   "expected": 0.39046988846250025,
+   "quantile_spend": 0.5604732750000003,
+   "later_costs": "observed"
+  },
+  "B_skill": {
+   "expected": 1.322139556572491,
+   "quantile_spend": 1.69793635,
+   "later_costs": "observed"
+  },
+  "C_none": {
+   "expected": 0.6690600677908177,
+   "quantile_spend": 0.9910880868030107,
+   "later_costs": "earlier x 1.971"
+  },
+  "C_skill": {
+   "expected": 2.1543524862846852,
+   "quantile_spend": 2.6347410403308156,
+   "later_costs": "earlier x 1.971"
+  },
+  "D_none": {
+   "expected": 0.25393860060375,
+   "quantile_spend": 0.36793975,
+   "later_costs": "observed"
+  },
+  "D_skill": {
+   "expected": 1.1206862955462513,
+   "quantile_spend": 1.4835644750000014,
+   "later_costs": "observed"
+  }
+ }
+}

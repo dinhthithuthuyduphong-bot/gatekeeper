@@ -1111,8 +1111,8 @@ def main() -> int:
     )
     conf = {(True, True): 0, (True, False): 0, (False, True): 0, (False, False): 0}
     for stem, runs in ha["runs"].items():  # every saved trace of sections 27-35, one per run
-        if stem.startswith("c10_"):
-            continue  # C10 (section 43) is reported on its own below; the s41 counts predate it
+        if stem.startswith("c10"):
+            continue  # C10, C10R (sections 43, 44) are reported below; s41 counts predate them
         for r in runs:
             conf[(r["seen_bug_msg"], r["bug_diff_shown"])] += 1
     N.update(
@@ -1256,7 +1256,9 @@ def main() -> int:
     c10arm = {
         (r["environment"], r["condition"]): r
         for r in ha["level2_3_by_arm"]
-        if r["environment"].startswith("C10") and r["subset"] == "all"
+        if r["environment"].startswith("C10")
+        and r["subset"] == "all"
+        and r["agent"] == "study agent, seed 51"
     }
     N["ctenADiff"] = c10arm[("C10 A: original history", "original skill")]["bug_diff_shown"]
     N["ctenBTests"] = c10arm[("C10 B: neutral message", "original skill")]["tests_restored_and_run"]
@@ -1286,12 +1288,77 @@ def main() -> int:
         if N[k] != v:
             print("MISMATCH s43", k, N[k], v)
             return 1
+    sa = load(Path("results/c10_stop_audit.json"))
+    sam = sa["contrasts"]["main A-C"]
+    N["ctenACEfixed"] = sam["E_on_first_34"]
+    N["ctenACFirstK"] = sam["first_k_E_at_threshold"]
+    N["ctenACMinAfter"] = sam["min_E_after_first"]
+    N["ctenFixedN"] = 34
+    if not all(
+        a["spend_equals_sum_of_run_costs"]
+        and a["runs_started_after_guard"] == 0
+        and a["stop_explained_by_guard"]
+        and a["prefix_of_task_order"]
+        for a in sa["arms"].values()
+    ):
+        print("MISMATCH s43 stop audit")
+        return 1
+    if (sam["n"], sam["first_k_E_at_threshold"]) != (45, 36) or sam["E_on_first_34"] >= 40:
+        print("MISMATCH s43 stop audit values")
+        return 1
     if N["ctenANone"] != max(c10["solved"][v + "_none"][0] for v in "ABCD"):
         print("MISMATCH s43: the text says 'at most ctenANone' without the skill")
         return 1
     if not cc["main A-C"]["reject_at_threshold"] or cc["B-D"]["reject_at_threshold"]:
         print("MISMATCH s43 decisions")
         return 1
+    # section 44 (C10R, registered before its run): the fixed 70-task pool, seed 61
+    cr = load(Path("results/c10r_analysis.json"))
+    for name, key in (("main A-C", "AC"), ("A-B", "AB"), ("B-D", "BD"), ("C-D", "CD")):
+        c = cr["contrasts"][name]
+        N["ctr" + key + "N"], N["ctr" + key + "Neg"] = c["n"], c["n_negative"]
+        N["ctr" + key + "Pos"], N["ctr" + key + "Mean"] = c["n_positive"], c["mean_D"]
+        N["ctr" + key + "Lo"], N["ctr" + key + "Hi"] = c["bootstrap_95"]
+        N["ctr" + key + "E"] = sci(c["E"])
+    ixr = cr["interaction (A-B)-(C-D)"]
+    N["ctrIxMean"], (N["ctrIxLo"], N["ctrIxHi"]) = ixr["mean"], ixr["bootstrap_95"]
+    for arm, (k, n) in cr["solved"].items():
+        tag = arm.replace("_none", "None").replace("_skill", "Skill")
+        N["ctr" + tag], N["ctr" + tag + "N"] = k, n
+    crarm = {
+        (r["environment"], r["condition"]): r
+        for r in ha["level2_3_by_arm"]
+        if r["environment"].startswith("C10")
+        and r["subset"] == "all"
+        and r["agent"] == "study agent, seed 61"
+    }
+    N["ctrADiff"] = crarm[("C10 A: original history", "original skill")]["bug_diff_shown"]
+    for v, env in (
+        ("B", "C10 B: neutral message"),
+        ("C", "C10 C: empty Bug Patch"),
+        ("D", "C10 D: no bug commit"),
+    ):
+        N["ctr" + v + "Tests"] = crarm[(env, "original skill")]["tests_restored_and_run"]
+    sar = load(Path("results/c10r_stop_audit.json"))
+    if not all(
+        a["runs"] == a["n_tasks"] == 70 and a["prefix_of_task_order"] for a in sar["arms"].values()
+    ):
+        print("MISMATCH s44: an arm of C10R did not run all 70 tasks")
+        return 1
+    for k, v in {
+        "ctrACN": 70,
+        "ctrACNeg": 40,
+        "ctrACPos": 0,
+        "ctrASkill": 41,
+        "ctrADiff": 70,
+    }.items():
+        if N[k] != v:
+            print("MISMATCH s44", k, N[k], v)
+            return 1
+    if not cr["contrasts"]["main A-C"]["reject_at_threshold"]:
+        print("MISMATCH s44 decision")
+        return 1
+    N["ctrNoneMax"] = max(cr["solved"][v + "_none"][0] for v in "ABCD")
     N["leakSharePct"] = round(100 * N["leakShare"])
     N["fzeroGoldMinPct"] = int(100 * f0["S_gold_min"])  # floor: "at least"
     for k in ("sskbOpp", "sskbRho"):
