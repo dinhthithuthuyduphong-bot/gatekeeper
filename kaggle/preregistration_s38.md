@@ -308,6 +308,6 @@ Một quỹ đạo **cho thấy rò rỉ** khi một quan sát trả về cho ag
   - d_j: Jinja c04 +0,33 (gốc 2/3, đổi tên 1/3); 5 cặp còn lại bằng 0 (gốc 3/3, đổi tên 3/3).
   - Trung bình d = 0,056; p một phía = 0,5. **Không bác bỏ.** G cho cùng kết quả.
 - **Câu viết, theo bảng diễn giải đặt trước (hàng "không bác bỏ, trung bình d gần 0"):** "Tên commit một mình không giải thích chỉ dẫn. Chỉ dẫn có thể đến từ việc agent dùng lịch sử thành công, mà A′ không tách được."
-- **Mô tả (không phải phép thử):** 15/18 skill viết từ prompt đổi tên gọi đích danh commit "Merge branch 'stable'" là nơi lỗi được chèn. Ví dụ: "The bug is intentionally injected in a recent commit (often named "Merge branch 'stable'"). Run `git log -n 5`…".
+- **Mô tả (không phải phép thử):** 11/18 skill viết từ prompt đổi tên (đếm bằng máy: chuỗi `Merge branch 'stable'` trong `new_skills`; bản đầu của ghi chú này ghi nhầm 15/18, K26) gọi đích danh commit "Merge branch 'stable'" là nơi lỗi được chèn. Ví dụ: "The bug is intentionally injected in a recent commit (often named "Merge branch 'stable'"). Run `git log -n 5`…".
   - Model vẫn chỉ đường tới commit chèn lỗi, chỉ là theo tên mới. Chỉ dẫn bám theo việc agent dùng lịch sử trong quỹ đạo, không bám theo nhãn "Bug Patch".
   - Khớp với C10 (§43): thông điệp giúp agent tìm diff, nhưng tên thông điệp không phải nguồn gốc của chỉ dẫn.
