@@ -1064,3 +1064,20 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Kết quả:** xem ghi chú thực thi 43-4. Phát hiện mới: trên pool 34 task cố định trước, E = 26,65, không bác bỏ.
 - **`scripts/make_numbers.py`:** thêm 4 macro (`ctenACEfixed`, `ctenACFirstK`, `ctenACMinAfter`, `ctenFixedN`), kèm kiểm khớp. Mọi macro cũ không đổi.
 - **Paper:** đoạn C10 viết lại. Bỏ chữ "certified". Nêu pool cố định 34 task không bác bỏ; nêu giả thuyết hẹp hơn và lý do điểm cắt là thời điểm dừng. Bài dựng không lỗi, 8 trang.
+
+## R-77. Đăng ký §44 (C10R): cấu hình, workflow, trần, power (17/11/2026; 0 USD)
+
+- **Mã mới:**
+  - `scripts/c10r_caps.py` (quy tắc L66; test `tests/test_c10r_caps.py`, 2 test);
+  - `scripts/c10r_power.py`;
+  - `configs/c10r.json` do script sinh.
+- **Workflow:** arm `c10r70` trong bước C10.
+  - Đọc `configs/c10r.json`, tiền tố `c10r`, seed từ cấu hình. Các arm cũ giữ seed 51 qua giá trị mặc định khi cấu hình không có khóa `seed`.
+  - Kiểm `bash -n` trên bước này đạt; YAML hợp lệ.
+- **Đã kiểm:**
+  - Tổng trần đúng bằng 12,64 dưới phép cộng số thực (L65).
+  - Không hàm nào nhận λ, θ, ngưỡng hay phân vị có giá trị mặc định.
+- **Còn phải làm trước khi chi:**
+  - CI xanh;
+  - chạy thử miễn phí `c10r70` (model giả lập);
+  - @thuthuy xác nhận credit.

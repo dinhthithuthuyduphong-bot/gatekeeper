@@ -142,3 +142,6 @@ Mọi con số khác bên dưới đều được **suy ra từ α**, **suy ra t
 | **C10, kết quả: n = 45, E = 76,2, D = −0,222 [−0,300; −0,133] và các phép phụ** (§43) | Suy ra | `results/c10_analysis.json` từ `scripts/c10_analysis.py` (viết trước dữ liệu); macro `cten*` do `scripts/make_numbers.py` sinh |
 | **C10, số task mỗi phép so 45–62** (§43, ghi chú 43-3) | Vận hành | Hệ quả của trần (A138); quy tắc "dùng các task hoàn tất ở bốn nhánh" đã đăng ký trước |
 | **C10, E = 26,65 trên 34 task cố định; E lần đầu ≥ 40 ở task 36** (ghi chú 43-4) | Suy ra | `results/c10_stop_audit.json` từ `scripts/c10_stop_audit.py` |
+| **C10R, seed 61** (§44) | Vận hành | Cách 10 so với seed 41, 51 của các lượt trước (C2 ở `docs/audit_pilot.md`) |
+| **C10R, trần = phân vị 0,999 của chi phí mô phỏng + 0,30; tỉ lệ 1,971; tối thiểu 10 chi phí ở tầng sau** (§44) | Vận hành | L66; chỉ ảnh hưởng xác suất bị cắt, không ảnh hưởng phép thử. `scripts/c10r_caps.py` |
+| **C10R, power 0,994 / 0,214; cỡ 0,0006** (§44) | Suy ra | `results/c10r_power.json` (seed 4403, 20.000 lần) |
