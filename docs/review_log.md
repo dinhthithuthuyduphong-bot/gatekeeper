@@ -899,7 +899,79 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Quy tắc nhận diện sửa một lần, trước khi đọc kết quả theo nhánh:**
   - bộ đầu báo nhầm ở môi trường một commit (8 lượt Bleve có "diff Bug Patch", 1 lượt Jinja có "test bị xóa"), nơi không có gì để thấy;
   - nguyên nhân: `git show HEAD` in cả cây mã với dấu `+`; agent tự `git diff` bản sửa của lỗi đảo nhánh `if`;
-  - bộ cuối cho 0 lượt ở mọi nhánh một commit (730 lượt). Bộ đầu vẫn được tính (`*_loose`).
+  - bộ cuối cho 0 lượt ở mọi nhánh một commit (669 lượt; bản đầu của mục này và của §41 ghi nhầm 730 do cộng tay, được `make_numbers.py` bắt khi đối chiếu ngày 17/11 và sửa trước khi vào paper). Bộ đầu vẫn được tính (`*_loose`).
 - **Test:** `tests/test_history_audit.py`, 7 ca, gồm ba ca báo nhầm ở trên.
 - **Kiểm chéo bằng tay:** đọc trace `combine_file__yjwp1l4i` của agent thứ hai (`git show --stat` trên commit "Remove F2P Tests", rồi `git checkout <Initial commit> -- tests`, rồi `pytest`) và sáu lượt Bleve bị báo nhầm.
 - **Làm trái L60:** từ 16/11 tôi commit lên `main` từ một worktree phụ, bằng `-c core.hooksPath=…` để hook vẫn chạy. Hook đã chạy đủ ở mọi lần; `core.bare` vẫn là `false` ở cả hai thư mục. Từ commit này tôi làm trong thư mục chính, chuyển nhánh ở đó.
+
+## R-69. Paper viết lại cho EASE 2027 (17/11/2026; 0 USD)
+
+- **Mẫu:** `acmart` (`sigconf,review,anonymous`), đúng tùy chọn CFP yêu cầu; không tên tác giả, không đường dẫn repo. 7 trang kể cả tài liệu tham khảo (giới hạn: 10 trang nội dung, thêm 2 trang tham khảo). 0 lỗi, 0 tràn lề.
+- **Mạch:** mức tăng → cơ chế → can thiệp → phần còn lại → phạm vi → kiểm tra đo lường (theo meta-review).
+- **Thống kê:** chứng nhận = phép kiểm cuối pool (§42, `docs/method_end_of_pool.md`), mệnh đề có chứng minh; ba đại lượng T1–T3; bỏ Định lý 2 cũ (phần chưa chứng minh trên rủi ro kỳ vọng) và Mệnh đề 3 cũ (sai với thủ tục không bao giờ nhận); e-process tuần tự giữ vai trò đã đăng ký; trích PACE là nơi đã công bố thống kê.
+- **Dữ kiện mới:** §41 (ba commit, hai kênh rò rỉ) thay câu "cận trên" và câu "một kênh"; §42 (12 quyết định, cấu trúc lượt chạy). "609 rewrites" sửa thành 609 container (một cho mỗi lần chấm). "All agent runs use one model" bỏ.
+- **Bảng và hình:** bảng kê thí nghiệm; bảng 12 quyết định (cùng job hay khác lượt chạy, E, ngưỡng 40 và 480, điểm vượt ngưỡng hồi cứu); bảng task không mô tả có mẫu số; bảng các quy tắc quyết định theo mục đích, mức, số lần nhìn; hình cơ chế với nét liền (đo được) và nét đứt (suy ra); biểu đồ mức tăng có khoảng tin cậy; dòng thời gian đăng ký và hai nhóm task.
+- **Mọi con số là macro** (`make_numbers.py`, có đối chiếu); thêm khối §41, §42, nhóm task của phép thử C, bảng chéo của cờ theo dõi. Bộ đối chiếu bắt được một lỗi cộng tay của tôi (730 thành 669, §41).
+- **Danh mục:** thêm PACE qua `configs/bib_overrides.json` (tên và tác giả đối chiếu với bản lưu); năm của mọi mục lấy từ bản lưu (A134).
+- **Chờ @thuthuy:** tên bài (Q3); nội dung khai báo dùng AI (A5, chưa đọc được chính sách ACM); đường dẫn gói tái lập ẩn danh (A4).
+
+## R-70. Minh bạch và gói tái lập ẩn danh: F1–F4, A4 nội bộ (17/11/2026; 0 USD)
+
+**Phạm vi:** `scripts/registration_timeline.py`, `scripts/build_replication_package.py`, `scripts/package_manifest.py`, tùy chọn `--named-only` của `scripts/check_anonymity.py`, và các file kết quả `results/registration_timeline.json`, `results/package_manifest.json`.
+
+**Kiểm theo danh sách §4:**
+- **Không có con số khoa học mới.** Các script chỉ đọc git và file kết quả có sẵn.
+- **F1, thời điểm đăng ký:**
+  - lấy commit đầu tiên chứa dòng tiêu đề (`git log -S`, ngày commit);
+  - kết quả đầu tiên lấy từ lần thêm file trên `pilot-snapshots`, theo ngày tác giả, vì ngày commit đã bị đặt lại khi nhánh được viết lại;
+  - lần chạy đầu cho thấy mọi mục cùng một thời điểm 01/11. Nguyên nhân là đọc `%cI` và tách khối sai; đã sửa trước khi dùng.
+  - Kết quả: 52 dòng, 0 mục có kết quả trước đăng ký.
+- **A4, quét danh tính:** lần dựng đầu báo 300 chỗ. Phân loại từng nhóm:
+  - phần lớn là của bên thứ ba: tổ chức GitHub và email trong patch của task;
+  - 43 chỗ là chữ "thuyết", do từ "Thuy" trần trong danh sách tên;
+  - chỗ lộ thật duy nhất nằm trong chính script dựng gói (mẫu REDACT).
+- **A4, cách sửa:**
+  - bỏ script dựng gói ra khỏi gói;
+  - danh sách tên chỉ dùng các dạng đầy đủ;
+  - thêm `--named-only`: email và URL tài khoản chỉ bị báo khi chứa một tên. Có test `test_named_only_keeps_named_addresses_and_drops_third_party`. Chế độ mặc định không đổi.
+- **A4, kết quả:** lần dựng lại có 2034 file và 0 chỗ lộ. Kiểm thêm ngoài công cụ:
+  - `grep` trên mọi file văn bản;
+  - `zcat | grep` trên mọi file `.gz` (trace), vì công cụ quét không đọc file nén.
+  - Cả hai đều 0 kết quả.
+- **F4:** trong thư mục gói, chạy `make_numbers.py --trial trial --rows <rows>`. Kết quả:
+  - `paper/numbers.tex` giống hệt bản trong repo;
+  - `src/` của gói giống hệt repo, trừ thư mục egg-info.
+  - Giới hạn: đây là thư mục sạch, không phải máy cài mới.
+- **F2, ý nghĩa trường "L":** ban đầu tôi viết docstring theo trí nhớ ("1 = vẫn lỗi"). Đọc `passed()` trong `scripts/s25_ab.py` thì thấy sai:
+  - "S" là bộ chấm chặt, đọc trường `resolved`;
+  - "L" là bộ chấm nới, đọc trường `passed`.
+  - Đã sửa docstring trước khi commit.
+- **F2, còn thiếu:** phiên bản bộ chấm, và mã bản dựng model của nhà cung cấp. Đã ghi trong todo.
+- `python scripts/preflight.py --ci`: PASS.
+
+## R-71. C10: biến thể lịch sử git, plan `swesmith-c10`, hướng dẫn phần có phí (17/11/2026; 0 USD)
+
+**Phạm vi:**
+- `scripts/history_variants.py`, `tests/test_history_variants.py`;
+- `--history-variant` và `--neutral-message` trong `scripts/f1_probe.py`;
+- bước C10 trong `.github/workflows/pilot.yml`, `tests/fixtures/c10_dryrun.json`;
+- `docs/guide_paid_steps.md`; A135, L63.
+
+**Kiểm theo §4:**
+- **Không có con số khoa học mới trong mã.**
+  - Câu trung tính của B không có giá trị mặc định: chạy có phí chỉ đọc từ `configs/c10.json`, file chỉ có sau khi đăng ký.
+  - Seed 51 và cost_limit 0,30 lấy từ §35 đã đăng ký.
+- **Cấu trúc ba commit** dựa trên §41 mức 1 (1.086/1.086 task). Script vẫn kiểm lại thông điệp của từng task và dừng (mã 3) nếu khác.
+- **Tính đúng:** 9 test trên một repo git dựng theo hình task SWE-smith, có remote, mirror và tag, HEAD trên nhánh và HEAD tách rời. Mỗi test kiểm:
+  - cây của HEAD không đổi;
+  - commit "Remove F2P Tests" có diff giống hệt bản gốc;
+  - tác giả và ngày được giữ;
+  - A cho đúng mã băm gốc, tức siêu dữ liệu được giữ từng bit;
+  - B mang câu trung tính và vẫn có diff lỗi;
+  - C và D không còn mã trước lỗi ở bất kỳ đâu trong lịch sử.
+- **Chưa kiểm được ở máy của phiên:** cách gc xử lý đối tượng trong file pack của image thật (không có Docker và image). Chuỗi kiểm `t0_present` ghi lại điều này ở mọi lượt. Chạy thử miễn phí ở bước 4 của hướng dẫn kiểm nó trên container thật trước mọi lượt có phí.
+- **Lỗi phát hiện khi review:** con số chi phí 0,0746 USD mỗi task của C10 là số dự kiến, không phải số đo (A135, L63). Đã tính lại từ `cost_usd` và `spent_usd` của §33 và §35:
+  - 34 task: dự kiến 3,03, trần 5,43 USD;
+  - 70 task: dự kiến 5,81, trần 10,61 USD.
+- **Con số C6 (5,9 USD)** khớp số đo: §34 đã chi 5,2042 USD, cộng 2 × cost_limit 0,34.
+- `bash -n` trên bước workflow đã thay biến: đạt. YAML hợp lệ.

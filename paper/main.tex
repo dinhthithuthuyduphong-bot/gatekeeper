@@ -1,28 +1,20 @@
-% Gatekeeper -- ASE 2027 submission (anonymous, IEEE conference format).
-% Numbers in the text: paper/numbers.tex (scripts/make_numbers.py); tables: paper/tables/*.tex
-% (scripts/make_tables.py); bibliography: paper/refs.bib (scripts/make_bib.py). None is edited by hand.
-\documentclass[conference]{IEEEtran}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{amsmath,amssymb,amsthm}
+% Gatekeeper -- EASE 2027 research paper (anonymous, ACM sigconf; 10 pages including appendices,
+% up to 2 pages of references). Numbers in the text: paper/numbers.tex (scripts/make_numbers.py);
+% bibliography: paper/refs.bib (scripts/make_bib.py). None is edited by hand.
+\documentclass[sigconf,review,anonymous]{acmart}
+\acmConference[EASE 2027]{The 31st International Conference on Evaluation and Assessment in Software Engineering}{15--18 June, 2027}{Hanoi, Vietnam}
+\settopmatter{printacmref=false}
+\setcopyright{none}
+\renewcommand\footnotetextcopyrightpermission[1]{}
 \usepackage{booktabs}
-\usepackage{xcolor}
-\usepackage{graphicx}
-\usepackage{hyperref}
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning}
+\usetikzlibrary{arrows.meta,positioning,calc}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
-\hypersetup{hidelinks}  % links stay clickable; no coloured boxes over the text
 
-\newtheorem{theorem}{Theorem}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{definition}{Definition}
 \newtheorem{assumption}{Assumption}
-\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
 \newcommand{\STR}{\mathrm{STR}}
-% The one place where the agent's model is named in the text (exact version: artifact).
+% The one place where the agent's model is named in the text (exact version: replication package).
 \newcommand{\agentmodel}{Gemini~3.1 Flash-Lite}
 \newcommand{\promodel}{Gemini~3.1 Pro (preview)}
 \newcommand{\flashmodel}{Gemini~3.8 Flash}
@@ -30,1021 +22,616 @@
 \input{numbers}
 
 \begin{document}
-\title{The Learner Found the Leak: Certifying Learned\\Coding-Agent Skills under Controls}
-\author{\IEEEauthorblockN{Anonymous Author(s)}}
-\maketitle
+\title{The Learner Found the Leak: Certifying Learned Coding-Agent Skills under Controls}
 
 \begin{abstract}
 Skills for coding agents are increasingly learned by optimising a text against a benchmark and
-judged by one number, the gain in resolved tasks. We show that such a gain can pass a rigorous
-test and still not belong to the skill. A published pipeline learned a skill for the Jinja
-repository that raises the resolved tasks from \njinjaNone{} to \njinjaSkill{} of 100, and an
-anytime-valid paired test admits it after \njinjaAdmit{} tasks. The learner had written into the
-skill, unprompted, an instruction to look for a suspicious recent commit, and the benchmark keeps
-the bug-injecting commit in the history of every task. Three registered controls isolate the
-effect: reducing the history to one commit lowers the gain from \njinjaGain{} to \njinjaLFGain{}
-(difference \nleak{} [\nleakLo{}, \nleakHi{}]); deleting the one instruction leaves a gain of
-\nabGain{}; and rerunning the learner without the history yields a skill with no such instruction
-that is still admitted. A second seed reproduces the difference (\nsdLeak{} [\nsdLeakLo{},
-\nsdLeakHi{}]), and a preregistered anytime-valid test on \ncfN{} tasks that no earlier analysis
-had seen confirms it ($p=\ncfP$): on the \ncfNew{} new tasks among them the skill resolves
-\ncfShipSkill{} with the history and \ncfLFSkill{} without, and the bug-injecting commit appears
-in the agent's trace in \ncfMon{} of \ncfNew{} runs. A stronger agent model opens the commit with
-no skill at all, in \nflNoneOpen{} of \nflN{} runs. A skill learned for a Go repository repeats the
-pattern. The precondition is common: \nexpoPct\% of the benchmark's \nexpoTasks{} tasks have no
-issue description, the condition under which the leak paid off here. Reused verbatim on another
-repository, the skill carries the behaviour but no gain and is not admitted, while the pipeline's
-public scorer, which accepts patches that change nothing on \nfzeroLNoop{} of \nfzeroN{} tasks,
-reports a gain of \npygLGain{}. The remaining gain of each skill is real and certified. A learned
-skill must therefore be admitted per scope, under controls in which the claimed cause is absent;
-we release the preregistrations, every raw run and the code.
+judged by one number, the gain in resolved tasks. We study one such gain under controls. A
+published pipeline learned a skill for the Jinja repository that raises the resolved tasks from
+\njinjaNone{} to \njinjaSkill{} of 100. The learner had written into the skill, unprompted, an
+instruction to look for a suspicious recent commit, and every SWE-smith task keeps two commits that
+the benchmark's construction added: one injects the bug, the next deletes the tests that reproduce
+it. Removing these two commits lowers the gain from \njinjaGain{} to \njinjaLFGain{} (difference
+\nleak{} [\nleakLo{}, \nleakHi{}]); deleting the one instruction leaves a gain of \nabGain{};
+rerunning the learner without the two commits yields a skill without the instruction. A second
+agent seed reproduces the difference (\nsdLeak{} [\nsdLeakLo{}, \nsdLeakHi{}]), and a preregistered
+test on \ncfN{} tasks without an issue description confirms it (\ncfNewFor{} of the \ncfNew{} never
+used before favour the environment with the commits, none the other). A skill learned for a Go
+repository repeats the pattern, and a stronger agent model reads both commits with no skill at all.
+The part of each gain that persists without the commits is certified by an end-of-pool test whose
+guarantee we state and prove for the design we ran: the mean effect over a fixed pool of tasks,
+within one run. A learned skill must be certified per scope, under controls in which the claimed
+cause is absent.
 \end{abstract}
+\keywords{coding agents, agent skills, benchmark leakage, controlled experiments, e-values}
+\maketitle
 
 \section{Introduction}
 Agent skills are reusable procedures, written in natural language, that a coding agent loads into
 its context when a task appears to match~\cite{agent_skills}. They are increasingly learned rather
 than written: systems mine them from trajectories~\cite{xreposkill}, distil them into experience
-cards~\cite{memgovern_repo}, or optimise them against a benchmark~\cite{gskill}. The question a
-practitioner faces is the one that motivates this paper: \emph{should this skill run here?} The
-evidence offered for an answer is often one number, the gain in resolve rate measured once: a
-benchmark of skills runs ``every task once without the skill and once with it''~\cite{sskb_paper}.
+cards~\cite{memgovern_repo}, or optimise them against a benchmark~\cite{gskill}. The evidence
+offered for a skill is often one number, the gain in resolve rate measured once: a benchmark of
+skills runs ``every task once without the skill and once with it''~\cite{sskb_paper}. That number
+can be wrong because of run-to-run noise~\cite{randomness_agentic_evals_2026} or scorers that
+accept incorrect patches~\cite{patchdiff_2025,utboost_2025}. This paper documents a third way,
+harder to see because the number is \emph{correct}: the gain is real and passes a rigorous test,
+and part of it still does not belong to the skill.
 
-That number can be wrong in two well-known ways: run-to-run noise~\cite{randomness_agentic_evals_2026}
-and scorers that accept incorrect patches~\cite{patchdiff_2025,utboost_2025}. This paper documents
-a third way, which is harder to see because the number is \emph{correct}: the gain is real, it
-passes a rigorous test, and part of it still does not belong to the skill.
+We ran gskill~\cite{gskill}, a published pipeline that learns a skill for a repository by optimising
+it on synthetic tasks generated by SWE-smith, on the Jinja repository. Under SWE-smith's own scorer
+the learned skill raises the resolved count on 100 held-out tasks from \njinjaNone{} to
+\njinjaSkill{}. Among its instructions is \emph{``Run \texttt{git log -n 5} to identify suspicious
+recent commits (e.g., `Bug Patch'), then use \texttt{git show}\ldots''}. Every SWE-smith task, as we
+verified on all \nhiTasks{} tasks of three repositories, has exactly three commits: a snapshot of the
+project, a commit that injects the bug, and a commit that deletes the files holding the tests that
+reproduce it (Section~\ref{sec:setting}). Git-history leaks of this kind have been reported for
+SWE-smith and SWE-bench~\cite{marin_swesmith_git_leak,debuggym_swesmith_git_leak,
+swebench_git_log_leak}; we show that a skill \emph{learner} turned the leak into advice, and
+measure how much of a certified gain the advice accounts for.
 
-\paragraph{A certified skill, and where its gain comes from}
-We ran gskill~\cite{gskill}, a published pipeline that learns a skill file for a repository by
-optimising it on synthetic tasks generated by SWE-smith, on the Jinja repository, with the agent
-the pipeline was demonstrated with (mini-swe-agent) but a different model: the announcement used
-gpt-5-mini~\cite{gskill}, we use \agentmodel{} (Section~\ref{sec:design}). Under SWE-smith's own scorer, the learned skill
-raises the resolved count on 100 held-out test tasks from \njinjaNone{} to \njinjaSkill{}, a gain
-of \njinjaGain{} [\njinjaGainLo{}, \njinjaGainHi{}]. Gatekeeper, an existing anytime-valid test~\cite{waudby_smith_ramdas}
-applied to paired runs (Section~\ref{sec:admission}), admits the skill after \njinjaAdmit{} tasks. By the usual standard this
-is a clean success.
+We treat the evaluation of a skill as a controlled experiment, in the order
+\emph{gain $\rightarrow$ mechanism $\rightarrow$ intervention $\rightarrow$ residual $\rightarrow$
+scope}. Each control asks whether the measurement could produce the observed result when the
+claimed cause is absent. The contributions are:
+\begin{itemize}
+\item A traced mechanism: the learner introduced the instruction during optimisation (no prompt asks
+      for it), the agent follows it on the tasks without an issue description, and every such task
+      the agent resolved in the original environment shows the bug-injecting diff in its trace
+      (Section~\ref{sec:mechanism}).
+\item Three registered interventions that remove the cause from three sides: from the environment
+      (the two construction commits), from the skill (the one instruction) and from the learning
+      (relearning without the commits); with a second seed and a preregistered test on tasks no
+      analysis had seen (Sections~\ref{sec:interventions}--\ref{sec:replication}).
+\item A statement of what a certification of this kind means: an end-of-pool test whose guarantee
+      holds for the mean effect over a fixed pool within one run, with heterogeneous tasks, and does
+      not extend to other runs or other tasks (Section~\ref{sec:certified}).
+\item Measurement controls with a known answer (A/A runs, no-op and gold patches, an irrelevant
+      skill) applied to a learning pipeline's scorer and to common decision rules
+      (Section~\ref{sec:measurement}).
+\end{itemize}
+We do not claim that the leak is new, that the numbers reported for gskill were produced with the
+code we tested, or that learned skills do not help: the part of each gain that persists without the
+leak is certified.
 
-The skill's own text points elsewhere. Among its instructions is: \emph{``Run \texttt{git log -n 5}
-to identify suspicious recent commits (e.g., `Bug Patch'), then use \texttt{git show}\ldots''}.
-SWE-smith tasks keep the commit that injected the bug just below the head of the repository; this
-leak has recently been reported for SWE-smith environments~\cite{marin_swesmith_git_leak,
-debuggym_swesmith_git_leak}, and leaks of the same kind are documented for SWE-bench and its
-derivatives~\cite{swebench_git_log_leak,swebench_pro_verified}. Nothing in gskill's own code or prompts asks
-for it: at the commit we ran, the seed skill is empty, the agent configuration does not contain the word
-``git'', and the prompts that write and merge skills name \texttt{git} only in a list of available
-commands, never mentioning history or commits~\cite{gskill_seed_candidate,gskill_mini_yaml}. The
-instruction was introduced during optimisation. We therefore repeated the evaluation with
-\emph{only} the history changed, replacing it with a single commit that holds the buggy tree; a fix for the
-same leak removes the original code from the history~\cite{debuggym_swesmith_git_fix}. The gain falls to \njinjaLFGain{}
-[\njinjaLFGainLo{}, \njinjaLFGainHi{}]. The difference, \nleak{} [\nleakLo{}, \nleakHi{}], is about
-\nleakSharePct\% of the in-scope gain. On the \njinjaNoPSTasks{} tasks whose issue description is empty, the skill
-solved \njinjaNoPSn{} tasks with the leak and \njinjaNoPSLF{} without it; on the tasks that do have a
-description, the gain changes from \njinjaWithPSGain{} to \njinjaWithPSLFGain{} tasks. The
-rest of the gain is not explained by the leak: Gatekeeper still admits the skill without it, after
-\njinjaLFAdmit{} rather than \njinjaAdmit{} tasks. Closing the leak while learning, instead of
-only while evaluating, removes the instruction at its source: rerun with every learning container
-reduced to a single commit, gskill wrote no line about commits or history in any of its
-\ncleanCandNonEmpty{} kept rewrites, and the skill it returned is certified (\ncleanNone{} to
-\ncleanSkill{}, admitted after \ncleanAdmit{} tasks), with no statistically detectable difference
-from the residual gain of the original skill (difference \ncleanVsOrig{} [\ncleanVsOrigLo{},
-\ncleanVsOrigHi{}]; we registered no equivalence margin, so this is not a claim of equivalence). A skill learned in the same way for a Go
-repository (Bleve) repeats the pattern: its text again advises reading recent commits when the issue
-is vague, its gain falls from \nbleveGain{} to \nbleveLFGain{} with a single-commit history, and
-both gains are admitted; the leak accounts for \nbleveLeak{} [\nbleveLeakLo{}, \nbleveLeakHi{}],
-about \nbleveLeakSharePct\% of the in-scope gain, against \nleakSharePct\% on Jinja. Both shares are
-upper bounds on the leak's share: the single commit removes the whole history, not only the
-bug-injecting commit.
+\section{Setting}\label{sec:setting}
+\paragraph{Tasks and their history}
+A SWE-smith task is a branch of a mirror of the project. We read every task branch of the three
+repositories we use (Jinja and Pygments in Python, Bleve in Go; \nhiTasks{} tasks): all
+\nhiThree{} have exactly three commits, \emph{Initial commit} (the whole project in one commit),
+\emph{Bug Patch} (whose diff equals the benchmark's bug patch in all \nhiBugEq{}), and \emph{Remove
+F2P Tests} (which only deletes files, and the deleted files contain every \texttt{FAIL\_TO\_PASS}
+test of the task). The history thus holds two leak channels, the bug-injecting diff and the deleted
+tests, and no project history.
+
+\paragraph{Learner, skill and agent}
+gskill~\cite{gskill} learns a block of text that its agent configuration inserts into the system
+prompt, after ``Here are some of the skills you learned while working with similar
+problems''~\cite{gskill_mini_yaml}. The loop, GEPA~\cite{gskill_train_config}, starts from an empty
+skill~\cite{gskill_seed_candidate}; \promodel{} reads the current skill with the agent's runs on a
+minibatch of three training tasks and proposes a rewrite, accepted if its summed score on the
+minibatch is strictly higher than the parent's~\cite{gepa_acceptance}. Tasks are split into
+\nlearnTrain{} training, \nlearnVal{} validation and \nlearnTest{} test tasks (seed 42, gskill's
+defaults); the loop stops after \nlearnBudget{} metric calls, one call being one agent run on one
+task. For Jinja it made \nlearnCalls{} calls, kept \nlearnCands{} candidates and returned one with
+validation score \nlearnValL{} under $L$. We run gskill's released code (commit 8c7b697) unmodified
+with mini-swe-agent~1.17.5 and its step limit of 50; the agent model is \agentmodel{} (the
+announcement used gpt-5-mini~\cite{gskill}), with a per-run cost cap of \nswsCapLimit{}~USD in both
+arms, reached by \nswsCapped{} of \nswsRuns{} runs. The skill is used verbatim and evaluated only
+on the test split.
+
+\paragraph{Scorers}
+{\sloppy $S$ is the benchmark's notion of \emph{resolved}: every \texttt{FAIL\_TO\_PASS} and
+\texttt{PASS\_TO\_PASS} test passes, by SWE-smith's grading. $L$ is the scorer in gskill's public
+code (\texttt{verify\_with\_patch}), which the learning loop optimises. Every gain in this paper is a
+gain under $S$: the benchmark's tests, not an independent check of the patches' semantics.\par}
+
+\paragraph{Experiments}
+Table~\ref{tab:inventory} lists every experiment, its intervention and cohort, whether its arms ran
+in the same job, and whether its analysis was registered before the data. A \emph{scope} is a
+repository, its environment, and the agent with its model.
+
+\begin{table*}[t]\centering\footnotesize\setlength{\tabcolsep}{4pt}
+\caption{Experiment inventory. ``Same job'': both arms of a task ran in one job at the same time;
+otherwise the arms ran in different runs (same day or a later day). Registered: the analysis rule
+was committed before the data it applies to; post hoc analyses are labelled in the text.}
+\label{tab:inventory}
+\begin{tabular}{@{}llllll@{}}\toprule
+ID & Question & Intervention & Tasks (cohort) & Arms & Analysis\\\midrule
+J1 & gain of the learned Jinja skill & none & Jinja test, 100 & 2 runs, same day & registered\\
+J2 & gain without the construction commits & history $\to$ one commit & Jinja test, 100 & 2 runs, same day & registered\\
+B1, B2 & the same for the Bleve skill & as J1, J2 & Bleve test, 100 & different days & registered\\
+P & does an irrelevant skill explain the gain & skill $\to$ length-matched placebo & Jinja test, 100 & different days & registered\\
+A & is the instruction the cause & skill minus its history line & Jinja test, 100 & same job & registered\\
+R & does the learner write it without the leak & relearn with one commit & Jinja test, 100 & same job (\neopSameG/100) & registered\\
+S1--S3 & second agent seed, four arms & J1, J2 and their contrast & Jinja test, 100 & same job & registered\\
+C & confirmatory contrast & J1 vs J2 & 34 test (seed 51) + 36 new & same job per task & registered\\
+G & second agent model & none (descriptive) & Jinja, 34 without description & same job & registered, descr.\\
+X & reuse on another repository & Jinja skill on Pygments & Pygments test, 100 & same job (\neopSameH/100) & registered\\
+H & what the agent saw & trace audit & every saved trace & -- & post hoc\\
+\bottomrule\end{tabular}
+\end{table*}
+
+\section{What is certified}\label{sec:certified}
+Let a fixed pool of $N$ tasks be chosen before any outcome, and for task $i$ let
+$Z_i=\ell_i(\text{skill})-\ell_i(\text{none})\in\{-1,0,1\}$ with $\ell=1-\mathbb{1}[\text{resolved
+under }S]$, so $Z_i<0$ means the skill helped. Let $C$ be the \emph{state of the run}: everything
+shared between the tasks of a run, such as the model version the provider served, the harness
+configuration, and the provider's state over time; when two arms ran in different runs, $C$ is the
+state of both. We separate three targets: \textbf{T1}, the mean effect over the pool within the run,
+$\mu(C)=\frac1N\sum_i\mathbb{E}[Z_i\mid C]$; \textbf{T2}, its mean over runs; \textbf{T3}, the effect
+on future tasks of the repository. The expectation in T1 is over the agent's sampling noise. We
+certify T1 only.
+
+\begin{assumption}\label{ass:indep}
+Given $C$, $Z_1,\dots,Z_N$ are independent. (The two arms of one task may depend on each other.)
+\end{assumption}
+
+\begin{proposition}\label{prop:eop}
+Fix $\theta\in[0,1)$ and $\lambda\in[0,1/(1+\theta))$ before the data, and let
+$E=\prod_{i=1}^N\bigl(1+\lambda(-\theta-Z_i)\bigr)$. Under Assumption~\ref{ass:indep} and
+$H_0(C):\sum_i\mathbb{E}[Z_i\mid C]\ge-N\theta$, $\mathbb{E}[E\mid C]\le1$, hence
+$\Pr[E\ge1/\alpha\mid C]\le\alpha$.
+\end{proposition}
+\begin{proof}
+Each factor is at least $1-\lambda(1+\theta)>0$. By Assumption~\ref{ass:indep},
+$\mathbb{E}[E\mid C]=\prod_i(1+\lambda(-\theta-\mu_i))$ with $\mu_i=\mathbb{E}[Z_i\mid C]$; as
+$1+x\le e^x$, this is at most $\exp(-\lambda\sum_i(\theta+\mu_i))\le1$ under $H_0(C)$. Markov's
+inequality concludes.
+\end{proof}
+The null constrains only the sum: a few tasks helped strongly and many harmed mildly is a null pool,
+and the bound still holds. We use $\theta=0$ and $\lambda=c/(1+\theta)=0.5$, the largest bet
+registered for our sequential test (below), so no parameter was chosen after the data; a skill is
+\emph{certified} in a scope when $E\ge1/\alpha=40$ ($\alpha=0.025$). With $\theta=0$ and
+$Z_i\in\{-1,0,1\}$, $E=(1+\lambda)^b(1-\lambda)^c$, with $b$ and $c$ the tasks resolved only with and
+only without the skill: the statistic of PACE's paired commit gate on discordant
+pairs~\cite{pace_paired_anytime_gate}, whose validity is shown there for discordant pairs that are
+fair coin flips. Proposition~\ref{prop:eop} shows that, read once at the end of the pool, the same
+statistic is valid for the weaker null on the pool mean. We claim no new method.
+
+The test is not anytime-valid, and it does not cover T2. In a simulation on the 100 Jinja tasks with
+their measured base rates (\neopValidReps{} replicates per pool), the rate of false certification was
+at most \neopTypeMax{} on three null pools, from homogeneous to ten tasks always helped and the rest
+harmed; with a state shared by the whole run (two equally likely states of opposite effect, mean over
+states $0$) it was \neopShared{}, above $\alpha$. Its power is lower than that of the exact sign test
+for small effects (\neopPowSmall{} against \neopSignPowSmall{} for a gain of 0.109; \neopPowMid{}
+against \neopSignPowMid{} for 0.2).
+
+\paragraph{The registered tests and their role}
+Every comparison was registered with an exact one-sided sign test on the discordant pairs (Holm's
+procedure~\cite{holm} at family level 0.025 where registered) and with Gatekeeper, a betting
+e-process~\cite{waudby_smith_ramdas} run over the tasks in gskill's split order ($\theta=0$,
+$c=0.5$, threshold 40), which allows stopping at any task. We keep both as registered. The
+e-process is valid for the narrower null that no task's conditional expectation favours the skill;
+we report its first crossing as the point at which a run could have stopped. All tasks were run in
+every comparison, so stopping points and savings are retrospective. The end-of-pool test is a post
+hoc reanalysis of the registered comparisons; its first confirmatory use must be a new registered
+experiment.
+
+\section{Results}
+\subsection{The gain and its certification}\label{sec:gain}
+Table~\ref{tab:decisions} lists the twelve registered decisions. At the per-decision threshold of 40
+the end-of-pool test reproduces every registered decision: \neopHeldForty{} of the \neopRegN{}
+comparisons registered as admissions are certified, and the Pygments reuse test and the contrast on
+all 100 tasks of the second seed are not. Read as one family of twelve (threshold 480, union bound,
+no independence needed), \neopHeldFam{} of the \neopRegN{} hold. The headline comparison J1 ran its
+arms in two runs; its replicate S1 ran both arms in one job and gives \nsdSkill{} against
+\nsdNone{} ($E=\neopI$). No ordering diagnostic signalled dependence (Kendall's $\tau$ between
+position and $Z_i$: smallest permutation $p=\neopTauMinP$); \neopRateCrash{} runs crashed on a
+provider rate limit, both in B2. These diagnostics can reveal, not exclude, a violation of
+Assumption~\ref{ass:indep}.
+
+\begin{table*}[t]\centering\footnotesize\setlength{\tabcolsep}{4pt}
+\caption{The twelve registered decisions (scorer $S$). Gain: difference in resolved tasks per task,
+with a task-level 95\% bootstrap interval. $E$: end-of-pool statistic ($\lambda=0.5$); certified
+when $E\ge40$; ``fam.'': also $\ge480$ (twelve decisions, union bound). Seq.: first task at which the
+registered e-process crossed 40, retrospective (all tasks were run). Contrasts S3 and C use
+$D_i=(Z_i^{\text{shipped}}-Z_i^{\text{one commit}})/2$.}
+\label{tab:decisions}
+\begin{tabular}{@{}lllrrcrccr@{}}\toprule
+ID & Comparison & Arms & None & Skill & Gain [95\% CI] & $E$ & $\ge40$ & fam. & Seq.\\\midrule
+J1 & Jinja skill, as shipped & 2 runs & \njinjaNone & \njinjaSkill & \njinjaGain{} [\njinjaGainLo, \njinjaGainHi] & \neopA & yes & yes & \njinjaAdmit\\
+J2 & Jinja skill, one commit & 2 runs & \njinjaLFNone & \njinjaLFSkill & \njinjaLFGain{} [\njinjaLFGainLo, \njinjaLFGainHi] & \neopB & yes & yes & \njinjaLFAdmit\\
+B1 & Bleve skill, as shipped & 2 days & \nbleveNone & \nbleveSkill & \nbleveGain{} [\nbleveGainLo, \nbleveGainHi] & \neopC & yes & yes & \nbleveAdmit\\
+B2 & Bleve skill, one commit & 2 days & \nbleveLFNone & \nbleveLFSkill & \nbleveLFGain{} [\nbleveLFGainLo, \nbleveLFGainHi] & \neopD & yes & yes & \nbleveLFAdmit\\
+P & Jinja skill vs.\ placebo & 2 days & \nplcS & \njinjaSkill & \nconGain{} [\nconGainLo, \nconGainHi] & \neopE & yes & yes & \nconAdmit\\
+A & without history line & 1 job & \nabNone & \nabSkill & \nabGain{} [\nabGainLo, \nabGainHi] & \neopF & yes & yes & \nabAdmit\\
+R & relearned, one commit & 1 job$^{a}$ & \ncleanNone & \ncleanSkill & \ncleanGain{} [\ncleanGainLo, \ncleanGainHi] & \neopG & yes & no & \ncleanAdmit\\
+X & reuse on Pygments & 1 job$^{b}$ & \npygNone & \npygSkill & \npygGain{} [\npygGainLo, \npygGainHi] & \neopH & no & no & --\\
+S1 & seed 51, as shipped & 1 job & \nsdNone & \nsdSkill & \nsdGain{} [\nsdGainLo, \nsdGainHi] & \neopI & yes & yes & \nsdAdmit\\
+S2 & seed 51, one commit & 1 job & \nsdLFNone & \nsdLFSkill & \nsdLFGain{} [\nsdLFGainLo, \nsdLFGainHi] & \neopJ & yes & no & \nsdLFAdmit\\
+S3 & contrast, seed 51, 100 tasks & 1 job & \multicolumn{3}{c}{difference \nsdLeak{} [\nsdLeakLo, \nsdLeakHi]} & \neopK & no & no & --\\
+C & contrast, 70 tasks w/o descr. & 1 job & \multicolumn{3}{c}{\ncfFor{} for, \ncfAgainst{} against, \ncfTies{} ties} & \neopL & yes & yes & \ncfCross\\
+\bottomrule\end{tabular}\\[2pt]
+\raggedright\footnotesize $^{a}$\neopSameG{} of 100 tasks; the others ran later the same day.
+$^{b}$\neopSameH{} of 100 tasks; \npygLate{} tasks of the skill arm ran later the same day.
+\end{table*}
+
+\subsection{The mechanism}\label{sec:mechanism}
+\paragraph{The learner wrote the instruction}
+gskill's seed skill is empty, its agent configuration does not contain ``git'', and its
+skill-writing prompts mention \texttt{git} once, as an available command, never history or
+commits~\cite{gskill_seed_candidate,gskill_mini_yaml}. In the Jinja learning run the instruction
+first appears in the second rewrite, and \ncandHist{} of the \ncandNonEmpty{} non-empty rewrites
+the loop kept contain a line about commits or history. Under gskill's own scorer, rewrites with
+the instruction score higher on the validation tasks than those without (on average \nlrnValHist{}
+against \nlrnValNoHist{} on Jinja, \nlrnBleveValHist{} against \nlrnBleveValNoHist{} on Bleve;
+post hoc). In the one logged call that put the instruction back after a rewrite had dropped it
+(rewrite \nlrnAddParent{} to \nlrnAddChild{}, validation score \nlrnAddParentVal{} to
+\nlrnAddChildVal{}), one of the three traces shown to the model is a task without a description on
+which the agent, with no instruction, read the bug-injecting commit and solved the task. gskill
+overwrote the calls of the first learning half when it resumed (\nlrnCallsSaved{} Jinja calls are
+kept), so the call that first wrote the instruction is lost; Figure~\ref{fig:mech} marks the links
+we measured and the one we infer.
 
 \begin{figure}[t]\centering
-\begin{tikzpicture}[node distance=4mm and 3mm, every node/.style={font=\scriptsize,align=center},
-  box/.style={draw,rounded corners=2pt,inner sep=2.5pt,minimum height=7mm,text width=19mm},
-  arr/.style={-{Stealth[length=1.6mm]}}]
-\node[box] (env) {SWE-smith task:\\bug-injecting commit\\below HEAD};
-\node[box,right=of env] (agent) {agent (no hint)\\runs \texttt{git log},\\finds ``Bug Patch''};
-\node[box,right=of agent] (refl) {skill writer sees\\a solved trace and\\writes the advice};
-\node[box,below=of refl] (skill) {skill: ``run \texttt{git log}, look\\for `Bug Patch'\,''};
-\node[box,left=of skill] (gain) {gain $+$\njinjaGain{}\\(up to $+$\nleak{}\\from the history)};
-\node[box,left=of gain] (ctrl) {single-commit\\control: gain\\$+$\njinjaLFGain{}};
-\draw[arr] (env) -- (agent); \draw[arr] (agent) -- (refl); \draw[arr] (refl) -- (skill);
+\begin{tikzpicture}[node distance=3mm and 2.5mm, every node/.style={font=\scriptsize,align=center},
+  box/.style={draw,rounded corners=2pt,inner sep=2pt,minimum height=8mm,text width=17mm},
+  arr/.style={-{Stealth[length=1.5mm]}},inf/.style={arr,dashed}]
+\node[box] (env) {task history:\\Bug Patch;\\Remove F2P Tests};
+\node[box,right=of env] (agent) {agent, no skill,\\reads the commit\\and solves a task};
+\node[box,right=of agent] (refl) {skill writer is\\shown that trace};
+\node[box,below=of refl] (skill) {skill: ``run\\\texttt{git log}, look\\for Bug Patch''};
+\node[box,left=of skill] (gain) {as shipped:\\\njinjaNone{} $\to$ \njinjaSkill{}};
+\node[box,left=of gain] (ctrl) {one commit:\\\njinjaLFNone{} $\to$ \njinjaLFSkill{}};
+\draw[arr] (env) -- (agent); \draw[arr] (agent) -- (refl);
+\draw[inf] (refl) -- node[right,font=\tiny]{inferred} (skill);
 \draw[arr] (skill) -- (gain); \draw[arr] (gain) -- (ctrl);
 \end{tikzpicture}
-\caption{The mechanism on Jinja. The agent can find the leak without any instruction; the learner
-turns a solved trace into advice; the single-commit control removes what the advice relies on.}
+\caption{The mechanism on Jinja. Solid: measured in logs or runs; dashed: inferred, because the
+learning call that first wrote the instruction was overwritten. Seed 41, Jinja test split.}
 \label{fig:mech}
 \end{figure}
 
-\paragraph{Replicated, then confirmed on unseen tasks}
-The finding does not rest on one draw. Rerun with a second agent seed, all four Jinja arms at the
-same time, the skill is confirmed in both environments (\nsdSkill{} against \nsdNone{} as shipped,
-\nsdLFSkill{} against \nsdLFNone{} with a single commit; Holm at 0.025) and the difference between
-them is \nsdLeak{} [\nsdLeakLo{}, \nsdLeakHi{}], against \nleak{} on the first seed. We then
-registered, before opening those results, one anytime-valid test of the difference on \ncfN{}
-tasks without a description that no analysis had seen, \ncfNew{} of them never used before. It
-rejects at task \ncfCross{} ($p=\ncfP$): \ncfFor{} tasks favour the environment with the history,
-\ncfAgainst{} the other. On the \ncfNew{} new tasks the skill resolves \ncfShipSkill{} with the
-history and \ncfLFSkill{} without, and a monitor that reads the agent's traces finds the
-bug-injecting commit in \ncfMon{} of \ncfNew{} runs. A stronger agent model, \flashmodel{}, needs
-no skill to find it: without one it opens the commit in \nflNoneOpen{} of \nflN{} runs and resolves
-\nflNone{} tasks, against \njinjaNoPSNoneBase{} for our agent; we did not run the single-commit
-control for this model (Section~\ref{sec:rq3}). The condition is not rare: \nexpoPct\% of all
-\nexpoTasks{} SWE-smith tasks have no issue description (Section~\ref{sec:rq2}).
+\paragraph{What the agent saw}
+We audited every saved trace (post hoc; detection rules fixed in the released script and tested on
+the false positives of a first version). On the tasks without a description, with the skill in the
+shipped environment, the agent displayed the bug-injecting diff in \nhiStudyDiffA{} of
+\nhiStudyNA{} runs (seed 41), \nhiStudyDiffB{} of \nhiStudyNA{} (seed 51) and \nhiStudyDiffC{} of
+\nhiStudyNC{} (new tasks); it displayed or ran the deleted tests in \nhiStudyTests{} runs. Every
+such task it resolved shows the diff in its trace (\nhiStudyResNone{} resolved without it). In
+\nhiSingleRuns{} runs in single-commit environments, neither channel appears. Of the resolved
+patches on these tasks, \nrvShipNoIssue{} of \nrvShipNoIssueN{} are exact reversals of the bug
+patch (\nrvUnseen{} of \nrvUnseenN{} on the new tasks): the agent mostly uses the commit to locate
+the bug, not to copy it. These are indicators of use, not proof of it; the interventions below
+measure the effect. A cheaper flag, the message ``Bug Patch'' in any observation, agrees with this
+audit on \nmonConfAgree{} of \nmonConfN{} saved traces: it is raised on all \nmonConfTP{} runs that
+displayed the diff (\nmonConfFN{} missed) and on \nmonConfFP{} runs that saw only the message.
 
-\paragraph{What this means for reuse}
-An admission decision, even a statistically valid one, certifies a skill \emph{in a scope}, and
-the evaluation environment is part of that scope. A learner that optimises against an environment
-can turn the environment's accidents into advice, and the advice travels with the skill to contexts
-where the accident is absent. The original question therefore has a precise form: the skill must be
-(re)admitted in each scope where it will run, and the evidence must come from measurements that
-could have exposed such effects. The scorer matters as much as the environment. The public scorer
-of the same pipeline marks a patch as passing whenever the test output contains the word
-``passed''; a patch that changes nothing passes on \nfzeroLNoop{} of \nfzeroN{} tasks across
-\nfzeroRepos{} repositories, against
-\nfzeroSNoop{} under SWE-smith's scorer. On real agent patches it reports \njinjaLSkill{} where
-\njinjaSkill{} are resolved.
+\paragraph{Where it pays off}
+On the \njinjaNoPSTasks{} Jinja test tasks without a description, the skill resolves
+\njinjaNoPSn{} in the shipped environment and \njinjaNoPSLF{} with one commit; without a skill the
+agent resolves \njinjaNoPSNoneBase{} of them (Table~\ref{tab:nops}). The precondition is
+common: \nexpoEmpty{} of the \nexpoTasks{} SWE-smith tasks (\nexpoPct\%, in \nexpoRepos{}
+repositories) have no description; we measured the effect of the commits on two repositories only.
 
-\paragraph{Approach and findings}
-We treat the evaluation of a skill as an experiment with controls. Each control asks whether the
-measurement could produce the observed result when the claimed cause is absent: two runs without the
-skill (A/A~\cite{kohavi_aa}), a sham skill for attribution, a no-op patch and the gold patch for the
-scorer, and a length-matched irrelevant skill for content~\cite{webdev_skills_bench_2026}.
-Gatekeeper admits a skill in a scope only when a paired betting e-process~\cite{waudby_smith_ramdas}
-crosses its threshold, which keeps the error rate under continuous monitoring. Applied to our own
-measurements, the controls pass: no-op patches resolve \nnoopOurs{} of \nnoopOursN{} tasks and gold
-patches \ngoldOursOk{} of \ngoldOursN{}. Applied to common decision rules, they do not: the comparison
-of a single run with a plug-in threshold admits a skill with no effect in \npluginOnce{} of A/A
-streams (\npluginMonitored{} when checked every \naaLook{} trials), and GEPA's acceptance rule
-accepts \ngepaNoop{} of proposals that change nothing, while Gatekeeper admits in \ngkAdmitAA{} of
-the same streams (Section~\ref{sec:rq1}). The controls also separate what the
-learned skill contributes. A skill of the same length with nothing to say about the repository
-adds \nlenGain{} [\nlenGainLo{}, \nlenGainHi{}] ($p=\nlenP$, two-sided); the learned skill beats it by
-\nconGain{} [\nconGainLo{}, \nconGainHi{}], and still beats it on the tasks with an issue
-description, where removing the history changes the learned skill's gain only from
-\njinjaWithPSGain{} to \njinjaWithPSLFGain{} tasks (\nconWithPSSkill{} against \nconWithPSPlc{}). And in the traces of every one of the
-\ntrTasks{} Jinja tasks without an issue description, the agent runs \texttt{git log} or
-\texttt{git show} and reads the bug-injecting commit (\ntrBugPatch{} of \ntrTasks{}).
-Finally, the certification does not travel. Reused verbatim on \npygN{} Pygments tasks, the Jinja
-skill resolves \npygSkill{} against \npygNone{} ($p=\npygP$, two-sided) and Gatekeeper does not admit
-it; gskill's scorer would report \npygLSkill{} against \npygLNone{}, a gain of \npygLGain{}.
-
-\paragraph{Contributions}
-\begin{itemize}
-  \item An anytime-valid certification of skills produced by a published learning pipeline,
-        on two repositories in two languages, under the benchmark's own scorer (Section~\ref{sec:rq2}).
-  \item A controlled measurement showing that the learner wrote an instruction to use an
-        evaluation leak into both skills, unprompted, that the agent follows it on every Jinja
-        task without an issue description (\ntrBugPatch{} of \ntrTasks{} traces), and that the
-        leak accounts for \nleak{} [\nleakLo{}, \nleakHi{}] of the Jinja gain and \nbleveLeak{}
-        [\nbleveLeakLo{}, \nbleveLeakHi{}] of the Bleve gain; deleting the instruction from the skill
-        instead of the history from the environment leaves a remaining gain with no detectable
-        difference from the first, and learning
-        with the history removed produces a certified skill without the instruction that does not
-        exploit the leak when moved back into the original environment (Section~\ref{sec:rq2}).
-  \item A replication with a second seed and a preregistered anytime-valid test, on \ncfN{}
-        tasks no analysis had seen, that confirms the environment's share of the gain
-        ($p=\ncfP$); a trace monitor that flags every exploiting run and no run in a single-commit
-        environment; and the share of the benchmark exposed to the leak's precondition,
-        \nexpoPct\% of \nexpoTasks{} tasks (Section~\ref{sec:rq2}).
-  \item Evidence that the certification is specific to its scope: the gain changes with the
-        environment's history and
-        vanishes on another repository; across four published agent--model
-        configurations of SWE-Skills-Bench, only about \nsskbRhoPct\% of the variance of skill effects is
-        shared between configurations (exploratory) (Section~\ref{sec:rq3}).
-  \item A set of evaluation controls with measurements for a learning pipeline's scorer, for
-        published admission and attribution rules, and for our own harness (Section~\ref{sec:rq1}).
-  \item Preregistrations for every confirmatory analysis, all raw runs, and the code.
-\end{itemize}
-
-\paragraph{What we do not claim}
-We do not claim that the leak in SWE-smith is new, that the numbers reported for gskill were
-produced with the public scorer we tested, or that learned skills do not help: the skills we
-certified do. Our agent runs use one model family; Section~\ref{sec:threats} lists this and the
-other limits of the evidence.
-
-\section{Problem Formulation}
-A skill $S$ consists of a procedure $\pi$ (here, the text loaded into the agent's context) and
-activation predicates $\mathcal{I}$ that say where it applies. A context $x$ is a
-(repository, revision, environment, task) tuple and $\mathcal{S}$ a finite, declared family of scopes.
-
-The loss of a run is $\ell(x,\pi)=1-\mathbb{1}[\text{resolved}]$ under the scorer $S$ of
-Section~\ref{sec:design}, so that $Z_i\in\{-1,0,1\}$ below compares the two arms task by task; a
-graded loss is given in Appendix~\ref{app:defs}.
-
-\begin{definition}[Selective transfer risk]
-$P_s$ is the distribution of tasks in scope $s$ on which the activation predicates $\mathcal{I}(x)$
-hold. $\STR(S,s)=\mathbb{E}_{x\sim P_s}[\ell(x,\pi)-\ell(x,\varnothing)]$; $S$ is admitted in $s$
-only if $\STR(S,s)\le-\theta$.
-\end{definition}
-
-\section{Admission with Anytime-Valid Guarantees}\label{sec:admission}
-For paired differences $Z_i=\ell(x_i,\pi)-\ell(x_i,\varnothing)\in[-1,1]$ and the null
-$H_0:\mathbb{E}[Z]\ge-\theta$, Gatekeeper runs the betting e-process
-\begin{equation}
-E_n=\prod_{i\le n}\bigl(1+\lambda_i(-\theta-Z_i)\bigr),\qquad 0\le\lambda_i\le\tfrac{c}{1+\theta},\ c<1,
-\end{equation}
-with $\lambda_i$ predictable, and admits when $E_n\ge1/\alpha_{S,s}$. We use the aGRAPA plug-in
-bet of Waudby-Smith and Ramdas~\cite{waudby_smith_ramdas},
-$\lambda_i=\min\{c/(1+\theta),\,g_i/(v_i+g_i^2)\}$ if $g_i>0$ and $\lambda_i=0$ otherwise, where
-$g_i=-\theta-\hat\mu_{i-1}$ and $\hat\mu_{i-1}$, $v_i$ are the mean and variance of
-$Z_1,\dots,Z_{i-1}$ together with one pseudo-observation of mean $0$ and variance $1$ (the paper's
-default prior, rescaled from $[0,1]$ to $[-1,1]$). Under $H_0$ each factor has
-conditional mean at most $1$ and is at least $1-c>0$, so $E_n$ is a nonnegative supermartingale and
-Ville's inequality gives $\Pr[\exists n:E_n\ge1/\alpha]\le\alpha$ at any data-dependent stopping time.
-
-\begin{assumption}[Paired trials, bounded shift]
-Within scope $s$, either trial contexts are i.i.d.\ from $P_s$, so that
-$\mathbb{E}[Z_i\mid\mathcal{F}_{i-1}]=\STR_{P_s}$, or $P_s$ is the uniform distribution on a finite
-pool of $N$ tasks, each run once per arm, observed in a uniformly random order that does not depend
-on the outcomes (Proposition~\ref{prop:wor}). Deployment contexts follow $Q_s$ with
-$\mathrm{TV}(Q_s,P_s)\le\xi_s$.
-\end{assumption}
-
-Every experiment in this paper uses the second case. The trials are the \nlearnTest{} test tasks of
-gskill's own split, in the split's order: gskill shuffles the rows of a repository with a fixed
-seed (``\texttt{random.seed(seed) random.shuffle(all\_data)}'') and slices them into train,
-validation and test~\cite{gskill_seed_candidate}, so the order of the test tasks
-is a pseudo-random permutation fixed by the pipeline before any of our runs, the same in both arms,
-and never changed by us. Each task is run once per arm, all 100 tasks are run, and we report the
-first $k$ at which $E_k\ge1/\alpha$. In this case $\mathbb{E}[Z_i\mid\mathcal{F}_{i-1}]$ is not a
-constant: sampling without replacement changes the conditional mean of the next draw to
-$\mu^{\mathrm{WoR}}_i=(N\mu-\sum_{j<i}Z_j)/(N-i+1)$~\cite[Sec.~5]{waudby_smith_ramdas}.
-The bet above remains valid nevertheless.
-
-\begin{proposition}[Finite pool in random order]\label{prop:wor}
-Let $z_1,\dots,z_N\in[-1,1]$ be the paired outcomes of the pool, with mean $\mu\ge-\theta$, and let
-$Z_1,\dots,Z_N$ be these values in a uniformly random order. With the bet above (prior mean
-$0\ge-\theta$, weight $1$), $E_n$ is a nonnegative supermartingale with respect to the order, so
-$\Pr[\exists n\le N:E_n\ge1/\alpha]\le\alpha$.
-\end{proposition}
-\begin{proof}
-$\lambda_i>0$ only if $\hat\mu_{i-1}=\sum_{j<i}Z_j/i<-\theta$, that is $\sum_{j<i}Z_j<-\theta i$.
-Then $\mu^{\mathrm{WoR}}_i>(-N\theta+\theta i)/(N-i+1)\ge-\theta$, so the factor
-$1+\lambda_i(-\theta-Z_i)$ has conditional mean at most $1$; for $\lambda_i=0$ it equals $1$. It is
-at least $1-c>0$ as before. Ville's inequality concludes.
-\end{proof}
-The proposition conditions on the outcomes, that is on the agent's randomness as it was realised
-once per task and arm: the null it tests is that, on these runs of this pool, the skill does not
-lower the mean loss. For the null on the \emph{expected} outcome, where the agent's randomness is not
-fixed, we checked the exact rule by simulation ($N=100$, $\theta=0$, $c=0.5$, $\alpha=0.025$, random
-order, \nworNulls{} null pools with expected mean $0$, from homogeneous to half helped and half
-harmed; \nworReps{} runs each): the admission rate was at most \nworMaxRate{} (Clopper--Pearson 95\%
-upper bound \nworMaxUpper{}). The probability in the proposition is over the order. Our runs use
-one draw of it, gskill's seeded shuffle, fixed before any outcome existed and not chosen by us, so
-the guarantee reads as for a randomised experiment with a published seed: before the runs, the
-chance of a false admission was at most $\alpha$. Section~\ref{sec:family} checks that the reported
-decisions do not hinge on this one draw. An admission is therefore a statement about the test pool of the
-scope; other tasks of the same repository are a deployment distribution $Q_s$ and fall under
-$\xi_s$ below.
-
-The $\alpha$ budget is fixed in advance: $\sum_{(S,s)}\alpha_{S,s}\le\alpha$ bounds the probability
-of at least one false admission among all cells (family-wise). Each admission in this paper was
-registered as its own cell with $\alpha_{S,s}=\alpha=0.025$, so each carries a \emph{per-admission}
-guarantee. Read together, the \nfamAllK{} e-process decisions we registered are bounded only by
-the union bound, $\nfamAllK\alpha$. Section~\ref{sec:family} gives the family-wise reading with
-$\alpha_{S,s}=\alpha/\nfamAllK$.
-
-\begin{theorem}[Admission bound]
-Under the assumption,
-$\Pr\bigl[\exists\text{ admitted }(S,s):\STR_{Q_s}>-\theta+2\xi_s\bigr]\le\alpha$.
-In particular, if $2\xi_s\le\theta$ for all $s$, the probability of admitting anything harmful under
-$Q$ is at most $\alpha$.
-\end{theorem}
-\begin{proof}
-Each admission problem $j$ with budget $\alpha_j$ admits under $\STR_{P_s}>-\theta$ with probability
-at most $\alpha_j$ (Ville). A union bound over all $j$ needs no independence. Since
-$Z=f(x)$ with $f$ of range width $2$, $|\mathbb{E}_Qf-\mathbb{E}_Pf|\le2\,\mathrm{TV}(Q,P)\le2\xi_s$.
-\end{proof}
-The factor $2$ is tight: moving mass $\xi$ from $Z=-1$ to $Z=+1$ has total variation $\xi$ and shifts
-the mean by $2\xi$.
-
-\paragraph{What $\xi_s$ means in practice}
-We do not estimate $\xi_s$. In every admission reported here the trials are drawn from the scope in
-which the decision is read, the test split of the shipped environment, so the theorem is used with
-$Q_s=P_s$. For any other deployment the bound weakens linearly: an admission certifies only
-$\STR_{Q_s}\le-\theta+2\xi_s$, and with $\theta=0$, as here, any $\xi_s>0$ leaves room for harm.
-Proposition~\ref{prop:notransfer} shows that the trials themselves cannot bound $\xi_s$. We therefore
-treat a change of scope as a new admission problem, with trials from the new scope, rather than as a
-shift to be bounded; Section~\ref{sec:rq3} measures what happens when this is not done.
-
-\begin{proposition}[No distribution-free transfer guarantee]\label{prop:notransfer}
-Fix any admission procedure using $n$ trials from repositories $\mathcal{R}_{\mathrm{obs}}$. For any
-$\alpha<1$ there is a target repository $R^\dagger\notin\mathcal{R}_{\mathrm{obs}}$ and a skill $S$
-admitted by the procedure with $\STR(S,\{R^\dagger\})=1$.
-\end{proposition}
-\begin{proof}
-Construct $R^\dagger$ agreeing with the observed repositories on every feature the procedure
-examines (fingerprints, predicates, trial outcomes on $\mathcal{R}_{\mathrm{obs}}$) and differing in
-a behaviour the skill depends on. The procedure's inputs are identical, so its decision is
-identical; on $R^\dagger$ the skill maximises loss. If the procedure is randomised, its inputs are
-still identical, so the \emph{distribution} of its decision is identical: the probability of
-admitting the skill for $R^\dagger$ equals the probability of admitting it on the observed
-repositories, which may be close to $1$.
-\end{proof}
-The learned skills of Section~\ref{sec:rq2} are a measured instance: on the same tasks, a change
-the trials never observe (the repository history) changes what the admitted skill is worth.
-
-\section{Evaluation Design}\label{sec:design}
-\paragraph{Agent and tasks}
-All agent runs use one model, \agentmodel{}, with the same seed on both arms (41; E1 and E2 also
-repeat each task with seeds 51 and 61). On SWE-smith tasks we
-run gskill's environment, which installs mini-swe-agent~1.17.5 and swesmith~0.0.9, with gskill's
-step limit of 50; on SWE-bench and SWE-bench-Live we use mini-swe-agent~2.4.6 with its default
-limit of 250 steps. Three task sources are used: the SWE-bench test split~\cite{swebench}, without the
-repositories of SWE-Gym's training set~\cite{swe_gym}, for our own skills, SWE-bench-Live~\cite{swe_bench_live} for XRepoSkill~\cite{xreposkill} and the positive
-control, and the 100-task test split that gskill~\cite{gskill} draws from SWE-smith for the two
-learned skills. Apart from the model, we run gskill's released code (commit 8c7b697) unmodified
-for learning, agent execution and its own scoring; the only other changes are the model seed and a
-per-run cost cap of \nswsCapLimit{}~USD, applied identically to both arms, and the learned skill
-files are checked byte for byte before each run. The cap stopped at most \nswsCapped{} of the
-\nswsRuns{} SWE-smith runs (Section~\ref{sec:rq3}); gskill's own step limit was reached by
-\njinjaStepSkill{} of 100 Jinja runs with the skill and \njinjaStepNone{} without. In the SWE-smith Go
-image, the agent's login shell (\texttt{bash -lc}, as mini-swe-agent runs commands) does not have
-\texttt{go} on \texttt{PATH}; this holds for both arms and for gskill's own training, and the
-learned Bleve skill records it.
-
-\paragraph{Experiments}
-E1 evaluates three skills we wrote, one per fix pattern (null guard, type guard, exception
-handling), each on 53 tasks whose issue text activates it. E2 applies XRepoSkill, whose skills were
-learned on SWE-bench Verified, unchanged to SWE-bench-Live repositories it has not seen. T4 is a positive control: the reference patch is inserted into the
-problem statement, so the effect is large by construction~\cite{franklin_2014_plasmode}. Each of our skills carries an activation predicate, a regular
-expression on the issue text (for the null guard, mentions of \texttt{None} being passed or
-returned), and runs only where it holds.
-
-\paragraph{What a learned skill is, and how gskill learns it}
-A gskill skill is a block of text that gskill's agent configuration inserts into the agent's system
-prompt, after the sentence ``Here are some of the skills you learned while working with similar
-problems''~\cite{gskill_mini_yaml}. It is loaded on every task of its repository, so its activation
-predicate is membership in that repository. gskill learns it with GEPA~\cite{gskill_train_config}:
-the loop starts from an empty skill~\cite{gskill_seed_candidate}; \promodel{} reads the current skill
-together with the agent's runs on a minibatch of three training tasks and proposes a rewrite; the
-rewrite is accepted only if its summed score on that minibatch under $L$ is strictly higher than
-the parent's, GEPA's default acceptance rule~\cite{gepa_acceptance}; gskill sets GEPA to choose the
-next candidate to rewrite by its Pareto strategy and passes it the \nlearnVal{} validation tasks as
-its validation set; and the loop stops
-after a budget of \nlearnBudget{} metric calls, one metric call being one agent run of one candidate
-on one task. The tasks of a repository are split into \nlearnTrain{} training, \nlearnVal{}
-validation and \nlearnTest{} test tasks (seed 42, gskill's defaults). For Jinja the loop made
-\nlearnCalls{} metric calls with \nlearnReflCalls{} rewrites requested, kept \nlearnCands{}
-candidates, and returned one whose validation score under $L$ is \nlearnValL{}; we use that skill
-verbatim and evaluate it only on the test split, in the split's order. A scope is a repository, its shipped
-environment, and the agent with its model.
-
-\paragraph{Scorers}
-$S$ is the benchmark's own notion of \emph{resolved}: every \texttt{FAIL\_TO\_PASS} and every
-\texttt{PASS\_TO\_PASS} test passes~\cite{swebench}; for SWE-smith tasks we use SWE-smith's
-grading. $L$ is the scorer in gskill's public code (\texttt{verify\_with\_patch}), which the
-learning loop optimises against.
-
-\paragraph{Controls}
-Each control asks whether the measurement could produce the observed result when the claimed cause
-is absent.
-\begin{itemize}
-  \item \emph{A/A}: two runs without any skill on the same task~\cite{kohavi_aa}; used to measure
-        what admission and attribution rules report when there is no effect.
-  \item \emph{Sham skill}: an A/A pair presented to an LLM auditor as if the failing run had
-        loaded a skill; the skill cannot have caused the failure, because no run loaded it.
-  \item \emph{No-op and gold patches}: a patch that changes nothing, and the reference fix; the
-        first must not pass, the second must.
-  \item \emph{Length-matched irrelevant skill}: a skill unrelated to the repository whose length is
-        in bytes within $\pm5\%$ of the learned skill's~\cite{webdev_skills_bench_2026}.
-  \item \emph{Single-commit history}: the repository history replaced by one commit holding the
-        buggy tree~\cite{debuggym_swesmith_git_fix}; nothing else changes. Applied to the
-        evaluation, and, in a separate registered run, to every container of the learning loop.
-\end{itemize}
-
-\paragraph{Analysis}
-For the learned skills, skill and no-skill arms are paired by task. The primary test is an exact
-one-sided sign test on the discordant pairs, with $b$ the tasks resolved only with the skill and
-$c$ those resolved only without it; Holm's procedure~\cite{holm} is applied at family level
-$\alpha=0.025$ to the two scorers $S$ and $L$, and, for the content test of the length-matched control and the reuse test, to
-that pair of tests. The reuse test is registered as two-sided. Intervals are 95\% task-level bootstrap intervals
-(10{,}000 resamples). Admission uses the e-process of Section~\ref{sec:admission} with $\theta=0$,
-$\alpha=0.025$ (threshold $1/\alpha=40$) and $c=0.5$~\cite{waudby_smith_ramdas}, run over the test
-tasks in gskill's split order; ``admitted after $k$ tasks'' means $E_k\ge40$ for the first time
-at $k$; one trial is one task run in both arms. We call a skill \emph{certified} in a scope when
-Gatekeeper admits it there. E1 and E2 are analysed as registered for each stage. Every
-confirmatory analysis, threshold and decision rule was registered before the data it applies to
-were seen~\cite{nosek_2018}; exploratory analyses are labelled as such.
-
-\section{Results}
-\subsection{RQ1: Do skill-evaluation numbers survive controls?}\label{sec:rq1}
-\paragraph{The scorer of a learning pipeline}
-gskill's public scorer (\texttt{verify\_with\_patch} in \texttt{swe\_harness.py} at commit
-8c7b697~\cite{gskill_swe_harness}) marks a patch as passing whenever the test output contains the
-string ``passed'' in any letter case, unless it also contains ``Patch Apply Failed''; we tested only
-this commit. A no-op patch therefore passes on \nfzeroLNoop{} of \nfzeroN{} tasks across
-\nfzeroRepos{} SWE-smith repositories, including Jinja and Bleve, the two repositories used to
-demonstrate the pipeline~\cite{gskill}; SWE-smith's grading passes \nfzeroSNoop{} of them and passes the gold patch on at least
-\nfzeroGoldMinPct\% of the tasks of every repository. On the agent's own patches the gap persists: without a skill,
-$L$ reports \njinjaLNone{} passing tasks on Jinja where $S$ finds \njinjaNone{} resolved, and
-\nbleveLNone{} versus \nbleveNone{} on Bleve; with the learned skills, \njinjaLSkill{} versus
-\njinjaSkill{} and \nbleveLSkill{} versus \nbleveSkill{}. We make no claim about the numbers in the
-pipeline's announcement, which may have been produced with other code.
-
-\paragraph{Admission rules under A/A}
-We built \naaStreams{} A/A streams of \naaTrials{} paired trials each by drawing, for each trial, one of
-\naaTasks{} E1 and E2 tasks with replacement and two of its three no-skill runs; no stream has an effect. The plug-in
-rule, which admits when the mean paired difference after \naaTrials{} trials favours the skill,
-admits in \npluginOnce{} of the streams, and in \npluginMonitored{} when it is checked after every
-\naaLook{} trials. XRepoSkill's Mantel--Haenszel risk difference, which we turned into a gate
-ourselves (admit when the lower end of its two-sided 95\% interval, $z=1.96$, exceeds 0), admits in \nbxOnce{} at one look and in
-\nbxMonitored{} when monitored; XRepoSkill does not use it as a threshold. GEPA's acceptance
-criterion, used inside gskill's optimisation loop and not designed for error control, accepts a
-proposal that resolves more tasks than its parent on a minibatch of three~\cite{gepa_acceptance}; on these runs it
-accepts \ngepaNoop{} of proposals that change nothing. A larger minibatch does not repair this: under
-A/A the paired differences are symmetric, so a proposal that changes nothing is accepted with
-probability $(1-\Pr[\text{tie}])/2$, which grows towards $1/2$ as the minibatch grows. Gatekeeper admits in \ngkAdmitAA{} of the
-streams within \naaTrials{} trials.
-
-\paragraph{Our own measurements pass the controls}
-On our harness, no-op patches resolve \nnoopOurs{} of \nnoopOursN{} tasks. Gold patches, scored
-three times each on the \ngoldOursN{} instances whose earlier reports looked suspicious, pass on
-\ngoldOursOk{}; one fails in all three scorings and one in one or two of them. A local scoring environment without network access had made some
-tests fail in both arms; rescoring all \nrescoredPatches{} affected patches with network access
-changed \neoneFlips{} of \neoneSides{} outcomes for our own skills and \netwoFlips{} of
-\netwoSides{} for XRepoSkill, and no conclusion. The XRepoSkill effect is \netwoS{} under $S$, \netwoF{} when only
-\texttt{FAIL\_TO\_PASS} tests count and \netwoB{} when tests broken in every run are dropped; the
-positive control rises from \ntfourS{} to \ntfourF{} under the second endpoint.
-\paragraph{Further controls}
-Appendix~\ref{app:controls} reports three further controls: a published procedure for attributing
-failures to skills flags about as many candidates between two runs without a skill as with one
-(ratio \nattrR{}); \nnoiseWithin{} of \nnoiseClaims{} published gains are no larger than the rerun
-noise of our agent at their $n$; and a manipulation check that stopped our evaluation of a third
-skill source before any effect was computed.
-
-\subsection{RQ2: Can a learned skill be certified, and where does its gain come from?}\label{sec:rq2}
-\begin{table}[t]\centering
-\caption{Resolved tasks out of 100 (scorer $S$) for the skills learned by gskill, without and with
-the skill. Gain with task-level 95\% bootstrap interval; ``admit'' is the number of tasks after
-which Gatekeeper's e-process first reaches $1/\alpha=40$ ($\theta=0$, $\alpha=0.025$); ``--'': not
-admitted within the 100 tasks. $^{\dagger}$The Jinja skill without its history instruction.
-$^{\ddagger}$A Jinja skill re-learned with the single-commit history in every learning container.
-$^{*}$The Jinja skill reused verbatim on Pygments (Python);
-Jinja is Python, Bleve is Go.}
-\label{tab:rq2}
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}llrrcr@{}}\toprule
-Repository & History & None & Skill & Gain [95\% CI] & Admit\\\midrule
-Jinja & as shipped & \njinjaNone & \njinjaSkill & \njinjaGain{} [\njinjaGainLo, \njinjaGainHi] & \njinjaAdmit\\
-Jinja & single commit & \njinjaLFNone & \njinjaLFSkill & \njinjaLFGain{} [\njinjaLFGainLo, \njinjaLFGainHi] & \njinjaLFAdmit\\
-Bleve & as shipped & \nbleveNone & \nbleveSkill & \nbleveGain{} [\nbleveGainLo, \nbleveGainHi] & \nbleveAdmit\\
-Bleve & single commit & \nbleveLFNone & \nbleveLFSkill & \nbleveLFGain{} [\nbleveLFGainLo, \nbleveLFGainHi] & \nbleveLFAdmit\\
-Jinja$^{\dagger}$ & as shipped & \nabNone & \nabSkill & \nabGain{} [\nabGainLo, \nabGainHi] & \nabAdmit\\
-Jinja$^{\ddagger}$ & single commit & \ncleanNone & \ncleanSkill & \ncleanGain{} [\ncleanGainLo, \ncleanGainHi] & \ncleanAdmit\\\midrule
-Pygments$^{*}$ & as shipped & \npygNone & \npygSkill & \npygGain{} [\npygGainLo, \npygGainHi] & --\\\bottomrule
-\end{tabular}
+\begin{table}[t]\centering\footnotesize\setlength{\tabcolsep}{3pt}
+\caption{Resolved Jinja tasks without an issue description (scorer $S$). Each row of a block ran in
+the same job as the rows it is compared with, except where marked.}\label{tab:nops}
+\begin{tabular}{@{}lllr@{}}\toprule
+Cohort & Environment & Arm & Resolved\\\midrule
+34 test tasks, seed 41 & shipped & no skill & \njinjaNoPSNoneBase{}/\njinjaNoPSTasks\\
+ & shipped & learned skill$^{c}$ & \njinjaNoPSn{}/\njinjaNoPSTasks\\
+ & shipped & without history line & \nabNoPS{}/\njinjaNoPSTasks\\
+ & shipped & relearned skill$^{c}$ & \ncleanShipSolved{}/\ncleanShipN\\
+ & one commit & learned skill$^{c}$ & \njinjaNoPSLF{}/\njinjaNoPSTasks\\\midrule
+34 test tasks, seed 51 & shipped & learned skill & \nsdNoPS{}/\njinjaNoPSTasks\\
+ & three other arms & & \nsdNoPSOther{} each\\\midrule
+36 new tasks, seed 51 & shipped & learned / none & \ncfShipSkill{} / \ncfShipNone\\
+ & one commit & learned / none & \ncfLFSkill{} / \ncfLFNone\\\bottomrule
+\end{tabular}\\[2pt]
+\raggedright\footnotesize $^{c}$ran in a different run from the no-skill row of its block.
 \end{table}
 
-\paragraph{Both learned skills are certified in scope}
-Table~\ref{tab:rq2} reports the registered comparison. On Jinja the skill resolves \njinjaSkill{}
-tasks against \njinjaNone{}; on Bleve \nbleveSkill{} against \nbleveNone{}. Both exact sign tests
-reject under Holm's procedure over the two scorers, and Gatekeeper admits each skill after \njinjaAdmit{} and
-\nbleveAdmit{} tasks. These are skills produced by a published pipeline, used verbatim.
+\subsection{Interventions}\label{sec:interventions}
+\paragraph{Removing the two construction commits}
+Replacing the history by one commit that holds the buggy tree~\cite{debuggym_swesmith_git_fix}
+removes both leak channels and nothing else: there is no project history to remove. On Jinja it
+changes the no-skill arm from \njinjaNone{} to \njinjaLFNone{} and the skill arm from \njinjaSkill{}
+to \njinjaLFSkill{}; the difference of the two gains, estimated jointly over the same tasks, is
+\nleak{} [\nleakLo{}, \nleakHi{}], about \nleakSharePct\% of the gain as shipped. On Bleve the skill
+arm falls from \nbleveSkill{} to \nbleveLFSkill{} and the difference is \nbleveLeak{}
+[\nbleveLeakLo{}, \nbleveLeakHi{}]; on its \nbleveNoPSN{} tasks without a description the skill
+resolves \nbleveNoPS{} with the commits and \nbleveNoPSLF{} without. In J1, J2, B1 and B2 the arms
+of a comparison ran in different runs; the same contrast with all four arms in one job is S3
+(Section~\ref{sec:replication}).
 
-\begin{figure}[t]\centering
-\begin{tikzpicture}
-\begin{axis}[width=0.92\linewidth,height=38mm,xmin=0,xmax=100,ymin=0,ymax=6.5,
-  xlabel={paired tasks $k$},ylabel={$\log_{10}E_k$},
-  label style={font=\scriptsize},ticklabel style={font=\scriptsize},
-  legend style={font=\tiny,at={(0.5,1.03)},anchor=south,draw=none,fill=none,legend columns=3},legend cell align=left]
-\addplot[thick,black] table[x=k,y=shipped]{figures/eprocess.dat};
-\addplot[thick,dashed,blue] table[x=k,y=single]{figures/eprocess.dat};
-\addplot[thick,dotted,red] table[x=k,y=ablated]{figures/eprocess.dat};
-\addplot[thick,dashdotted,teal] table[x=k,y=relearned]{figures/eprocess.dat};
-\addplot[thin,gray] table[x=k,y=pygments]{figures/eprocess.dat};
-\addplot[thin,densely dashed,black,domain=0:100] {log10(40)};
-\legend{Jinja as shipped,single commit,instruction removed,re-learned,Pygments reuse,threshold $1/\alpha$}
-\end{axis}
-\end{tikzpicture}
-\caption{Gatekeeper's e-process on the Jinja streams of Table~\ref{tab:rq2} and the Pygments reuse
-test. A stream is admitted when it first crosses $1/\alpha=40$.}
-\label{fig:eproc}
-\end{figure}
-
-\paragraph{The learner wrote the instruction}
-Both learned skills tell the agent to read recent commits when the issue is unclear. The seed
-from which gskill starts is empty, its agent configuration does not contain ``git'', and its
-skill-writing prompts mention \texttt{git} once, as an available command, and never history or
-commits~\cite{gskill_seed_candidate,gskill_mini_yaml}: the instruction was introduced by the
-optimisation itself. In the Jinja learning run it first appears in the second rewrite, and
-\ncandHist{} of the \ncandNonEmpty{} rewrites the loop kept contain a line about commits or history.
-
-\paragraph{How the learner found it (exploratory)}
-The learning logs show the path (Figure~\ref{fig:mech}). Under gskill's own scorer, the rewrites
-that contain the instruction score higher on the 50 validation tasks than those that do not: on
-average \nlrnValHist{} against \nlrnValNoHist{} on Jinja and \nlrnBleveValHist{} against
-\nlrnBleveValNoHist{} on Bleve. The first such rewrite on Jinja raised the validation score from
-\nlrnFirstParentVal{} to \nlrnFirstVal{}, and the best rewrite (\nlrnBestVal{}) also contains it.
-gskill keeps every call to the skill-writing model with the three agent traces it was shown; in
-the call that turned rewrite \nlrnAddParent{}, which had dropped the instruction, into rewrite
-\nlrnAddChild{}, which put it back, one of the three traces is a task without a description on
-which the agent, with no such instruction, ran \texttt{git log}, read the ``Bug Patch'' commit and
-solved the task; the model's answer mentions the commit history, and the validation score rose
-from \nlrnAddParentVal{} to \nlrnAddChildVal{}. In the learning run with the single-commit
-history, none of the \nlrnCleanTrajShown{} traces shown to the model contains the commit. The
-calls of the first learning half were overwritten when gskill resumed (only \nlrnCallsSaved{} of
-the Jinja calls are kept), so the call that first wrote the instruction is lost; what remains is one
-observed instance of the path, not a rate.
-
-\paragraph{How much of the gain the history explains}
-Changing only the history of the Jinja tasks, to a single commit that
-holds the buggy tree, changes the no-skill arm from \njinjaNone{} to \njinjaLFNone{} and
-lowers the skill arm from \njinjaSkill{} to \njinjaLFSkill{}. We call the difference of the two gains,
-in-scope minus single-commit, the leak's share of the gain. Because the single commit removes the
-whole history, not only the bug-injecting commit, this share is an upper bound: it also contains
-whatever the real history contributes. The traces below locate it in the bug-injecting commit. The difference of the two gains,
-estimated jointly over the same 100 tasks, is \nleak{} [\nleakLo{}, \nleakHi{}], about
-\nleakSharePct\% of the in-scope gain. The tasks without an issue description show where it goes:
-there the skill solves \njinjaNoPSn{} of \njinjaNoPSTasks{} tasks with the history and
-\njinjaNoPSLF{} without it, while on the tasks with a description the gain changes from
-\njinjaWithPSGain{} to \njinjaWithPSLFGain{} tasks. Bleve repeats this on a second repository and language. Removing the history lowers the skill arm
-from \nbleveSkill{} to \nbleveLFSkill{} and changes the no-skill arm from \nbleveNone{}
-to \nbleveLFNone{}; the difference of the gains is \nbleveLeak{} [\nbleveLeakLo{},
-\nbleveLeakHi{}], about \nbleveLeakSharePct\% of the in-scope gain. On the \nbleveNoPSN{} tasks without a
-description the skill solves \nbleveNoPS{} with the history and \nbleveNoPSLF{} without it.
-\paragraph{The traces show the mechanism}
-We reran the skill on the \ntrTasks{} Jinja tasks
-without a description and kept every message: in all \ntrGitCmd{} the agent ran \texttt{git log}
-or \texttt{git show}, and in all \ntrBugPatch{} its observations contained the ``Bug Patch''
-commit; it resolved \ntrSolved{} of them, as in the original run, and \ntrSame{} of the
-\ntrN{} tasks had the same outcome a day apart. Without the skill, the agent resolves
-\njinjaNoPSNoneBase{} of these tasks. In the single-commit Bleve environment the skill still sends
-the agent to the history (\texttt{git log} or \texttt{git show} in \nbleveTrGitCmd{} of
-\nbleveTrTasks{} runs), but there is nothing to find: no observation contains ``Bug Patch''
-(\nbleveTrBugPatch{} of \nbleveTrTasks{}).
-The Bleve skill also records that \texttt{go} is not on the agent's \texttt{PATH}
-(Section~\ref{sec:design}). In the single-commit environment (exploratory), the agent without the
-skill called \texttt{go} in \ngoNoneCmd{} of \ngoNoneTraced{} runs and met ``not found'' in
-\ngoNoneErr{}; with the skill, in \ngoSkillCmd{} and \ngoSkillErr{} of \ngoSkillTraced{} traced runs.
-This note does not carry the remaining gain: on the \ngoNoneErr{} tasks where the no-skill run met
-the error the skill raises the resolved count from \ngoHitNone{} to \ngoHitSkill{}, and on the other
-\ngoRestN{} from \ngoRestNone{} to \ngoRestSkill{}.
-
-The agent uses the commit to locate the bug, not to copy a fix. A fix that undoes a small
-mutation often coincides with the reversed bug-injecting commit, so we counted exact reversals among
-resolved patches (exploratory): \nrvShipNoIssue{} of \nrvShipNoIssueN{} on the tasks without a
-description and \nrvShipWith{} of \nrvShipWithN{} on those with one, against \nrvLFWith{} of
-\nrvLFWithN{} with the single commit, where nothing can be copied. On the \ncfNew{} unseen tasks of
-the confirmatory test, \nrvUnseen{} of the \nrvUnseenN{} resolved patches are exact reversals.
-
-\begin{figure}[t]\centering
-\begin{tikzpicture}
-\begin{axis}[width=0.72\linewidth,height=30mm,xbar,xmin=0,xmax=34,bar width=6pt,
-  ytick=data,yticklabels from table={figures/nops.dat}{label},y dir=reverse,
-  xlabel={resolved of the \njinjaNoPSTasks{} Jinja tasks without a description (as shipped)},
-  xlabel style={font=\scriptsize},ticklabel style={font=\scriptsize},
-  nodes near coords,nodes near coords style={font=\scriptsize},enlarge y limits=0.2]
-\addplot table[x=y,y expr=\coordindex]{figures/nops.dat};
-\end{axis}
-\end{tikzpicture}
-\caption{Where the leak pays off: the learned skill solves \njinjaNoPSn{} of these tasks with the
-history; with its instruction removed, or re-learned without the leak, almost none.}
-\label{fig:nops}
-\end{figure}
-
-\paragraph{The rest of the gain is genuine}
-Without the leak, the Jinja skill still raises the resolved count from \njinjaLFNone{} to
-\njinjaLFSkill{} ($p=\njinjaLFp$, one-sided), and Gatekeeper still admits it, after
-\njinjaLFAdmit{} tasks instead of \njinjaAdmit{}: a smaller effect needs more evidence, as the
-e-process is designed to require. The Bleve skill does the same: \nbleveLFNone{} to
-\nbleveLFSkill{} ($p=\nbleveLFp$), admitted after \nbleveLFAdmit{} tasks instead of
-\nbleveAdmit{}. In the skill arm, \nbleveCrash{} runs crashed on a rate limit before their first
-step and count as unresolved, as registered; treating them as missing data leaves the discordant
-pairs at \nbleveSiB{}/\nbleveSiC{} and the difference of the gains at \nbleveSiLeak{}.
-
-\paragraph{Removing the instruction instead of the history}
-A second, registered test removes the leak from the other side: the environment keeps its history
-and the skill loses its history instruction. A fixed rule deletes every line of the skill that
-mentions a commit or the history; on the Jinja skill it deletes exactly one line, the ``Check Git
-History'' bullet, and keeps every other byte. Both arms ran in one job, at the same time. The
-skill without the instruction resolves \nabSkill{} tasks against \nabNone{} ($b/c=\nabB/\nabC$,
-$p=\nabP$, one-sided), a gain of \nabGain{} [\nabGainLo{}, \nabGainHi{}], and Gatekeeper admits it
-after \nabAdmit{} tasks. On the \njinjaNoPSTasks{} tasks without a description it solves \nabNoPS{},
-against \njinjaNoPSn{} for the full skill. Its gain differs from that of the full skill in the
-single-commit environment by \nabVsLF{} [\nabVsLFLo{}, \nabVsLFHi{}]: the two remaining gains show
-no detectable difference (no equivalence margin was registered, so we do not claim that they are
-equal). Against the full skill as shipped, run two days earlier, the instruction is worth
-\nabVsFull{} [\nabVsFullLo{}, \nabVsFullHi{}], against the leak's share of \nleak{} measured with
-the history removed. Without the instruction, the agent still ran
-\texttt{git log} or \texttt{git show} on its own in \nabTrGit{} of \nabTrRuns{} runs and saw the
-``Bug Patch'' commit in \nabTrBug{}.
+\paragraph{Removing the instruction}
+A fixed rule deletes every line of the skill that mentions a commit or the history; on the Jinja
+skill it deletes exactly one line. With both arms in one job, the skill without it resolves
+\nabSkill{} against \nabNone{} (gain \nabGain{}), and \nabNoPS{} of the \njinjaNoPSTasks{} tasks
+without a description, against \njinjaNoPSn{} for the full skill. Its gain differs from the full
+skill's gain with one commit by \nabVsLF{} [\nabVsLFLo{}, \nabVsLFHi{}]. Deleting a skill line and
+deleting history are different interventions, compared here across runs; we read the agreement as
+consistent, not as a decomposition.
 
 \paragraph{Removing the leak while learning}
-The two controls above change the skill or the environment after learning. A third, registered
-test changes the learning itself. We reran gskill's loop with exactly the settings of the original
-Jinja run (two halves, \ncleanCalls{} metric calls in total, the same split, agent and reflection
-models) and one difference: right after gskill sets up each task container, its history is reduced
-to the single commit used above. Each of the \ncleanRewrites{} rewrites was checked (one commit, one
-reference, no remote, no object carrying the bug-injecting message), and a failed check would have
-stopped the run. The loop still optimised gskill's own scorer $L$. In this run, none of the
-\ncleanCandNonEmpty{} non-empty rewrites the loop kept contains a line about commits or history
-(against \ncandHist{} of \ncandNonEmpty{} in the original run), and the returned skill
-(\ncleanBytes{} bytes) does not contain the word ``git''. Evaluated in the single-commit
-environment, the skill resolves \ncleanSkill{} tasks against \ncleanNone{} ($b/c=\ncleanB/\ncleanC$,
-$p=\ncleanP$, one-sided), a gain of \ncleanGain{} [\ncleanGainLo{}, \ncleanGainHi{}], and Gatekeeper
-admits it after \ncleanAdmit{} tasks; under $L$ the counts are \ncleanLSkill{} against
-\ncleanLNone{}. Its gain differs from the original skill's gain in the same environment
-(\njinjaLFGain{}) by \ncleanVsOrig{} [\ncleanVsOrigLo{}, \ncleanVsOrigHi{}]: the re-learned skill
-retains a positive effect under the controlled history, with no statistically detectable difference
-from the residual effect of the original skill; without a registered margin this is not evidence of
-equivalence, and the two arms of that comparison ran on different days. Under the family-wise
-reading of Section~\ref{sec:family} this admission does not hold (largest e-value \ncleanMaxE{}
-against \nfamAllThr). Moved into the original environment, where the bug-injecting
-commit is present, the new skill solves \ncleanShipSolved{} of the \ncleanShipN{} tasks without a
-description, against \njinjaNoPSn{} for the original skill, \nabNoPS{} for the original skill
-without its instruction and \njinjaNoPSNoneBase{} without a skill; the agent ran \texttt{git log}
-or \texttt{git show} in \ncleanShipGit{} of these runs and saw the ``Bug Patch'' commit in
-\ncleanShipBug{}. This comparison was registered as descriptive and we add no test to it: the
-\ncleanShipN{} tasks are the subset without a description, chosen because the leak is visible
-there, not a sample of all tasks. Each condition has one learning run, and GEPA is stochastic: the absence of the
+We reran gskill's loop with the settings of the original run and one change: every task container
+the loop set up (\ncleanCalls{}, one per metric call) had its history reduced to one commit and
+checked (one commit, one reference, no remote, no object carrying the bug-injecting message). None
+of the \ncleanCandNonEmpty{} non-empty rewrites kept contains a line about commits or history, and
+the skill is certified with one commit (R: \ncleanNone{} to \ncleanSkill{}, $E=\neopG$), though not
+at the family threshold. In the shipped environment it resolves \ncleanShipSolved{} of the \ncleanShipN{} tasks
+without a description. Each condition had one learning run of a stochastic loop: the absence of the
 instruction is an observation on this run, not an estimated rate.
-What the two skills share is a way of working, not a fact about the bug (exploratory). Both keep
-groups on the interaction format, on editing code, and on testing; only the original has a group
-for tasks without a description, the one with the history instruction. In the single-commit
-environment, the agent ran the tests in \nbhOrigTest{} of 100 runs with the original skill and
-\nbhCleanTest{} with the re-learned one, against \nbhNoneTest{} and \nbhNoneCleanTest{} without a
-skill, and submitted an empty patch in \nbhOrigEmpty{} and \nbhCleanEmpty{} runs against
-\nbhNoneEmpty{} and \nbhNoneCleanEmpty{}.
 
-\paragraph{A second seed, and a confirmatory test on unseen tasks}
-The measurements above use one seed per arm, and the difference between the environments rests
-on a bootstrap interval. Two registered follow-ups address both. First, we reran the four Jinja
-arms of the original skill (with and without the skill, as shipped and with the single commit) in
-one job, at the same time, with a second agent seed (51); all 400 runs completed, with
-\nsdInfra{} infrastructure errors. Under Holm's procedure at a family level of 0.025, the skill's
-effect is confirmed as shipped (\nsdSkill{} against \nsdNone{}, $b/c=\nsdB/\nsdC$, $p=\nsdP$,
-one-sided; gain \nsdGain{} [\nsdGainLo{}, \nsdGainHi{}]) and with the single commit (\nsdLFSkill{}
-against \nsdLFNone{}, $b/c=\nsdLFB/\nsdLFC$, $p=\nsdLFP$; gain \nsdLFGain{} [\nsdLFGainLo{},
-\nsdLFGainHi{}]); Gatekeeper admits after \nsdAdmit{} and \nsdLFAdmit{} tasks. The difference
-between the environments is \nsdLeak{} [\nsdLeakLo{}, \nsdLeakHi{}], against \nleak{} [\nleakLo{},
-\nleakHi{}] on the first seed; averaging the two seeds per task gives \nsdPool{} [\nsdPoolLo{},
-\nsdPoolHi{}]. On the \njinjaNoPSTasks{} tasks without a description the skill solves \nsdNoPS{}
-as shipped, and the three other arms solve \nsdNoPSOther{}. The third test of the family does not
-reject: a betting e-process, as in Section~\ref{sec:admission}, on the per-task contrast (the
-paired outcome difference as shipped minus the one with the single commit, halved to lie in
-$[-1,1]$) over all 100 tasks gives an anytime-valid $p=\nsdEnvP$. An exploratory run of this
-test on the first seed had not rejected either ($p=\nsdEnvPFirst$): at $n=100$ and a difference of
-this size it has little power.
+\begin{figure}[t]\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.55\linewidth,scale only axis,height=46mm,xmin=-0.1,xmax=0.6,ymin=0.4,ymax=8.6,
+  xbar=0pt,y dir=reverse,ytick={1,...,8},
+  yticklabels={J1 shipped (2 runs),J2 one commit (2 runs),S1 shipped (1 job),S2 one commit (1 job),
+  B1 Bleve shipped (2 days),B2 Bleve one commit (2 days),A no history line (1 job),R relearned (1 job)},
+  ticklabel style={font=\scriptsize},xlabel={gain in resolved tasks per task, 95\% CI},
+  xlabel style={font=\scriptsize},xmajorgrids]
+\addplot[only marks,mark=*,mark size=1.6pt,error bars/.cd,x dir=both,x explicit]
+ coordinates {(\njinjaGain,1) -= (\njinjaGain-\njinjaGainLo,0) += (\njinjaGainHi-\njinjaGain,0)
+ (\njinjaLFGain,2) -= (\njinjaLFGain-\njinjaLFGainLo,0) += (\njinjaLFGainHi-\njinjaLFGain,0)
+ (\nsdGain,3) -= (\nsdGain-\nsdGainLo,0) += (\nsdGainHi-\nsdGain,0)
+ (\nsdLFGain,4) -= (\nsdLFGain-\nsdLFGainLo,0) += (\nsdLFGainHi-\nsdLFGain,0)
+ (\nbleveGain,5) -= (\nbleveGain-\nbleveGainLo,0) += (\nbleveGainHi-\nbleveGain,0)
+ (\nbleveLFGain,6) -= (\nbleveLFGain-\nbleveLFGainLo,0) += (\nbleveLFGainHi-\nbleveLFGain,0)
+ (\nabGain,7) -= (\nabGain-\nabGainLo,0) += (\nabGainHi-\nabGain,0)
+ (\ncleanGain,8) -= (\ncleanGain-\ncleanGainLo,0) += (\ncleanGainHi-\ncleanGain,0)};
+\draw[densely dashed] (axis cs:0,0.4) -- (axis cs:0,8.6);
+\end{axis}
+\end{tikzpicture}
+\caption{Paired gains with 95\% task-level bootstrap intervals, 100 tasks each (scorer $S$). Pairs of
+rows differ only in the history (J1/J2, S1/S2, B1/B2). Arms in one job (S1, S2, A, R) or in
+different runs (J, B).}
+\label{fig:effects}
+\end{figure}
 
-Second, before opening any result of the second seed, we registered a single confirmatory test
-of the same contrast where the mechanism predicts it, on tasks without a description that no
-analysis had seen: the \ncfOld{} such test tasks of the second seed, followed by \ncfNew{} Jinja
-tasks never used in this study, chosen by a fixed rule (the first \ncfNew{} tasks without a
-description after the rows gskill samples, in dataset order) and run in the same four arms. The
-e-process crosses its threshold of $1/\alpha=40$ at task \ncfCross{} of \ncfN{} (anytime-valid
-$p=\ncfP$), and in \ncfOrders\% of \npermN{} random orders of the same tasks. \ncfFor{} tasks
-favour the environment as shipped, \ncfAgainst{} the single commit, and \ncfTies{} are ties. On the
-\ncfNew{} new tasks the skill resolves \ncfShipSkill{} as shipped and \ncfLFSkill{} with the single
-commit, against \ncfShipNone{} and \ncfLFNone{} without a skill, and the bug-injecting commit
-appears in the trace of \ncfMon{} of the \ncfNew{} skill runs as shipped (\ncfMonNone{} without a
-skill). One patch of a no-skill arm timed out in scoring, again when scored a second time, and
-counts as unresolved; without that task the threshold is crossed at the same position. The
-confirmed statement is limited to this skill, this repository, and tasks without a description.
+\subsection{Replication and a confirmatory test}\label{sec:replication}
+With a second agent seed, all four Jinja arms in one job, the skill is confirmed in both
+environments (S1, S2; Holm at 0.025) and the difference of the gains is \nsdLeak{} [\nsdLeakLo{},
+\nsdLeakHi{}], against \nleak{} on the first seed. The registered contrast over all 100 tasks (S3)
+is not significant ($E=\neopK$; anytime-valid $p=\nsdEnvP$): at $n=100$ and a difference of this size
+it has little power.
 
-\paragraph{It is the content of the skill, not its length}
-A longer prompt could help by itself. Following the length-matched irrelevant-skill control of
-WebDev-Skills-Bench~\cite{webdev_skills_bench_2026}, we replaced the learned skill (2{,}681 bytes)
-with the only one of the 98 public SWE-Skills-Bench skills whose length is within $\pm5\%$ of it, a
-Go concurrency guide (2{,}771 bytes) that says nothing about Jinja. Because the rule admits exactly
-one skill, the variation of a length-only effect across placebos is not estimated. With it the agent resolves \nplcS{} tasks. The learned skill's content
-effect is \nconGain{} [\nconGainLo{}, \nconGainHi{}] ($p=\nconP$, one-sided), and Gatekeeper
-admits the learned skill against the placebo after \nconAdmit{} tasks; the effect of length alone,
-\nlenGain{} [\nlenGainLo{}, \nlenGainHi{}], is not significant at $\alpha=0.025$ ($p=\nlenP$, two-sided). The
-content effect holds on the tasks that have a description, where removing the history changes the
-learned skill's gain only from \njinjaWithPSGain{} to \njinjaWithPSLFGain{} tasks (\nconWithPSSkill{} against \nconWithPSPlc{}; $p=\nconWithPSp$), and on the tasks without one the
-placebo solves \nplcNoPS{}. The placebo arm ran a day after the arms it is compared with; when the skill arm was rerun a
-day later on \ntrN{} tasks, \ntrSame{} kept their outcome.
+Before opening any result of the second seed we registered one confirmatory test where the
+mechanism predicts the contrast: the \ncfOld{} test tasks without a description, \emph{already used}
+with seed 41 and now run with seed 51, followed by \ncfNew{} Jinja tasks never used in this study
+(the first \ncfNew{} tasks without a description after the rows gskill samples, in dataset order),
+in the same four arms (Figure~\ref{fig:timeline}). The pool is the concatenation of two fixed
+cohorts in a fixed order, not a random permutation, so we read the registered e-process for the
+null that no task favours the environment as shipped, and the end-of-pool test for the null on the
+pool mean. \ncfFor{} tasks favour the environment as shipped and \ncfAgainst{} the single commit
+($E=\neopL$; the e-process crossed 40 at task \ncfCross{}, $p=\ncfP$). By cohort: \ncfOldFor{} of
+the \ncfOld{} known tasks and \ncfNewFor{} of the \ncfNew{} new tasks favour the shipped environment,
+none the other (exact sign test on the new cohort, $p=\ncfNewSignP$, post hoc). On the new tasks the
+skill resolves \ncfShipSkill{} as shipped and \ncfLFSkill{} with one commit, against \ncfShipNone{}
+and \ncfLFNone{} without it.
 
-\paragraph{A trace monitor for the leak (exploratory)}
-The single-commit control needs a second environment. A cheaper signal can be read from the
-traces of the environment as shipped: a run is flagged when one of its observations contains the
-message of the bug-injecting commit, ``Bug Patch''. We defined this flag after the data. It is
-raised in all \nmonExplFlag{} of the \nmonExplRuns{} runs of the original skill on the tasks
-without a description, and in \nmonLFFlag{} of the \nmonLFRuns{} runs in single-commit
-environments, where there is nothing to see. A flag on the command alone (the agent ran
-\texttt{git log} or \texttt{git show}) does not separate the two cases: in the single-commit Bleve
-environment it is raised in \nmonCmdBleve{} of \nmonCmdBleveRuns{} runs with the skill. Without a
-skill, the agent saw the commit in \nmonNoneFlag{} of \nmonNoneRuns{} Jinja runs and resolved
-\nmonNoneSolved{} of them. The instruction also travels with the skill: on Pygments, the Jinja
-skill led the agent to the commit in \nmonPygFlag{} of \nmonPygRuns{} runs (\nmonPygNoneFlag{}
-without the skill), and \nmonPygSolved{} of these runs were resolved. Reuse carried the behaviour
-to the new repository without carrying a gain. The precondition is common in the dataset:
-\nexpoEmpty{} of the \nexpoTasks{} SWE-smith tasks (\nexpoPct\%, in \nexpoRepos{} repositories)
-have no issue description, the subset on which the history carried the gain on Jinja; we measured
-the effect of the leak on two repositories only.
+\begin{figure}[t]\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[every node/.style={font=\scriptsize,align=center},
+  ev/.style={draw,rounded corners=2pt,inner sep=2pt,text width=15mm,minimum height=7mm}]
+\draw[-{Stealth[length=1.5mm]}] (0,0) -- (8.2,0);
+\foreach \x/\l in {0.6/{6--8 Nov},2.4/{10 Nov},4.2/{12 Nov\\01:56},6.0/{12 Nov\\04:08},7.6/{12 Nov\\05:14}}
+  {\draw (\x,0.08) -- (\x,-0.08); \node[below] at (\x,-0.1) {\l};}
+\node[ev,above] at (0.6,0.3) {J, B, P, A\\seed 41};
+\node[ev,above] at (2.4,0.3) {R relearned\\seed 41};
+\node[ev,above,fill=black!8] at (4.2,0.3) {C registered\\(rule, cohorts)};
+\node[ev,above] at (6.0,0.3) {S1--S3 seed 51\\34 test tasks};
+\node[ev,above] at (7.6,0.3) {C: 36 new\\tasks run};
+\end{tikzpicture}}
+\caption{Chronology of the Jinja experiments. The confirmatory test C was committed before any
+result of the second seed was opened; its pool is the 34 test tasks without a description (seed 51)
+followed by 36 new tasks. Times are UTC commit and publication times.}
+\label{fig:timeline}
+\end{figure}
 
-\subsection{RQ3: Does a certification carry over to another scope?}\label{sec:rq3}
-\paragraph{Across environments}
-The Jinja result above is one answer: the same skill, on the same tasks, is worth \njinjaGain{} in
-one environment and \njinjaLFGain{} in another that differs only in the repository history.
-\paragraph{Across repositories}
-We reused the Jinja skill, verbatim, on the \npygN{} test tasks of Pygments, the default repository
-of gskill's README and another Python repository of SWE-smith, split as gskill splits it, with both arms in the same environment; the
-registered test is two-sided. The skill
-resolves \npygSkill{} tasks against \npygNone{} ($b/c=\npygB/\npygC$, $p=\npygP$), a difference of
-\npygGain{} [\npygGainLo{}, \npygGainHi{}], and Gatekeeper does not admit it. gskill's scorer, on
-the same patches, reports \npygLSkill{} against \npygLNone{}: by the pipeline's own measure the
-skill transfers with a gain of \npygLGain{}. The no-skill rate on Pygments is low
-(\npygNone{} of \npygN{}), so this test has little power to detect harm; it shows that the
-certification obtained on Jinja says nothing measurable about Pygments. The only run of all
-\nswsRuns{} SWE-smith runs that reached the cost cap belongs to this skill arm and is unresolved, as
-is its pair; even if it had been resolved, the result would be \npygWorstSkill{} against
-\npygNone{} ($b=\npygWorstB$, $p=\npygWorstP$).
-\paragraph{Across agents and models}
-We ran a second agent model, \flashmodel{}, on the \nflN{} Jinja tasks without a description, in
-the environment as shipped, with and without the original skill (registered, descriptive). With
-the skill it resolves \nflSkill{} of \nflN{}; without any skill it resolves \nflNone{}, against
-\njinjaNoPSNoneBase{} for \agentmodel{}. The monitor flags all \nflNoneMon{} no-skill runs: the
-stronger agent's first command was \texttt{git log} in \nflNoneFirstLog{} runs, and it displayed the
-content of the bug-injecting commit in \nflNoneOpen{} (both counts defined after the data). On this
-model the skill adds \nflNoPatch{} tasks, and the agent reads the commit unprompted. The leak is
-therefore within reach of an agent without any learned instruction. How much of its \nflNone{}
-resolved tasks the history explains is not measured: that needs the single-commit control on this
-model, which we have not run.
-SWE-Skills-Bench publishes one run per skill for \nsskbConfigs{} agent--model
-configurations~\cite{sskb_paper}. On its \nsskbSkills{} common skills, only about
-\nsskbRhoPct\% of the variance of skill effects is shared between configurations
-($\rho=\nsskbRho$). Where a skill changes the pass rate by at least \nsskbThr{} points in one
-configuration, another configuration shows a change of at least \nsskbThr{} points in the same direction
+\subsection{What persists under the control}\label{sec:residual}
+Without the two commits, the Jinja skill still raises the resolved count from \njinjaLFNone{} to
+\njinjaLFSkill{} and is certified (J2), as are the Bleve skill (B2) and the second-seed replicate
+(S2). This part of the gain persists under the single-commit control according to $S$. It is not
+explained by the length of the prompt as far as one control can show: replacing the skill by the
+only public SWE-Skills-Bench skill within $\pm5\%$ of its length~\cite{webdev_skills_bench_2026}, a
+Go concurrency guide that says nothing about Jinja, the agent resolves \nplcS{} tasks; the learned
+skill's content effect is \nconGain{} [\nconGainLo{}, \nconGainHi{}], and this particular irrelevant
+skill's effect is \nlenGain{} [\nlenGainLo{}, \nlenGainHi{}] ($p=\nlenP$, two-sided). One placebo
+does not estimate the variation of irrelevant prompts, and the placebo arm ran a day after the arms
+it is compared with.
+
+\subsection{Scope}\label{sec:scope}
+\paragraph{Another repository}
+Reused verbatim on the \npygN{} Pygments test tasks, the Jinja skill resolves \npygSkill{} against
+\npygNone{} (registered two-sided test, $p=\npygP$; gain \npygGain{} [\npygGainLo{}, \npygGainHi{}])
+and is not certified; gskill's scorer $L$ reports \npygLSkill{} against \npygLNone{}. With a base
+rate of \npygNone{} in 100 this test has little power to detect harm: it shows an absence of
+evidence for transfer to this repository under this scorer, not equivalence, and says nothing about
+other repositories.
+
+\paragraph{Another agent model}
+\flashmodel{}, on the \nflN{} tasks without a description (registered, descriptive), resolves
+\nflSkill{} with the skill and \nflNone{} without, against \njinjaNoPSNoneBase{} for our agent. It
+uses both channels without any skill: it displayed the bug-injecting diff in \nhiFlNoneDiff{} of
+\nflN{} no-skill runs and the deleted tests in \nhiFlNoneTests{}, and ran a command that restores
+files from the history in \nhiFlNoneRestore{} (\nhiFlSkillTests{} runs with the deleted tests
+displayed with the skill). We did not run the single-commit control for this model, so how much of
+its \nflNone{} resolved tasks the commits explain is not measured.
+
+\paragraph{Other agent--model configurations (post hoc)}
+SWE-Skills-Bench publishes one run per skill for \nsskbConfigs{} configurations~\cite{sskb_paper}.
+On its \nsskbSkills{} common skills only about \nsskbRhoPct\% of the variance of skill effects is
+shared between configurations ($\rho=\nsskbRho$); where a skill changes the pass rate by at least
+\nsskbThr{} points in one configuration, another shows a change of that size in the same direction
 in \nsskbSamePct\% of cases and in the opposite direction in \nsskbOppPct\%. With one run per
-configuration, these figures cannot separate scope from noise; they show that a label measured in
-one configuration predicts little about another. In our own runs, two SWE-Skills-Bench skills on
-\promodel{} gave identical pass rates with and without the skill in \nproSame{} of \nproPairs{}
-pairs, with a median no-skill pass rate of \nproNoneMedian: there was little left for the skill to
-change.
+configuration these figures cannot separate scope from noise.
 
-\subsection{Sensitivity of the admissions (exploratory)}\label{sec:family}
-\paragraph{One family}
-Each e-process decision was registered as its own cell at $\alpha=0.025$. A reader who takes all
-\nfamAllK{} registered decisions together (the eight admission problems of Table~\ref{tab:rq2},
-the placebo comparison and the Pygments reuse test, the two admissions of the second seed, and the
-two environment contrasts) needs $\alpha/\nfamAllK$, a threshold of \nfamAllThr{} instead of $40$.
-Of the \nfamAllReg{} decisions that rejected at their registered level, \nfamAllHeld{} still do,
-including the confirmatory test on unseen tasks; the three that do not are the single-commit
-admissions of the Bleve skill, of the second seed, and of the re-learned skill (largest e-value
-\ncleanMaxE{}). This reading was chosen after the data and does not replace the registered
-decisions; the sign tests are separate registered tests with their own correction
-(Section~\ref{sec:design}), and Holm's procedure over them does not control the error of the
-e-process decisions.
-\paragraph{The order of the tasks}
-Each stream was run in one order, gskill's. Rerunning the same rule on \npermN{} uniformly random
-orders of the same paired outcomes, every stream admitted in the registered order is admitted in
-all \npermN{} orders (the re-learned skill at a median of \ncleanPermMed{} tasks, interquartile range
-\ncleanPermLo{}--\ncleanPermHi{}), and the Pygments reuse test in none. The reported decisions do
-not depend on the particular draw; the first crossing does.
-\paragraph{The margin $\theta$}
-All admissions use $\theta=0$, which certifies a gain greater than zero. With the two margins of
-Table~\ref{tab:design}, which certify a gain of at least $\theta$, \nthetaSmallKept{} of the
-\nfamAdmits{} admissions hold at $\theta=\nthetaSmall$ (the re-learned skill at task
-\ncleanThetaSmall{}, the last) and \nthetaLargeKept{} at $\theta=\nthetaLarge$; the two that fail at
-$\theta=\nthetaLarge$ are the single-commit Bleve skill and the re-learned Jinja skill, whose
-measured gains are the smallest.
-\paragraph{The cost of re-admission}
-A scope change means a new admission. Here an admission needed \nadmitMinTrials{} to
-\nadmitMaxTrials{} paired tasks; with our agent a paired task cost on average \ntokTrialIn{} thousand
-input and \ntokTrialOut{} thousand output tokens (counted in the section~30 traces), that is
-\ntokAdmitLo{} to \ntokAdmitHi{} million input tokens per scope, before any stop for futility.
+\paragraph{The instruction travels without the gain}
+On Pygments, the Jinja skill led the agent to the ``Bug Patch'' commit in \nmonPygFlag{} of
+\nmonPygRuns{} runs (\nmonPygNoneFlag{} without the skill), and \nmonPygSolved{} of these runs were
+resolved. In the single-commit Bleve environment the skill still sent the agent to the history
+(\texttt{git log} or \texttt{git show} in \nmonCmdBleve{} of \nmonCmdBleveRuns{} runs), with nothing
+to find.
 
-\subsection{Could the learner's own acceptance rule have caught the leak?}
-GEPA accepts a rewrite of the skill when it resolves more of three tasks than its parent
-(Section~\ref{sec:rq1}). Gatekeeper could replace this rule inside the loop, as a referee the
-learner cannot change~\cite{anytime_referee_2026}, at a price: at the effect sizes of
-Table~\ref{tab:rq2} it needed \njinjaAdmit{} to \nbleveLFAdmit{} paired tasks per admission instead of
-three, that is $\njinjaAdmit/3$ to $\nbleveLFAdmit/3$ times as many metric calls per accepted
-rewrite. It would not, by itself,
-have rejected the leak-seeking instruction, because in the learning environment that instruction
-does raise the resolved count. Only a control in which the claimed cause is absent, here the
-single-commit history, separates the leak from the skill. Applied to the learning environment
-rather than to the evaluation, the same control removed the instruction before it was written and
-left a certified skill whose gain shows no detectable difference from the residual gain of the
-original.
+\subsection{Measurement controls}\label{sec:measurement}
+\paragraph{The scorer of a learning pipeline}
+gskill's public scorer at commit 8c7b697 marks a patch as passing whenever the test output contains
+``passed'' in any letter case, unless it also contains ``Patch Apply Failed''~\cite{gskill_swe_harness}.
+A no-op patch passes on \nfzeroLNoop{} of \nfzeroN{} tasks across \nfzeroRepos{} SWE-smith
+repositories; $S$ passes \nfzeroSNoop{} of them and passes the gold patch on at least
+\nfzeroGoldMinPct\% of the tasks of every repository. On the agent's patches, $L$ reports
+\njinjaLNone{} and \njinjaLSkill{} on Jinja where $S$ finds \njinjaNone{} and \njinjaSkill{}. We make
+no claim about the numbers in the pipeline's announcement.
 
-\paragraph{The rules on the collected streams (exploratory)}
-The A/A comparison of Section~\ref{sec:rq1} uses resampled streams. After the data, we replayed
-the same rules on the \nrulesStreams{} paired streams collected for this paper, with labels fixed
-before the replay: \nrulesPos{} streams whose effect a registered test confirmed, \nrulesNull{}
-A/A streams, \nrulesHarm{} skills that are harmful by design, and the rest unlabelled. In the
-order in which the streams were run, Gatekeeper, the exact sign test and the Mantel--Haenszel
-gate decide alike: all \nrulesPos{} positive streams are admitted and none of the A/A or harmful
-ones. The plug-in rule admits \nrulesPluginNull{} of the \nrulesNull{} A/A streams, and GEPA's
-three-task rule admits \nrulesGepaPos{} of the \nrulesPos{} positive ones. On effects of this
-size, the e-process therefore reaches the same decisions as a fixed-sample test; what it adds is
-the right to stop at any task. The \nfamAdmits{} admissions of this paper stopped after
-\nadmitMeanTrials{} tasks on average, where the fixed-sample tests were registered at 100. The
-rules that look repeatedly without this right lose their level: over \npermN{} random orders of
-each A/A stream, Gatekeeper admits in \nrulesGkAAMax\% of the orders, the sign test looked at
-every ten tasks in at most \nrulesSignAAMax\%, the Mantel--Haenszel gate looked at every ten tasks
-in up to \nrulesMHAAMax\% (above its one-sided level of 2.5\% on \nrulesMHAAOver{} of the
-\nrulesNull{} streams), and GEPA's rule in \nrulesGepaAAMin\% to \nrulesGepaAAMax\%. On the
-positive streams, GEPA's rule admits in \nrulesGepaPosMin\% to \nrulesGepaPosMax\% of the orders.
-Twenty streams do not estimate an error rate, and the positive labels rest on runs of this study.
+\paragraph{Decision rules: what each is for}
+Table~\ref{tab:rules} compares the rules by error control, each at its own intended level and number
+of looks; these are not comparisons of learning algorithms.
+
+\begin{table}[t]\centering\footnotesize\setlength{\tabcolsep}{2.5pt}
+\caption{Decision rules. A/A: false admissions on \naaStreams{} resampled A/A streams of
+\naaTrials{} trials. Orders: largest share of \npermN{} random orders of the \nrulesNull{} collected
+A/A streams that a rule admits (post hoc).}\label{tab:rules}
+\begin{tabular}{@{}llllrr@{}}\toprule
+Rule & Intended use & Level & Looks & A/A & Orders\\\midrule
+Plug-in, mean favours skill & quick check & none & 1 & \npluginOnce & --\\
+Plug-in, monitored & & none & every \naaLook & \npluginMonitored & --\\
+Mantel--Haenszel gate$^{d}$ & interval & 2.5\% & 1 & \nbxOnce & --\\
+Mantel--Haenszel, monitored & & 2.5\% & every 10 & \nbxMonitored & \nrulesMHAAMax\%\\
+GEPA acceptance & search & none & 1 (3 tasks) & \ngepaNoop$^{e}$ & \nrulesGepaAAMax\%\\
+Exact sign test, monitored & fixed-$n$ test & 2.5\% & every 10 & -- & \nrulesSignAAMax\%\\
+Gatekeeper e-process & sequential & 2.5\% & every task & \ngkAdmitAA & \nrulesGkAAMax\%\\
+End-of-pool test & fixed pool & 2.5\% & 1 (end) & -- & --\\\bottomrule
+\end{tabular}\\[2pt]
+\raggedright\footnotesize $^{d}$built by us from XRepoSkill's statistic, which XRepoSkill does not
+use as a threshold. $^{e}$share of proposals that change nothing that are accepted.
+\end{table}
+
+\paragraph{Decision rules under A/A}
+From \naaTasks{} tasks with three no-skill runs each we built \naaStreams{} A/A streams of
+\naaTrials{} paired trials. These are comparisons of error control, not of learning algorithms:
+each rule is read at its intended level. A plug-in rule that admits when the mean difference
+favours the skill admits in \npluginOnce{} of the streams after \naaTrials{} trials, and in
+\npluginMonitored{} when looked at every \naaLook{} trials; a Mantel--Haenszel gate built from
+XRepoSkill's statistic (lower end of a two-sided 95\% interval above 0) admits in \nbxOnce{} at one
+look and \nbxMonitored{} when monitored; GEPA's acceptance rule, inside the learning loop and not
+designed for error control, accepts \ngepaNoop{} of proposals that change nothing (under A/A a
+proposal that changes nothing is accepted with probability $(1-\Pr[\text{tie}])/2$, which grows
+towards $1/2$ with the minibatch); the registered e-process admits in \ngkAdmitAA{}. On the
+\nrulesStreams{} streams collected for this paper (post hoc; labels fixed before the replay:
+\nrulesPos{} confirmed effects, \nrulesNull{} A/A, \nrulesHarm{} harmful by design), the
+e-process, the sign test and the Mantel--Haenszel gate decide alike in the order run; the plug-in
+rule admits \nrulesPluginNull{} of the A/A streams and GEPA's rule \nrulesGepaPos{} of the
+\nrulesPos{} positive ones. On effects of this size the e-process reaches the same decisions as a
+fixed-sample test; what it adds is the right to stop, which, all tasks having been run, we can only
+assess retrospectively (first crossings after \nadmitMeanTrials{} tasks on average).
+
+\paragraph{Our own harness}
+No-op patches resolve \nnoopOurs{} of \nnoopOursN{} tasks and gold patches \ngoldOursOk{} of
+\ngoldOursN{}. Rescoring all \nrsPatches{} non-empty Jinja patches twice changed \nrsFlips{} of
+\nrsScorings{} outcomes.
+
+\paragraph{Attribution and rerun noise}
+A published procedure flags a failure as skill-induced when the run with the skill fails a task that
+a reference run solves~\cite{skill_induced_failures_2026}. Applied to two runs \emph{without} any
+skill, it flags \nattrPlacebo{} candidates against \nattrSkill{} with a skill on \nattrTasks{}
+SWE-bench-Live tasks (ratio \nattrR{}, 95\% interval [\nattrRLo{}, \nattrRHi{}]). LLM auditors shown a
+sham skill that by construction caused nothing blamed it for \nshamLiteK{} of \nshamLiteN{},
+\nshamFlashK{} of \nshamFlashN{} and \nshamProK{} of \nshamProN{} failures (\agentmodel{},
+\flashmodel{}, \promodel{}). For a benchmark of $n$ tasks, the rerun noise is the 97.5th percentile
+of the absolute difference in resolve rate between two no-skill runs, resampled from our runs on
+\nnoiseTasks{} tasks: \nnoiseWithin{} of \nnoiseClaims{} gains reported for XRepoSkill and
+MemGovern~\cite{xreposkill,memgovern_repo} are no larger than this level at their $n$. This is an
+indication measured with our agent, not a test of those papers. For MemGovern, a registered
+manipulation check (the agent must call the memory tools) failed on our harness (\nmgUsed{} of
+\nmgRuns{} runs), so we did not evaluate it; this says nothing about MemGovern with its own harness.
+
+\section{Discussion}
+\paragraph{A statistical gate certifies a gain, not its source}
+A gate such as PACE~\cite{pace_paired_anytime_gate} or Gatekeeper answers whether a change raises
+the score on the evaluation tasks. It cannot answer whether the rise comes from a capability or from
+information the evaluation environment should not provide: in the learning environment the
+leak-seeking instruction does raise the resolved count, so a valid gate inside the loop would accept
+it, at a higher cost (the registered e-process needed \njinjaAdmit{} to \nbleveLFAdmit{} paired
+tasks where GEPA uses three, retrospectively). Only a control in which the claimed cause is absent
+separates the two. Applied to the learning environment, the single-commit control removed the
+instruction before it was written.
+
+\paragraph{The cost of re-certification}
+A change of scope means a new certification. With our agent a paired task cost on average
+\ntokTrialIn{} thousand input and \ntokTrialOut{} thousand output tokens; the registered e-process
+would have stopped after \nadmitMinTrials{} to \nadmitMaxTrials{} paired tasks, that is
+\ntokAdmitLo{} to \ntokAdmitHi{} million input tokens per scope. These are retrospective: every
+comparison ran all its tasks.
+
+\paragraph{What a certification is worth}
+A certification here is a statement about a fixed pool of tasks within one run (T1). It is not a
+statement about future runs: the model behind the same name changed between our earlier and later
+runs (a registered check found identical first responses on \ndriftMatch{} of \ndriftTasks{} tasks),
+and the replication with a second seed is descriptive evidence of stability, not a guarantee. It is
+not a statement about other tasks or repositories: the Pygments reuse and the second agent show how
+far a scope can differ.
 
 \section{Threats to Validity}\label{sec:threats}
-\paragraph{One model family}
-Our confirmatory agent runs use one model, \agentmodel{}; the descriptive runs with \promodel{} and
-\flashmodel{} are from the same vendor. The model behind the same name changed between our earlier and later runs (a
-registered check found identical first responses on \ndriftMatch{} of \ndriftTasks{} tasks), so we never pair runs from
-different periods. No model of another vendor was available to us under our quota. Whether the
-leak-seeking instruction is learned, and followed, with models of other vendors is open; the
-second Gemini model follows it, and finds the leak without it.
-\paragraph{Synthetic tasks and three repositories}
-The learned skills are evaluated on SWE-smith's synthetic tasks for two repositories, and the reuse
-test on a third, 100 paired tasks each, with one seed per arm except the four Jinja arms of the
-original skill, which were repeated with a second seed. In the reuse test, \npygLate{} tasks of the skill
-arm were run again later the same day after the run stopped at its cost cap, so for them the two
-arms did not run at the same time. The single-commit history also removes the repository's real history,
-so the leak-free environment is not a real repository either; we did not test a history that keeps
-the real commits and drops only the bug-injecting one. We have no learned skill evaluated on tasks
-from a real, non-synthetic repository. Base rates without a skill are low (\njinjaNone{},
-\nbleveNone{} and \npygNone{} of 100), so a skill can mostly help rather than harm; benchmarks with
-higher base rates are needed to measure harm.
-\paragraph{Loss, seeds and comparison methods}
-Every experiment uses the binary loss (resolved or not); the graded loss of
-Appendix~\ref{app:defs} is not evaluated, and we did not choose its weight. Each arm ran with one
-seed, except the four Jinja arms of the original skill (Section~\ref{sec:rq2}). Other admission rules are compared on A/A streams (Section~\ref{sec:rq1}), not on the
-learned-skill streams.
-\paragraph{Order of the trials}
-The admission guarantee needs an order that does not depend on the outcomes
-(Proposition~\ref{prop:wor}). The order is fixed by gskill's seeded split, but the runs of one arm
-were executed by parallel workers in roughly that order over a few hours, so a change of the model
-behind the provider's endpoint during a run would correlate outcomes with position. We found no
-such change within a run, but we cannot exclude it.
-\paragraph{One learning run per condition}
-Each skill comes from one run of gskill's stochastic loop; we did not repeat the learning, so the
-difference between the original and the re-learned Jinja skill cannot be separated from the
-variation between learning runs, and we report the presence or absence of the history instruction
-as an observation, not a rate. The learning logs of the first half of each run were overwritten
-when gskill resumed, so the call that first wrote the instruction cannot be inspected.
-\paragraph{One leak channel}
-We measured one leak channel, the bug-injecting commit in the history. Other channels, such as
-artefacts in the image, file names or timestamps, were not probed, and the single-commit control
-removes only the history; opportunities planted by design~\cite{hack_verifiable_2026} would extend
-the controls to such channels. The ablation removes one instruction, the one that names the leak; we did not
-measure which of the remaining instructions carry the remaining gain.
-\paragraph{The pipeline's own numbers}
-We tested gskill's public code at a pinned commit, not the code behind its announcement.
-\paragraph{Contamination}
-We could not verify the training cutoff of the model from an official page; we therefore make no
-claim that the tasks are unseen.
-\paragraph{Scoring environment}
-Our local scoring environment had no network access; we measured the effect and rescored every
-affected patch (Section~\ref{sec:rq1}). \nblockedGold{} gold patches still fail locally because they need
-hosts that our network policy blocks; they pass on the hosted runner. Scoring itself is
-repeatable: re-scoring all \nrsPatches{} non-empty Jinja patches twice with SWE-smith's harness
-(\nrsScorings{} scorings) changed \nrsFlips{} outcomes.
-\paragraph{The reflection model}
-gskill's loop uses \promodel{}, a larger model than the agent, to rewrite the skill. A learner with a
-different reflection model may write different instructions; we did not vary it.
-\paragraph{Exploratory analyses}
-Analyses not registered in advance (the SWE-Skills-Bench transfer figures, the model comparison,
-the subgroup reading of the leak) are labelled as such and are not used as confirmatory evidence.
+\paragraph{Measurement}
+Gains are under the benchmark's tests ($S$), which we checked with no-op and gold patches but not
+with an independent semantic check. Tasks are synthetic, from three repositories; base rates without
+a skill are low (\njinjaNone{}, \nbleveNone{}, \npygNone{} of 100), so the tests have little power to
+detect harm. We could not verify the model's training cutoff and make no claim that tasks are unseen.
+
+\paragraph{Interventions}
+The single-commit control removes both construction commits at once; we did not separate the two
+channels in an experiment, and the trace audit shows that our agent used only the bug-injecting diff.
+Other channels (image artefacts, file names, timestamps) were not probed. One learning run per
+condition: the presence or absence of the instruction is an observation, and the learning calls of
+the first half were overwritten. The reflection model was not varied.
+
+\paragraph{Inference}
+The certification rests on Assumption~\ref{ass:indep} given the run state, which diagnostics can
+challenge but not establish; runs of different tasks share a provider and its rate limits. The
+end-of-pool test is a post hoc reanalysis of registered comparisons. Comparisons whose arms ran in
+different runs (J, B, P) include the difference between runs in T1; S1--S3, A and R do not. Holm's
+procedure over the registered sign tests does not control the error of the e-process decisions;
+Table~\ref{tab:decisions} reports both readings.
+
+\paragraph{Scope}
+One agent model for the confirmatory runs; the descriptive runs with \promodel{} and \flashmodel{}
+are of the same vendor. Whether other vendors' models learn or follow the instruction is open.
 
 \section{Related Work}
-\paragraph{Learning and reusing skills}
-Skill libraries for agents go back to executable skills in Voyager~\cite{voyager}; for coding
-agents, skills are mined from trajectories~\cite{xreposkill}, stored as experience
-cards~\cite{memgovern_repo} or optimised against a benchmark~\cite{gskill}. Benchmarks measure
-whether skills help: SWE-Skills-Bench runs ``every task once without the skill and once with
-it''~\cite{sskb_paper}; SkillsBench benchmarks how well skills work across diverse
-tasks~\cite{skillsbench_2026}; and SkillJuror, observing that ``current benchmarks rarely
-distinguish what a Skill says from how it is organized'', measures how a skill's organisation
-changes the agent's behaviour, with five trials per condition~\cite{skilljuror_2026}. Closest to
-gskill, Kozyrev et al.\ optimise repository SKILL files with GEPA and SkillOpt, observing that ``the
-synthetic tasks prior work builds are small enough that a capable agent saturates them with no
-document at all''; they mine merged pull requests ``reverted at a single frozen base commit'', run
-every attempt ``on an isolated checkout at the frozen base with .git removed'', and report that one
-score ``wrote the training pull requests back into prose''~\cite{skill_issue_2026}. Our
-single-commit control is close to that setup; we measure what a learned skill gains when the history
-is present, and how much of a certified gain this accounts for. We add an
-admission decision with an error guarantee, controls for the measurement itself, and a test of
-whether the decision carries over to another scope.
-
-\paragraph{Attributing failures to skills}
-Dong et al.\ attribute a failure to a skill by comparing the run with the skill to ``a no-skill or
-semantically matched-skill reference run that solves the same task'', without rerunning the
-benchmark tasks~\cite{skill_induced_failures_2026}. Our A/A control applies their rule to two runs
-without any skill.
-
-\paragraph{Reliability of coding-agent evaluation}
-Run-to-run variance~\cite{randomness_agentic_evals_2026}, the harness around the
-model~\cite{same_model_harness_2026}, and tests that accept incorrect
-patches~\cite{patchdiff_2025,utboost_2025,test_overfitting_2025} all move reported resolve rates,
-as do problem statements that do not match the pull request whose patch serves as the
-oracle~\cite{paichecker_2026}.
-Git-history leaks have been documented for SWE-bench~\cite{swebench_git_log_leak,swebench_git_log_fix},
-SWE-Bench Pro~\cite{swebench_pro_verified}, other agent benchmarks~\cite{cursor_reward_hacking,
-poolside_benchmark_hacking} and, recently, SWE-smith~\cite{marin_swesmith_git_leak,
-debuggym_swesmith_git_leak,debuggym_swesmith_git_fix,rllm_hide_git_history}. These works study
-agents that find a leak; we show that a skill \emph{learner} can turn the leak into a reusable
-instruction, and measure how much of a certified gain it accounts for. Hack-verifiable environments
-``embed detectable reward hacking opportunities directly into environments''~\cite{hack_verifiable_2026};
-our single-commit control instead removes one known opportunity and measures the change.
-
-\paragraph{Admission gates for agent artefacts}
-Qu et al.\ separate proposing from judging: ``a frozen statistical referee that the agent cannot
-touch'' scores proposed investment factors ``by betting, so its false-discovery guarantee holds at
-every stopping time for any proposal policy''~\cite{anytime_referee_2026}. HDSO accepts a skill
-only when ``a falsifiable hypothesis survives prospective validation''~\cite{hdso_2026}, and
-Library Drift retires skills by outcome once an evidence floor ($N_{\min}=100$ in its default setting) is
-reached~\cite{library_drift_2026};
-neither uses an anytime-valid test. Gatekeeper applies an anytime-valid gate to coding-agent
-skills, controls the family-wise error when the budget is split across cells, and ties each
-admission to a scope.
-
-\paragraph{Sequential and anytime-valid evaluation}
-Gatekeeper's test is a betting e-process~\cite{waudby_smith_ramdas}. CELEUS uses e-processes for
-certifiable LLM evaluation, noting that existing sequential methods ``are not generally
-anytime-valid''~\cite{celeus_2026}, and E-valuator applies sequential hypothesis testing to agent
-verifiers~\cite{evaluator_2025}. Both certify the performance of one system; Gatekeeper certifies a
-paired difference, a skill against the same agent without it, in a declared scope.
+Skill libraries go back to Voyager~\cite{voyager}; for coding agents, skills are mined from
+trajectories~\cite{xreposkill}, stored as cards~\cite{memgovern_repo} or optimised against a
+benchmark~\cite{gskill}. SWE-Skills-Bench measures skills by one run per configuration~\cite{sskb_paper},
+SkillsBench across tasks~\cite{skillsbench_2026}, and SkillJuror how a skill's organisation changes
+behaviour~\cite{skilljuror_2026}. Closest to gskill, Kozyrev et al.\ optimise repository skill files
+with GEPA, run every attempt ``on an isolated checkout at the frozen base with .git removed'', and
+report that one score ``wrote the training pull requests back into prose''~\cite{skill_issue_2026};
+our single-commit control is close to that setup, and we measure how much of a certified gain the
+history accounts for. Run-to-run variance~\cite{randomness_agentic_evals_2026}, the
+harness~\cite{same_model_harness_2026} and tests that accept incorrect
+patches~\cite{patchdiff_2025,utboost_2025,test_overfitting_2025} move resolve rates. Git-history
+leaks are documented for SWE-bench~\cite{swebench_git_log_leak,swebench_git_log_fix}, SWE-Bench
+Pro~\cite{swebench_pro_verified}, other benchmarks~\cite{cursor_reward_hacking,
+poolside_benchmark_hacking} and SWE-smith~\cite{marin_swesmith_git_leak,debuggym_swesmith_git_leak,
+debuggym_swesmith_git_fix,rllm_hide_git_history}; these works study agents that find a leak, and
+hack-verifiable environments plant such opportunities by design~\cite{hack_verifiable_2026}. Paired
+anytime-valid gates accept changes of self-evolving agents (PACE~\cite{pace_paired_anytime_gate})
+and investment factors~\cite{anytime_referee_2026}; e-processes certify the performance of one
+system~\cite{celeus_2026,evaluator_2025}. HDSO and Library Drift accept or retire skills by
+validation and outcome floors~\cite{hdso_2026,library_drift_2026}. We add controls in which the
+claimed cause of a gain is absent, and state what such a certification covers.
 
 \section{Conclusion}
 A resolve-rate gain certifies a skill only in the scope where it was measured, and the evaluation
-environment is part of that scope. On SWE-smith, a published learner turned an evaluation leak into
-advice: for Jinja, up to \nleak{} of a \njinjaGain{} gain comes from the repository history, and a
-second skill, for Bleve, repeats the pattern. The Jinja result holds with a second seed, and a
-preregistered anytime-valid test on \ncfN{} unseen tasks without a description confirms the
-environment's share ($p=\ncfP$). A stronger agent model reads the same commit with no skill, so the
-leak is within reach of agents, not only of learners; whether it raises their scores needs the
-single-commit control on that model. The rest of each gain is real and is admitted by an
-anytime-valid paired test, with a per-admission guarantee that holds for a finite pool run once in a
-random order (RQ2). Closing the leak while learning, not only while evaluating, removed the
-instruction at its source in our one learning run, and the resulting skill does not exploit the leak
-when moved back. Certifications do not carry over: the same skill on another repository is not
-admitted, and published skill effects are weakly shared across agent--model configurations (RQ3).
-Controls with a known answer, A/A runs, sham skills, no-op and gold patches, expose measurement
-errors that a gain alone hides (RQ1). The evidence has limits that Section~\ref{sec:threats} lists:
-one model family, synthetic tasks on three repositories, one learning run per condition, and one
-leak channel.
+environment is part of that scope. On SWE-smith a published learner turned two construction commits
+into advice: on Jinja, \nleak{} of a \njinjaGain{} gain depends on them, a second seed and a
+preregistered test on tasks without a description confirm the difference, and a Go skill repeats
+the pattern. The rest of each gain persists without the commits and is certified for its pool and
+run. A stronger agent reads both commits with no skill. Evaluating a learned skill therefore needs
+controls in which the claimed cause is absent, and a statement of what the certification covers.
 
-\bibliographystyle{IEEEtran}
+\section*{Data Availability}
+An anonymized replication package accompanies the submission: the preregistrations with the commit
+time of every registration, the analysis scripts, the raw runs and traces, and the scripts that
+generate every number in this paper. Third-party texts without a licence are not redistributed.
+
+\section*{Use of AI Tools}
+AI coding assistants were used to write the experiment and analysis code, to run the analyses and to
+draft text. Every number in the paper is generated by a script from the raw results; the
+preregistrations, the code and the generated numbers were reviewed by the author.
+
+\bibliographystyle{ACM-Reference-Format}
 \bibliography{refs}
-\appendices
-\section{Definitions not used in the experiments}\label{app:defs}
-\begin{definition}[Normalised functional loss]
-With $F$ the fraction of \texttt{FAIL\_TO\_PASS} tests still failing, $R$ the fraction of
-\texttt{PASS\_TO\_PASS} tests broken and $w>0$,
-$\ell(x,\pi)=\frac{F+wR}{1+w}\in[0,1]$; the experiments use the binary case.
-\end{definition}
-A pair (skill, context) is \emph{harmful} if $\STR>0$, \emph{neutral} if $-\theta<\STR\le0$ and
-\emph{beneficial} if $\STR\le-\theta$. Harmful acceptance is the fraction of harmful pairs
-admitted; clean-reuse coverage the fraction of beneficial pairs admitted. We estimate them only by
-simulation on measured agent noise (plasmode~\cite{franklin_2014_plasmode}), not on real skill
-pairs.
-
-\section{Sample complexity and the value of pairing}\label{app:pairing}
-\begin{proposition}[Paired trials]
-If $\ell(x,\pi)=\mu_\pi+T(x)+e_\pi$ and $\ell(x,\varnothing)=\mu_\varnothing+T(x)+e_\varnothing$ with
-$\mathrm{Var}\,T=\sigma_T^2$ and $\mathrm{Var}(e_\pi-e_\varnothing)=\sigma_S^2$, then
-$n_{\mathrm{unpaired}}/n_{\mathrm{paired}}=1+2\sigma_T^2/\sigma_S^2$; both designs cost two runs per sample.
-\end{proposition}
-On the published per-requirement results of SWE-Skills-Bench, the variance components give a
-saving of \npairSaving{} (Table~\ref{tab:sskb}): an unpaired comparison would need \npairSaving{} times
-as many runs for the same precision. Table~\ref{tab:design} gives, by simulation, the paired trials Gatekeeper needs to admit a
-skill with 80\% probability, by threshold $\theta$, true effect, and the number of cells that share
-the error budget.
-
-\begin{table}[t]\centering\caption{Real paired data (SWE-Skills-Bench, 3{,}920 pairs): pairing and effect sizes.}\label{tab:sskb}
-\input{tables/sskb.tex}\end{table}
-
-\begin{table}[t]\centering\caption{Paired trials per cell for 80\% admission power (simulation); ``cells'' is the number of
-(skill, scope) cells sharing $\alpha$.}\label{tab:design}
-\resizebox{\linewidth}{!}{\input{tables/design.tex}}\end{table}
-
-\section{Further controls}\label{app:controls}
-\paragraph{Attribution of failures to skills}
-A published procedure flags a failure as skill-induced when the run with the skill fails a task
-that a reference run solves~\cite{skill_induced_failures_2026}. Applied to two runs \emph{without}
-any skill, the procedure flags a similar number of candidates as with the skill: \nattrPlacebo{} versus
-\nattrSkill{} on \nattrTasks{} SWE-bench-Live tasks, a ratio of \nattrR{} (95\% task-level
-bootstrap interval [\nattrRLo{}, \nattrRHi{}]). LLM auditors, shown a sham skill that by construction caused nothing,
-blamed it for \nshamLiteK{} of \nshamLiteN{}, \nshamFlashK{} of \nshamFlashN{} and \nshamProK{} of
-\nshamProN{} failures (\agentmodel{}, \flashmodel{} and \promodel{} as auditors). On real failures
-they also blame the skill more often than the runs allow. From the runs, at most \nshamShareUp{} of
-the candidate failures can be caused by the skill (upper end of a 95\% task-level bootstrap
-interval); the auditors' attribution rates exceed this bound by at least \nshamLite{},
-\nshamFlash{} and \nshamPro{}. We tested single auditors with one prompt; ensembles and rubrics were
-not tested.
-
-\paragraph{Published gains against rerun noise}
-For a benchmark of $n$ tasks, the rerun noise level is the 97.5th percentile of the absolute
-difference in resolve rate between two runs of the same agent without a skill, resampled from our
-no-skill runs on \nnoiseTasks{} tasks (base resolve rate \nnoiseBase). \nnoiseWithin{} of the
-\nnoiseClaims{} gains reported for XRepoSkill~\cite{xreposkill} and MemGovern~\cite{memgovern_repo}
-are no larger than the noise level at their $n$: a single run cannot distinguish them from rerunning the baseline. This does not mean the
-skills have no effect. The noise is measured with our agent and model, not with the published
-ones, so this is an indication, not a test of those papers.
-
-\paragraph{A manipulation check that failed}
-For MemGovern~\cite{memgovern_repo} we installed its released experience cards, search index,
-retrieval server and tools unchanged, and used its own retrieval instruction verbatim. The agent
-harness and the model are not MemGovern's: we use mini-swe-agent and \agentmodel{}, where
-MemGovern's released configuration uses SWE-agent and gpt-5. Before any comparison we registered
-a manipulation check: the agent must call the memory tools. On our harness with a small model,
-the agent never invoked MemGovern's optional retrieval tools (\nmgUsed{} of \nmgRuns{} runs across
-two instruction placements; only the second matches the position in MemGovern's configuration,
-and for it the retrieval server also logged no request), so the registered rule stopped the
-experiment before any effect was computed. We therefore could not evaluate MemGovern as a skill
-source; this says nothing about MemGovern with its own harness and model.
-
-
 \end{document}

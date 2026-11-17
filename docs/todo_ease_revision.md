@@ -130,7 +130,7 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 | # | Việc | Xong khi | Duyệt |
 | --- | --- | --- | --- |
 | [ ] G2 | Gộp `main` và nhánh mặc định thành một nguồn duy nhất. Trước đó: gắn tag cho đầu hai nhánh, liệt kê file khác nhau, **báo phiên Kaggle đang đẩy commit lên nhánh mặc định**. | Một nhánh chứa cả bài mới nhất lẫn `kaggle/`; CI đạt | tự làm, nhưng phải phối hợp |
-| [ ] D8 | Sửa ba câu sai dữ kiện trên `main`: "All agent runs use one model" (mâu thuẫn với §34); "609 rewrites" (đếm sai đơn vị); câu "chỉ so trên luồng A/A" ở Threats (bài đã so trên 20 luồng thật). Ghi vào `docs/audit_pilot.md`. | Ba câu khớp với dữ liệu | tự làm |
+| [x] D8 | Xong 17/11 (R-69). Sửa ba câu sai dữ kiện trên `main`: "All agent runs use one model" (mâu thuẫn với §34); "609 rewrites" (đếm sai đơn vị); câu "chỉ so trên luồng A/A" ở Threats (bài đã so trên 20 luồng thật). Ghi vào `docs/audit_pilot.md`. | Ba câu khớp với dữ liệu | tự làm |
 | [x] S0 | **Bước 0: kiểm toán lịch sử git và trace.** Xong 17/11: `docs/preregistration_main.md` §41. Mỗi task có đúng ba commit; không có lịch sử thật; có **hai** kênh rò rỉ (diff "Bug Patch" và test bị xóa trong "Remove F2P Tests"); agent nghiên cứu chỉ dùng kênh thứ nhất, agent thứ hai dùng cả hai. | Có bảng kết quả và file JSON | tự làm |
 | [ ] A5a | Đưa chính sách của ACM về AI vào `configs/sources.json`, để runner tải, rồi đọc. | Có trích đoạn trên `sources-snapshots` | tự làm |
 | [ ] D9a | Tải toàn văn PACE (hiện mới có tóm tắt) và đọc. | Biết chính xác quy tắc của PACE | tự làm |
@@ -145,19 +145,19 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 | [x] B7 | Xong 17/11: `verify_methods.py` mục `end_of_pool`. Nhận nhầm ≤ 0,0013 trên ba pool có trung bình 0; trạng thái chung 0,042; power kém kiểm định dấu ở mức tăng nhỏ. Đưa mô phỏng của mục 3.4 vào `scripts/verify_methods.py`: tỉ lệ nhận nhầm và power, trên đúng quy tắc cuối cùng. | `results/method_check.json` cập nhật | tự làm |
 | [x] B5 | Xong 17/11 (§42): ngưỡng 40 ra đúng mọi quyết định đã đăng ký; ngưỡng 480 giữ 8/10. Tính đủ 12 quyết định **từ dữ liệu ghép cặp gốc**. Mỗi dòng: mã phép so, giả thuyết không, pool, trạng thái từng task (timeout, lỗi hạ tầng), cấu trúc lượt chạy, λ, E, ngưỡng, có nằm trong phạm vi chứng nhận có điều kiện không. Thiếu dữ liệu gốc thì ghi rõ thiếu gì. | Một file JSON và một bảng | tự làm |
 | [x] B6 | Xong 17/11 (§42): không τ nào có p < 0,05; 2 lượt sập vì giới hạn tốc độ (Bleve một commit). Chẩn đoán giả định độc lập: số lượt sập vì giới hạn tốc độ ở từng phép so; tương quan của Z theo thứ tự chạy. Ghi rõ đây là chẩn đoán, không phải xác nhận. | Có số cho từng phép so | tự làm |
-| [ ] B3 | Trong bài: thu hẹp Định lý 2 về phần đã chứng minh. Sửa Mệnh đề 3 bằng điều kiện "thủ tục nhận skill với xác suất dương". | Sau B5 | **chờ** (phạm vi tuyên bố) |
-| [ ] B4 | Trong bài: §35 ghi là "34 task đã dùng với seed mới + 36 task mới"; báo cáo riêng từng nhóm. | Sau B5 | tự làm |
+| [x] B3 | Xong 17/11: Định lý 2 và Mệnh đề 3 cũ được thay bằng mệnh đề cuối pool có chứng minh. Trong bài: thu hẹp Định lý 2 về phần đã chứng minh. Sửa Mệnh đề 3 bằng điều kiện "thủ tục nhận skill với xác suất dương". | Sau B5 | **chờ** (phạm vi tuyên bố) |
+| [x] B4 | Xong 17/11. Trong bài: §35 ghi là "34 task đã dùng với seed mới + 36 task mới"; báo cáo riêng từng nhóm. | Sau B5 | tự làm |
 
 ### Đợt 3: thí nghiệm (đóng băng ngày 01/12)
 
 | # | Việc | Xong khi | Duyệt |
 | --- | --- | --- | --- |
-| [ ] C1a | Sửa `kaggle/preregistration_s40.md` **trước lượt chạy đầu của C4′**: (1) đích tái lập là hiệu của hai mức tăng trên cùng task, như §33 và §35; (2) phép kiểm cuối pool là phép thử chính; (3) khai rằng số của phiên 1 không hợp lệ đã được nhìn thấy. | Ghi chú thực thi có ngày | tự làm, phối hợp với phiên Kaggle |
-| [ ] C1b | Mô phỏng power cho phép so giữa hai môi trường, theo từng agent. Power thấp thì ghi trước vào bản đăng ký hoặc bỏ agent đó. | Có số power trước khi chạy | tự làm |
+| [x] C1a | **Xong 17/11: ghi chú 40-5 (nhánh mặc định).** Sửa `kaggle/preregistration_s40.md` **trước lượt chạy đầu của C4′**: (1) đích tái lập là hiệu của hai mức tăng trên cùng task, như §33 và §35; (2) phép kiểm cuối pool là phép thử chính; (3) khai rằng số của phiên 1 không hợp lệ đã được nhìn thấy. | Ghi chú thực thi có ngày | tự làm, phối hợp với phiên Kaggle |
+| [x] C1b | **Xong 17/11: ghi chú 40-5, `kaggle/results/c4_contrast_power.json`** (0,28 / 0,63 / 1,00). Mô phỏng power cho phép so giữa hai môi trường, theo từng agent. Power thấp thì ghi trước vào bản đăng ký hoặc bỏ agent đó. | Có số power trước khi chạy | tự làm |
 | [ ] C1 | Chạy C4′ trên Kaggle (ba agent khác hãng, hai môi trường, 100 task). Cần cổng cách ly C5 đạt. | Theo `kaggle/TODO.md` | đã duyệt (hạn mức Kaggle) |
 | [ ] C2 | §38 phiên 3 và phân tích. Báo cáo tỉ lệ theo từng model; các đầu ra không phải là các lượt học độc lập. | Theo `kaggle/TODO.md` | đã duyệt |
 | [x] C3 | §39 (auditor bốn hãng). | Xong 16/11 | — |
-| [ ] C10 | Can thiệp lịch sử git có kiểm soát. Đặc tả ở mục 7. **Chỉ lập thiết kế sau khi S0 xong.** | — | **chờ** (ngân sách mới, khoảng 7,5 USD cho 34 task) |
+| [ ] C10 | Can thiệp lịch sử git có kiểm soát. Đặc tả ở mục 7. **Phần miễn phí đã làm 17/11:** `scripts/history_variants.py` (bốn biến thể A–D, giữ nguyên commit "Remove F2P Tests"; A dựng lại đúng mã băm gốc), `--history-variant` trong `scripts/f1_probe.py`, plan `swesmith-c10` trong `pilot.yml` (tám nhánh cùng lúc; đọc mọi giá trị đã đăng ký từ `configs/c10.json`). Còn lại: bản đăng ký, chạy thử miễn phí, chạy có phí. Từng bước: `docs/guide_paid_steps.md` mục 1. | — | **chờ** (ngân sách mới: trần khoảng 5,4 USD cho 34 task, 10,6 USD cho 70 task) |
 | [ ] C6 | Dự phòng nếu C1 không chạy được: agent Flash, môi trường một commit, trên Vertex, khoảng 5,9 USD cho hai nhánh. | — | **chờ**; hiện chưa duyệt |
 
 **Định nghĩa đóng băng (đề xuất, chờ @thuthuy xác nhận):** sau 01/12 không mở thí nghiệm xác nhận mới. Vẫn được sửa lỗi phân tích và tính lại, có ghi nhật ký. Không đổi giả thuyết hay quy tắc phân tích sau khi thấy kết quả.
@@ -166,41 +166,41 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 
 | # | Việc |
 | --- | --- |
-| [ ] D1 | Theo §41: "phần do rò rỉ" thành "tác động của việc bỏ hai commit do benchmark tạo ra"; bỏ chữ "cận trên" (không có lịch sử thật để xóa nhầm). Threats: thay "một kênh" bằng hai kênh và mức dùng của từng agent (A133). |
-| [ ] D2 | "Genuine" thành "còn lại dưới đối chứng một commit, theo bộ chấm của benchmark". |
-| [ ] D3 | "Tác dụng của độ dài" thành "tác dụng của một skill không liên quan". |
-| [ ] D4 | Tách so sánh cùng ngày khỏi so sánh khác ngày (placebo chạy sau một ngày; 21 task Pygments chạy lại). |
-| [ ] D5 | Đặt giới hạn "một lượt học" ngay cạnh kết luận học lại. |
-| [ ] D6 | Pygments: chỉ nói "chưa có bằng chứng", kèm tỉ lệ nền thấp. |
-| [ ] D7 | Chi phí tiết kiệm: ghi là ước tính hồi cứu, vì mọi task đều đã chạy. |
-| [ ] D9 | Đối chiếu PACE: cổng thống kê trả lời "điểm có tăng thật không"; bài này hỏi thêm "mức tăng có hợp lệ không". Viết sau D9a. |
+| [x] D1 | Xong 17/11. Theo §41: "phần do rò rỉ" thành "tác động của việc bỏ hai commit do benchmark tạo ra"; bỏ chữ "cận trên" (không có lịch sử thật để xóa nhầm). Threats: thay "một kênh" bằng hai kênh và mức dùng của từng agent (A133). |
+| [x] D2 | Xong 17/11. "Genuine" thành "còn lại dưới đối chứng một commit, theo bộ chấm của benchmark". |
+| [x] D3 | Xong 17/11. "Tác dụng của độ dài" thành "tác dụng của một skill không liên quan". |
+| [x] D4 | Xong 17/11 (cột cấu trúc lượt chạy). Tách so sánh cùng ngày khỏi so sánh khác ngày (placebo chạy sau một ngày; 21 task Pygments chạy lại). |
+| [x] D5 | Xong 17/11. Đặt giới hạn "một lượt học" ngay cạnh kết luận học lại. |
+| [x] D6 | Xong 17/11. Pygments: chỉ nói "chưa có bằng chứng", kèm tỉ lệ nền thấp. |
+| [x] D7 | Xong 17/11. Chi phí tiết kiệm: ghi là ước tính hồi cứu, vì mọi task đều đã chạy. |
+| [x] D9 | Xong 17/11. Đối chiếu PACE: cổng thống kê trả lời "điểm có tăng thật không"; bài này hỏi thêm "mức tăng có hợp lệ không". Viết sau D9a. |
 | [ ] D10 | Bỏ mọi chỗ gọi Gatekeeper là đóng góp phương pháp. Cân nhắc bỏ chữ "Certifying" khỏi tên bài: **chờ @thuthuy**. |
 
 ### Đợt 5: mạch bài, hình, minh bạch
 
 | # | Việc |
 | --- | --- |
-| [ ] E1 | Mạch: mức tăng → cơ chế trong trace → can thiệp → phần còn lại → phạm vi. |
-| [ ] E2 | Rút ngắn tóm tắt; bỏ lặp con số ở mở đầu và kết luận. |
-| [ ] E3 | Bảng kê thí nghiệm: câu hỏi → can thiệp → nhóm task → seed → bộ chấm → phân tích. |
-| [ ] E4 | Vẽ lại Hình 1: nét liền cho điều đo được, nét đứt cho điều suy ra. |
-| [ ] E5 | Hình dòng thời gian đăng ký và nhóm task (34 + 36). |
-| [ ] E6 | Hình mức tăng theo cặp và tương tác, có khoảng tin cậy. |
-| [ ] E7 | Sửa Hình 2, Hình 3, Bảng I theo ghi chú của thầy; bỏ hoặc gộp Bảng II, III. |
-| [ ] E8 | Ký hiệu riêng cho skill và bộ chấm; sắp lại Threats theo đại lượng mục tiêu. |
-| [ ] F1 | Bảng đăng ký: mỗi mục kèm mã commit, thời điểm, và dữ liệu nào đã thấy lúc đó. |
-| [ ] F2 | Trong gói: mã task, mã băm skill, phiên bản model, ngày chạy, phiên bản bộ chấm, kết quả chấm, mã tính thời điểm vượt ngưỡng. |
-| [ ] F3 | Ghi rõ nhật ký học nào đã bị ghi đè. |
-| [ ] F4 | Dựng lại mọi con số từ gói, trên một máy sạch. |
+| [x] E1 | Xong 17/11. Mạch: mức tăng → cơ chế trong trace → can thiệp → phần còn lại → phạm vi. |
+| [x] E2 | Xong 17/11. Rút ngắn tóm tắt; bỏ lặp con số ở mở đầu và kết luận. |
+| [x] E3 | Xong 17/11 (Bảng 1). Bảng kê thí nghiệm: câu hỏi → can thiệp → nhóm task → seed → bộ chấm → phân tích. |
+| [x] E4 | Xong 17/11. Vẽ lại Hình 1: nét liền cho điều đo được, nét đứt cho điều suy ra. |
+| [x] E5 | Xong 17/11 (Hình 3). Hình dòng thời gian đăng ký và nhóm task (34 + 36). |
+| [x] E6 | Xong 17/11 (Hình 2). Hình mức tăng theo cặp và tương tác, có khoảng tin cậy. |
+| [x] E7 | Xong 17/11: Bảng 2, Bảng 3; bỏ Bảng II, III và Hình 2 cũ. Sửa Hình 2, Hình 3, Bảng I theo ghi chú của thầy; bỏ hoặc gộp Bảng II, III. |
+| [x] E8 | Xong 17/11 (Threats theo đối tượng). Ký hiệu riêng cho skill và bộ chấm; sắp lại Threats theo đại lượng mục tiêu. |
+| [x] F1 | Bảng đăng ký: mỗi mục kèm mã commit, thời điểm, và dữ liệu nào đã thấy lúc đó. **Xong 17/11:** `scripts/registration_timeline.py` → `results/registration_timeline.json` (52 dòng: mục và ghi chú thực thi, commit đầu tiên chứa tiêu đề; file kết quả đầu tiên trên `pilot-snapshots`). Không mục nào có kết quả công bố trước khi đăng ký. Giới hạn: "dữ liệu đã thấy" chỉ chứng minh được bằng thứ tự thời gian, không bằng nội dung đã đọc. |
+| [~] F2 | Trong gói: mã task, mã băm skill, phiên bản model, ngày chạy, phiên bản bộ chấm, kết quả chấm, mã tính thời điểm vượt ngưỡng. **Phần lớn xong 17/11:** `scripts/package_manifest.py` → `results/package_manifest.json` (42 file lượt chạy: chuỗi model do runner ghi, seed, số lượt, sha256 danh sách task, sha256 file, thời điểm công bố đầu tiên; 26 file skill kèm sha256). Kết quả chấm S và L nằm trong từng bản ghi; mã tính thời điểm vượt ngưỡng là `src/gatekeeper/eprocess.py`. **Còn thiếu:** phiên bản bộ chấm (ảnh Docker của từng task) chưa được ghi riêng; chuỗi model là tên endpoint, không phải mã bản dựng của nhà cung cấp. |
+| [x] F3 | Ghi rõ nhật ký học nào đã bị ghi đè. **Đã có:** A130 và `docs/preregistration_main.md` (lượt học Jinja gốc còn 6 lần gọi; Bleve 7; §30 14); cả hai file nằm trong gói. Paper phải nhắc lại câu này ở mục Threats (kiểm ở G1). |
+| [x] F4 | Dựng lại mọi con số từ gói, trên một máy sạch. **Xong 17/11 (trong một thư mục sạch, không phải máy sạch):** chạy `make_numbers.py --trial trial --rows <rows>` trong gói cho ra `paper/numbers.tex` **giống hệt** bản trong repo. Mã `src/` của gói giống hệt repo. Chưa thử trên một máy cài mới từ đầu (cần cài `pip install -e .` trong gói). |
 
 ### Đợt 6: định dạng và nộp
 
 | # | Việc | Duyệt |
 | --- | --- | --- |
-| [ ] A1 | Chuyển sang mẫu ACM `acmart` (`sigconf,review,anonymous`). | tự làm |
-| [ ] A2 | Cắt còn 10 trang, tính cả hình, bảng, phụ lục. | tự làm |
-| [ ] A3 | Ẩn danh trong PDF: tên tác giả, đường dẫn repo, siêu dữ liệu, cách nhắc tới việc của chính mình. | tự làm |
-| [ ] A4 | Gói tái lập ẩn danh, dựng thành **bản xuất có chọn lọc** trong một thư mục của repo. Không dùng repo kèm lịch sử: repo chứa tên người phụ trách (`CLAUDE.md`), địa chỉ tài khoản dịch vụ (`docs/vertex_setup.md`), đường dẫn phiên trong lời nhắn commit. Bằng chứng thời điểm đăng ký giữ bằng một file liệt kê mã commit, thời điểm, lời nhắn đã gỡ danh tính. | dựng nội bộ: tự làm. **Đưa ra ngoài (Zenodo hay nơi khác): chờ @thuthuy.** Bản trên Zenodo không xóa được. |
+| [x] A1 | Xong 17/11: `acmart` sigconf,review,anonymous. Chuyển sang mẫu ACM `acmart` (`sigconf,review,anonymous`). | tự làm |
+| [x] A2 | Xong 17/11: 7 trang kể cả tham khảo. Cắt còn 10 trang, tính cả hình, bảng, phụ lục. | tự làm |
+| [x] A3 | Xong 17/11 trong PDF; gói tái lập vẫn ở A4. Ẩn danh trong PDF: tên tác giả, đường dẫn repo, siêu dữ liệu, cách nhắc tới việc của chính mình. | tự làm |
+| [~] A4 | Gói tái lập ẩn danh, dựng thành **bản xuất có chọn lọc** trong một thư mục của repo. Không dùng repo kèm lịch sử: repo chứa tên người phụ trách (`CLAUDE.md`), địa chỉ tài khoản dịch vụ (`docs/vertex_setup.md`), đường dẫn phiên trong lời nhắn commit. Bằng chứng thời điểm đăng ký giữ bằng một file liệt kê mã commit, thời điểm, lời nhắn đã gỡ danh tính. | **Bản nội bộ xong 17/11:** `python scripts/build_replication_package.py --trial <worktree nhánh trial> --rows <rows> --out <thư mục rỗng>`: 2034 file, quét danh tính 0 chỗ lộ (kể cả các file `.gz`, kiểm riêng bằng `zcat`). **Đưa ra ngoài (Zenodo hay nơi khác): chờ @thuthuy.** Bản trên Zenodo không xóa được. |
 | [ ] A5 | Khai báo việc dùng AI theo chính sách của ACM. Lập bảng: công cụ, việc AI đã làm, phần nào tác giả đã kiểm. Viết sau A5a. | **chờ** (nội dung khai báo) |
 | [ ] A6 | Đăng ký tóm tắt trước 15/01; nộp trước 22/01. | @thuthuy |
 | [ ] G1 | Bảng đối chiếu: 27 ghi chú trên PDF và danh sách của thầy (mục 8) với từng chỗ sửa. | tự làm |
@@ -258,7 +258,11 @@ Miễn phí, chỉ đọc. Kết quả quyết định có chạy C10 không và
 - Đọc kết quả: nếu B gần bằng A thì giả thuyết về thông điệp **yếu đi**.
 - Mô phỏng power trước khi đăng ký.
 
-**Chi phí ước tính:** khoảng 5 USD dự kiến, trần khoảng 7,5 USD cho 34 task. Cách tính: chi phí bốn nhánh đo ở §35 là 0,0746 USD mỗi task, nhân đôi cho tám nhánh, cộng một cost_limit 0,30 cho mỗi nhánh. Tiền thật trên Vertex. **Là ngân sách mới; @thuthuy chưa duyệt.**
+**Chi phí ước tính (sửa 17/11, A135; bản cũ ghi 7,5 USD theo một số dự kiến bị gọi nhầm là số đo):**
+- 34 task: dự kiến khoảng 3,0 USD, trần khoảng 5,4 USD.
+- 70 task: dự kiến khoảng 5,8 USD, trần khoảng 10,6 USD.
+- Cách tính và nguồn: `docs/guide_paid_steps.md` mục 1.
+- Tiền thật trên Vertex. **Là ngân sách mới; @thuthuy chưa duyệt.**
 
 **So với C1:** nếu chỉ kịp một thí nghiệm trước 01/12 và S0 xác nhận C10 cô lập được cơ chế, ưu tiên C10. Nếu lịch sử có nhiều kênh đan xen không tách được trong ngân sách, ưu tiên C1.
 
@@ -304,7 +308,7 @@ Bản gốc (meta-review và PDF có 27 ghi chú) do @thuthuy giữ; chưa đưa
 | Q1 | Xác nhận đích là EASE 2027 (hạn 22/01). `CLAUDE.md` và `README.md` vẫn ghi ASE 2027. | Xác nhận rồi cập nhật hai file |
 | Q2 | Mốc đóng băng 01/12 theo định nghĩa ở đợt 3. | Đồng ý |
 | Q3 | Tên bài: giữ hay bỏ chữ "Certifying". | Bỏ, vì chứng nhận không còn là đóng góp chính |
-| Q4 | Ngân sách C10 (khoảng 7,5 USD cho 34 task). | Quyết sau khi có kết quả S0 |
+| Q4 | Ngân sách C10: trần khoảng 5,4 USD cho 34 task, hoặc khoảng 10,6 USD cho 70 task (A135 sửa con số 7,5 cũ). | Quyết sau khi có kết quả S0 |
 | Q5 | Ngân sách C6 (khoảng 5,9 USD). | Chỉ khi C1 không chạy được |
 | Q6 | Nơi đặt gói tái lập ẩn danh, và thời điểm đưa ra ngoài. | Dựng nội bộ trước; chỉ đưa ra khi đã xem bản cuối |
 | Q7 | Dừng mở rộng hướng Kaggle (C7, C8, C9, D, E trong `kaggle/plan_v4.md`). | Dừng cho tới khi bài về 10 trang |

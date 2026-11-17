@@ -1,0 +1,540 @@
+{
+ "runs": [
+  {
+   "file": "results/f1_probe.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 100,
+   "task_ids_sha256": "afd145c65208c2164d50b9f38c268bda88ea830bd21f85be977162acfedcd73f",
+   "skills_chars": null,
+   "file_sha256": "881e3dc43347b64bf8f432a852f0800ab61ff6007af26dd9dffad18517eb72ad",
+   "first_published_utc": "2026-11-06T07:28:42+00:00"
+  },
+  {
+   "file": "results/f1_skill_probe.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 100,
+   "task_ids_sha256": "afd145c65208c2164d50b9f38c268bda88ea830bd21f85be977162acfedcd73f",
+   "skills_chars": 2675,
+   "file_sha256": "a39b028aaa5af09dce85815e0023a639992ceaa4b4cf151b2ad26f3a78bf357a",
+   "first_published_utc": "2026-11-06T14:31:56+00:00"
+  },
+  {
+   "file": "results/package_manifest.json",
+   "model": null,
+   "seed": null,
+   "n_task_runs": 42,
+   "task_ids_sha256": "79dad2e4ace36be0b1cf934281822e1cd95392ca2fc8bcc4b2a79394aef97341",
+   "skills_chars": null,
+   "file_sha256": "b614ce493a5e2567742afd783c01dc657aad8e754065ff92e3adf855f046de02",
+   "first_published_utc": null
+  },
+  {
+   "file": "results/rq1_e2.json",
+   "model": null,
+   "seed": null,
+   "n_task_runs": 0,
+   "task_ids_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "skills_chars": null,
+   "file_sha256": "f0b670708cbf24411363bf46652a03154d41c099a46dcce8046267c217fb7300",
+   "first_published_utc": null
+  },
+  {
+   "file": "results/s25_leakfree_none.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 100,
+   "task_ids_sha256": "afd145c65208c2164d50b9f38c268bda88ea830bd21f85be977162acfedcd73f",
+   "skills_chars": 0,
+   "file_sha256": "2e416c84e90eb884c79371b112024628f24676f2d3d8013ef1ce89007e86f198",
+   "first_published_utc": "2026-11-06T17:30:28+00:00"
+  },
+  {
+   "file": "results/s25_leakfree_skill.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 100,
+   "task_ids_sha256": "afd145c65208c2164d50b9f38c268bda88ea830bd21f85be977162acfedcd73f",
+   "skills_chars": 2675,
+   "file_sha256": "a71ecd657011b3b0a806ca4b8e28106de2f88dbde74a63be5c7a56f94e888b32",
+   "first_published_utc": "2026-11-06T19:55:17+00:00"
+  },
+  {
+   "file": "results/s25bleve_f1_probe.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 100,
+   "task_ids_sha256": "9e53a84020489ef1f92b449652ad0e6f94cd433560622ba3a7f6e5acd4524c68",
+   "skills_chars": 0,
+   "file_sha256": "aaa7994015e2caa8576e0c783a016388b0a6f3691a3c4d17d50a08ea4e522762",
+   "first_published_utc": "2026-11-06T23:06:39+00:00"
+  },
+  {
+   "file": "results/s25bleve_leakfree_none.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 100,
+   "task_ids_sha256": "9e53a84020489ef1f92b449652ad0e6f94cd433560622ba3a7f6e5acd4524c68",
+   "skills_chars": 0,
+   "file_sha256": "667ce5be456af57ba5e850f3927037b76a3b9c71deccd31ee509b2538b6ed30c",
+   "first_published_utc": "2026-11-07T20:15:41+00:00"
+  },
+  {
+   "file": "results/s25bleve_leakfree_skill.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 98,
+   "task_ids_sha256": "b44c8e58d779f627435510bc24d252e8fc9b7cce88324605ed2923741c9e0b40",
+   "skills_chars": 3009,
+   "file_sha256": "0f4615dd7880cf11a11cb5386fac927c3b90a31bd0150514adfda00c6128f808",
+   "first_published_utc": "2026-11-08T02:45:04+00:00"
+  },
+  {
+   "file": "results/s25bleve_leakfree_skill_all.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 100,
+   "task_ids_sha256": "9e53a84020489ef1f92b449652ad0e6f94cd433560622ba3a7f6e5acd4524c68",
+   "skills_chars": 3009,
+   "file_sha256": "69d8bcae5ea259166987a65e8950a9c849da937ee429615192c28df40fae117d",
+   "first_published_utc": "2026-11-08T07:21:24+00:00"
+  },
+  {
+   "file": "results/s25bleve_leakfree_skillb.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 2,
+   "task_ids_sha256": "30a4cc27eba698e1905b6839f22040f80e7410a25ef64530b701f1a3ec7d7409",
+   "skills_chars": 3009,
+   "file_sha256": "46bcb5ca0e233fd4a96c351b72c465486e6f892f8012cf8defb44758f5635cf7",
+   "first_published_utc": "2026-11-08T03:27:19+00:00"
+  },
+  {
+   "file": "results/s25bleve_skill_probe.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 100,
+   "task_ids_sha256": "9e53a84020489ef1f92b449652ad0e6f94cd433560622ba3a7f6e5acd4524c68",
+   "skills_chars": 3009,
+   "file_sha256": "ca24ae00f8f140cbd7a14cad916deebaea3ee409607b7f07417614c231c18afb",
+   "first_published_utc": "2026-11-07T09:47:13+00:00"
+  },
+  {
+   "file": "results/s27_placebo.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 100,
+   "task_ids_sha256": "afd145c65208c2164d50b9f38c268bda88ea830bd21f85be977162acfedcd73f",
+   "skills_chars": 2771,
+   "file_sha256": "40eb22289c3a03d278a145eed554d17b7a9fb5445a6cae9dccfcb24181244dd6",
+   "first_published_utc": "2026-11-07T09:51:09+00:00"
+  },
+  {
+   "file": "results/s27_trace34.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 25,
+   "task_ids_sha256": "181076c781f10952d34ae0b5738d2255aa9e60681356d6387f80ae9b0b894864",
+   "skills_chars": 2675,
+   "file_sha256": "1946747a9d51717a589eb8daef3d65a3f5067c30a3093f86858b9528a9ab5f21",
+   "first_published_utc": "2026-11-07T09:56:59+00:00"
+  },
+  {
+   "file": "results/s27_trace34b.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 9,
+   "task_ids_sha256": "95b786df9cf389fa89ad27deda0687d53097672b38dc2c2b513140e679bd5000",
+   "skills_chars": 2675,
+   "file_sha256": "ec9730cccd002f26366031a34c822ecb9cd0a5907302825c48ba7e496195e46b",
+   "first_published_utc": "2026-11-07T10:59:29+00:00"
+  },
+  {
+   "file": "results/s27pyg_none.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 100,
+   "task_ids_sha256": "3746f802710e11398c96a9cc9f0d485c325e5ab73e1a5873b34c9b6ede9651df",
+   "skills_chars": 0,
+   "file_sha256": "6f7919f8a7aaca9059f0a71bdadaa8b9ba8d034c4bff3e772c815679a2505007",
+   "first_published_utc": "2026-11-07T10:01:05+00:00"
+  },
+  {
+   "file": "results/s27pyg_none_all.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 100,
+   "task_ids_sha256": "3746f802710e11398c96a9cc9f0d485c325e5ab73e1a5873b34c9b6ede9651df",
+   "skills_chars": 0,
+   "file_sha256": "ad178d7ee892dd2310e72a216af47a416035c4fd14ef2163188695069a64fefb",
+   "first_published_utc": "2026-11-07T20:15:41+00:00"
+  },
+  {
+   "file": "results/s27pyg_skill.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 79,
+   "task_ids_sha256": "09298a8329b969b5e6e49f28bcf4cfaa1a94efdd709a4bf5a5d66337940c260e",
+   "skills_chars": 2675,
+   "file_sha256": "faed1c0df43ddfe91e3df1c73bcf244e75adf8d497eb9a6ea34be10423a2b1a5",
+   "first_published_utc": "2026-11-07T10:01:05+00:00"
+  },
+  {
+   "file": "results/s27pyg_skill_all.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 100,
+   "task_ids_sha256": "3746f802710e11398c96a9cc9f0d485c325e5ab73e1a5873b34c9b6ede9651df",
+   "skills_chars": 2675,
+   "file_sha256": "e7fe039af080c1f39db07e45c3d75fa0859f735b6de3c7d4a54fc85e687af6fa",
+   "first_published_utc": "2026-11-07T20:15:41+00:00"
+  },
+  {
+   "file": "results/s27pyg_skillb.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 14,
+   "task_ids_sha256": "fa2beed0a447b7a68403be821fcd9ca17464937e401988a85ec6925308fff70a",
+   "skills_chars": 2675,
+   "file_sha256": "5fdccfed4a2bc38b76064bfa6c365420cf59ed4a98cb9d77266dbc4643d49531",
+   "first_published_utc": "2026-11-07T17:41:39+00:00"
+  },
+  {
+   "file": "results/s27pyg_skillc.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 7,
+   "task_ids_sha256": "a6de7d4492fb4b779d2e45cdbe809412ee663a76f576fb69294d986e9cae11b2",
+   "skills_chars": 2675,
+   "file_sha256": "3f535b957277eaf3e457ea7c9e98691d348df9bd8c541f8eab82f456b1872b57",
+   "first_published_utc": "2026-11-07T18:00:42+00:00"
+  },
+  {
+   "file": "results/s29_ablate.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 100,
+   "task_ids_sha256": "afd145c65208c2164d50b9f38c268bda88ea830bd21f85be977162acfedcd73f",
+   "skills_chars": 2421,
+   "file_sha256": "4c94d1903a1ff2bebe6bc0b5d1f5ac1c92c875a9a72c8048e1dfd15116facde4",
+   "first_published_utc": "2026-11-08T10:07:01+00:00"
+  },
+  {
+   "file": "results/s29_none.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 100,
+   "task_ids_sha256": "afd145c65208c2164d50b9f38c268bda88ea830bd21f85be977162acfedcd73f",
+   "skills_chars": 0,
+   "file_sha256": "58cbfc685371ed4a99c59d6a1d039973ae23ed352283cadd20a63affba8169a8",
+   "first_published_utc": "2026-11-08T10:07:01+00:00"
+  },
+  {
+   "file": "results/s30_none.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 100,
+   "task_ids_sha256": "afd145c65208c2164d50b9f38c268bda88ea830bd21f85be977162acfedcd73f",
+   "skills_chars": 0,
+   "file_sha256": "60a073f29ce9b12348f5f3119adc561c3047df32bde662ae5ab1df19e7c2d433",
+   "first_published_utc": "2026-11-10T16:21:38+00:00"
+  },
+  {
+   "file": "results/s30_none_rest.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 20,
+   "task_ids_sha256": "dfab726faa6f660d36ddd2606cdc4e12e74df4fea9a3eb51e2fb65b0d3c9802e",
+   "skills_chars": 0,
+   "file_sha256": "8ce524620d9a1d5e9b34264822bfe6978ba59df0742ff3129bcbabdb144473a4",
+   "first_published_utc": "2026-11-10T17:39:37+00:00"
+  },
+  {
+   "file": "results/s30_none_run1.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 80,
+   "task_ids_sha256": "2466a07e8f40ce084020222678fc8167fb8096af16e9517ff33bda4e97b8ac93",
+   "skills_chars": 0,
+   "file_sha256": "67b19ca14d0263523a75b906997b9acd25396748bce30d3c1f5e19529841ff36",
+   "first_published_utc": "2026-11-12T01:34:30+00:00"
+  },
+  {
+   "file": "results/s30_shipped34.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 34,
+   "task_ids_sha256": "cc74536d053626fe72e5c18524e06ec62f2270f2144b05f25dfdc60e3f92b6e5",
+   "skills_chars": 3353,
+   "file_sha256": "95dbca23f3144351ecf0c30f98edf786da91f5b92d262435a3ab1dfc27b50056",
+   "first_published_utc": "2026-11-10T16:21:38+00:00"
+  },
+  {
+   "file": "results/s30_skill.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 100,
+   "task_ids_sha256": "afd145c65208c2164d50b9f38c268bda88ea830bd21f85be977162acfedcd73f",
+   "skills_chars": 3353,
+   "file_sha256": "44b050049214bcf604d807a1aa2f10b9ae215ab66aed031c3063586be4dde3e6",
+   "first_published_utc": "2026-11-10T16:21:38+00:00"
+  },
+  {
+   "file": "results/s30_skill_rest.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 38,
+   "task_ids_sha256": "3b871eddfa31f0b97af7408f927ca892d6cc25c7245b4869de20d8079db4303d",
+   "skills_chars": 3353,
+   "file_sha256": "ec29003dbab8d0549ece2e17ff8e0723571700409f5704da50db6829f9e4e5aa",
+   "first_published_utc": "2026-11-10T17:39:37+00:00"
+  },
+  {
+   "file": "results/s30_skill_run1.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 100,
+   "task_ids_sha256": "afd145c65208c2164d50b9f38c268bda88ea830bd21f85be977162acfedcd73f",
+   "skills_chars": 3353,
+   "file_sha256": "8d87f895c3456fb57576af2c8fd72386a4aa7956ad95e0d57fd231c5e7636f00",
+   "first_published_utc": "2026-11-12T01:34:30+00:00"
+  },
+  {
+   "file": "results/s30_skill_valid.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 41,
+   "n_task_runs": 62,
+   "task_ids_sha256": "c4227ff42f3d624aabd722db7ad3b207ff35ea5235ea42b011c49e514932adb9",
+   "skills_chars": 3353,
+   "file_sha256": "bbd9df05d1bb16c7d73cea47989f40ec1a8253e5208d8b37259450ad388592ad",
+   "first_published_utc": "2026-11-10T16:46:32+00:00"
+  },
+  {
+   "file": "results/s33_lf_none.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 51,
+   "n_task_runs": 100,
+   "task_ids_sha256": "afd145c65208c2164d50b9f38c268bda88ea830bd21f85be977162acfedcd73f",
+   "skills_chars": 0,
+   "file_sha256": "a4617e20cabeaabac3ae2f6d5f8592f9d8e5556301d07556cced53b59e980f08",
+   "first_published_utc": "2026-11-12T04:08:45+00:00"
+  },
+  {
+   "file": "results/s33_lf_skill.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 51,
+   "n_task_runs": 100,
+   "task_ids_sha256": "afd145c65208c2164d50b9f38c268bda88ea830bd21f85be977162acfedcd73f",
+   "skills_chars": 2675,
+   "file_sha256": "ad1b31ca0cb41cf7d3eca977ca66b047ee5b649a5b34496be9f34fa39431c18d",
+   "first_published_utc": "2026-11-12T04:08:45+00:00"
+  },
+  {
+   "file": "results/s33_ship_none.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 51,
+   "n_task_runs": 100,
+   "task_ids_sha256": "afd145c65208c2164d50b9f38c268bda88ea830bd21f85be977162acfedcd73f",
+   "skills_chars": 0,
+   "file_sha256": "afdbc0fa0e8526939a4ce5fd2c618b82ace71162b99d31f1e050072578c70c3e",
+   "first_published_utc": "2026-11-12T04:08:45+00:00"
+  },
+  {
+   "file": "results/s33_ship_skill.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 51,
+   "n_task_runs": 100,
+   "task_ids_sha256": "afd145c65208c2164d50b9f38c268bda88ea830bd21f85be977162acfedcd73f",
+   "skills_chars": 2675,
+   "file_sha256": "d3a040aa6e520a2bcd0ccb5faebb3987654d8eef0d7d43550abced85906a2247",
+   "first_published_utc": "2026-11-12T04:08:45+00:00"
+  },
+  {
+   "file": "results/s34_none_pilot.json",
+   "model": "vertex_ai/gemini-3.8-flash",
+   "seed": 41,
+   "n_task_runs": 4,
+   "task_ids_sha256": "08d17779f30e1eddece4ff00decf05a02d668da01da83724b6c97608c8ef8d4a",
+   "skills_chars": 0,
+   "file_sha256": "aebcb069a9c5be8e363c91ca2db53e730b5d244830486ee6240453097d339259",
+   "first_published_utc": "2026-11-12T06:52:39+00:00"
+  },
+  {
+   "file": "results/s34_none_rest.json",
+   "model": "vertex_ai/gemini-3.8-flash",
+   "seed": 41,
+   "n_task_runs": 30,
+   "task_ids_sha256": "30e0210540a1655a3077ab6b881aef2a95ea42161e6f72f4f11f74928dadba29",
+   "skills_chars": 0,
+   "file_sha256": "7fcb1919da5030bf1ca42c63027f26a28ed7d49f1cc5bb9fd1096a4c547aa477",
+   "first_published_utc": "2026-11-12T09:58:49+00:00"
+  },
+  {
+   "file": "results/s34_skill_pilot.json",
+   "model": "vertex_ai/gemini-3.8-flash",
+   "seed": 41,
+   "n_task_runs": 5,
+   "task_ids_sha256": "97641800416cd6190ab9e34ac1c1743c6dc786f15c8c634e1f5f4a1001bb0965",
+   "skills_chars": 2675,
+   "file_sha256": "93e4031f30f40a5b59e6adfa84a18415fc3470fe6ed88a2892f2aeeb2f4a8e4a",
+   "first_published_utc": "2026-11-12T06:52:39+00:00"
+  },
+  {
+   "file": "results/s34_skill_rest.json",
+   "model": "vertex_ai/gemini-3.8-flash",
+   "seed": 41,
+   "n_task_runs": 29,
+   "task_ids_sha256": "69068d0d3e92989b8071787f3f2af756dfaa5ad98a1842d70b55c5bc907d4c48",
+   "skills_chars": 2675,
+   "file_sha256": "cf87039a918db901649521735912a47c3bebfc5f4d28723c6072904c458c6a19",
+   "first_published_utc": "2026-11-12T09:58:49+00:00"
+  },
+  {
+   "file": "results/s35_lf_none.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 51,
+   "n_task_runs": 36,
+   "task_ids_sha256": "6ce7313e72e51ce7ee8aefdd2279abacdb005827ef62259d7eb3eba93c9ed34b",
+   "skills_chars": 0,
+   "file_sha256": "c25a1696499a2938777e9c43e8c78d4b8e6069f477532f8774168abc0f7a0fca",
+   "first_published_utc": "2026-11-12T05:13:54+00:00"
+  },
+  {
+   "file": "results/s35_lf_skill.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 51,
+   "n_task_runs": 36,
+   "task_ids_sha256": "6ce7313e72e51ce7ee8aefdd2279abacdb005827ef62259d7eb3eba93c9ed34b",
+   "skills_chars": 2675,
+   "file_sha256": "89be2b39914374ebbb479e03bf07a1b432c9c7fbad39c5fdd82d0ae3a002c6b2",
+   "first_published_utc": "2026-11-12T05:13:54+00:00"
+  },
+  {
+   "file": "results/s35_ship_none.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 51,
+   "n_task_runs": 36,
+   "task_ids_sha256": "6ce7313e72e51ce7ee8aefdd2279abacdb005827ef62259d7eb3eba93c9ed34b",
+   "skills_chars": 0,
+   "file_sha256": "b393b8787dad2e34e9eed07d62d389525a4607c5c851c4f49b41b6c35705b05b",
+   "first_published_utc": "2026-11-12T05:13:54+00:00"
+  },
+  {
+   "file": "results/s35_ship_skill.json",
+   "model": "vertex_ai/gemini-3.1-flash-lite",
+   "seed": 51,
+   "n_task_runs": 36,
+   "task_ids_sha256": "6ce7313e72e51ce7ee8aefdd2279abacdb005827ef62259d7eb3eba93c9ed34b",
+   "skills_chars": 2675,
+   "file_sha256": "b04b3d30204cf88709662b170971ada17a845d6681b68130d7695542b8acb615",
+   "first_published_utc": "2026-11-12T05:13:54+00:00"
+  }
+ ],
+ "skills": [
+  {
+   "file": "docs/skills/gskill/bleve_best_skills.txt",
+   "sha256": "e2ead4bb494c5a385e72c54e642b2612e4d4c0271d037869aa740e18b12ffee7"
+  },
+  {
+   "file": "docs/skills/gskill/jinja_best_skills.txt",
+   "sha256": "145f96737e5ba92f3a24c52f3b79a1ad269c2a6a1ea348ef069607b56c46fea6"
+  },
+  {
+   "file": "docs/skills/gskill/jinja_clean_best_skills.txt",
+   "sha256": "c2c632bde2fbd1ecd4aa88794e4a5a85ffdbcbde4afe67b4190574fbc89d7c61"
+  },
+  {
+   "file": "docs/skills/gskill/jinja_no_history.txt",
+   "sha256": "b90e246fc1c27765c7976d25d0f84b25843afc14b2a78a1fbfb66b899e065078"
+  },
+  {
+   "file": "docs/skills/own/control-harm-submit-unchanged.md",
+   "sha256": "06674f769a90388971005e795330fe023ea8f41ef2dbcf54070f8c3218b170ad"
+  },
+  {
+   "file": "docs/skills/own/control-oracle-files.md",
+   "sha256": "7a2a27f957a89d6b1914adf02b844d0659ff3f8df493bfd69992e33f4cb38d45"
+  },
+  {
+   "file": "docs/skills/own/control-oracle-patch.md",
+   "sha256": "dafc0df6c98fdb32fdcf8484a1519b3ceadf10dadf38fd8a9858bdbe484a4514"
+  },
+  {
+   "file": "docs/skills/own/control-oracle-tests.md",
+   "sha256": "f19d70c217abb6d8b639f92c0046c7cbc5b09fdafc2da188b1096d8d6097d38e"
+  },
+  {
+   "file": "docs/skills/own/exception-handling.md",
+   "sha256": "f6667941e97fda0c8749a831cee466e0f7404392124b2a7ef34b394e073003a2"
+  },
+  {
+   "file": "docs/skills/own/guidance-reproduce-first.md",
+   "sha256": "21cb33884a344015ca944de014a7b2da89d20fdcddc7c7e33d99c6f50d2bc52a"
+  },
+  {
+   "file": "docs/skills/own/harm-minimal-edit.md",
+   "sha256": "46389ac848732734ec6f34ac9cbe74ef557f8715426d514f54f33a641751c283"
+  },
+  {
+   "file": "docs/skills/own/harm-skip-verification.md",
+   "sha256": "17a603aecbf0aeb2a221803b68d7a1ed43988d8e0dc896bb5ed3b27d175cdcf7"
+  },
+  {
+   "file": "docs/skills/own/harm-swallow-exceptions.md",
+   "sha256": "7881b8f943114c5d39091062f51c7de551d3d119bf6e8b917ec002ba9015c118"
+  },
+  {
+   "file": "docs/skills/own/null-guard.md",
+   "sha256": "b5d1777d6c8784fd7cb9bab51d98c47aca2120c972115a0ec4f4da2141b0eec5"
+  },
+  {
+   "file": "docs/skills/own/oracle-gold.md",
+   "sha256": "dfcc3cb8ffa93f54e459d3e108c3a9150ff6758ee4537ad4e5ac8fc4dbfdb9f8"
+  },
+  {
+   "file": "docs/skills/own/repo-test-guide.md",
+   "sha256": "ec40ca4d0913c904e5ef85b68f8bb67ce25112337e9f8ed5e663ddd86e81f9a0"
+  },
+  {
+   "file": "docs/skills/own/type-guard.md",
+   "sha256": "d211eb4460196d5b9c3bcc8882937893308b67aab79278bab39e7df3d1d7d5b7"
+  },
+  {
+   "file": "docs/skills/own/validation-error.md",
+   "sha256": "27af7e9830b03b66d5575e11f99e1ad1cce8bff42f9c48e46ff08b1fb87436de"
+  },
+  {
+   "file": "docs/skills/swe_skills_bench/LICENSE",
+   "sha256": "e1cca396a16a8186d9c718022145570b4d02f7ce211036b095960847b9ae623a"
+  },
+  {
+   "file": "docs/skills/swe_skills_bench/asyncio-patterns.SKILL.md",
+   "sha256": "63a0b57c73d8d780ea28d388d74b9fdafba163db3bd28597e7838e8ae3272c9d"
+  },
+  {
+   "file": "docs/skills/swe_skills_bench/go-concurrency-patterns.SKILL.md",
+   "sha256": "a66d04f2c616aecc3dd53c23d08cb06903f30a2c190c99e6ba82b3e5315b36b2"
+  },
+  {
+   "file": "docs/skills/swe_skills_bench/go-fx-di.SKILL.md",
+   "sha256": "ad2999ccccd157c35fbc44e7347d4afd20dc03b75ef288d3681bbe4c9a97805b"
+  },
+  {
+   "file": "docs/skills/swe_skills_bench/pandas-dataframe-patterns.SKILL.md",
+   "sha256": "c680e0acbb461f788cd7f4a51eaee5ca03cc36d860b1c8188042ee48952fd812"
+  },
+  {
+   "file": "docs/skills/swe_skills_bench/viper-configuration.SKILL.md",
+   "sha256": "5bae0022223bf5cd7191b5dbe167a63c24b2dd0a3aad838ee0050bdd66700b94"
+  },
+  {
+   "file": "results/s25_best_skills.txt",
+   "sha256": "145f96737e5ba92f3a24c52f3b79a1ad269c2a6a1ea348ef069607b56c46fea6"
+  },
+  {
+   "file": "results/s30_best_skills.txt",
+   "sha256": "c2c632bde2fbd1ecd4aa88794e4a5a85ffdbcbde4afe67b4190574fbc89d7c61"
+  }
+ ]
+}
