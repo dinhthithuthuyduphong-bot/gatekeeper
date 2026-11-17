@@ -1110,7 +1110,9 @@ def main() -> int:
         }
     )
     conf = {(True, True): 0, (True, False): 0, (False, True): 0, (False, False): 0}
-    for runs in ha["runs"].values():  # every saved trace, one row per traced run
+    for stem, runs in ha["runs"].items():  # every saved trace of sections 27-35, one per run
+        if stem.startswith("c10_"):
+            continue  # C10 (section 43) is reported on its own below; the s41 counts predate it
         for r in runs:
             conf[(r["seen_bug_msg"], r["bug_diff_shown"])] += 1
     N.update(
@@ -1234,6 +1236,61 @@ def main() -> int:
         or e42["11 P33c_environment_contrast"]["reject_at_40"]
     ):
         print("MISMATCH s42 non-rejections")
+        return 1
+    # section 43 (C10, registered before the paid run): message x diff of the git history
+    c10 = load(Path("results/c10_analysis.json"))
+    cc = c10["contrasts"]
+    for name, key in (("main A-C", "AC"), ("A-B", "AB"), ("B-D", "BD"), ("C-D", "CD")):
+        N["cten" + key + "N"] = cc[name]["n"]
+        N["cten" + key + "Neg"] = cc[name]["n_negative"]
+        N["cten" + key + "Pos"] = cc[name]["n_positive"]
+        N["cten" + key + "Mean"] = cc[name]["mean_D"]
+        N["cten" + key + "Lo"], N["cten" + key + "Hi"] = cc[name]["bootstrap_95"]
+        N["cten" + key + "E"] = sci(cc[name]["E"])
+    ix = c10["interaction (A-B)-(C-D)"]
+    N["ctenIxMean"], (N["ctenIxLo"], N["ctenIxHi"]) = ix["mean"], ix["bootstrap_95"]
+    for arm, (k, n) in c10["solved"].items():
+        tag = arm.replace("_none", "None").replace("_skill", "Skill")
+        N["cten" + tag], N["cten" + tag + "N"] = k, n
+    N["ctenTasks"] = c10["task_order_n"]
+    c10arm = {
+        (r["environment"], r["condition"]): r
+        for r in ha["level2_3_by_arm"]
+        if r["environment"].startswith("C10") and r["subset"] == "all"
+    }
+    N["ctenADiff"] = c10arm[("C10 A: original history", "original skill")]["bug_diff_shown"]
+    N["ctenBTests"] = c10arm[("C10 B: neutral message", "original skill")]["tests_restored_and_run"]
+    N["ctenCTests"] = c10arm[("C10 C: empty Bug Patch", "original skill")]["tests_restored_and_run"]
+    N["ctenDTests"] = c10arm[("C10 D: no bug commit", "original skill")]["tests_restored_and_run"]
+    N["ctenNoTzeroDiff"] = sum(
+        c10arm[(e, c)]["bug_diff_shown"]
+        for e in ("C10 C: empty Bug Patch", "C10 D: no bug commit")
+        for c in ("no skill", "original skill")
+    )
+    N["ctenNoTzeroRuns"] = sum(
+        c10arm[(e, c)]["runs"]
+        for e in ("C10 C: empty Bug Patch", "C10 D: no bug commit")
+        for c in ("no skill", "original skill")
+    )
+    for k, v in {
+        "ctenACN": 45,
+        "ctenACNeg": 22,
+        "ctenACPos": 2,
+        "ctenABN": 51,
+        "ctenBDN": 62,
+        "ctenCDN": 45,
+        "ctenASkill": 35,
+        "ctenTasks": 70,
+        "ctenADiff": 66,
+    }.items():
+        if N[k] != v:
+            print("MISMATCH s43", k, N[k], v)
+            return 1
+    if N["ctenANone"] != max(c10["solved"][v + "_none"][0] for v in "ABCD"):
+        print("MISMATCH s43: the text says 'at most ctenANone' without the skill")
+        return 1
+    if not cc["main A-C"]["reject_at_threshold"] or cc["B-D"]["reject_at_threshold"]:
+        print("MISMATCH s43 decisions")
         return 1
     N["leakSharePct"] = round(100 * N["leakShare"])
     N["fzeroGoldMinPct"] = int(100 * f0["S_gold_min"])  # floor: "at least"

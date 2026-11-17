@@ -102,6 +102,34 @@ ARMS: dict[str, tuple[str, str, str, str]] = {
     "s25bleve_leakfree_none": ("bleve", "single commit", "no skill", "study agent, seed 41"),
     "s25bleve_leakfree_skill": ("bleve", "single commit", "skill", "study agent, seed 41"),
     "s25bleve_leakfree_skillb": ("bleve", "single commit", "skill", "study agent, seed 41"),
+    "c10_A_none_all70": ("jinja", "C10 A: original history", "no skill", "study agent, seed 51"),
+    "c10_A_skill_all70": (
+        "jinja",
+        "C10 A: original history",
+        "original skill",
+        "study agent, seed 51",
+    ),
+    "c10_B_none_all70": ("jinja", "C10 B: neutral message", "no skill", "study agent, seed 51"),
+    "c10_B_skill_all70": (
+        "jinja",
+        "C10 B: neutral message",
+        "original skill",
+        "study agent, seed 51",
+    ),
+    "c10_C_none_all70": ("jinja", "C10 C: empty Bug Patch", "no skill", "study agent, seed 51"),
+    "c10_C_skill_all70": (
+        "jinja",
+        "C10 C: empty Bug Patch",
+        "original skill",
+        "study agent, seed 51",
+    ),
+    "c10_D_none_all70": ("jinja", "C10 D: no bug commit", "no skill", "study agent, seed 51"),
+    "c10_D_skill_all70": (
+        "jinja",
+        "C10 D: no bug commit",
+        "original skill",
+        "study agent, seed 51",
+    ),
 }
 
 
