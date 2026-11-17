@@ -1,0 +1,1485 @@
+{
+ "model": "vertex_ai/gemini-3.1-flash-lite",
+ "seed": 61,
+ "cost_limit": 0.3,
+ "cap": 0.861,
+ "skills_chars": 0,
+ "leak_free": false,
+ "history_variant": "B",
+ "neutral_message": "Merge branch 'stable'",
+ "subset": "no-problem-statement",
+ "n_tasks": 70,
+ "runs": [
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__t713lqij",
+   "order": 256,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.00454305
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__wlxrx0eg",
+   "order": 262,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0011454999999999998
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__cke3wqxn",
+   "order": 263,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0017567499999999996
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0tzkxxm7",
+   "order": 268,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0014982500000000004
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__yjwp1l4i",
+   "order": 278,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 16,
+   "patch_chars": 449,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex e000e5c..add6856 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -1401,7 +1401,7 @@ class Template:\n         as for the :meth:`new_context` method.\n         \"\"\"\n         ctx = self.new_context(locals, shared, vars)\n-        return TemplateModule(ctx, self)\n+        return TemplateModule(self, ctx)\n \n     async def make_module_async(\n         self,\n",
+   "cost_usd": 0.011979625000000002
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__dzxjns4n",
+   "order": 279,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002462249999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__rqsq4z8d",
+   "order": 281,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002257499999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__x1566v4x",
+   "order": 284,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.006800749999999998
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__jchskyp9",
+   "order": 289,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0020435000000000036
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0ofeumg4",
+   "order": 293,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0013287499999999966
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__8ggcjvy7",
+   "order": 294,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.005294249999999993
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__d50plzg6",
+   "order": 295,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0012069999999999997
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__iwpdq8v2",
+   "order": 296,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.004225750000000014
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__fgsjolap",
+   "order": 301,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0013187500000000005
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__olcbzbnr",
+   "order": 303,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 14,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.007015750000000008
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__7baipc0w",
+   "order": 306,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0013710000000000042
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__216m0rv4",
+   "order": 307,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002649249999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__yo6160eg",
+   "order": 315,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0010290000000000021
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__vqa91owm",
+   "order": 316,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.004398999999999993
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__wcqv4idg",
+   "order": 320,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002668999999999991
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__1yn8jahd",
+   "order": 321,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0015130000000000005
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0dk3n3w5",
+   "order": 325,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.006263500000000005
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__mc9x7b9m",
+   "order": 328,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.004465500000000011
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4l597y24",
+   "order": 330,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0011994999999999922
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0vqzq2ua",
+   "order": 333,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.02726184999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0d7yz0v3",
+   "order": 334,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0038715
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__hskhgqqb",
+   "order": 335,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002049750000000003
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4yeyxo12",
+   "order": 336,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0006772500000000042
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__526agq4n",
+   "order": 337,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.005531250000000015
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__jdn3zq4d",
+   "order": 342,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0012014999999999942
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__shn23565",
+   "order": 343,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0017227499999999951
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0jbsoyj5",
+   "order": 344,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0020077500000000165
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4eyvgwfo",
+   "order": 347,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0010832500000000217
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__mxr3n2i4",
+   "order": 348,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002434500000000034
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__htphunn2",
+   "order": 100387,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0019032499999999952
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__kyl90ytp",
+   "order": 100429,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.003283224999999973
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_invert_if__1busdu48",
+   "order": 100690,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0019057499999999838
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_invert_if__75jsmftr",
+   "order": 100695,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002103500000000008
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_invert_if__9dqn79vh",
+   "order": 100698,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 44,
+   "patch_chars": 1910,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex cf01632..7517c0e 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -254,9 +254,22 @@ class Parser:\n \n     def parse_if(self) -> nodes.If:\n         \"\"\"Parse an if construct.\"\"\"\n-        node = result = nodes.If(lineno=self.stream.expect(\"name:if\").lineno)\n+        token = self.stream.current\n+        if token.test(\"name:if\"):\n+            next(self.stream)\n+            is_unless = False\n+        elif token.test(\"name:unless\"):\n+            next(self.stream)\n+            is_unless = True\n+        else:\n+            self.stream.expect(\"name:if\")\n+            \n+        node = result = nodes.If(lineno=token.lineno)\n+\n         while True:\n             node.test = self.parse_tuple(with_condexpr=False)\n+            if is_unless:\n+                node.test = nodes.Not(node.test, lineno=node.lineno)\n             node.body = self.parse_statements((\"name:elif\", \"name:else\", \"name:endif\"))\n             node.elif_ = []\n             node.else_ = []\n@@ -264,12 +277,12 @@ class Parser:\n             if token.test(\"name:elif\"):\n                 node = nodes.If(lineno=self.stream.current.lineno)\n                 result.elif_.append(node)\n+                is_unless = False\n                 continue\n             elif token.test(\"name:else\"):\n                 result.else_ = self.parse_statements((\"name:endif\",), drop_needle=True)\n             break\n         return result\n-\n     def parse_with(self) -> nodes.With:\n         node = nodes.With(lineno=next(self.stream).lineno)\n         targets: t.List[nodes.Expr] = []\n@@ -286,6 +299,7 @@ class Parser:\n         node.values = values\n         node.body = self.parse_statements((\"name:endwith\",), drop_needle=True)\n         return node\n+        return node\n \n     def parse_autoescape(self) -> nodes.Scope:\n         node = nodes.ScopedEvalContextModifier(lineno=next(self.stream).lineno)\n",
+   "cost_usd": 0.037842099999999934
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_invert_if__dfxthl5x",
+   "order": 100708,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.001077500000000009
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_shuffle__hvx9bujc",
+   "order": 100767,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0010282499999999806
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_ctrl_shuffle__l3wqpvmt",
+   "order": 100773,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002514500000000003
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_op_swap__4ky21i8x",
+   "order": 100791,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0017894999999999994
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_op_swap__vlxm8lg4",
+   "order": 100793,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.004238249999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__9w32vup3",
+   "order": 100842,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 16,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.011910100000000007
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__bfjq4ukz",
+   "order": 100843,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0010850000000000026
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__dc8gu7lr",
+   "order": 100844,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.005580250000000009
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__dg8fpnqe",
+   "order": 100845,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0012095000000000022
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__dhjygmkf",
+   "order": 100846,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0018892499999999812
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__gr4b0kxq",
+   "order": 100848,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002674249999999989
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__jq7g3hh4",
+   "order": 100849,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002053750000000021
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__k2f64bbd",
+   "order": 100850,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0017412499999999997
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__kfa34aj4",
+   "order": 100851,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 21,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.013816550000000039
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__kqzfoqk4",
+   "order": 100852,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0012314999999999965
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__kzu2agu1",
+   "order": 100853,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.005694999999999978
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__l8jckwc5",
+   "order": 100854,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0012240000000000029
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__mg8q2vv1",
+   "order": 100855,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0011492499999999906
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__mmwb2onb",
+   "order": 100856,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0023495000000000044
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__mr27ot5h",
+   "order": 100857,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.004166624999999979
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__oqko5wma",
+   "order": 100858,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0022512499999999824
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__oxsw6rai",
+   "order": 100859,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0012510000000000021
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__q6ka1xd8",
+   "order": 100860,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.003709749999999984
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__qc5s5k51",
+   "order": 100861,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0013967500000000577
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__qpbg7wra",
+   "order": 100862,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 29,
+   "patch_chars": 614,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/ext.py b/src/jinja2/ext.py\nindex 948545b..fe14089 100644\n--- a/src/jinja2/ext.py\n+++ b/src/jinja2/ext.py\n@@ -382,7 +382,7 @@ class InternationalizationExtension(Extension):\n \n             if plural_expr is None:\n                 if isinstance(var, nodes.Call):\n-                    plural_expr = nodes.Name(\"_trans\", \"load\")\n+                    plural_expr = nodes.Name(\"_trans\", \"load\"); num_called_num = True\n                     variables[token.value] = plural_expr\n                     plural_expr_assignment = nodes.Assign(\n                         nodes.Name(\"_trans\", \"store\"), var\n",
+   "cost_usd": 0.021685924999999995
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__rfirqbqa",
+   "order": 100863,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0011902500000000038
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__vu1h59xu",
+   "order": 100864,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 20,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.01079825000000001
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_cond__zd6d290l",
+   "order": 100865,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0022977499999999873
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_loop__50h3it6l",
+   "order": 100867,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 12,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.008096524999999966
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_loop__baraeosk",
+   "order": 100869,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0023259999999999947
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_pm_remove_loop__hdegzouy",
+   "order": 100870,
+   "history_check": [
+    "variant=B commits=3 remotes=0 bug_msg=0 tests_commit=1 t0_present=1"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.0015572499999999545
+  }
+ ],
+ "spent_usd": 0.3002998249999999
+}
