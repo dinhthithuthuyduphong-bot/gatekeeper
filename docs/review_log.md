@@ -1054,3 +1054,13 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Bài dựng không lỗi: 8 trang.
 - **Ghi lỗi:** A138, L66 (danh sách §4); ghi chú thực thi 43-3.
 
+
+## R-76. Kiểm toán điểm cắt theo chi phí của C10; sửa câu chữ trong paper (17/11/2026; 0 USD)
+
+- **Vì sao:** phản biện của @thuthuy cùng ngày nêu hai điều cần kiểm: (1) điều kiện "dự đoán được" của điểm dừng; (2) 45 task có bị chọn theo kết quả không.
+- **Mã mới:** `scripts/c10_stop_audit.py`, test `tests/test_c10_stop_audit.py` (2 test).
+  - Không có giá trị mặc định cho λ, θ, ngưỡng, kích thước pool cố định.
+  - Đọc chỉ file kết quả.
+- **Kết quả:** xem ghi chú thực thi 43-4. Phát hiện mới: trên pool 34 task cố định trước, E = 26,65, không bác bỏ.
+- **`scripts/make_numbers.py`:** thêm 4 macro (`ctenACEfixed`, `ctenACFirstK`, `ctenACMinAfter`, `ctenFixedN`), kèm kiểm khớp. Mọi macro cũ không đổi.
+- **Paper:** đoạn C10 viết lại. Bỏ chữ "certified". Nêu pool cố định 34 task không bác bỏ; nêu giả thuyết hẹp hơn và lý do điểm cắt là thời điểm dừng. Bài dựng không lỗi, 8 trang.

@@ -1286,6 +1286,24 @@ def main() -> int:
         if N[k] != v:
             print("MISMATCH s43", k, N[k], v)
             return 1
+    sa = load(Path("results/c10_stop_audit.json"))
+    sam = sa["contrasts"]["main A-C"]
+    N["ctenACEfixed"] = sam["E_on_first_34"]
+    N["ctenACFirstK"] = sam["first_k_E_at_threshold"]
+    N["ctenACMinAfter"] = sam["min_E_after_first"]
+    N["ctenFixedN"] = 34
+    if not all(
+        a["spend_equals_sum_of_run_costs"]
+        and a["runs_started_after_guard"] == 0
+        and a["stop_explained_by_guard"]
+        and a["prefix_of_task_order"]
+        for a in sa["arms"].values()
+    ):
+        print("MISMATCH s43 stop audit")
+        return 1
+    if (sam["n"], sam["first_k_E_at_threshold"]) != (45, 36) or sam["E_on_first_34"] >= 40:
+        print("MISMATCH s43 stop audit values")
+        return 1
     if N["ctenANone"] != max(c10["solved"][v + "_none"][0] for v in "ABCD"):
         print("MISMATCH s43: the text says 'at most ctenANone' without the skill")
         return 1

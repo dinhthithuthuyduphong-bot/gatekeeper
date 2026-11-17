@@ -141,3 +141,4 @@ Mọi con số khác bên dưới đều được **suy ra từ α**, **suy ra t
 | **C10, seed mô phỏng 4301, seed bootstrap 4302, 20.000 / 10.000 lần** (§43) | Vận hành | Chỉ cố định phép tính; không ảnh hưởng quyết định. Số lần lặp theo tiền lệ ghi chú 40-5 (20.000) và §33 (10.000) |
 | **C10, kết quả: n = 45, E = 76,2, D = −0,222 [−0,300; −0,133] và các phép phụ** (§43) | Suy ra | `results/c10_analysis.json` từ `scripts/c10_analysis.py` (viết trước dữ liệu); macro `cten*` do `scripts/make_numbers.py` sinh |
 | **C10, số task mỗi phép so 45–62** (§43, ghi chú 43-3) | Vận hành | Hệ quả của trần (A138); quy tắc "dùng các task hoàn tất ở bốn nhánh" đã đăng ký trước |
+| **C10, E = 26,65 trên 34 task cố định; E lần đầu ≥ 40 ở task 36** (ghi chú 43-4) | Suy ra | `results/c10_stop_audit.json` từ `scripts/c10_stop_audit.py` |

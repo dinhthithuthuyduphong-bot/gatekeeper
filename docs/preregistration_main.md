@@ -2762,3 +2762,22 @@ Ba commit, theo thứ tự: `Initial commit` (toàn bộ mã của dự án tron
     - Đây là dòng "E-process tuần tự" của `docs/method_end_of_pool.md` §7.
   - Paper nêu cả hai điều.
 - **Không đổi:** câu hỏi, task, thứ tự, model, seed, phép thử, ngưỡng, diễn giải. Không có quy tắc nào được chọn sau khi thấy dữ liệu.
+
+**Ghi chú thực thi 43-4** (17/11/2026, sau ghi chú 43-3; kiểm toán điểm cắt theo chi phí, theo nhận xét phản biện cùng ngày; 0 USD):
+- **Lệnh:** `python scripts/c10_stop_audit.py --prefix c10 --part all70 --lam 0.5 --theta 0 --threshold 40 --n-fixed 34 --out results/c10_stop_audit.json`. Test ở `tests/test_c10_stop_audit.py`.
+- **1. Điểm dừng chỉ phụ thuộc chi phí của các task trước.** Đã kiểm trên cả 8 nhánh:
+  - `f1_probe.py` chạy các task của một nhánh tuần tự, trong một tiến trình riêng. Trước mỗi task, nó so số đã chi + cost_limit với trần.
+  - Số đã chi ghi trong file kết quả đúng bằng tổng `cost_usd` của các lượt.
+  - Chạy lại bước kiểm từ `cost_usd`: 0 lượt bắt đầu sau khi bước kiểm lẽ ra đã dừng.
+  - Mọi nhánh dừng sớm đều có số đã chi + 0,30 > trần sau lượt cuối.
+  - Vậy điểm dừng của mỗi nhánh là một thời điểm dừng theo thứ tự task. Điểm cắt của một phép so, là giá trị nhỏ nhất trên bốn nhánh, cũng vậy.
+- **2. Không chọn task theo kết quả.** Mọi nhánh là đoạn đầu của cùng thứ tự đã đăng ký. Phép so dùng n task đầu; chỉ n phụ thuộc chi phí.
+  - Nhánh đặt n = 45 cho A − C là C không skill. Nhánh này giải được 0 trong 45 task, nên chi phí của nó không chứa thông tin về kết quả của chính nó. Chi phí vẫn có thể tương quan với độ khó của task.
+- **3. Pool cố định trước khi chạy.** 34 task test là bản nhỏ đã đăng ký ở §43. Trên pool đó, A − C có E = 26,65 < 40 (16 task lệch về A, 1 về C): **không bác bỏ**.
+- **4. Đường đi của E** (A − C): E lần đầu ≥ 40 ở task 36, và không xuống dưới 41,6 sau đó. E ở n = 45 là 76,2.
+- **Kết luận được phép viết:**
+  - Bảo đảm cho pool cố định, đúng như đã đăng ký, **không có** cho kết quả này.
+  - Kết quả bác bỏ một giả thuyết hẹp hơn: "mỗi task có E[D_k | các task trước] ≥ 0". Dưới giả thuyết đó, tích với λ cố định (mỗi thừa số 1 − 0,5·D_k > 0) là một supermartingale không âm bắt đầu từ 1. Theo Ville, Pr(E ≥ 40 ở một thời điểm dừng nào đó) ≤ 1/40 (Ramdas và cộng sự, arXiv 2210.01948: "valid at all stopping times").
+  - Giả thuyết hẹp hơn nghĩa là mệnh đề bị bác bỏ mạnh hơn. Bác bỏ nó chỉ nói rằng không phải task nào cũng có chênh lệch kỳ vọng không âm. Nó **không** nói trung bình của pool 70 task là âm.
+  - Paper dùng đúng câu này. Câu "certified" được bỏ khỏi đoạn C10.
+- **Sửa đề xuất (chờ @thuthuy, vì cần tiền):** lần chạy xác nhận với pool cố định, đăng ký trước ở §44.

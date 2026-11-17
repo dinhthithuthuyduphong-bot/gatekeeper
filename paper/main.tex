@@ -346,20 +346,24 @@ no bug commit. The eight arms (four histories, with and without the skill) ran i
 resolves \nctenASkill{} of \nctenASkillN{} tasks in A and \nctenBSkill{}, \nctenCSkill{} and
 \nctenDSkill{} in B, C and D; without it, at most \nctenANone{} per history. The registered test
 compares A with C, which have the same commits and messages and differ only in whether the pre-bug
-code is in the history: over the \nctenACN{} tasks complete in its four arms the difference of gains
-favours A on \nctenACNeg{} tasks and C on \nctenACPos{}, mean $D=\nctenACMean{}$ [\nctenACLo{},
-\nctenACHi{}], $E=\nctenACE{}\geq 40$: certified. Neither part carries a gain alone: the diff under
-a neutral message (B$-$D, $D=\nctenBDMean{}$ [\nctenBDLo{}, \nctenBDHi{}]) and the message without
-the diff (C$-$D, $D=\nctenCDMean{}$ [\nctenCDLo{}, \nctenCDHi{}]); the interaction is
-\nctenIxMean{} [\nctenIxLo{}, \nctenIxHi{}]. The message leads the agent to the diff: with the skill
-it displays the diff in \nctenADiff{} of \nctenASkillN{} runs in A. When no message points to the
-diff (B) or no diff exists (C, D), it restores and runs the deleted tests instead in some runs
-(\nctenBTests{}, \nctenCTests{} and \nctenDTests{}) and still rarely resolves the task.
-Six arms stopped at their spending cap before the last task (our caps left no margin above the
-cost estimate), so each contrast uses \nctenACN{} to \nctenBDN{} tasks, as registered. Because the
-cut depends on the spend, the end-of-pool guarantee for a fixed pool does not strictly apply; the
-same statistic is a test supermartingale under the narrower per-task null, whose guarantee holds
-``at all stopping times''~\cite{savi_ramdas_2023}.
+code is in the history. Six arms stopped at their spending cap before the last task (our caps left
+no margin above the cost estimate), so, as registered, each contrast uses the tasks complete in its
+four arms: the first \nctenACN{} to \nctenBDN{} tasks of the fixed order. Over the first \nctenACN{},
+the difference of gains favours A on \nctenACNeg{} tasks and C on \nctenACPos{}, mean
+$D=\nctenACMean{}$ [\nctenACLo{}, \nctenACHi{}], $E=\nctenACE{}$. The registered guarantee is for a
+pool fixed in advance, and this pool was cut by spend; on the \nctenFixedN{} tasks fixed before the
+run, $E=\nctenACEfixed{}$, below the threshold of 40. The rejection holds under a narrower null, that
+every task's difference has a non-negative mean given the earlier tasks: an arm stops before a task
+only on the cost of its earlier tasks (we replayed the guard from the logs), so the cut is a
+stopping time, and under that null $E$ is a test supermartingale, valid ``at all stopping
+times''~\cite{savi_ramdas_2023}. $E$ first reaches 40 at task \nctenACFirstK{} and stays above
+\nctenACMinAfter{}. Neither part carries a gain alone (descriptive): the diff under a neutral
+message (B$-$D, $D=\nctenBDMean{}$ [\nctenBDLo{}, \nctenBDHi{}]) and the message without the diff
+(C$-$D, $D=\nctenCDMean{}$ [\nctenCDLo{}, \nctenCDHi{}]); the interaction is \nctenIxMean{}
+[\nctenIxLo{}, \nctenIxHi{}]. The message leads the agent to the diff: with the skill it displays
+the diff in \nctenADiff{} of \nctenASkillN{} runs in A. When no message points to the diff (B) or no
+diff exists (C, D), it restores and runs the deleted tests instead in some runs (\nctenBTests{},
+\nctenCTests{} and \nctenDTests{}) and still rarely resolves the task.
 
 \paragraph{Removing the instruction}
 A fixed rule deletes every line of the skill that mentions a commit or the history; on the Jinja
