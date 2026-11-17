@@ -948,3 +948,30 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Đã sửa docstring trước khi commit.
 - **F2, còn thiếu:** phiên bản bộ chấm, và mã bản dựng model của nhà cung cấp. Đã ghi trong todo.
 - `python scripts/preflight.py --ci`: PASS.
+
+## R-71. C10: biến thể lịch sử git, plan `swesmith-c10`, hướng dẫn phần có phí (17/11/2026; 0 USD)
+
+**Phạm vi:**
+- `scripts/history_variants.py`, `tests/test_history_variants.py`;
+- `--history-variant` và `--neutral-message` trong `scripts/f1_probe.py`;
+- bước C10 trong `.github/workflows/pilot.yml`, `tests/fixtures/c10_dryrun.json`;
+- `docs/guide_paid_steps.md`; A135, L63.
+
+**Kiểm theo §4:**
+- **Không có con số khoa học mới trong mã.**
+  - Câu trung tính của B không có giá trị mặc định: chạy có phí chỉ đọc từ `configs/c10.json`, file chỉ có sau khi đăng ký.
+  - Seed 51 và cost_limit 0,30 lấy từ §35 đã đăng ký.
+- **Cấu trúc ba commit** dựa trên §41 mức 1 (1.086/1.086 task). Script vẫn kiểm lại thông điệp của từng task và dừng (mã 3) nếu khác.
+- **Tính đúng:** 9 test trên một repo git dựng theo hình task SWE-smith, có remote, mirror và tag, HEAD trên nhánh và HEAD tách rời. Mỗi test kiểm:
+  - cây của HEAD không đổi;
+  - commit "Remove F2P Tests" có diff giống hệt bản gốc;
+  - tác giả và ngày được giữ;
+  - A cho đúng mã băm gốc, tức siêu dữ liệu được giữ từng bit;
+  - B mang câu trung tính và vẫn có diff lỗi;
+  - C và D không còn mã trước lỗi ở bất kỳ đâu trong lịch sử.
+- **Chưa kiểm được ở máy của phiên:** cách gc xử lý đối tượng trong file pack của image thật (không có Docker và image). Chuỗi kiểm `t0_present` ghi lại điều này ở mọi lượt. Chạy thử miễn phí ở bước 4 của hướng dẫn kiểm nó trên container thật trước mọi lượt có phí.
+- **Lỗi phát hiện khi review:** con số chi phí 0,0746 USD mỗi task của C10 là số dự kiến, không phải số đo (A135, L63). Đã tính lại từ `cost_usd` và `spent_usd` của §33 và §35:
+  - 34 task: dự kiến 3,03, trần 5,43 USD;
+  - 70 task: dự kiến 5,81, trần 10,61 USD.
+- **Con số C6 (5,9 USD)** khớp số đo: §34 đã chi 5,2042 USD, cộng 2 × cost_limit 0,34.
+- `bash -n` trên bước workflow đã thay biến: đạt. YAML hợp lệ.

@@ -152,12 +152,12 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 
 | # | Việc | Xong khi | Duyệt |
 | --- | --- | --- | --- |
-| [ ] C1a | Sửa `kaggle/preregistration_s40.md` **trước lượt chạy đầu của C4′**: (1) đích tái lập là hiệu của hai mức tăng trên cùng task, như §33 và §35; (2) phép kiểm cuối pool là phép thử chính; (3) khai rằng số của phiên 1 không hợp lệ đã được nhìn thấy. | Ghi chú thực thi có ngày | tự làm, phối hợp với phiên Kaggle |
-| [ ] C1b | Mô phỏng power cho phép so giữa hai môi trường, theo từng agent. Power thấp thì ghi trước vào bản đăng ký hoặc bỏ agent đó. | Có số power trước khi chạy | tự làm |
+| [x] C1a | **Xong 17/11: ghi chú 40-5 (nhánh mặc định).** Sửa `kaggle/preregistration_s40.md` **trước lượt chạy đầu của C4′**: (1) đích tái lập là hiệu của hai mức tăng trên cùng task, như §33 và §35; (2) phép kiểm cuối pool là phép thử chính; (3) khai rằng số của phiên 1 không hợp lệ đã được nhìn thấy. | Ghi chú thực thi có ngày | tự làm, phối hợp với phiên Kaggle |
+| [x] C1b | **Xong 17/11: ghi chú 40-5, `kaggle/results/c4_contrast_power.json`** (0,28 / 0,63 / 1,00). Mô phỏng power cho phép so giữa hai môi trường, theo từng agent. Power thấp thì ghi trước vào bản đăng ký hoặc bỏ agent đó. | Có số power trước khi chạy | tự làm |
 | [ ] C1 | Chạy C4′ trên Kaggle (ba agent khác hãng, hai môi trường, 100 task). Cần cổng cách ly C5 đạt. | Theo `kaggle/TODO.md` | đã duyệt (hạn mức Kaggle) |
 | [ ] C2 | §38 phiên 3 và phân tích. Báo cáo tỉ lệ theo từng model; các đầu ra không phải là các lượt học độc lập. | Theo `kaggle/TODO.md` | đã duyệt |
 | [x] C3 | §39 (auditor bốn hãng). | Xong 16/11 | — |
-| [ ] C10 | Can thiệp lịch sử git có kiểm soát. Đặc tả ở mục 7. **Chỉ lập thiết kế sau khi S0 xong.** | — | **chờ** (ngân sách mới, khoảng 7,5 USD cho 34 task) |
+| [ ] C10 | Can thiệp lịch sử git có kiểm soát. Đặc tả ở mục 7. **Phần miễn phí đã làm 17/11:** `scripts/history_variants.py` (bốn biến thể A–D, giữ nguyên commit "Remove F2P Tests"; A dựng lại đúng mã băm gốc), `--history-variant` trong `scripts/f1_probe.py`, plan `swesmith-c10` trong `pilot.yml` (tám nhánh cùng lúc; đọc mọi giá trị đã đăng ký từ `configs/c10.json`). Còn lại: bản đăng ký, chạy thử miễn phí, chạy có phí. Từng bước: `docs/guide_paid_steps.md` mục 1. | — | **chờ** (ngân sách mới: trần khoảng 5,4 USD cho 34 task, 10,6 USD cho 70 task) |
 | [ ] C6 | Dự phòng nếu C1 không chạy được: agent Flash, môi trường một commit, trên Vertex, khoảng 5,9 USD cho hai nhánh. | — | **chờ**; hiện chưa duyệt |
 
 **Định nghĩa đóng băng (đề xuất, chờ @thuthuy xác nhận):** sau 01/12 không mở thí nghiệm xác nhận mới. Vẫn được sửa lỗi phân tích và tính lại, có ghi nhật ký. Không đổi giả thuyết hay quy tắc phân tích sau khi thấy kết quả.
@@ -258,7 +258,11 @@ Miễn phí, chỉ đọc. Kết quả quyết định có chạy C10 không và
 - Đọc kết quả: nếu B gần bằng A thì giả thuyết về thông điệp **yếu đi**.
 - Mô phỏng power trước khi đăng ký.
 
-**Chi phí ước tính:** khoảng 5 USD dự kiến, trần khoảng 7,5 USD cho 34 task. Cách tính: chi phí bốn nhánh đo ở §35 là 0,0746 USD mỗi task, nhân đôi cho tám nhánh, cộng một cost_limit 0,30 cho mỗi nhánh. Tiền thật trên Vertex. **Là ngân sách mới; @thuthuy chưa duyệt.**
+**Chi phí ước tính (sửa 17/11, A135; bản cũ ghi 7,5 USD theo một số dự kiến bị gọi nhầm là số đo):**
+- 34 task: dự kiến khoảng 3,0 USD, trần khoảng 5,4 USD.
+- 70 task: dự kiến khoảng 5,8 USD, trần khoảng 10,6 USD.
+- Cách tính và nguồn: `docs/guide_paid_steps.md` mục 1.
+- Tiền thật trên Vertex. **Là ngân sách mới; @thuthuy chưa duyệt.**
 
 **So với C1:** nếu chỉ kịp một thí nghiệm trước 01/12 và S0 xác nhận C10 cô lập được cơ chế, ưu tiên C10. Nếu lịch sử có nhiều kênh đan xen không tách được trong ngân sách, ưu tiên C1.
 
@@ -304,7 +308,7 @@ Bản gốc (meta-review và PDF có 27 ghi chú) do @thuthuy giữ; chưa đưa
 | Q1 | Xác nhận đích là EASE 2027 (hạn 22/01). `CLAUDE.md` và `README.md` vẫn ghi ASE 2027. | Xác nhận rồi cập nhật hai file |
 | Q2 | Mốc đóng băng 01/12 theo định nghĩa ở đợt 3. | Đồng ý |
 | Q3 | Tên bài: giữ hay bỏ chữ "Certifying". | Bỏ, vì chứng nhận không còn là đóng góp chính |
-| Q4 | Ngân sách C10 (khoảng 7,5 USD cho 34 task). | Quyết sau khi có kết quả S0 |
+| Q4 | Ngân sách C10: trần khoảng 5,4 USD cho 34 task, hoặc khoảng 10,6 USD cho 70 task (A135 sửa con số 7,5 cũ). | Quyết sau khi có kết quả S0 |
 | Q5 | Ngân sách C6 (khoảng 5,9 USD). | Chỉ khi C1 không chạy được |
 | Q6 | Nơi đặt gói tái lập ẩn danh, và thời điểm đưa ra ngoài. | Dựng nội bộ trước; chỉ đưa ra khi đã xem bản cuối |
 | Q7 | Dừng mở rộng hướng Kaggle (C7, C8, C9, D, E trong `kaggle/plan_v4.md`). | Dừng cho tới khi bài về 10 trang |

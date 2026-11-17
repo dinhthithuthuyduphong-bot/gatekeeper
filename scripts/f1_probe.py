@@ -104,6 +104,13 @@ def main() -> int:
         action="store_true",
         help="remove the bug commit from the agent's git history",
     )
+    ap.add_argument(
+        "--history-variant",
+        choices=["A", "B", "C", "D"],
+        help="C10: rebuild the agent's git history (scripts/history_variants.py); "
+        "not with --leak-free",
+    )
+    ap.add_argument("--neutral-message", help="C10 variant B only: the registered neutral message")
     ap.add_argument("--limit", type=int, help="first N selected tasks only (task selection only)")
     ap.add_argument("--reasoning-effort", help="passed to the model as given (section 34)")
     ap.add_argument(
@@ -114,6 +121,18 @@ def main() -> int:
     a = ap.parse_args()
     if a.seed == 0:
         raise SystemExit("seed 0 means 'no seed' on Vertex (A14)")
+    if a.history_variant and a.leak_free:
+        raise SystemExit("--history-variant and --leak-free are exclusive")
+    hist_sh = hist_ok = None
+    if a.history_variant:
+        from history_variants import expected_check, history_variant_sh
+
+        hist_sh = history_variant_sh(
+            a.history_variant, a.neutral_message, root="/testbed", mirror="/opt/mirror.git"
+        )
+        hist_ok = expected_check(a.history_variant)
+    elif a.neutral_message:
+        raise SystemExit("--neutral-message needs --history-variant B")
 
     import litellm
     from f0_scorer_check import infra_reason, score_lenient, score_strict
@@ -155,6 +174,8 @@ def main() -> int:
         "cap": a.cap,
         "skills_chars": len(skills),
         "leak_free": a.leak_free,
+        "history_variant": a.history_variant,
+        "neutral_message": a.neutral_message,
         "subset": a.subset,
         "n_tasks": len(insts),
         "runs": [],
@@ -173,6 +194,11 @@ def main() -> int:
                 rec["leak_free_check"] = r.output.decode().strip().splitlines()[-1:]
                 if r.exit_code != 0 or rec["leak_free_check"] != [LEAK_FREE_OK]:
                     raise RuntimeError(f"leak-free rewrite failed: {r.output.decode()[-300:]}")
+            if hist_sh:
+                r = h.container.exec_run(["bash", "-c", hist_sh])
+                rec["history_check"] = r.output.decode().strip().splitlines()[-1:]
+                if r.exit_code != 0 or rec["history_check"] != [hist_ok]:
+                    raise RuntimeError(f"history rewrite failed: {r.output.decode()[-300:]}")
             patch, trace, metrics = h.run_agent(
                 inst.get("problem_statement", ""), skills, model_name=a.model, config_path=str(cfg)
             )
