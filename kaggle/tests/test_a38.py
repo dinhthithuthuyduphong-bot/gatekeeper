@@ -241,3 +241,13 @@ def test_previous_rows_counted_once_and_carried_forward(tmp_path, monkeypatch):
     ns["carry"](rows)
     carried = (work / "a38_results_carried.jsonl").read_text().splitlines()
     assert [json.loads(x) for x in carried] == [row]
+
+
+def test_dedupe_counts_carried_rows_once():
+    a = {"model": "m", "sha256": "s", "seed": 1, "ok": True, "new_skills": "x"}
+    refused = {"model": "m", "sha256": "t", "seed": 1, "ok": False, "new_skills": None}
+    retried = dict(refused, ok=True, new_skills="y")
+    out = an.dedupe([a, dict(a), refused, retried, dict(a)])
+    assert len(out) == 2 and all(r["ok"] for r in out)
+    with pytest.raises(ValueError):
+        an.dedupe([a, dict(a, new_skills="z")])

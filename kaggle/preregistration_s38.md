@@ -151,3 +151,30 @@ Một quỹ đạo **cho thấy rò rỉ** khi một quan sát trả về cho ag
   - **Phiên sau:** chạy B trước (còn 69 lần gọi, khoảng 0,7 USD), rồi A. Tổng hai trần ngày vẫn dưới 10 USD.
 - **38-5 (16/11, sau phiên chạy 2; chưa tính endpoint nào).** 324 lần gọi, 321 có câu trả lời; 0 lần gọi trùng. Seed 1 và 2 đủ cho cả 5 model (32/32 mỗi seed); 3 lần gọi Gemini bị từ chối hôm 15/11 đã được gửi lại và có câu trả lời. Tiền Kaggle báo cộng dồn: 13,73 USD. Còn seed 3 (159 lần gọi, khoảng 7 USD): một phiên nữa.
 
+- **38-6 (17/11, sau phiên 3; kết quả).**
+  - **Dữ liệu:** 480/480 lần gọi có câu trả lời (5 model × 32 lần gọi × 3 seed). Phiên 3: 159 lần gọi, 4,61 triệu token vào, 0,50 triệu token ra. Cả mục A: 14,05 triệu token vào, 1,61 triệu token ra. Tiền Kaggle báo cộng dồn: 20,06 USD, dưới trần 40.
+  - **Lỗi đọc dữ liệu được sửa trước khi tính (K23):** script phân tích có thêm bước khử trùng; 483 dòng đọc, 480 lần gọi.
+  - **Lệnh:** `python kaggle/scripts/a38_analyse.py --prompts kaggle/data/a38_prompts.jsonl.gz --results kaggle/results/a38_results_2026111*.jsonl --reference google/gemini-3.1-pro-preview --alpha 0.025 --out kaggle/results/a38_analysis.json`.
+
+  | Model | `leak/ablated` (6) | `noleak_leaky_env/ablated` (7) | D (H) | p một phía | `clean/ablated` (14) | D (G) | p (G) |
+  | --- | --- | --- | --- | --- | --- | --- | --- |
+  | Gemini 3.1 Pro (mốc, ngoài họ) | 0,94 | 0,29 | 0,66 | 0,0076 | 0,05 | 0,66 | 0,0076 |
+  | GPT-5.4 nano | 0,72 | 0,19 | 0,53 | 0,0076 | 0,14 | 0,57 | 0,0064 |
+  | gpt-oss-120b | 0,83 | 0,38 | 0,45 | 0,031 | 0,71 | 0,63 | 0,0058 |
+  | Grok 4.6 | 1,00 | 0,86 | 0,14 | 0,12 | 0,79 | 0,14 | 0,12 |
+  | Haiku 5.5 | 1,00 | 0,90 | 0,10 | 0,27 | 0,90 | 0,10 | 0,27 |
+
+  (Các ô là tỉ lệ seed có H, trung bình theo lần gọi. Cột `clean` là H.)
+
+  - **Phép kiểm chính (H, Holm, α = 0,025 một phía, 4 model khác hãng):** p nhỏ nhất 0,0076 (nano) > 0,025/4 = 0,00625. **Không model nào bác bỏ H0.**
+  - **Diễn giải theo bảng đặt trước:**
+    - Diễn giải 1 không đạt: không model khác hãng nào được bác bỏ.
+    - Diễn giải 3 đúng **cho Haiku và Grok**: hai model này viết dòng lịch sử ở 0,79–0,90 cả khi quỹ đạo không cho thấy rò rỉ (`noleak`, `clean`). Với hai model này, chỉ dẫn là thói quen của model, không do rò rỉ.
+    - Với nano và gpt-oss, chênh lệch cùng chiều với model mốc (0,53 và 0,45 theo H). Chênh lệch không đủ để chứng nhận ở mức của họ. Theo G, ô `clean` của gpt-oss bằng 0,05: phần lớn H của ô đó là các dòng khớp `RULE` mà không có `git log`/`git show` (giống ca "uncommitted" ở mục 6).
+    - Model mốc (đúng tên model viết skill gốc): 0,94 so với 0,29, và 0,05 ở `clean`. Phù hợp với cơ chế ở §36. Đây là phép mô tả: model mốc nằm ngoài họ kiểm định.
+  - **Câu được viết trong paper:**
+    - Bước viết skill được lặp lại với 5 model viết skill.
+    - Model của gskill viết chỉ dẫn khi quỹ đạo cho thấy commit lỗi, và gần như không viết khi lịch sử chỉ có một commit.
+    - Hai model khác hãng cùng chiều nhưng không qua Holm. Hai model khác viết dòng lịch sử bất kể có rò rỉ hay không.
+    - Vì vậy cơ chế "rò rỉ được biến thành chỉ dẫn" chỉ được nói cho model viết skill của gskill. Với các model khác, việc có một dòng lịch sử trong skill không phải bằng chứng là có rò rỉ.
+    - Kết quả chính (mức tăng mất đi khi bịt rò rỉ, C10) không phụ thuộc vào phần này.

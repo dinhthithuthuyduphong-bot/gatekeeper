@@ -73,6 +73,21 @@ def per_call(prompts: list[dict], results: list[dict], model: str, rule) -> dict
     return cells
 
 
+def dedupe(rows: list[dict]) -> list[dict]:
+    """One row per (model, saved call, seed). A session carries the rows of earlier sessions
+    (kaggle/audit.md K16), so the same answered call can appear in several files; it is counted
+    once. An answered row replaces a refused one; two different answers to one key stop."""
+    out: dict[tuple, dict] = {}
+    for r in rows:
+        k = (r["model"], r["sha256"], r["seed"])
+        old = out.get(k)
+        if old is None or (r.get("ok") and not old.get("ok")):
+            out[k] = r
+        elif r.get("ok") and old.get("ok") and r.get("new_skills") != old.get("new_skills"):
+            raise ValueError(f"two different answers for {k}")
+    return list(out.values())
+
+
 def analyse(prompts, results, reference: str, alpha: float) -> dict:
     models = sorted({r["model"] for r in results})
     out = {"alpha": alpha, "reference": reference, "models": {}}
@@ -109,8 +124,10 @@ def main() -> int:
     ap.add_argument("--out", required=True, type=Path)
     a = ap.parse_args()
     prompts = [json.loads(x) for x in gzip.open(a.prompts, "rt")]
-    results = [json.loads(x) for f in a.results for x in f.read_text().splitlines() if x.strip()]
+    rows = [json.loads(x) for f in a.results for x in f.read_text().splitlines() if x.strip()]
+    results = dedupe(rows)
     res = analyse(prompts, results, a.reference, a.alpha)
+    res["rows_read"], res["calls_unique"] = len(rows), len(results)
     a.out.write_text(json.dumps(res, indent=1) + "\n")
     print(json.dumps(res, indent=1))
     return 0

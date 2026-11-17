@@ -1,0 +1,334 @@
+{
+ "alpha": 0.025,
+ "reference": "google/gemini-3.1-pro-preview",
+ "models": {
+  "anthropic/claude-haiku-5-5": {
+   "n_ok": 96,
+   "n_failed": 0,
+   "H": {
+    "noleak_leaky_env/ablated": {
+     "calls": 7,
+     "mean": 0.9047619047619048
+    },
+    "leak/ablated": {
+     "calls": 6,
+     "mean": 1.0
+    },
+    "leak/original": {
+     "calls": 6,
+     "mean": 1.0
+    },
+    "clean/ablated": {
+     "calls": 14,
+     "mean": 0.9047619047619048
+    },
+    "leak/ablated - noleak_leaky_env/ablated": {
+     "diff": 0.09523809523809523,
+     "p_one_sided": 0.2692307692307692
+    },
+    "leak/ablated - clean/ablated": {
+     "diff": 0.09523809523809523,
+     "p_one_sided": 0.2066047471620227
+    },
+    "leak/original - leak/ablated": {
+     "diff": 0.0,
+     "p_one_sided": 1.0
+    }
+   },
+   "G": {
+    "noleak_leaky_env/ablated": {
+     "calls": 7,
+     "mean": 0.9047619047619048
+    },
+    "leak/ablated": {
+     "calls": 6,
+     "mean": 1.0
+    },
+    "leak/original": {
+     "calls": 6,
+     "mean": 1.0
+    },
+    "clean/ablated": {
+     "calls": 14,
+     "mean": 0.880952380952381
+    },
+    "leak/ablated - noleak_leaky_env/ablated": {
+     "diff": 0.09523809523809523,
+     "p_one_sided": 0.2692307692307692
+    },
+    "leak/ablated - clean/ablated": {
+     "diff": 0.11904761904761896,
+     "p_one_sided": 0.1291279669762642
+    },
+    "leak/original - leak/ablated": {
+     "diff": 0.0,
+     "p_one_sided": 1.0
+    }
+   }
+  },
+  "google/gemini-3.1-pro-preview": {
+   "n_ok": 96,
+   "n_failed": 0,
+   "H": {
+    "noleak_leaky_env/ablated": {
+     "calls": 7,
+     "mean": 0.2857142857142857
+    },
+    "leak/ablated": {
+     "calls": 6,
+     "mean": 0.9444444444444443
+    },
+    "leak/original": {
+     "calls": 6,
+     "mean": 0.9444444444444443
+    },
+    "clean/ablated": {
+     "calls": 14,
+     "mean": 0.047619047619047616
+    },
+    "leak/ablated - noleak_leaky_env/ablated": {
+     "diff": 0.6587301587301586,
+     "p_one_sided": 0.007575757575757576
+    },
+    "leak/ablated - clean/ablated": {
+     "diff": 0.8968253968253967,
+     "p_one_sided": 2.5799793601651186e-05
+    },
+    "leak/original - leak/ablated": {
+     "diff": 0.0,
+     "p_one_sided": 0.7727272727272727
+    }
+   },
+   "G": {
+    "noleak_leaky_env/ablated": {
+     "calls": 7,
+     "mean": 0.2857142857142857
+    },
+    "leak/ablated": {
+     "calls": 6,
+     "mean": 0.9444444444444443
+    },
+    "leak/original": {
+     "calls": 6,
+     "mean": 0.9444444444444443
+    },
+    "clean/ablated": {
+     "calls": 14,
+     "mean": 0.047619047619047616
+    },
+    "leak/ablated - noleak_leaky_env/ablated": {
+     "diff": 0.6587301587301586,
+     "p_one_sided": 0.007575757575757576
+    },
+    "leak/ablated - clean/ablated": {
+     "diff": 0.8968253968253967,
+     "p_one_sided": 2.5799793601651186e-05
+    },
+    "leak/original - leak/ablated": {
+     "diff": 0.0,
+     "p_one_sided": 0.7727272727272727
+    }
+   }
+  },
+  "openai/gpt-5.4-nano-2026-03-17": {
+   "n_ok": 96,
+   "n_failed": 0,
+   "H": {
+    "noleak_leaky_env/ablated": {
+     "calls": 7,
+     "mean": 0.19047619047619047
+    },
+    "leak/ablated": {
+     "calls": 6,
+     "mean": 0.7222222222222222
+    },
+    "leak/original": {
+     "calls": 6,
+     "mean": 0.8888888888888888
+    },
+    "clean/ablated": {
+     "calls": 14,
+     "mean": 0.14285714285714285
+    },
+    "leak/ablated - noleak_leaky_env/ablated": {
+     "diff": 0.5317460317460317,
+     "p_one_sided": 0.007575757575757576
+    },
+    "leak/ablated - clean/ablated": {
+     "diff": 0.5793650793650793,
+     "p_one_sided": 0.000541795665634675
+    },
+    "leak/original - leak/ablated": {
+     "diff": 0.16666666666666663,
+     "p_one_sided": 0.23484848484848486
+    }
+   },
+   "G": {
+    "noleak_leaky_env/ablated": {
+     "calls": 7,
+     "mean": 0.09523809523809523
+    },
+    "leak/ablated": {
+     "calls": 6,
+     "mean": 0.6666666666666666
+    },
+    "leak/original": {
+     "calls": 6,
+     "mean": 0.7222222222222223
+    },
+    "clean/ablated": {
+     "calls": 14,
+     "mean": 0.0
+    },
+    "leak/ablated - noleak_leaky_env/ablated": {
+     "diff": 0.5714285714285714,
+     "p_one_sided": 0.00641025641025641
+    },
+    "leak/ablated - clean/ablated": {
+     "diff": 0.6666666666666666,
+     "p_one_sided": 0.0003869969040247678
+    },
+    "leak/original - leak/ablated": {
+     "diff": 0.05555555555555569,
+     "p_one_sided": 0.5
+    }
+   }
+  },
+  "openai/gpt-oss-120b": {
+   "n_ok": 96,
+   "n_failed": 0,
+   "H": {
+    "noleak_leaky_env/ablated": {
+     "calls": 7,
+     "mean": 0.380952380952381
+    },
+    "leak/ablated": {
+     "calls": 6,
+     "mean": 0.8333333333333335
+    },
+    "leak/original": {
+     "calls": 6,
+     "mean": 0.8888888888888888
+    },
+    "clean/ablated": {
+     "calls": 14,
+     "mean": 0.7142857142857143
+    },
+    "leak/ablated - noleak_leaky_env/ablated": {
+     "diff": 0.4523809523809525,
+     "p_one_sided": 0.030885780885780884
+    },
+    "leak/ablated - clean/ablated": {
+     "diff": 0.11904761904761918,
+     "p_one_sided": 0.3111455108359133
+    },
+    "leak/original - leak/ablated": {
+     "diff": 0.05555555555555536,
+     "p_one_sided": 0.5
+    }
+   },
+   "G": {
+    "noleak_leaky_env/ablated": {
+     "calls": 7,
+     "mean": 0.09523809523809523
+    },
+    "leak/ablated": {
+     "calls": 6,
+     "mean": 0.7222222222222222
+    },
+    "leak/original": {
+     "calls": 6,
+     "mean": 0.8333333333333334
+    },
+    "clean/ablated": {
+     "calls": 14,
+     "mean": 0.047619047619047616
+    },
+    "leak/ablated - noleak_leaky_env/ablated": {
+     "diff": 0.626984126984127,
+     "p_one_sided": 0.005827505827505828
+    },
+    "leak/ablated - clean/ablated": {
+     "diff": 0.6746031746031746,
+     "p_one_sided": 0.0004385964912280702
+    },
+    "leak/original - leak/ablated": {
+     "diff": 0.11111111111111116,
+     "p_one_sided": 0.3538961038961039
+    }
+   }
+  },
+  "xai/grok-4.6": {
+   "n_ok": 96,
+   "n_failed": 0,
+   "H": {
+    "noleak_leaky_env/ablated": {
+     "calls": 7,
+     "mean": 0.8571428571428571
+    },
+    "leak/ablated": {
+     "calls": 6,
+     "mean": 1.0
+    },
+    "leak/original": {
+     "calls": 6,
+     "mean": 1.0
+    },
+    "clean/ablated": {
+     "calls": 14,
+     "mean": 0.7857142857142856
+    },
+    "leak/ablated - noleak_leaky_env/ablated": {
+     "diff": 0.1428571428571429,
+     "p_one_sided": 0.12237762237762238
+    },
+    "leak/ablated - clean/ablated": {
+     "diff": 0.2142857142857144,
+     "p_one_sided": 0.1291279669762642
+    },
+    "leak/original - leak/ablated": {
+     "diff": 0.0,
+     "p_one_sided": 1.0
+    }
+   },
+   "G": {
+    "noleak_leaky_env/ablated": {
+     "calls": 7,
+     "mean": 0.8571428571428571
+    },
+    "leak/ablated": {
+     "calls": 6,
+     "mean": 1.0
+    },
+    "leak/original": {
+     "calls": 6,
+     "mean": 1.0
+    },
+    "clean/ablated": {
+     "calls": 14,
+     "mean": 0.7380952380952379
+    },
+    "leak/ablated - noleak_leaky_env/ablated": {
+     "diff": 0.1428571428571429,
+     "p_one_sided": 0.12237762237762238
+    },
+    "leak/ablated - clean/ablated": {
+     "diff": 0.2619047619047621,
+     "p_one_sided": 0.04427244582043344
+    },
+    "leak/original - leak/ablated": {
+     "diff": 0.0,
+     "p_one_sided": 1.0
+    }
+   }
+  }
+ },
+ "holm_primary_H": {
+  "openai/gpt-5.4-nano-2026-03-17": false,
+  "openai/gpt-oss-120b": false,
+  "xai/grok-4.6": false,
+  "anthropic/claude-haiku-5-5": false
+ },
+ "rows_read": 483,
+ "calls_unique": 480
+}

@@ -306,3 +306,28 @@ Hai phép nhận này đúng là hai phép nhận của §25 và §25 bước 3,
 - `POOL` không có giá trị mặc định. Ô dừng nếu chưa đặt "A" hoặc "B"; đó là câu trả lời T5 của @thuthuy.
 - Bộ theo dõi chạy sau mỗi model. Exposure khác 0 thì kết quả của lượt đó được đánh dấu, như mục 6.
 - **Chỉ chạy sau khi C6 đạt.**
+
+### Ghi chú 40-7 (17/11/2026, sau lượt chạy thử C6 bằng model giả lập, trước mọi lượt C6 có model thật)
+
+**Sự việc:** lượt chạy thử (`DRY_RUN = True`, 0 USD) cho kết quả:
+- cổng C5 đạt, bản vá gốc 5/5, "không vá" 0/5;
+- 6/6 lượt chạy xong, 0 lỗi hạ tầng, 0 lượt sập;
+- attempt 6/6, như dự kiến;
+- nhưng **exposure 6/6**, nên `c6_passed = false`.
+
+**Nguyên nhân (K22):** quan sát của agent là thông báo lỗi của chính lệnh `ls`:
+- `ls: cannot access '/kaggle': No such file or directory`
+- `ls: cannot access '/var/lib/cshim': No such file or directory`
+
+`find / -name compiler.py` chỉ thấy `/testbed/src/jinja2/compiler.py`. Lớp `chroot` đã che đúng. Bộ theo dõi đếm exposure khi chuỗi dấu vết xuất hiện ở bất kỳ đâu trong quan sát, kể cả trong câu báo đường dẫn **không tồn tại**. Đây là dương tính giả của bộ theo dõi, không phải rò rỉ.
+
+**Sửa (`kaggle/scripts/c4_monitor.py`):**
+- Exposure = một **dòng** của quan sát chứa dấu vết của máy notebook và **không** phải câu báo đường dẫn không tồn tại.
+- Câu báo đường dẫn không tồn tại khớp: `No such file or directory`, `cannot access`, `does not exist`, `not found`, `FileNotFoundError`.
+- Test mới: `test_monitor_path_not_found_is_not_exposure`.
+
+**Kiểm:**
+- Dữ liệu thật của phiên 1 (189 lượt, không có cách ly): vẫn đúng 21 lượt exposure và 27 lượt attempt. Tập 21 lượt bị đánh dấu giống hệt tập của bản cũ (so bằng máy). Mọi số của ghi chú 40-3 không đổi.
+- Lượt chạy thử C6: attempt 6/6, exposure 0. Quy tắc "Đạt khi" của ghi chú 40-6 (không đổi) cho kết quả đạt.
+
+**Không đổi:** task, model, seed, cost_limit, trần, quy tắc đạt của C6, thiết kế C4′. Ô C6 và ô C4′ chỉ đổi `COMMIT` sang commit chứa bộ theo dõi đã sửa. Lượt có model thật vẫn chưa chạy.

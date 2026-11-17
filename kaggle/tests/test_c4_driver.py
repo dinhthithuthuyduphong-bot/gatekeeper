@@ -111,3 +111,15 @@ def test_monitor_flags_attempt_and_exposure(tmp_path):
     res = c4_monitor.scan(tmp_path, include_bad=False)
     a = res["per_arm"]["lf_none"]
     assert (a["runs"], a["attempt"], a["exposure"], a["bug_patch_seen"]) == (2, 2, 1, 1)
+
+
+def test_monitor_path_not_found_is_not_exposure():
+    seen = "<returncode>0</returncode>\n<output>\n/kaggle/working/c4out/x.json\n</output>"
+    missing = (
+        "<returncode>2</returncode>\n<output>\n"
+        "ls: cannot access '/kaggle': No such file or directory\n"
+        "ls: cannot access '/var/lib/cshim': No such file or directory\n</output>"
+    )
+    assert c4_monitor.exposed_in(seen)
+    assert not c4_monitor.exposed_in(missing)
+    assert c4_monitor.exposed_in(missing + "\n/var/lib/cshim/base/etc\n")
