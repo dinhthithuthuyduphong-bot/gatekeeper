@@ -158,6 +158,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Đổi mẫu LaTeX (L62)**
 - [ ] Mọi gói phông của mẫu có trên máy dựng (`kpsewhich`); số trang chỉ đọc từ bản dựng không lỗi; mỗi mục của danh mục có năm, hoặc không trùng nhãn với mục không năm khác (A134).
 
+**CI xanh trước khi dùng tiếp một commit (L64)**
+- [ ] Không chạy workflow hay gộp nhánh từ một commit trước khi đọc kết luận CI của nó; test về đầu ra của git không so chuỗi có định dạng phụ thuộc phiên bản (A136).
+
 **Ước tính chi phí lấy từ số đã chi (L63)**
 - [ ] Mỗi ước tính chi phí gửi @thuthuy dẫn tới file kết quả (`spent_usd` hay tổng `cost_usd`) và ghi phép tính; số dự kiến của một lần trước không được gọi là số đo (A135).
 

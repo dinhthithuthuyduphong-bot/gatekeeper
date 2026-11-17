@@ -35,7 +35,7 @@ def make_task(tmp_path):
     (root / "tests" / "test_f.py").write_text("def test_f():\n    assert f(1) == 2\n")
     for msg, date, change in [
         ("Initial commit", "2025-01-01T00:00:00+00:00", None),
-        ("Bug Patch", "2025-01-02T00:00:00+00:00", ("src.py", "def f(x):\n    return x - 1\n")),
+        ("Bug Patch", "2025-01-02T00:00:00+07:00", ("src.py", "def f(x):\n    return x - 1\n")),
         ("Remove F2P Tests", "2025-01-03T00:00:00+00:00", ("tests/test_f.py", None)),
     ]:
         if change and change[1] is None:
@@ -73,8 +73,9 @@ def test_variants(tmp_path, variant, detached):
     # "Remove F2P Tests" (T1 -> T2) identical in every variant
     assert subjects[0] == "Remove F2P Tests"
     assert git(root, "diff", "HEAD~1", "HEAD") == git(root, "diff", trees["~1"], trees[""])
-    assert (
-        git(root, "log", "-1", "--format=%an %aI", "HEAD") == "swesmith 2025-01-03T00:00:00+00:00"
+    # raw date (epoch and offset): the ISO form differs between git versions ("Z" or "+00:00")
+    assert git(root, "log", "-1", "--date=raw", "--format=%an %ad|%cd", "HEAD") == (
+        "swesmith 1735862400 +0000|1735862400 +0000"
     )
     if variant == "A":
         assert git(root, "rev-parse", "HEAD") == shipped[""]  # metadata kept bit for bit

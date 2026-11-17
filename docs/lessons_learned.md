@@ -540,3 +540,7 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 ## L63. Ước tính chi phí lấy từ số đã chi, không từ số dự kiến của lần trước (A135)
 - **Nguyên nhân gốc:** khi viết ước tính cho C10, tôi lấy con số đứng gần chữ "§35" trong bản đăng ký và gọi nó là số đo, không mở file kết quả của §35.
 - **Phòng ngừa:** mọi ước tính chi phí dẫn tới file kết quả (`spent_usd` hoặc tổng `cost_usd`) kèm phép tính; một con số dự kiến chỉ được dùng khi chưa có lần chạy nào, và phải gọi là "dự kiến". Thêm vào danh sách review `docs/research_rules.md` §4.
+
+## L64. Một commit chỉ được dùng tiếp (chạy workflow, gộp nhánh) sau khi CI của nó xanh (A136)
+- **Nguyên nhân gốc:** tôi coi test chạy đạt ở máy của phiên là đủ, rồi bấm chạy thử và gộp nhánh ngay sau khi push. Máy CI có phiên bản git khác.
+- **Phòng ngừa:** sau mỗi push, đọc kết luận CI trước mọi bước dùng tới commit đó. Test về đầu ra của git không so chuỗi có định dạng phụ thuộc phiên bản (ngày ISO, màu, thông báo); so dạng raw hoặc đối tượng. Thêm vào danh sách review `docs/research_rules.md` §4.

@@ -987,3 +987,5 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - Không lượt nào sập.
 - `spent_usd` = 0,0000325 mỗi nhánh. Đây là giá LiteLLM tự tính cho câu trả lời giả lập, không có lệnh gọi model nào; chạy thử §35 cho đúng con số này (`s35dry_ship_none.json`).
 - Chưa chạy thử `c10all70`.
+
+**Bổ sung R-71 (sau A136):** script đọc ngày dạng raw; test có thêm múi giờ +07:00. Lần chạy thử đầu kiểm bản script trước khi sửa, nên phải chạy thử lại `c10test34` trên commit sửa trước mọi lượt có phí.

@@ -53,7 +53,9 @@ def history_variant_sh(variant: str, neutral_message: str | None, root: str, mir
         lines += [
             f"T{k}=$(git rev-parse {ref}^{{tree}})",
             f"git log -1 --format=%B {ref} > $W/m{k}",
-            f"git log -1 --format='%an%x00%ae%x00%aI%x00%cn%x00%ce%x00%cI' {ref} > $W/a{k}",
+            # raw dates ("<epoch> <+hhmm>"): the original offset is kept on every git version
+            "git log -1 --date=raw --format='%an%x00%ae%x00%ad%x00%cn%x00%ce%x00%cd' "
+            f"{ref} > $W/a{k}",
         ]
     lines.append(f"printf '%s\\n' {msg_b} > $W/neutral")
     for i, (tree, parent, k, src) in enumerate(plan):
