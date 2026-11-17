@@ -1,0 +1,35 @@
+{
+ "lam": 0.5,
+ "threshold": 40.0,
+ "reps": 20000,
+ "seed": 4301,
+ "observed": {
+  "s33": {
+   "n": 34,
+   "n_negative": 17,
+   "n_positive": 0
+  },
+  "s35": {
+   "n": 36,
+   "n_negative": 19,
+   "n_positive": 0
+  },
+  "all70": {
+   "n": 70,
+   "n_negative": 36,
+   "n_positive": 0
+  }
+ },
+ "pooled_solve_rate_shipped": {
+  "skill": 0.5285714285714286,
+  "none": 0.0
+ },
+ "rejection_rate": {
+  "leak, n=34": 0.56555,
+  "half, n=34": 0.0013,
+  "null, n=34": 0.0,
+  "leak, n=70": 1.0,
+  "half, n=70": 0.65015,
+  "null, n=70": 0.00055
+ }
+}
