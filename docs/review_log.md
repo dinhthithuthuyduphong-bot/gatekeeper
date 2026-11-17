@@ -1087,3 +1087,20 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - câu trung tính chỉ ở B; skill (2.675 ký tự) chỉ ở nhánh có skill;
   - 0 lỗi hạ tầng.
 - **Ngân sách:** @thuthuy 17/11 duyệt 12,64 USD, chấp nhận trả phần vượt credit (CLAUDE.md).
+
+## R-78. Phân tích C10R (§44) sau lượt có phí; kiểm toán trace; số và đoạn văn của paper (17/11/2026; 0 USD)
+
+- **Phân tích:** chạy đúng lệnh đã đăng ký (`c10_analysis.py --prefix c10r`) và `c10_stop_audit.py --prefix c10r`. Không sửa script nào.
+- **`scripts/history_audit.py`:**
+  - Thêm 8 nhánh `c10r_*` (seed 61). Quy tắc phát hiện không đổi.
+  - Mọi lượt của 37 nhánh cũ và phần level 1 giống hệt bản trước (so bằng máy).
+  - Lần thêm đầu không áp được: dòng mốc đã bị ruff tách thành nhiều dòng, và phép assert của chính bước thêm đã chặn lại. Không có dữ liệu sai.
+- **`scripts/make_numbers.py`:**
+  - Bảng tra nhánh C10 thêm điều kiện seed 51. Trước đó (môi trường, điều kiện) của seed 61 sẽ ghi đè lên seed 51.
+  - Phép đếm cờ của §41 bỏ mọi nhánh bắt đầu bằng `c10` (gồm `c10r_`).
+  - Thêm macro `ctr*` kèm kiểm khớp: đủ 70 task ở mọi nhánh, n = 70, 40/0, 41 giải được, 70 lượt thấy diff, quyết định bác bỏ.
+  - Mọi macro cũ không đổi (diff).
+- **Paper:** đoạn "Separating the message from the diff" viết lại.
+  - C10R là phép thử xác nhận trên pool cố định ("certified").
+  - Lượt đầu chỉ được báo là cùng chiều, và chỉ hợp lệ dưới giả thuyết hẹp hơn.
+  - Bài dựng không lỗi, 8 trang.

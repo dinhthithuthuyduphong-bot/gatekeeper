@@ -145,3 +145,4 @@ Mọi con số khác bên dưới đều được **suy ra từ α**, **suy ra t
 | **C10R, seed 61** (§44) | Vận hành | Cách 10 so với seed 41, 51 của các lượt trước (C2 ở `docs/audit_pilot.md`) |
 | **C10R, trần = phân vị 0,999 của chi phí mô phỏng + 0,30; tỉ lệ 1,971; tối thiểu 10 chi phí ở tầng sau** (§44) | Vận hành | L66; chỉ ảnh hưởng xác suất bị cắt, không ảnh hưởng phép thử. `scripts/c10r_caps.py` |
 | **C10R, power 0,994 / 0,214; cỡ 0,0006** (§44) | Suy ra | `results/c10r_power.json` (seed 4403, 20.000 lần) |
+| **C10R, kết quả: n = 70, E = 9.028, D = −0,293 [−0,350; −0,236] và các phép phụ** (§44) | Suy ra | `results/c10r_analysis.json`, `results/c10r_stop_audit.json`; macro `ctr*` do `scripts/make_numbers.py` sinh |

@@ -2848,3 +2848,51 @@ Ba commit, theo thứ tự: `Initial commit` (toàn bộ mã của dự án tron
 - `scripts/history_audit.py` với 8 nhánh `c10r_*`.
 
 **Ngân sách:** tổng trần 12,64 USD (dự kiến 7,64). Chỉ chạy sau khi @thuthuy xác nhận credit còn lại đủ cho tổng trần, hoặc chấp nhận phần vượt.
+
+**Kết quả C10R** (17/11/2026; run 44116782851; dữ liệu `results/c10r_*_all70.*`; lệnh đã đăng ký: `python scripts/c10_analysis.py --prefix c10r --parts all70 --out results/c10r_analysis.json`):
+
+*Kiểm sau khi chạy:*
+- **Cả 8 nhánh chạy đủ 70 task**, không nhánh nào dừng vì trần. `scripts/c10_stop_audit.py --prefix c10r` → `results/c10r_stop_audit.json`: mọi nhánh là đúng thứ tự đã đăng ký, 0 lượt bắt đầu sau khi bước kiểm lẽ ra đã dừng.
+- 0 `infra_error`, 0 lượt sập; `history_check` đúng chuỗi mong đợi ở 560/560 lượt.
+- 0 lượt chạm cost_limit (lượt đắt nhất 0,0665 USD); 0 bản vá bị bộ chấm báo timeout.
+- Seed 61 ở mọi nhánh; trần đúng `configs/c10r.json`.
+
+| Nhánh | Giải được (S) / 70 | Đã chi (USD) | Trần (USD) |
+| --- | --- | --- | --- |
+| A không skill | 0 | 0,3968 | 1,071 |
+| A có skill | 41 | 1,3781 | 2,031 |
+| B không skill | 0 | 0,3003 | 0,861 |
+| B có skill | 5 | 1,4416 | 1,998 |
+| C không skill | 1 | 0,3219 | 1,292 |
+| C có skill | 1 | 1,5298 | 2,935 |
+| D không skill | 0 | 0,3181 | 0,668 |
+| D có skill | 3 | 1,1264 | 1,784 |
+| **Tổng** | | **6,8130** | 12,640 |
+
+*Phép thử chính A − C (pool 70 task cố định):*
+- D_i < 0 ở 40 task, D_i > 0 ở 0 task. Trung bình D = −0,293, bootstrap 95% [−0,350; −0,236].
+- **E = 9.028 ≥ 40: bác bỏ H₀**, với bảo đảm cho pool cố định, như đã đăng ký.
+- Câu viết trong paper, theo hàng "Bác bỏ, không nhánh nào bị cắt" của bảng diễn giải §44: "Với cùng số commit và cùng thông điệp, mức tăng của skill lớn hơn khi mã trước lỗi có trong lịch sử: mức tăng cần nội dung bị rò rỉ (Jinja, skill gốc, task không mô tả, seed 61)." §43 được báo là lượt đầu.
+- Mô tả: E lần đầu ≥ 40 ở task 35; E trên 34 task đầu là 35,5.
+
+*Phép phụ (mô tả):*
+
+| Phép so | D < 0 | D > 0 | Trung bình D | Bootstrap 95% | E |
+| --- | --- | --- | --- | --- | --- |
+| B − D | 4 | 2 | −0,014 | [−0,050; 0,021] | 1,37 |
+| A − B | 38 | 2 | −0,257 | [−0,321; −0,193] | 2.708 |
+| C − D | 1 | 3 | +0,021 | [−0,014; 0,064] | 0,35 |
+| Tương tác (A − B) − (C − D) | | | −0,279 | [−0,357; −0,207] | |
+
+*Kiểm toán trace* (`scripts/history_audit.py`, quy tắc không đổi; 8 nhánh `c10r_*` được thêm vào danh sách nhánh):
+
+| Nhánh có skill | Lệnh đọc lịch sử | Thấy diff lỗi | Khôi phục rồi chạy test bị xóa | Giải được |
+| --- | --- | --- | --- | --- |
+| A | 70 | 70 | 0 | 41 |
+| B | 30 | 6 | 16 | 5 |
+| C | 69 | 1 | 9 | 1 |
+| D | 20 | 2 | 10 | 3 |
+
+*Chi phí bằng token:* 53,96 triệu token vào (39,34 triệu từ cache), 1,45 triệu token ra.
+
+*Quan hệ với §43:* cùng chiều ở mọi phép so. §43: 22 so với 2 trên 45 task, E = 76,2, chỉ dưới giả thuyết hẹp hơn. Hai lượt không gộp.
