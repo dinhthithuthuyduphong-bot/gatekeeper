@@ -20,7 +20,7 @@ import urllib.request
 
 # ---- note 38-10 (A'): the reference model on the 6 renamed prompts (kaggle/data/a38p_*) --------
 NAME = "a38p"  # section 38, note 38-10; this file is a38_run_cell.py with its own block
-COMMIT = "__FILL__"
+COMMIT = "1f8adcb8147bb560f47e85060a2948b859b5c853"
 SHA256 = "0f3fe9b4a337fc177f9c2f262b858b7694684d5ead557599bde0c28f824a30b3"
 SHA256_JSONL = (
     "51aded479f0cbbe02b6e43412e8e36db46264caacdcdac720abe850e014aa91b"  # the same file unpacked
