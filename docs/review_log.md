@@ -1013,3 +1013,9 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Script dừng nếu `history_variant` của file không khớp với tên file.
 - **Nguồn gốc con số:** 4 dòng mới trong `docs/number_provenance.md`.
 - **Còn phải làm trước khi chi:** chạy thử miễn phí lại với `configs/c10.json` thật (câu trung tính thật), sau khi CI của commit này xanh (L64).
+
+**Bổ sung R-72: chạy thử với cấu hình thật (run 44022855259; commit 4c132ab đã xanh CI; 17/11).**
+- `c10all70` với `configs/c10.json`: 16/16 lượt có `history_check` đúng, 0 lượt sập.
+- Bốn file của B ghi `neutral_message` = "Merge branch 'stable'".
+- Bước kiểm ngân sách cho qua với `budget_usd` = 11 (tổng trần 10,83).
+- Không có lệnh gọi model. Mọi khâu trước khi chi đã xong; còn chờ câu duyệt ngân sách.
