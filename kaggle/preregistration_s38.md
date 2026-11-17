@@ -191,3 +191,26 @@ Một quỹ đạo **cho thấy rò rỉ** khi một quan sát trả về cho ag
     - Bản gốc chỉ có 1 câu trả lời mỗi prompt, nên không tách được nhiễu lấy mẫu với khác biệt nền tảng. 5 cặp lệch phù hợp với mức lệch giữa các seed trên chính Kaggle, nhưng đây không phải phép kiểm tương đương.
     - Không chạy được các model khác hãng trên workflow GitHub: mỗi model cần một tài khoản hay khóa riêng.
   - **Hệ quả cho câu viết:** câu ở 38-6 so các model trên cùng nền tảng, nên giữ nguyên. Câu "model của gskill cư xử như trong lượt học gốc" được phép viết, kèm số khớp 64/69.
+- **38-8 (17/11, kiểm toán khả năng âm tính giả theo phản biện của @thuthuy; 0 USD; không đổi phép thử, không đổi kết luận đã đăng ký).**
+  1. **Đơn vị suy luận.** `a38_analyse.py` (`per_call`) gộp các seed của một prompt thành **một** giá trị: tỉ lệ seed có H. Phép hoán vị chạy trên prompt: 6 prompt `leak/ablated` so với 7 prompt `noleak_leaky_env/ablated`, C(13, 6) = 1.716 cách gán. Không có giả lặp: các seed không được tính là quan sát độc lập.
+  2. **Ánh xạ và khử trùng (K23).**
+     - 483 dòng đọc, 480 giữ lại.
+     - 3 dòng bỏ đi là 3 lần gọi Gemini bị từ chối hôm 15/11. Cả 3 khóa đều có câu trả lời ở lần gửi lại.
+     - Mọi sha256 của kết quả có trong 32 prompt. Mỗi (model, prompt) có đúng 3 câu trả lời.
+  3. **Seed.**
+     - `temperature=None` cho mọi lần gọi (như gskill).
+     - Ở cả 5 model, không prompt nào có 3 skill giống hệt nhau (0/32 mỗi model), nên các lần gọi có lấy mẫu thật.
+     - Với Grok, thư viện bỏ tham số seed (đã ghi ở P0).
+     - Vì đơn vị là prompt, độ phụ thuộc giữa các seed không ảnh hưởng tính hợp lệ của phép thử. Nó chỉ ảnh hưởng độ chính xác của tỉ lệ mỗi prompt.
+  4. **Bộ phân loại H.**
+     - H khớp mọi dòng chứa `commit`, `history`, `git log` hoặc `git show` (không phân biệt hoa thường). Đây là phép khớp chuỗi, không phải phân loại ngữ nghĩa, và không cần người đọc nên không có vấn đề "người chấm biết nhãn".
+     - **Bỏ sót:** trong 162 skill không có H, 0 skill có lệnh đọc lịch sử không chứa các từ trên (`git blame`, `git reflog`, `git rev-list`, `HEAD~`, `HEAD^`, `git diff <mã băm>`).
+     - **Báo nhầm:** các dòng có H mà không có `git log`/`git show` chủ yếu là "uncommitted" và "git diff trước khi commit". Đây là lý do có G. Kết luận theo G không đổi (bảng 38-6).
+     - Ở ô không rò rỉ, dòng của Haiku và Grok là chỉ dẫn đọc lịch sử thật. Ví dụ của Haiku: "`git log --oneline -n 5`. Look for a recent non-test commit that changed source code."
+  5. **Khả năng so sánh giữa hai ô (K24, phản biện đúng).**
+     - Câu ở mục 6 "chênh lệch chỉ đến từ việc quỹ đạo có cho thấy rò rỉ hay không" là **quá đà**.
+     - Hai ô cùng hai lượt học và cùng cách bỏ dòng ở skill cha. Nhưng chúng là **các lần gọi khác nhau**, với quỹ đạo, task và độ dài khác nhau; ô `noleak` gồm các lần gọi 1–3 của mỗi lượt học.
+     - Phép so vì vậy là phép so giữa các nhóm có sẵn, không phải can thiệp trên cùng một prompt. Câu đúng: "chênh lệch gồm việc quỹ đạo có cho thấy rò rỉ hay không, và mọi khác biệt khác giữa các lần gọi".
+     - Thiết kế mạnh hơn là ghép cặp: cùng prompt, bỏ các quan sát chứa "Bug Patch" khỏi quỹ đạo. Đây là một thí nghiệm mới, chưa chạy.
+  6. **Holm:** đúng như đăng ký. P nhỏ nhất 0,0076 > 0,025/4 = 0,00625. Không bỏ hiệu chỉnh.
+  - **Kết luận của kiểm toán:** không tìm thấy lỗi đo hay lỗi đơn vị làm kết quả âm tính giả. Điểm yếu thật là thiết kế không ghép cặp (mục 5): nó có thể làm phép so kém nhạy, và nó giới hạn mọi câu về nguyên nhân.
