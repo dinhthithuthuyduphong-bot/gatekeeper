@@ -66,3 +66,16 @@ Tài khoản dịch vụ: `gatekeeper-pilot@gatekeeper-research.iam.gserviceacco
 | `566b1f20` (tài khoản `gatekeeper-pilot-E2@…`; kiểm 2026-11-03 bằng `vertex-check.yml`, lần chạy 41637490392: đủ 3 secret, gọi `gemini-3.1-flash-lite` được, 7 token vào, 1 token ra) | GitHub Actions: `pilot.yml`, `e2-shards.yml` | secret `GCP_SA_KEY` (cùng với `VERTEXAI_PROJECT` = `gatekeeper-research`, `VERTEXAI_LOCATION` = `global`) | khi không còn chạy trên Actions |
 
 - **Trên GitHub, mỗi tên secret giữ đúng một giá trị.** Tạo lại một tên đã có thì giá trị mới thay hẳn giá trị cũ. Hai workflow dùng chung `GCP_SA_KEY` là chủ ý, vì cùng một project Vertex.
+
+## Nguồn tiền cho C10 (17/11/2026)
+
+Theo file CSV "Credits – My Billing Account" do @thuthuy xuất từ Cloud Console và gửi ngày 17/11:
+
+| Credit | Trạng thái | Còn lại | Phạm vi | Hiệu lực đến |
+| --- | --- | --- | --- | --- |
+| Google Developer Program premium benefit (`CREDIT_TYPE_MONTHLY`) | Available | 259.706 ₫ (100%) | mọi dịch vụ Google Cloud Platform và Google Maps APIs | 21/10/2027 |
+| Welcome credit (bản nâng cấp từ dùng thử) | Available | 90.901 ₫ (1,17% của 7.791.151 ₫) | "Certain usage" theo điều khoản dùng thử | 20/01/2027 |
+
+- Credit được trừ tự động vào chi phí của các project gắn với billing account này. Không có cấu hình nào trong repo.
+- File không ghi project nào gắn với tài khoản. Bằng chứng gián tiếp: credit chào mừng của chính tài khoản này đã dùng 98,8%, khớp với chi phí Vertex của dự án đến nay.
+- Trần và báo cáo vẫn tính theo `spent_usd` của từng lượt chạy, không theo credit. Phần vượt credit là tiền thật.
