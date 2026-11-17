@@ -156,6 +156,113 @@ def exact_vs_bruteforce(rng) -> bool:
     return True
 
 
+# ---- end-of-pool test (docs/method_end_of_pool.md; section 42)
+EOP_LAM, EOP_THETA, EOP_N = 0.5, 0.0, 100  # registered c / (1 + theta) with c = 0.5; Jinja pool
+
+
+def jinja_q() -> np.ndarray:
+    """Per-task solve rate without skill on the 100 Jinja test tasks, as shipped: mean of the two
+    no-skill arms kept on main (s29_none seed 41, s33_ship_none seed 51)."""
+    acc: dict[str, list[float]] = {}
+    for n in ("s29_none", "s33_ship_none"):
+        for r in json.loads(Path(f"results/{n}.json").read_text())["runs"]:
+            acc.setdefault(r["instance_id"], []).append(float((r.get("S") or {}).get("resolved")))
+    q = np.array([np.mean(v) for v in acc.values() if len(v) == 2])
+    assert q.size == EOP_N, q.size
+    return q
+
+
+def recentre(q: np.ndarray, ps: np.ndarray) -> np.ndarray:
+    """Shift the skill solve rates until the pool mean of E[Z] = q - ps is exactly 0 (clipped)."""
+    for _ in range(200):
+        gap = float((ps - q).mean())
+        if abs(gap) < 1e-12:
+            break
+        ps = np.clip(ps - gap, 0.0, 1.0)
+    assert abs(float((ps - q).mean())) < 1e-9
+    return ps
+
+
+def eop_reject(z: np.ndarray, alpha: float) -> np.ndarray:
+    """End-of-pool decision per replicate (rows): log E >= log(1/alpha)."""
+    log_e = np.log1p(EOP_LAM * (-EOP_THETA - z)).sum(axis=1)
+    return log_e >= np.log(1.0 / alpha)
+
+
+def sign_reject(z: np.ndarray, alpha: float) -> np.ndarray:
+    """Registered exact one-sided sign test on the discordant pairs (section 25)."""
+    from scipy.stats import binom
+
+    b, c = (z == -1).sum(axis=1), (z == 1).sum(axis=1)
+    p = binom.sf(b - 1, b + c, 0.5)
+    return np.where(b + c == 0, False, p <= alpha)
+
+
+def draw_z(rng, q: np.ndarray, ps: np.ndarray, reps: int) -> np.ndarray:
+    r0 = rng.random((reps, q.size)) < q
+    r1 = rng.random((reps, q.size)) < ps
+    z = (~r1).astype(float) - (~r0).astype(float)
+    assert z.shape == (reps, q.size), z.shape
+    return z
+
+
+def end_of_pool_check(rng, reps_valid: int, reps_power: int) -> dict:
+    """Type-I error of the end-of-pool test on null pools whose mean E[Z] is exactly 0 (T1 of the
+    method note), with tasks of unequal effect; the shared-run-state case (T2) that the test does
+    NOT cover; power next to the registered sign test. alpha = 0.025, threshold 40."""
+    q = jinja_q()
+    n = q.size
+    alt = np.where(np.arange(n) % 2 == 0, 1.0, -1.0)
+    order = np.argsort(q)
+    minority = np.zeros(n, dtype=bool)
+    minority[order[: n // 10]] = True  # the 10 hardest tasks: the skill always solves them
+    nulls = {
+        "homogeneous (skill = baseline on every task)": q.copy(),
+        "heterogeneous: half +0.3, half -0.3, recentred": recentre(q, np.clip(q + 0.3 * alt, 0, 1)),
+        "heterogeneous: 10 hardest tasks always solved, the rest harmed": recentre(
+            q, np.where(minority, 1.0, np.clip(q - 0.1, 0, 1))
+        ),
+    }
+    out: dict = {
+        "inputs": {"q_source": "s29_none, s33_ship_none", "n": n, "mean_q": float(q.mean())}
+    }
+    valid = {}
+    for name, ps in nulls.items():
+        z = draw_z(rng, q, ps, reps_valid)
+        valid[name] = {
+            "pool_mean_EZ": float((q - ps).mean()),
+            "end_of_pool_reject": float(eop_reject(z, ALPHA).mean()),
+            "sign_test_reject": float(sign_reject(z, ALPHA).mean()),
+        }
+    # T2: one shared state per run, 1/2 'good' (skill +0.2) and 1/2 'bad' (skill -0.2)
+    good = rng.random(reps_valid) < 0.5
+    ps_good, ps_bad = np.clip(q + 0.2, 0, 1), np.clip(q - 0.2, 0, 1)
+    for _ in range(200):  # clipping at 0 breaks the balance: move the good state until the mean
+        gap = float(((ps_good + ps_bad) / 2 - q).mean())  # over the two states is exactly 0
+        if abs(gap) < 1e-12:
+            break
+        ps_good = np.clip(ps_good - 2 * gap, 0, 1)
+    assert abs(float(((ps_good + ps_bad) / 2 - q).mean())) < 1e-9
+    z = np.where(
+        good[:, None], draw_z(rng, q, ps_good, reps_valid), draw_z(rng, q, ps_bad, reps_valid)
+    )
+    valid["shared run state (two states, mean over states exactly 0): NOT covered"] = {
+        "pool_mean_EZ_over_states": float((q - (ps_good + ps_bad) / 2).mean()),
+        "end_of_pool_reject": float(eop_reject(z, ALPHA).mean()),
+        "sign_test_reject": float(sign_reject(z, ALPHA).mean()),
+    }
+    out["type1"] = valid
+    out["type1_mcse"] = math.sqrt(ALPHA * (1 - ALPHA) / reps_valid)
+    out["power"] = {}
+    for d in DELTAS:
+        z = draw_z(rng, q, np.clip(q + d, 0, 1), reps_power)
+        out["power"][str(d)] = {
+            "end_of_pool": float(eop_reject(z, ALPHA).mean()),
+            "sign_test": float(sign_reject(z, ALPHA).mean()),
+        }
+    return out
+
+
 def main() -> int:
     rng = np.random.default_rng(20271103)
     q = measured_q()
@@ -181,8 +288,10 @@ def main() -> int:
     out["AA_E1"] = aa_check(rng, q, 40, R_VALID)
     out["AA_E2"] = aa_check(rng, q, 119, R_VALID)
     out["RQ1"] = rq1_check(rng, q)
+    out["end_of_pool"] = end_of_pool_check(np.random.default_rng(20261117), R_VALID, R_POWER)
     Path("results/method_check.json").write_text(json.dumps(out, indent=1) + "\n")
-    print(json.dumps({k: v for k, v in out.items() if k in ("inputs", "AA_E1", "AA_E2")}, indent=1))
+    show = ("inputs", "AA_E1", "AA_E2", "end_of_pool")
+    print(json.dumps({k: v for k, v in out.items() if k in show}, indent=1))
     return 0
 
 

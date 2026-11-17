@@ -57,7 +57,10 @@ T1 lấy kỳ vọng trên **sự ngẫu nhiên của agent** (nhiễu lấy m�
 ## 5. Những điều phép kiểm KHÔNG nói
 
 - **Không anytime-valid.** Nó chỉ bảo đảm khi đọc ở cuối pool. Đọc giữa chừng rồi dừng sẽ làm mất bảo đảm.
-- **Không nói về T2 hay T3.** Mô phỏng trong `verify_methods.py` cho thấy: khi có một trạng thái chung cho cả lượt chạy (xác suất 1/2 tác dụng −0,2, xác suất 1/2 tác dụng +0,2, trung bình 0), tỉ lệ nhận nhầm đối với T2 lên tới khoảng 36%. Bảo đảm chỉ đúng khi điều kiện hóa trên C.
+- **Không nói về T2 hay T3.** Khi có một trạng thái chung cho cả lượt chạy, tỉ lệ nhận nhầm đối với T2 vượt mức danh nghĩa. Hai con số:
+  - `verify_methods.py` (mục `end_of_pool`), trên 100 task Jinja với tỉ lệ giải nền đo được, hai trạng thái đồng xác suất có tác dụng ngược chiều, trung bình qua hai trạng thái đúng bằng 0: phép kiểm cuối pool nhận nhầm **4,2%**, kiểm định dấu **11,2%**, so với mức 2,5%.
+  - Ví dụ đơn giản ngày 16/11 (mọi task có xác suất lợi/hại 0,30/0,10 hoặc 0,10/0,30 tùy trạng thái): **35,7%**.
+  - Bảo đảm chỉ đúng khi điều kiện hóa trên C.
 - **Trên các quyết định đã có, nó là phân tích sau dữ liệu.** Phép kiểm được nghĩ ra sau khi đã thấy kết quả, dù λ là hằng số đã đăng ký. Lần dùng xác nhận đầu tiên phải là một thí nghiệm mới, đăng ký trước.
 
 ## 6. Giả định A đứng đến đâu

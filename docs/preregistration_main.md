@@ -2535,3 +2535,34 @@ Ba commit, theo thứ tự: `Initial commit` (toàn bộ mã của dự án tron
 - Ngưỡng 480 là phân tích độ nhạy cho cả 12 quyết định.
 - Quyết định có hai nhánh ở hai lượt chạy khác nhau được báo cáo riêng: đại lượng T1 khi đó trộn tác dụng của skill với khác biệt giữa hai lượt.
 - Chẩn đoán độc lập không xác nhận giả định A; một τ có p nhỏ được ghi là dấu hiệu vi phạm và nêu cạnh quyết định.
+
+### Kết quả §42 (17/11/2026; `scripts/s42_end_of_pool.py` → `results/s42_end_of_pool.json`)
+
+| # | Quyết định | n | E (λ = 0,5) | Vượt 40 | Vượt 480 | Vượt ngưỡng tuần tự ở task | Task có mọi nhánh cùng một job | Sập vì giới hạn tốc độ | Kendall τ theo thứ tự (p) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | jinja as shipped | 100 | 8.747e+05 | có | có | 29 | 0/100 | 0 | 0.090 (0.279) |
+| 2 | jinja single commit | 100 | 4988 | có | có | 50 | 0/100 | 0 | 0.069 (0.410) |
+| 3 | bleve as shipped | 100 | 6.067e+04 | có | có | 34 | 0/100 | 0 | 0.008 (0.927) |
+| 4 | bleve single commit | 100 | 554.2 | có | có | 61 | 0/100 | 2 | 0.014 (0.865) |
+| 5 | jinja content vs placebo | 100 | 2.275e+04 | có | có | 50 | 0/100 | 0 | -0.005 (0.955) |
+| 6 | jinja no history instruction | 100 | 6313 | có | có | 24 | 100/100 | 0 | 0.138 (0.093) |
+| 7 | jinja relearned single commit | 100 | 415.7 | có | không | 65 | 82/100 | 0 | 0.095 (0.248) |
+| 8 | pygments reuse | 100 | 1.125 | không | không | — | 79/100 | 0 | -0.081 (0.354) |
+| 9 | seed51 as shipped | 100 | 3.071e+05 | có | có | 53 | 100/100 | 0 | -0.116 (0.156) |
+| 10 | seed51 single commit | 100 | 350.7 | có | không | 74 | 100/100 | 0 | 0.031 (0.703) |
+| 11 | P33c environment contrast | 100 | 16.77 | không | không | — | 100/100 | 0 | -0.153 (0.052) |
+| 12 | P35 environment contrast unseen | 70 | 3081 | có | có | 36 | 70/70 | 0 | -0.026 (0.801) |
+
+- **Ở ngưỡng 40, phép kiểm cuối pool ra đúng các quyết định đã đăng ký:** nhận ở 1–7, 9, 10 và P35; không nhận Pygments và P33c.
+- **Ở ngưỡng 480 (đọc cả 12 quyết định):** giữ 8 trong 10 quyết định nhận. Không giữ: học lại một commit (416) và seed 51 một commit (351). E-process tuần tự (§36a) giữ 7 trong 10; khác biệt là Bleve một commit (554 ở đây).
+- **Cấu trúc lượt chạy (B0):**
+  - **Mọi nhánh cùng một job ở mọi task:** 6, 9, 10, 11, 12.
+  - **Phần lớn task cùng job:** 7 (82/100; 18 task chạy lại trong job thứ hai cùng ngày) và 8 (79/100; 21 task chạy lại cùng ngày).
+  - **Hai lượt khác nhau, cùng ngày:** 1, 2.
+  - **Khác ngày:** 3, 4, 5.
+  - Hệ quả: kết quả chính của Bảng I (quyết định 1, Jinja 15 → 53) so hai lượt chạy khác nhau. Phép so cùng job tương ứng là quyết định 9 (seed 51, 21 → 55; E = 307.100).
+- **Chẩn đoán độc lập (B6):** không quyết định nào có p của τ dưới 0,05 (nhỏ nhất: P33c, 0,052). 2 lượt sập vì giới hạn tốc độ, cả hai ở quyết định 4. Chẩn đoán không xác nhận giả định A.
+- **Mô phỏng (B7, `results/method_check.json`, mục `end_of_pool`; 12.000 lần mỗi pool, sai số Monte Carlo 0.0014):**
+  - Tỉ lệ nhận nhầm trên ba pool có trung bình bằng 0 (đồng nhất; nửa lợi nửa hại; 10 task khó nhất luôn được giải, còn lại bị hại): phép kiểm cuối pool cao nhất 0.0013, kiểm định dấu cao nhất 0.0120; mức 0,025.
+  - Trạng thái chung cho cả lượt chạy (ngoài phạm vi bảo đảm; hai trạng thái đồng xác suất, trung bình qua hai trạng thái bằng 0): 0.042 và 0.112.
+  - **Power (mức tăng tỉ lệ giải: phép kiểm cuối pool so với kiểm định dấu):** 0.02: 0.01 so với 0.04 ; 0.05: 0.04 so với 0.15 ; 0.109: 0.35 so với 0.58 ; 0.15: 0.66 so với 0.84 ; 0.2: 0.91 so với 0.97 ; 0.3: 1.00 so với 1.00. Phép kiểm cuối pool **kém power hơn** kiểm định dấu ở mức tăng nhỏ; ở các mức tăng của Bảng I (0,17–0,38) cả hai trên 0,9.

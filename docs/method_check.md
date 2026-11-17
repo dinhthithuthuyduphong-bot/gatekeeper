@@ -116,3 +116,11 @@ Khoảng này chỉ phản ánh sai số của q. Nó không phản ánh sai l�
 | 0,15 | 0,130 | 1,00 |
 
 Power cao hơn bảng dựa trên q của G1, vì ít task luôn giải được hơn, nên hiệu ứng ít bị chặn ở mức 1. **Đây là power dùng để báo cáo cho E2.**
+
+
+## Phép kiểm cuối pool (17/11/2026; `docs/method_end_of_pool.md`; mục `end_of_pool` của `results/method_check.json`)
+
+- **Thiết kế mô phỏng:** 100 task Jinja; tỉ lệ giải nền của từng task là trung bình hai nhánh không skill đang có trên `main` (`s29_none`, `s33_ship_none`); λ = 0,5, θ = 0, α = 0,025; 12.000 lần cho tỉ lệ nhận nhầm, 2.500 lần cho power.
+- **Tỉ lệ nhận nhầm, ba pool có trung bình đúng bằng 0:** tối đa 0,0013 (phép kiểm cuối pool) và 0,012 (kiểm định dấu).
+- **Ngoài phạm vi bảo đảm:** trạng thái chung cho cả lượt chạy, hai trạng thái đồng xác suất, trung bình qua hai trạng thái bằng 0: 0,042 và 0,112.
+- **Power:** phép kiểm cuối pool kém kiểm định dấu ở mức tăng nhỏ (mức tăng 0,109: 0,35 so với 0,58); ở mức tăng 0,2: 0,91 so với 0,97.

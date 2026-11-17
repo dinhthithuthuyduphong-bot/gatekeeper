@@ -139,12 +139,12 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 
 | # | Việc | Xong khi | Duyệt |
 | --- | --- | --- | --- |
-| [ ] B0 | Phân loại 12 quyết định theo cấu trúc lượt chạy: hai nhánh chạy cùng lúc, khác ngày, hay chạy lại. | Bảng 12 dòng | tự làm |
-| [ ] B1 | Viết chứng minh đầy đủ của mục 3.1 thành một ghi chú phương pháp trong `docs/`. Thêm hàm vào `src/gatekeeper/eprocess.py` (không có giá trị mặc định cho θ, λ, α) kèm test. | Preflight đạt | tự làm |
-| [ ] B2 | Định nghĩa ba đại lượng mục tiêu: trên pool trong một lượt chạy; qua nhiều lượt chạy; khi triển khai. | Nằm trong ghi chú của B1 | tự làm |
-| [ ] B7 | Đưa mô phỏng của mục 3.4 vào `scripts/verify_methods.py`: tỉ lệ nhận nhầm và power, trên đúng quy tắc cuối cùng. | `results/method_check.json` cập nhật | tự làm |
-| [ ] B5 | Tính đủ 12 quyết định **từ dữ liệu ghép cặp gốc**. Mỗi dòng: mã phép so, giả thuyết không, pool, trạng thái từng task (timeout, lỗi hạ tầng), cấu trúc lượt chạy, λ, E, ngưỡng, có nằm trong phạm vi chứng nhận có điều kiện không. Thiếu dữ liệu gốc thì ghi rõ thiếu gì. | Một file JSON và một bảng | tự làm |
-| [ ] B6 | Chẩn đoán giả định độc lập: số lượt sập vì giới hạn tốc độ ở từng phép so; tương quan của Z theo thứ tự chạy. Ghi rõ đây là chẩn đoán, không phải xác nhận. | Có số cho từng phép so | tự làm |
+| [x] B0 | Xong 17/11 (§42): theo từng task. Cùng job: 6, 9, 10, 11, 12; phần lớn cùng job: 7, 8; hai lượt cùng ngày: 1, 2; khác ngày: 3, 4, 5. Phân loại 12 quyết định theo cấu trúc lượt chạy: hai nhánh chạy cùng lúc, khác ngày, hay chạy lại. | Bảng 12 dòng | tự làm |
+| [x] B1 | Xong 17/11: `docs/method_end_of_pool.md`; `end_of_pool_log_e` trong `src/gatekeeper/eprocess.py`, có test tính kỳ vọng chính xác. Viết chứng minh đầy đủ của mục 3.1 thành một ghi chú phương pháp trong `docs/`. Thêm hàm vào `src/gatekeeper/eprocess.py` (không có giá trị mặc định cho θ, λ, α) kèm test. | Preflight đạt | tự làm |
+| [x] B2 | Xong 17/11: T1, T2, T3 ở `docs/method_end_of_pool.md` mục 2. Định nghĩa ba đại lượng mục tiêu: trên pool trong một lượt chạy; qua nhiều lượt chạy; khi triển khai. | Nằm trong ghi chú của B1 | tự làm |
+| [x] B7 | Xong 17/11: `verify_methods.py` mục `end_of_pool`. Nhận nhầm ≤ 0,0013 trên ba pool có trung bình 0; trạng thái chung 0,042; power kém kiểm định dấu ở mức tăng nhỏ. Đưa mô phỏng của mục 3.4 vào `scripts/verify_methods.py`: tỉ lệ nhận nhầm và power, trên đúng quy tắc cuối cùng. | `results/method_check.json` cập nhật | tự làm |
+| [x] B5 | Xong 17/11 (§42): ngưỡng 40 ra đúng mọi quyết định đã đăng ký; ngưỡng 480 giữ 8/10. Tính đủ 12 quyết định **từ dữ liệu ghép cặp gốc**. Mỗi dòng: mã phép so, giả thuyết không, pool, trạng thái từng task (timeout, lỗi hạ tầng), cấu trúc lượt chạy, λ, E, ngưỡng, có nằm trong phạm vi chứng nhận có điều kiện không. Thiếu dữ liệu gốc thì ghi rõ thiếu gì. | Một file JSON và một bảng | tự làm |
+| [x] B6 | Xong 17/11 (§42): không τ nào có p < 0,05; 2 lượt sập vì giới hạn tốc độ (Bleve một commit). Chẩn đoán giả định độc lập: số lượt sập vì giới hạn tốc độ ở từng phép so; tương quan của Z theo thứ tự chạy. Ghi rõ đây là chẩn đoán, không phải xác nhận. | Có số cho từng phép so | tự làm |
 | [ ] B3 | Trong bài: thu hẹp Định lý 2 về phần đã chứng minh. Sửa Mệnh đề 3 bằng điều kiện "thủ tục nhận skill với xác suất dương". | Sau B5 | **chờ** (phạm vi tuyên bố) |
 | [ ] B4 | Trong bài: §35 ghi là "34 task đã dùng với seed mới + 36 task mới"; báo cáo riêng từng nhóm. | Sau B5 | tự làm |
 
