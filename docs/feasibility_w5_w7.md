@@ -44,8 +44,22 @@ Tài liệu này chỉ kiểm tính khả thi. Không có lệnh gọi model nà
 - **Kênh rò rỉ trên benchmark repo thật** (đọc từ bản chụp nguồn):
   - SWE-bench, issue 465 (`swebench_git_log_leak`): "We've identified multiple loopholes with SWE Bench Verified where agents may look at future repository state". PR 471 (`swebench_git_log_fix`): "Fix git log leakage in environment images". Image SWE-bench ta dùng không còn commit tương lai (B1 ở `docs/audit_pilot.md`: `git rev-list --all --not HEAD` = 0).
   - Đây là một **loại rò rỉ khác**: lời giải tương lai, không phải mã trước lỗi. Nên không lặp lại được C10 trên SWE-bench.
-  - SWE-Bench Pro Verified (`swebench_pro_verified`): bản chụp hiện có chỉ là trang tóm tắt bị cắt. Toàn văn đang được tải bằng workflow `sources` (mục `swebench_pro_verified_pdf`). **Chưa viết câu nào về kênh này trước khi đọc toàn văn (R1).**
-  - Đáng chú ý: XRepoSkill đánh giá trên chính các image SWE-Bench Pro (`docker.io/jefzda/sweap-images`, README của họ).
+  - **SWE-Bench Pro Verified** (Zheng et al., arXiv 2609.08149; toàn văn trong bản chụp `swebench_pro_verified_pdf`, run 44207267485). Câu trích nguyên văn:
+    - Bảng 1, "Primary reward-hacking channels in SWE-Bench Pro": "Git history Local Future commits, branches, tags, remotes, and reflogs".
+    - "An existing community proposal isolates tasks by deleting future Git history after checking out the base commit [5]. However, its cleanup procedure deletes only branch, remote, and tag references, without handling notes, replace references, or stashes, which may preserve objects created after the base commit. Consequently, future fixes may remain recoverable from .git/objects after all visible references have been deleted."
+    - Cách vá của họ: "we recursively remove nested Git histories and reconstruct each repository as a fresh single-commit repository". Đây đúng là đối chứng một commit của ta.
+    - Một trace họ trích: "There's a 'git log --all' that shows future commits ... This is the gold patch source!"
+  - **Hệ quả cho W5:**
+    - Trên một benchmark issue thật (SWE-Bench Pro, 731 task), kênh lịch sử git có tồn tại. Nhưng nó là kênh **lời giải tương lai**, khác với kênh **mã trước lỗi** của SWE-smith.
+    - Vì vậy C10 không lặp lại nguyên vẹn được ở đó.
+    - Câu hỏi làm được: một skill dạy đọc lịch sử có tạo mức tăng trên task thật khi lịch sử còn lộ, và mất mức tăng đó trong bản một commit của Pro Verified không?
+    - Thiết kế đó trả lời W5 theo nghĩa "hiện tượng skill khai thác lịch sử cũng xảy ra trên repo thật". Nó không trả lời "đúng cơ chế của SWE-smith".
+  - **Khả thi kỹ thuật (chưa đo):**
+    - Cần image Pro gốc (`docker.io/jefzda/sweap-images`, theo README của XRepoSkill), bộ chấm Pro, và image đã làm sạch của Pro Verified.
+    - Image lớn, kéo từ Docker Hub (đã từng chạm giới hạn 429, C6 ở `docs/audit_pilot.md`).
+    - Tỉ lệ giải nền của agent Flash-Lite trên Pro chưa biết; nếu thấp thì power thấp.
+    - Bài chưa cho con số mức điểm thay đổi giữa bản gốc và bản đã làm sạch trong các đoạn đã chụp. Tôi không ghi con số nào khi chưa đọc thấy.
+  - **Kết luận khả thi:** làm được, nhưng tốn công kỹ thuật lớn hơn nhiều so với W7, và câu trả lời gián tiếp hơn. Trước khi xin ngân sách, cần một bước đo miễn phí: kéo 1 image, chạy bộ chấm với bản vá gốc và bản vá rỗng, và đếm commit tương lai trong image gốc.
 
 ## Việc tiếp theo
 
