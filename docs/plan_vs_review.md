@@ -209,3 +209,25 @@ Tôi đã đối chiếu từng khẳng định với `docs/reviews/meta_review_
    - Ngoài ra, lượt học chạy hai nửa (300 + 300 lần gọi metric). Nửa hai phải chạy tiếp từ thư mục của nửa một **mới**, không được từ lượt cũ (L6).
 
 **Không đổi:** chi phí dự kiến 28,10 USD (28,85 nếu tính chạy bù); trần theo L66 sẽ cao hơn và được tính khi đăng ký. X1′ vẫn chờ @thuthuy (Q9, hạn 21/11).
+
+## 10. Kiểm điểm bổ sung 1 của mục 9 (18/11/2026; 0 USD)
+
+**Mã gốc xác nhận:** trong `train_optimize_anything.py` ở commit ghim, `load_and_split_data` gọi `ds = load_dataset("SWE-bench/SWE-smith", split="train")` **không ghim phiên bản**, giữ các dòng đầu tiên có `repo` khớp cho tới khi đủ 350, rồi `random.seed(seed)` và `random.shuffle(all_data)`. Vậy phép chia phụ thuộc cả seed lẫn nội dung và thứ tự hiện tại của dataset. Điểm bổ sung 1 đúng.
+
+**Ba lượt học đã có dùng đúng phép chia của bản xuất trên `data-snapshots`** (`scripts/split_identity.py`, test `tests/test_split_identity.py`; kết quả `results/split_identity_jinja.json`, `results/split_identity_bleve.json`):
+
+| Lượt học | Mã task trong log | Thuộc train | Thuộc val | Thuộc test hoặc không có trong bản xuất |
+| --- | --- | --- | --- | --- |
+| Jinja gốc (§25 bước 2) | 86 | 36 | 50 | 0 |
+| Jinja một commit (§30) | 113 | 63 | 50 | 0 |
+| Bleve gốc (§25 bước 4) | 11 | 8 | 3 | 0 |
+
+- Ở cả hai lượt Jinja, đủ 50/50 task val xuất hiện, và không task nào của tập test lọt vào lúc học.
+- **Giới hạn:** phép kiểm chỉ thấy các mã task có trong log. Nó xác nhận không có task test hay task lạ nào được dùng, nhưng không chứng minh tập train trùng hoàn toàn (Jinja: 36 và 63 trên 200 task train xuất hiện).
+
+**Cổng cho X1′ (thay "bước bắt buộc" của mục 9 bằng hai lớp cụ thể):**
+1. **Trước lượt có phí:** chạy lại bản xuất (`scripts/export_swesmith.py`, cùng `--seed 42`, trên Actions vì máy của phiên không vào được Hugging Face) vào một đường dẫn mới, rồi so **toàn bộ** danh sách mã task và nhãn train/val/test với bản xuất cũ. Lệch dù một mã thì dừng và báo @thuthuy. 0 USD.
+2. **Trong lượt có phí:** sau nửa một, chạy `scripts/split_identity.py` trên log của lượt mới. Không đạt thì không chạy nửa hai.
+
+**Điểm bổ sung 2 và 3 của mục 9:** chấp nhận nguyên văn. Câu giới hạn sẽ là "biến thiên giữa hai lượt học, với cùng phép chia dữ liệu và cùng hạt giống của GEPA". Chênh lệch theo thời gian của endpoint preview được ghi là không tách được. Nửa hai chạy tiếp từ thư mục của nửa một mới (L6).
+
