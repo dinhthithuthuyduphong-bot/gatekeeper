@@ -37,6 +37,7 @@ CHARS_PER_TOKEN = 3.09  # measured on this model's Kaggle replies in section 38 
 DAY_CAP_USD = None  # set from the measured cost of the dry run + first chunk (@thuthuy)
 ITEM_CAP_USD = None
 CHUNK_PAIRS = 3  # pairs per discover call; a session never starts a chunk it cannot pay for
+MAX_CHUNKS = None  # chunks this session at most (1 = the measuring chunk); None = no limit
 WORKERS = 3
 # ------------------------------------------------------------------------------------------------
 WORK, INPUT = "/kaggle/working", "/kaggle/input"
@@ -70,6 +71,18 @@ def safe_extract(tar_bytes: bytes, dest: str) -> int:
 
 def worst_call_usd(chars: int) -> float:
     return chars / CHARS_PER_TOKEN * PIN + MAX_OUT * POUT
+
+
+# Billed attempts per logical call in XRepoSkill at the pinned commit (read from its code, A143):
+# discover re-prompts once on a guard reject (configs/pipeline.yaml retry_on_guard_reject: 1),
+# judge retries an unparseable verdict once (judge.py, "for _attempt in (1, 2)"), and merge
+# splits a truncated batch (merge.py), bounded here by two calls per candidate.
+def worst_discover_usd(pair_chars: list[int], analysts: int, guard_attempts: int) -> float:
+    return sum(analysts * guard_attempts * worst_call_usd(c) for c in pair_chars)
+
+
+def worst_merge_judge_usd(n_candidates: int, merge_chars: int, judge_chars: int) -> float:
+    return n_candidates * (2 * worst_call_usd(merge_chars) + 2 * worst_call_usd(judge_chars))
 
 
 def main() -> dict:
@@ -137,11 +150,22 @@ def main() -> dict:
             raise SystemExit("data file does not match the registered sha256; nothing sent")
         out["files_extracted"] = safe_extract(gzip.decompress(raw), data)
     cfg = f"{src}/configs/pipeline.yaml"
+    import yaml
+
+    pcfg = yaml.safe_load(open(cfg))
+    guard_attempts = int(pcfg["discover"]["retry_on_guard_reject"]) + 1
+    rule_chars = int(pcfg["discover"]["rule_max_chars"])
+    batch = int(pcfg["merge"]["batch_size"])
+    psize = {f: os.path.getsize(f) for f in glob.glob(f"{src}/src/xreposkill/prompts/*.txt")}
+    plen = {os.path.basename(f): n for f, n in psize.items()}
+    merge_chars = batch * (rule_chars + 16) + plen["merge_rules.txt"]
+    judge_chars = rule_chars + 64 + plen["judge.txt"]
+    analysts = sum(1 for f in plen if f.startswith("analyst_"))
     empty_ids = f"{WORK}/no_eval_ids.txt"
     open(empty_ids, "w").close()
 
     # cost: the proxy reports each call's cost; the guard uses list prices and MAX_OUT
-    spent = {"session": 0.0, "calls": 0, "tokens_in": 0, "tokens_out": 0}
+    spent = {"session": 0.0, "calls": 0, "tokens_in": 0, "tokens_out": 0, "failed_calls": 0}
     if DRY_RUN:
 
         def stub(*, model, system, user, **kw):  # every Stage 1/2 prompt: "no rule"
@@ -174,7 +198,14 @@ def main() -> dict:
                 )
             spent["session"] += usd
 
+        def failed(kwargs, response, start, end):
+            # a failed attempt may still be billed: charge its worst case (A143)
+            chars = sum(len(str(m.get("content", ""))) for m in kwargs.get("messages") or [])
+            spent["failed_calls"] += 1
+            spent["session"] += worst_call_usd(chars)
+
         litellm.success_callback = [track]
+        litellm.failure_callback = [failed]
 
     def stage(name: str, *args: str) -> None:
         if name in state["stages_done"]:
@@ -225,17 +256,22 @@ def main() -> dict:
         sub = f.split("/trajs/")[1].split("/")[0]
         tsize[f"{sub}::{json.load(open(f))['instance_id']}"] = os.path.getsize(f)
     status = "all stages done"
+    session_chunks: list[int] = []
     for k, ch in enumerate(chunks):
         if k in state["chunks_done"]:
             continue
-        worst = sum(
-            3
-            * worst_call_usd(
+        if MAX_CHUNKS is not None and len(session_chunks) >= MAX_CHUNKS:
+            status = f"MAX_CHUNKS = {MAX_CHUNKS} reached; set MAX_CHUNKS = None to continue"
+            break
+        worst = worst_discover_usd(
+            [
                 tsize.get(json.loads(p)["fail_traj_id"], 10**6)
                 + tsize.get(json.loads(p)["pass_traj_id"], 10**6)
                 + 12000
-            )
-            for p in ch
+                for p in ch
+            ],
+            analysts,
+            guard_attempts,
         )
         if not DRY_RUN and (
             spent["session"] + worst > DAY_CAP_USD
@@ -276,6 +312,7 @@ def main() -> dict:
             status = f"discover returned {rc} on chunk {k}"
             break
         state["chunks_done"].append(k)
+        session_chunks.append(k)
         save()
     else:
         for name, args in (
@@ -344,14 +381,28 @@ def main() -> dict:
                 ],
             ),
         ):
+            cdir = f"{run}/candidates"
+            n_cand = sum(
+                1
+                for f in glob.glob(f"{cdir}/*.jsonl")
+                if not f.endswith("failed.jsonl")
+                for line in open(f)
+                if line.strip()
+            )
+            worst = worst_merge_judge_usd(n_cand, merge_chars, judge_chars)
+            if name in ("merge", "judge"):
+                out[f"worst_{name}_usd"] = round(worst, 4)
             if (
                 name in ("merge", "judge")
+                and name not in state["stages_done"]
                 and not DRY_RUN
-                and (out["spent_before"] + spent["session"] > ITEM_CAP_USD)
+                and (
+                    spent["session"] + worst > DAY_CAP_USD
+                    or out["spent_before"] + spent["session"] + worst > ITEM_CAP_USD
+                )
             ):
-                status = f"cap reached before {name}"
+                status = f"cap reached before {name} (worst case {worst:.2f} USD)"
                 break
-            cdir = f"{run}/candidates"
             has_candidates = os.path.isdir(cdir) and any(
                 f.endswith(".jsonl") and f != "failed.jsonl" and os.path.getsize(f"{cdir}/{f}") > 0
                 for f in os.listdir(cdir)
@@ -370,6 +421,8 @@ def main() -> dict:
         spent_session_usd=round(spent["session"], 4),
         spent_total_usd=round(state["spent_usd"], 4),
         calls=spent["calls"],
+        failed_calls=spent["failed_calls"],
+        guard_attempts=guard_attempts,
         tokens_in=spent["tokens_in"],
         tokens_out=spent["tokens_out"],
         finished=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
