@@ -42,7 +42,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 **Bậc 1, thực nghiệm (làm trước):**
 1. C4′: phân tích theo `kaggle/preregistration_s40.md` (40-5, 40-8) khi có dữ liệu.
-2. **X2′ và X1′, đã duyệt 18/11, trần cộng dồn 38,96 USD:** chạy theo thứ tự ở `docs/plan_vs_review.md` mục 11. Bước 0 (0 USD): tái xuất phép chia, chờ @thuthuy báo trần chi tiêu của project Vertex, đăng ký §46–§47, chạy thử miễn phí. Rồi X2′ (0,86), học gốc hai nửa, học một commit hai nửa, chấm bốn nhánh cùng lúc.
+2. **X2′ và X1′, đã duyệt 18/11, trần cộng dồn 38,96 USD:** chạy theo thứ tự ở `docs/plan_vs_review.md` mục 11. Bước 0 (0 USD): tái xuất phép chia **đạt 18/11** (Jinja 350/350, Bleve 350/350; run 44280027659); chờ @thuthuy báo trần chi tiêu của project Vertex; đăng ký §46–§47, chạy thử miễn phí. Rồi X2′ (0,86), học gốc hai nửa, học một commit hai nửa, chấm bốn nhánh cùng lúc.
 
 **Bậc 2:**
 4. **X3′, kiểm định bộ theo dõi trace** bằng nhãn độc lập (ghi chú trang 8 của PDF); tìm nguồn cho cỡ mẫu và chỉ số đồng thuận, rồi đăng ký.
