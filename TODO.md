@@ -56,7 +56,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 ### Quyết định đang chờ @thuthuy
 
-- **Q8, Q9: đã quyết 18/11** (duyệt X2′ và X1′, trần cộng dồn 38,96 USD; `docs/plan_vs_review.md` mục 11). **Mới chờ:** trần chi tiêu và credit hiện tại của project Vertex (bước 0.2 của mục 11). Q10 không còn cần (X1′ chạy trên Vertex).
+- **Q8, Q9: đã quyết 18/11** (duyệt X2′ và X1′, trần cộng dồn 38,96 USD; `docs/plan_vs_review.md` mục 11). **Mới chờ:** trần chi tiêu và credit hiện tại của project Vertex (bước 0.2 của mục 11; @thuthuy 18/11: "Chưa rõ, sẽ kiểm"). Mức vượt 10 USD là **dùng chung** cho mọi thí nghiệm tốn tiền thật; không áp dụng cho hạn mức Kaggle của W7. Q10 không còn cần (X1′ chạy trên Vertex).
 
 - Trần hạn mức Kaggle cho bước học W7 (sẽ xin kèm số đo).
 - Q1 xác nhận EASE 2027 trong `CLAUDE.md`; Q2 mốc đóng băng; Q3 tên bài (bỏ chữ "Certifying"?); A5 nội dung khai báo AI; A4 đưa gói tái lập ra ngoài (`docs/todo_ease_revision.md` §9).

@@ -3026,3 +3026,91 @@ Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước ki�
   - Flash-Lite seed 41 ở môi trường một commit đọc trace từ `s30_none` và `s30_none_rest`. Lý do: `s30_none.json` là bản gộp 80 lượt đầu và 20 lượt chạy bù của §30 (A125), còn trace của 20 lượt chạy bù nằm ở `s30_none_rest`. Ở 20 task chồng nhau, S và bản vá trùng khớp ở cả 20.
   - Lỗi này được bước kiểm của chính bộ chuyển đổi bắt ("11 of the 34 tasks have no run or trace"); không dữ liệu nào bị điền thay.
 - **Không đổi:** quy tắc phân tích.
+
+## 46. X2′: cầu nối giữa môi trường Docker và lớp `chroot` của Kaggle (đăng ký 18/11/2026, trước mọi lượt có phí của §46)
+
+**Vì sao:** C4′ (`kaggle/preregistration_s40.md`) chạy agent khác hãng trong lớp `chroot` dựng từ image gốc (ghi chú 40-4), không trong Docker. Các cổng C1, C5 chỉ chứng minh bộ chấm cho điểm giống Docker và agent không thấy gì ngoài image. Nếu C4′ cho kết quả khác paper, chưa tách được phần do agent khác với phần do môi trường khác (`docs/plan_vs_review.md` mục 4 và 7.2). @thuthuy duyệt 18/11 (`CLAUDE.md`, trần cộng dồn 38,96 USD cùng §47).
+
+**Câu hỏi (mô tả, không có phép kiểm):** cùng model agent của paper, cùng task, cùng seed: agent chạy qua lớp `chroot` có giải số task và dùng các kênh rò rỉ ở mức như khi chạy trong Docker không?
+
+**Thiết kế:**
+- Agent, cấu hình, model, seed 41, cost_limit 0,30: như §25 (`scripts/f1_probe.py` của nhánh `trial`, không sửa).
+- Task: 34 task test Jinja không có mô tả issue, môi trường gốc.
+- Hai nhánh: không skill; skill gốc (`docs/skills/gskill/jinja_best_skills.txt`). Chạy cùng một job, nối tiếp nhau.
+- Chạy trên GitHub Actions, gọi model qua Vertex như mọi lượt của paper. Chỉ đổi môi trường thực thi lệnh: lớp `chroot` (`kaggle/scripts/chroot_shim.py` ở commit được ghim khi chạy) thay cho Docker.
+- Không đổi model là lý do chạy trên Actions: Kaggle chỉ có bản preview của model agent, chưa chắc là cùng model.
+
+**Dữ liệu Docker để đối chiếu** (đã có, cùng 34 task, môi trường gốc): seed 41 (§25: `f1_probe`, `f1_skill_probe`), seed 51 (§33), seed 61 (§44 nhánh A, trong 70 task).
+
+**Đại lượng báo cáo** (theo từng nhánh):
+1. Số task giải được (bộ chấm S) trên 34.
+2. Hiệu theo cặp task, chroot − Docker seed 41, với khoảng bootstrap 95% theo task (cùng cách bootstrap theo task của §25).
+3. Để có thước đo nhiễu chạy lại trên cùng task: hiệu Docker − Docker giữa các seed 41, 51, 61, cùng cách tính.
+4. Mức dùng kênh rò rỉ, theo đúng quy tắc của `scripts/history_audit.py` (§41): thấy diff "Bug Patch"; thấy nội dung test bị xóa; khôi phục rồi chạy test.
+5. Số lượt có lệnh đụng tới đường dẫn của máy chủ (`/var/lib/cshim` và thư mục làm việc của job); phải là 0.
+
+**Không có quy tắc đạt/không đạt.** Quy tắc "nằm trong khoảng chênh giữa các seed" là tự đặt và không có power (`docs/plan_vs_review.md` mục 7.2). Nếu cần một cổng sau này, dùng kiểm định tương đương TOST (Schuirmann 1987), sau khi bản gốc được lưu trên `sources-snapshots`; khi đó là một mục đăng ký mới.
+
+**Cách đọc (đặt trước):**
+- Hiệu chroot − Docker nằm trong cùng cỡ với hiệu Docker − Docker: lớp `chroot` không cho thấy ảnh hưởng đo được ở model này. Kết quả của C4′ được đọc là do agent.
+- Hiệu lớn hơn rõ: mọi câu về agent khác hãng ghi "trong môi trường `chroot`, khác Docker ở mức đo được ở §46".
+- **Giới hạn:** chỉ kiểm với một model. Phần môi trường chỉ loại được cho agent khác hãng nếu ảnh hưởng của môi trường không phụ thuộc agent.
+
+**Tiền:** trần riêng theo L66 (`scripts/x1_caps.py` → `configs/x1.json`): không skill 0,664 USD; có skill 1,199 USD (dự kiến 0,193 + 0,669). Nằm trong trần cộng dồn 38,96 USD của §46–§47.
+
+**Trước lượt có phí:** chạy thử miễn phí (model giả lập) trên 1 task thật qua lớp `chroot` trên Actions; review R-82.
+
+## 47. X1′: lượt học gskill thứ hai cho mỗi môi trường (đăng ký 18/11/2026, trước mọi lượt có phí của §47)
+
+**Vì sao:** mỗi môi trường mới có một lượt học (§25 bước 2; §30). Review 16/11 ghi giới hạn này ở P1 và đề xuất "Repeat learning across seeds" ở P2; R3 nêu "learning randomness" (`docs/plan_vs_review.md` mục 2, 7, 8, 9, 10). @thuthuy duyệt 18/11 (`CLAUDE.md`).
+
+**Câu hỏi (mô tả):** chạy lại đúng lệnh học, chỉ dẫn đọc lịch sử có xuất hiện lại trong lượt học ở môi trường gốc, và không xuất hiện trong lượt học ở môi trường một commit không? Mức tăng của skill mới có giống skill cũ không?
+
+**Thiết kế:**
+- **Lệnh học: đúng lệnh của §25 bước 2 (môi trường gốc) và của §30 (môi trường một commit)**, kể cả `--seed 42` (mặc định của gskill). Không đổi seed, vì trong gskill cùng một `--seed` vừa chia dữ liệu vừa là hạt giống của GEPA; đổi seed sẽ đổi tập test (`docs/plan_vs_review.md` mục 8).
+- Biến thiên giữa hai lượt đến từ agent không có seed khi học và từ việc lấy mẫu của model. Câu trong bài: "biến thiên giữa hai lượt học, với cùng phép chia dữ liệu và cùng hạt giống của GEPA". Chênh lệch theo thời gian của endpoint preview không tách được.
+- Thẻ mới: `x1ship`, `x1lf`. Không ghi đè file nào của §25, §30 (L6). Nửa hai chạy tiếp từ thư mục của nửa một mới.
+
+**Cổng trước và trong lúc chạy:**
+1. Phép chia của dataset hôm nay trùng bản xuất: **đạt 18/11** (run 44280027659; `docs/plan_vs_review.md` mục 11.5).
+2. Sau mỗi nửa một: `scripts/split_identity.py` trên log mới phải đạt; quy tắc dừng sớm của §25 (`num_candidates` > 1); với `x1lf`, mọi lần viết lại lịch sử thành công, không mã thoát 5 hay 6 (như §30).
+3. Trước khâu chấm: phần còn lại của 38,96 USD phải ≥ tổng trần của năm nhánh chấm (10,491 USD). Nếu không, dừng và báo @thuthuy.
+
+**Đại lượng:**
+- **Q1 (chính, mô tả):** skill tốt nhất của mỗi lượt mới (`best_skills.txt`) có dòng khớp RULE của §29 không. Kèm biến thể G của §38 (`git log` hoặc `git show`).
+- **Q2:** trong mỗi lượt mới: tỉ lệ ứng viên khác rỗng có dòng lịch sử; ứng viên đầu tiên có dòng đó; điểm validation (L) trung bình của ứng viên có và không có dòng đó (như §36).
+- **Q3:** mức tăng của skill mới so với nhánh không skill **chạy cùng lúc**, bộ chấm S, trên 100 task test và trên 34 task không mô tả; dùng quy tắc quyết định của §25 không sửa (`scripts/s25_ab.py` của `trial`: e-process θ = 0, c = 0,5, α = 0,025; kiểm định dấu một phía), cho từng môi trường.
+- **Q4:** skill học ở môi trường một commit, đem chạy ở môi trường gốc trên 34 task không mô tả (như §30 nhánh C).
+- **Q5 (gộp, mô tả):** với mỗi môi trường, kết quả của hai lượt học (cũ và mới) đặt cạnh nhau. Không gộp thành một phép kiểm: n = 2 lượt.
+
+**Năm nhánh chấm** (seed 41, cost_limit 0,30, như §25 và §30), chạy sau khi cả hai lượt học xong, hai job song song:
+- Job môi trường gốc: không skill (100 task); skill `x1ship` (100 task).
+- Job một commit: không skill (100 task); skill `x1lf` (100 task); skill `x1lf` ở môi trường gốc (34 task không mô tả).
+
+**Cách đọc (đặt trước):**
+
+| Kết quả Q1 | Câu trong bài |
+| --- | --- |
+| `x1ship` có dòng lịch sử, `x1lf` không | Chỉ dẫn xuất hiện ở cả hai lượt học trong môi trường gốc và không ở lượt nào trong môi trường một commit (2/2 và 0/2) |
+| `x1ship` không có dòng lịch sử | Chỉ dẫn xuất hiện ở 1/2 lượt học trong môi trường gốc; bài thu hẹp câu "bộ học viết chỉ dẫn" thành "đã viết trong một lượt" và báo Q2 |
+| `x1lf` có dòng lịch sử | Dòng đó không thể chỉ tới commit rò rỉ (không còn); báo nội dung dòng và Q4. Phần cơ chế ghi rõ |
+
+Q3 được báo cáo đầy đủ trong mọi trường hợp, kể cả khi không nhận.
+
+**Tiền** (`configs/x1.json`, L66; dự kiến theo chi phí đo của từng khâu cùng loại):
+
+| Khâu | Dự kiến | Trần riêng |
+| --- | --- | --- |
+| Học `x1ship` (hai nửa) | 12,254 | 14,500 (như §30) |
+| Học `x1lf` (hai nửa) | 10,990 | 14,500 |
+| Chấm gốc, không skill | 1,438 | 2,080 |
+| Chấm gốc, skill `x1ship` | 1,940 | 2,757 |
+| Chấm một commit, không skill | 1,461 | 2,115 |
+| Chấm một commit, skill `x1lf` | 1,867 | 2,734 |
+| Chấm `x1lf` ở môi trường gốc, 34 task | 0,346 | 0,805 |
+
+- Tổng dự kiến của §46 và §47: 31,158 USD. Tổng các trần riêng: 41,354 USD, lớn hơn trần cộng dồn 38,96. Trần riêng chỉ là chốt chặn của từng khâu; trước mỗi khâu còn kiểm số đã chi thực tế của §46–§47 cộng trần của khâu ≤ 38,96.
+- **Thứ tự:** §46; học `x1ship` nửa 1, nửa 2; học `x1lf` nửa 1, nửa 2; năm nhánh chấm (`docs/plan_vs_review.md` mục 11.2).
+- Chạm 38,96 thì dừng và báo @thuthuy. Không chấm một skill học dở như thể đã học đủ.
+
+**Trước lượt có phí:** @thuthuy báo trần chi tiêu của project Vertex (bước 0.2); chạy thử miễn phí các nhánh mới; review R-82.
