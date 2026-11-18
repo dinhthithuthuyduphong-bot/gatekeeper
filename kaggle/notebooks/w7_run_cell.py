@@ -114,6 +114,13 @@ def main() -> dict:
         if os.path.exists(state_path)
         else {"spent_usd": 0.0, "chunks_done": [], "stages_done": []}
     )
+    # a dry run's state marks every chunk done without any model call: never resume it for real
+    if state.get("dry_run", bool(state["chunks_done"]) and not state["spent_usd"]) and not DRY_RUN:
+        raise SystemExit(
+            f"{run} holds a dry run's state; start from an empty /kaggle/working "
+            "and do not attach the dry run's zip"
+        )
+    state["dry_run"] = DRY_RUN
     out["spent_before"] = state["spent_usd"]
     if not DRY_RUN:
         import kaggle_benchmarks  # noqa: F401  (Benchmarks notebook check)

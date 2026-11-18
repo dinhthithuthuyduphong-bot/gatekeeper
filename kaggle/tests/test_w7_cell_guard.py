@@ -38,3 +38,8 @@ def test_merge_judge_bound_scales_with_candidates():
 def test_output_cap_dominates_one_call():
     ns = guard_ns()
     assert abs(ns["worst_call_usd"](0) - 24000 * 12e-6) < 1e-12
+
+
+def test_paid_run_refuses_a_dry_run_state():
+    src = CELL.read_text()
+    assert 'state.get("dry_run"' in src and "do not attach the dry run's zip" in src
