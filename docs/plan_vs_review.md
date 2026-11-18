@@ -292,3 +292,9 @@ Tôi đã đối chiếu từng khẳng định với `docs/reviews/meta_review_
 - Bốn nửa học, mỗi nửa tối đa 5 giờ, chạy tuần tự: khoảng 1–2 ngày tính cả lúc chờ duyệt cổng.
 - Cộng X2′ và chấm: xong trước 01/12 nếu bước 0 xong trước 21/11.
 
+### 11.5 Kết quả bước 0.1 (18/11/2026): đạt
+
+- Run 44280027659 (workflow `split-check.yml`, 0 USD): tải lại dataset `SWE-bench/SWE-smith` từ Hugging Face hôm nay, dựng lại phép chia của gskill với seed 42, so từng task với bản xuất trên `data-snapshots`.
+- **Jinja: 350/350 task trùng mã, nhãn train/val/test và vị trí. Bleve: 350/350 trùng.** Không task nào chỉ có ở một bên.
+- Vậy chạy lại đúng lệnh cũ với `--seed 42` sẽ cho đúng phép chia của các lượt học trước. Lớp kiểm thứ hai (`split_identity.py` trên log sau nửa một) vẫn chạy như kế hoạch, vì dataset có thể đổi giữa hôm nay và lúc chạy.
+
