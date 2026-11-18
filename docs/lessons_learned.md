@@ -588,3 +588,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Đọc toàn bộ cảnh báo trong log của lượt chạy thử, không chỉ trạng thái đạt/không đạt.
   - Thêm vào danh sách review `docs/research_rules.md` §4.
 
+## L71. Một nhóm concurrency của GitHub Actions giữ tối đa một lượt chờ (A144)
+- **Nguyên nhân gốc:** kích hoạt nhiều lượt của cùng một workflow có `concurrency` và nghĩ chúng sẽ xếp hàng. GitHub hủy lượt đang chờ khi có lượt mới vào chờ.
+- **Phòng ngừa:**
+  - Với workflow có nhóm concurrency, kích hoạt lượt sau chỉ khi lượt trước đã xong.
+  - Sau khi kích hoạt nhiều lượt, đọc trạng thái từng lượt (`conclusion`); "cancelled" không phải "đạt".
+  - Thêm vào danh sách review `docs/research_rules.md` §4.
+

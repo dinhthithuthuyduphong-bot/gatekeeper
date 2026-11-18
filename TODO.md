@@ -19,6 +19,29 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 **Đích:** EASE 2027 (tóm tắt 15/01/2027, bài 22/01/2027). Đóng băng thí nghiệm xác nhận: 01/12/2026 (đề xuất, Q2 chờ @thuthuy). Danh sách sửa bài: `docs/todo_ease_revision.md`.
 
+### Tổng hợp thí nghiệm còn lại và chi phí (18/11/2026)
+
+**Tiền thật (Vertex), đã duyệt, trần cộng dồn 38,96 USD; bắt đầu 20/11** (@thuthuy 18/11: "giữ lại ngày 20.11 mới làm"). Trần chi tiêu của project Vertex: 10 USD (@thuthuy 18/11); **chưa rõ theo ngày hay theo tháng**. Lịch dưới đây giả định 10 USD mỗi ngày:
+
+| Ngày | Việc | Dự kiến (USD) | Trần riêng (USD) |
+| --- | --- | --- | --- |
+| 20/11 | §46 X2′ (hai nhánh, 34 task) + §47 học gốc nửa 1 | 0,862 + 6,364 = 7,226 | 1,863; học 14,50 cả hai nửa |
+| 21/11 | §47 học gốc nửa 2 | 5,890 | (trong 14,50) |
+| 22/11 | §47 học một commit nửa 1 | 5,138 | 14,50 cả hai nửa |
+| 23/11 | §47 học một commit nửa 2 | 5,852 | (trong 14,50) |
+| 24/11 | §47 chấm năm nhánh cùng lúc | 7,052 | 10,491 (lớn hơn 10: rủi ro nhỏ chạm trần project) |
+| | **Tổng** | **31,158** | |
+
+**Hạn mức Kaggle (miễn phí):**
+
+| Việc | Dự kiến | Trần | Trạng thái |
+| --- | --- | --- | --- |
+| C4′ (3 agent × 4 nhánh × 136 task = 1.632 lượt) | khoảng 11 USD hạn mức (ước tính thô từ 6 lượt của C6: 0,0052 USD mỗi lượt Haiku; nano khoảng 2,1 lần, oss khoảng 0,85 lần theo giá token ở ghi chú 40-1) | 2,0 mỗi phiên, 12 mỗi agent | Chờ @thuthuy chạy `c4p_cell.py` |
+| W7 bước học (XRepoSkill) | cận trên thô 20–23 USD hạn mức | **Chưa duyệt**; xin sau khi đo 3 cặp | Chờ chạy thử 0 USD |
+| Hạn mức tháng 11 | đã dùng khoảng 25,7; cộng hai việc trên tối đa khoảng 60 trên 100 | | |
+
+**0 USD:** X3′ (kiểm toàn bộ 52 trace, cần một người gán nhãn); X4 (một người biết thống kê đọc chứng minh cuối pool); các việc viết bài (để sau).
+
 ### Kết quả đã có
 
 | Việc | Kết quả | Chiều với paper | File |
