@@ -553,3 +553,13 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Nguyên nhân gốc:** tôi đặt trần = dự kiến + 0,30 và gọi 0,30 là "một lượt xấu nhất", mà không đọc lại bước dừng của `f1_probe.py`. Bước đó dừng khi đã chi + cost_limit > trần, nên khoảng 0,30 không cho thêm task nào, chỉ là phần giữ lại. Số dự kiến lấy từ các nhánh A và D của §33, §35; B và C là môi trường mới, chi phí mỗi task cao hơn.
 - **Phòng ngừa:** trước khi xin duyệt trần, mô phỏng đúng bước dừng của script chạy trên phân phối chi phí mỗi task đã đo (lấy mẫu lại `cost_usd`), và báo xác suất mỗi nhánh chạy đủ số task. Với môi trường chưa từng chạy, dùng chi phí mỗi task lớn nhất trong các nhánh đã đo, không dùng trung bình. Ghi trong bản đăng ký điều sẽ xảy ra với tính hợp lệ của phép thử khi pool bị cắt. Thêm vào danh sách review `docs/research_rules.md` §4.
 
+## L67. Tỉ lệ chi phí giữa hai môi trường phải đo trên cùng agent; agent khai thác rò rỉ đổi hẳn số bước khi rò rỉ bị bịt (A139)
+- **Nguyên nhân gốc:**
+  - Tôi lấy tỉ lệ chi phí giữa hai môi trường của Flash-Lite để suy ra chi phí của Flash.
+  - Flash-Lite hầu như không dùng rò rỉ, nên chi phí của nó không đổi khi rò rỉ bị bịt. Flash dùng rò rỉ ở 33/34 lượt, nên số bước của nó đổi hẳn.
+  - Tôi bác bỏ nguy cơ này dựa trên 3 lượt Flash thất bại ở môi trường gốc. Đó là một mẫu quá nhỏ, và chọn theo kết quả.
+- **Phòng ngừa:**
+  - Khi một agent khai thác rò rỉ ở phần lớn lượt, không suy chi phí của nó ở môi trường đã bịt rò rỉ từ agent khác. Đo trước bằng 5 task (như bước 0 của §34), rồi mới đặt trần theo L66.
+  - Bản đăng ký phải ghi sẵn cách xử lý khi một lượt tạo dữ liệu bị cắt vì trần. §45 thiếu điều này.
+  - Thêm vào danh sách review `docs/research_rules.md` §4.
+
