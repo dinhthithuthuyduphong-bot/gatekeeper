@@ -42,8 +42,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 **Bậc 1, thực nghiệm (làm trước):**
 1. C4′: phân tích theo `kaggle/preregistration_s40.md` (40-5, 40-8) khi có dữ liệu.
-2. Nếu Q8 được duyệt: **X2′, đối chứng cầu nối Docker và `chroot`** (cùng Flash-Lite, 34 task, trên Actions); đo chi phí bằng lượt thử miễn phí rồi xin trần.
-3. Nếu Q9 được duyệt: **X1′, lượt học gskill thứ hai** cho môi trường gốc và môi trường một commit (mối lo chính của R3: "learning randomness"); đăng ký trước.
+2. **X2′ và X1′, đã duyệt 18/11, trần cộng dồn 38,96 USD:** chạy theo thứ tự ở `docs/plan_vs_review.md` mục 11. Bước 0 (0 USD): tái xuất phép chia, chờ @thuthuy báo trần chi tiêu của project Vertex, đăng ký §46–§47, chạy thử miễn phí. Rồi X2′ (0,86), học gốc hai nửa, học một commit hai nửa, chấm bốn nhánh cùng lúc.
 
 **Bậc 2:**
 4. **X3′, kiểm định bộ theo dõi trace** bằng nhãn độc lập (ghi chú trang 8 của PDF); tìm nguồn cho cỡ mẫu và chỉ số đồng thuận, rồi đăng ký.
@@ -57,7 +56,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 ### Quyết định đang chờ @thuthuy
 
-- **Mới 18/11 (hạn 21/11), chi tiết ở `docs/plan_vs_review.md` mục 6, đã phản biện ở mục 7** (X1′ khoảng 28,10 USD (mục 8 sửa con số 30,6 của mục 7: chấm ở môi trường gốc tốn 1,940, không phải 3,667), không phải 22, A141; X2′ không chặn C4′, khoảng 0,86 USD, cần quy tắc so sánh có nguồn; X3′ kiểm toàn bộ 52 trace; Q10 chỉ cần khi X1′ chạy trên Kaggle): Q8 thêm X2′ (đối chứng cầu nối); Q9 thêm X1′ (lượt học thứ hai) và chạy ở Vertex hay Kaggle; Q10 thứ tự hạn mức Kaggle khi không đủ.
+- **Q8, Q9: đã quyết 18/11** (duyệt X2′ và X1′, trần cộng dồn 38,96 USD; `docs/plan_vs_review.md` mục 11). **Mới chờ:** trần chi tiêu và credit hiện tại của project Vertex (bước 0.2 của mục 11). Q10 không còn cần (X1′ chạy trên Vertex).
 
 - Trần hạn mức Kaggle cho bước học W7 (sẽ xin kèm số đo).
 - Q1 xác nhận EASE 2027 trong `CLAUDE.md`; Q2 mốc đóng băng; Q3 tên bài (bỏ chữ "Certifying"?); A5 nội dung khai báo AI; A4 đưa gói tái lập ra ngoài (`docs/todo_ease_revision.md` §9).

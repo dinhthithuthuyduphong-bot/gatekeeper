@@ -231,3 +231,64 @@ Tôi đã đối chiếu từng khẳng định với `docs/reviews/meta_review_
 
 **Điểm bổ sung 2 và 3 của mục 9:** chấp nhận nguyên văn. Câu giới hạn sẽ là "biến thiên giữa hai lượt học, với cùng phép chia dữ liệu và cùng hạt giống của GEPA". Chênh lệch theo thời gian của endpoint preview được ghi là không tách được. Nửa hai chạy tiếp từ thư mục của nửa một mới (L6).
 
+## 11. Kế hoạch chạy X2′ và X1′, từng bước (18/11/2026)
+
+**@thuthuy 18/11:** "Tôi có thể chấp nhận vượt trần dự kiến là 10 usd, hãy tính toán cẩn thận thứ tự chạy từng bước".
+
+**Cách hiểu (ghi lại để @thuthuy sửa nếu sai):** duyệt cả Q8 (X2′) và Q9 (X1′). Trần cộng dồn của hai việc = dự kiến @thuthuy đã thấy + 10 = 0,86 + 28,10 + 10 = **38,96 USD**, tính theo số đã chi thực tế (L8), trên Vertex.
+
+### 11.1 Chi phí dự kiến của từng khâu (số đo, không phải ước đoán)
+
+| # | Khâu | Dữ liệu đo dùng làm dự kiến | Dự kiến (USD) |
+| --- | --- | --- | --- |
+| 1 | X2′ nhánh không skill, môi trường gốc, 34 task, qua `chroot` | C10R nhánh A không skill: 0,397 cho 70 task, × 34/70 | 0,193 |
+| 2 | X2′ nhánh có skill, như trên | C10R nhánh A có skill: 1,378 cho 70 task, × 34/70 | 0,669 |
+| 3 | Học, môi trường gốc, nửa 1 | §25 bước 2 nửa 1 | 6,364 |
+| 4 | Học, môi trường gốc, nửa 2 | §25 bước 2 nửa 2 | 5,890 |
+| 5 | Học, môi trường một commit, nửa 1 | §30 nửa 1 | 5,138 |
+| 6 | Học, môi trường một commit, nửa 2 | §30 nửa 2 | 5,852 |
+| 7 | Chấm: skill mới (gốc) trên 100 task test, môi trường gốc | `f1_skill_probe`: 1,940 | 1,940 |
+| 8 | Chấm: không skill, môi trường gốc, 100 task | `f1_probe`: 1,438 | 1,438 |
+| 9 | Chấm: skill mới (một commit) trên 100 task, môi trường một commit | `s25_leakfree_skill`: 1,867 | 1,867 |
+| 10 | Chấm: không skill, môi trường một commit, 100 task | `s25_leakfree_none`: 1,461 | 1,461 |
+| 11 | Chấm: skill mới (một commit) trên 34 task không mô tả, môi trường gốc | §30 nhánh C: 0,346 | 0,346 |
+| | **Tổng** | | **31,16** |
+
+- **Khác dự kiến 28,96 mà @thuthuy đã thấy ở chỗ nào:** thêm khâu 8 và 10 (nhánh không skill **chạy cùng lúc** với nhánh có skill, theo việc D4 của review: tách so sánh cùng ngày khỏi khác ngày), và khâu 11 (như §30 nhánh C). Cộng 2,20 USD, trong phần 10 USD @thuthuy cho phép.
+- **Biên còn lại:** 38,96 − 31,16 = 7,80 USD, đủ cho một lần chạy bù cỡ §30 (0,748).
+
+### 11.2 Thứ tự chạy và lý do
+
+| Bước | Việc | Tiền | Thời gian | Cổng để sang bước sau |
+| --- | --- | --- | --- | --- |
+| **0.1** | Tái xuất phép chia với seed 42 trên Actions, so toàn bộ mã task và nhãn với bản xuất cũ (mục 10) | 0 | vài phút | Trùng 100%. Lệch: dừng cả X1′, báo @thuthuy |
+| **0.2** | @thuthuy cho biết trần chi tiêu và credit của project Vertex | 0 | — | Còn chỗ ≥ 38,96 USD dưới trần chi tiêu của project (A124: lần trước chạm trần làm 38 lượt hỏng) |
+| **0.3** | Đăng ký §46 (X2′) và §47 (X1′): đại lượng, phép kiểm, trần từng khâu, diễn giải đặt trước; review R-82 | 0 | — | Commit trước mọi lượt có phí (R5) |
+| **0.4** | Chạy thử miễn phí (model giả lập) mọi nhánh mới, trên Actions: lớp `chroot` + `f1_probe.py`; học với thẻ mới (không ghi đè lượt cũ, L6); chấm | 0 | 1–2 giờ | Không lỗi hạ tầng; file kết quả ở đường dẫn mới |
+| **1** | X2′: khâu 1 rồi 2, cùng một job | 0,86 | khoảng 1 giờ | Không lỗi hạ tầng. Kết quả không chặn X1′ |
+| **2** | Học gốc, nửa 1 (khâu 3) | 6,36 | ≤ 5 giờ (`--timeout 18000`) | (a) `split_identity.py` đạt trên log mới; (b) quy tắc dừng sớm của §25: `num_candidates` > 1; (c) chi ≤ trần |
+| **3** | Học gốc, nửa 2 (khâu 4), tiếp từ thư mục của bước 2 | 5,89 | ≤ 5 giờ | Đủ 600 metric call |
+| **4** | Học một commit, nửa 1 (khâu 5) | 5,14 | ≤ 5 giờ | Như bước 2, cộng: mọi lần viết lại lịch sử thành công, không mã thoát 5 hay 6 (như §30) |
+| **5** | Học một commit, nửa 2 (khâu 6) | 5,85 | ≤ 5 giờ | Đủ 600 metric call |
+| **6** | Chấm: hai job chạy song song. Job gốc: khâu 8 rồi 7. Job một commit: khâu 10 rồi 9, rồi 11 | 7,05 | vài giờ | 0 lỗi hạ tầng; đủ 100/100 mỗi nhánh |
+| **7** | Phân tích theo §47; lưu dữ liệu gốc (`archive_raw.py`, `verify_archive.py`) | 0 | — | — |
+
+**Vì sao thứ tự này:**
+- **X2′ trước:** rẻ nhất (0,86), và chạy đúng đường thanh toán trên Vertex. Nếu project chạm trần chi tiêu hay endpoint đổi, ta biết ở đây, không phải giữa một lượt học 6 USD. Kết quả của nó cũng dùng ngay cho C4′ đang chạy trên Kaggle.
+- **Học gốc trước học một commit:** lượt học ở môi trường gốc lặp lại khẳng định chính về cơ chế ("bộ học viết chỉ dẫn"). Nếu phải dừng giữa chừng vì tiền hay thời gian, phần quan trọng hơn đã xong.
+- **Học tuần tự, không song song:** mỗi lượt học chạy 6 worker. Hai lượt song song nhân đôi tải lên Vertex, trong khi B6 đã ghi 2 lượt sập vì giới hạn tốc độ. Tuần tự cũng cho phép dừng sau mỗi nửa nếu chi phí lệch.
+- **Chấm sau khi cả hai lượt học xong, và chạy cùng lúc:** bốn nhánh chạy trong cùng khoảng thời gian, nên so sánh giữa hai môi trường không lẫn thay đổi theo ngày của model (D4).
+
+### 11.3 Trần
+
+- **Kiểm trước mỗi khâu:** trần của khâu = min(trần riêng, 38,96 − số đã chi của X2′ và X1′ đến lúc đó).
+- **Trần riêng:**
+  - học: 14,50 USD mỗi lượt, như §30;
+  - chấm và X2′: tính theo L66 (phân vị 0,999 của chi phí mô phỏng), ghi trong §46 và §47 trước khi chạy.
+- **Chạm 38,96 thì dừng và báo @thuthuy.** Không chấm một skill học dở như thể đã học đủ (quy tắc của §30).
+
+### 11.4 Thời gian
+
+- Bốn nửa học, mỗi nửa tối đa 5 giờ, chạy tuần tự: khoảng 1–2 ngày tính cả lúc chờ duyệt cổng.
+- Cộng X2′ và chấm: xong trước 01/12 nếu bước 0 xong trước 21/11.
+
