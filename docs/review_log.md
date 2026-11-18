@@ -1134,3 +1134,7 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
     - bản chạy thử thay `llm.chat` bằng hàm giả trả "không có quy tắc".
   - `w7_analyse.py` cùng 2 test. Tên trường đã đối chiếu với `score.py` (`lift`, `z`, `status`) và `audit.py` (`rule_id`, `flagged`).
 - **Không chạy được mã của XRepoSkill trên máy của phiên:** lệnh cài bị chặn (18/11), nên ô Kaggle chưa được chạy thử trọn vẹn. Lượt chạy thử trên Kaggle là bước kiểm đầu tiên của nó.
+- **Chạy thử miễn phí `lfnone` đạt** (run 44234926039, commit `e7985b3`, model giả lập, 1 task):
+  - model `vertex_ai/gemini-3.8-flash`, seed 41, cost_limit 0,34, trần 3,827;
+  - `leak_free` = true, `leak_free_check` = `commits=1 refs=1 remotes=0 objects_with_bug_msg=0`;
+  - không có skill, 0 lỗi hạ tầng.
