@@ -3131,7 +3131,12 @@ Q3 được báo cáo đầy đủ trong mọi trường hợp, kể cả khi kh
 
 **Ghi chú thực thi 47-2 (18/11/2026, trước mọi lượt có phí; chưa có dữ liệu mới):** @thuthuy 18/11: "sửa trần vertex lên 25 đô cho toàn bộ thí nghiệm liên quan". Trần cộng dồn của ghi chú 47-1 đổi từ 20,00 thành **25,00 USD** (`configs/x1.json` `approved_total`). Mọi thứ khác của 47-1 giữ nguyên. Cổng 3: phần còn lại của 25,00 phải ≥ 4,837 USD trước khâu chấm. Vì 1,863 + 14,500 + 4,837 = 21,200 ≤ 25,00, chốt cộng dồn không thể chặn khâu chấm khi các khâu trước còn trong trần riêng của chúng.
 
-## 48. X1′-LF: lượt học gskill thứ hai ở môi trường một commit, chạy trên Kaggle (BẢN NHÁP 18/11/2026; chưa đăng ký, chưa có lệnh gọi model nào)
+**Ghi chú thực thi 47-3 (18/11/2026, trước mọi lượt có phí; chưa có dữ liệu mới):** @thuthuy 18/11: "oke nâng trần lên 35 đô", sau khi được báo: chạy cả hai lượt học lại trên Vertex cần dự kiến 31,158 USD, và chặn tổng khoảng 35 thì khâu chấm không bị chặn khi các khâu trước tốn đúng dự kiến.
+- **Thay ghi chú 47-1 và 47-2:** thiết kế quay về đúng bản đăng ký §47 (hai lượt học, năm nhánh chấm cùng lúc, thứ tự của `docs/plan_vs_review.md` mục 11.2). Chỉ khác: trần cộng dồn **35,00 USD** thay 38,96. §48 rút lại, không chạy.
+- **Cổng 3:** trước khâu chấm, phần còn lại của 35,00 phải ≥ 10,491 USD (tổng trần năm nhánh). Tức số đã chi của §46, học gốc và học một commit ≤ 24,509; dự kiến 24,106, **biên 0,403 USD**. Vượt thì dừng và báo @thuthuy số còn thiếu; không chấm thiếu nhánh, không tách nhánh chấm ra hai ngày (giữ chấm cùng lúc).
+- Trần riêng của mọi khâu giữ nguyên (mô phỏng lại với seed 4701: không đổi). Workflow trở về đúng mã đã chạy thử ở R-82, chỉ đổi chỗ đọc trần cộng dồn từ `configs/x1.json`.
+
+## 48. X1′-LF: lượt học gskill thứ hai ở môi trường một commit, chạy trên Kaggle (BẢN NHÁP 18/11/2026; **RÚT LẠI cùng ngày theo ghi chú 47-3**, chưa đăng ký, chưa có lệnh gọi model nào; giữ lại để thấy lịch sử quyết định)
 
 **Vì sao:** ghi chú 47-1. Đây là phần một commit của §47, chuyển sang hạn mức Kaggle để tổng chi trên Vertex ≤ 20 USD (25 từ ghi chú 47-2; vẫn không đủ cho lượt này: 31,158 > 25).
 
