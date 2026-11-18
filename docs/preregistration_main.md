@@ -3136,6 +3136,22 @@ Q3 được báo cáo đầy đủ trong mọi trường hợp, kể cả khi kh
 - **Cổng 3:** trước khâu chấm, phần còn lại của 35,00 phải ≥ 10,491 USD (tổng trần năm nhánh). Tức số đã chi của §46, học gốc và học một commit ≤ 24,509; dự kiến 24,106, **biên 0,403 USD**. Vượt thì dừng và báo @thuthuy số còn thiếu; không chấm thiếu nhánh, không tách nhánh chấm ra hai ngày (giữ chấm cùng lúc).
 - Trần riêng của mọi khâu giữ nguyên (mô phỏng lại với seed 4701: không đổi). Workflow trở về đúng mã đã chạy thử ở R-82, chỉ đổi chỗ đọc trần cộng dồn từ `configs/x1.json`.
 
+**Ghi chú thực thi 47-4 (18/11/2026, trước mọi lượt có phí; chưa có dữ liệu mới): cảnh báo rủi ro.** @thuthuy 18/11: "oke giữ trần vertex 35 đô, lập cảnh báo về phát hiện rủi ro nếu như hướng đi không mong muốn thì xin yêu cầu liền".
+- Sau mỗi khâu có phí (từng nhánh của §46, mỗi nửa học, khâu chấm), `scripts/x1_alerts.py` kiểm năm điều kiện. Có một điều kiện đúng thì job thất bại (mã 10), chuỗi khâu dừng, và Claude báo @thuthuy ngay, kèm ba điều của mục "Quyền quyết định" trong `CLAUDE.md`.
+- Không cảnh báo nào đổi quy tắc hay cách đọc đã đăng ký (R5). Mỗi ngưỡng lấy từ một số đã đăng ký hoặc suy ra:
+
+| Mã | Điều kiện | Nguồn của ngưỡng |
+| --- | --- | --- |
+| A1 | Một lượt có `infra_error` | Chuẩn đã đăng ký: 0 lỗi hạ tầng (`CLAUDE.md`, quy trình bước 8) |
+| A2 | Lỗi hay đoạn crash nhắc tới hạn mức, giới hạn tốc độ hay thanh toán (429, `RESOURCE_EXHAUSTED`, quota, billing) | Bài học của A124 (chạm trần project làm 38 lượt hỏng) |
+| A3 | File kết quả có ít lượt hơn n đã đăng ký của nhánh | n trong `configs/x1.json` (34 hoặc 100) |
+| A4 | Số đã chi + phần dự kiến của các khâu còn lại trước khâu chấm > 35,00 − 10,491 = 24,509 | Suy ra từ trần cộng dồn và tổng trần năm nhánh chấm (ghi chú 47-3): chốt chặn sẽ chặn khâu chấm, nên báo sớm khi còn đổi được |
+| A5 | Lượt học xong cho cách đọc Q1 mà bảng "Cách đọc" ghi là ngoài dự kiến: skill `x1ship` không có dòng khớp RULE của §29, hoặc skill `x1lf` có | Bảng "Cách đọc" của §47; RULE của §29 (`scripts/make_ablation.py`) |
+
+- Cảnh báo mà @thuthuy đã đọc và quyết cho chạy tiếp được ghi vào `configs/x1_ack.json` (mã, file hoặc thẻ, ngày, câu quyết định nguyên văn). Khi đó cảnh báo đó vẫn được báo nhưng không còn chặn.
+- Trong lượt chạy thử (tiền tố `dry`), A5 không được đọc vì skill đến từ model giả lập; A1–A4 chạy như thật trên file `dry`.
+- Ngoài năm cảnh báo, các cổng đã có vẫn chặn như cũ: chốt chặn tiền (mã 4), trần của khâu (5), viết lại lịch sử hỏng (6), phép chia (8), `num_candidates` (9).
+
 ## 48. X1′-LF: lượt học gskill thứ hai ở môi trường một commit, chạy trên Kaggle (BẢN NHÁP 18/11/2026; **RÚT LẠI cùng ngày theo ghi chú 47-3**, chưa đăng ký, chưa có lệnh gọi model nào; giữ lại để thấy lịch sử quyết định)
 
 **Vì sao:** ghi chú 47-1. Đây là phần một commit của §47, chuyển sang hạn mức Kaggle để tổng chi trên Vertex ≤ 20 USD (25 từ ghi chú 47-2; vẫn không đủ cho lượt này: 31,158 > 25).

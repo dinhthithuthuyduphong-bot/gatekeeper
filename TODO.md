@@ -32,6 +32,8 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 | 24/11 | §47 chấm năm nhánh cùng lúc | 7,052 | 10,491 (lớn hơn 10: rủi ro nhỏ chạm trần project) |
 | | **Tổng** | **31,158** | chặn cộng dồn 35,00 |
 
+**Cảnh báo rủi ro (ghi chú 47-4):** sau mỗi khâu có phí, `scripts/x1_alerts.py` kiểm A1 lỗi hạ tầng, A2 chạm hạn mức hay thanh toán, A3 thiếu lượt, A4 dự báo chốt chặn sẽ chặn khâu chấm, A5 kết quả Q1 ngoài dự kiến. Có cảnh báo thì chuỗi dừng và Claude hỏi @thuthuy ngay.
+
 **Biên trước khâu chấm hẹp:** khâu chấm cần phần còn lại ≥ 10,491, tức số đã chi trước nó ≤ 24,509; dự kiến 24,106 (biên 0,403 USD). Nếu ba khâu trước tốn hơn dự kiến quá 0,40, chốt chặn dừng trước khâu chấm và Claude báo @thuthuy số còn thiếu.
 
 **Hạn mức Kaggle (miễn phí):**
