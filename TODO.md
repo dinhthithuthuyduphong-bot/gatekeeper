@@ -38,13 +38,26 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 ### Việc tiếp theo của Claude, theo thứ tự
 
-1. Khi có kết quả chạy thử W7: kiểm từng bước, đếm cặp (dự kiến pool A 62 cặp trên 31 issue; pool B khoảng 24 cặp trên 12 issue). Có thể chạy thử thêm pool B.
-2. Đo một khối 3 cặp, rồi **xin @thuthuy trần hạn mức Kaggle** cho bước học (`DAY_CAP_USD`, `ITEM_CAP_USD` trong ô đang là `None`, chưa duyệt; cận trên thô 20–23 USD, chưa phải số đo). Chạy bước học sau C4′.
-3. Phân tích W7: `python kaggle/scripts/w7_analyse.py --alpha 0.025 --min-issues-b 5`, theo §45.
-4. Phân tích C4′ theo `kaggle/preregistration_s40.md` (ghi chú 40-5, 40-8) khi có đủ dữ liệu.
-5. Paper: thêm đoạn §38 và A′ (cần chép `kaggle/results/a38_analysis.json` sang `main`); sau đó W7 và C4′. Sửa paper theo kết quả Kaggle cần @thuthuy đồng ý (`kaggle/plan_v4.md`).
+> **Thứ tự từ 18/11** (@thuthuy: việc viết bài để sau; ưu tiên điểm yếu thực nghiệm và lý thuyết). Đối chiếu đầy đủ với review và CFP: `docs/plan_vs_review.md`.
+
+**Bậc 1, thực nghiệm (làm trước):**
+1. C4′: phân tích theo `kaggle/preregistration_s40.md` (40-5, 40-8) khi có dữ liệu.
+2. Nếu Q8 được duyệt: **X2′, đối chứng cầu nối Docker và `chroot`** (cùng Flash-Lite, 34 task, trên Actions); đo chi phí bằng lượt thử miễn phí rồi xin trần.
+3. Nếu Q9 được duyệt: **X1′, lượt học gskill thứ hai** cho môi trường gốc và môi trường một commit (mối lo chính của R3: "learning randomness"); đăng ký trước.
+
+**Bậc 2:**
+4. **X3′, kiểm định bộ theo dõi trace** bằng nhãn độc lập (ghi chú trang 8 của PDF); tìm nguồn cho cỡ mẫu và chỉ số đồng thuận, rồi đăng ký.
+5. W7: khi có kết quả chạy thử, kiểm từng bước, đếm cặp, đo một khối 3 cặp, rồi xin trần bước học. Bước học chỉ chạy nếu còn hạn mức sau bậc 1 (Q10). Phân tích theo §45.
+6. 👤 Nhờ người biết thống kê đọc chứng minh cuối pool.
+
+**Bậc 3, viết bài (làm sau):**
+7. Đưa §38, A′, §39, C4′, W7 vào bài (cần chép `kaggle/results/a38_analysis.json` sang `main`; sửa bài theo kết quả Kaggle cần @thuthuy đồng ý).
+8. D10, A5 (khai báo AI), G1 (27 ghi chú PDF), G4, các ghi chú về hình và bảng.
+9. Gói tái lập ẩn danh (A4) và dựng lại trên máy sạch (F4): làm sau, nhưng bắt buộc trước khi nộp.
 
 ### Quyết định đang chờ @thuthuy
+
+- **Mới 18/11 (hạn 21/11), chi tiết ở `docs/plan_vs_review.md` mục 6:** Q8 thêm X2′ (đối chứng cầu nối); Q9 thêm X1′ (lượt học thứ hai) và chạy ở Vertex hay Kaggle; Q10 thứ tự hạn mức Kaggle khi không đủ.
 
 - Trần hạn mức Kaggle cho bước học W7 (sẽ xin kèm số đo).
 - Q1 xác nhận EASE 2027 trong `CLAUDE.md`; Q2 mốc đóng băng; Q3 tên bài (bỏ chữ "Certifying"?); A5 nội dung khai báo AI; A4 đưa gói tái lập ra ngoài (`docs/todo_ease_revision.md` §9).
