@@ -758,7 +758,7 @@ jobs:
           done
           CAPS=$GITHUB_WORKSPACE/configs/x1.json
           cap() { python -c "import json,sys; print(json.load(open(sys.argv[1]))['arms'][sys.argv[2]]['cap'])" "$CAPS" "$1"; }
-          TOTALV=$(python -c "import json,sys; print(json.load(open(sys.argv[1]))['approved_total'])" "$CAPS")  # 20 since note 47-1
+          TOTALV=$(python -c "import json,sys; print(json.load(open(sys.argv[1]))['approved_total'])" "$CAPS")  # 25 since note 47-2
           guard() { python $GITHUB_WORKSPACE/scripts/x1_budget.py --dir /tmp/prev --next-cap "$1" --total "$TOTALV"; }
           ARM=${{ inputs.arm }}; DRY=${{ inputs.dryrun }}
           MOCKMSG=$'THOUGHT: dry run.\n\n```bash\necho COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT\n```'

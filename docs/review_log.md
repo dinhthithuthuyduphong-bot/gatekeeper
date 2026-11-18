@@ -1170,3 +1170,9 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - `learnlf` nửa 1 (run 44286802938, chạy lại sau A144): đạt; file `dryx1lf_*`.
 - **Kết luận R-82:** mọi nhánh của §46–§47 đã chạy thử đạt. Lượt có phí chờ: (1) ngày 20/11 (@thuthuy); (2) @thuthuy cho biết trần 10 USD của project Vertex tính theo ngày hay theo tháng.
 
+
+## R-83. Ghi chú 47-1 và 47-2: trần Vertex 20 rồi 25 USD; khâu chấm còn hai nhánh (18/11/2026; trước mọi lượt có phí)
+- **Thay đổi:** `configs/x1.json` (`approved_total` 25,00; bốn khâu một commit có `"vertex": false`); `scripts/x1_caps.py` (mô phỏng cùng seed 4701 và cùng thứ tự; đã so từng trần riêng: không đổi); `pilot.yml` (chốt cộng dồn đọc `approved_total` thay vì số viết cứng; arm `learnlf` bị từ chối; `x1eval` chỉ chạy `ship_none`, `ship_skill`, chặn theo tổng trần 4,837 của các nhánh `score_` có `vertex` true).
+- **Danh sách §4:** không còn số viết cứng ở hai nơi (L66: trần lấy từ một file); mọi nhánh bị bỏ khỏi Vertex vẫn được ghi, không xóa (R5); tổng các trần riêng 21,200 ≤ 25,00.
+- **Chạy thử miễn phí** `x1eval` (run 44289845659, commit 3b924c7, lúc trần còn 20; số trần chỉ là giá trị đọc từ file nên 47-2 không đổi đường chạy): đạt. Chỉ hai file `dryx1eval_ship_{none,skill}` được ghi lại trên `pilot-snapshots` (commit d21cec2); mỗi file 2 task, `leak_free` false, skill 0 và 2.421 ký tự, trần 2,08 và 2,757, 0 lỗi hạ tầng.
+- **Kết luận R-83:** đạt. Lượt có phí vẫn chờ 20/11 và chu kỳ trần 10 USD của project Vertex.
