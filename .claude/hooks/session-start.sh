@@ -39,6 +39,8 @@ echo "R4 ghi mọi lỗi (audit + bài học) | R5 không đổi quy tắc sau k
 echo "Danh sách review: docs/research_rules.md §4. Review song song: §3b."
 echo "Mới nhất: lỗi $(last docs/audit_pilot.md '^\| A[0-9]+'), bài học $(last docs/lessons_learned.md '^## L[0-9]+'), review $(last docs/review_log.md 'R-[0-9]+')"
 echo "Commit sẽ bị git chặn nếu preflight không đạt (.git/hooks/pre-commit)."
+status=$(grep -m1 -oE "^## ★ Tình hình hiện tại \(cập nhật [0-9/]+\)" TODO.md 2>/dev/null | grep -oE "[0-9]+/[0-9]+/[0-9]+")
+echo "Tình hình: đọc TODO.md mục \"★ Tình hình hiện tại\" (cập nhật ${status:-KHÔNG THẤY}) trước khi làm việc"
 
 # 4. Long-running experiments: a worker restart kills background jobs and Docker (A50).
 if command -v docker >/dev/null 2>&1; then
