@@ -1161,5 +1161,7 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
     - `learnship`, `learnlf`: đúng lệnh của §25 bước 2 và §30, thẻ mới; nửa hai bị chặn nếu `num_candidates` ≤ 1 (thoát 9), nếu `split_identity.py` không đạt (thoát 8), hoặc nếu chốt tiền không cho (thoát 4);
     - `x1eval`: năm nhánh chạy song song trong một job (thay cho "hai job song song" của §47; vẫn cùng khoảng thời gian), skill phải trùng từng byte với bản sao trong `docs/skills/gskill/`.
   - Chạy thử (`dryrun = true`): model giả lập, tiền tố `dry`, không được cộng vào số đã chi.
-- **Chạy thử miễn phí:** ghi bên dưới khi có.
+- **Chạy thử miễn phí (18/11):**
+  - `x2` (run 44282349106): đạt. Nền `chroot` dựng trên Actions từ image gốc (Python 3.10.16 ở đường dẫn của image; 959 nhánh task); kiểm sha256 của hai file shim đạt; hai nhánh chạy đủ; chốt tiền in đúng (0 đã chi, trần 0,664 rồi 1,199). Lộ lỗi A143 (`sudo` bỏ qua `-E`), đã sửa và thêm bước kiểm xác thực dưới quyền root; chạy thử lại sau khi sửa.
+  - `learnship` nửa 1 (run 44282355273): đạt; file `dryx1ship_*` đã publish, không đụng file của §25, §30.
 
