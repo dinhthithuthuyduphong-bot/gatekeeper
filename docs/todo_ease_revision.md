@@ -155,10 +155,10 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 | [x] C1a | **Xong 17/11: ghi chú 40-5 (nhánh mặc định).** Sửa `kaggle/preregistration_s40.md` **trước lượt chạy đầu của C4′**: (1) đích tái lập là hiệu của hai mức tăng trên cùng task, như §33 và §35; (2) phép kiểm cuối pool là phép thử chính; (3) khai rằng số của phiên 1 không hợp lệ đã được nhìn thấy. | Ghi chú thực thi có ngày | tự làm, phối hợp với phiên Kaggle |
 | [x] C1b | **Xong 17/11: ghi chú 40-5, `kaggle/results/c4_contrast_power.json`** (0,28 / 0,63 / 1,00). Mô phỏng power cho phép so giữa hai môi trường, theo từng agent. Power thấp thì ghi trước vào bản đăng ký hoặc bỏ agent đó. | Có số power trước khi chạy | tự làm |
 | [ ] C1 | Chạy C4′ trên Kaggle (ba agent khác hãng, hai môi trường, 100 task). Cần cổng cách ly C5 đạt. | Theo `kaggle/TODO.md` | đã duyệt (hạn mức Kaggle) |
-| [ ] C2 | §38 phiên 3 và phân tích. Báo cáo tỉ lệ theo từng model; các đầu ra không phải là các lượt học độc lập. | Theo `kaggle/TODO.md` | đã duyệt |
+| [x] C2 | §38 phiên 3 và phân tích. Báo cáo tỉ lệ theo từng model; các đầu ra không phải là các lượt học độc lập. **Xong 17/11:** ghi chú 38-6 đến 38-9 (không model khác hãng nào qua Holm); A′ ở 38-10, 38-11 (không bác bỏ). Chưa đưa vào paper. | Theo `kaggle/TODO.md` | đã duyệt |
 | [x] C3 | §39 (auditor bốn hãng). | Xong 16/11 | — |
 | [x] C10 | Can thiệp lịch sử git có kiểm soát (§43). **Xong 17/11:** run 44074372949, chi 6,01 USD (trần 8,426; trong credit 10 USD). Phép thử chính A − C bác bỏ: n = 45, E = 76,2, D = −0,222 [−0,300; −0,133]. B − D và C − D bằng khoảng 0. 6/8 nhánh dừng vì trần (A138, ghi chú 43-3). Paper: đoạn "Separating the message from the diff". **C10R (§44) xong 17/11:** pool 70 task cố định, cả 8 nhánh đủ 70 task, E = 9.028 (40 so với 0), D = −0,293 [−0,350; −0,236]; chi 6,81 USD. | — | xong |
-| [ ] C6 | Dự phòng nếu C1 không chạy được: agent Flash, môi trường một commit, trên Vertex, khoảng 5,9 USD cho hai nhánh. | — | **chờ**; hiện chưa duyệt |
+| [ ] C6 | Dự phòng nếu C1 không chạy được: agent Flash, môi trường một commit, trên Vertex, khoảng 5,9 USD cho hai nhánh. **18/11:** nhánh không skill của việc này đã chạy cho W7-b (§45: 34 task, k = 12, 7,637 USD). Nhánh có skill chưa chạy, chưa duyệt. | — | **chờ**; hiện chưa duyệt |
 
 **Định nghĩa đóng băng (đề xuất, chờ @thuthuy xác nhận):** sau 01/12 không mở thí nghiệm xác nhận mới. Vẫn được sửa lỗi phân tích và tính lại, có ghi nhật ký. Không đổi giả thuyết hay quy tắc phân tích sau khi thấy kết quả.
 

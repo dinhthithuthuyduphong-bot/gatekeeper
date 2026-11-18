@@ -85,6 +85,7 @@ Gửi yêu cầu **sớm nhất có thể**, kèm hạn cần trả lời, để
 ## File tham chiếu
 | Việc | File |
 | --- | --- |
+| **Tình hình hiện tại của mọi hướng (điểm vào cho phiên mới; sửa trong cùng commit khi trạng thái đổi)** | `TODO.md` mục "★ Tình hình hiện tại" |
 | Kim chỉ nam, nhật ký tiến độ | `TODO.md` |
 | **Việc sửa bài cho EASE 2027 sau review của thầy 16/11 (đọc trước khi đụng tới `paper/`)** | `docs/todo_ease_revision.md` |
 | Quy tắc, danh sách review §4, mục đang vi phạm §5 | `docs/research_rules.md` |

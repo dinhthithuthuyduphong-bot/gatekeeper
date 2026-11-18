@@ -13,6 +13,57 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 ---
 
+## ★ Tình hình hiện tại (cập nhật 18/11/2026)
+
+> **Mục này là điểm vào cho mọi phiên mới.** Hook khởi động phiên in ngày cập nhật của mục này. Mỗi khi một việc dưới đây đổi trạng thái, sửa mục này trong cùng commit, và chép sang nhánh kia (`main` ↔ `claude/gatekeeper-13-research-nxytoh`). Chi tiết từng việc nằm ở file được dẫn; mục này chỉ tóm tắt.
+
+**Đích:** EASE 2027 (tóm tắt 15/01/2027, bài 22/01/2027). Đóng băng thí nghiệm xác nhận: 01/12/2026 (đề xuất, Q2 chờ @thuthuy). Danh sách sửa bài: `docs/todo_ease_revision.md`.
+
+### Kết quả đã có
+
+| Việc | Kết quả | Chiều với paper | File |
+| --- | --- | --- | --- |
+| C10 (§43) | A − C bác bỏ: n = 45, E = 76,2; pool 34 task cố định không bác bỏ (E = 26,65), nên câu chữ dùng giả thuyết không hẹp hơn | ủng hộ | `docs/preregistration_main.md` §43 |
+| C10R (§44), xác nhận | Pool 70 task cố định, đủ 8 nhánh: E = 9.028 (ngưỡng 40); A có skill 41/70, A không skill 0/70; B − D −0,014; C − D +0,021. Mức tăng đến từ diff trong lịch sử, không từ câu chữ commit | ủng hộ, đã kiểm định | §44, `results/c10r_analysis.json` |
+| §38 (5 model viết skill) | Không model khác hãng nào qua Holm (p nhỏ nhất 0,0076 > 0,00625). Model của gskill: 0,94 so với 0,29. Haiku, Grok viết dòng lịch sử bất kể rò rỉ (phép so không có thông tin) | giới hạn phạm vi: cơ chế chỉ nói cho model của gskill | `kaggle/preregistration_s38.md` 38-6 đến 38-9 |
+| §38 A′ (đổi tên "Bug Patch") | Không bác bỏ (p = 0,5). 11/18 skill vẫn chỉ tới commit theo tên mới | khớp C10: tên commit không phải nguồn của chỉ dẫn | 38-10, 38-11 |
+| C6 (Kaggle, cách ly `chroot`) | Đạt: cổng C5 đạt, 6/6 lượt, exposure 0; Haiku giải 5/6 | điều kiện để chạy C4′ | `kaggle/preregistration_s40.md` 40-9 |
+| W5 | Đã sửa câu chữ: skill dùng task SWE-smith; A/A dùng issue thật của SWE-bench và SWE-bench-Live (R-79) | sửa điểm yếu | `docs/feasibility_w5_w7.md` |
+| W7-b, lượt Flash một commit (§45) | 34/34 task, Flash giải k = 12 (5 + 7). Ngưỡng k ≥ 5 đạt, nên phép thử chính của W7 sẽ chạy. Có lịch sử, cùng agent giải 31/34 (mô tả, không phải phép thử đã đăng ký) | cùng chiều, mô tả | §45 ghi chú 45-1, 45-2 |
+
+### Đang chờ @thuthuy (chạy trên Kaggle)
+
+1. **C4′:** chạy `kaggle/notebooks/c4p_cell.py` (POOL B; Save Version → Save & Run All), mỗi ngày một phiên, trần 2,0 USD hạn mức mỗi phiên, 12 USD mỗi model. Sau mỗi phiên gửi `c4p.json` và `c4p_results.zip`.
+2. **Chạy thử W7:** ô `kaggle/notebooks/w7_run_cell.py` bản ghim `COMMIT = 0cb4874…`, `POOL = "A"`, `DRY_RUN = True` (0 USD), trong một notebook Benchmarks riêng. Gửi `w7_A.json` và `w7_A_run.zip`.
+
+### Việc tiếp theo của Claude, theo thứ tự
+
+1. Khi có kết quả chạy thử W7: kiểm từng bước, đếm cặp (dự kiến pool A 62 cặp trên 31 issue; pool B khoảng 24 cặp trên 12 issue). Có thể chạy thử thêm pool B.
+2. Đo một khối 3 cặp, rồi **xin @thuthuy trần hạn mức Kaggle** cho bước học (`DAY_CAP_USD`, `ITEM_CAP_USD` trong ô đang là `None`, chưa duyệt; cận trên thô 20–23 USD, chưa phải số đo). Chạy bước học sau C4′.
+3. Phân tích W7: `python kaggle/scripts/w7_analyse.py --alpha 0.025 --min-issues-b 5`, theo §45.
+4. Phân tích C4′ theo `kaggle/preregistration_s40.md` (ghi chú 40-5, 40-8) khi có đủ dữ liệu.
+5. Paper: thêm đoạn §38 và A′ (cần chép `kaggle/results/a38_analysis.json` sang `main`); sau đó W7 và C4′. Sửa paper theo kết quả Kaggle cần @thuthuy đồng ý (`kaggle/plan_v4.md`).
+
+### Quyết định đang chờ @thuthuy
+
+- Trần hạn mức Kaggle cho bước học W7 (sẽ xin kèm số đo).
+- Q1 xác nhận EASE 2027 trong `CLAUDE.md`; Q2 mốc đóng băng; Q3 tên bài (bỏ chữ "Certifying"?); A5 nội dung khai báo AI; A4 đưa gói tái lập ra ngoài (`docs/todo_ease_revision.md` §9).
+
+### Đã chi (để đối chiếu trần)
+
+| Mục | Đã chi | Trần | Nơi |
+| --- | --- | --- | --- |
+| C10 | 6,01 USD | 10,83 | Vertex (credit Google Developer Program) |
+| C10R | 6,81 USD | 12,64 | Vertex |
+| W7-b Flash một commit | 3,659 + 3,978 = 7,637 USD | 3,827 + 4,386 | Vertex |
+| §38 | 20,06 USD hạn mức (Kaggle báo cộng dồn) | 40 | Kaggle |
+| §38 A′ | 1,30 USD hạn mức | 2,1 | Kaggle |
+| C6 | 0,0314 USD hạn mức | 0,5 | Kaggle |
+
+Token của W7-b: lượt đầu 14,56 triệu vào (11,57 triệu từ cache), 0,145 triệu ra; lượt sau 15,90 triệu vào (12,35 triệu từ cache), 0,104 triệu ra.
+
+---
+
 ## ★ Kế hoạch sau tái định vị (@thuthuy chọn 05/11/2026: "chọn hướng sửa to do list làm tăng sức mạnh paper")
 
 **Định vị:** quản lý vòng đời thư viện skill cho coding agent, với FWER theo từng (skill, scope), bảo đảm cho skill ghép, và so sánh trực tiếp các quy tắc nhận/thu hồi đã công bố trên lần chạy agent thật (`docs/novelty_review.md`, `docs/paper_argument.md`). Ý tưởng lõi anytime-valid đã có ở Qu et al. 2026, nên **không** tuyên bố là "đầu tiên".
