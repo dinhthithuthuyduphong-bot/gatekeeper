@@ -1117,3 +1117,20 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Trích dẫn mới:** `swebench_iclr` và `swebench_live`. Cả hai đã có trong `configs/sources.json` (`swebench`, `swe_bench_live`); tiêu đề và tác giả đã đối chiếu với bản chụp.
 - **Đoạn "Decision rules under A/A":** ghi rõ nguồn task.
 - Không con số nào đổi. Bài dựng không lỗi, 8 trang.
+
+## R-80. Đăng ký §45 (W7-b): workflow, cấu hình, bộ chuyển dữ liệu, ô Kaggle, phân tích (18/11/2026; 0 USD)
+
+- **Workflow:** bước §34 có thêm arm `lfnone`: Flash không skill, `--leak-free`, cả 34 task.
+  - `budget_usd` và `cost_limit` phải trùng `configs/w7b.json`.
+  - Dòng `tail` của bước được sửa để không làm hỏng job khi một file log không có (shell chạy với `-e`).
+  - `bash -n` đạt; YAML hợp lệ.
+- **`configs/w7b.json`:** trần 3,827 theo quy tắc L66 (cách tính ghi trong file).
+- **Nhánh mặc định** (`kaggle/`):
+  - `w7_build.py` cùng 2 test. Kiểm khớp quy tắc nhận diện hành động của `ingest.adapt_trajectory` của họ trên cả 102 quỹ đạo của pool A.
+  - Một lỗi đã sửa trước khi dùng: phần đầu gzip lưu tên file nên mã băm phụ thuộc đường dẫn. Đã bỏ tên khỏi phần đầu.
+  - `w7_run_cell.py`:
+    - kiểm loại notebook, ghim commit của XRepoSkill, kiểm sha256 của dữ liệu;
+    - chạy `discover` theo khối và chặn chi bằng trường hợp xấu nhất (`max_tokens` 24.000 × giá niêm yết);
+    - bản chạy thử thay `llm.chat` bằng hàm giả trả "không có quy tắc".
+  - `w7_analyse.py` cùng 2 test. Tên trường đã đối chiếu với `score.py` (`lift`, `z`, `status`) và `audit.py` (`rule_id`, `flagged`).
+- **Không chạy được mã của XRepoSkill trên máy của phiên:** lệnh cài bị chặn (18/11), nên ô Kaggle chưa được chạy thử trọn vẹn. Lượt chạy thử trên Kaggle là bước kiểm đầu tiên của nó.

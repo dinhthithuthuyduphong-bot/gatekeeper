@@ -2896,3 +2896,101 @@ Ba commit, theo thứ tự: `Initial commit` (toàn bộ mã của dự án tron
 *Chi phí bằng token:* 53,96 triệu token vào (39,34 triệu từ cache), 1,45 triệu token ra.
 
 *Quan hệ với §43:* cùng chiều ở mọi phép so. §43: 22 so với 2 trên 45 task, E = 76,2, chỉ dưới giả thuyết hẹp hơn. Hai lượt không gộp.
+
+## 45. W7-b: một bộ học skill thứ hai (XRepoSkill) trên quỹ đạo có và không có rò rỉ (đăng ký 18/11/2026, trước mọi lệnh gọi model của §45)
+
+**Vì sao:** điểm yếu W7, "chỉ một bộ học skill" (`kaggle/plan_v4.md` mục 2). @thuthuy 18/11 chọn phương án b (có đối chứng), rồi chọn model viết quy tắc là model của gskill, chạy trên Kaggle ("đồng ý hướng đó"). Khả thi: `docs/feasibility_w5_w7.md`.
+
+**Câu hỏi:** bộ học của XRepoSkill có viết ra quy tắc đọc lịch sử git khi các quỹ đạo thành công khai thác rò rỉ, và không viết khi lịch sử chỉ có một commit không?
+
+**Tình trạng dữ liệu lúc đăng ký:**
+- Pool A là dữ liệu đã có và đã thấy (§33, §34, §25–§29): Flash không skill giải 31/34, Flash-Lite giải 0/34.
+- Chưa có lượt nào của Flash trong môi trường một commit. Chưa có lệnh gọi nào của bộ học.
+
+**Hai pool** (34 task Jinja không mô tả của tập test, không skill):
+
+| Pool | Lịch sử | Model mạnh (seed 41) | Model yếu |
+| --- | --- | --- | --- |
+| A | gốc | Flash: `s34_none_pilot` + `s34_none_rest` | Flash-Lite seed 41 `s29_none`, seed 51 `s33_ship_none` |
+| B | một commit | Flash: `s34_lfnone` (lượt mới, workflow `swesmith-s34`, arm `lfnone`) | Flash-Lite seed 41 `s30_none`, seed 51 `s33_lf_none` |
+
+Lượt mới giống hệt nhánh không skill của §34 (model, `reasoning_effort` low, seed 41, cost_limit 0,34, 34 task), chỉ khác `--leak-free`. Đây là cùng phép biến đổi lịch sử của §25 và §33.
+
+**Chuyển định dạng** (`kaggle/scripts/w7_build.py`, test `kaggle/tests/test_w7_build.py`). Chỉ đổi khuôn, không đổi nội dung; ghi vào `docs/reviewer_fidelity.md`.
+1. **Mã task:**
+   - `repo_from_instance_id` của XRepoSkill theo quy ước SWE-bench `<org>__<name>-<num>`. Mã SWE-smith không có "-", nên mỗi task sẽ thành một repo riêng.
+   - Mỗi task được đổi thành `pallets__jinja-<k>`, với k = 1..34 theo thứ tự mã SWE-smith. Bảng ánh xạ nằm trong file dữ liệu.
+2. **Hành động:**
+   - XRepoSkill lấy lệnh từ `tool_calls` và quan sát từ lượt `tool` (mini-SWE-agent 2.x). Quỹ đạo của ta là định dạng văn bản: mỗi lượt một khối ```bash.
+   - Lệnh là khối duy nhất khớp `` ```bash\s*\n(.*?)\n``` ``.
+   - Đã kiểm trên cả 3.747 lượt trả lời của bốn nhánh:
+     - lượt có đúng một khối thì kế tiếp là kết quả thực thi (2.895 lượt), hoặc là bước cuối (311 lượt);
+     - mọi lượt khác thì kế tiếp là lỗi định dạng (541 lượt).
+3. **Kết quả giải:** chấm bằng S, bộ chấm của benchmark, như mọi chỗ khác trong paper.
+- Dữ liệu pool A: `kaggle/data/w7_poolA.tar.gz`, sha256 `cf5d58aedb36e5aa0ddc9c7eb14035cfc4629f7bec9c844319c20fd3072777ce`; dựng lại cho ra đúng từng byte. Dữ liệu pool B được dựng bằng cùng script, sau lượt mới.
+
+**Bộ học:**
+- XRepoSkill tại `26fd70345698108c0fdce2d8904293a38b9cd42f`, cấu hình `configs/pipeline.yaml` của họ (K = 4; ngưỡng xuất hiện của vị từ 0,10–0,90; mọi giá trị khác), không sửa mã.
+- Các bước: `ingest`, `pair`, `fork`, `discover`, `merge`, `judge`, `score`, `audit`.
+- Không chạy `generalize` (cần ≥ 2 repo), `pack`, `retrieve`, `rollout`.
+- **Model viết quy tắc:** `google/gemini-3.1-pro-preview`, model viết skill của gskill, gọi qua proxy của Kaggle Benchmarks.
+  - Model mặc định của họ (`deepseek/deepseek-v4-pro`) không dùng được. DeepSeek đã ngừng nó trên API chính thức: "Starting at 04:00 UTC on Sept 14, 2026, all deepseek-v4-pro requests will route to V4.1-Flash". Kaggle không có model DeepSeek nào (danh sách 37 model, @thuthuy 18/11). @thuthuy cho biết Vertex không bật được model bên thứ ba.
+  - Việc thay model là sai lệch so với cấu hình gốc. Nó cũng có một lợi ích: chỉ thuật toán học khác gskill, còn model viết thì giữ nguyên.
+- `discover` chạy theo từng khối 3 cặp, cùng một thư mục đầu ra; mã của họ ghi nối, nên kết quả không đổi. Chạy theo khối là để giữ trần ngày của Kaggle. Lần gọi lỗi được ghi ở `candidates/failed.jsonl` và không chạy lại.
+
+**Đại lượng:**
+- **G** (chính): một quy tắc ứng viên (đầu ra của `discover`, mọi prompt phân tích) có dòng khớp `git log` hoặc `git show`, như G của §38.
+- **H** (phụ): có dòng khớp RULE của §29.
+- **Đơn vị:** issue (task). Một issue được tính khi có ít nhất một quy tắc ứng viên mang G, viết cho một trong các cặp của nó.
+
+**Phép thử chính:**
+- Fisher chính xác một phía: tỉ lệ issue mang G ở pool A lớn hơn ở pool B, α = 0,025 (`kaggle/scripts/w7_analyse.py`, test `kaggle/tests/test_w7_analyse.py`).
+- **Chỉ chạy khi pool B có ít nhất 5 issue có cặp.** Pool B có k issue có cặp, với k là số task Flash giải được ở môi trường một commit; Flash-Lite giải 0/34 ở cả hai môi trường.
+  - Ngưỡng 5 là số k nhỏ nhất cho power ≥ 0,8 ở kịch bản thuận lợi nhất của bảng dưới.
+  - k được biết trước mọi lệnh gọi của bộ học, nên quy tắc này không nhìn kết quả.
+  - Nếu k < 5: chỉ mô tả.
+
+**Power** (mô phỏng 4.000 lần mỗi ô, seed 4501, Fisher một phía α = 0,025, A có 31 issue):
+
+| Tỉ lệ issue mang G ở A; ở B | k = 3 | k = 5 | k = 8 | k = 12 | k = 20 |
+| --- | --- | --- | --- | --- | --- |
+| 0,8; 0,1 | 0,52 | 0,84 | 0,95 | 0,99 | 1,00 |
+| 0,8; 0,3 | 0,25 | 0,47 | 0,62 | 0,79 | 0,94 |
+| 0,6; 0,1 | 0,02 | 0,39 | 0,63 | 0,83 | 0,97 |
+| bằng nhau (H₀) | ≤ 0,01 | 0,01 | 0,01 | 0,01 | 0,01 |
+
+**Phụ (mô tả):**
+- tỉ lệ theo H;
+- các quy tắc đã gộp và đã qua bước chấm (`rules_judged`) mang G, kèm mức tăng (`lift`) và z của bước `score`;
+- cờ trùng n-gram của bước `audit` (n = 6) trên các quy tắc đó;
+- số lần gọi lỗi.
+
+**Diễn giải đặt trước:**
+
+| Kết quả | Câu được viết |
+| --- | --- |
+| Bác bỏ | Một bộ học thứ hai (XRepoSkill, cùng model viết với gskill) biến quỹ đạo khai thác rò rỉ thành quy tắc đọc lịch sử, và hầu như không làm vậy khi lịch sử chỉ có một commit. Cơ chế không riêng của gskill. |
+| Không bác bỏ, A cao | Bộ học thứ hai viết quy tắc đọc lịch sử ở cả hai môi trường. Không tách được rò rỉ với thói quen. |
+| Không bác bỏ, A thấp | Bộ học thứ hai không biến rò rỉ thành quy tắc trên dữ liệu này. Cơ chế được viết là của gskill. |
+| k < 5 | Chỉ mô tả. Báo k và mọi đếm. |
+
+Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước kiểm trùng n-gram của chính XRepoSkill đánh dấu không.
+
+**Giới hạn nêu trước:**
+- Một lượt học cho mỗi pool, một repo, các cặp chỉ giữa hai model của cùng một hãng.
+- Pool A và B khác nhau về số cặp (62 so với 2k).
+- Quỹ đạo do agent của paper tạo, không phải quỹ đạo leaderboard như dữ liệu gốc của XRepoSkill.
+
+**Ngân sách** (chờ @thuthuy duyệt; chưa chi gì):
+- **Lượt Flash một commit (Vertex):** trần 3,827 USD, dự kiến 2,85 (`configs/w7b.json`).
+  - Quy tắc L66, như §44: phân vị 0,999 của chi phí mô phỏng + cost_limit 0,34.
+  - Chi phí mỗi lượt lấy mẫu lại từ nhánh không skill của §34, nhân 1,057: tỉ lệ một commit / gốc lớn nhất trong các cặp nhánh đã đo (`s33_lf_skill` / `s33_ship_skill`).
+- **Bộ học (hạn mức Kaggle):** trần đặt sau lượt chạy thử miễn phí và một khối đo (3 cặp). Cận trên trước đo: khoảng 20–23 USD cho cả hai pool, khi k = 5–10.
+
+**Thứ tự:**
+1. Chạy thử miễn phí: workflow `lfnone` với model giả lập, và ô Kaggle với `DRY_RUN = True`.
+2. Lượt Flash một commit.
+3. Dựng dữ liệu pool B.
+4. Đo một khối.
+5. @thuthuy chốt trần Kaggle.
+6. Chạy bộ học, sau C4′.

@@ -122,3 +122,12 @@ Không, trên dữ liệu của mình: 224 patch của 4 nhánh jinja được c
 2. **Mọi thay đổi cấu hình của hệ thống bên thứ ba** (seed, trần, harness, model, vị trí hướng dẫn) phải nằm trong một bảng như B1. Thay đổi nào có thể làm hệ thống đó thua (một trần, một giới hạn) phải kèm số đo chứng minh nó không chặn (như A2), hoặc được ghi là giới hạn.
 3. **Hệ thống dựa trên công cụ** cần một phép kiểm thao tác trên model thật (L48t) và đối chiếu vị trí hướng dẫn trong prompt với bản gốc. Mục này đã có trong `docs/research_rules.md` §4.
 4. **Câu chữ trong paper** chỉ được rộng bằng thiết lập đã chạy (B3).
+
+## XRepoSkill dùng làm bộ học thứ hai (§45, W7-b; 18/11/2026)
+
+- **Mã:** commit `26fd703`, cấu hình `configs/pipeline.yaml` của họ, không sửa mã. Chạy các bước `ingest` đến `audit`; không chạy `generalize`, vì chỉ có một repo.
+- **Sai khác 1, model viết quy tắc:** `google/gemini-3.1-pro-preview` thay cho `deepseek/deepseek-v4-pro`. Model gốc không còn trên API chính thức của DeepSeek (từ 14/09/2026 mọi yêu cầu được chuyển sang V4.1-Flash; bản chụp `deepseek_v41_flash_news`), và không có trên Kaggle.
+- **Sai khác 2, đầu vào:** quỹ đạo của agent trong paper, không phải quỹ đạo leaderboard SWE-bench.
+  - Mã task được đổi sang quy ước `<org>__<name>-<num>` mà hàm `repo_from_instance_id` của họ đòi.
+  - Lệnh trong khối ```bash được chuyển thành `tool_calls`, quan sát chuyển thành lượt `tool`. Nội dung và thứ tự giữ nguyên (`kaggle/scripts/w7_build.py`).
+- **Câu được phép viết:** "XRepoSkill's learner (Stages 1–2 of its released code), run with gskill's reflection model on our trajectories". **Không** viết "XRepoSkill as published".
