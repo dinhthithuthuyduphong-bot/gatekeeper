@@ -579,3 +579,12 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Tách chi phí của sự cố (lượt chạy bù) khỏi chi phí của thiết kế; nếu muốn tính khả năng phải chạy bù thì ghi riêng thành một dòng (A142).
   - Đối chiếu với dòng "Chi … đến giờ" hoặc tổng của mục đăng ký gốc.
   - Thêm vào danh sách review `docs/research_rules.md` §4.
+
+## L70. Chạy thử bằng model giả lập không kiểm được đường xác thực; đổi người dùng (sudo) là một ranh giới mà biến môi trường có thể không qua được (A143)
+- **Nguyên nhân gốc:** lượt chạy thử thay mọi lần gọi model bằng câu trả lời có sẵn, nên không lần nào cần khóa. Cảnh báo của `sudo` chỉ hiện trong log, và lượt thử vẫn "đạt".
+- **Phòng ngừa:**
+  - Khi một lệnh chạy dưới người dùng khác (`sudo`, `su`, tiến trình con với môi trường sạch), truyền từng biến cần thiết một cách tường minh; không dựa vào `-E`.
+  - Thêm một bước kiểm 0 USD, chạy **đúng dưới người dùng đó**, xác nhận khóa nạp được và các biến cấu hình có mặt, trước lần gọi có phí đầu tiên.
+  - Đọc toàn bộ cảnh báo trong log của lượt chạy thử, không chỉ trạng thái đạt/không đạt.
+  - Thêm vào danh sách review `docs/research_rules.md` §4.
+

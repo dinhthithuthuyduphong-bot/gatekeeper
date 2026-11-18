@@ -6,7 +6,8 @@ after pointing mini-swe-agent's `docker` command (MSWEA_DOCKER_EXECUTABLE) and S
 gskill's Docker SDK at chroot_shim (kaggle/scripts/chroot_shim.py of a pinned commit, copied into
 --shim-dir with its dependency udocker_shim.py). Needs root (chroot, mknod).
 
-  sudo -E PYTHONPATH=<gepa>/src/gepa/gskill:<repo>/scripts <venv>/bin/python \
+  sudo env PATH=... GOOGLE_APPLICATION_CREDENTIALS=... VERTEXAI_PROJECT=... VERTEXAI_LOCATION=... \
+      PYTHONPATH=<gepa>/src/gepa/gskill:<repo>/scripts <venv>/bin/python \
       scripts/x2_chroot_probe.py --shim-dir /tmp/shim -- <arguments of f1_probe.py>
 """
 

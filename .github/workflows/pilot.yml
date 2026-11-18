@@ -797,12 +797,17 @@ jobs:
             echo "$SHIM_SHA256  /tmp/shim/chroot_shim.py" | sha256sum -c
             echo "$UDOCKER_SHA256  /tmp/shim/udocker_shim.py" | sha256sum -c
             chmod +x /tmp/shim/chroot_shim.py
+            # sudo ignores -E here (A143): the variables the agent's model call needs are passed one by one
+            AS_ROOT=(sudo env "PATH=$PATH" "HOME=$HOME" "GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS:-}"
+                     "GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT:-}" "VERTEXAI_PROJECT=${VERTEXAI_PROJECT:-}"
+                     "VERTEXAI_LOCATION=${VERTEXAI_LOCATION:-}" "PYTHONPATH=/tmp/gepa/src/gepa/gskill:$GITHUB_WORKSPACE/scripts")
+            # 0 USD check that, as root, the credentials load and the project is set (no model call)
+            "${AS_ROOT[@]}" /tmp/venv/bin/python -c "import google.auth, os; c, p = google.auth.default(); assert os.environ['VERTEXAI_PROJECT'] and os.environ['VERTEXAI_LOCATION']; print('root sees credentials:', type(c).__name__, 'project set:', bool(p or os.environ['VERTEXAI_PROJECT']))"
             for s in none skill; do
               c=$(cap x2_$s); guard "$c" || exit 4
               SK=(); [ "$s" = skill ] && SK=(--skills-file "$GITHUB_WORKSPACE/docs/skills/gskill/jinja_best_skills.txt")
               mkdir -p /tmp/work/x2$s && cd /tmp/work/x2$s
-              sudo -E env "PATH=$PATH" PYTHONPATH=/tmp/gepa/src/gepa/gskill:$GITHUB_WORKSPACE/scripts \
-                /tmp/venv/bin/python $GITHUB_WORKSPACE/scripts/x2_chroot_probe.py --shim-dir /tmp/shim -- \
+              "${AS_ROOT[@]}" /tmp/venv/bin/python $GITHUB_WORKSPACE/scripts/x2_chroot_probe.py --shim-dir /tmp/shim -- \
                 --rows "$ROWSLOCAL" --split test --subset no-problem-statement "${SK[@]}" \
                 --model vertex_ai/gemini-3.1-flash-lite --seed 41 --cost-limit 0.30 --cap "$c" \
                 --registry $GITHUB_WORKSPACE/tests/fixtures/e1_litellm_registry.json \
