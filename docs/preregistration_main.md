@@ -3021,4 +3021,8 @@ Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước ki�
 - **Token** (tổng `usage` trong file trace, đếm bằng máy):
   - lượt đầu: 14,56 triệu vào (11,57 triệu từ cache), 0,145 triệu ra;
   - lượt sau: 15,90 triệu vào (12,35 triệu từ cache), 0,104 triệu ra.
+- **Dữ liệu pool B:** `kaggle/data/w7_poolB.tar.gz`, sha256 `01f3475515611ac2238d73d486e0b0b98e18b358c60160ac09efea4bc119be40`, commit `0cb4874` của nhánh mặc định. Dựng hai lần cho cùng mã băm.
+  - Flash giải 12/34; Flash-Lite giải 0/34 ở cả seed 41 và seed 51.
+  - Flash-Lite seed 41 ở môi trường một commit đọc trace từ `s30_none` và `s30_none_rest`. Lý do: `s30_none.json` là bản gộp 80 lượt đầu và 20 lượt chạy bù của §30 (A125), còn trace của 20 lượt chạy bù nằm ở `s30_none_rest`. Ở 20 task chồng nhau, S và bản vá trùng khớp ở cả 20.
+  - Lỗi này được bước kiểm của chính bộ chuyển đổi bắt ("11 of the 34 tasks have no run or trace"); không dữ liệu nào bị điền thay.
 - **Không đổi:** quy tắc phân tích.
