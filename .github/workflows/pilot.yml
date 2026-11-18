@@ -15,7 +15,7 @@ on:
         required: true
         default: "r15"
         type: choice
-        options: ["r15", "swesmith-f1", "swesmith-refl", "swesmith-learn", "swesmith-eval", "swesmith-republish", "swesmith-leakfree", "swesmith-s27", "swesmith-s29", "swesmith-s30", "swesmith-s33", "swesmith-s34", "swesmith-s35", "swesmith-c10"]
+        options: ["r15", "swesmith-f1", "swesmith-refl", "swesmith-learn", "swesmith-eval", "swesmith-republish", "swesmith-leakfree", "swesmith-s27", "swesmith-s29", "swesmith-s30", "swesmith-s33", "swesmith-s34", "swesmith-s35", "swesmith-c10", "swesmith-x1"]
       name:
         description: "Run name (results/pilot/<name>.json)"
         required: true
@@ -65,7 +65,7 @@ on:
         required: true
         default: "none"
         type: choice
-        options: ["none", "skill", "placebo", "trace34", "trace34b", "pair", "skillb", "skillc", "learn", "eval", "evalrest", "pilot", "rest", "c10test34", "c10all70", "c10r70", "lfnone", "lfnonerest"]
+        options: ["none", "skill", "placebo", "trace34", "trace34b", "pair", "skillb", "skillc", "learn", "eval", "evalrest", "pilot", "rest", "c10test34", "c10all70", "c10r70", "lfnone", "lfnonerest", "x2", "learnship", "learnlf", "x1eval"]
       dryrun:
         description: "swesmith-s27 only: true = scripted model (0 USD) on the first task of each arm"
         required: false
@@ -741,6 +741,138 @@ jobs:
           done; done
           rc=0; for p in "${pids[@]}"; do wait $p || rc=1; done
           tail -n 3 /tmp/c10_*.log; exit $rc
+      - name: Sections 46-47 (X2' bridge; X1' second learning runs and their scoring; capped, cumulative guard 38.96)
+        if: inputs.plan == 'swesmith-x1'
+        env:
+          SHIM_COMMIT: 0b9ea53381e8a75dbba36c35971127a11b2136a7
+          SHIM_SHA256: fa4a51f55b33995398cff04b62acc6fbd0fec2bd35f66f2a137312e25de45854
+          UDOCKER_SHA256: 7092663286d1ea17e8fc8c0361d93dcff08aa03f9c9b9af237ea4f569cddacd6
+        run: |
+          [ "${{ inputs.repo }}" = "jinja" ] || { echo "sections 46-47 are registered for jinja only"; exit 1; }
+          mkdir -p /tmp/work /tmp/prev results && cd /tmp/work
+          git -C $GITHUB_WORKSPACE fetch -q origin pilot-snapshots || true
+          # spend so far of sections 46-47, from what earlier runs published (x1_budget.py adds it up)
+          for f in $(git -C $GITHUB_WORKSPACE ls-tree --name-only origin/pilot-snapshots results/ 2>/dev/null \
+                     | grep -E '^results/(x1ship_learn_ledger|x1lf_learn_ledger|x2_|x1eval_).*\.json$' | grep -v '\.cost\.json$'); do
+            git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:$f" > "/tmp/prev/$(basename $f)"
+          done
+          CAPS=$GITHUB_WORKSPACE/configs/x1.json
+          cap() { python -c "import json,sys; print(json.load(open(sys.argv[1]))['arms'][sys.argv[2]]['cap'])" "$CAPS" "$1"; }
+          guard() { python $GITHUB_WORKSPACE/scripts/x1_budget.py --dir /tmp/prev --next-cap "$1" --total 38.96; }
+          ARM=${{ inputs.arm }}; DRY=${{ inputs.dryrun }}
+          MOCKMSG=$'THOUGHT: dry run.\n\n```bash\necho COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT\n```'
+          MOCK=(); P=""
+          if [ "$DRY" = "true" ]; then  # free: scripted model, two tasks, files prefixed "dry"
+            MOCK=(--mock-response "$MOCKMSG"); P=dry
+            python - "$ROWSLOCAL" <<'PY'
+          import gzip, json, sys
+          p = sys.argv[1]
+          op = gzip.open if p.endswith(".gz") else open
+          rows = [json.loads(x) for x in op(p, "rt") if x.strip()]
+          test = sorted((r for r in rows if r["_gskill_split"] == "test"), key=lambda r: r["_gskill_order"])
+          keep = [test[0], next(r for r in test[1:] if not (r.get("problem_statement") or "").strip())]
+          if "${{ inputs.arm }}" in ("learnship", "learnlf"):
+              keep = rows  # gskill's --smoke-test picks its own few tasks from the full split
+          with op(p, "wt") as f:
+              f.write("".join(json.dumps(r) + "\n" for r in keep))
+          print("rows kept:", len(keep))
+          PY
+          fi
+          probe() {  # $1 out file, $2 cap, rest: extra arguments of f1_probe.py
+            out=$1; c=$2; shift 2
+            PYTHONPATH=/tmp/gepa/src/gepa/gskill:$GITHUB_WORKSPACE/scripts /tmp/venv/bin/python \
+              $GITHUB_WORKSPACE/scripts/f1_probe.py --rows "$ROWSLOCAL" --split test "$@" \
+              --model vertex_ai/gemini-3.1-flash-lite --seed 41 --cost-limit 0.30 --cap "$c" \
+              --registry $GITHUB_WORKSPACE/tests/fixtures/e1_litellm_registry.json \
+              --gskill-yaml /tmp/gepa/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml \
+              --out "$GITHUB_WORKSPACE/results/$out" "${MOCK[@]}"
+          }
+          case "$ARM" in
+          x2)
+            # section 46: Docker replaced by chroot_shim of a pinned commit (sha256 checked); same model on Vertex
+            git -C $GITHUB_WORKSPACE fetch -q --depth=200 origin claude/gatekeeper-13-research-nxytoh
+            mkdir -p /tmp/shim
+            git -C $GITHUB_WORKSPACE show "$SHIM_COMMIT:kaggle/scripts/chroot_shim.py" > /tmp/shim/chroot_shim.py
+            git -C $GITHUB_WORKSPACE show "$SHIM_COMMIT:kaggle/scripts/udocker_shim.py" > /tmp/shim/udocker_shim.py
+            echo "$SHIM_SHA256  /tmp/shim/chroot_shim.py" | sha256sum -c
+            echo "$UDOCKER_SHA256  /tmp/shim/udocker_shim.py" | sha256sum -c
+            chmod +x /tmp/shim/chroot_shim.py
+            for s in none skill; do
+              c=$(cap x2_$s); guard "$c" || exit 4
+              SK=(); [ "$s" = skill ] && SK=(--skills-file "$GITHUB_WORKSPACE/docs/skills/gskill/jinja_best_skills.txt")
+              mkdir -p /tmp/work/x2$s && cd /tmp/work/x2$s
+              sudo -E env "PATH=$PATH" PYTHONPATH=/tmp/gepa/src/gepa/gskill:$GITHUB_WORKSPACE/scripts \
+                /tmp/venv/bin/python $GITHUB_WORKSPACE/scripts/x2_chroot_probe.py --shim-dir /tmp/shim -- \
+                --rows "$ROWSLOCAL" --split test --subset no-problem-statement "${SK[@]}" \
+                --model vertex_ai/gemini-3.1-flash-lite --seed 41 --cost-limit 0.30 --cap "$c" \
+                --registry $GITHUB_WORKSPACE/tests/fixtures/e1_litellm_registry.json \
+                --gskill-yaml /tmp/gepa/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml \
+                --out "$GITHUB_WORKSPACE/results/${P}x2_$s.json" "${MOCK[@]}" || { sudo chown -R "$(id -u):$(id -g)" $GITHUB_WORKSPACE/results; exit 1; }
+              sudo chown -R "$(id -u):$(id -g)" $GITHUB_WORKSPACE/results
+              [ -n "$P" ] || cp "$GITHUB_WORKSPACE/results/x2_$s.json" /tmp/prev/
+            done
+            ;;
+          learnship|learnlf)
+            # section 47: the learning command of section 25 step 2 (learnship) or section 30 (learnlf), seed 42
+            T=x1ship; LF=(); KEY=learn_ship
+            [ "$ARM" = learnlf ] && { T=x1lf; LF=(--leak-free); KEY=learn_lf; }
+            c=$(cap $KEY); OWN=(); GS=()
+            if [ -n "$P" ]; then T=dry$T; OWN=(--mock-response "$MOCKMSG" --local-rows "$ROWSLOCAL"); GS=(--smoke-test); fi
+            if [ "${{ inputs.half }}" = "1" ]; then
+              BEFORE=0; CALLS=300; EXTRA=""
+              guard "$c" || exit 4
+            else
+              git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/${T}_learn_run.tar.gz" > /tmp/run.tgz
+              BEFORE=$(git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/${T}_learn_ledger_h1.json" | python -c "import json,sys; print(json.load(sys.stdin)['spent_total'])")
+              NC=$(git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/${T}_learn_summary_h1.json" | python -c "import json,sys; d=json.load(sys.stdin); print((d.get('extra_info') or {}).get('num_candidates', d.get('num_candidates', 0)))")
+              echo "half 1: spent $BEFORE, num_candidates $NC"
+              [ -n "$P" ] || [ "$NC" -gt 1 ] || { echo "early stop of section 25: no candidate beyond the seed"; exit 9; }
+              python $GITHUB_WORKSPACE/scripts/split_identity.py --rows "$ROWSLOCAL" --archives /tmp/run.tgz --out "$GITHUB_WORKSPACE/results/${T}_split_identity.json" || [ -n "$P" ] || exit 8
+              guard "$(python -c "print(round($c - $BEFORE, 3))")" || exit 4
+              tar -xzf /tmp/run.tgz -C /tmp/work
+              RUN=$(ls -d gepa_results/logs/run_*/ | sort | tail -1); RUN=${RUN%/}
+              CALLS=600; EXTRA="--resume $RUN"
+            fi
+            rc=0
+            PYTHONPATH=/tmp/gepa/src/gepa/gskill /tmp/venv/bin/python $GITHUB_WORKSPACE/scripts/gskill_learn.py \
+              "${LF[@]}" --cap "$c" --spent-before "$BEFORE" "${OWN[@]}" \
+              --ledger "$GITHUB_WORKSPACE/results/${T}_learn_ledger_h${{ inputs.half }}.json" --registry /tmp/registry.json -- \
+              --repo "$REPO" --train-size 200 --val-size 50 --test-size 100 \
+              --model vertex_ai/gemini-3.1-flash-lite --reflection-model vertex_ai/gemini-3.1-pro-preview \
+              --workers 6 --max-metric-calls $CALLS --timeout 18000 $EXTRA "${GS[@]}" || rc=$?
+            echo "exit $rc"
+            RUN=$(ls -td gepa_results/logs/run_*/ | head -1); RUN=${RUN%/}  # newest: --resume writes a new run dir (A95)
+            tar -czf "$GITHUB_WORKSPACE/results/${T}_learn_run.tar.gz" "gepa_results/logs/$(basename $RUN)"
+            cp $RUN/prompts/best_skills.txt "$GITHUB_WORKSPACE/results/${T}_best_skills.txt" || true
+            cp $RUN/summary.json "$GITHUB_WORKSPACE/results/${T}_learn_summary_h${{ inputs.half }}.json" || true
+            [ "$rc" = "0" ] || exit "$rc"  # 5 = money cap, 6 = a history rewrite failed
+            ;;
+          x1eval)
+            # section 47: five arms at the same time, after both learning runs (caps from configs/x1.json)
+            TOTAL=$(python -c "import json; a=json.load(open('$CAPS'))['arms']; print(round(sum(a[k]['cap'] for k in a if k.startswith('score_')), 3))")
+            guard "$TOTAL" || { echo "not enough left of 38.96 for the five scoring caps: ask @thuthuy"; exit 4; }
+            if [ -n "$P" ]; then
+              SHIP="$GITHUB_WORKSPACE/docs/skills/gskill/jinja_no_history.txt"; LFS="$SHIP"
+            else
+              SHIP=/tmp/x1ship_skill.txt; LFS=/tmp/x1lf_skill.txt
+              git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/x1ship_best_skills.txt" > $SHIP
+              git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/x1lf_best_skills.txt" > $LFS
+              cmp $SHIP "$GITHUB_WORKSPACE/docs/skills/gskill/jinja_x1ship_best_skills.txt"
+              cmp $LFS "$GITHUB_WORKSPACE/docs/skills/gskill/jinja_x1lf_best_skills.txt"
+            fi
+            pids=()
+            run_arm() { name=$1; key=$2; shift 2; mkdir -p /tmp/work/$name
+              (cd /tmp/work/$name && probe "${P}x1eval_$name.json" "$(cap $key)" "$@") > /tmp/$name.log 2>&1 & pids+=($!); }
+            run_arm ship_none score_ship_none
+            run_arm ship_skill score_ship_skill --skills-file "$SHIP"
+            run_arm lf_none score_lf_none --leak-free
+            run_arm lf_skill score_lf_skill --leak-free --skills-file "$LFS"
+            run_arm lfskill_ship34 score_lfskill_on_ship34 --skills-file "$LFS" --subset no-problem-statement
+            rc=0; for p in "${pids[@]}"; do wait $p || rc=1; done  # each arm's exit status, by PID (L43)
+            tail -n 3 /tmp/*.log; exit $rc
+            ;;
+          *) echo "unknown arm $ARM for swesmith-x1"; exit 1;;
+          esac
       - uses: actions/upload-artifact@v6
         if: always()
         with:
@@ -758,12 +890,15 @@ jobs:
             results/s34*
             results/s35*
             results/c10*
+            results/x1*
+            results/x2_*
+            results/dryx*
           if-no-files-found: warn
       - name: Publish to pilot-snapshots branch
         if: always()
         run: |
           # only files that exist: git add of a missing path fails the publish
-          files=$(ls results/f1_probe.json results/f1_skill_probe.json results/reflection_cost_probe.json results/s25_* results/s25bleve_* results/s27* results/s29* results/s30* results/s33* results/s34* results/s35* results/c10* results/*.traces.jsonl.gz 2>/dev/null || true)
+          files=$(ls results/f1_probe.json results/f1_skill_probe.json results/reflection_cost_probe.json results/s25_* results/s25bleve_* results/s27* results/s29* results/s30* results/s33* results/s34* results/s35* results/c10* results/x1* results/x2_* results/dryx* results/*.traces.jsonl.gz 2>/dev/null || true)
           echo "publishing: $files"
           scripts/publish_snapshot.sh pilot-snapshots "Section 25 ${{ inputs.plan }} ${{ inputs.half }} run ${GITHUB_RUN_ID}" $files
 

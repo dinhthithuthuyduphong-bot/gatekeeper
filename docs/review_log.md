@@ -1150,3 +1150,16 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Test:** `tests/test_split_identity.py`, 2 test, đạt (một mã ở test, một mã lạ, log rỗng đều cho "không đạt"; đọc được cả `.jsonl` và `.jsonl.gz`).
 - **Kết quả:** đạt ở cả ba lượt học đã có (Jinja gốc, Jinja một commit, Bleve gốc).
 
+## R-82. §46 (X2′) và §47 (X1′): workflow, chốt chặn tiền, bộ chạy qua lớp `chroot` (18/11/2026; trước mọi lượt có phí)
+
+- **Đối chiếu bản đăng ký:** §46, §47 commit `48190f6` trước mọi dòng mã của mục này. Trần từng khâu từ `configs/x1.json` (L66); trần cộng dồn 38,96 USD (`CLAUDE.md`).
+- **Mã:**
+  - `scripts/x1_budget.py`: cộng số đã chi của §46–§47 từ file đã publish (mỗi lượt học lấy `spent_total` lớn nhất của các nửa; mỗi file kết quả lấy `spent_usd`; bỏ `*.cost.json`). Từ chối khi đã chi + trần của khâu kế tiếp > 38,96. Test `tests/test_x1_budget.py`.
+  - `scripts/x2_chroot_probe.py`: chạy `scripts/f1_probe.py` không sửa, chỉ trỏ lệnh `docker` của mini-swe-agent và Docker SDK của SWE-smith, gskill vào `chroot_shim` (commit ghim `0b9ea53`, kiểm sha256 của `chroot_shim.py` và `udocker_shim.py` trong workflow). Chạy bằng `sudo -E` vì cần `chroot` và `mknod`.
+  - `pilot.yml`, plan `swesmith-x1`, bốn arm:
+    - `x2`: hai nhánh nối tiếp (34 task không mô tả, môi trường gốc, seed 41);
+    - `learnship`, `learnlf`: đúng lệnh của §25 bước 2 và §30, thẻ mới; nửa hai bị chặn nếu `num_candidates` ≤ 1 (thoát 9), nếu `split_identity.py` không đạt (thoát 8), hoặc nếu chốt tiền không cho (thoát 4);
+    - `x1eval`: năm nhánh chạy song song trong một job (thay cho "hai job song song" của §47; vẫn cùng khoảng thời gian), skill phải trùng từng byte với bản sao trong `docs/skills/gskill/`.
+  - Chạy thử (`dryrun = true`): model giả lập, tiền tố `dry`, không được cộng vào số đã chi.
+- **Chạy thử miễn phí:** ghi bên dưới khi có.
+
