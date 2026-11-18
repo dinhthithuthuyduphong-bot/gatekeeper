@@ -36,7 +36,7 @@ Hạn mức AI Kaggle đã dùng: P0 0,47; B 3,05; A cộng dồn 20,06 (Kaggle 
 | ~~N3~~ | ~~C6: 6 task qua lớp cách ly~~ **Xong 18/11: đạt** (40-9) | — | — |
 | N4 | **C4′:** ba agent, 4 nhánh, POOL B (100 + 36 task), chạy lại từ đầu | Đang chờ T6 | @thuthuy chạy, Claude phân tích (40-5, 40-8) |
 | N4b | **W7:** chạy thử (T7), đo một khối 3 cặp, xin trần bước học, rồi chạy sau C4′ | Đang chờ T7 | cả hai (§45) |
-| N4c | **§48 X1′-LF:** lượt học gskill thứ hai ở môi trường một commit (lệnh của §30) qua lớp `chroot`, model qua proxy; cộng ba nhánh chấm. Chuyển từ Vertex (ghi chú 47-1, phương án B). Dự kiến 14,66 USD hạn mức, trần 20,15; mỗi nửa học một ngày | Claude viết ô và bước 0 (0 USD: liệt kê model, smoke test, lưu/nạp thư mục chạy, đo thời gian); rồi đăng ký chính thức | Claude, rồi @thuthuy chạy |
+| ~~N4c~~ | ~~§48 X1′-LF trên Kaggle~~ **Rút lại 18/11** (@thuthuy: "oke nâng trần lên 35 đô"; ghi chú 47-3): lượt học một commit chạy trên Vertex | — | — |
 | N5 | Đề xuất C7 (Pygments), C8 (seed 2), C9 (agent hạng giữa), D (lượt học) | Có kết quả C4′ | Claude đề xuất, @thuthuy duyệt |
 | N6 | Mục E (việc thuần văn bản), ví dụ E1: kiểm endpoint của §38 bằng đọc tay | Theo kết quả §38 (đã có) | Claude |
 | N7 | Đưa §38, A′, B (và C4′, W7 nếu hợp lệ) vào paper và `report/`; chuyển `kaggle/` về `main` | @thuthuy đồng ý | Claude |
