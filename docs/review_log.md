@@ -1141,3 +1141,4 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Ghi chú 45-1:** arm `lfnonerest` trong bước §34.
   - Kiểm `budget_usd` và `cost_limit` theo `configs/w7b.json` (khóa `cap_<arm>`); `--skip-done` trỏ tới `results/s34_lfnone.json`.
   - `bash -n` đạt. Chạy thử miễn phí trước khi chi.
+- **Chạy thử miễn phí `lfnonerest` đạt.** Task được chọn không thuộc 17 task của `s34_lfnone`; `leak_free_check` đúng; trần 4,386; cost_limit 0,34. Lượt có phí được khởi động sau đó.
