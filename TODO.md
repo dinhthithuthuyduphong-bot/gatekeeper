@@ -21,16 +21,18 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 ### Tổng hợp thí nghiệm còn lại và chi phí (18/11/2026)
 
-**Tiền thật (Vertex): tổng chi mới ≤ 35 USD, cả hai lượt học lại trên Vertex** (@thuthuy 18/11: "oke nâng trần lên 35 đô"; ghi chú 47-3, thay 47-1 và 47-2). Bắt đầu sớm nhất 20/11, và chỉ khi @thuthuy cho biết trần 10 USD của project tính theo ngày hay tháng (18/11: "Chưa biết"). Lịch giả định 10 USD mỗi ngày:
+**Tiền thật (Vertex): tổng chi mới ≤ 35 USD, cả hai lượt học lại trên Vertex** (@thuthuy 18/11: "oke nâng trần lên 35 đô"; ghi chú 47-3, thay 47-1 và 47-2). Bắt đầu sớm nhất **21/11** (@thuthuy 18/11: "chỉnh kế hoạch, việc làm trên vertex AI sẽ bắt đầu vào ngày 21/11"), và chỉ khi @thuthuy cho biết trần 10 USD của project tính theo ngày hay tháng (18/11: "Chưa biết"). Lịch giả định 10 USD mỗi ngày:
 
 | Ngày | Việc | Dự kiến (USD) | Trần riêng (USD) |
 | --- | --- | --- | --- |
-| 20/11 | §46 X2′ (hai nhánh, 34 task) + §47 học gốc nửa 1 | 0,862 + 6,364 = 7,226 | 1,863; học 14,50 cả hai nửa |
-| 21/11 | §47 học gốc nửa 2 | 5,890 | (trong 14,50) |
-| 22/11 | §47 học một commit nửa 1 | 5,138 | 14,50 cả hai nửa |
-| 23/11 | §47 học một commit nửa 2 | 5,852 | (trong 14,50) |
-| 24/11 | §47 chấm năm nhánh cùng lúc | 7,052 | 10,491 (lớn hơn 10: rủi ro nhỏ chạm trần project) |
+| 21/11 | §46 X2′ (hai nhánh, 34 task) + §47 học gốc nửa 1 | 0,862 + 6,364 = 7,226 | 1,863; học 14,50 cả hai nửa |
+| 22/11 | §47 học gốc nửa 2 | 5,890 | (trong 14,50) |
+| 23/11 | §47 học một commit nửa 1 | 5,138 | 14,50 cả hai nửa |
+| 24/11 | §47 học một commit nửa 2 | 5,852 | (trong 14,50) |
+| 25/11 | §47 chấm năm nhánh cùng lúc | 7,052 | 10,491 (lớn hơn 10: rủi ro nhỏ chạm trần project) |
 | | **Tổng** | **31,158** | chặn cộng dồn 35,00 |
+
+**Cảnh báo rủi ro (ghi chú 47-4):** sau mỗi khâu có phí, `scripts/x1_alerts.py` kiểm A1 lỗi hạ tầng, A2 chạm hạn mức hay thanh toán, A3 thiếu lượt, A4 dự báo chốt chặn sẽ chặn khâu chấm, A5 kết quả Q1 ngoài dự kiến. Có cảnh báo thì chuỗi dừng và Claude hỏi @thuthuy ngay.
 
 **Biên trước khâu chấm hẹp:** khâu chấm cần phần còn lại ≥ 10,491, tức số đã chi trước nó ≤ 24,509; dự kiến 24,106 (biên 0,403 USD). Nếu ba khâu trước tốn hơn dự kiến quá 0,40, chốt chặn dừng trước khâu chấm và Claude báo @thuthuy số còn thiếu.
 
@@ -62,7 +64,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 ### Đang chờ @thuthuy (chạy trên Kaggle)
 
 1. **C4′:** chạy `kaggle/notebooks/c4p_cell.py` (POOL B; Save Version → Save & Run All), mỗi ngày một phiên, trần 2,0 USD hạn mức mỗi phiên, 12 USD mỗi model. Sau mỗi phiên gửi `c4p.json` và `c4p_results.zip`.
-2. **Chạy thử W7:** ô `kaggle/notebooks/w7_run_cell.py` bản ghim `COMMIT = 0cb4874…`, `POOL = "A"`, `DRY_RUN = True` (0 USD), trong một notebook Benchmarks riêng. Gửi `w7_A.json` và `w7_A_run.zip`.
+2. **Chạy thử W7: xong 18/11** (pool A: 62 cặp trên 31 issue, mọi bước chạy; ghi chú 45-3). Tiếp theo: **khối đo** (khối 0, `MAX_CHUNKS = 1`, `DRY_RUN = False`) sau khi @thuthuy duyệt trần (xấu nhất 6,05 USD hạn mức; A145 đã sửa bước kiểm trần).
 
 ### Việc tiếp theo của Claude, theo thứ tự
 
@@ -70,7 +72,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 **Bậc 1, thực nghiệm (làm trước):**
 1. C4′: phân tích theo `kaggle/preregistration_s40.md` (40-5, 40-8) khi có dữ liệu.
-2. **X2′ và X1′ trên Vertex, tổng ≤ 35 USD (ghi chú 47-3):** bước 0 xong (phép chia đạt, đăng ký §46–§47, chạy thử R-82; chạy thử lại sau 47-3: đạt, R-84). Chờ 20/11 và câu trả lời về chu kỳ trần project. Rồi X2′ (0,86), học gốc hai nửa, học một commit hai nửa, chấm năm nhánh cùng lúc.
+2. **X2′ và X1′ trên Vertex, tổng ≤ 35 USD (ghi chú 47-3):** bước 0 xong (phép chia đạt, đăng ký §46–§47, chạy thử R-82; chạy thử lại sau 47-3: đạt, R-84). Chờ 21/11 và câu trả lời về chu kỳ trần project. Rồi X2′ (0,86), học gốc hai nửa, học một commit hai nửa, chấm năm nhánh cùng lúc.
 
 **Bậc 2:**
 4. **X3′, kiểm định bộ theo dõi trace** bằng nhãn độc lập (ghi chú trang 8 của PDF); tìm nguồn cho cỡ mẫu và chỉ số đồng thuận, rồi đăng ký.

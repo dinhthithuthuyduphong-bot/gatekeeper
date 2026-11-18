@@ -595,3 +595,9 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Sau khi kích hoạt nhiều lượt, đọc trạng thái từng lượt (`conclusion`); "cancelled" không phải "đạt".
   - Thêm vào danh sách review `docs/research_rules.md` §4.
 
+## L72. Cận trên chi phí của mã bên thứ ba phải đếm mọi lần gọi mà mã đó có thể phát ra (A145)
+- **Nguyên nhân gốc:** bước kiểm trần lấy số lệnh gọi từ mô tả của README ("three prompts"), không đọc các vòng lặp hỏi lại trong mã (`discover.py`, `judge.py`, `merge.py`) và lớp thử lại của `llm.py`.
+- **Phòng ngừa:**
+  - Trước khi viết bước kiểm trần cho mã bên thứ ba: tìm mọi vòng lặp quanh lệnh gọi model (`attempt`, `retry`, chia lô) và đọc tham số của chúng từ file cấu hình của chính mã đó lúc chạy.
+  - Đối chiếu số lệnh gọi của lượt chạy thử với số bước kiểm dự tính; lệch thì dừng.
+  - Thêm vào danh sách review `docs/research_rules.md` §4.

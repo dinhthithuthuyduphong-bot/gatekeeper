@@ -756,11 +756,18 @@ jobs:
                      | grep -E '^results/(x1ship_learn_ledger|x1lf_learn_ledger|x2_|x1eval_).*\.json$' | grep -v '\.cost\.json$'); do
             git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:$f" > "/tmp/prev/$(basename $f)"
           done
+          for t in x1ship x1lf dryx1ship dryx1lf; do  # best skills, for alert A5 of later stages
+            git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/${t}_best_skills.txt" > "/tmp/prev/${t}_best_skills.txt" 2>/dev/null || rm -f "/tmp/prev/${t}_best_skills.txt"
+          done
           CAPS=$GITHUB_WORKSPACE/configs/x1.json
           cap() { python -c "import json,sys; print(json.load(open(sys.argv[1]))['arms'][sys.argv[2]]['cap'])" "$CAPS" "$1"; }
           TOTALV=$(python -c "import json,sys; print(json.load(open(sys.argv[1]))['approved_total'])" "$CAPS")  # 35 since note 47-3
           guard() { python $GITHUB_WORKSPACE/scripts/x1_budget.py --dir /tmp/prev --next-cap "$1" --total "$TOTALV"; }
           ARM=${{ inputs.arm }}; DRY=${{ inputs.dryrun }}
+          # note 47-4: risk alerts after every paid stage; an alert fails the job (exit 10) and stops the chain
+          alerts() { python $GITHUB_WORKSPACE/scripts/x1_alerts.py --dir /tmp/prev --dir $GITHUB_WORKSPACE/results \
+            --caps "$CAPS" --ack $GITHUB_WORKSPACE/configs/x1_ack.json --prefix "$P" --stage "$1" \
+            --out "$GITHUB_WORKSPACE/results/${P}x1_alerts_$1.json" || exit 10; }
           MOCKMSG=$'THOUGHT: dry run.\n\n```bash\necho COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT\n```'
           MOCK=(); P=""
           if [ "$DRY" = "true" ]; then  # free: scripted model, two tasks, files prefixed "dry"
@@ -816,6 +823,7 @@ jobs:
                 --out "$GITHUB_WORKSPACE/results/${P}x2_$s.json" "${MOCK[@]}" || { sudo chown -R "$(id -u):$(id -g)" $GITHUB_WORKSPACE/results; exit 1; }
               sudo chown -R "$(id -u):$(id -g)" $GITHUB_WORKSPACE/results
               [ -n "$P" ] || cp "$GITHUB_WORKSPACE/results/x2_$s.json" /tmp/prev/
+              alerts x2_$s
             done
             ;;
           learnship|learnlf)
@@ -852,6 +860,7 @@ jobs:
             cp $RUN/prompts/best_skills.txt "$GITHUB_WORKSPACE/results/${T}_best_skills.txt" || true
             cp $RUN/summary.json "$GITHUB_WORKSPACE/results/${T}_learn_summary_h${{ inputs.half }}.json" || true
             [ "$rc" = "0" ] || exit "$rc"  # 5 = money cap, 6 = a history rewrite failed
+            alerts "$ARM-h${{ inputs.half }}"
             ;;
           x1eval)
             # section 47: five arms at the same time, after both learning runs (caps from configs/x1.json)
@@ -875,7 +884,8 @@ jobs:
             run_arm lf_skill score_lf_skill --leak-free --skills-file "$LFS"
             run_arm lfskill_ship34 score_lfskill_on_ship34 --skills-file "$LFS" --subset no-problem-statement
             rc=0; for p in "${pids[@]}"; do wait $p || rc=1; done  # each arm's exit status, by PID (L43)
-            tail -n 3 /tmp/*.log; exit $rc
+            tail -n 3 /tmp/*.log; [ "$rc" = "0" ] || exit $rc
+            alerts x1eval
             ;;
           *) echo "unknown arm $ARM for swesmith-x1"; exit 1;;
           esac

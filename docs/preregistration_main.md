@@ -3027,6 +3027,18 @@ Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước ki�
   - Lỗi này được bước kiểm của chính bộ chuyển đổi bắt ("11 of the 34 tasks have no run or trace"); không dữ liệu nào bị điền thay.
 - **Không đổi:** quy tắc phân tích.
 
+**Ghi chú thực thi 45-3** (18/11/2026, sau lượt chạy thử pool A trên Kaggle, trước mọi lệnh gọi model có phí của bộ học):
+- **Chạy thử pool A** (`DRY_RUN = True`, 0 USD; notebook Benchmarks, 12:03:18Z–12:03:44Z; `kaggle/results/w7/w7_A_dryrun.json` và `w7_A_dryrun_run.zip`, sha256 zip `984ad75170a1f72ada4c9e7ff739034271d49235d441321fd941d7c2fd76aebd`):
+  - mọi bước chạy: ingest, pair, fork, discover (21/21 khối), merge, judge, score, audit; 107 file giải nén;
+  - pool: 3 × 34 quỹ đạo; **62 cặp trên 31 issue**, đúng số đếm trước ở mục đăng ký; tỉ lệ giải Flash 0,9118 (31/34), Flash-Lite 0,0;
+  - 372 lệnh gọi giả lập = 62 cặp × 3 bộ phân tích × 2 lần (lời đáp rỗng bị bộ lọc của XRepoSkill từ chối và hỏi lại một lần); merge, judge không gọi model vì không có ứng viên;
+  - độ dài phần user của prompt discover: nhỏ nhất 2.365, trung vị 5.938, lớn nhất 8.755 ký tự. XRepoSkill chỉ đưa vào prompt phần quỹ đạo từ điểm rẽ nhánh, đã tóm thành nhãn hành động (ví dụ cặp đầu: phía thành công `git:log`, `git:show`, `git:diff`).
+- **Lỗi của bước kiểm trần, sửa trước mọi lệnh gọi có phí (A145):**
+  - bản cũ tính chi phí xấu nhất của một khối là 3 lệnh gọi mỗi cặp. Mã của XRepoSkill tại commit ghim hỏi lại một lần khi bộ lọc từ chối (`retry_on_guard_reject: 1`), judge hỏi lại một lần khi không đọc được lời đáp, merge chia đôi lô khi bị cắt; bản cũ cũng không kiểm trước merge và judge;
+  - sửa (`kaggle/notebooks/w7_run_cell.py`, commit `fa2c5f4` của nhánh mặc định): số lần hỏi lại đọc từ `configs/pipeline.yaml` của XRepoSkill; trước merge và judge tính chi phí xấu nhất theo số ứng viên; lệnh gọi thất bại được tính theo mức xấu nhất; thêm `MAX_CHUNKS`; test `kaggle/tests/test_w7_cell_guard.py`.
+- **Khối đo:** chỉ khối 0 (3 cặp, 18 lệnh gọi xấu nhất), `MAX_CHUNKS = 1`. Chi phí xấu nhất theo bước kiểm đã sửa: **6,05 USD hạn mức** (trong đó 18 × 0,288 = 5,18 là phần token ra tối đa `max_tokens = 24000`). Bước kiểm không bắt đầu khối nếu trần nhỏ hơn 6,05. Trần của khối đo chờ @thuthuy.
+- **Không đổi:** đại lượng, phép thử, ngưỡng, diễn giải.
+
 ## 46. X2′: cầu nối giữa môi trường Docker và lớp `chroot` của Kaggle (đăng ký 18/11/2026, trước mọi lượt có phí của §46)
 
 **Vì sao:** C4′ (`kaggle/preregistration_s40.md`) chạy agent khác hãng trong lớp `chroot` dựng từ image gốc (ghi chú 40-4), không trong Docker. Các cổng C1, C5 chỉ chứng minh bộ chấm cho điểm giống Docker và agent không thấy gì ngoài image. Nếu C4′ cho kết quả khác paper, chưa tách được phần do agent khác với phần do môi trường khác (`docs/plan_vs_review.md` mục 4 và 7.2). @thuthuy duyệt 18/11 (`CLAUDE.md`, trần cộng dồn 38,96 USD cùng §47).
@@ -3135,6 +3147,24 @@ Q3 được báo cáo đầy đủ trong mọi trường hợp, kể cả khi kh
 - **Thay ghi chú 47-1 và 47-2:** thiết kế quay về đúng bản đăng ký §47 (hai lượt học, năm nhánh chấm cùng lúc, thứ tự của `docs/plan_vs_review.md` mục 11.2). Chỉ khác: trần cộng dồn **35,00 USD** thay 38,96. §48 rút lại, không chạy.
 - **Cổng 3:** trước khâu chấm, phần còn lại của 35,00 phải ≥ 10,491 USD (tổng trần năm nhánh). Tức số đã chi của §46, học gốc và học một commit ≤ 24,509; dự kiến 24,106, **biên 0,403 USD**. Vượt thì dừng và báo @thuthuy số còn thiếu; không chấm thiếu nhánh, không tách nhánh chấm ra hai ngày (giữ chấm cùng lúc).
 - Trần riêng của mọi khâu giữ nguyên (mô phỏng lại với seed 4701: không đổi). Workflow trở về đúng mã đã chạy thử ở R-82, chỉ đổi chỗ đọc trần cộng dồn từ `configs/x1.json`.
+
+**Ghi chú thực thi 47-4 (18/11/2026, trước mọi lượt có phí; chưa có dữ liệu mới): cảnh báo rủi ro.** @thuthuy 18/11: "oke giữ trần vertex 35 đô, lập cảnh báo về phát hiện rủi ro nếu như hướng đi không mong muốn thì xin yêu cầu liền".
+- Sau mỗi khâu có phí (từng nhánh của §46, mỗi nửa học, khâu chấm), `scripts/x1_alerts.py` kiểm năm điều kiện. Có một điều kiện đúng thì job thất bại (mã 10), chuỗi khâu dừng, và Claude báo @thuthuy ngay, kèm ba điều của mục "Quyền quyết định" trong `CLAUDE.md`.
+- Không cảnh báo nào đổi quy tắc hay cách đọc đã đăng ký (R5). Mỗi ngưỡng lấy từ một số đã đăng ký hoặc suy ra:
+
+| Mã | Điều kiện | Nguồn của ngưỡng |
+| --- | --- | --- |
+| A1 | Một lượt có `infra_error` | Chuẩn đã đăng ký: 0 lỗi hạ tầng (`CLAUDE.md`, quy trình bước 8) |
+| A2 | Lỗi hay đoạn crash nhắc tới hạn mức, giới hạn tốc độ hay thanh toán (429, `RESOURCE_EXHAUSTED`, quota, billing) | Bài học của A124 (chạm trần project làm 38 lượt hỏng) |
+| A3 | File kết quả có ít lượt hơn n đã đăng ký của nhánh | n trong `configs/x1.json` (34 hoặc 100) |
+| A4 | Số đã chi + phần dự kiến của các khâu còn lại trước khâu chấm > 35,00 − 10,491 = 24,509 | Suy ra từ trần cộng dồn và tổng trần năm nhánh chấm (ghi chú 47-3): chốt chặn sẽ chặn khâu chấm, nên báo sớm khi còn đổi được |
+| A5 | Lượt học xong cho cách đọc Q1 mà bảng "Cách đọc" ghi là ngoài dự kiến: skill `x1ship` không có dòng khớp RULE của §29, hoặc skill `x1lf` có | Bảng "Cách đọc" của §47; RULE của §29 (`scripts/make_ablation.py`) |
+
+- Cảnh báo mà @thuthuy đã đọc và quyết cho chạy tiếp được ghi vào `configs/x1_ack.json` (mã, file hoặc thẻ, ngày, câu quyết định nguyên văn). Khi đó cảnh báo đó vẫn được báo nhưng không còn chặn.
+- Trong lượt chạy thử (tiền tố `dry`), A5 không được đọc vì skill đến từ model giả lập; A1–A4 chạy như thật trên file `dry`.
+- Ngoài năm cảnh báo, các cổng đã có vẫn chặn như cũ: chốt chặn tiền (mã 4), trần của khâu (5), viết lại lịch sử hỏng (6), phép chia (8), `num_candidates` (9).
+
+**Ghi chú thực thi 47-5 (18/11/2026, trước mọi lượt có phí):** @thuthuy 18/11: "chỉnh kế hoạch, việc làm trên vertex AI sẽ bắt đầu vào ngày 21/11". Lượt có phí đầu tiên của §46–§47 không trước 21/11; thứ tự và lịch ở `docs/plan_vs_review.md` mục 12.3. Không đổi gì khác.
 
 ## 48. X1′-LF: lượt học gskill thứ hai ở môi trường một commit, chạy trên Kaggle (BẢN NHÁP 18/11/2026; **RÚT LẠI cùng ngày theo ghi chú 47-3**, chưa đăng ký, chưa có lệnh gọi model nào; giữ lại để thấy lịch sử quyết định)
 
