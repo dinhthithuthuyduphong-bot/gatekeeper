@@ -1,0 +1,43 @@
+name: Split check
+
+# docs/plan_vs_review.md section 11, step 0.1 (0 USD, no model call): re-export gskill's
+# train/val/test split of SWE-smith with seed 42 from today's Hugging Face dataset, and compare it
+# task by task with the export on `data-snapshots` that every run of the paper used. Writes nothing
+# to any branch; the comparison is printed and uploaded as an artifact.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: pip install -e . "datasets>=2.19"
+      - name: Re-export with seed 42 into a new path
+        run: |
+          mkdir -p /tmp/now
+          python scripts/export_swesmith.py --repo pallets__jinja --train 200 --val 50 --test 100 --seed 42 --out /tmp/now/swesmith_pallets__jinja.jsonl
+          python scripts/export_swesmith.py --repo blevesearch__bleve --train 200 --val 50 --test 100 --seed 42 --out /tmp/now/swesmith_blevesearch__bleve.jsonl.gz
+      - name: Compare with data-snapshots
+        run: |
+          git fetch --depth=1 origin data-snapshots
+          mkdir -p /tmp/old
+          git show origin/data-snapshots:data/instances/swesmith_pallets__jinja.jsonl > /tmp/old/swesmith_pallets__jinja.jsonl
+          git show origin/data-snapshots:data/instances/swesmith_blevesearch__bleve.jsonl.gz > /tmp/old/swesmith_blevesearch__bleve.jsonl.gz
+          python scripts/split_compare.py --old /tmp/old --new /tmp/now \
+            --files swesmith_pallets__jinja.jsonl swesmith_blevesearch__bleve.jsonl.gz \
+            --out split_check.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: split-check
+          path: split_check.json
