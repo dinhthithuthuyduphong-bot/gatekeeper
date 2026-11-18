@@ -123,6 +123,8 @@ Không gọi Gatekeeper hay mệnh đề cuối pool là "đóng góp phương p
 
 ## 5. Danh sách việc
 
+> **Thứ tự từ 18/11** (@thuthuy: "Những phần nghiêng về viết paper thì bỏ ở to do list với độ ưu tiên phía sau"): làm trước các việc thực nghiệm và lý thuyết (đợt 3; và X1′, X2′, X3′ ở `docs/plan_vs_review.md`). Các việc còn mở của đợt 4, 5, 6 làm sau.
+
 Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm được ngay. **Chờ** = cần @thuthuy quyết.
 
 ### Đợt 1: nền tảng (làm ngay)
