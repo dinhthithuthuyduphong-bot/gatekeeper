@@ -166,3 +166,26 @@ Tôi đã đối chiếu từng khẳng định với `docs/reviews/meta_review_
 2. X3′: kiểm toàn bộ 52 trace (0 USD, cần người gán).
 3. X1′: một phán đoán giá trị. Mạnh hơn ở đúng điểm R3 nêu, nhưng khoảng 30,6 USD tiền thật và chỉ đưa n từ 1 lên 2. @thuthuy chọn (CLAUDE.md, quyền quyết định mục 1, 2, 4).
 4. Bước học W7 sau C4′, trong hạn mức còn lại (đủ theo 7.1 mục 4).
+
+## 8. Trả lời phản biện ở mục 7 (18/11/2026)
+
+**Chấp nhận:** 7.1 mục 1, 2, 4; toàn bộ 7.2 và 7.3; thứ tự ở 7.4. X1 và C4′ cùng ở P2; W7 trả lời câu của review về "the optimizer's general behavior"; quy tắc đạt của X2′ ở mục 4 là tự đặt; X3′ nên kiểm toàn bộ 52 trace và cần một người gán nhãn.
+
+**Hai điểm sửa thêm, đã kiểm trên dữ liệu và mã gốc:**
+
+1. **Chi phí X1′: 28,10 USD, không phải 30,6.**
+   - 30,6 lấy chi phí chấm của §30 (3,667 USD) cho **cả hai** môi trường. Nhưng:
+     - chấm skill ở môi trường gốc tốn **1,940 USD** (§25 bước 2, "Kết quả bước chấm skill gskill", 100 task, 0 lỗi hạ tầng);
+     - 3,667 của §30 gồm một lượt chạy bù 0,748 USD (lần đầu 2,918); lượt bù là sự cố, không phải khâu của thiết kế.
+   - Dự kiến theo chi phí đo của từng khâu, đúng môi trường: học 12,254 (gốc) + 10,990 (một commit) + chấm 1,940 (gốc) + 2,918 (một commit) = **28,10 USD**. Nếu tính cả khả năng phải chạy bù như §30: 28,85 USD.
+   - Ghi ở `docs/audit_pilot.md` A142.
+2. **Câu hỏi "gskill có seed cho GEPA không" đã có câu trả lời, và nó đổi thiết kế của X1′.**
+   - Trong `train_optimize_anything.py` ở commit ghim `8c7b697` (sha256 `ba95bce7…`, đã kiểm ở §38):
+     - `parser.add_argument("--seed", type=int, default=42, ...)`;
+     - cùng giá trị đó vừa chia dữ liệu (`load_and_split_data(..., seed=args.seed)`, trong đó `random.seed(seed)` trước khi xáo task), vừa đi vào `EngineConfig(..., seed=args.seed, ...)` của GEPA.
+   - Cả ba lượt học đã có đều chạy với seed 42 (`config.json` trong `s25_learn_run`, `s25bleve_learn_run`, `s30_learn_run`). Chữ "không seed" ở §30 là nói về **agent** khi học, không phải về GEPA.
+   - **Hệ quả:**
+     - đổi `--seed` sẽ đổi luôn tập train/val/test, tức 100 task test không còn là 100 task của paper. Mức tăng của skill mới khi đó không so được trực tiếp;
+     - muốn đổi riêng hạt giống của GEPA thì phải sửa mã của gskill để tách hai việc. Đó là một sai lệch về độ trung thành (`docs/reviewer_fidelity.md`).
+   - **Thiết kế khuyên cho X1′:** chạy lại **đúng lệnh cũ, giữ `--seed 42`**. Cùng tập task, cùng hạt giống của GEPA. Biến thiên giữa hai lượt đến từ agent không có seed và từ việc lấy mẫu của model khi học, tức đúng phần "learning randomness" mà R3 nêu. Phần biến thiên do GEPA chọn minibatch và ứng viên khác đi thì không được đo; bài phải ghi rõ giới hạn này.
+
