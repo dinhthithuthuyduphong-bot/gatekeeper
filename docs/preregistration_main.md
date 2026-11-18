@@ -3036,7 +3036,7 @@ Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước ki�
 - **Lỗi của bước kiểm trần, sửa trước mọi lệnh gọi có phí (A145):**
   - bản cũ tính chi phí xấu nhất của một khối là 3 lệnh gọi mỗi cặp. Mã của XRepoSkill tại commit ghim hỏi lại một lần khi bộ lọc từ chối (`retry_on_guard_reject: 1`), judge hỏi lại một lần khi không đọc được lời đáp, merge chia đôi lô khi bị cắt; bản cũ cũng không kiểm trước merge và judge;
   - sửa (`kaggle/notebooks/w7_run_cell.py`, commit `fa2c5f4` của nhánh mặc định): số lần hỏi lại đọc từ `configs/pipeline.yaml` của XRepoSkill; trước merge và judge tính chi phí xấu nhất theo số ứng viên; lệnh gọi thất bại được tính theo mức xấu nhất; thêm `MAX_CHUNKS`; test `kaggle/tests/test_w7_cell_guard.py`.
-- **Khối đo:** chỉ khối 0 (3 cặp, 18 lệnh gọi xấu nhất), `MAX_CHUNKS = 1`. Chi phí xấu nhất theo bước kiểm đã sửa: **6,05 USD hạn mức** (trong đó 18 × 0,288 = 5,18 là phần token ra tối đa `max_tokens = 24000`). Bước kiểm không bắt đầu khối nếu trần nhỏ hơn 6,05. Trần của khối đo chờ @thuthuy.
+- **Khối đo:** chỉ khối 0 (3 cặp, 18 lệnh gọi xấu nhất), `MAX_CHUNKS = 1`. Chi phí xấu nhất theo bước kiểm đã sửa: **6,05 USD hạn mức** (trong đó 18 × 0,288 = 5,18 là phần token ra tối đa `max_tokens = 24000`). Bước kiểm không bắt đầu khối nếu trần nhỏ hơn 6,05. Trần của khối đo: **6,10 USD hạn mức** (@thuthuy 18/11: "duyệt"). Theo thứ tự đã đăng ký, khối đo là bước 4; bước học đầy đủ (bước 6) vẫn chạy sau C4′.
 - **Không đổi:** đại lượng, phép thử, ngưỡng, diễn giải.
 
 ## 46. X2′: cầu nối giữa môi trường Docker và lớp `chroot` của Kaggle (đăng ký 18/11/2026, trước mọi lượt có phí của §46)
