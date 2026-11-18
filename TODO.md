@@ -64,7 +64,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 ### Đang chờ @thuthuy (chạy trên Kaggle)
 
 1. **C4′:** chạy `kaggle/notebooks/c4p_cell.py` (POOL B; Save Version → Save & Run All), mỗi ngày một phiên, trần 2,0 USD hạn mức mỗi phiên, 12 USD mỗi model. Sau mỗi phiên gửi `c4p.json` và `c4p_results.zip`.
-2. **Chạy thử W7:** ô `kaggle/notebooks/w7_run_cell.py` bản ghim `COMMIT = 0cb4874…`, `POOL = "A"`, `DRY_RUN = True` (0 USD), trong một notebook Benchmarks riêng. Gửi `w7_A.json` và `w7_A_run.zip`.
+2. **Chạy thử W7: xong 18/11** (pool A: 62 cặp trên 31 issue, mọi bước chạy; ghi chú 45-3). Tiếp theo: **khối đo** (khối 0, `MAX_CHUNKS = 1`, `DRY_RUN = False`) sau khi @thuthuy duyệt trần (xấu nhất 6,05 USD hạn mức; A145 đã sửa bước kiểm trần).
 
 ### Việc tiếp theo của Claude, theo thứ tự
 

@@ -3027,6 +3027,18 @@ Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước ki�
   - Lỗi này được bước kiểm của chính bộ chuyển đổi bắt ("11 of the 34 tasks have no run or trace"); không dữ liệu nào bị điền thay.
 - **Không đổi:** quy tắc phân tích.
 
+**Ghi chú thực thi 45-3** (18/11/2026, sau lượt chạy thử pool A trên Kaggle, trước mọi lệnh gọi model có phí của bộ học):
+- **Chạy thử pool A** (`DRY_RUN = True`, 0 USD; notebook Benchmarks, 12:03:18Z–12:03:44Z; `kaggle/results/w7/w7_A_dryrun.json` và `w7_A_dryrun_run.zip`, sha256 zip `984ad75170a1f72ada4c9e7ff739034271d49235d441321fd941d7c2fd76aebd`):
+  - mọi bước chạy: ingest, pair, fork, discover (21/21 khối), merge, judge, score, audit; 107 file giải nén;
+  - pool: 3 × 34 quỹ đạo; **62 cặp trên 31 issue**, đúng số đếm trước ở mục đăng ký; tỉ lệ giải Flash 0,9118 (31/34), Flash-Lite 0,0;
+  - 372 lệnh gọi giả lập = 62 cặp × 3 bộ phân tích × 2 lần (lời đáp rỗng bị bộ lọc của XRepoSkill từ chối và hỏi lại một lần); merge, judge không gọi model vì không có ứng viên;
+  - độ dài phần user của prompt discover: nhỏ nhất 2.365, trung vị 5.938, lớn nhất 8.755 ký tự. XRepoSkill chỉ đưa vào prompt phần quỹ đạo từ điểm rẽ nhánh, đã tóm thành nhãn hành động (ví dụ cặp đầu: phía thành công `git:log`, `git:show`, `git:diff`).
+- **Lỗi của bước kiểm trần, sửa trước mọi lệnh gọi có phí (A145):**
+  - bản cũ tính chi phí xấu nhất của một khối là 3 lệnh gọi mỗi cặp. Mã của XRepoSkill tại commit ghim hỏi lại một lần khi bộ lọc từ chối (`retry_on_guard_reject: 1`), judge hỏi lại một lần khi không đọc được lời đáp, merge chia đôi lô khi bị cắt; bản cũ cũng không kiểm trước merge và judge;
+  - sửa (`kaggle/notebooks/w7_run_cell.py`, commit `fa2c5f4` của nhánh mặc định): số lần hỏi lại đọc từ `configs/pipeline.yaml` của XRepoSkill; trước merge và judge tính chi phí xấu nhất theo số ứng viên; lệnh gọi thất bại được tính theo mức xấu nhất; thêm `MAX_CHUNKS`; test `kaggle/tests/test_w7_cell_guard.py`.
+- **Khối đo:** chỉ khối 0 (3 cặp, 18 lệnh gọi xấu nhất), `MAX_CHUNKS = 1`. Chi phí xấu nhất theo bước kiểm đã sửa: **6,05 USD hạn mức** (trong đó 18 × 0,288 = 5,18 là phần token ra tối đa `max_tokens = 24000`). Bước kiểm không bắt đầu khối nếu trần nhỏ hơn 6,05. Trần của khối đo chờ @thuthuy.
+- **Không đổi:** đại lượng, phép thử, ngưỡng, diễn giải.
+
 ## 46. X2′: cầu nối giữa môi trường Docker và lớp `chroot` của Kaggle (đăng ký 18/11/2026, trước mọi lượt có phí của §46)
 
 **Vì sao:** C4′ (`kaggle/preregistration_s40.md`) chạy agent khác hãng trong lớp `chroot` dựng từ image gốc (ghi chú 40-4), không trong Docker. Các cổng C1, C5 chỉ chứng minh bộ chấm cho điểm giống Docker và agent không thấy gì ngoài image. Nếu C4′ cho kết quả khác paper, chưa tách được phần do agent khác với phần do môi trường khác (`docs/plan_vs_review.md` mục 4 và 7.2). @thuthuy duyệt 18/11 (`CLAUDE.md`, trần cộng dồn 38,96 USD cùng §47).

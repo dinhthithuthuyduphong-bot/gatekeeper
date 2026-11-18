@@ -1184,3 +1184,14 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - `x1eval` (run 44293902633): đạt; năm nhánh `dryx1eval_{ship_none, ship_skill, lf_none, lf_skill, lfskill_ship34}`, `leak_free` đúng từng nhánh, skill 0 hoặc 2.421 ký tự, trần 2,08 / 2,757 / 2,115 / 2,734 / 0,805, 0 lỗi hạ tầng (như R-82).
   - `learnlf` nửa 1 (run 44294779733): đạt; sổ chi `dryx1lf_learn_ledger_h1.json` giống hệt bản của R-82 (trần 14,5; 20 + 3 lệnh gọi giả lập).
 - **Kết luận R-84:** đạt. Lượt có phí vẫn chờ 20/11 và chu kỳ trần 10 USD của project Vertex.
+
+## R-85. Ô W7 (§45), bước kiểm trần sau lượt chạy thử pool A (18/11/2026; trước mọi lệnh gọi có phí của bộ học)
+- **Đối tượng:** `kaggle/notebooks/w7_run_cell.py` commit `fa2c5f4` (nhánh mặc định); ghi chú 45-3.
+- **Đã kiểm:**
+  - Lượt chạy thử pool A: mọi bước chạy; 62 cặp trên 31 issue, đúng số đăng ký; 372 lệnh gọi giả lập = 62 × 3 × 2.
+  - Mã XRepoSkill tại `26fd703` (chỉ đọc): `discover.py` `for attempt in range(retry_on_guard_reject + 1)`; `judge.py` `for _attempt in (1, 2)`; `merge.py` chia lô khi `finish_reason == "length"`; `llm.py` `call_with_retry(max_attempts=4)` với lỗi tạm thời.
+  - Bước kiểm sau khi sửa: số lần hỏi lại đọc từ `configs/pipeline.yaml` lúc chạy; merge và judge được kiểm trước khi chạy; lệnh gọi thất bại tính theo mức xấu nhất (`litellm.failure_callback`).
+  - Test `kaggle/tests/test_w7_cell_guard.py` (3 test, đạt); `ruff` đạt; preflight đạt.
+- **Danh sách §4:** L66 (trần là chốt chặn, không phải dự toán); L69 (đủ mọi khâu); L72 (mọi lần gọi của mã bên thứ ba).
+- **Giới hạn còn lại:** cận trên của merge (2 lệnh gọi mỗi ứng viên) là cận vận hành, không phải số đọc từ mã; chia lô đệ quy không có giới hạn trong mã. Bước kiểm vẫn dừng trước merge nếu cận đó vượt trần.
+- **Kết luận R-85:** đạt. Khối đo chờ @thuthuy duyệt trần (xấu nhất 6,05 USD hạn mức).
