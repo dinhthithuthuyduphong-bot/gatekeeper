@@ -572,3 +572,9 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Mỗi con số trong ghi chú kèm tên lệnh hay file sinh ra nó.
   - Thêm vào danh sách review `docs/research_rules.md` §4.
 
+## L69. Ước tính chi phí một thí nghiệm phải gồm mọi khâu của chuỗi, không chỉ khâu tốn nhất (A141)
+- **Nguyên nhân gốc:** ước tính lượt học lặp lại lấy đúng một dòng chi phí (học) của §30, không đọc dòng tổng của mục đó (học + chấm), và áp con số của môi trường một commit cho cả môi trường gốc.
+- **Phòng ngừa:**
+  - Liệt kê từng khâu của chuỗi (học, chấm, chạy lại timeout) và lấy chi phí đo của từng khâu cho đúng môi trường.
+  - Đối chiếu với dòng "Chi … đến giờ" hoặc tổng của mục đăng ký gốc.
+  - Thêm vào danh sách review `docs/research_rules.md` §4.

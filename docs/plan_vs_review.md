@@ -120,3 +120,49 @@ Sắp theo mức review nhấn mạnh. Các việc thuần viết bài nằm ở
 **Q10. Thứ tự hạn mức Kaggle tháng 11 khi không đủ cho mọi việc:** khuyên C4′ trước, rồi X3′, rồi W7.
 
 **Q2 (cũ). Mốc đóng băng 01/12:** nếu duyệt X1′ hoặc X2′, cần xác nhận chúng xong trước 01/12, hoặc dời mốc.
+
+## 7. Phản biện bản đối chiếu này (18/11, phiên khác; 0 USD)
+
+Tôi đã đối chiếu từng khẳng định với `docs/reviews/meta_review_2026-11-16.md`, các bản đăng ký và file kết quả. Các mục 1–6 ở trên giữ nguyên theo R5; mục này sửa và bổ sung.
+
+### 7.1 Khẳng định sai hoặc quá mức
+
+1. **"X1 là lỗ lớn nhất, review nhắc hai lần, nên phải đứng trên C4′": quá mức.**
+   - P1 chỉ đòi *ghi* giới hạn "Make the one-learning-run-per-condition limitation visible beside the relearning conclusion". Việc này đã xong (D5, `docs/todo_ease_revision.md`).
+   - Việc *chạy lại* lượt học nằm ở **P2 — Optional strengthening** ("Repeat learning across seeds and compare training scorers S and L"), **cùng bậc** với agent khác hãng ("Add a different model family…"), tức C4′.
+   - Câu "do not present this as necessary merely to expand a case study" nói về cách *trình bày* trong bài, không nói C4′ kém quan trọng hơn X1. Không có căn cứ trong review để xếp X1 trên C4′.
+2. **"W7 không có trong review": không đúng.** Review viết "R3's confounding concerns further limit claims about the optimizer's general behavior". W7 (bộ học thứ hai) trả lời đúng câu hỏi về hành vi chung của bộ học. Mối lo "learning randomness" của R3 cũng một phần đã có lời đáp ở §38: model viết skill của gskill lặp lại bước biến rò rỉ thành chỉ dẫn qua 3 seed (0,94 so với 0,29; ghi chú 38-6). Phần chưa lặp là bước chọn ứng viên của GEPA.
+3. **Chi phí X1′ "khoảng 22 USD" thiếu khâu chấm (A141).**
+   - Học: môi trường gốc 12,25 USD dự kiến (chi phí đo của lượt học gốc, §30 dòng "Học: dự kiến 12,25 USD"); một commit 10,99 USD (§30). Cộng 23,24.
+   - Chấm skill mới trên 34 task, như §30: 3,667 USD mỗi môi trường, tức khoảng 7,33.
+   - **Tổng dự kiến khoảng 30,6 USD**, chưa cộng biên của trần theo L66. Con số 22 chỉ là phần học.
+   - "Đổi seed của GEPA": §30 ghi "không seed cho agent khi học". Chưa kiểm mã gskill có tham số seed cho GEPA hay không. Nếu không có, lượt lặp chỉ là "chạy lại" (ngẫu nhiên tự nhiên), và bản đăng ký phải ghi đúng như vậy.
+4. **"Hạn mức Kaggle tháng 11 không đủ": chỉ đúng khi X1′ chạy trên Kaggle.**
+   - Đã dùng 25,69 USD (P0 0,47; B 3,05; A 20,06; A′ 1,30; C3 0,01; C4 phiên 1 0,77; C6 0,03); còn khoảng 74,3.
+   - C4′ tối đa 36 (trần, không phải dự kiến) cộng bước học W7 tối đa 23 (cận thô) là 59 ≤ 74,3.
+   - Vậy Q10 chỉ cần thiết nếu chọn X1′ trên Kaggle.
+
+### 7.2 X2′: nên làm, nhưng sửa ba điểm
+
+1. **Quy tắc đạt tự đặt (vi phạm R2).** "Nằm trong khoảng chênh giữa hai seed Docker" không có nguồn công bố, và không có power.
+   - Đã có **ba** seed Docker của Flash-Lite trên các task này, không phải hai: seed 41 (§25), 51 (§33), 61 (C10R nhánh A).
+   - Đề xuất thay: báo hiệu chroot − Docker kèm khoảng tin cậy theo cặp task (ước lượng, không phải cổng đạt/không đạt). Nếu cần một cổng, dùng kiểm định tương đương TOST (Schuirmann 1987). Lề tương đương phải có căn cứ, ví dụ độ lệch chuẩn giữa các seed đo được. Phải đưa nguồn TOST vào `configs/sources.json` và đọc trước khi đăng ký.
+2. **Không cần chặn C4′.** Kết quả X2′ chỉ đổi cách *diễn giải* C4′, không đổi thiết kế. Hai việc chạy song song được.
+   - Đích của C4′ là hiệu hai mức tăng giữa hai môi trường, cả hai đều trong `chroot` (ghi chú 40-5), nên ảnh hưởng hằng của lớp `chroot` triệt tiêu một phần.
+   - Lớp `chroot` dùng đúng các lớp của image gốc và hai bước Dockerfile của §25 (`kaggle/preregistration_s40.md`, ghi chú 40-4). Các khác biệt với Docker đã được liệt kê trước.
+3. **Phạm vi:** X2′ chỉ kiểm lớp `chroot` với Flash-Lite. Nó chỉ loại được giải thích "do môi trường" cho agent khác hãng khi ảnh hưởng của môi trường không phụ thuộc agent. Bài phải ghi giới hạn này.
+- **Chi phí dự kiến thấp:** C10R chi 0,397 (không skill) + 1,378 (có skill) cho 70 task. Với 34 task, khoảng 0,86 USD.
+
+### 7.3 X3′: nên làm, đổi lấy mẫu thành kiểm toàn bộ ở tầng quan trọng
+
+- Con số "0/669 ở môi trường một commit" đúng **theo cách dựng**: kênh không tồn tại. Gán nhãn tầng đó chỉ kiểm dương tính giả.
+- Các khẳng định cần kiểm là "mọi task không mô tả giải được ở môi trường gốc đều có diff Bug Patch trong trace" (15/15, 17/17, 20/20). Đây là 52 trace. Kiểm **toàn bộ** 52 trace thì không cần căn cứ cho cỡ mẫu 60 (R2).
+- Phần lấy mẫu chỉ còn cho tầng âm tính, để ước lượng âm tính giả.
+- Bộ gán nhãn là model khác hãng không phải "nhãn độc lập" theo nghĩa của ghi chú trang 8. Cần ít nhất một người gán.
+
+### 7.4 Thứ tự đề xuất sau phản biện
+
+1. Đã duyệt, chạy tiếp: C4′ và chạy thử W7 (0 USD). X2′ chạy song song nếu được duyệt (khoảng 0,86 USD dự kiến).
+2. X3′: kiểm toàn bộ 52 trace (0 USD, cần người gán).
+3. X1′: một phán đoán giá trị. Mạnh hơn ở đúng điểm R3 nêu, nhưng khoảng 30,6 USD tiền thật và chỉ đưa n từ 1 lên 2. @thuthuy chọn (CLAUDE.md, quyền quyết định mục 1, 2, 4).
+4. Bước học W7 sau C4′, trong hạn mức còn lại (đủ theo 7.1 mục 4).
