@@ -298,3 +298,26 @@ Tôi đã đối chiếu từng khẳng định với `docs/reviews/meta_review_
 - **Jinja: 350/350 task trùng mã, nhãn train/val/test và vị trí. Bleve: 350/350 trùng.** Không task nào chỉ có ở một bên.
 - Vậy chạy lại đúng lệnh cũ với `--seed 42` sẽ cho đúng phép chia của các lượt học trước. Lớp kiểm thứ hai (`split_identity.py` trên log sau nửa một) vẫn chạy như kế hoạch, vì dataset có thể đổi giữa hôm nay và lúc chạy.
 
+
+## 12. Ngân sách mới: Vertex ≤ 20 USD, Kaggle ≤ 100 USD mỗi tháng (18/11/2026)
+
+**Quyết định của @thuthuy:** "Tôi muốn tổng chi phí thực hiện trên vetext không quá 20 đô. Còn kaggle không quá 100 đô (theo hạn mức tháng)". Mục 11 dự kiến 31,16 USD trên Vertex nên không vừa. Một lượt học tốn 11–12 USD, nên trên Vertex chỉ còn chỗ cho một trong hai lượt học lặp lại. Ba phương án đã đưa ra (A: giữ lượt học ở môi trường gốc; B: A, cộng lượt một commit trên Kaggle; C: chỉ X2′). @thuthuy chọn **B**.
+
+**Vì sao giữ lượt học ở môi trường gốc trên Vertex:** kết luận chính về cơ chế là bộ học viết chỉ dẫn đọc lịch sử khi có rò rỉ (§25, §29). Lặp lại đúng lượt đó, cùng endpoint, là phép kiểm trực tiếp nhất của câu đó (`docs/plan_vs_review.md` mục 2, review P1–P2). Lượt một commit lặp lại câu "không viết khi không có rò rỉ"; chạy nó trên Kaggle thì đổi được endpoint, nên câu trong bài phải ghi khác biệt (§48).
+
+**Kế hoạch trên Vertex** (ghi chú 47-1):
+
+| Khâu | Dự kiến | Trần riêng |
+| --- | --- | --- |
+| §46 X2′ hai nhánh | 0,862 | 1,863 |
+| §47 học `x1ship` hai nửa | 12,254 | 14,500 |
+| §47 chấm hai nhánh cùng lúc | 3,378 | 4,837 |
+| **Tổng** | **16,494** | chặn cộng dồn 20,00 |
+
+- Thứ tự: §46, học nửa 1, nửa 2, chấm. Trước mỗi khâu: số đã chi thực tế + trần của khâu ≤ 20,00 (`scripts/x1_budget.py`).
+- Biên: 20,00 − 16,494 = 3,506 USD. Khâu chấm bị chặn nếu số đã chi trước nó vượt 15,163 USD.
+- Chờ: 20/11; và chu kỳ của trần 10 USD của project ("Chưa biết").
+
+**Kế hoạch trên Kaggle:** §48 (bản nháp). Dự kiến 14,66 USD hạn mức nếu giá như Vertex; trần 20,15. Thêm vào C4′ (khoảng 11) và W7 (20–23, chưa duyệt), tổng dự kiến cả tháng khoảng 72 trong 100; tổng các trần vượt 100, nên mọi phiên tự kiểm số đã dùng trong tháng.
+
+**Rủi ro thời gian:** §48 cần mã mới (ô notebook chạy gskill qua lớp `chroot`, lưu và nạp thư mục chạy giữa hai phiên) và bước 0. Nếu xong bước 0 trước 25/11, hai nửa học và ba nhánh chấm cần 3 ngày hạn mức (hạn mức ngày 10 USD), xong trước mốc đóng băng 01/12 đề xuất. Nếu trễ, §48 báo cáo sau mốc hoặc chuyển sang phần giới hạn; @thuthuy quyết khi tới lúc (Q2).
