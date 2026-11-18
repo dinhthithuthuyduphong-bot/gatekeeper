@@ -328,3 +328,10 @@ Tôi đã đối chiếu từng khẳng định với `docs/reviews/meta_review_
 - Tổng các trần riêng còn lại (21,20) giờ nằm trong 25,00, nên rủi ro "khâu chấm bị chặn" ở mục 12 không còn: khâu chấm chỉ bị chặn nếu số đã chi trước nó vượt 25,00 − 4,837 = 20,163 USD, lớn hơn tổng trần của các khâu trước nó (1,863 + 14,500 = 16,363).
 - Vẫn không đủ để đưa lượt một commit về Vertex: 16,494 + 10,990 + 3,674 = 31,158 > 25. §48 giữ trên Kaggle.
 - Biên dự kiến: 25,00 − 16,494 = 8,506 USD, chưa giao cho việc nào. Muốn dùng biên này cho một thí nghiệm khác thì phải hỏi @thuthuy.
+
+### 12.2 Nâng trần lên 35 USD, cả hai lượt học lại trên Vertex (18/11/2026)
+
+@thuthuy 18/11: "oke nâng trần lên 35 đô". Trước đó tôi đã nêu: giữ phương án B thì lượt một commit lệch nền tảng (lớp `chroot`, endpoint của Kaggle, tên model có thể là bản preview); đưa về Vertex cần dự kiến 31,16 USD, chặn tổng khoảng 35.
+- Kế hoạch trở về mục 11 (ghi chú 47-3). Lịch 20/11–24/11, dự kiến 31,158.
+- **Biên trước khâu chấm chỉ 0,403 USD** (35,00 − 10,491 − 24,106). Nếu ba khâu trước tốn hơn dự kiến quá mức này, chốt chặn dừng và tôi báo số còn thiếu.
+- §48 rút lại. Hạn mức Kaggle dành cho C4′ và W7.
