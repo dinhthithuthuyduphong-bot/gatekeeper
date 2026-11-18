@@ -66,7 +66,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 **Bậc 1, thực nghiệm (làm trước):**
 1. C4′: phân tích theo `kaggle/preregistration_s40.md` (40-5, 40-8) khi có dữ liệu.
-2. **X2′ và X1′ trên Vertex, tổng ≤ 25 USD (ghi chú 47-1, 47-2):** bước 0 xong (phép chia đạt, đăng ký §46–§47, chạy thử R-82; arm `x1eval` hai nhánh chạy thử lại R-83). Chờ 20/11 và câu trả lời về chu kỳ trần project. Rồi X2′ (0,86), học gốc hai nửa, chấm hai nhánh cùng lúc.
+2. **X2′ và X1′ trên Vertex, tổng ≤ 25 USD (ghi chú 47-1, 47-2):** bước 0 xong (phép chia đạt, đăng ký §46–§47, chạy thử R-82; arm `x1eval` hai nhánh chạy thử lại: đạt, R-83). Chờ 20/11 và câu trả lời về chu kỳ trần project. Rồi X2′ (0,86), học gốc hai nửa, chấm hai nhánh cùng lúc.
 3. **§48 X1′-LF trên Kaggle:** viết ô notebook (gskill qua lớp `chroot`, model qua proxy, lưu và nạp thư mục chạy giữa hai phiên), bước 0 không tốn hạn mức, rồi đăng ký chính thức.
 
 **Bậc 2:**
