@@ -335,3 +335,7 @@ Tôi đã đối chiếu từng khẳng định với `docs/reviews/meta_review_
 - Kế hoạch trở về mục 11 (ghi chú 47-3). Lịch 20/11–24/11, dự kiến 31,158.
 - **Biên trước khâu chấm chỉ 0,403 USD** (35,00 − 10,491 − 24,106). Nếu ba khâu trước tốn hơn dự kiến quá mức này, chốt chặn dừng và tôi báo số còn thiếu.
 - §48 rút lại. Hạn mức Kaggle dành cho C4′ và W7.
+
+### 12.3 Dời ngày bắt đầu trên Vertex sang 21/11 (18/11/2026)
+
+@thuthuy 18/11: "chỉnh kế hoạch, việc làm trên vertex AI sẽ bắt đầu vào ngày 21/11". Lịch (giả định trần 10 USD của project tính theo ngày): 21/11 X2′ + học gốc nửa 1 (7,226); 22/11 học gốc nửa 2 (5,890); 23/11 học một commit nửa 1 (5,138); 24/11 học một commit nửa 2 (5,852); 25/11 chấm năm nhánh cùng lúc (7,052). Xong trước mốc đóng băng 01/12 đề xuất, còn 6 ngày dự phòng. Thiết kế, trần và cảnh báo không đổi.

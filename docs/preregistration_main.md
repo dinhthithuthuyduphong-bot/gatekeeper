@@ -3152,6 +3152,8 @@ Q3 được báo cáo đầy đủ trong mọi trường hợp, kể cả khi kh
 - Trong lượt chạy thử (tiền tố `dry`), A5 không được đọc vì skill đến từ model giả lập; A1–A4 chạy như thật trên file `dry`.
 - Ngoài năm cảnh báo, các cổng đã có vẫn chặn như cũ: chốt chặn tiền (mã 4), trần của khâu (5), viết lại lịch sử hỏng (6), phép chia (8), `num_candidates` (9).
 
+**Ghi chú thực thi 47-5 (18/11/2026, trước mọi lượt có phí):** @thuthuy 18/11: "chỉnh kế hoạch, việc làm trên vertex AI sẽ bắt đầu vào ngày 21/11". Lượt có phí đầu tiên của §46–§47 không trước 21/11; thứ tự và lịch ở `docs/plan_vs_review.md` mục 12.3. Không đổi gì khác.
+
 ## 48. X1′-LF: lượt học gskill thứ hai ở môi trường một commit, chạy trên Kaggle (BẢN NHÁP 18/11/2026; **RÚT LẠI cùng ngày theo ghi chú 47-3**, chưa đăng ký, chưa có lệnh gọi model nào; giữ lại để thấy lịch sử quyết định)
 
 **Vì sao:** ghi chú 47-1. Đây là phần một commit của §47, chuyển sang hạn mức Kaggle để tổng chi trên Vertex ≤ 20 USD (25 từ ghi chú 47-2; vẫn không đủ cho lượt này: 31,158 > 25).
