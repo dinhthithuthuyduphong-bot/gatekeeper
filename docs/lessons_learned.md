@@ -576,5 +576,6 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 - **Nguyên nhân gốc:** ước tính lượt học lặp lại lấy đúng một dòng chi phí (học) của §30, không đọc dòng tổng của mục đó (học + chấm), và áp con số của môi trường một commit cho cả môi trường gốc.
 - **Phòng ngừa:**
   - Liệt kê từng khâu của chuỗi (học, chấm, chạy lại timeout) và lấy chi phí đo của từng khâu cho đúng môi trường.
+  - Tách chi phí của sự cố (lượt chạy bù) khỏi chi phí của thiết kế; nếu muốn tính khả năng phải chạy bù thì ghi riêng thành một dòng (A142).
   - Đối chiếu với dòng "Chi … đến giờ" hoặc tổng của mục đăng ký gốc.
   - Thêm vào danh sách review `docs/research_rules.md` §4.
