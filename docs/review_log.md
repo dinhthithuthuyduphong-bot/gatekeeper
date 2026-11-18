@@ -1195,3 +1195,9 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Danh sách §4:** L66 (trần là chốt chặn, không phải dự toán); L69 (đủ mọi khâu); L72 (mọi lần gọi của mã bên thứ ba).
 - **Giới hạn còn lại:** cận trên của merge (2 lệnh gọi mỗi ứng viên) là cận vận hành, không phải số đọc từ mã; chia lô đệ quy không có giới hạn trong mã. Bước kiểm vẫn dừng trước merge nếu cận đó vượt trần.
 - **Kết luận R-85:** đạt. Khối đo chờ @thuthuy duyệt trần (xấu nhất 6,05 USD hạn mức).
+
+## R-86. Ghi chú 47-4 (cảnh báo rủi ro) và 47-5 (bắt đầu 21/11) (18/11/2026; trước mọi lượt có phí)
+- **Mã mới:** `scripts/x1_alerts.py` (A1–A5), test `tests/test_x1_alerts.py` (7 test: không cảnh báo khi sạch; A1, A2, A3; A4 ở đúng ranh 24,509; A5 cả hai chiều; tiền tố `dry` chỉ đọc file `dry` và bỏ A5; thư mục sau thắng; cảnh báo đã xác nhận không chặn). `configs/x1_ack.json` (rỗng). `pilot.yml`: gọi cảnh báo sau từng nhánh của `x2`, sau mỗi nửa học, sau khâu chấm; cảnh báo làm job thất bại với mã 10; tải thêm `best_skills.txt` của các lượt trước để A5 đọc ở khâu sau.
+- **Danh sách §4:** ngưỡng của mỗi cảnh báo lấy từ số đã đăng ký hoặc suy ra (bảng ở ghi chú 47-4), không có số tự đặt (R2); không cảnh báo nào đổi quy tắc hay cách đọc (R5); hàm nhận con số khoa học không có giá trị mặc định (chỉ `--prefix` có mặc định là chuỗi rỗng).
+- **Chạy thử miễn phí, từng lượt một (L71), commit 4ca58b0:** `x2` (run 44299442557): `dryx1_alerts_x2_none`, `dryx1_alerts_x2_skill` không cảnh báo; `x1eval` (run 44300585006): `dryx1_alerts_x1eval` không cảnh báo; `learnship` nửa 1 (run 44301759741): `dryx1_alerts_learnship-h1` không cảnh báo. Cả ba job đạt.
+- **Kết luận R-86:** đạt. Lượt có phí đầu tiên không trước 21/11 (ghi chú 47-5) và chờ chu kỳ trần 10 USD của project.
