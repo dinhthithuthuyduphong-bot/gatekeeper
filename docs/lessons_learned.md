@@ -601,3 +601,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Trước khi viết bước kiểm trần cho mã bên thứ ba: tìm mọi vòng lặp quanh lệnh gọi model (`attempt`, `retry`, chia lô) và đọc tham số của chúng từ file cấu hình của chính mã đó lúc chạy.
   - Đối chiếu số lệnh gọi của lượt chạy thử với số bước kiểm dự tính; lệch thì dừng.
   - Thêm vào danh sách review `docs/research_rules.md` §4.
+
+## L73. Lệnh đổi nhánh chỉ chạy khi lệnh trước nó thành công; kiểm nhánh trước mỗi lần gộp (A146)
+- **Nguyên nhân gốc:** nối `git checkout` sau `git push` bằng `;` thay vì `&&`, rồi gộp mà không in tên nhánh hiện tại.
+- **Phòng ngừa:**
+  - Trong một lệnh ghép, mọi bước sau `git push` hay `git commit` nối bằng `&&`.
+  - Mỗi lệnh `git merge` đi sau `git branch --show-current`, và dừng nếu tên nhánh không đúng.
+  - Thêm vào danh sách review `docs/research_rules.md` §4.
