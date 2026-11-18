@@ -1,0 +1,372 @@
+{
+ "model": "vertex_ai/gemini-3.8-flash",
+ "seed": 41,
+ "cost_limit": 0.34,
+ "cap": 4.386,
+ "skills_chars": 0,
+ "leak_free": true,
+ "history_variant": null,
+ "neutral_message": null,
+ "subset": "no-problem-statement",
+ "n_tasks": 17,
+ "runs": [
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__yo6160eg",
+   "order": 315,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.14781975
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__vqa91owm",
+   "order": 316,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 47,
+   "patch_chars": 6140,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/utils.py b/src/jinja2/utils.py\nindex 6bca0b9..5c1ff5d 100644\n--- a/src/jinja2/utils.py\n+++ b/src/jinja2/utils.py\n@@ -168,13 +168,13 @@ def object_type_repr(obj: t.Any) -> str:\n     example for `None` and `Ellipsis`).\n     \"\"\"\n     if obj is None:\n-        return \"Ellipsis\"\n-    elif obj is Ellipsis:\n         return \"None\"\n+    elif obj is Ellipsis:\n+        return \"Ellipsis\"\n \n     cls = type(obj)\n \n-    if cls.__module__ != \"builtins\":\n+    if cls.__module__ == \"builtins\":\n         return f\"{cls.__name__} object\"\n \n     return f\"{cls.__module__}.{cls.__name__} object\"\n@@ -225,7 +225,37 @@ def urlize(\n     target: t.Optional[str] = None,\n     extra_schemes: t.Optional[t.Iterable[str]] = None,\n ) -> str:\n+    \"\"\"Convert URLs in text into clickable links.\n+\n+    This may not recognize links in some situations. Usually, a more\n+    comprehensive formatter, such as a Markdown library, is a better\n+    choice.\n+\n+    Works on ``http://``, ``https://``, ``www.``, ``mailto:``, and email\n+    addresses. Links with trailing punctuation (periods, commas, closing\n+    parentheses) and leading punctuation (opening parentheses) are\n+    recognized excluding the punctuation. Email addresses that include\n+    header fields are not recognized (for example,\n+    ``mailto:address@example.com?cc=copy@example.com``).\n+\n+    :param text: Original text containing URLs to link.\n+    :param trim_url_limit: Shorten displayed URL values to this length.\n+    :param target: Add the ``target`` attribute to links.\n+    :param rel: Add the ``rel`` attribute to links.\n+    :param extra_schemes: Recognize URLs that start with these schemes\n+        in addition to the default behavior.\n+\n+    .. versionchanged:: 3.0\n+        The ``extra_schemes`` parameter was added.\n \n+    .. versionchanged:: 3.0\n+        Generate ``https://`` links for URLs without a scheme.\n+\n+    .. versionchanged:: 3.0\n+        The parsing rules were updated. Recognize email addresses with\n+        or without the ``mailto:`` scheme. Validate IP addresses. Ignore\n+        parentheses and brackets in more cases.\n+    \"\"\"\n     if trim_url_limit is not None:\n \n         def trim_url(x: str) -> str:\n@@ -240,8 +270,8 @@ def urlize(\n             return x\n \n     words = re.split(r\"(\\s+)\", str(markupsafe.escape(text)))\n-    rel_attr = f' rel=\"{markupsafe.escape(target)}\"' if target else \"\"\n-    target_attr = f' target=\"{markupsafe.escape(rel)}\"' if rel else \"\"\n+    rel_attr = f' rel=\"{markupsafe.escape(rel)}\"' if rel else \"\"\n+    target_attr = f' target=\"{markupsafe.escape(target)}\"' if target else \"\"\n \n     for i, word in enumerate(words):\n         head, middle, tail = \"\", word, \"\"\n@@ -251,6 +281,9 @@ def urlize(\n             head = match.group()\n             middle = middle[match.end() :]\n \n+        # Unlike lead, which is anchored to the start of the string,\n+        # need to check that the string ends with any of the characters\n+        # before trying to match all of them, to avoid backtracking.\n         if middle.endswith((\")\", \">\", \".\", \",\", \"\\n\", \"&gt;\")):\n             match = re.search(r\"([)>.,\\n]|&gt;)+$\", middle)\n \n@@ -258,30 +291,35 @@ def urlize(\n                 tail = match.group()\n                 middle = middle[: match.start()]\n \n+        # Prefer balancing parentheses in URLs instead of ignoring a\n+        # trailing character.\n         for start_char, end_char in (\"(\", \")\"), (\"<\", \">\"), (\"&lt;\", \"&gt;\"):\n             start_count = middle.count(start_char)\n \n-            if start_count > middle.count(end_char):\n+            if start_count <= middle.count(end_char):\n+                # Balanced, or lighter on the left\n                 continue\n \n+            # Move as many as possible from the tail to balance\n             for _ in range(min(start_count, tail.count(end_char))):\n-                end_index = tail.rindex(end_char) + len(end_char)\n+                end_index = tail.index(end_char) + len(end_char)\n+                # Move anything in the tail before the end char too\n                 middle += tail[:end_index]\n                 tail = tail[end_index:]\n \n         if _http_re.match(middle):\n             if middle.startswith(\"https://\") or middle.startswith(\"http://\"):\n                 middle = (\n-                    f'<a href=\"{middle}\"{target_attr}{rel_attr}>{trim_url(tail)}</a>'\n+                    f'<a href=\"{middle}\"{rel_attr}{target_attr}>{trim_url(middle)}</a>'\n                 )\n             else:\n                 middle = (\n-                    f'<a href=\"https://{middle}\"{target_attr}{rel_attr}>'\n+                    f'<a href=\"https://{middle}\"{rel_attr}{target_attr}>'\n                     f\"{trim_url(middle)}</a>\"\n                 )\n \n         elif middle.startswith(\"mailto:\") and _email_re.match(middle[7:]):\n-            middle = f'<a href=\"{middle}\">{middle[8:]}</a>'\n+            middle = f'<a href=\"{middle}\">{middle[7:]}</a>'\n \n         elif (\n             \"@\" in middle\n@@ -289,16 +327,16 @@ def urlize(\n             and \":\" not in middle\n             and _email_re.match(middle)\n         ):\n-            middle = f'<a href=\"mailto:{middle}\">{middle[:]}</a>'\n+            middle = f'<a href=\"mailto:{middle}\">{middle}</a>'\n \n         elif extra_schemes is not None:\n             for scheme in extra_schemes:\n-                if middle.startswith(scheme) and middle == scheme:\n-                    middle = f'<a href=\"{middle}\"{target_attr}{rel_attr}>{middle}</a>'\n+                if middle != scheme and middle.startswith(scheme):\n+                    middle = f'<a href=\"{middle}\"{rel_attr}{target_attr}>{middle}</a>'\n \n-        words[i] = f\"{tail}{middle}{head}\"\n+        words[i] = f\"{head}{middle}{tail}\"\n \n-    return \" \".join(words)\n+    return \"\".join(words)\n \n \n def generate_lorem_ipsum(\n@@ -409,10 +447,8 @@ class LRUCache:\n         }\n \n     def __setstate__(self, d: t.Mapping[str, t.Any]) -> None:\n-        self._postinit()\n         self.__dict__.update(d)\n-        if 'initialized' in d:\n-            self['initialized'] = False\n+        self._postinit()\n \n     def __getnewargs__(self) -> t.Tuple[t.Any, ...]:\n         return (self.capacity,)\n",
+   "cost_usd": 0.16460114999999984
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__wcqv4idg",
+   "order": 320,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.23105864999999998
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__1yn8jahd",
+   "order": 321,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 49,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.3406022999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0dk3n3w5",
+   "order": 325,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 46,
+   "patch_chars": 1612,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/lexer.py b/src/jinja2/lexer.py\nindex 1929381..6dc94b6 100644\n--- a/src/jinja2/lexer.py\n+++ b/src/jinja2/lexer.py\n@@ -222,16 +222,16 @@ def compile_rules(environment: \"Environment\") -> t.List[t.Tuple[str, str]]:\n         (\n             len(environment.block_start_string),\n             TOKEN_BLOCK_BEGIN,\n-            e(environment.variable_start_string),\n+            e(environment.block_start_string),\n         ),\n         (\n             len(environment.variable_start_string),\n             TOKEN_VARIABLE_BEGIN,\n-            e(environment.block_start_string),\n+            e(environment.variable_start_string),\n         ),\n     ]\n \n-    if environment.line_comment_prefix is not None:\n+    if environment.line_statement_prefix is not None:\n         rules.append(\n             (\n                 len(environment.line_statement_prefix),\n@@ -239,16 +239,16 @@ def compile_rules(environment: \"Environment\") -> t.List[t.Tuple[str, str]]:\n                 r\"^[ \\t\\v]*\" + e(environment.line_statement_prefix),\n             )\n         )\n-    if environment.line_statement_prefix is not None:\n+    if environment.line_comment_prefix is not None:\n         rules.append(\n             (\n                 len(environment.line_comment_prefix),\n                 TOKEN_LINECOMMENT_BEGIN,\n-                r\"(?:^|(?<=\\S))\\S[^\\S\\r\\n]*\" + e(environment.line_comment_prefix),\n+                r\"(?:^|(?<=\\S))[^\\S\\r\\n]*\" + e(environment.line_comment_prefix),\n             )\n         )\n \n-    return [x[:2] for x in sorted(rules)]\n+    return [x[1:] for x in sorted(rules, reverse=True)]\n \n \n class Failure:\n",
+   "cost_usd": 0.341881725
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__mc9x7b9m",
+   "order": 328,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.34578832499999956
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4l597y24",
+   "order": 330,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 42,
+   "patch_chars": 1578,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/exceptions.py b/src/jinja2/exceptions.py\nindex 6f0ee7f..082ebe8 100644\n--- a/src/jinja2/exceptions.py\n+++ b/src/jinja2/exceptions.py\n@@ -32,19 +32,19 @@ class TemplateNotFound(IOError, LookupError, TemplateError):\n         name: t.Optional[t.Union[str, \"Undefined\"]],\n         message: t.Optional[str] = None,\n     ) -> None:\n-        IOError.__init__(self, message)\n+        IOError.__init__(self, name)\n \n         if message is None:\n             from .runtime import Undefined\n \n-            if not isinstance(name, Undefined):\n+            if isinstance(name, Undefined):\n                 name._fail_with_undefined_error()\n \n-            message = None\n+            message = name\n \n-        self.message = name\n-        self.name = message\n-        self.templates = name\n+        self.message = message\n+        self.name = name\n+        self.templates = [name]\n \n     def __str__(self) -> str:\n         return str(self.message)\n@@ -129,7 +129,11 @@ class TemplateSyntaxError(TemplateError):\n         return \"\\n\".join(lines)\n \n     def __reduce__(self):  # type: ignore\n-        return self.__class__, (self.message, self.filename, self.name, self.lineno)\n+        # https://bugs.python.org/issue1692335 Exceptions that take\n+        # multiple required arguments have problems with pickling.\n+        # Without this, raises TypeError: __init__() missing 1 required\n+        # positional argument: 'lineno'\n+        return self.__class__, (self.message, self.lineno, self.name, self.filename)\n \n \n class TemplateAssertionError(TemplateSyntaxError):\n",
+   "cost_usd": 0.19201829999999998
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0vqzq2ua",
+   "order": 333,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.2330177250000005
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0d7yz0v3",
+   "order": 334,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 381,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex f86cdb2..9dcc9d4 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -890,7 +890,7 @@ class Undefined:\n         return 0\n \n     def __iter__(self) -> t.Iterator[t.Any]:\n-        yield from (None,)\n+        yield from ()\n \n     async def __aiter__(self) -> t.AsyncIterator[t.Any]:\n         for _ in ():\n",
+   "cost_usd": 0.217445400000001
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__hskhgqqb",
+   "order": 335,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.23548994999999895
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4yeyxo12",
+   "order": 336,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.27550582499999976
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__526agq4n",
+   "order": 337,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 46,
+   "patch_chars": 2173,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/visitor.py b/src/jinja2/visitor.py\nindex 53c970d..7b8e180 100644\n--- a/src/jinja2/visitor.py\n+++ b/src/jinja2/visitor.py\n@@ -30,21 +30,21 @@ class NodeVisitor:\n         exists for this node.  In that case the generic visit function is\n         used instead.\n         \"\"\"\n-        return getattr(self, f\"visit_{node.__class__.__name__.lower()}\", None)\n+        return getattr(self, f\"visit_{type(node).__name__}\", None)\n \n     def visit(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.Any:\n         \"\"\"Visit a node.\"\"\"\n         f = self.get_visitor(node)\n \n         if f is not None:\n-            return self.generic_visit(node, *args, **kwargs)\n+            return f(node, *args, **kwargs)\n \n-        return f(node, *args, **kwargs)\n+        return self.generic_visit(node, *args, **kwargs)\n \n     def generic_visit(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.Any:\n         \"\"\"Called if no explicit visitor function exists for a node.\"\"\"\n         for child_node in node.iter_child_nodes():\n-            self.visit(node, *args, **kwargs)\n+            self.visit(child_node, *args, **kwargs)\n \n \n class NodeTransformer(NodeVisitor):\n@@ -66,17 +66,16 @@ class NodeTransformer(NodeVisitor):\n                     if isinstance(value, Node):\n                         value = self.visit(value, *args, **kwargs)\n                         if value is None:\n-                            new_values.append(None)\n                             continue\n                         elif not isinstance(value, Node):\n                             new_values.extend(value)\n-                            break\n+                            continue\n                     new_values.append(value)\n-                old_value[:] = [item for item in new_values if item is not None]\n+                old_value[:] = new_values\n             elif isinstance(old_value, Node):\n                 new_node = self.visit(old_value, *args, **kwargs)\n                 if new_node is None:\n-                    setattr(node, field, None)\n+                    delattr(node, field)\n                 else:\n                     setattr(node, field, new_node)\n         return node\n",
+   "cost_usd": 0.19473434999999917
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__jdn3zq4d",
+   "order": 342,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.2524263749999993
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__shn23565",
+   "order": 343,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.2608505249999995
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0jbsoyj5",
+   "order": 344,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 34,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.1298309999999998
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4eyvgwfo",
+   "order": 347,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 48,
+   "patch_chars": 982,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/lexer.py b/src/jinja2/lexer.py\nindex 16a7114..6dc94b6 100644\n--- a/src/jinja2/lexer.py\n+++ b/src/jinja2/lexer.py\n@@ -340,12 +340,12 @@ class TokenStream:\n         return TokenStreamIterator(self)\n \n     def __bool__(self) -> bool:\n-        return bool(self._pushed) and self.current.type is TOKEN_EOF\n+        return bool(self._pushed) or self.current.type is not TOKEN_EOF\n \n     @property\n     def eos(self) -> bool:\n         \"\"\"Are we at the end of the stream?\"\"\"\n-        return self == 0\n+        return not self\n \n     def push(self, token: Token) -> None:\n         \"\"\"Push a token back to the stream.\"\"\"\n@@ -459,7 +459,7 @@ class OptionalLStrip(tuple):  # type: ignore[type-arg]\n     # Even though it looks like a no-op, creating instances fails\n     # without this.\n     def __new__(cls, *members, **kwargs):  # type: ignore\n-        return super().__new__(cls, **kwargs)\n+        return super().__new__(cls, members)\n \n \n class _Rule(t.NamedTuple):\n",
+   "cost_usd": 0.1968801
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__mxr3n2i4",
+   "order": 348,
+   "leak_free_check": [
+    "commits=1 refs=1 remotes=0 objects_with_bug_msg=0"
+   ],
+   "crashed": false,
+   "crash_head": null,
+   "steps": 49,
+   "patch_chars": 1593,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/idtracking.py b/src/jinja2/idtracking.py\nindex 9866221..d6cb635 100644\n--- a/src/jinja2/idtracking.py\n+++ b/src/jinja2/idtracking.py\n@@ -23,11 +23,8 @@ def symbols_for_node(\n     node: nodes.Node, parent_symbols: t.Optional[\"Symbols\"] = None\n ) -> \"Symbols\":\n     sym = Symbols(parent=parent_symbols)\n-    if parent_symbols is not None:\n-        sym.analyze_node(parent_symbols)\n-    else:\n-        sym.analyze_node(node)\n-    return None\n+    sym.analyze_node(node)\n+    return sym\n \n \n class Symbols:\n@@ -86,6 +83,14 @@ class Symbols:\n             )\n         return rv\n \n+    def copy(self) -> \"Symbols\":\n+        rv = object.__new__(self.__class__)\n+        rv.__dict__.update(self.__dict__)\n+        rv.refs = self.refs.copy()\n+        rv.loads = self.loads.copy()\n+        rv.stores = self.stores.copy()\n+        return rv\n+\n     def store(self, name: str) -> None:\n         self.stores.add(name)\n \n@@ -165,6 +170,7 @@ class Symbols:\n \n         return rv\n \n+\n class RootVisitor(NodeVisitor):\n     def __init__(self, symbols: \"Symbols\") -> None:\n         self.sym_visitor = FrameSymbolVisitor(symbols)\n@@ -310,10 +316,3 @@ class FrameSymbolVisitor(NodeVisitor):\n \n     def visit_OverlayScope(self, node: nodes.OverlayScope, **kwargs: t.Any) -> None:\n         \"\"\"Do not visit into overlay scopes.\"\"\"\n-        # incorrectly process node instead of skipping\n-        for child in node.children:\n-            self.visit(child, **kwargs)\n-\n-        if hasattr(node, 'optional') and node.optional:\n-            # improper handling of optional attribute\n-            pass\n",
+   "cost_usd": 0.21811582500000037
+  }
+ ],
+ "spent_usd": 3.9780672749999977
+}

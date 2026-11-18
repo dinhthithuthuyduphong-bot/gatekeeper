@@ -563,3 +563,12 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Bản đăng ký phải ghi sẵn cách xử lý khi một lượt tạo dữ liệu bị cắt vì trần. §45 thiếu điều này.
   - Thêm vào danh sách review `docs/research_rules.md` §4.
 
+## L68. Không gõ một con số vào tài liệu trong cùng lệnh, hay trước lệnh, sinh ra nó (A140, K26)
+- **Nguyên nhân gốc:**
+  - Hai lần trong một ngày, tôi viết lệnh đếm và đoạn ghi chú vào cùng một bước, rồi điền con số "dự đoán" vào ghi chú.
+  - Bài học K26 nằm ở `kaggle/audit.md` và không có mục kiểm tra trong danh sách review chính, nên không ngăn được lần thứ hai.
+- **Phòng ngừa:**
+  - Chạy lệnh đếm trước. Đọc đầu ra. Chỉ sau đó mới viết con số, chép từ đầu ra.
+  - Mỗi con số trong ghi chú kèm tên lệnh hay file sinh ra nó.
+  - Thêm vào danh sách review `docs/research_rules.md` §4.
+

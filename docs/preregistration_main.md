@@ -3013,3 +3013,12 @@ Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước ki�
   - Phép so A với B vì vậy gồm cả mọi khác biệt giữa các lượt chạy, kể cả việc model đằng sau cùng một tên có thể đã đổi (paper đã ghi nhận việc này). Chạy lại cả pool B cũng không xóa được khoảng cách 6 ngày với pool A.
   - Chạy tiếp thay vì chạy lại vì hai lý do: các task độc lập (mỗi task một container mới), và chạy lại 17 task đã có kết quả hợp lệ sẽ tạo hai kết quả cho cùng một task.
 - **Không đổi:** đại lượng, phép thử, ngưỡng, diễn giải.
+
+**Ghi chú thực thi 45-2** (18/11/2026, sau lượt `lfnonerest`, trước mọi lệnh gọi của bộ học):
+- **Lượt chạy:** run 44253845529 (`s34_lfnone_rest`): 17/17 task, không dừng vì trần; không trùng task nào với `s34_lfnone`; 0 lỗi hạ tầng, 0 lượt sập; bước kiểm một commit đúng ở 17/17 lượt. Một lượt chạm cost_limit (0,3458 USD).
+- **Pool B, Flash:** đủ 34 task. Flash giải 5 (lượt đầu) + 7 (lượt sau) = **k = 12**. Ngưỡng k ≥ 5 đạt, nên phép thử chính được chạy như đã đăng ký. So với pool A: Flash giải 31/34 khi có rò rỉ.
+- **Chi phí:** 3,659 + 3,978 = 7,637 USD, trong hai trần đã duyệt (3,827 và 4,386).
+- **Token** (tổng `usage` trong file trace, đếm bằng máy):
+  - lượt đầu: 14,56 triệu vào (11,57 triệu từ cache), 0,145 triệu ra;
+  - lượt sau: 15,90 triệu vào (12,35 triệu từ cache), 0,104 triệu ra.
+- **Không đổi:** quy tắc phân tích.
