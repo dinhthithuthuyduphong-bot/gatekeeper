@@ -338,3 +338,22 @@ Hai phép nhận này đúng là hai phép nhận của §25 và §25 bước 3,
 - C4′ chạy 100 task test, rồi 36 task không mô tả của §35 trong các khối riêng (phương án B của ghi chú 40-5; power 1,00).
 - `kaggle/notebooks/c4p_cell.py` đặt `POOL = "B"`. Mọi giá trị khác của ghi chú 40-6 không đổi.
 - Ô chỉ được gửi sau khi C6 có model thật đạt.
+
+### Ghi chú 40-9 (18/11/2026): C6 với model thật đạt
+
+- Notebook Benchmarks, `DRY_RUN = False`, commit `d934871`. Bắt đầu 03:41:03Z, xong 04:00:13Z.
+- **Cổng C5 đạt** trên chính máy đó:
+  - canary 0/8;
+  - tiến trình còn sống sau khi xóa container: 0;
+  - ghi chéo giữa hai container: không thấy;
+  - shell đúng `/testbed` và Python 3.10.16;
+  - không thấy đường dẫn nào của máy notebook;
+  - phát hiện ghi vào base qua hard link và từ chối container sau đó;
+  - bản vá gốc 5/5, "không vá" 0/5.
+- **Quy tắc đạt của ghi chú 40-6: đạt.** 6/6 lượt xong, 0 lỗi hạ tầng, 0 lượt sập, exposure = 0.
+  - Có 2 lượt chứa attempt (`find /`). Tôi đã đọc lại trace: cả hai chỉ thấy hệ thống file của image task.
+  - Bộ theo dõi chạy lại tại máy của phiên trên `c6_results.zip` cho đúng các số trên.
+- **Kết quả (mô tả):** Haiku giải 5/6 (S) trong môi trường một commit: 3/3 task có mô tả, 2/3 task không mô tả.
+- **Chi phí:** 0,0314 USD hạn mức (proxy báo); 67 lần gọi; 337.184 token vào, 31.461 token ra.
+- **Dữ liệu:** `kaggle/results/c6/`.
+- **Tiếp theo:** C4′ (POOL B, ghi chú 40-8).
