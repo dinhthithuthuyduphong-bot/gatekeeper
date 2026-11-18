@@ -1104,3 +1104,16 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - C10R là phép thử xác nhận trên pool cố định ("certified").
   - Lượt đầu chỉ được báo là cùng chiều, và chỉ hợp lệ dưới giả thuyết hẹp hơn.
   - Bài dựng không lỗi, 8 trang.
+
+## R-79. W5: câu chữ về loại task trong paper (18/11/2026; 0 USD; @thuthuy 18/11: "Tranh thủ làm 2 cái 0usd")
+
+- **Threats, Measurement:** câu "Tasks are synthetic, from three repositories" được thay. Câu mới:
+  - Các thí nghiệm về skill dùng task SWE-smith: repo thật, lỗi được chèn, lịch sử do benchmark dựng. Vì vậy kết quả về rò rỉ chỉ nói về các benchmark được dựng theo cách này.
+  - Các luồng A/A và mức nhiễu khi chạy lại dùng issue do người viết của SWE-bench và SWE-bench-Live.
+- **Kiểm nguồn của câu:**
+  - Luồng A/A lấy từ `scripts/placebo_suite.py::aa_tasks` (E1 và E2).
+  - Mức nhiễu lấy từ `scripts/plasmode_real.py::RUNS` (`g1-e1all-*`, `g2-e2-*`).
+  - E1 là bộ test SWE-bench (`docs/preregistration_e1.md`); E2 là SWE-bench-Live (`docs/preregistration_e2.md`).
+- **Trích dẫn mới:** `swebench_iclr` và `swebench_live`. Cả hai đã có trong `configs/sources.json` (`swebench`, `swe_bench_live`); tiêu đề và tác giả đã đối chiếu với bản chụp.
+- **Đoạn "Decision rules under A/A":** ghi rõ nguồn task.
+- Không con số nào đổi. Bài dựng không lỗi, 8 trang.

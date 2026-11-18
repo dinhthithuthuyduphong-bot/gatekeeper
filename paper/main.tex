@@ -525,7 +525,7 @@ use as a threshold. $^{e}$share of proposals that change nothing that are accept
 \end{table}
 
 \paragraph{Decision rules under A/A}
-From \naaTasks{} tasks with three no-skill runs each we built \naaStreams{} A/A streams of
+From \naaTasks{} SWE-bench and SWE-bench-Live tasks with three no-skill runs each we built \naaStreams{} A/A streams of
 \naaTrials{} paired trials. These are comparisons of error control, not of learning algorithms:
 each rule is read at its intended level. A plug-in rule that admits when the mean difference
 favours the skill admits in \npluginOnce{} of the streams after \naaTrials{} trials, and in
@@ -592,9 +592,12 @@ far a scope can differ.
 \section{Threats to Validity}\label{sec:threats}
 \paragraph{Measurement}
 Gains are under the benchmark's tests ($S$), which we checked with no-op and gold patches but not
-with an independent semantic check. Tasks are synthetic, from three repositories; base rates without
-a skill are low (\njinjaNone{}, \nbleveNone{}, \npygNone{} of 100), so the tests have little power to
-detect harm. We could not verify the model's training cutoff and make no claim that tasks are unseen.
+with an independent semantic check. The skill experiments use SWE-smith tasks: real repositories
+(three) with injected bugs and a history built by the benchmark, so the leak result concerns
+benchmarks built this way. The A/A streams and the rerun-noise level use human-written issues from
+SWE-bench~\cite{swebench_iclr} and SWE-bench-Live~\cite{swebench_live}. Base rates without a skill
+are low (\njinjaNone{}, \nbleveNone{}, \npygNone{} of 100), so the tests have little power to detect
+harm. We could not verify the model's training cutoff and make no claim that tasks are unseen.
 
 \paragraph{Interventions}
 The single-commit control removes both construction commits at once. C10 separates the message of
