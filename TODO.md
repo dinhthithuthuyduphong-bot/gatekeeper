@@ -21,7 +21,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 ### Tổng hợp thí nghiệm còn lại và chi phí (18/11/2026)
 
-**Tiền thật (Vertex): tổng chi mới ≤ 35 USD, cả hai lượt học lại trên Vertex** (@thuthuy 18/11: "oke nâng trần lên 35 đô"; ghi chú 47-3, thay 47-1 và 47-2). Bắt đầu sớm nhất **21/11** (@thuthuy 18/11: "chỉnh kế hoạch, việc làm trên vertex AI sẽ bắt đầu vào ngày 21/11"), và chỉ khi @thuthuy cho biết trần 10 USD của project tính theo ngày hay tháng (18/11: "Chưa biết"). Lịch giả định 10 USD mỗi ngày:
+**Tiền thật (Vertex): tổng chi mới ≤ 35 USD, cả hai lượt học lại trên Vertex** (@thuthuy 18/11: "oke nâng trần lên 35 đô"; ghi chú 47-3, thay 47-1 và 47-2). Bắt đầu **21/11** (@thuthuy 18/11: "chỉnh kế hoạch, việc làm trên vertex AI sẽ bắt đầu vào ngày 21/11"). Trần 10 USD của project không chặn (@thuthuy 18/11: "Liên quan gì, gg xài nhiêu tính nhiêu"), nên các khâu chạy nối tiếp ngay khi khâu trước xong và qua cảnh báo (ghi chú 47-6); bảng dưới giữ thứ tự, ngày chỉ là muộn nhất:
 
 | Ngày | Việc | Dự kiến (USD) | Trần riêng (USD) |
 | --- | --- | --- | --- |
@@ -29,7 +29,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 | 22/11 | §47 học gốc nửa 2 | 5,890 | (trong 14,50) |
 | 23/11 | §47 học một commit nửa 1 | 5,138 | 14,50 cả hai nửa |
 | 24/11 | §47 học một commit nửa 2 | 5,852 | (trong 14,50) |
-| 25/11 | §47 chấm năm nhánh cùng lúc | 7,052 | 10,491 (lớn hơn 10: rủi ro nhỏ chạm trần project) |
+| 25/11 | §47 chấm năm nhánh cùng lúc | 7,052 | 10,491 |
 | | **Tổng** | **31,158** | chặn cộng dồn 35,00 |
 
 **Cảnh báo rủi ro (ghi chú 47-4):** sau mỗi khâu có phí, `scripts/x1_alerts.py` kiểm A1 lỗi hạ tầng, A2 chạm hạn mức hay thanh toán, A3 thiếu lượt, A4 dự báo chốt chặn sẽ chặn khâu chấm, A5 kết quả Q1 ngoài dự kiến. Có cảnh báo thì chuỗi dừng và Claude hỏi @thuthuy ngay.
@@ -72,7 +72,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 **Bậc 1, thực nghiệm (làm trước):**
 1. C4′: phân tích theo `kaggle/preregistration_s40.md` (40-5, 40-8) khi có dữ liệu.
-2. **X2′ và X1′ trên Vertex, tổng ≤ 35 USD (ghi chú 47-3):** bước 0 xong (phép chia đạt, đăng ký §46–§47, chạy thử R-82; chạy thử lại sau 47-3: đạt, R-84). Chờ 21/11 và câu trả lời về chu kỳ trần project. Rồi X2′ (0,86), học gốc hai nửa, học một commit hai nửa, chấm năm nhánh cùng lúc.
+2. **X2′ và X1′ trên Vertex, tổng ≤ 35 USD (ghi chú 47-3):** bước 0 xong (phép chia đạt, đăng ký §46–§47, chạy thử R-82; chạy thử lại sau 47-3: đạt, R-84). Chờ 21/11. Rồi X2′ (0,86), học gốc hai nửa, học một commit hai nửa, chấm năm nhánh cùng lúc.
 
 **Bậc 2:**
 4. **X3′, kiểm định bộ theo dõi trace** bằng nhãn độc lập (ghi chú trang 8 của PDF); tìm nguồn cho cỡ mẫu và chỉ số đồng thuận, rồi đăng ký.
@@ -86,7 +86,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 ### Quyết định đang chờ @thuthuy
 
-- **Q8, Q9: đã quyết 18/11, sửa cùng ngày:** Vertex ≤ 35 USD với cả hai lượt học trên Vertex (ghi chú 47-3), Kaggle ≤ 100 USD mỗi tháng. **Mới chờ:** trần 10 USD của project Vertex tính theo ngày hay theo tháng ("Chưa biết"); chưa biết thì không chạy lượt có phí nào trên Vertex.
+- **Q8, Q9: đã quyết 18/11, sửa cùng ngày:** Vertex ≤ 35 USD với cả hai lượt học trên Vertex (ghi chú 47-3), Kaggle ≤ 100 USD mỗi tháng. Trần 10 USD của project không chặn (@thuthuy 18/11: "Liên quan gì, gg xài nhiêu tính nhiêu"; ghi chú 47-6). Không còn chờ gì ngoài ngày 21/11.
 
 - Trần hạn mức Kaggle cho bước học W7 (sẽ xin kèm số đo).
 - Q1 xác nhận EASE 2027 trong `CLAUDE.md`; Q2 mốc đóng băng; Q3 tên bài (bỏ chữ "Certifying"?); A5 nội dung khai báo AI; A4 đưa gói tái lập ra ngoài (`docs/todo_ease_revision.md` §9).

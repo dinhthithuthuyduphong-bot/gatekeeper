@@ -339,3 +339,7 @@ Tôi đã đối chiếu từng khẳng định với `docs/reviews/meta_review_
 ### 12.3 Dời ngày bắt đầu trên Vertex sang 21/11 (18/11/2026)
 
 @thuthuy 18/11: "chỉnh kế hoạch, việc làm trên vertex AI sẽ bắt đầu vào ngày 21/11". Lịch (giả định trần 10 USD của project tính theo ngày): 21/11 X2′ + học gốc nửa 1 (7,226); 22/11 học gốc nửa 2 (5,890); 23/11 học một commit nửa 1 (5,138); 24/11 học một commit nửa 2 (5,852); 25/11 chấm năm nhánh cùng lúc (7,052). Xong trước mốc đóng băng 01/12 đề xuất, còn 6 ngày dự phòng. Thiết kế, trần và cảnh báo không đổi.
+
+### 12.4 Trần 10 USD của project không chặn (18/11/2026)
+
+@thuthuy 18/11: "Liên quan gì, gg xài nhiêu tính nhiêu". Không còn điều kiện chờ nào ngoài ngày 21/11. Không có giới hạn theo ngày, nên các khâu chạy nối tiếp (ghi chú 47-6): mỗi nửa học tối đa 5 giờ (`--timeout 18000`), cả chuỗi có thể xong trong 21–23/11 thay vì 25/11, cùng chi phí. Đây là phương án trội (cùng tiền, cùng thiết kế, sớm hơn), nên tôi tự chọn.

@@ -3166,6 +3166,8 @@ Q3 được báo cáo đầy đủ trong mọi trường hợp, kể cả khi kh
 
 **Ghi chú thực thi 47-5 (18/11/2026, trước mọi lượt có phí):** @thuthuy 18/11: "chỉnh kế hoạch, việc làm trên vertex AI sẽ bắt đầu vào ngày 21/11". Lượt có phí đầu tiên của §46–§47 không trước 21/11; thứ tự và lịch ở `docs/plan_vs_review.md` mục 12.3. Không đổi gì khác.
 
+**Ghi chú thực thi 47-6 (18/11/2026, trước mọi lượt có phí):** @thuthuy 18/11: "Liên quan gì, gg xài nhiêu tính nhiêu". Trần 10 USD của project Vertex không phải giới hạn chặn; giới hạn chi duy nhất là trần cộng dồn 35,00 USD (ghi chú 47-3). Điều kiện "biết chu kỳ trần project" ở 47-1 bỏ. Các khâu chạy theo đúng thứ tự đã đăng ký, khâu sau bắt đầu ngay khi khâu trước xong và không có cảnh báo (47-4), từ 21/11 (47-5). Cảnh báo A2 vẫn giữ: nếu Google vẫn từ chối lệnh gọi vì hạn mức hay thanh toán, chuỗi dừng và Claude báo ngay.
+
 ## 48. X1′-LF: lượt học gskill thứ hai ở môi trường một commit, chạy trên Kaggle (BẢN NHÁP 18/11/2026; **RÚT LẠI cùng ngày theo ghi chú 47-3**, chưa đăng ký, chưa có lệnh gọi model nào; giữ lại để thấy lịch sử quyết định)
 
 **Vì sao:** ghi chú 47-1. Đây là phần một commit của §47, chuyển sang hạn mức Kaggle để tổng chi trên Vertex ≤ 20 USD (25 từ ghi chú 47-2; vẫn không đủ cho lượt này: 31,158 > 25).
