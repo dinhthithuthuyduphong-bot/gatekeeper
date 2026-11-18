@@ -57,7 +57,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 ### Quyết định đang chờ @thuthuy
 
-- **Mới 18/11 (hạn 21/11), chi tiết ở `docs/plan_vs_review.md` mục 6:** Q8 thêm X2′ (đối chứng cầu nối); Q9 thêm X1′ (lượt học thứ hai) và chạy ở Vertex hay Kaggle; Q10 thứ tự hạn mức Kaggle khi không đủ.
+- **Mới 18/11 (hạn 21/11), chi tiết ở `docs/plan_vs_review.md` mục 6, đã phản biện ở mục 7** (X1′ khoảng 30,6 USD, không phải 22, A141; X2′ không chặn C4′, khoảng 0,86 USD, cần quy tắc so sánh có nguồn; X3′ kiểm toàn bộ 52 trace; Q10 chỉ cần khi X1′ chạy trên Kaggle): Q8 thêm X2′ (đối chứng cầu nối); Q9 thêm X1′ (lượt học thứ hai) và chạy ở Vertex hay Kaggle; Q10 thứ tự hạn mức Kaggle khi không đủ.
 
 - Trần hạn mức Kaggle cho bước học W7 (sẽ xin kèm số đo).
 - Q1 xác nhận EASE 2027 trong `CLAUDE.md`; Q2 mốc đóng băng; Q3 tên bài (bỏ chữ "Certifying"?); A5 nội dung khai báo AI; A4 đưa gói tái lập ra ngoài (`docs/todo_ease_revision.md` §9).

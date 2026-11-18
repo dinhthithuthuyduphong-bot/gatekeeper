@@ -161,6 +161,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Con số chép từ đầu ra đã chạy (L68)**
 - [ ] Mỗi con số mới trong ghi chú hay bản đăng ký được chép từ đầu ra của một lệnh đã chạy xong trước khi viết; không điền số trong cùng bước với lệnh sinh ra nó (A140, K26).
 
+**Ước tính đủ mọi khâu (L69)**
+- [ ] Mọi ước tính chi phí trình @thuthuy liệt kê từng khâu của chuỗi (học, chấm, chạy bù) với chi phí đo của đúng môi trường, và đối chiếu với tổng đã chi của mục gốc (A141).
+
 **Tỉ lệ chi phí đo trên cùng agent (L67)**
 - [ ] Trần của một agent ở môi trường mới không suy từ agent khác khi hai agent dùng rò rỉ khác nhau; nếu chưa đo, đo 5 task trước. Bản đăng ký ghi cách xử lý khi lượt bị cắt vì trần (A139).
 
