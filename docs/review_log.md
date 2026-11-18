@@ -1176,3 +1176,11 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Danh sách §4:** không còn số viết cứng ở hai nơi (L66: trần lấy từ một file); mọi nhánh bị bỏ khỏi Vertex vẫn được ghi, không xóa (R5); tổng các trần riêng 21,200 ≤ 25,00.
 - **Chạy thử miễn phí** `x1eval` (run 44289845659, commit 3b924c7, lúc trần còn 20; số trần chỉ là giá trị đọc từ file nên 47-2 không đổi đường chạy): đạt. Chỉ hai file `dryx1eval_ship_{none,skill}` được ghi lại trên `pilot-snapshots` (commit d21cec2); mỗi file 2 task, `leak_free` false, skill 0 và 2.421 ký tự, trần 2,08 và 2,757, 0 lỗi hạ tầng.
 - **Kết luận R-83:** đạt. Lượt có phí vẫn chờ 20/11 và chu kỳ trần 10 USD của project Vertex.
+
+## R-84. Ghi chú 47-3: trần Vertex 35 USD, cả hai lượt học lại trên Vertex (18/11/2026; trước mọi lượt có phí)
+- **Thay đổi:** `pilot.yml` trở về đúng mã đã chạy thử ở R-82 (commit f11b26a), chỉ khác: trần cộng dồn đọc từ `configs/x1.json` (`approved_total` 35,00) thay số viết cứng 38,96 (kiểm bằng `git diff f11b26a`: 4 dòng). `configs/x1.json`: mọi nhánh `"vertex": true`; trần riêng không đổi (so từng số với bản trước 47-1). §48 rút lại.
+- **Danh sách §4:** chốt chặn tiền lấy từ một file (L66); biên trước khâu chấm được tính và ghi (35,00 − 10,491 − 24,106 = 0,403 USD) cùng hành động khi chạm (dừng, báo); không đổi thứ tự hay tính đồng thời của năm nhánh chấm (R5).
+- **Chạy thử miễn phí, từng lượt một (L71):**
+  - `x1eval` (run 44293902633): đạt; năm nhánh `dryx1eval_{ship_none, ship_skill, lf_none, lf_skill, lfskill_ship34}`, `leak_free` đúng từng nhánh, skill 0 hoặc 2.421 ký tự, trần 2,08 / 2,757 / 2,115 / 2,734 / 0,805, 0 lỗi hạ tầng (như R-82).
+  - `learnlf` nửa 1 (run 44294779733): đạt; sổ chi `dryx1lf_learn_ledger_h1.json` giống hệt bản của R-82 (trần 14,5; 20 + 3 lệnh gọi giả lập).
+- **Kết luận R-84:** đạt. Lượt có phí vẫn chờ 20/11 và chu kỳ trần 10 USD của project Vertex.

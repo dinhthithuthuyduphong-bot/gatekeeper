@@ -70,7 +70,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 **Bậc 1, thực nghiệm (làm trước):**
 1. C4′: phân tích theo `kaggle/preregistration_s40.md` (40-5, 40-8) khi có dữ liệu.
-2. **X2′ và X1′ trên Vertex, tổng ≤ 35 USD (ghi chú 47-3):** bước 0 xong (phép chia đạt, đăng ký §46–§47, chạy thử R-82; chạy thử lại sau 47-3: R-84). Chờ 20/11 và câu trả lời về chu kỳ trần project. Rồi X2′ (0,86), học gốc hai nửa, học một commit hai nửa, chấm năm nhánh cùng lúc.
+2. **X2′ và X1′ trên Vertex, tổng ≤ 35 USD (ghi chú 47-3):** bước 0 xong (phép chia đạt, đăng ký §46–§47, chạy thử R-82; chạy thử lại sau 47-3: đạt, R-84). Chờ 20/11 và câu trả lời về chu kỳ trần project. Rồi X2′ (0,86), học gốc hai nửa, học một commit hai nửa, chấm năm nhánh cùng lúc.
 
 **Bậc 2:**
 4. **X3′, kiểm định bộ theo dõi trace** bằng nhãn độc lập (ghi chú trang 8 của PDF); tìm nguồn cho cỡ mẫu và chỉ số đồng thuận, rồi đăng ký.
