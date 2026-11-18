@@ -38,6 +38,17 @@ Tài liệu này chỉ kiểm tính khả thi. Không có lệnh gọi model nà
   - Hoặc workflow GitHub với Vertex.
   - Cả hai đều cần cài mã của họ ở nơi chạy, như E2 đã làm.
 
+### Model viết quy tắc cho W7-b (cập nhật 18/11, sau khi đọc nguồn)
+
+- **Model mặc định của XRepoSkill:** `deepseek/deepseek-v4-pro` (`configs/pipeline.yaml` tại `26fd703`).
+- **DeepSeek đã ngừng model này trên API chính thức** (bản chụp `deepseek_v41_flash_news`, trang tin ngày 10/09/2026): "We're phasing out V4-Pro. Starting at 04:00 UTC on Sept 14, 2026, all deepseek-v4-pro requests will route to V4.1-Flash at V4.1-Flash rates. This will continue until V4.1-Pro launches."
+  - Vì vậy, chạy XRepoSkill đúng cấu hình gốc vào hôm nay qua API chính thức sẽ dùng **V4.1-Flash**.
+  - Trả tiền cho API chính thức không còn cho ta V4-Pro.
+- **Vertex có `deepseek-v4.1-flash-maas`.** Bảng giá LiteLLM 1.106.6 ghi 0,30 / 1,20 USD mỗi triệu token vào / ra. Đó cũng là model mà tên mặc định của XRepoSkill hiện được chuyển tới.
+  - Sai lệch phải ghi: nhà cung cấp là Vertex chứ không phải API DeepSeek. Chưa kiểm hai nơi phục vụ cùng một bản trọng số.
+- **V4-Pro thật** chỉ còn qua các nhà cung cấp tự lưu trữ trọng số. Trang Hugging Face (bản chụp `deepseek_v4_pro_hf_discussion`) liệt kê, ví dụ, DeepInfra, DigitalOcean, OpenRouter, Baseten; trọng số có giấy phép MIT. Dùng chúng cần tài khoản mới, và trả bằng tiền thật.
+- **Không chạy local trên Kaggle được:** các notebook DeepSeek trên Kaggle mà @thuthuy gửi đều dùng bản nhỏ (R1-Distill-Qwen-7B, V2-Lite).
+
 ## W5: chỉ có task tổng hợp
 
 - **Đã sửa câu chữ (R-79):** paper giờ tách rõ. Các thí nghiệm về skill dùng task SWE-smith (repo thật, lỗi chèn, lịch sử do benchmark dựng). Các luồng A/A và mức nhiễu dùng issue thật của SWE-bench và SWE-bench-Live.
