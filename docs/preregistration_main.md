@@ -3129,9 +3129,11 @@ Q3 được báo cáo đầy đủ trong mọi trường hợp, kể cả khi kh
 - **Hệ quả cho Q1–Q5:** Q1, Q2, Q3 của môi trường gốc giữ nguyên. Phần một commit của Q1, Q2, Q3 và Q4 do §48 trả lời, với các khác biệt nêu ở đó. Q5 đặt cạnh nhau lượt cũ và lượt mới của từng môi trường như cũ, và ghi rõ lượt mới của môi trường một commit chạy trên Kaggle.
 - **Trước lượt có phí trên Vertex:** @thuthuy cho biết trần 10 USD của project tính theo ngày hay theo tháng (18/11: "Chưa biết"); không chạy trước 20/11; chạy thử miễn phí arm `x1eval` sau khi sửa (R-83).
 
+**Ghi chú thực thi 47-2 (18/11/2026, trước mọi lượt có phí; chưa có dữ liệu mới):** @thuthuy 18/11: "sửa trần vertex lên 25 đô cho toàn bộ thí nghiệm liên quan". Trần cộng dồn của ghi chú 47-1 đổi từ 20,00 thành **25,00 USD** (`configs/x1.json` `approved_total`). Mọi thứ khác của 47-1 giữ nguyên. Cổng 3: phần còn lại của 25,00 phải ≥ 4,837 USD trước khâu chấm. Vì 1,863 + 14,500 + 4,837 = 21,200 ≤ 25,00, chốt cộng dồn không thể chặn khâu chấm khi các khâu trước còn trong trần riêng của chúng.
+
 ## 48. X1′-LF: lượt học gskill thứ hai ở môi trường một commit, chạy trên Kaggle (BẢN NHÁP 18/11/2026; chưa đăng ký, chưa có lệnh gọi model nào)
 
-**Vì sao:** ghi chú 47-1. Đây là phần một commit của §47, chuyển sang hạn mức Kaggle để tổng chi trên Vertex ≤ 20 USD.
+**Vì sao:** ghi chú 47-1. Đây là phần một commit của §47, chuyển sang hạn mức Kaggle để tổng chi trên Vertex ≤ 20 USD (25 từ ghi chú 47-2; vẫn không đủ cho lượt này: 31,158 > 25).
 
 **Câu hỏi (mô tả, như §47):** chạy lại lệnh học của §30, chỉ dẫn đọc lịch sử có xuất hiện không? Skill mới có tăng điểm so với không skill chạy cùng lúc không?
 

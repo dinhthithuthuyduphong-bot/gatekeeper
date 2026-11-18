@@ -8,12 +8,13 @@ model, same environment, same skill status), named in ARMS. Learning runs keep t
 of section 30 (14.50 USD per run, both halves), given here as a constant from that registration.
 
   python scripts/x1_caps.py --trial <worktree of origin/trial> --quantile 0.999 --reps 20000 \
-      --seed 4701 --cost-limit 0.30 --total 20 --out configs/x1.json
+      --seed 4701 --cost-limit 0.30 --total 25 --out configs/x1.json
 
-Execution note 47-1 (18/11/2026): the Vertex total for the remaining paid runs is 20 USD, so the
-one-commit learning run and its scoring arms (NOT_ON_VERTEX) move to Kaggle (section 48). They are
-still simulated, in the same order with the same seed, so the caps of the arms that stay are the
-same as before the note; they are marked "vertex": false and left out of the sums and guards.
+Execution note 47-1 (18/11/2026): the Vertex total for the remaining paid runs is 20 USD
+(25 since note 47-2), so the one-commit learning run and its scoring arms (NOT_ON_VERTEX) move
+to Kaggle (section 48). They are still simulated, in the same order with the same seed, so the
+caps of the arms that stay are the same as before the note; they are marked "vertex": false and
+left out of the sums and guards.
 """
 
 from __future__ import annotations

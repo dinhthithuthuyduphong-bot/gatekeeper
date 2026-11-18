@@ -321,3 +321,10 @@ Tôi đã đối chiếu từng khẳng định với `docs/reviews/meta_review_
 **Kế hoạch trên Kaggle:** §48 (bản nháp). Dự kiến 14,66 USD hạn mức nếu giá như Vertex; trần 20,15. Thêm vào C4′ (khoảng 11) và W7 (20–23, chưa duyệt), tổng dự kiến cả tháng khoảng 72 trong 100; tổng các trần vượt 100, nên mọi phiên tự kiểm số đã dùng trong tháng.
 
 **Rủi ro thời gian:** §48 cần mã mới (ô notebook chạy gskill qua lớp `chroot`, lưu và nạp thư mục chạy giữa hai phiên) và bước 0. Nếu xong bước 0 trước 25/11, hai nửa học và ba nhánh chấm cần 3 ngày hạn mức (hạn mức ngày 10 USD), xong trước mốc đóng băng 01/12 đề xuất. Nếu trễ, §48 báo cáo sau mốc hoặc chuyển sang phần giới hạn; @thuthuy quyết khi tới lúc (Q2).
+
+### 12.1 Sửa trần Vertex lên 25 USD (18/11/2026)
+
+@thuthuy 18/11: "sửa trần vertex lên 25 đô cho toàn bộ thí nghiệm liên quan". Mức chặn cộng dồn của X2′ và X1′ trên Vertex đổi từ 20,00 thành 25,00 (`configs/x1.json`, ghi chú 47-2). Kế hoạch, thứ tự và trần riêng không đổi.
+- Tổng các trần riêng còn lại (21,20) giờ nằm trong 25,00, nên rủi ro "khâu chấm bị chặn" ở mục 12 không còn: khâu chấm chỉ bị chặn nếu số đã chi trước nó vượt 25,00 − 4,837 = 20,163 USD, lớn hơn tổng trần của các khâu trước nó (1,863 + 14,500 = 16,363).
+- Vẫn không đủ để đưa lượt một commit về Vertex: 16,494 + 10,990 + 3,674 = 31,158 > 25. §48 giữ trên Kaggle.
+- Biên dự kiến: 25,00 − 16,494 = 8,506 USD, chưa giao cho việc nào. Muốn dùng biên này cho một thí nghiệm khác thì phải hỏi @thuthuy.

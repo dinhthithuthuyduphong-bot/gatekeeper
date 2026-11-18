@@ -21,14 +21,14 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 ### Tổng hợp thí nghiệm còn lại và chi phí (18/11/2026)
 
-**Tiền thật (Vertex): tổng chi mới ≤ 20 USD** (@thuthuy 18/11: "Tôi muốn tổng chi phí thực hiện trên vetext không quá 20 đô. Còn kaggle không quá 100 đô (theo hạn mức tháng)"; chọn "B: A, cộng học lại một commit trên Kaggle"; ghi chú 47-1). Bắt đầu sớm nhất 20/11, và chỉ khi @thuthuy cho biết trần 10 USD của project tính theo ngày hay tháng (18/11: "Chưa biết"). Lịch giả định 10 USD mỗi ngày:
+**Tiền thật (Vertex): tổng chi mới ≤ 25 USD** (@thuthuy 18/11: "sửa trần vertex lên 25 đô cho toàn bộ thí nghiệm liên quan", ghi chú 47-2; trước đó 20: @thuthuy 18/11: "Tôi muốn tổng chi phí thực hiện trên vetext không quá 20 đô. Còn kaggle không quá 100 đô (theo hạn mức tháng)"; chọn "B: A, cộng học lại một commit trên Kaggle"; ghi chú 47-1). Bắt đầu sớm nhất 20/11, và chỉ khi @thuthuy cho biết trần 10 USD của project tính theo ngày hay tháng (18/11: "Chưa biết"). Lịch giả định 10 USD mỗi ngày:
 
 | Ngày | Việc | Dự kiến (USD) | Trần riêng (USD) |
 | --- | --- | --- | --- |
 | 20/11 | §46 X2′ (hai nhánh, 34 task) + §47 học gốc nửa 1 | 0,862 + 6,364 = 7,226 | 1,863; học 14,50 cả hai nửa |
 | 21/11 | §47 học gốc nửa 2 | 5,890 | (trong 14,50) |
 | 22/11 | §47 chấm hai nhánh cùng lúc (không skill; skill `x1ship`) | 3,378 | 4,837 |
-| | **Tổng** | **16,494** | chặn cộng dồn 20,00 |
+| | **Tổng** | **16,494** | chặn cộng dồn 25,00 (tổng các trần riêng 21,20 nằm trong) |
 
 **Hạn mức Kaggle (miễn phí):**
 
@@ -66,7 +66,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 **Bậc 1, thực nghiệm (làm trước):**
 1. C4′: phân tích theo `kaggle/preregistration_s40.md` (40-5, 40-8) khi có dữ liệu.
-2. **X2′ và X1′ trên Vertex, tổng ≤ 20 USD (ghi chú 47-1):** bước 0 xong (phép chia đạt, đăng ký §46–§47, chạy thử R-82; arm `x1eval` hai nhánh chạy thử lại R-83). Chờ 20/11 và câu trả lời về chu kỳ trần project. Rồi X2′ (0,86), học gốc hai nửa, chấm hai nhánh cùng lúc.
+2. **X2′ và X1′ trên Vertex, tổng ≤ 25 USD (ghi chú 47-1, 47-2):** bước 0 xong (phép chia đạt, đăng ký §46–§47, chạy thử R-82; arm `x1eval` hai nhánh chạy thử lại R-83). Chờ 20/11 và câu trả lời về chu kỳ trần project. Rồi X2′ (0,86), học gốc hai nửa, chấm hai nhánh cùng lúc.
 3. **§48 X1′-LF trên Kaggle:** viết ô notebook (gskill qua lớp `chroot`, model qua proxy, lưu và nạp thư mục chạy giữa hai phiên), bước 0 không tốn hạn mức, rồi đăng ký chính thức.
 
 **Bậc 2:**
@@ -81,7 +81,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 ### Quyết định đang chờ @thuthuy
 
-- **Q8, Q9: đã quyết 18/11, sửa cùng ngày:** Vertex ≤ 20 USD, Kaggle ≤ 100 USD mỗi tháng; phương án B (ghi chú 47-1, §48). **Mới chờ:** trần 10 USD của project Vertex tính theo ngày hay theo tháng ("Chưa biết"); chưa biết thì không chạy lượt có phí nào trên Vertex.
+- **Q8, Q9: đã quyết 18/11, sửa cùng ngày:** Vertex ≤ 25 USD (ghi chú 47-2), Kaggle ≤ 100 USD mỗi tháng; phương án B (ghi chú 47-1, §48). **Mới chờ:** trần 10 USD của project Vertex tính theo ngày hay theo tháng ("Chưa biết"); chưa biết thì không chạy lượt có phí nào trên Vertex.
 
 - Trần hạn mức Kaggle cho bước học W7 (sẽ xin kèm số đo).
 - Q1 xác nhận EASE 2027 trong `CLAUDE.md`; Q2 mốc đóng băng; Q3 tên bài (bỏ chữ "Certifying"?); A5 nội dung khai báo AI; A4 đưa gói tái lập ra ngoài (`docs/todo_ease_revision.md` §9).
