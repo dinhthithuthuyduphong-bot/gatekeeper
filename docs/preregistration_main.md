@@ -2994,3 +2994,22 @@ Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước ki�
 4. Đo một khối.
 5. @thuthuy chốt trần Kaggle.
 6. Chạy bộ học, sau C4′.
+
+**Ghi chú thực thi 45-1** (18/11/2026, sau lượt Flash một commit đầu tiên, trước mọi lệnh gọi của bộ học):
+- **Sự việc:** run 44237776538 (`s34_lfnone`) dừng vì trần ở 17/34 task. 0 lỗi hạ tầng, 0 lượt sập; bước kiểm một commit đúng ở 17/17 lượt. Flash giải 5/17. Đã chi 3,659 USD (trần 3,827).
+- **Nguyên nhân (A139, L67):** trần được suy từ tỉ lệ chi phí giữa hai môi trường của Flash-Lite. Flash, agent khai thác rò rỉ, tốn trung bình 0,215 USD mỗi lượt khi không có rò rỉ.
+- **Điều bản đăng ký thiếu:** cách xử lý khi lượt tạo dữ liệu của pool B bị cắt.
+- **Quyết định:** @thuthuy 18/11 duyệt trần 4,386 USD cho 17 task còn lại ("duyệt trần 4,386 USD").
+  - Workflow `swesmith-s34`, arm `lfnonerest`: cùng agent, cùng seed và cost_limit, `--skip-done results/s34_lfnone.json`.
+  - Trần theo L66, lấy mẫu lại từ chính 17 lượt `s34_lfnone`; dự kiến 3,66 (`configs/w7b.json`).
+- **Pool B, Flash:** `s34_lfnone` + `s34_lfnone_rest`, đủ 34 task như pool A.
+- **Nếu lượt này cũng bị cắt:** pool B dùng mọi task đã chạy. Phép thử chính vẫn theo quy tắc k ≥ 5, và số task thiếu được báo cáo.
+- **Vì sao quyết định này không nhìn kết quả:**
+  - Đại lượng của phép thử (G trong quy tắc của bộ học) chưa tồn tại: chưa có lệnh gọi nào của bộ học.
+  - k chỉ là thông tin thiết kế.
+- **Giới hạn về thời điểm:**
+  - Pool A (Flash ở môi trường gốc, §34) chạy ngày 12/11.
+  - Pool B gồm hai lượt cách nhau vài giờ ngày 18/11.
+  - Phép so A với B vì vậy gồm cả mọi khác biệt giữa các lượt chạy, kể cả việc model đằng sau cùng một tên có thể đã đổi (paper đã ghi nhận việc này). Chạy lại cả pool B cũng không xóa được khoảng cách 6 ngày với pool A.
+  - Chạy tiếp thay vì chạy lại vì hai lý do: các task độc lập (mỗi task một container mới), và chạy lại 17 task đã có kết quả hợp lệ sẽ tạo hai kết quả cho cùng một task.
+- **Không đổi:** đại lượng, phép thử, ngưỡng, diễn giải.

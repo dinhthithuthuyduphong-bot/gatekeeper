@@ -65,7 +65,7 @@ on:
         required: true
         default: "none"
         type: choice
-        options: ["none", "skill", "placebo", "trace34", "trace34b", "pair", "skillb", "skillc", "learn", "eval", "evalrest", "pilot", "rest", "c10test34", "c10all70", "c10r70", "lfnone"]
+        options: ["none", "skill", "placebo", "trace34", "trace34b", "pair", "skillb", "skillc", "learn", "eval", "evalrest", "pilot", "rest", "c10test34", "c10all70", "c10r70", "lfnone", "lfnonerest"]
       dryrun:
         description: "swesmith-s27 only: true = scripted model (0 USD) on the first task of each arm"
         required: false
@@ -616,9 +616,9 @@ jobs:
           CAPS=$(python -c "print(round(float('${{ inputs.budget_usd }}') * (1 - $FN), 4))")
           CL="${{ inputs.cost_limit }}"
           python -c "import sys; sys.exit(0 if 0 < float('$CL') <= 0.90 else 'cost_limit must be in (0, 0.90]')"
-          if [ "${{ inputs.arm }}" = "lfnone" ]; then  # section 45: the cap is the registered one
-            python -c "import json,sys; c=json.load(open('$GITHUB_WORKSPACE/configs/w7b.json')); sys.exit(0 if abs(c['cap_lfnone'] - float('${{ inputs.budget_usd }}')) < 1e-9 and c['cost_limit'] == float('$CL') else 'budget_usd/cost_limit differ from configs/w7b.json')"
-          fi
+          case "${{ inputs.arm }}" in lfnone|lfnonerest)  # section 45: the cap is the registered one
+            python -c "import json,sys; c=json.load(open('$GITHUB_WORKSPACE/configs/w7b.json')); k='cap_' + sys.argv[1]; sys.exit(0 if abs(c[k] - float('${{ inputs.budget_usd }}')) < 1e-9 and c['cost_limit'] == float('$CL') else 'budget_usd/cost_limit differ from configs/w7b.json')" "${{ inputs.arm }}" ;;
+          esac
           PFX=s34; MOCK=()
           if [ "${{ inputs.dryrun }}" = "true" ]; then
             PFX=s34dry
@@ -649,7 +649,11 @@ jobs:
               (cd /tmp/work/none && run_probe ${PFX}_lfnone.json "${{ inputs.budget_usd }}" --leak-free) \
                  > /tmp/none.log 2>&1 & p1=$!
               p2= ;;
-            *) echo "section 34: arm must be pilot, rest or lfnone"; exit 1 ;;
+            lfnonerest)  # section 45, note 45-1: the tasks the capped first run did not reach
+              (cd /tmp/work/none && run_probe ${PFX}_lfnone_rest.json "${{ inputs.budget_usd }}" --leak-free \
+                 --skip-done "$GITHUB_WORKSPACE/results/s34_lfnone.json") > /tmp/none.log 2>&1 & p1=$!
+              p2= ;;
+            *) echo "section 34: arm must be pilot, rest, lfnone or lfnonerest"; exit 1 ;;
           esac
           rc=0; wait $p1 || rc=1; [ -n "$p2" ] && { wait $p2 || rc=1; }
           tail -n 3 /tmp/none.log /tmp/skill.log 2>/dev/null || true; exit $rc

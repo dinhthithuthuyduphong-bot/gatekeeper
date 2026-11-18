@@ -3,5 +3,7 @@
  "cap_lfnone": 3.827,
  "cost_limit": 0.34,
  "_cap_rule": "lesson L66, as configs/c10r.json: quantile 0.999 of the simulated spend over the 34 tasks + cost_limit, rounded up; per-run costs resampled from the shipped no-skill arm of section 34 (s34_none_pilot, s34_none_rest) times 1.057, the largest single-commit/shipped mean-cost ratio among the measured arm pairs (s33_lf_skill / s33_ship_skill); seed 4501, 20000 draws; expected 2.85",
- "seed": 41
+ "seed": 41,
+ "cap_lfnonerest": 4.386,
+ "_cap_lfnonerest_rule": "note 45-1 (A139, L67): quantile 0.999 of the simulated spend over the 17 remaining tasks + cost_limit, rounded up; per-run costs resampled from the 17 runs of s34_lfnone (the same agent in the same environment); seed 4502, 20000 draws; expected 3.658"
 }
