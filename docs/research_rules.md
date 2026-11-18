@@ -167,6 +167,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Biến môi trường qua ranh giới người dùng (L70)**
 - [ ] Lệnh chạy dưới người dùng khác (`sudo`, môi trường sạch) nhận từng biến cần thiết một cách tường minh, và có một bước kiểm 0 USD dưới đúng người dùng đó xác nhận khóa nạp được trước lần gọi có phí đầu tiên. Đọc mọi cảnh báo trong log của lượt chạy thử.
 
+**Mọi lần gọi của mã bên thứ ba (L72)**
+- [ ] Bước kiểm trần quanh mã bên thứ ba đếm mọi lần hỏi lại, thử lại, chia lô (đọc từ mã và cấu hình của nó); số lệnh gọi của lượt chạy thử khớp với số bước kiểm dự tính (A145).
+
 **Ước tính đủ mọi khâu (L69)**
 - [ ] Mọi ước tính chi phí trình @thuthuy liệt kê từng khâu của chuỗi (học, chấm, chạy bù) với chi phí đo của đúng môi trường, và đối chiếu với tổng đã chi của mục gốc (A141).
 
