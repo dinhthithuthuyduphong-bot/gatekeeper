@@ -24,7 +24,7 @@ import zipfile
 DRY_RUN = True
 POOL = None  # "A" (shipped history) or "B" (single-commit history); no default
 # ---- registered (section 45) ------------------------------------------------------------------
-COMMIT = "__FILL__"  # commit of this repository that holds kaggle/data/w7_pool<POOL>.tar.gz
+COMMIT = "8e36b00c7abf601a38b58cbd78b0c98828b672c7"  # holds kaggle/data/w7_poolA.tar.gz
 DATA_SHA256 = {"A": "cf5d58aedb36e5aa0ddc9c7eb14035cfc4629f7bec9c844319c20fd3072777ce", "B": None}
 XREPOSKILL = "26fd70345698108c0fdce2d8904293a38b9cd42f"  # the commit E2 ran (preregistration_e2)
 MODEL = "openai/google/gemini-3.1-pro-preview"  # gskill's reflection model, through Kaggle's proxy
