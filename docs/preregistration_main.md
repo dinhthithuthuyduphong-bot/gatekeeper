@@ -3114,3 +3114,52 @@ Q3 được báo cáo đầy đủ trong mọi trường hợp, kể cả khi kh
 - Chạm 38,96 thì dừng và báo @thuthuy. Không chấm một skill học dở như thể đã học đủ.
 
 **Trước lượt có phí:** @thuthuy báo trần chi tiêu của project Vertex (bước 0.2); chạy thử miễn phí các nhánh mới; review R-82.
+
+**Ghi chú thực thi 47-1 (18/11/2026, trước mọi lượt có phí của §46–§47; chưa có dữ liệu mới nào):**
+- **Lý do:** @thuthuy 18/11: "Tôi muốn tổng chi phí thực hiện trên vetext không quá 20 đô. Còn kaggle không quá 100 đô (theo hạn mức tháng)". Khi được hỏi chọn gì để vừa 20 USD, @thuthuy chọn "B: A, cộng học lại một commit trên Kaggle".
+- **Trên Vertex chỉ còn:** §46 (hai nhánh); học `x1ship` hai nửa; hai nhánh chấm của môi trường gốc chạy cùng lúc (không skill; skill `x1ship`), cùng 100 task test.
+  - Dự kiến 0,862 + 12,254 + 1,438 + 1,940 = **16,494 USD**.
+  - Trần cộng dồn thay 38,96 bằng **20,00** (`configs/x1.json` `approved_total`; workflow đọc số này).
+  - Trần riêng của mỗi nhánh giữ nguyên: mô phỏng chạy lại với cùng seed 4701 và cùng thứ tự, đã kiểm từng trần không đổi.
+- **Chuyển sang Kaggle (§48, đăng ký riêng):** học `x1lf` và ba nhánh chấm của nó (một commit không skill; một commit skill `x1lf`; skill `x1lf` ở môi trường gốc, 34 task). Trong `configs/x1.json` các nhánh này có `"vertex": false`; workflow từ chối arm `learnlf` và không chạy chúng.
+- **Cổng 3 sửa thành:** trước khâu chấm, phần còn lại của 20,00 phải ≥ tổng trần của hai nhánh chấm (2,080 + 2,757 = 4,837 USD).
+- **Rủi ro đã tính:** tổng các trần riêng còn lại là 21,200 > 20,00.
+  - Nếu §46 và lượt học chi đúng dự kiến (13,116), phần còn lại 6,884 ≥ 4,837 và khâu chấm chạy.
+  - Khâu chấm bị chặn khi số đã chi trước nó vượt 20,00 − 4,837 = 15,163 USD, tức lượt học tốn hơn khoảng 14,3 USD (nếu §46 chi đúng dự kiến). Khi đó dừng và báo @thuthuy, không chấm thiếu nhánh.
+- **Hệ quả cho Q1–Q5:** Q1, Q2, Q3 của môi trường gốc giữ nguyên. Phần một commit của Q1, Q2, Q3 và Q4 do §48 trả lời, với các khác biệt nêu ở đó. Q5 đặt cạnh nhau lượt cũ và lượt mới của từng môi trường như cũ, và ghi rõ lượt mới của môi trường một commit chạy trên Kaggle.
+- **Trước lượt có phí trên Vertex:** @thuthuy cho biết trần 10 USD của project tính theo ngày hay theo tháng (18/11: "Chưa biết"); không chạy trước 20/11; chạy thử miễn phí arm `x1eval` sau khi sửa (R-83).
+
+## 48. X1′-LF: lượt học gskill thứ hai ở môi trường một commit, chạy trên Kaggle (BẢN NHÁP 18/11/2026; chưa đăng ký, chưa có lệnh gọi model nào)
+
+**Vì sao:** ghi chú 47-1. Đây là phần một commit của §47, chuyển sang hạn mức Kaggle để tổng chi trên Vertex ≤ 20 USD.
+
+**Câu hỏi (mô tả, như §47):** chạy lại lệnh học của §30, chỉ dẫn đọc lịch sử có xuất hiện không? Skill mới có tăng điểm so với không skill chạy cùng lúc không?
+
+**Giống §30:** lệnh học của §30 (`--leak-free`, `--seed 42`, cùng kích thước train/val/test 200/50/100, cùng số lần gọi metric 300 + 600, cùng `--workers 6`), cùng dữ liệu Jinja đã xuất, cùng mã gskill và gepa đã ghim.
+
+**Khác §30 (nêu trước, mọi câu trong bài phải ghi):**
+1. **Môi trường:** lớp `chroot` (`kaggle/scripts/chroot_shim.py`) thay Docker. Bằng chứng nó tương đương ở phía chấm: C1 qua `chroot` 224/224, cổng C5 và C6 đạt (`kaggle/preregistration_s40.md`). Bằng chứng ở phía agent: §46 (X2′), khi có kết quả.
+2. **Endpoint model:** model qua Model Proxy của Kaggle, không qua Vertex. Thư viện không gửi `temperature` (ghi chú 38-2), giống gskill. Endpoint khác có thể cho câu trả lời khác dù cùng tên model; không tách được phần này khỏi biến thiên giữa hai lượt học.
+3. **Thời điểm:** chạy sau §30 khoảng ba tuần; chênh lệch theo thời gian của model preview không tách được (như §47).
+
+**Bước 0 (0 USD), phải đạt trước khi đăng ký bản chính thức:**
+- 0a. Liệt kê `kbench.llms` (không gọi model). Phải có đúng tên model agent và model viết skill của §30. Thiếu một trong hai thì dừng, báo @thuthuy; không thay bằng model khác.
+- 0b. Chạy thử với model giả lập: `--smoke-test` của gskill qua lớp `chroot`, cả viết lại lịch sử một commit; một nhánh chấm 2 task.
+- 0c. Lưu và nạp lại thư mục chạy giữa hai phiên (nửa hai chạy ở phiên khác, như §30).
+- 0d. Đo thời gian: một nửa phải xong trong giới hạn phiên của Kaggle.
+
+**Tiền (hạn mức Kaggle, không phải tiền thật; ghi chú 38-1):**
+
+| Khâu | Dự kiến nếu giá như Vertex | Trần riêng |
+| --- | --- | --- |
+| Học `x1lf` hai nửa (§30: 5,138 + 5,852) | 10,990 | 14,500 |
+| Chấm một commit, không skill | 1,461 | 2,115 |
+| Chấm một commit, skill `x1lf` | 1,867 | 2,734 |
+| Chấm `x1lf` ở môi trường gốc, 34 task | 0,346 | 0,805 |
+| **Tổng** | **14,664** | 20,154 |
+
+- Trần riêng lấy từ `configs/x1.json` (L66, chi phí đo trên Vertex). Giá trên Kaggle có thể khác: nửa một đo chi phí theo số Kaggle báo trên từng tin nhắn trả lời (ghi chú 38-2) và dừng ở trần.
+- **Chặn theo ngày:** hạn mức ngày của Kaggle là 10 USD (`kaggle/preregistration_s37.md`), nên mỗi nửa học chạy một ngày riêng; trần của phiên = min(phần còn lại của trần khâu, 10 − số đã dùng trong ngày do @thuthuy đọc).
+- **Chặn theo tháng:** số đã dùng trong tháng (do @thuthuy đọc ở trang Settings, nhập vào ô) + trần của phiên ≤ 100. Đến 18/11, tháng 11 đã dùng khoảng 25,69 USD hạn mức (`kaggle/TODO.md`).
+
+**Đọc kết quả:** như bảng "Cách đọc" của §47 cho phần `x1lf`, thêm câu về khác biệt 1–3.

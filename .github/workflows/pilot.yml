@@ -741,7 +741,7 @@ jobs:
           done; done
           rc=0; for p in "${pids[@]}"; do wait $p || rc=1; done
           tail -n 3 /tmp/c10_*.log; exit $rc
-      - name: Sections 46-47 (X2' bridge; X1' second learning runs and their scoring; capped, cumulative guard 38.96)
+      - name: Sections 46-47 (X2' bridge; X1' second learning run and its scoring; capped, cumulative Vertex guard from configs/x1.json)
         if: inputs.plan == 'swesmith-x1'
         env:
           SHIM_COMMIT: 0b9ea53381e8a75dbba36c35971127a11b2136a7
@@ -758,7 +758,8 @@ jobs:
           done
           CAPS=$GITHUB_WORKSPACE/configs/x1.json
           cap() { python -c "import json,sys; print(json.load(open(sys.argv[1]))['arms'][sys.argv[2]]['cap'])" "$CAPS" "$1"; }
-          guard() { python $GITHUB_WORKSPACE/scripts/x1_budget.py --dir /tmp/prev --next-cap "$1" --total 38.96; }
+          TOTALV=$(python -c "import json,sys; print(json.load(open(sys.argv[1]))['approved_total'])" "$CAPS")  # 20 since note 47-1
+          guard() { python $GITHUB_WORKSPACE/scripts/x1_budget.py --dir /tmp/prev --next-cap "$1" --total "$TOTALV"; }
           ARM=${{ inputs.arm }}; DRY=${{ inputs.dryrun }}
           MOCKMSG=$'THOUGHT: dry run.\n\n```bash\necho COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT\n```'
           MOCK=(); P=""
@@ -820,7 +821,7 @@ jobs:
           learnship|learnlf)
             # section 47: the learning command of section 25 step 2 (learnship) or section 30 (learnlf), seed 42
             T=x1ship; LF=(); KEY=learn_ship
-            [ "$ARM" = learnlf ] && { T=x1lf; LF=(--leak-free); KEY=learn_lf; }
+            [ "$ARM" = learnlf ] && { echo "note 47-1: the one-commit learning run moved to Kaggle (section 48)"; exit 1; }
             c=$(cap $KEY); OWN=(); GS=()
             if [ -n "$P" ]; then T=dry$T; OWN=(--mock-response "$MOCKMSG" --local-rows "$ROWSLOCAL"); GS=(--smoke-test); fi
             if [ "${{ inputs.half }}" = "1" ]; then
@@ -853,26 +854,21 @@ jobs:
             [ "$rc" = "0" ] || exit "$rc"  # 5 = money cap, 6 = a history rewrite failed
             ;;
           x1eval)
-            # section 47: five arms at the same time, after both learning runs (caps from configs/x1.json)
-            TOTAL=$(python -c "import json; a=json.load(open('$CAPS'))['arms']; print(round(sum(a[k]['cap'] for k in a if k.startswith('score_')), 3))")
-            guard "$TOTAL" || { echo "not enough left of 38.96 for the five scoring caps: ask @thuthuy"; exit 4; }
+            # section 47 after note 47-1: the two arms of the original environment, at the same time (caps from configs/x1.json)
+            TOTAL=$(python -c "import json; a=json.load(open('$CAPS'))['arms']; print(round(sum(a[k]['cap'] for k in a if k.startswith('score_') and a[k]['vertex']), 3))")
+            guard "$TOTAL" || { echo "not enough left of $TOTALV for the two scoring caps: ask @thuthuy"; exit 4; }
             if [ -n "$P" ]; then
-              SHIP="$GITHUB_WORKSPACE/docs/skills/gskill/jinja_no_history.txt"; LFS="$SHIP"
+              SHIP="$GITHUB_WORKSPACE/docs/skills/gskill/jinja_no_history.txt"
             else
-              SHIP=/tmp/x1ship_skill.txt; LFS=/tmp/x1lf_skill.txt
+              SHIP=/tmp/x1ship_skill.txt
               git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/x1ship_best_skills.txt" > $SHIP
-              git -C $GITHUB_WORKSPACE show "origin/pilot-snapshots:results/x1lf_best_skills.txt" > $LFS
               cmp $SHIP "$GITHUB_WORKSPACE/docs/skills/gskill/jinja_x1ship_best_skills.txt"
-              cmp $LFS "$GITHUB_WORKSPACE/docs/skills/gskill/jinja_x1lf_best_skills.txt"
             fi
             pids=()
             run_arm() { name=$1; key=$2; shift 2; mkdir -p /tmp/work/$name
               (cd /tmp/work/$name && probe "${P}x1eval_$name.json" "$(cap $key)" "$@") > /tmp/$name.log 2>&1 & pids+=($!); }
             run_arm ship_none score_ship_none
             run_arm ship_skill score_ship_skill --skills-file "$SHIP"
-            run_arm lf_none score_lf_none --leak-free
-            run_arm lf_skill score_lf_skill --leak-free --skills-file "$LFS"
-            run_arm lfskill_ship34 score_lfskill_on_ship34 --skills-file "$LFS" --subset no-problem-statement
             rc=0; for p in "${pids[@]}"; do wait $p || rc=1; done  # each arm's exit status, by PID (L43)
             tail -n 3 /tmp/*.log; exit $rc
             ;;

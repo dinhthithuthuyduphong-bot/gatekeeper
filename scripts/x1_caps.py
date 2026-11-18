@@ -8,7 +8,12 @@ model, same environment, same skill status), named in ARMS. Learning runs keep t
 of section 30 (14.50 USD per run, both halves), given here as a constant from that registration.
 
   python scripts/x1_caps.py --trial <worktree of origin/trial> --quantile 0.999 --reps 20000 \
-      --seed 4701 --cost-limit 0.30 --total 38.96 --out configs/x1.json
+      --seed 4701 --cost-limit 0.30 --total 20 --out configs/x1.json
+
+Execution note 47-1 (18/11/2026): the Vertex total for the remaining paid runs is 20 USD, so the
+one-commit learning run and its scoring arms (NOT_ON_VERTEX) move to Kaggle (section 48). They are
+still simulated, in the same order with the same seed, so the caps of the arms that stay are the
+same as before the note; they are marked "vertex": false and left out of the sums and guards.
 """
 
 from __future__ import annotations
@@ -21,6 +26,8 @@ from pathlib import Path
 
 LEARN_CAP = 14.50  # section 30, "trần cộng dồn hai nửa 14,50" (approved 10/11/2026)
 LEARN_EXPECTED = {"learn_ship": 12.254, "learn_lf": 10.990}  # section 25 step 2; section 30
+# note 47-1: moved to Kaggle (section 48)
+NOT_ON_VERTEX = {"score_lf_none", "score_lf_skill", "score_lfskill_on_ship34", "learn_lf"}
 # arm -> (n tasks, measured run whose per-task costs are resampled, from trial or main)
 ARMS = {
     "x2_none": (34, "main:results/c10r_A_none_all70.json"),
@@ -71,13 +78,17 @@ def main() -> int:
         }
     for name, e in LEARN_EXPECTED.items():
         arms[name] = {"expected": e, "cap": LEARN_CAP, "source": "section 25 step 2 / section 30"}
+    for name, v in arms.items():
+        v["vertex"] = name not in NOT_ON_VERTEX
     out["arms"] = arms
-    out["sum_expected"] = round(sum(v["expected"] for v in arms.values()), 3)
-    out["sum_caps"] = round(sum(v["cap"] for v in arms.values()), 3)
+    kept = [v for v in arms.values() if v["vertex"]]
+    out["sum_expected"] = round(sum(v["expected"] for v in kept), 3)
+    out["sum_caps"] = round(sum(v["cap"] for v in kept), 3)
     out["approved_total"] = a.total
     out["note"] = (
         "each arm's cap is a guard; before every arm the runner also stops when the cumulative "
-        "actual spend of X2' and X1' plus the arm's cap would pass approved_total"
+        "actual spend of X2' and X1' plus the arm's cap would pass approved_total; arms with "
+        "vertex false moved to Kaggle (note 47-1, section 48) and are not run by pilot.yml"
     )
     a.out.write_text(json.dumps(out, indent=1) + "\n")
     print(json.dumps(out, indent=1))
