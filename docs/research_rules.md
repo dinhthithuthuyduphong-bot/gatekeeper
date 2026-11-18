@@ -161,6 +161,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Con số chép từ đầu ra đã chạy (L68)**
 - [ ] Mỗi con số mới trong ghi chú hay bản đăng ký được chép từ đầu ra của một lệnh đã chạy xong trước khi viết; không điền số trong cùng bước với lệnh sinh ra nó (A140, K26).
 
+**Lượt chờ của nhóm concurrency (L71)**
+- [ ] Workflow có `concurrency`: kích hoạt từng lượt, lượt sau khi lượt trước xong; kiểm `conclusion` của từng lượt.
+
 **Biến môi trường qua ranh giới người dùng (L70)**
 - [ ] Lệnh chạy dưới người dùng khác (`sudo`, môi trường sạch) nhận từng biến cần thiết một cách tường minh, và có một bước kiểm 0 USD dưới đúng người dùng đó xác nhận khóa nạp được trước lần gọi có phí đầu tiên. Đọc mọi cảnh báo trong log của lượt chạy thử.
 
