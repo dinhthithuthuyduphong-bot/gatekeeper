@@ -158,6 +158,12 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Đổi mẫu LaTeX (L62)**
 - [ ] Mọi gói phông của mẫu có trên máy dựng (`kpsewhich`); số trang chỉ đọc từ bản dựng không lỗi; mỗi mục của danh mục có năm, hoặc không trùng nhãn với mục không năm khác (A134).
 
+**Con số chép từ đầu ra đã chạy (L68)**
+- [ ] Mỗi con số mới trong ghi chú hay bản đăng ký được chép từ đầu ra của một lệnh đã chạy xong trước khi viết; không điền số trong cùng bước với lệnh sinh ra nó (A140, K26).
+
+**Tỉ lệ chi phí đo trên cùng agent (L67)**
+- [ ] Trần của một agent ở môi trường mới không suy từ agent khác khi hai agent dùng rò rỉ khác nhau; nếu chưa đo, đo 5 task trước. Bản đăng ký ghi cách xử lý khi lượt bị cắt vì trần (A139).
+
 **Trần thử với đúng bước dừng của script (L66)**
 - [ ] Trần mỗi nhánh được mô phỏng với đúng điều kiện dừng của script chạy, trên chi phí mỗi task đã đo; bản đăng ký ghi xác suất chạy đủ task và điều xảy ra với tính hợp lệ của phép thử nếu pool bị cắt (A138).
 

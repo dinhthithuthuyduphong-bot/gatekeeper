@@ -1138,3 +1138,7 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - model `vertex_ai/gemini-3.8-flash`, seed 41, cost_limit 0,34, trần 3,827;
   - `leak_free` = true, `leak_free_check` = `commits=1 refs=1 remotes=0 objects_with_bug_msg=0`;
   - không có skill, 0 lỗi hạ tầng.
+- **Ghi chú 45-1:** arm `lfnonerest` trong bước §34.
+  - Kiểm `budget_usd` và `cost_limit` theo `configs/w7b.json` (khóa `cap_<arm>`); `--skip-done` trỏ tới `results/s34_lfnone.json`.
+  - `bash -n` đạt. Chạy thử miễn phí trước khi chi.
+- **Chạy thử miễn phí `lfnonerest` đạt.** Task được chọn không thuộc 17 task của `s34_lfnone`; `leak_free_check` đúng; trần 4,386; cost_limit 0,34. Lượt có phí được khởi động sau đó.
