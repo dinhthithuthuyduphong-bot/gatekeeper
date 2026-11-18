@@ -22,5 +22,5 @@
    "put (completion) tokens across all calls.\"\"\" return self._total_tokens_out def _check_truncation(self, choices: list[Any]) -> None: if any(getattr(c, \"finish_reason\", None) == \"length\" for c in choices): max_tok = self.completion_kwargs.get(\"max_tokens\") or self.completion_kwargs.get(\"max_completion_tokens\") logger.warning( f\"LM response was truncated (finish_reason='length', max_tokens={max_tok}). \" \"Consider increasing max_tokens for better results.\" ) def __call__(self, prompt: str | list[dict[str, Any]]) -> str: import litellm if isinstance(prompt, str): messages: list[dict[str, Any]] = [{\"role\": \"user\", \"content\": prompt}] else: messages = prompt completion = litellm.completion( model=self.model, messages=messages, num_retries=self.num_retries, drop_params=True, **self.completion_kwargs, ) # Non-streaming calls always return ModelResponse (not CustomStreamWrapper) self._check_truncation(completion.choices) # type: ignore[union-attr] # Accumulate cost try: cost = litellm.completion_cost(completion_response=completion) or 0.0 # type: ignore[attr-defined] except Exception: cost = 0.0 # Accumulate token usage usage = getattr(completion, \"usage\", None) tokens_in = (getattr(usage, \"prompt_tokens\", 0) or 0) if usage"
   ]
  },
- "fetched_utc": "2026-11-18T02:01:02+00:00"
+ "fetched_utc": "2026-11-18T02:05:40+00:00"
 }
