@@ -42,8 +42,10 @@ POOLS = {
         ("w7a__lite_s51", ["s33_ship_none"], LITE),
     ],
     "B": [
-        ("w7b__flash_s41", ["s34_lfnone"], FLASH),
-        ("w7b__lite_s41", ["s30_none"], LITE),
+        ("w7b__flash_s41", ["s34_lfnone", "s34_lfnone_rest"], FLASH),  # note 45-1
+        # s30_none merges 80 first runs and 20 re-runs (section 30, A125); the traces of the
+        # re-runs are in s30_none_rest (the records of the 20 overlapping tasks are identical)
+        ("w7b__lite_s41", ["s30_none", "s30_none_rest"], LITE),
         ("w7b__lite_s51", ["s33_lf_none"], LITE),
     ],
 }
