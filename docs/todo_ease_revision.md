@@ -133,7 +133,7 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 | [x] D8 | Xong 17/11 (R-69). Sửa ba câu sai dữ kiện trên `main`: "All agent runs use one model" (mâu thuẫn với §34); "609 rewrites" (đếm sai đơn vị); câu "chỉ so trên luồng A/A" ở Threats (bài đã so trên 20 luồng thật). Ghi vào `docs/audit_pilot.md`. | Ba câu khớp với dữ liệu | tự làm |
 | [x] S0 | **Bước 0: kiểm toán lịch sử git và trace.** Xong 17/11: `docs/preregistration_main.md` §41. Mỗi task có đúng ba commit; không có lịch sử thật; có **hai** kênh rò rỉ (diff "Bug Patch" và test bị xóa trong "Remove F2P Tests"); agent nghiên cứu chỉ dùng kênh thứ nhất, agent thứ hai dùng cả hai. | Có bảng kết quả và file JSON | tự làm |
 | [ ] A5a | Đưa chính sách của ACM về AI vào `configs/sources.json`, để runner tải, rồi đọc. | Có trích đoạn trên `sources-snapshots` | tự làm |
-| [ ] D9a | Tải toàn văn PACE (hiện mới có tóm tắt) và đọc. | Biết chính xác quy tắc của PACE | tự làm |
+| [x] D9a | **Xong 18/11** (mục 8.1): toàn văn PACE trên `sources-snapshots`; câu trong bài khớp bản gốc. Tải toàn văn PACE (hiện mới có tóm tắt) và đọc. | Biết chính xác quy tắc của PACE | tự làm |
 
 ### Đợt 2: thống kê và phạm vi tuyên bố
 
@@ -300,6 +300,56 @@ Bản gốc (meta-review và PDF có 27 ghi chú) do @thuthuy giữ; chưa đưa
 - [ ] Trang 12, Bảng II và III: tách thành phần phương sai thực nghiệm khỏi mô phỏng power; chú thích tự đủ.
 
 ---
+
+### 8.1 Đối chiếu từng mục của meta-review (G1, phần meta-review; lập 18/11/2026)
+
+Bản gốc của meta-review nay ở `docs/reviews/meta_review_2026-11-16.md`. Bản đó tự ghi là tổng hợp mô phỏng của một bộ đánh giá AI, không phải quyết định của hội đồng chương trình. 27 ghi chú trên PDF chưa có trong repo, nên phần đối chiếu PDF của G1 vẫn mở.
+
+Ký hiệu: **xong** = đã sửa trong bài trên `main`; **một phần** = còn việc, ghi ở cột cuối; **chưa** = chưa làm.
+
+| Mục của meta-review | Việc | Trạng thái | Còn lại |
+| --- | --- | --- | --- |
+| **P0 thống kê** | | | |
+| Tách ba đại lượng (pool đã hiện thực, kỳ vọng, triển khai) | B2 | xong | — |
+| Lập luận lấy mẫu cho phép thử 70 task | B1, B4, §3.5; C10R (§44, pool cố định) | xong | — |
+| Ghi 70 = 34 task quen (seed mới) + 36 task mới | B4 | xong | — |
+| Thu hẹp Định lý 2 | B3 (thay bằng mệnh đề cuối pool có chứng minh) | xong | 👤 nhờ người biết thống kê đọc chứng minh (mục Ưu tiên 3 của `TODO.md`) |
+| Sửa Mệnh đề 3 | B3 | xong | như trên |
+| Liệt kê mọi quyết định tuần tự và cách chia α; khớp số 12 | B5, B0, B6 | xong | — |
+| Đăng ký có mốc thời gian; thông tin đã thấy lúc đăng ký | F1 (52 dòng) | một phần | phải **truy cập được** từ bài: nằm trong gói ẩn danh (A4) |
+| **P1 diễn giải và tái lập** | | | |
+| "Tác động của can thiệp vào lịch sử", không phải rò rỉ thuần | D1, S0; C10, C10R | xong | — |
+| Giới hạn "một lượt học" đặt cạnh kết luận học lại | D5 | xong | — |
+| "Length-only" | D3 | xong | — |
+| Tách so sánh cùng ngày và khác ngày | D4, B0 | xong | — |
+| "Mức tăng theo bộ chấm của benchmark" | D2 | xong | — |
+| Công bố mã task, mã băm skill, phiên bản, ngày chạy, kết quả chấm, mã vượt ngưỡng | F2 | một phần | xong khi A4 xong |
+| Ghi rõ nhật ký học bị ghi đè | F3 | xong (bài dòng 282, 608) | — |
+| So sánh trực tiếp với PACE | D9; **D9a xong 18/11** | xong | — |
+| **P1 mạch bài** | | | |
+| Mạch: mức tăng → cơ chế → đối chứng → phần còn lại → phạm vi | E1 | xong | — |
+| Rút tóm tắt, bỏ lặp số | E2 | xong | — |
+| Bảng kê thí nghiệm | E3 (Bảng 1) | xong | — |
+| Tách chuyện bộ chấm khỏi chuyện lịch sử | E1 (mục "Measurement controls" riêng) | xong | — |
+| Ký hiệu riêng cho skill và bộ chấm | E8 | xong | — |
+| "609 rewrites", "one model", câu cũ về so sánh | D8 | xong | — |
+| **P1 hình và bảng** | | | |
+| Hình 1: đo được và suy ra; ranh giới nhật ký mất | E4 | xong | — |
+| Hình dòng thời gian đăng ký, 34 + 36 | E5 | xong | — |
+| Hình mức tăng theo cặp và tương tác, có khoảng tin cậy | E6 | xong | — |
+| Nhãn, ngưỡng, chú thích của các hình; Bảng I; Bảng II–III | E7, E3 | xong | đối chiếu lại với 27 ghi chú trên PDF (G1) |
+| **P0 nộp bài** | | | |
+| Mẫu ACM ẩn danh | A1, A3 | xong | — |
+| Trong giới hạn trang | A2 (7 trang kể cả tham khảo) | xong | kiểm lại sau khi thêm §38, C4′, W7 |
+| Gói tái lập ẩn danh, kiểm từ máy sạch | A4, F4 | một phần | F4 mới chạy trong thư mục sạch, chưa trên máy sạch; nơi đặt gói chờ Q6 |
+| **P2 tùy chọn** (meta-review: không trình bày là bắt buộc) | | | |
+| Lặp việc học qua nhiều seed; so bộ chấm S và L khi học | — | chưa | không có trong kế hoạch hiện tại |
+| Giữ lịch sử hợp lệ, chỉ bỏ kênh rò rỉ | C10, C10R | xong | — |
+| Họ model khác hoặc repo độc lập | §39 (auditor), §38 (model viết skill), C4′ (agent), W7 | một phần | C4′ và W7 đang chờ chạy trên Kaggle |
+
+**D9a (18/11):** toàn văn PACE đã được runner tải về (`sources-snapshots`, 37.277 ký tự). Câu trong bài "validity is shown there for discordant pairs that are fair coin flips" khớp với bản gốc: "Under the null "the candidate is not better," discordant pairs are equally likely either way: Pr[wi = 1] = 1/2". PACE cũng ghi bảo đảm của nó là "a per-decision guarantee, not a run-level one".
+
+**A5a vẫn chặn:** runner tải trang chính sách của ACM bị HTTP 403. Theo R1 không tự đoán URL khác; cần @thuthuy gửi đường dẫn khác hoặc bản chép của trang.
 
 ## 9. Quyết định đang chờ @thuthuy
 
