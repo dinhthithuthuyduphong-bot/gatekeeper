@@ -189,3 +189,23 @@ Tôi đã đối chiếu từng khẳng định với `docs/reviews/meta_review_
      - muốn đổi riêng hạt giống của GEPA thì phải sửa mã của gskill để tách hai việc. Đó là một sai lệch về độ trung thành (`docs/reviewer_fidelity.md`).
    - **Thiết kế khuyên cho X1′:** chạy lại **đúng lệnh cũ, giữ `--seed 42`**. Cùng tập task, cùng hạt giống của GEPA. Biến thiên giữa hai lượt đến từ agent không có seed và từ việc lấy mẫu của model khi học, tức đúng phần "learning randomness" mà R3 nêu. Phần biến thiên do GEPA chọn minibatch và ứng viên khác đi thì không được đo; bài phải ghi rõ giới hạn này.
 
+
+## 9. Kiểm lại mục 8 (18/11/2026; 0 USD)
+
+**Đã kiểm, đúng:**
+- Chi phí: §25 bước 2 "Cộng dồn bước học: 12,254 USD" và chấm "100/100 task; 0 lỗi hạ tầng; 1,940 USD"; §30 "học 10,990 + chấm 3,667 (lần đầu 2,918; chạy bù 0,748)". Tổng 12,254 + 10,990 + 1,940 + 2,918 = 28,102. Tôi chấp nhận 28,10 USD và A142.
+- Mã gskill: tải `train_optimize_anything.py` tại `gepa@8c7b697`, sha256 `ba95bce75bfc656e565726ed43994e8f33dfd7f2803c4770ab1350521ad9f531` (khớp §38). Có đúng `--seed` mặc định 42; `random.seed(seed)` rồi `random.shuffle(all_data)` trong `load_and_split_data`; và `EngineConfig(... seed=args.seed ...)`.
+- `config.json` của `results/s30_learn_run.tar.gz` ghi `"seed": 42`.
+
+**Ba điểm bổ sung cho thiết kế X1′ (chạy lại đúng lệnh, seed 42):**
+1. **Cùng seed chưa bảo đảm cùng tập task.**
+   - `load_and_split_data` gọi `load_dataset("SWE-bench/SWE-smith", split="train")` **không ghim revision**. Nó lấy các dòng đầu khớp repo theo thứ tự của dataset, rồi mới xáo.
+   - Nếu dataset trên Hugging Face đổi sau ngày 06/11 hoặc 10/11, tập train/val/test sẽ khác dù seed vẫn là 42.
+   - **Bước bắt buộc, 0 USD, trước khi chạy có phí:** dựng lại phép chia với seed 42 và so danh sách mã task train/val/test với lượt cũ. Khác ở bất kỳ mã nào thì dừng và báo @thuthuy.
+2. **Câu giới hạn phải chính xác.** Giữ seed 42 là cố định *dòng số ngẫu nhiên* của GEPA, không phải cố định *lựa chọn* của nó. Khi điểm của agent khác đi, các lựa chọn sau đó của GEPA cũng khác.
+   - Câu đúng: "biến thiên giữa hai lượt học, với cùng phép chia dữ liệu và cùng hạt giống của GEPA".
+   - Không viết: "biến thiên do GEPA không được đo".
+3. **Thời điểm khác nhau là một nguồn biến thiên thêm.** Lượt mới chạy sau lượt cũ khoảng hai tuần, trên endpoint preview. Hiệu giữa hai lượt gồm cả khả năng nhà cung cấp đổi model. Phần này không tách được; bài phải ghi rõ.
+   - Ngoài ra, lượt học chạy hai nửa (300 + 300 lần gọi metric). Nửa hai phải chạy tiếp từ thư mục của nửa một **mới**, không được từ lượt cũ (L6).
+
+**Không đổi:** chi phí dự kiến 28,10 USD (28,85 nếu tính chạy bù); trần theo L66 sẽ cao hơn và được tính khi đăng ký. X1′ vẫn chờ @thuthuy (Q9, hạn 21/11).
