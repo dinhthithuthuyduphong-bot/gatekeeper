@@ -12,9 +12,8 @@ Hạn mức AI Kaggle đã dùng: P0 0,47; B 3,05; A cộng dồn 20,06 (Kaggle 
 | --- | --- | --- | --- |
 | ~~T1~~ | **Xong 17/11 (38-6).** ~~Chạy phiên 3 của mục A~~ (seed 3, khoảng 7 USD) | Notebook mục A chỉ còn một ô `a38_run_cell.py`; gắn dataset `gatekeeper-a38-results`; dòng đầu log phải là `jobs 480, done 321` | Hướng dẫn: `run_s38_s39.md`. Gửi file `a38_results_*.jsonl` mới |
 | ~~T2~~ | **Xong 18/11: C6 đạt (40-9).** ~~Chạy ô `c6_cell.py`~~ (thay cho ô C5 riêng; ghi chú 40-6) trên một notebook Benchmarks: lượt 1 với `DRY_RUN = True` (0 USD, khoảng 20–30 phút), gửi `c6.json` và `c6_results.zip`; lượt 2 với `DRY_RUN = False` (Haiku, ≤ 0,5 USD hạn mức) sau khi Claude đọc lượt 1 | Gửi hai file sau mỗi lượt | Ô tự chạy cổng C5 trước |
-| T3 | Chép câu điều khoản Kaggle về việc dùng hạn mức AI | Treo từ giai đoạn 0 (K0e) | Cần trước C4′ |
-| T4 | **Không chạy lại ô `c4_cell.py`** | — | Kết quả phiên 1 không hợp lệ (K21); ô này sẽ được thay |
-
+| T3 | Chép câu điều khoản Kaggle về việc dùng hạn mức AI | Treo từ giai đoạn 0 (K0e) | Nên có trước T6 (C4′ để agent gọi model liên tục nhiều giờ). Chưa có; @thuthuy quyết có chạy T6 trước khi có câu này không |
+| T4 | **Không chạy lại ô `c4_cell.py`** | — | Kết quả phiên 1 không hợp lệ (K21); thay bằng `c4p_cell.py` (T6) |
 | T6 | **Chạy C4′:** `notebooks/c4p_cell.py` (POOL B), mỗi ngày một phiên, trần 2,0 USD mỗi phiên, 12 USD mỗi model | Gửi `c4p.json` và `c4p_results.zip` sau mỗi phiên | Ghi chú 40-8 |
 | T7 | **Chạy thử W7:** `notebooks/w7_run_cell.py` (COMMIT `0cb4874…`, `POOL = "A"`, `DRY_RUN = True`, 0 USD), notebook Benchmarks riêng | Gửi `w7_A.json` và `w7_A_run.zip` | §45; trần bước học chưa duyệt |
 | T5 | ~~Chọn A hay B cho C4′~~ **Xong 17/11: B** (@thuthuy: "Oke chọn B"). 100 task test + 36 task của §35, khối riêng; power 1,00 (ghi chú 40-5) | — | `POOL = "B"` trong `kaggle/notebooks/c4p_cell.py` (ghi chú 40-8) |
@@ -30,13 +29,14 @@ Hạn mức AI Kaggle đã dùng: P0 0,47; B 3,05; A cộng dồn 20,06 (Kaggle 
 
 | # | Việc | Điều kiện | Ai |
 | --- | --- | --- | --- |
-| N1 | Phân tích mục A theo bản đăng ký; xác định kịch bản A1–A4 | T1 xong | Claude |
-| N2 | Chạy ô C5 trên Kaggle | Ô đã gửi | @thuthuy |
-| N3 | C6: 6 task (3 không mô tả) qua lớp cách ly, trần 0,5 USD | C5 đạt | cả hai |
-| N4 | C4′: ba agent, 4 nhánh, 100 task, chạy lại từ đầu | C6 đạt | @thuthuy chạy, Claude phân tích |
+| ~~N1~~ | ~~Phân tích mục A; xác định kịch bản A1–A4~~ **Xong 17/11** (38-6 đến 38-9): không model khác hãng nào qua Holm; phạm vi thu hẹp về model của gskill | — | Claude |
+| ~~N2~~ | ~~Chạy ô C5 trên Kaggle~~ **Xong:** gộp vào ô C6 (40-6) | — | — |
+| ~~N3~~ | ~~C6: 6 task qua lớp cách ly~~ **Xong 18/11: đạt** (40-9) | — | — |
+| N4 | **C4′:** ba agent, 4 nhánh, POOL B (100 + 36 task), chạy lại từ đầu | Đang chờ T6 | @thuthuy chạy, Claude phân tích (40-5, 40-8) |
+| N4b | **W7:** chạy thử (T7), đo một khối 3 cặp, xin trần bước học, rồi chạy sau C4′ | Đang chờ T7 | cả hai (§45) |
 | N5 | Đề xuất C7 (Pygments), C8 (seed 2), C9 (agent hạng giữa), D (lượt học) | Có kết quả C4′ | Claude đề xuất, @thuthuy duyệt |
-| N6 | Mục E (việc thuần văn bản) | Theo kịch bản của A, hoặc khi mục C dừng | Claude |
-| N7 | Đưa A, B (và C nếu hợp lệ) vào paper và `report/`; chuyển `kaggle/` về `main` | Mọi mục xong, @thuthuy đồng ý | Claude |
+| N6 | Mục E (việc thuần văn bản), ví dụ E1: kiểm endpoint của §38 bằng đọc tay | Theo kết quả §38 (đã có) | Claude |
+| N7 | Đưa §38, A′, B (và C4′, W7 nếu hợp lệ) vào paper và `report/`; chuyển `kaggle/` về `main` | @thuthuy đồng ý | Claude |
 
 ## Đã xong
 
