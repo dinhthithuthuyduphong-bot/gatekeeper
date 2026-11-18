@@ -21,7 +21,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 ### Tổng hợp thí nghiệm còn lại và chi phí (18/11/2026)
 
-**Tiền thật (Vertex), đã duyệt, trần cộng dồn 38,96 USD; bắt đầu 20/11** (@thuthuy 18/11: "giữ lại ngày 20.11 mới làm"). Trần chi tiêu của project Vertex: 10 USD (@thuthuy 18/11); **chưa rõ theo ngày hay theo tháng**. Lịch dưới đây giả định 10 USD mỗi ngày:
+**Tiền thật (Vertex), đã duyệt, trần cộng dồn 38,96 USD; mọi nhánh đã chạy thử đạt (R-82); bắt đầu 20/11** (@thuthuy 18/11: "giữ lại ngày 20.11 mới làm"). Trần chi tiêu của project Vertex: 10 USD (@thuthuy 18/11); **chưa rõ theo ngày hay theo tháng**. Lịch dưới đây giả định 10 USD mỗi ngày:
 
 | Ngày | Việc | Dự kiến (USD) | Trần riêng (USD) |
 | --- | --- | --- | --- |

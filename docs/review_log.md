@@ -1164,4 +1164,9 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Chạy thử miễn phí (18/11):**
   - `x2` (run 44282349106): đạt. Nền `chroot` dựng trên Actions từ image gốc (Python 3.10.16 ở đường dẫn của image; 959 nhánh task); kiểm sha256 của hai file shim đạt; hai nhánh chạy đủ; chốt tiền in đúng (0 đã chi, trần 0,664 rồi 1,199). Lộ lỗi A143 (`sudo` bỏ qua `-E`), đã sửa và thêm bước kiểm xác thực dưới quyền root; chạy thử lại sau khi sửa.
   - `learnship` nửa 1 (run 44282355273): đạt; file `dryx1ship_*` đã publish, không đụng file của §25, §30.
+  - `x2` sau khi sửa A143 (run 44284213638): đạt; dòng kiểm in "root sees credentials: Credentials project set: True"; không còn cảnh báo của `sudo`.
+  - `x1eval` (run 44284229151): đạt; năm nhánh, mỗi nhánh đúng `leak_free`, độ dài skill và tập task đã đăng ký; 0 lỗi hạ tầng.
+  - `learnship` nửa 2 (run 44285918172, chạy lại sau A144): đạt; `split_identity` đạt trên log của nửa 1; tiếp tục từ thư mục của nửa 1. Cổng `num_candidates` bỏ qua ở lượt thử (model giả lập không sinh ứng viên), có hiệu lực ở lượt thật.
+  - `learnlf` nửa 1 (run 44286802938, chạy lại sau A144): đạt; file `dryx1lf_*`.
+- **Kết luận R-82:** mọi nhánh của §46–§47 đã chạy thử đạt. Lượt có phí chờ: (1) ngày 20/11 (@thuthuy); (2) @thuthuy cho biết trần 10 USD của project Vertex tính theo ngày hay theo tháng.
 
