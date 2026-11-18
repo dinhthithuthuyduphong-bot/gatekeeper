@@ -1142,3 +1142,11 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Kiểm `budget_usd` và `cost_limit` theo `configs/w7b.json` (khóa `cap_<arm>`); `--skip-done` trỏ tới `results/s34_lfnone.json`.
   - `bash -n` đạt. Chạy thử miễn phí trước khi chi.
 - **Chạy thử miễn phí `lfnonerest` đạt.** Task được chọn không thuộc 17 task của `s34_lfnone`; `leak_free_check` đúng; trần 4,386; cost_limit 0,34. Lượt có phí được khởi động sau đó.
+
+## R-81. `scripts/split_identity.py` (18/11/2026; 0 USD; phân tích trên dữ liệu đã có)
+
+- **Mục đích:** cổng của X1′ (`docs/plan_vs_review.md` mục 10): mọi mã task mà log của một lượt học gskill nhắc tới phải thuộc train hoặc val của bản xuất trên `data-snapshots`.
+- **Mã:** đọc lưu trữ bằng `tarfile`, không giải nén ra đĩa; chỉ đọc file log (`training.log`, `run_log.*`, `terminal.log`). Không có con số khoa học nào.
+- **Test:** `tests/test_split_identity.py`, 2 test, đạt (một mã ở test, một mã lạ, log rỗng đều cho "không đạt"; đọc được cả `.jsonl` và `.jsonl.gz`).
+- **Kết quả:** đạt ở cả ba lượt học đã có (Jinja gốc, Jinja một commit, Bleve gốc).
+
