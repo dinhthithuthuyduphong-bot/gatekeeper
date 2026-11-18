@@ -146,3 +146,8 @@ Mọi con số khác bên dưới đều được **suy ra từ α**, **suy ra t
 | **C10R, trần = phân vị 0,999 của chi phí mô phỏng + 0,30; tỉ lệ 1,971; tối thiểu 10 chi phí ở tầng sau** (§44) | Vận hành | L66; chỉ ảnh hưởng xác suất bị cắt, không ảnh hưởng phép thử. `scripts/c10r_caps.py` |
 | **C10R, power 0,994 / 0,214; cỡ 0,0006** (§44) | Suy ra | `results/c10r_power.json` (seed 4403, 20.000 lần) |
 | **C10R, kết quả: n = 70, E = 9.028, D = −0,293 [−0,350; −0,236] và các phép phụ** (§44) | Suy ra | `results/c10r_analysis.json`, `results/c10r_stop_audit.json`; macro `ctr*` do `scripts/make_numbers.py` sinh |
+| **§45: trần 3,827 USD của Flash một commit; tỉ lệ 1,057; seed 4501** | Vận hành | L66, `configs/w7b.json` |
+| **§45: ngưỡng k ≥ 5 issue ở pool B** | Suy ra | Bảng power của §45: k nhỏ nhất cho power ≥ 0,8 ở kịch bản thuận lợi nhất (0,8; 0,1) |
+| **§45: 3,09 ký tự mỗi token; max_tokens 24.000; giá 2 / 12 USD mỗi triệu token** | Đo / bên thứ ba | A′ (ghi chú 38-11); `discover.py`, `merge.py`, `judge.py` của XRepoSkill; bảng giá LiteLLM 1.106.6 |
+| **§45: khối 3 cặp, 3 luồng** | Vận hành | Chỉ để giữ trần ngày của Kaggle; không ảnh hưởng kết quả (các cặp độc lập) |
+

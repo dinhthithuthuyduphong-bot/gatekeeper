@@ -65,7 +65,7 @@ on:
         required: true
         default: "none"
         type: choice
-        options: ["none", "skill", "placebo", "trace34", "trace34b", "pair", "skillb", "skillc", "learn", "eval", "evalrest", "pilot", "rest", "c10test34", "c10all70", "c10r70"]
+        options: ["none", "skill", "placebo", "trace34", "trace34b", "pair", "skillb", "skillc", "learn", "eval", "evalrest", "pilot", "rest", "c10test34", "c10all70", "c10r70", "lfnone"]
       dryrun:
         description: "swesmith-s27 only: true = scripted model (0 USD) on the first task of each arm"
         required: false
@@ -616,6 +616,9 @@ jobs:
           CAPS=$(python -c "print(round(float('${{ inputs.budget_usd }}') * (1 - $FN), 4))")
           CL="${{ inputs.cost_limit }}"
           python -c "import sys; sys.exit(0 if 0 < float('$CL') <= 0.90 else 'cost_limit must be in (0, 0.90]')"
+          if [ "${{ inputs.arm }}" = "lfnone" ]; then  # section 45: the cap is the registered one
+            python -c "import json,sys; c=json.load(open('$GITHUB_WORKSPACE/configs/w7b.json')); sys.exit(0 if abs(c['cap_lfnone'] - float('${{ inputs.budget_usd }}')) < 1e-9 and c['cost_limit'] == float('$CL') else 'budget_usd/cost_limit differ from configs/w7b.json')"
+          fi
           PFX=s34; MOCK=()
           if [ "${{ inputs.dryrun }}" = "true" ]; then
             PFX=s34dry
@@ -641,10 +644,15 @@ jobs:
                  --skip-done "$GITHUB_WORKSPACE/results/s34_none_pilot.json") > /tmp/none.log 2>&1 & p1=$!
               (cd /tmp/work/skill && run_probe ${PFX}_skill_rest.json "$CAPS" --skills-file "$SK" \
                  --skip-done "$GITHUB_WORKSPACE/results/s34_skill_pilot.json") > /tmp/skill.log 2>&1 & p2=$! ;;
-            *) echo "section 34: arm must be pilot or rest"; exit 1 ;;
+            lfnone)  # section 45 (W7-b): the same agent, no skill, single-commit history, all 34 tasks;
+              # budget_usd is the cap of this one arm (configs/w7b.json), cost_limit as in note 34-2
+              (cd /tmp/work/none && run_probe ${PFX}_lfnone.json "${{ inputs.budget_usd }}" --leak-free) \
+                 > /tmp/none.log 2>&1 & p1=$!
+              p2= ;;
+            *) echo "section 34: arm must be pilot, rest or lfnone"; exit 1 ;;
           esac
-          rc=0; wait $p1 || rc=1; wait $p2 || rc=1
-          tail -n 3 /tmp/none.log /tmp/skill.log; exit $rc
+          rc=0; wait $p1 || rc=1; [ -n "$p2" ] && { wait $p2 || rc=1; }
+          tail -n 3 /tmp/none.log /tmp/skill.log 2>/dev/null || true; exit $rc
       - name: C10 (git-history factorial, message x diff, eight arms at the same time, capped)
         if: inputs.plan == 'swesmith-c10'
         run: |
