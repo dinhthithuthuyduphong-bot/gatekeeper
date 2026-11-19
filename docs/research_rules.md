@@ -167,6 +167,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Biến môi trường qua ranh giới người dùng (L70)**
 - [ ] Lệnh chạy dưới người dùng khác (`sudo`, môi trường sạch) nhận từng biến cần thiết một cách tường minh, và có một bước kiểm 0 USD dưới đúng người dùng đó xác nhận khóa nạp được trước lần gọi có phí đầu tiên. Đọc mọi cảnh báo trong log của lượt chạy thử.
 
+**Chốt chặn theo từng lệnh gọi (L74)**
+- [ ] Chốt chặn tiền giữ chỗ mức xấu nhất của từng lệnh gọi và từ chối khi vượt trần; mọi cận mới được tính trên số đo đã có và so với trần trước khi commit (A147).
+
 **Nhánh đúng trước khi gộp (L73)**
 - [ ] Lệnh ghép có `git push` hay `git commit` nối các bước sau bằng `&&`; mỗi `git merge` có kiểm `git branch --show-current` ngay trước (A146).
 
