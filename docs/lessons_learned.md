@@ -615,3 +615,11 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Chốt chặn tiền đặt ở từng lệnh gọi: giữ chỗ mức xấu nhất của **một** lệnh, từ chối khi vượt trần (như `f1_probe`, L66). Cận khi đó chỉ lớn hơn số thật một lệnh gọi.
   - Mọi cận mới được tính trên số đo đã có và in ra trước khi commit; cận lớn hơn trần thì không phải là cận dùng được.
   - Thêm vào danh sách review `docs/research_rules.md` §4.
+
+## L75. Số đã chi "trong phiên" phải lấy từ chính nơi chi, không từ hiệu hai lần đếm một thư mục mà nơi khác ghi thêm vào (K27 ở `kaggle/audit.md`)
+- **Nguyên nhân gốc:** ô C4′ đo số đã chi trong phiên bằng hiệu tổng file chi phí trong `OUTDIR` trước và sau. Driver lại chép file của các phiên trước vào đúng thư mục đó, nên hiệu gồm cả tiền của phiên trước. Lỗi chỉ hiện ở phiên thứ hai, nên lượt chạy thử và phiên 1 không bắt được.
+- **Phòng ngừa:**
+  - Lấy số đã chi trong phiên từ báo cáo của chính tiến trình chi (`spent_this_session` của driver), hoặc đếm trước và sau trên một tập file cố định.
+  - Mọi ô chạy nhiều phiên được kiểm bằng một phiên thứ hai mô phỏng (có dữ liệu của phiên trước) trước khi gửi.
+  - Thêm vào danh sách review `docs/research_rules.md` §4.
+
