@@ -1,0 +1,33 @@
+{
+ "started": "2026-11-19T00:33:08Z",
+ "dry_run": false,
+ "pool": "A",
+ "model": "openai/google/gemini-3.1-pro-preview",
+ "spent_before": 0.0,
+ "files_extracted": 107,
+ "pair_stats": {
+  "n_instances_pool": 34,
+  "n_frontier": 31,
+  "n_no_positive_gap": 0,
+  "n_pairs": 62,
+  "rates": {
+   "gemini-3.1-flash-lite": 0.0,
+   "gemini-3.8-flash": 0.9118
+  },
+  "tiers": {
+   "gemini-3.1-flash-lite": "weak",
+   "gemini-3.8-flash": "mid"
+  }
+ },
+ "status": "MAX_CHUNKS = 1 reached; set MAX_CHUNKS = None to continue",
+ "chunks": 21,
+ "chunks_done": 1,
+ "spent_session_usd": 0.5585,
+ "spent_total_usd": 0.5585,
+ "calls": 14,
+ "failed_calls": 0,
+ "guard_attempts": 2,
+ "tokens_in": 50621,
+ "tokens_out": 38101,
+ "finished": "2026-11-19T00:35:28Z"
+}
