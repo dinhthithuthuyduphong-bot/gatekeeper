@@ -167,6 +167,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Biến môi trường qua ranh giới người dùng (L70)**
 - [ ] Lệnh chạy dưới người dùng khác (`sudo`, môi trường sạch) nhận từng biến cần thiết một cách tường minh, và có một bước kiểm 0 USD dưới đúng người dùng đó xác nhận khóa nạp được trước lần gọi có phí đầu tiên. Đọc mọi cảnh báo trong log của lượt chạy thử.
 
+**Bộ đếm theo đối tượng của trần (L76)**
+- [ ] Bộ đếm tiền lọc đúng đối tượng của trần (model, nhánh, phiên); file chi phí không bị ghi đè khi chạy lại; số lần chạy lại tối đa và cách tính lượt sập được đăng ký trước (K28).
+
 **Số đã chi trong phiên (L75)**
 - [ ] Ô chạy nhiều phiên lấy số đã chi trong phiên từ báo cáo của tiến trình chi, và được kiểm với dữ liệu của một phiên trước trước khi gửi (K27).
 
