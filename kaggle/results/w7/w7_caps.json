@@ -1,0 +1,40 @@
+{
+ "_registration": "docs/preregistration_main.md section 45, note 45-5",
+ "quantile": 0.999,
+ "reps": 20000,
+ "seed": 4506,
+ "measured": {
+  "pairs": 9,
+  "slots_per_analyst": {
+   "A-": 9,
+   "A_diff": 9,
+   "A+": 9
+  },
+  "candidates": 15,
+  "merge_fit_a_b": [
+   0.012330846846846847,
+   0.0016412972972972976
+  ],
+  "judge_calls": 6
+ },
+ "pools": {
+  "A": {
+   "pairs_left": 53,
+   "spent_so_far": 1.844426,
+   "expected_rest": 11.237800067725173,
+   "quantile_rest": 11.863161585585585,
+   "reserve": 0.9319611650485438,
+   "cap": 14.64
+  },
+  "B": {
+   "pairs_left": 24,
+   "spent_so_far": 0.0,
+   "expected_rest": 5.041760677096388,
+   "quantile_rest": 5.4436539819819805,
+   "reserve": 0.9319611650485438,
+   "cap": 6.376
+  }
+ },
+ "cap_total": 21.016,
+ "expected_total": 18.124
+}
