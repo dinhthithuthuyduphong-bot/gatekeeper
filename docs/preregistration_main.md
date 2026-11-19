@@ -3074,7 +3074,7 @@ Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước ki�
   | Tổng | | dự kiến cả hai pool 18,124 | | **21,016** |
 
 - **Hạn mức tháng:** đã dùng khoảng 29,5 USD (đến C4′ phiên 1 và hai bước đo W7). Cộng phần trần còn lại của C4′ (36 − 1,94 = 34,06) và phần mới của W7 (21,016 − 1,844 = 19,17), tổng 82,7 ≤ 100.
-- Trần chờ @thuthuy. Thứ tự không đổi: bước học đầy đủ chạy sau C4′.
+- **Trần đã duyệt** (@thuthuy 19/11: "duyệt trần 14,640 và 6,376"). Thứ tự không đổi: bước học đầy đủ chạy sau C4′.
 
 ## 46. X2′: cầu nối giữa môi trường Docker và lớp `chroot` của Kaggle (đăng ký 18/11/2026, trước mọi lượt có phí của §46)
 
