@@ -439,3 +439,12 @@ Hai phép nhận này đúng là hai phép nhận của §25 và §25 bước 3,
   - Chỉ dùng cho gpt-oss. gpt-oss **chạy lại từ đầu dưới tag `ossh`**, để mọi lượt của model này chạy cùng một cách. Các file tag `oss` (khối `none` 0 và khối hỏng) để riêng, không dùng trong phân tích (L12: đổi cách chạy giữa chừng thì chạy thành giai đoạn riêng).
   - Sai lệch về độ trung thành với gskill: tin nhắn gửi lại khác lời đáp gốc ở các thẻ định dạng. Ghi vào phần giới hạn của C4′.
 - **Không đổi:** task, thứ tự, khối, seed, cost_limit, trần (12 USD cho gpt-oss tính trên tag `ossh` cộng 0,3769 đã chi), phép thử.
+
+### Ghi chú 40-16 (19/11/2026): ảnh hưởng của việc gỡ thẻ định dạng (40-15), trước mọi lượt `ossh`
+
+- **Đã đo, trên 10 lượt của khối `oss_none_c00` (trước khi sửa):** 219 tin nhắn của agent; 110 có thẻ. Mọi thẻ `<|channel|>` đều mở kênh `commentary` (610 lần; 1 lần chữ `message`). Không có kênh `analysis` hay `final`: nội dung trong thẻ chính là câu trả lời của agent, gồm khối lệnh bash. Chỉ 2 tin nhắn có chữ nằm ngoài cặp `<|message|>…<|end|>`.
+- **Vậy việc gỡ thẻ chỉ đổi:** các thẻ thành dấu cách, và tên kênh "commentary" còn lại như một chữ thường trong tin nhắn cũ gửi lại. Không có đoạn suy luận ẩn nào bị đưa vào hay bị bỏ khỏi lịch sử.
+- **Không đổi:** lệnh agent chạy được đọc từ lời đáp gốc (mini-swe-agent đọc khối bash của tin nhắn trả về, trước khi gửi lại); trace lưu lời đáp gốc; bộ chấm.
+- **Với phép thử:** việc gỡ thẻ áp cho cả 4 nhánh của gpt-oss. D là hiệu của hai mức tăng nên phần ảnh hưởng chung của cả 4 nhánh triệt tiêu. Phần không triệt tiêu chỉ có thể là một tương tác giữa việc gỡ thẻ và nhánh; không có lý do cụ thể nào để có tương tác đó.
+- **Không so được với bản gốc của gskill trên endpoint này:** không gỡ thẻ thì máy chủ từ chối lời gọi (lỗi 400) từ 16:33Z. Một endpoint xử lý định dạng ở phía máy chủ sẽ trả nội dung không có thẻ. Bản đã gỡ thẻ vì vậy gần với cách gskill chạy trên một endpoint như thế hơn là bản giữ thẻ.
+- **Kiểm sau khi chạy (mô tả, n nhỏ):** so khối `ossh_none_c00` với `oss_none_c00` trên cùng 10 task: số task giải được, số bước, số tin nhắn có thẻ. Không dùng để kết luận.
