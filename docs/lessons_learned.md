@@ -623,3 +623,11 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Mọi ô chạy nhiều phiên được kiểm bằng một phiên thứ hai mô phỏng (có dữ liệu của phiên trước) trước khi gửi.
   - Thêm vào danh sách review `docs/research_rules.md` §4.
 
+## L76. Bộ đếm tiền phải đếm đúng đối tượng của trần, và một lần chạy lại không được xóa dấu tiền của lần trước (K28 ở `kaggle/audit.md`)
+- **Nguyên nhân gốc:** driver C4′ đếm mọi file chi phí trong thư mục chung cho trần của từng model, và ghi file chi phí của lần chạy lại vào đúng tên file của lần hỏng. Cả hai chỉ hiện khi có model thứ hai hoặc một khối được chạy lại, nên các phiên trước không lộ.
+- **Phòng ngừa:**
+  - Mỗi trần ghi rõ nó đếm file nào; bộ đếm lọc theo đúng đối tượng đó (model, nhánh, phiên).
+  - File chi phí không bao giờ bị ghi đè: lần sau dùng tên mới.
+  - Một khối có thể sập lặp lại phải có quy tắc dừng đăng ký trước (số lần chạy lại tối đa, cách tính task sập).
+  - Thêm vào danh sách review `docs/research_rules.md` §4.
+
