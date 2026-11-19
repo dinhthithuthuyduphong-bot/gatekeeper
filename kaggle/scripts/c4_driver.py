@@ -46,12 +46,15 @@ def complete(f: Path, n: int) -> bool:
     except (OSError, ValueError):
         return False
     runs = d.get("runs", [])
-    kept = set(d.get("accepted_with_crashes") or [])  # note 40-13: second attempt, same crash
+    # notes 40-13, 40-14: second attempt of a chunk, its crashed or infra runs listed
+    kept = set(d.get("accepted_with_crashes") or []) | set(d.get("accepted_with_infra") or [])
     return (
         len(runs) == n
         and not d.get("stopped")
-        and not any(r.get("infra_error") for r in runs)
-        and not any(r.get("crashed") and r["instance_id"] not in kept for r in runs)
+        and not any(
+            (r.get("infra_error") or r.get("crashed")) and r["instance_id"] not in kept
+            for r in runs
+        )
     )
 
 
@@ -163,21 +166,20 @@ def main() -> int:
             out.with_suffix(".mini.yaml").unlink(missing_ok=True)  # holds the endpoint URL
             ok = rc == 0 and complete(out, len(chunk))
             if not ok and rc == 0 and earlier:
-                # note 40-13: the second attempt of a chunk crashed again; keep it when every
-                # task ran and no infrastructure error occurred, with the crashed runs listed
-                # (the analysis drops those tasks from every arm of this agent)
+                # notes 40-13, 40-14: the second attempt of a chunk failed again; keep it when
+                # every task ran, with the crashed and infrastructure-error runs listed (the
+                # analysis drops those tasks from every arm of this agent)
                 try:
                     d = json.loads(out.read_text())
                 except (OSError, ValueError):
                     d = {}
                 runs = d.get("runs", [])
-                if (
-                    len(runs) == len(chunk)
-                    and not d.get("stopped")
-                    and not any(r.get("infra_error") for r in runs)
-                ):
+                if len(runs) == len(chunk) and not d.get("stopped"):
                     d["accepted_with_crashes"] = sorted(
                         r["instance_id"] for r in runs if r.get("crashed")
+                    )
+                    d["accepted_with_infra"] = sorted(  # note 40-14
+                        r["instance_id"] for r in runs if r.get("infra_error")
                     )
                     out.write_text(json.dumps(d, indent=1))
                     ok = complete(out, len(chunk))

@@ -164,3 +164,19 @@ def test_spend_counts_this_model_only(tmp_path):
     (tmp_path / "out" / "other_none_c00.cost.json").write_text(json.dumps({"endpoint_usd": 5.0}))
     s = run_crash(tmp_path, FAKE_AGENT)
     assert abs(s["spent_total"] - 0.001) < 1e-9
+
+
+INFRA_AGENT = FAKE_AGENT.replace(
+    'runs = [{"instance_id": r["instance_id"], "order": r["_gskill_order"]} for r in rows',
+    'runs = [{"instance_id": r["instance_id"], "order": r["_gskill_order"],'
+    ' "infra_error": "scoring: strict status \'timeout\'" if r["instance_id"] == "test0"'
+    " else None} for r in rows",
+)
+
+
+def test_second_infra_failure_of_a_chunk_is_kept_with_the_task_listed(tmp_path):
+    first = run_crash(tmp_path, INFRA_AGENT)
+    assert first["chunks_done"] == 0
+    second = run_crash(tmp_path, INFRA_AGENT)
+    d = json.loads((tmp_path / "out" / "m_none_c00.json").read_text())
+    assert second["chunks_done"] == 1 and d["accepted_with_infra"] == ["test0"]

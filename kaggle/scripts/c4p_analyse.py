@@ -103,7 +103,9 @@ def main() -> int:
     complete = set.intersection(*(set(v) for v in runs.values()))
     # note 40-13: a task whose run crashed in any arm (kept after a second crash) is dropped
     # from every arm of this agent
-    crashed = {i for v in runs.values() for i, r in v.items() if r.get("crashed")}
+    crashed = {  # note 40-14: an infrastructure-error run is dropped the same way
+        i for v in runs.values() for i, r in v.items() if r.get("crashed") or r.get("infra_error")
+    }
     complete -= crashed
     nodesc = set(a.nodesc_test.read_text().split()) | {
         i for i, k in chunk.items() if k >= a.test_chunks

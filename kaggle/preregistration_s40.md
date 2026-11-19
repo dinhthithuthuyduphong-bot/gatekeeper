@@ -413,3 +413,12 @@ Hai phép nhận này đúng là hai phép nhận của §25 và §25 bước 3,
   - Kết quả của Haiku không đổi: chạy lại `kaggle/scripts/c4p_analyse.py` (đã thêm bước bỏ task sập) cho đúng số của ghi chú 40-12; Haiku không có lượt sập.
 - **Không đổi:** task, model, thứ tự, khối, seed, cost_limit, trần, phép thử chính.
 
+
+### Ghi chú 40-14 (19/11/2026): C4′ phiên 4; khối hỏng vì bộ chấm quá thời gian. Viết trước lần chạy lại khối đó
+
+- **Lượt chạy:** 07:34:28Z–13:15:05Z, 329,9 phút. Khối `none` 2 của nano chạy lại: đạt, 0 lượt sập (quy tắc 40-13 không phải dùng). Nano xong **35/56 khối**; dừng ở khối `lf_skill` 8. Chi phí phiên 1,8009 USD hạn mức; nano cộng dồn 2,3762, kể cả lần hỏng của khối `none` 2 (`nano_none_c02.try1.cost.json`, sửa 2 của K28). Nano cộng dồn: 4.881 lần gọi, 31,83 triệu token vào, 0,624 triệu token ra. Dữ liệu `kaggle/results/c4p/s4/` (zip sha256 `a36eb0e5baf74429da880d6d724603ae5820d19e4c7485d8acd526b696dfaa33`).
+- **Kiểm vận hành:** cổng C5 đạt; bộ theo dõi (`--include-bad`) đúng `monitor.json`: 904 lượt, attempt 114, **exposure 0**. Các khối được giữ: 0 lượt sập, 0 lỗi hạ tầng. "Bug Patch" trong quan sát, riêng nano (hiệu với Haiku): `none` 0/90, `skill` 33/90, hai nhánh một commit 0. Tải gói phát hành (mẫu 40-10): `none` 1, `lf_none` 3.
+- **Khối hỏng:** 10/10 lượt chạy xong; lượt `…cpp8owgt` có `infra_error` "scoring: strict status 'timeout'" (bộ chấm S quá thời gian, agent đã nộp bản vá). Theo mục 6, khối được để riêng và chạy lại ở phiên 5.
+- **Quy tắc thêm, chốt trước lần chạy lại (mở rộng 40-13):** nếu lần chạy lại của một khối vẫn có lượt lỗi hạ tầng (kể cả bộ chấm quá thời gian), khối được giữ, kèm danh sách (`accepted_with_infra`). Task đó bị bỏ khỏi cả 4 nhánh của agent, như task sập, và được báo. Lý do giống 40-13: một lỗi lặp lại không được chặn agent mãi. Quy tắc chấm lại một lần của L57 không dùng ở đây, vì mục 6 đã đăng ký chạy lại cả khối.
+- **Mã:** `kaggle/scripts/c4_driver.py`, `kaggle/scripts/c4p_analyse.py`, test trong `kaggle/tests/test_c4_driver.py`; commit trong cùng lần sửa ghi chú này; ô ghim commit đó.
+- **Không đổi:** mọi điều khác.
