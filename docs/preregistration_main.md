@@ -3051,7 +3051,7 @@ Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước ki�
   - một đơn vị (một khối discover, merge, judge) bị cắt giữa chừng được đưa các file về đúng trạng thái trước nó, và chạy lại ở phiên sau;
   - kiểm trước khối chỉ để tránh bắt đầu một khối sẽ bị cắt: cần còn ít nhất 3 bộ phân tích × số cặp × 0,0647 USD (0,0647 là lệnh gọi đắt nhất của khối đo, làm tròn lên; giá trị vận hành, không phải cận an toàn);
   - test `kaggle/tests/test_w7_cell_guard.py`: từ chối lệnh gọi có thể vượt trần, gọi đồng thời, lệnh gọi thất bại tính theo mức xấu nhất, hoàn tác file.
-- **Đề xuất cho bước đo tiếp, cần @thuthuy duyệt vì ngoài phạm vi "chỉ khối 0":** dùng phần còn lại của trần 6,10 (5,54 USD) cho khối 1–2 (tính vào lượt thật) và cho merge + judge trên **bản sao** các ứng viên đã có (`MEASURE_MERGE_JUDGE = True`; bản sao không thuộc lượt thật). Có số đo của merge và judge mới mô phỏng được trần cả lượt theo L66.
+- **Bước đo tiếp (@thuthuy 19/11: "duyệt, gửi ô đi"; trước đó cần duyệt vì ngoài phạm vi "chỉ khối 0"):** dùng phần còn lại của trần 6,10 (5,54 USD) cho khối 1–2 (tính vào lượt thật) và cho merge + judge trên **bản sao** các ứng viên đã có (`MEASURE_MERGE_JUDGE = True`; bản sao không thuộc lượt thật). Có số đo của merge và judge mới mô phỏng được trần cả lượt theo L66.
 - **Không đổi:** đại lượng, phép thử, ngưỡng, diễn giải, thứ tự (bước học đầy đủ sau C4′).
 
 ## 46. X2′: cầu nối giữa môi trường Docker và lớp `chroot` của Kaggle (đăng ký 18/11/2026, trước mọi lượt có phí của §46)
