@@ -385,3 +385,14 @@ Hai phép nhận này đúng là hai phép nhận của §25 và §25 bước 3,
 - **Lỗi K27:** nano và gpt-oss không được bắt đầu vì ô tính nhầm số đã chi trong phiên (cộng cả số của phiên 1 do driver chép file sang). Sửa ở `c4p_cell.py` (commit trong cùng lần sửa ghi chú này). Không đổi task, model, thứ tự, khối, seed, cost_limit, các trần, phép thử.
 - **Tiếp:** phiên 3 với ô đã sửa, chạy nano rồi gpt-oss.
 
+
+### Ghi chú 40-12 (19/11/2026): kết quả C4′ của Haiku (đủ dữ liệu của agent này; nano và gpt-oss chưa chạy)
+
+- **Phân tích:** `kaggle/scripts/c4p_analyse.py` (viết sau khi có dữ liệu, theo đúng 40-5 và 40-10; test `kaggle/tests/test_c4p_analyse.py`), lệnh trong docstring, kết quả `kaggle/results/c4p/haiku_analysis.json`. Pool 70 task không mô tả: 34 task test của §34 (`kaggle/data/c4p_nodesc_test34.txt`, lấy từ `results/s34_none_pilot.json` và `s34_none_rest.json` trên `main`) và 36 task của các khối extra; đủ 4 nhánh ở cả 70.
+- **Số task giải được trên 70 task không mô tả (S):** môi trường gốc: không skill 24, skill 24; một commit: không skill 1, skill 19.
+- **Phép thử chính (D = (Z_gốc − Z_một commit)/2):** trung bình D = **+0,129** (khoảng 95% theo xấp xỉ chuẩn, chỉ để mô tả: [0,040; 0,217]); 10 task D < 0, 25 task D > 0; E = 0,0021, ngưỡng họ 120: **không bác bỏ**.
+- **Theo bảng diễn giải đặt trước (40-5 mục 5): hàng "Ngược chiều (D trung bình > 0): không dự kiến; báo nguyên trạng".** Với Haiku, mức tăng của skill ở môi trường gốc là 0 (24 so với 24) và ở môi trường một commit là +18 task (1 so với 19).
+- **Mô tả kèm (không phải phép thử):** ở môi trường gốc, Haiku không skill đã thấy diff "Bug Patch" ở 74/136 lượt (ghi chú 40-11) và giải 24/70 task không mô tả: agent tự tìm ra rò rỉ, nên skill không thêm gì (giống hàng 2 của bảng, "agent tự tìm ra rò rỉ"). Ở môi trường một commit, skill nâng từ 1 lên 19.
+- **Độ nhạy (40-10, sau dữ liệu): bỏ 16 task có tải gói phát hành ở bất kỳ nhánh nào** → 54 task; giải được 17, 19, 1, 13; trung bình D = +0,093; E = 0,032; vẫn ngược chiều. Mức tăng ở môi trường một commit (1 → 13) không do kênh tải gói.
+- **Phép nhận theo từng môi trường của mục 6** được tính khi phân tích đủ ba agent.
+- **Không đổi:** mọi quy tắc của 40-5, 40-10.
