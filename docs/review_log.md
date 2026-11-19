@@ -1201,3 +1201,14 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Danh sách §4:** ngưỡng của mỗi cảnh báo lấy từ số đã đăng ký hoặc suy ra (bảng ở ghi chú 47-4), không có số tự đặt (R2); không cảnh báo nào đổi quy tắc hay cách đọc (R5); hàm nhận con số khoa học không có giá trị mặc định (chỉ `--prefix` có mặc định là chuỗi rỗng).
 - **Chạy thử miễn phí, từng lượt một (L71), commit 4ca58b0:** `x2` (run 44299442557): `dryx1_alerts_x2_none`, `dryx1_alerts_x2_skill` không cảnh báo; `x1eval` (run 44300585006): `dryx1_alerts_x1eval` không cảnh báo; `learnship` nửa 1 (run 44301759741): `dryx1_alerts_learnship-h1` không cảnh báo. Cả ba job đạt.
 - **Kết luận R-86:** đạt. Lượt có phí đầu tiên không trước 21/11 (ghi chú 47-5) và chờ chu kỳ trần 10 USD của project.
+
+## R-87. Ô W7 (§45), bước kiểm trần theo từng lệnh gọi (19/11/2026; trước mọi lệnh gọi có phí sau khối đo)
+- **Đối tượng:** `kaggle/notebooks/w7_run_cell.py` commit `3e23bce` (nhánh mặc định); ghi chú 45-4.
+- **Đã kiểm:**
+  - Mã XRepoSkill tại `26fd703` (chỉ đọc): `llm.chat` gọi `litellm.completion` qua `call_with_retry` ở thời điểm gọi, nên bọc `litellm.completion` bắt được mọi lần thử, kể cả thử lại; `BudgetStop` không thuộc lỗi tạm thời nên không bị thử lại; discover bắt mọi ngoại lệ của từng lượt phân tích và ghi vào `failed.jsonl`, nên ô dựa vào cờ `stopped` (không dựa vào mã trả về) để hoàn tác khối.
+  - Hoàn tác: xóa file mới, cắt file cũ về kích thước trước đơn vị, trên cả thư mục lượt chạy (ứng viên, transcript, `cost_log.jsonl`, `failed.jsonl`, đầu ra merge, judge).
+  - Chi phí mỗi lệnh gọi tính ngay trong hàm bọc từ `usage` của lời đáp, không qua callback chạy sau, nên phần giữ chỗ chỉ được trả sau khi chi phí thật đã cộng.
+  - Test `kaggle/tests/test_w7_cell_guard.py` (6 test) và mọi test của `kaggle/tests` đạt; `ruff` đạt; preflight đạt.
+- **Danh sách §4:** L66, L69, L72, L74.
+- **Giới hạn:** chế độ chạy thử dùng model giả lập ở `llm.chat`, nên không đi qua hàm bọc; hàm bọc chỉ được kiểm bằng test. Lượt có phí đầu tiên dùng nó là bước đo tiếp (trong trần 6,10).
+- **Kết luận R-87:** đạt.

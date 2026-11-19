@@ -608,3 +608,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Trong một lệnh ghép, mọi bước sau `git push` hay `git commit` nối bằng `&&`.
   - Mỗi lệnh `git merge` đi sau `git branch --show-current`, và dừng nếu tên nhánh không đúng.
   - Thêm vào danh sách review `docs/research_rules.md` §4.
+
+## L74. Cận an toàn đặt ở từng lệnh gọi, không ở từng giai đoạn; kiểm cận đó với số đo trước khi dùng (A147)
+- **Nguyên nhân gốc:** sửa A145 bằng cách cộng mức xấu nhất của mọi lệnh gọi có thể có trong một giai đoạn. Cận đúng nhưng lớn gấp khoảng 40 lần số thật (24.000 so với 2.722 token ra trung bình), nên giai đoạn không bao giờ được bắt đầu. Tôi không so cận với số đo nào trước khi commit.
+- **Phòng ngừa:**
+  - Chốt chặn tiền đặt ở từng lệnh gọi: giữ chỗ mức xấu nhất của **một** lệnh, từ chối khi vượt trần (như `f1_probe`, L66). Cận khi đó chỉ lớn hơn số thật một lệnh gọi.
+  - Mọi cận mới được tính trên số đo đã có và in ra trước khi commit; cận lớn hơn trần thì không phải là cận dùng được.
+  - Thêm vào danh sách review `docs/research_rules.md` §4.

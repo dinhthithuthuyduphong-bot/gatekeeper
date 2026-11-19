@@ -3039,6 +3039,21 @@ Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước ki�
 - **Khối đo:** chỉ khối 0 (3 cặp, 18 lệnh gọi xấu nhất), `MAX_CHUNKS = 1`. Chi phí xấu nhất theo bước kiểm đã sửa: **6,05 USD hạn mức** (trong đó 18 × 0,288 = 5,18 là phần token ra tối đa `max_tokens = 24000`). Bước kiểm không bắt đầu khối nếu trần nhỏ hơn 6,05. Trần của khối đo: **6,10 USD hạn mức** (@thuthuy 18/11: "duyệt"). Theo thứ tự đã đăng ký, khối đo là bước 4; bước học đầy đủ (bước 6) vẫn chạy sau C4′.
 - **Không đổi:** đại lượng, phép thử, ngưỡng, diễn giải.
 
+**Ghi chú thực thi 45-4** (19/11/2026, sau khối đo, trước mọi lệnh gọi khác của bộ học):
+- **Khối đo** (khối 0 của pool A, 3 cặp; 00:33:08Z–00:35:28Z; `kaggle/results/w7/w7_A_measure1.json`, zip sha256 `3f97532b3e045b85725bbe3637ff785166024fd2c58ec0ab8b4b4887d5eacc2b`):
+  - 14 lệnh gọi (9 lượt phân tích + 5 lần hỏi lại do bộ lọc tần suất của XRepoSkill từ chối, "predicate_occurrence … outside [0.10, 0.90]"); 0 lệnh gọi thất bại;
+  - 50.621 token vào, 38.101 token ra; **0,5585 USD hạn mức** (trần 6,10). Theo giá niêm yết: mỗi lệnh gọi trung bình 0,0399, lớn nhất 0,0640 USD; token ra trung bình 2.722, lớn nhất 4.764 (giới hạn 24.000);
+  - 5 ứng viên (process_delta 3, discipline_observer 1, skipped_step 1). Nội dung ứng viên chưa được đọc; phép thử chỉ chạy trên đủ hai pool.
+- **Dự kiến, suy từ khối đo (L63: chưa phải số đo của cả lượt):** discover pool A 62/3 × 0,5585 = 11,54 USD; pool B, nếu có 24 cặp, 4,47 USD. Merge và judge chưa đo.
+- **Lỗi của bước kiểm trần (A147):** bản ở ghi chú 45-3 kiểm mức xấu nhất của **cả** merge và judge trước khi chạy, bằng 2 lệnh gọi merge và 2 lệnh gọi judge cho mỗi ứng viên, mỗi lệnh gọi 24.000 token ra. Với khoảng 100 ứng viên (5 trên 3 cặp × 62 cặp), mức đó khoảng 120 USD, lớn hơn hạn mức cả tháng: merge sẽ không bao giờ được bắt đầu.
+- **Sửa** (`kaggle/notebooks/w7_run_cell.py`, commit `3e23bce` của nhánh mặc định):
+  - bước kiểm bọc `litellm.completion`, nơi mọi lệnh gọi của XRepoSkill đi qua (kể cả hỏi lại, thử lại, chia lô). Trước mỗi lệnh gọi nó giữ chỗ mức xấu nhất của lệnh đó và từ chối nếu số đã chi + phần đang giữ chỗ + mức xấu nhất vượt trần. Vì vậy số chi không bao giờ vượt trần, dù có bao nhiêu lệnh gọi;
+  - một đơn vị (một khối discover, merge, judge) bị cắt giữa chừng được đưa các file về đúng trạng thái trước nó, và chạy lại ở phiên sau;
+  - kiểm trước khối chỉ để tránh bắt đầu một khối sẽ bị cắt: cần còn ít nhất 3 bộ phân tích × số cặp × 0,0647 USD (0,0647 là lệnh gọi đắt nhất của khối đo, làm tròn lên; giá trị vận hành, không phải cận an toàn);
+  - test `kaggle/tests/test_w7_cell_guard.py`: từ chối lệnh gọi có thể vượt trần, gọi đồng thời, lệnh gọi thất bại tính theo mức xấu nhất, hoàn tác file.
+- **Đề xuất cho bước đo tiếp, cần @thuthuy duyệt vì ngoài phạm vi "chỉ khối 0":** dùng phần còn lại của trần 6,10 (5,54 USD) cho khối 1–2 (tính vào lượt thật) và cho merge + judge trên **bản sao** các ứng viên đã có (`MEASURE_MERGE_JUDGE = True`; bản sao không thuộc lượt thật). Có số đo của merge và judge mới mô phỏng được trần cả lượt theo L66.
+- **Không đổi:** đại lượng, phép thử, ngưỡng, diễn giải, thứ tự (bước học đầy đủ sau C4′).
+
 ## 46. X2′: cầu nối giữa môi trường Docker và lớp `chroot` của Kaggle (đăng ký 18/11/2026, trước mọi lượt có phí của §46)
 
 **Vì sao:** C4′ (`kaggle/preregistration_s40.md`) chạy agent khác hãng trong lớp `chroot` dựng từ image gốc (ghi chú 40-4), không trong Docker. Các cổng C1, C5 chỉ chứng minh bộ chấm cho điểm giống Docker và agent không thấy gì ngoài image. Nếu C4′ cho kết quả khác paper, chưa tách được phần do agent khác với phần do môi trường khác (`docs/plan_vs_review.md` mục 4 và 7.2). @thuthuy duyệt 18/11 (`CLAUDE.md`, trần cộng dồn 38,96 USD cùng §47).
