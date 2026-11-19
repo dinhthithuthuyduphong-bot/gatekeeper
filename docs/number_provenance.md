@@ -150,4 +150,7 @@ Mọi con số khác bên dưới đều được **suy ra từ α**, **suy ra t
 | **§45: ngưỡng k ≥ 5 issue ở pool B** | Suy ra | Bảng power của §45: k nhỏ nhất cho power ≥ 0,8 ở kịch bản thuận lợi nhất (0,8; 0,1) |
 | **§45: 3,09 ký tự mỗi token; max_tokens 24.000; giá 2 / 12 USD mỗi triệu token** | Đo / bên thứ ba | A′ (ghi chú 38-11); `discover.py`, `merge.py`, `judge.py` của XRepoSkill; bảng giá LiteLLM 1.106.6 |
 | **§45: khối 3 cặp, 3 luồng** | Vận hành | Chỉ để giữ trần ngày của Kaggle; không ảnh hưởng kết quả (các cặp độc lập) |
+| **§45: trần bước học W7, pool A 14,640, pool B 6,376 USD hạn mức; seed 4506; dự trữ 3 × 0,311** | Suy ra (L66) | `kaggle/scripts/w7_caps.py` trên số đo của ghi chú 45-5; 3 = `WORKERS` của ô; 35.000 ký tự = lô merge 32 × 1.000 ký tự + prompt merge 3.253 |
+| **§45: 0,0647 USD mỗi lệnh gọi trong bước kiểm trước khối** | Đo, vận hành | Lệnh gọi đắt nhất của khối đo (0,0640), làm tròn lên; chỉ để không bắt đầu một khối sẽ bị cắt (ghi chú 45-4) |
+| **§45: pool B có 24 cặp** | Suy ra | 12 issue Flash giải × 2 quỹ đạo Flash-Lite thất bại; quy tắc ghép cặp K = 4 của XRepoSkill (`pairing.py`) |
 

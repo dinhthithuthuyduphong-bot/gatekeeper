@@ -3054,6 +3054,28 @@ Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước ki�
 - **Bước đo tiếp (@thuthuy 19/11: "duyệt, gửi ô đi"; trước đó cần duyệt vì ngoài phạm vi "chỉ khối 0"):** dùng phần còn lại của trần 6,10 (5,54 USD) cho khối 1–2 (tính vào lượt thật) và cho merge + judge trên **bản sao** các ứng viên đã có (`MEASURE_MERGE_JUDGE = True`; bản sao không thuộc lượt thật). Có số đo của merge và judge mới mô phỏng được trần cả lượt theo L66.
 - **Không đổi:** đại lượng, phép thử, ngưỡng, diễn giải, thứ tự (bước học đầy đủ sau C4′).
 
+**Ghi chú thực thi 45-5** (19/11/2026, sau bước đo thứ hai, trước bước học đầy đủ):
+- **Bước đo thứ hai** (00:50:26Z–00:55:35Z; `kaggle/results/w7/w7_A_measure2_run.zip` sha256 `46599bc0b95e0f538aa61961cb45662895b0eafbd9bd4ff6ff609c2b090ed363`, bản sao merge và judge `w7_A_measure2_mjprobe.zip` sha256 `880213ba82a2665cd4e657be97429482765755880573f2001097fdcb9e88bedb`):
+  - khối 1–2 của pool A: 28 lệnh gọi; tính cả khối 0, 9 cặp, 27 lượt phân tích, 42 lệnh gọi discover, 1,738 USD, **15 ứng viên** (1, 3, 2, 1, 1, 2, 1, 3, 1 theo cặp);
+  - merge trên bản sao: 3 lệnh gọi (một mỗi loại: lô 12, 2 và 1 ứng viên), 0,0616 USD; judge: 6 lệnh gọi cho 6 quy tắc sau merge, cả 6 được giữ, 0,0449 USD. Bản sao không thuộc lượt thật;
+  - 0 lệnh gọi thất bại; bước kiểm theo từng lệnh gọi (ghi chú 45-4) không phải từ chối lệnh nào;
+  - chi cả phiên 1,286 USD; **cộng dồn các bước đo 1,8444 USD** trong trần 6,10. Token cả phiên: 110.828 vào, 88.693 ra.
+- **Trần của bước học theo L66** (`kaggle/scripts/w7_caps.py`, test `kaggle/tests/test_w7_caps.py`; kết quả `kaggle/results/w7/w7_caps.json`; 20.000 lần, seed 4506, phân vị 0,999):
+  - discover: mỗi cặp còn lại rút, cho từng bộ phân tích, một kết quả đã đo (chi phí gồm cả lần hỏi lại, số ứng viên) của đúng bộ phân tích đó;
+  - merge: theo loại, lô 32 (cấu hình của XRepoSkill); chi phí một lệnh gọi = a + b × cỡ lô, khớp bình phương tối thiểu trên 3 lệnh gọi đã đo (a = 0,01233, b = 0,00164);
+  - judge: một lệnh gọi mỗi ứng viên (cận trên, vì merge chỉ làm giảm số quy tắc), rút từ 6 lệnh gọi đã đo;
+  - dự trữ: 3 luồng × mức xấu nhất của một lệnh gọi 35.000 ký tự = 0,932 USD (bước kiểm từ chối lệnh gọi khi số đã chi + phần giữ chỗ + mức xấu nhất vượt trần);
+  - số cặp: pool A 62 (đếm ở lượt chạy thử); pool B 24 = 12 issue Flash giải × 2 quỹ đạo Flash-Lite thất bại (K = 4 không chặn). Chi phí của pool B được rút từ số đo của pool A: đây là giả định, nêu trước.
+
+  | Pool | Đã chi | Dự kiến phần còn lại | Phân vị 0,999 | Trần |
+  | --- | --- | --- | --- | --- |
+  | A | 1,844 | 11,238 | 11,863 | **14,640** |
+  | B | 0 | 5,042 | 5,444 | **6,376** |
+  | Tổng | | dự kiến cả hai pool 18,124 | | **21,016** |
+
+- **Hạn mức tháng:** đã dùng khoảng 29,5 USD (đến C4′ phiên 1 và hai bước đo W7). Cộng phần trần còn lại của C4′ (36 − 1,94 = 34,06) và phần mới của W7 (21,016 − 1,844 = 19,17), tổng 82,7 ≤ 100.
+- Trần chờ @thuthuy. Thứ tự không đổi: bước học đầy đủ chạy sau C4′.
+
 ## 46. X2′: cầu nối giữa môi trường Docker và lớp `chroot` của Kaggle (đăng ký 18/11/2026, trước mọi lượt có phí của §46)
 
 **Vì sao:** C4′ (`kaggle/preregistration_s40.md`) chạy agent khác hãng trong lớp `chroot` dựng từ image gốc (ghi chú 40-4), không trong Docker. Các cổng C1, C5 chỉ chứng minh bộ chấm cho điểm giống Docker và agent không thấy gì ngoài image. Nếu C4′ cho kết quả khác paper, chưa tách được phần do agent khác với phần do môi trường khác (`docs/plan_vs_review.md` mục 4 và 7.2). @thuthuy duyệt 18/11 (`CLAUDE.md`, trần cộng dồn 38,96 USD cùng §47).
