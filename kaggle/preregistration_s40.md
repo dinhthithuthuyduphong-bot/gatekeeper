@@ -375,3 +375,13 @@ Hai phép nhận này đúng là hai phép nhận của §25 và §25 bước 3,
   - **Hệ quả:** môi trường một commit chỉ bỏ kênh lịch sử git. Khi có mạng, gói đã phát hành vẫn là một kênh tới mã trước lỗi. Agent Gemini của paper không dùng kênh này; Haiku có skill dùng nó ở 3% số lượt.
 - **Xử lý (theo R5):** phép thử và quy tắc đánh dấu đã đăng ký không đổi. Thêm **một phân tích độ nhạy sau dữ liệu**, ghi rõ là sau dữ liệu: bỏ các lượt có tải gói phát hành (mẫu ở trên) ở mọi nhánh, và báo kết quả cả khi tính và khi bỏ. Mẫu được chốt tại đây, trước khi tính bất kỳ mức tăng nào của C4′.
 - **Không đổi:** task, model, thứ tự, khối, seed, cost_limit, các trần, phép thử chính.
+
+### Ghi chú 40-11 (19/11/2026): C4′ phiên 2; Haiku xong; lỗi trần ngày của ô (K27)
+
+- **Lượt chạy:** 00:40:47Z–04:06:37Z, 195,8 phút. Haiku chạy 13 khối còn lại, **xong 56/56 khối** (136 task × 4 nhánh). Dữ liệu: `kaggle/results/c4p/s2/` (zip sha256 `2e84c3594a74c8489c310074cdfac45407ca6e37a2bd8fd59c5cd8ccb5e693f0`; zip này chứa cả các file của phiên 1).
+- **Chi phí:** phiên 2 0,884 USD hạn mức; Haiku cộng dồn 2,8221 (trần model 12). Phiên 2: 1.793 lần gọi, 16,90 triệu token vào, 0,95 triệu token ra; cả Haiku: 6.200 lần gọi, 43,45 triệu vào, 2,98 triệu ra (tổng các file `*.cost.json`; không ghi phần từ cache).
+- **Kiểm vận hành:** cổng C5 đạt; 544 lượt (136 mỗi nhánh), 0 task trùng, 0 file có `infra_failures`, `endpoint_mismatch`, `patch_apply_failed`; bộ theo dõi chạy lại cho đúng `monitor.json`: attempt 113 (`none` 19, `skill` 3, `lf_none` 67, `lf_skill` 24), **exposure 0**; "Bug Patch" trong quan sát: `none` 74/136, `skill` 131/136, `lf_none` 0, `lf_skill` 0.
+- **Kênh tải gói phát hành (mẫu chốt ở ghi chú 40-10):** `lf_skill` **16/136** lượt; các nhánh khác 0. Phân tích độ nhạy của 40-10 áp dụng không đổi.
+- **Lỗi K27:** nano và gpt-oss không được bắt đầu vì ô tính nhầm số đã chi trong phiên (cộng cả số của phiên 1 do driver chép file sang). Sửa ở `c4p_cell.py` (commit trong cùng lần sửa ghi chú này). Không đổi task, model, thứ tự, khối, seed, cost_limit, các trần, phép thử.
+- **Tiếp:** phiên 3 với ô đã sửa, chạy nano rồi gpt-oss.
+

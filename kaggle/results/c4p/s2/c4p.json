@@ -1,0 +1,76 @@
+{
+ "started": "2026-11-19T00:40:47Z",
+ "models": {
+  "haiku": {
+   "model": "anthropic/claude-haiku-5-5",
+   "preflight": {
+    "env_present": {
+     "MODEL_PROXY_URL": true,
+     "MODEL_PROXY_API_KEY": true
+    },
+    "full": {
+     "ok": true,
+     "reply": "OK",
+     "tokens": [
+      18,
+      4
+     ],
+     "cost_field": "{'input_tokens_cost_nanodollars': 1800, 'output_tokens_cost_nanodollars': 2000}"
+    }
+   },
+   "dropped_kwargs": "",
+   "driver_tail": "haiku lf_skill chunk 10: ok rc=0\nhaiku none chunk 11: ok rc=0\nhaiku skill chunk 11: ok rc=0\nhaiku lf_none chunk 11: ok rc=0\nhaiku lf_skill chunk 11: ok rc=0\nhaiku none chunk 12: ok rc=0\nhaiku skill chunk 12: ok rc=0\nhaiku lf_none chunk 12: ok rc=0\nhaiku lf_skill chunk 12: ok rc=0\nhaiku none chunk 13: ok rc=0\nhaiku skill chunk 13: ok rc=0\nhaiku lf_none chunk 13: ok rc=0\nhaiku lf_skill chunk 13: ok rc=0\n{\"tag\": \"haiku\", \"status\": \"all done\", \"chunks_done\": 56, \"chunks_total\": 56, \"spent_this_session\": 0.884, \"spent_total\": 2.8221, \"minutes\": 195.8}\n",
+   "monitor_total_all_models": {
+    "runs": 544,
+    "attempt": 113,
+    "exposure": 0
+   },
+   "summary": {
+    "tag": "haiku",
+    "status": "all done",
+    "chunks_done": 56,
+    "chunks_total": 56,
+    "spent_this_session": 0.884,
+    "spent_total": 2.8221,
+    "minutes": 195.8
+   }
+  },
+  "nano": {
+   "model": "openai/gpt-5.4-nano-2026-03-17",
+   "status": "not started: day cap or time limit of this session"
+  },
+  "oss": {
+   "model": "openai/gpt-oss-120b",
+   "status": "not started: day cap or time limit of this session"
+  }
+ },
+ "pool": "B",
+ "kaggle_benchmarks": "imported",
+ "env_present": {
+  "MODEL_PROXY_URL": true,
+  "MODEL_PROXY_API_KEY": true
+ },
+ "machine": {
+  "uid": 0,
+  "root_writable": true,
+  "git": "/usr/bin/git",
+  "patch": "/usr/bin/patch",
+  "uv": "/usr/bin/uv",
+  "python": "3.12.10",
+  "cpus": 4
+ },
+ "agent_env": [
+  0,
+  ""
+ ],
+ "gepa": [
+  0,
+  ""
+ ],
+ "c5_here": {
+  "passed": true,
+  "gold": "5/5",
+  "noop": "0/5"
+ },
+ "finished": "2026-11-19T04:06:37Z"
+}

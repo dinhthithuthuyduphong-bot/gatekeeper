@@ -183,10 +183,13 @@ try:
         fh.write(PREFLIGHT)
     yaml = f"{W}/gepa/src/gepa/gskill/gskill/mini_swe_agent_config/mini.yaml"
     extra = f"--extra-rows {W}/code/rows_extra36.jsonl" if POOL == "B" else ""
-    start_spent = spent_now()
+    # spend of THIS session: the sum of each driver's own "spent_this_session". Not
+    # spent_now() - spent_now() at start: each driver first copies the earlier sessions' cost
+    # files into OUTDIR, which made the second session count the first one's spend (K27)
+    session_spent = 0.0
     for tag, model, pin, pout in MODELS:
         m = out["models"].setdefault(tag, {"model": model})
-        left_day = DAY_CAP - (spent_now() - start_spent)
+        left_day = DAY_CAP - session_spent
         left_hours = HOURS - (time.time() - T0) / 3600
         if left_day <= 0 or left_hours <= 0:
             m["status"] = "not started: day cap or time limit of this session"
@@ -231,6 +234,10 @@ try:
             m["monitor_total_all_models"] = mon["total"]
         if os.path.exists(f"{OUTDIR}/{tag}_summary.json"):
             m["summary"] = json.load(open(f"{OUTDIR}/{tag}_summary.json"))
+        if "spent_this_session" in (m.get("summary") or {}):
+            session_spent += float(m["summary"]["spent_this_session"])
+        else:  # no summary: assume the whole day cap was spent (stops this session)
+            session_spent = DAY_CAP
         save()
         if (m.get("summary") or {}).get("status") != "all done":
             break  # finish one model before starting the next
