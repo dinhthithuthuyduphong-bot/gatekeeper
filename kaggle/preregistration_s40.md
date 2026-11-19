@@ -448,3 +448,17 @@ Hai phép nhận này đúng là hai phép nhận của §25 và §25 bước 3,
 - **Với phép thử:** việc gỡ thẻ áp cho cả 4 nhánh của gpt-oss. D là hiệu của hai mức tăng nên phần ảnh hưởng chung của cả 4 nhánh triệt tiêu. Phần không triệt tiêu chỉ có thể là một tương tác giữa việc gỡ thẻ và nhánh; không có lý do cụ thể nào để có tương tác đó.
 - **Không so được với bản gốc của gskill trên endpoint này:** không gỡ thẻ thì máy chủ từ chối lời gọi (lỗi 400) từ 16:33Z. Một endpoint xử lý định dạng ở phía máy chủ sẽ trả nội dung không có thẻ. Bản đã gỡ thẻ vì vậy gần với cách gskill chạy trên một endpoint như thế hơn là bản giữ thẻ.
 - **Kiểm sau khi chạy (mô tả, n nhỏ):** so khối `ossh_none_c00` với `oss_none_c00` trên cùng 10 task: số task giải được, số bước, số tin nhắn có thẻ. Không dùng để kết luận.
+
+### Ghi chú 40-17 (19/11/2026): sửa câu chữ của 40-16 sau phản biện; trước mọi lượt `ossh`
+
+Câu cũ của 40-16 giữ nguyên (R5); hai câu sau thay cách đọc của nó:
+1. **"Phần ảnh hưởng chung triệt tiêu" không chứng minh không có ảnh hưởng.** Cùng một quy tắc áp cho 4 nhánh chỉ bảo đảm cách xử lý đồng nhất. Tác động của bước gỡ thẻ có thể khác giữa các nhánh (một tương tác), và D không loại được phần đó. Câu dùng: "the same normalisation was applied to all four arms; an interaction between it and the condition cannot be excluded".
+2. **"Gần với cách gskill chạy trên endpoint tự xử lý định dạng hơn" chỉ là giả thuyết,** không phải căn cứ. Một endpoint như vậy có thể bỏ thẻ, giữ kênh trong trường riêng, hay xử lý khác. Căn cứ dùng: endpoint từ chối định dạng gốc; bản sửa giữ nguyên chữ của câu trả lời và lệnh; cùng quy tắc cho cả 4 nhánh.
+
+**Nội dung đã gửi lại không cần ghi riêng:** nó là một hàm tất định của trace đã lưu (`strip_format_tags` áp lên các tin nhắn của trace, đúng thứ tự mini-swe-agent gửi), nên dựng lại được từng byte. Phần kiểm sau chạy dựng lại nó cho các lượt của khối so sánh.
+
+**Kiểm sau chạy, trên cùng 10 task của `oss_none_c00` và `ossh_none_c00` (mô tả, không phải phép thử tương đương):** số task giải được; số bước; số tin nhắn có thẻ; số lời gọi bị endpoint từ chối (đếm trong `ossh.log`); các khối lệnh bash có được đọc nguyên vẹn (so khối lệnh agent chạy với khối lệnh trong lời đáp gốc); nội dung gửi lại dựng từ trace.
+
+**Diễn giải:** nếu gpt-oss cho kết quả khác Haiku và nano, khác biệt đó không được quy ngay cho năng lực agent: gpt-oss có thêm sai lệch giao thức này.
+
+**Không đổi:** thiết kế, task, 4 nhánh, ngưỡng họ 120; mọi lượt `ossh` chạy cùng một quy tắc; không trộn với tag `oss`.
