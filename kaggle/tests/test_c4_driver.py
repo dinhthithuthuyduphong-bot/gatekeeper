@@ -123,3 +123,44 @@ def test_monitor_path_not_found_is_not_exposure():
     assert c4_monitor.exposed_in(seen)
     assert not c4_monitor.exposed_in(missing)
     assert c4_monitor.exposed_in(missing + "\n/var/lib/cshim/base/etc\n")
+
+
+CRASH_AGENT = FAKE_AGENT.replace(
+    'runs = [{"instance_id": r["instance_id"], "order": r["_gskill_order"]} for r in rows',
+    'runs = [{"instance_id": r["instance_id"], "order": r["_gskill_order"],'
+    ' "crashed": r["instance_id"] == "test1"} for r in rows',
+)
+
+
+def run_crash(tmp_path, agent):
+    code = tmp_path / "code"
+    code.mkdir(exist_ok=True)
+    shutil.copy(ROOT / "kaggle" / "scripts" / "c4_driver.py", code)
+    (code / "c3_agent.py").write_text(agent)
+    rows(tmp_path / "rows.jsonl", "test", 2)
+    cmd = [sys.executable, str(code / "c4_driver.py"), "--tag", "m", "--model", "openai/x"]
+    cmd += ["--rows", str(tmp_path / "rows.jsonl"), "--skills-file", "s.txt", "--registry", "r"]
+    cmd += ["--isolation", "chroot", "--gskill-yaml", "y", "--outdir", str(tmp_path / "out")]
+    cmd += ["--chunk", "2", "--seed", "41", "--cost-limit", "0.3", "--day-cap", "9"]
+    cmd += ["--total-cap", "9", "--hours", "1", "--arms", "none"]
+    subprocess.run(cmd, check=True, capture_output=True, text=True)
+    return json.loads((tmp_path / "out" / "m_summary.json").read_text())
+
+
+def test_second_crash_of_a_chunk_is_kept_with_the_crash_listed(tmp_path):
+    first = run_crash(tmp_path, CRASH_AGENT)
+    assert first["status"].startswith("stopped") and first["chunks_done"] == 0
+    out = tmp_path / "out"
+    assert (out / "m_none_c00.json.bad1").exists() and (out / "m_none_c00.cost.json").exists()
+    second = run_crash(tmp_path, CRASH_AGENT)
+    d = json.loads((out / "m_none_c00.json").read_text())
+    assert second["chunks_done"] == 1 and d["accepted_with_crashes"] == ["test1"]
+    assert (out / "m_none_c00.try1.cost.json").exists()  # first attempt's money still counted
+    assert abs(second["spent_total"] - 0.002) < 1e-9
+
+
+def test_spend_counts_this_model_only(tmp_path):
+    (tmp_path / "out").mkdir()
+    (tmp_path / "out" / "other_none_c00.cost.json").write_text(json.dumps({"endpoint_usd": 5.0}))
+    s = run_crash(tmp_path, FAKE_AGENT)
+    assert abs(s["spent_total"] - 0.001) < 1e-9

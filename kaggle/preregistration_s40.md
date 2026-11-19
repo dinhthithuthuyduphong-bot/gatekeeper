@@ -396,3 +396,20 @@ Hai phép nhận này đúng là hai phép nhận của §25 và §25 bước 3,
 - **Độ nhạy (40-10, sau dữ liệu): bỏ 16 task có tải gói phát hành ở bất kỳ nhánh nào** → 54 task; giải được 17, 19, 1, 13; trung bình D = +0,093; E = 0,032; vẫn ngược chiều. Mức tăng ở môi trường một commit (1 → 13) không do kênh tải gói.
 - **Phép nhận theo từng môi trường của mục 6** được tính khi phân tích đủ ba agent.
 - **Không đổi:** mọi quy tắc của 40-5, 40-10.
+
+### Ghi chú 40-13 (19/11/2026): C4′ phiên 3; khối sập của nano; ba sửa ở driver (K28). Viết trước lần chạy lại khối đó
+
+- **Lượt chạy:** 04:44:25Z–06:51:34Z. Haiku đã xong (0 USD). Nano: 8 khối xong (`none`, `skill`, `lf_none`, `lf_skill` × khối 0–1; 80 lượt, 0 sập), rồi khối `none` 2 hỏng. Chi phí nano 0,5753 USD hạn mức; 1.172 lần gọi, 7,95 triệu token vào, 0,156 triệu token ra. Dữ liệu `kaggle/results/c4p/s3/` (zip sha256 `09863912d7b550d728e0942c0d6b876b8d512ed5b81129d5fe361f6634d9de4a`).
+- **Khối hỏng:** 10/10 lượt chạy xong; lượt `…ez3c38dc` sập vì proxy model của Kaggle trả về lời đáp không có `message` ("Invalid response object", `'NoneType' object has no attribute 'get'`); mini-swe-agent thử lại 7 lần trong khoảng 3 phút, lần nào cũng vậy. Theo mục 6 ("một khối có agent crash hoặc lỗi hạ tầng không được tính; nó được để riêng và chạy lại"), khối được để riêng (`.bad`) và sẽ chạy lại ở phiên 4.
+- **Kiểm vận hành:** cổng C5 đạt; bộ theo dõi chạy lại với `--include-bad` cho đúng `monitor.json`: 634 lượt, attempt 114, **exposure 0**.
+- **Quy tắc mới, chốt trước lần chạy lại:**
+  - Một khối được chạy lại **một lần**. Nếu lần chạy lại vẫn có lượt sập, mà mọi task đều chạy xong và không có lỗi hạ tầng, khối được giữ, kèm danh sách task sập (`accepted_with_crashes`).
+  - Trong phân tích, task có lượt sập ở bất kỳ nhánh nào bị bỏ khỏi **cả 4 nhánh** của agent đó (thiết kế ghép cặp), và được báo. Một task sập không được tính là "không giải được": lượt sập không cho kết quả của agent (mục 6).
+  - Lý do: lỗi lặp lại ở cùng một lời gọi có thể là tất định; không có quy tắc này, model đó không bao giờ chạy xong.
+- **Sửa ở driver (K28),** commit trong cùng lần sửa ghi chú này; test trong `kaggle/tests/test_c4_driver.py`:
+  1. trần mỗi model chỉ đếm file chi phí của model đó;
+  2. tiền của lần chạy hỏng vẫn được đếm khi khối được chạy lại (`*.tryN.cost.json`);
+  3. quy tắc giữ khối sập lần hai ở trên.
+  - Kết quả của Haiku không đổi: chạy lại `kaggle/scripts/c4p_analyse.py` (đã thêm bước bỏ task sập) cho đúng số của ghi chú 40-12; Haiku không có lượt sập.
+- **Không đổi:** task, model, thứ tự, khối, seed, cost_limit, trần, phép thử chính.
+

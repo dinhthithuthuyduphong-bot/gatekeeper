@@ -8,7 +8,8 @@ Main test of one agent (note 40-5, items 1-3): on the tasks without an issue des
 34 test tasks of section 34 plus every task of the extra chunks, i.e. the 36 tasks of section
 35), D_i = (Z_shipped - Z_single)/2 with Z = fails(skill) - fails(none) and fails = not
 resolved by S; null sum E[D_i | C] >= 0; end-of-pool test, reject when E >= threshold (the
-family threshold 3/alpha = 120 for three agents). Sensitivity (note 40-10, post hoc): the same
+family threshold 3/alpha = 120 for three agents). A task with a crashed run in any arm is
+dropped from every arm (note 40-13). Sensitivity (note 40-10, post hoc): the same
 with every task dropped where any arm's run downloaded the released package.
 """
 
@@ -100,6 +101,10 @@ def main() -> int:
     a = ap.parse_args()
     runs, chunk = load(a.dir, a.tag)
     complete = set.intersection(*(set(v) for v in runs.values()))
+    # note 40-13: a task whose run crashed in any arm (kept after a second crash) is dropped
+    # from every arm of this agent
+    crashed = {i for v in runs.values() for i, r in v.items() if r.get("crashed")}
+    complete -= crashed
     nodesc = set(a.nodesc_test.read_text().split()) | {
         i for i, k in chunk.items() if k >= a.test_chunks
     }
@@ -109,6 +114,7 @@ def main() -> int:
         "tag": a.tag,
         "tasks_complete_all_arms": len(complete),
         "pool_missing": sorted(nodesc - complete),
+        "dropped_crashed": sorted(crashed),
         "main": contrast(runs, ids, a.lam, a.theta, a.threshold),
         "sensitivity_without_downloads": contrast(
             runs, [i for i in ids if i not in dl], a.lam, a.theta, a.threshold

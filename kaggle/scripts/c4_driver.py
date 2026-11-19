@@ -46,16 +46,20 @@ def complete(f: Path, n: int) -> bool:
     except (OSError, ValueError):
         return False
     runs = d.get("runs", [])
+    kept = set(d.get("accepted_with_crashes") or [])  # note 40-13: second attempt, same crash
     return (
         len(runs) == n
         and not d.get("stopped")
-        and not any(r.get("infra_error") or r.get("crashed") for r in runs)
+        and not any(r.get("infra_error") for r in runs)
+        and not any(r.get("crashed") and r["instance_id"] not in kept for r in runs)
     )
 
 
-def spent(folder: Path) -> float:
+def spent(folder: Path, tag: str) -> float:
+    """Spend of one model: its own cost files only (K28), earlier attempts included."""
     return sum(
-        json.loads(f.read_text()).get("endpoint_usd", 0.0) for f in folder.glob("*.cost.json")
+        json.loads(f.read_text()).get("endpoint_usd", 0.0)
+        for f in folder.glob(f"{tag}_*.cost.json")
     )
 
 
@@ -98,7 +102,7 @@ def main() -> int:
         for f in d.rglob(f"{a.tag}_*"):
             if f.is_file() and not (a.outdir / f.name).exists():
                 shutil.copy2(f, a.outdir / f.name)
-    before = spent(a.outdir)
+    before = spent(a.outdir, a.tag)
 
     def load(path: str, split: str) -> list[dict]:
         rows = [json.loads(x) for x in Path(path).read_text().splitlines() if x.strip()]
@@ -117,7 +121,7 @@ def main() -> int:
             out = a.outdir / f"{a.tag}_{arm}_c{k:02d}.json"
             if complete(out, len(chunk)):
                 continue
-            total = spent(a.outdir)
+            total = spent(a.outdir, a.tag)
             worst = a.cost_limit * len(chunk)
             if total - before >= a.day_cap:
                 status = f"day cap: spent today {total - before:.3f}"
@@ -128,6 +132,12 @@ def main() -> int:
             if time.time() - t0 > a.hours * 3600:
                 status = "time limit of this session"
                 break
+            # an earlier attempt of this chunk: keep its cost counted under another name (K28)
+            cost_file = a.outdir / f"{out.stem}.cost.json"
+            if cost_file.exists():
+                m = len(list(a.outdir.glob(f"{out.stem}.try*.cost.json"))) + 1
+                os.replace(cost_file, a.outdir / f"{out.stem}.try{m}.cost.json")
+            earlier = sorted(a.outdir.glob(f"{out.name}.bad*"))  # an attempt that crashed
             sub = work / f"rows_c{k:02d}.jsonl"
             sub.write_text("".join(json.dumps(r) + "\n" for r in chunk))
             cmd = [sys.executable, str(HERE / "c3_agent.py"), "--isolation", a.isolation]
@@ -152,11 +162,32 @@ def main() -> int:
                 rc = subprocess.run(cmd, cwd=work, stdout=log, stderr=subprocess.STDOUT).returncode
             out.with_suffix(".mini.yaml").unlink(missing_ok=True)  # holds the endpoint URL
             ok = rc == 0 and complete(out, len(chunk))
+            if not ok and rc == 0 and earlier:
+                # note 40-13: the second attempt of a chunk crashed again; keep it when every
+                # task ran and no infrastructure error occurred, with the crashed runs listed
+                # (the analysis drops those tasks from every arm of this agent)
+                try:
+                    d = json.loads(out.read_text())
+                except (OSError, ValueError):
+                    d = {}
+                runs = d.get("runs", [])
+                if (
+                    len(runs) == len(chunk)
+                    and not d.get("stopped")
+                    and not any(r.get("infra_error") for r in runs)
+                ):
+                    d["accepted_with_crashes"] = sorted(
+                        r["instance_id"] for r in runs if r.get("crashed")
+                    )
+                    out.write_text(json.dumps(d, indent=1))
+                    ok = complete(out, len(chunk))
             print(f"{a.tag} {arm} chunk {k}: {'ok' if ok else 'FAILED'} rc={rc}", flush=True)
             if not ok:
+                n_bad = len(earlier) + 1
                 for f in a.outdir.glob(f"{out.stem}.*"):
-                    if not f.name.endswith(".cost.json"):  # the money was spent: keep it counted
-                        os.replace(f, f.with_name(f.name + ".bad"))
+                    if f.name.endswith(".cost.json") or ".bad" in f.name:
+                        continue  # the money was spent: keep it counted; keep earlier attempts
+                    os.replace(f, f.with_name(f"{f.name}.bad{n_bad}"))
                 status = f"stopped: {arm} chunk {k} did not complete (see {a.tag}.log)"
                 break
         else:
@@ -172,8 +203,8 @@ def main() -> int:
         "status": status,
         "chunks_done": done,
         "chunks_total": len(chunks) * len(arms),
-        "spent_this_session": round(spent(a.outdir) - before, 4),
-        "spent_total": round(spent(a.outdir), 4),
+        "spent_this_session": round(spent(a.outdir, a.tag) - before, 4),
+        "spent_total": round(spent(a.outdir, a.tag), 4),
         "minutes": round((time.time() - t0) / 60, 1),
     }
     (a.outdir / f"{a.tag}_summary.json").write_text(json.dumps(summary, indent=1) + "\n")
