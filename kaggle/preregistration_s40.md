@@ -462,3 +462,9 @@ Câu cũ của 40-16 giữ nguyên (R5); hai câu sau thay cách đọc của n�
 **Diễn giải:** nếu gpt-oss cho kết quả khác Haiku và nano, khác biệt đó không được quy ngay cho năng lực agent: gpt-oss có thêm sai lệch giao thức này.
 
 **Không đổi:** thiết kế, task, 4 nhánh, ngưỡng họ 120; mọi lượt `ossh` chạy cùng một quy tắc; không trộn với tag `oss`.
+
+### Ghi chú 40-18 (19/11/2026): phiên bản của hàm gỡ thẻ, để dựng lại nội dung gửi lại endpoint
+
+- Mọi lượt `ossh` dùng `kaggle/scripts/c3_agent.py` tại commit `505cab724aff00dc46e7510e654fa1e429c3ee4a` (ô `c4p_cell.py` tải mã theo đúng commit này; một commit git không đổi được). sha256 của file: `436ad1a5144cf78e6ba8fb6c1e3b9feae1c4b07da0985c944bb4d805fba97439`. Hàm: `strip_format_tags`, mẫu `FORMAT_TAG` ở dòng 35 của file đó.
+- Bước dựng lại nội dung gửi lại (ghi chú 40-17) dùng đúng file này, không dùng bản mới hơn. Nếu hàm được sửa về sau, bản sửa phải có tên khác và tag model khác (như `oss` → `ossh`).
+- Kiểm khi có kết quả phiên 6: `c4p.json` không ghi commit, nên đối chiếu bằng sha256 của `c3_agent.py` nếu có trong output, hoặc bằng ngày chạy so với ngày của các commit sau `505cab7` có đụng tới file này.
