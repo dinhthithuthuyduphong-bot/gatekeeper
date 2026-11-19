@@ -22,7 +22,7 @@ import urllib.request
 # ---- set before running (note 40-5) --------------------------------------------------------------
 POOL = "B"  # T5, @thuthuy 17/11: "chọn B" (100 test tasks + the 36 tasks of section 35)
 
-COMMIT = "9af55528dc11a3032f37455d92eae28d4f548529"  # notes 40-6, 40-7; driver: 40-13, 40-14
+COMMIT = "505cab724aff00dc46e7510e654fa1e429c3ee4a"  # notes 40-6, 40-7, 40-13 to 40-15
 TRIAL = "97cd0a5c9d69b45b95a978dc872ad91ac6f90e91"  # branch trial: the paper's agent-run script
 GEPA = "8c7b697a71977980afc7537dac0881e784eef99f"  # gskill, as in every run of the paper
 RAW = "https://raw.githubusercontent.com/dinhthithuthuyduphong-bot/gatekeeper/"
@@ -51,6 +51,7 @@ MODELS = [  # (tag, Kaggle model key, USD per token in, out: note 40-1), run in 
 CHUNK, SEED, COST_LIMIT = 10, 41, 0.30  # seed and per-task limit as in section 25
 DAY_CAP = 2.0  # USD of quota per session, all models together (leaves room for section 38)
 MODEL_CAP = 12.0  # USD of quota per model, all sessions
+SPENT_BEFORE_RESTART = {"ossh": 0.3769}  # tag "oss" before note 40-15 counts toward the cap
 HOURS = 8.0  # no new chunk after this many hours of one session
 # --------------------------------------------------------------------------------------------------
 W, OUTDIR = "/kaggle/working/c4p", "/kaggle/working/c4pout"
@@ -216,6 +217,7 @@ try:
         }
         with open(f"{W}/registry_{tag}.json", "w") as fh:
             json.dump({n: spec for n in ("openai/" + model, model, model.split("/", 1)[1])}, fh)
+        model_cap = MODEL_CAP - SPENT_BEFORE_RESTART.get(tag, 0.0)
         rc, tail = sh(
             f"MSWEA_SILENT_STARTUP=1 MSWEA_CONFIGURED=true "
             f"PYTHONPATH={W}/gepa/src/gepa/gskill:{W}/code {hv}/bin/python {W}/code/c4_driver.py "
@@ -223,7 +225,7 @@ try:
             f"--skills-file {W}/code/skill.txt --registry {W}/registry_{tag}.json "
             f"--isolation chroot {extra} --gskill-yaml {yaml} --outdir {OUTDIR} "
             f"--prev /kaggle/input --chunk {CHUNK} --seed {SEED} --cost-limit {COST_LIMIT} "
-            f"--day-cap {left_day} --total-cap {MODEL_CAP} --hours {left_hours} "
+            f"--day-cap {left_day} --total-cap {model_cap} --hours {left_hours} "
             f"--drop-kwargs {drop} {'--strip-format-tags' if tag == 'ossh' else ''} "
             f"2>&1 | tail -n 60"
         )
