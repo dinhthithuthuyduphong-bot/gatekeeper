@@ -131,3 +131,9 @@ Không, trên dữ liệu của mình: 224 patch của 4 nhánh jinja được c
   - Mã task được đổi sang quy ước `<org>__<name>-<num>` mà hàm `repo_from_instance_id` của họ đòi.
   - Lệnh trong khối ```bash được chuyển thành `tool_calls`, quan sát chuyển thành lượt `tool`. Nội dung và thứ tự giữ nguyên (`kaggle/scripts/w7_build.py`).
 - **Câu được phép viết:** "XRepoSkill's learner (Stages 1–2 of its released code), run with gskill's reflection model on our trajectories". **Không** viết "XRepoSkill as published".
+
+## gskill với gpt-oss ở C4′ (`kaggle/preregistration_s40.md` ghi chú 40-15, 40-16; 19/11/2026)
+
+- **Sai khác:** khi agent gửi lại lịch sử hội thoại, các thẻ định dạng của gpt-oss (`<|channel|>`, `<|message|>`, `<|end|>`, …) trong nội dung tin nhắn được thay bằng dấu cách. Lý do: proxy model của Kaggle trả nội dung có thẻ, và từ chối (lỗi 400) khi nhận lại chúng.
+- **Đã đo:** các thẻ chỉ bọc kênh `commentary`, tức chính câu trả lời của agent; không có đoạn suy luận nào bị thêm hay bỏ. Lệnh agent chạy, trace và bộ chấm không đổi. Áp cho cả 4 nhánh.
+- **Câu được phép dùng trong bài:** "For gpt-oss-120b, the format tags the endpoint returned inside message content were replaced by spaces before the conversation was sent back, because the endpoint rejected them; the agent's actions were parsed from the unmodified replies."
