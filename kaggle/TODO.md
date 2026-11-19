@@ -16,8 +16,8 @@ Hạn mức AI Kaggle đã dùng: P0 0,47; B 3,05; A cộng dồn 20,06 (Kaggle 
 | ~~T2~~ | **Xong 18/11: C6 đạt (40-9).** ~~Chạy ô `c6_cell.py`~~ (thay cho ô C5 riêng; ghi chú 40-6) trên một notebook Benchmarks: lượt 1 với `DRY_RUN = True` (0 USD, khoảng 20–30 phút), gửi `c6.json` và `c6_results.zip`; lượt 2 với `DRY_RUN = False` (Haiku, ≤ 0,5 USD hạn mức) sau khi Claude đọc lượt 1 | Gửi hai file sau mỗi lượt | Ô tự chạy cổng C5 trước |
 | T3 | Chép câu điều khoản Kaggle về việc dùng hạn mức AI | Treo từ giai đoạn 0 (K0e) | Nên có trước T6 (C4′ để agent gọi model liên tục nhiều giờ). Chưa có; @thuthuy quyết có chạy T6 trước khi có câu này không |
 | T4 | **Không chạy lại ô `c4_cell.py`** | — | Kết quả phiên 1 không hợp lệ (K21); thay bằng `c4p_cell.py` (T6) |
-| T6 | **Chạy C4′:** `notebooks/c4p_cell.py` (POOL B), mỗi ngày một phiên, trần 2,0 USD mỗi phiên, 12 USD mỗi model | Gửi `c4p.json` và `c4p_results.zip` sau mỗi phiên | Ghi chú 40-8 |
-| T7 | **Chạy thử W7:** `notebooks/w7_run_cell.py` (COMMIT `0cb4874…`, `POOL = "A"`, `DRY_RUN = True`, 0 USD), notebook Benchmarks riêng | Gửi `w7_A.json` và `w7_A_run.zip` | §45; trần bước học chưa duyệt |
+| T6 | **Chạy C4′ (phiên 1 xong 19/11, ghi chú 40-10: Haiku 43/56 khối, 1,94 USD, exposure 0):** chạy phiên 2 với Add Input → output của phiên trước; `notebooks/c4p_cell.py` (POOL B), mỗi ngày một phiên, trần 2,0 USD mỗi phiên, 12 USD mỗi model | Gửi `c4p.json` và `c4p_results.zip` sau mỗi phiên | Ghi chú 40-8, 40-10 |
+| T7 | **Chạy thử W7: xong 18/11 (ghi chú 45-3). Tiếp: khối đo, trần 6,10 USD hạn mức (duyệt 18/11), ô `w7_measure_cell.py`.** Bản chạy thử: `notebooks/w7_run_cell.py` (COMMIT `0cb4874…`, `POOL = "A"`, `DRY_RUN = True`, 0 USD), notebook Benchmarks riêng | Gửi `w7_A.json` và `w7_A_run.zip` | §45; trần bước học chưa duyệt |
 | T5 | ~~Chọn A hay B cho C4′~~ **Xong 17/11: B** (@thuthuy: "Oke chọn B"). 100 task test + 36 task của §35, khối riêng; power 1,00 (ghi chú 40-5) | — | `POOL = "B"` trong `kaggle/notebooks/c4p_cell.py` (ghi chú 40-8) |
 
 ## Đang làm (Claude)

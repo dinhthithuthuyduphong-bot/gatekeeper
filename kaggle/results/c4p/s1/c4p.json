@@ -1,0 +1,68 @@
+{
+ "started": "2026-11-18T11:58:52Z",
+ "models": {
+  "haiku": {
+   "model": "anthropic/claude-haiku-5-5",
+   "preflight": {
+    "env_present": {
+     "MODEL_PROXY_URL": true,
+     "MODEL_PROXY_API_KEY": true
+    },
+    "full": {
+     "ok": true,
+     "reply": "OK",
+     "tokens": [
+      18,
+      4
+     ],
+     "cost_field": "{'input_tokens_cost_nanodollars': 1800, 'output_tokens_cost_nanodollars': 2000}"
+    }
+   },
+   "dropped_kwargs": "",
+   "driver_tail": "haiku none chunk 0: ok rc=0\nhaiku skill chunk 0: ok rc=0\nhaiku lf_none chunk 0: ok rc=0\nhaiku lf_skill chunk 0: ok rc=0\nhaiku none chunk 1: ok rc=0\nhaiku skill chunk 1: ok rc=0\nhaiku lf_none chunk 1: ok rc=0\nhaiku lf_skill chunk 1: ok rc=0\nhaiku none chunk 2: ok rc=0\nhaiku skill chunk 2: ok rc=0\nhaiku lf_none chunk 2: ok rc=0\nhaiku lf_skill chunk 2: ok rc=0\nhaiku none chunk 3: ok rc=0\nhaiku skill chunk 3: ok rc=0\nhaiku lf_none chunk 3: ok rc=0\nhaiku lf_skill chunk 3: ok rc=0\nhaiku none chunk 4: ok rc=0\nhaiku skill chunk 4: ok rc=0\nhaiku lf_none chunk 4: ok rc=0\nhaiku lf_skill chunk 4: ok rc=0\nhaiku none chunk 5: ok rc=0\nhaiku skill chunk 5: ok rc=0\nhaiku lf_none chunk 5: ok rc=0\nhaiku lf_skill chunk 5: ok rc=0\nhaiku none chunk 6: ok rc=0\nhaiku skill chunk 6: ok rc=0\nhaiku lf_none chunk 6: ok rc=0\nhaiku lf_skill chunk 6: ok rc=0\nhaiku none chunk 7: ok rc=0\nhaiku skill chunk 7: ok rc=0\nhaiku lf_none chunk 7: ok rc=0\nhaiku lf_skill chunk 7: ok rc=0\nhaiku none chunk 8: ok rc=0\nhaiku skill chunk 8: ok rc=0\nhaiku lf_none chunk 8: ok rc=0\nhaiku lf_skill chunk 8: ok rc=0\nhaiku none chunk 9: ok rc=0\nhaiku skill chunk 9: ok rc=0\nhaiku lf_none chunk 9: ok rc=0\nhaiku lf_skill chunk 9: ok rc=0\nhaiku none chunk 10: ok rc=0\nhaiku skill chunk 10: ok rc=0\nhaiku lf_none chunk 10: ok rc=0\n{\"tag\": \"haiku\", \"status\": \"time limit of this session\", \"chunks_done\": 43, \"chunks_total\": 56, \"spent_this_session\": 1.9382, \"spent_total\": 1.9382, \"minutes\": 480.7}\n",
+   "monitor_total_all_models": {
+    "runs": 430,
+    "attempt": 76,
+    "exposure": 0
+   },
+   "summary": {
+    "tag": "haiku",
+    "status": "time limit of this session",
+    "chunks_done": 43,
+    "chunks_total": 56,
+    "spent_this_session": 1.9382,
+    "spent_total": 1.9382,
+    "minutes": 480.7
+   }
+  }
+ },
+ "pool": "B",
+ "kaggle_benchmarks": "imported",
+ "env_present": {
+  "MODEL_PROXY_URL": true,
+  "MODEL_PROXY_API_KEY": true
+ },
+ "machine": {
+  "uid": 0,
+  "root_writable": true,
+  "git": "/usr/bin/git",
+  "patch": "/usr/bin/patch",
+  "uv": "/usr/bin/uv",
+  "python": "3.12.10",
+  "cpus": 4
+ },
+ "agent_env": [
+  0,
+  ""
+ ],
+ "gepa": [
+  0,
+  ""
+ ],
+ "c5_here": {
+  "passed": true,
+  "gold": "5/5",
+  "noop": "0/5"
+ },
+ "finished": "2026-11-18T20:06:17Z"
+}

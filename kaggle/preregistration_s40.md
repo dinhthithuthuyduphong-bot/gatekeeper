@@ -357,3 +357,21 @@ Hai phép nhận này đúng là hai phép nhận của §25 và §25 bước 3,
 - **Chi phí:** 0,0314 USD hạn mức (proxy báo); 67 lần gọi; 337.184 token vào, 31.461 token ra.
 - **Dữ liệu:** `kaggle/results/c6/`.
 - **Tiếp theo:** C4′ (POOL B, ghi chú 40-8).
+
+### Ghi chú 40-10 (19/11/2026): C4′ phiên 1 (Haiku); kiểm vận hành và một kênh rò rỉ mới (phân tích sau dữ liệu, chỉ mô tả)
+
+- **Lượt chạy:** notebook Benchmarks, POOL B, 11:58:52Z–20:06:17Z, 480,7 phút. Haiku 43/56 khối, dừng vì giới hạn 8 giờ của phiên (không phải trần tiền). Dữ liệu: `kaggle/results/c4p/s1/` (zip sha256 `bb1a95952e00f2c66c100ce1509ac1230d5277615a2296861bf5ba04c5d2a6d0`).
+- **Chi phí:** 1,9382 USD hạn mức (tổng `endpoint_usd` của 43 file `*.cost.json`, trùng số ô báo), trong trần phiên 2,0 và trần model 12. 4.407 lần gọi; 26,55 triệu token vào, 2,03 triệu token ra (file chi phí không ghi phần từ cache).
+- **Kiểm vận hành (đếm bằng máy tại máy của phiên):**
+  - cổng C5 trên máy đó đạt (bản vá gốc 5/5, "không vá" 0/5);
+  - 430 lượt: `none` 110, `skill` 110, `lf_none` 110, `lf_skill` 100; 0 task trùng trong một nhánh; không file nào có `infra_failures`, `endpoint_mismatch` hay `patch_apply_failed`;
+  - bộ theo dõi chạy lại trên zip cho **đúng** `monitor.json` của ô: attempt 76 (19, 3, 45, 9 theo thứ tự trên), **exposure 0**;
+  - "Bug Patch" trong quan sát: `none` 48/110, `skill` 105/110, `lf_none` 0/110, `lf_skill` 0/100.
+- **Lệnh đụng tới biến môi trường:** 27 lượt ở `lf_none` chạy `env` (phần lớn `env | grep -i issue|task|prompt`) để tìm mô tả task. Mọi quan sát trả về chỉ là biến của image task (`CONDA_*`, `PWD=/testbed`, `HOME=/root`, …), không có dấu nào của máy notebook (exposure 0). Quy tắc đã đăng ký là "lệnh đụng tới khóa hay biến môi trường **của máy chủ** phải bằng 0": **đạt**, vì lớp `chroot` không truyền biến của máy chủ vào (ghi chú 40-6).
+- **Kênh rò rỉ mới, ngoài lịch sử git (không có trong bộ theo dõi đã đăng ký):**
+  - ở `lf_skill`, **3/100 lượt** tải gói Jinja đã phát hành từ PyPI (`pip download jinja2==3.1.6`) rồi `diff` với `/testbed/src/jinja2` để tìm chỗ lỗi bị chèn (task `…0tzkxxm7`, `…mc9x7b9m`, `…4l597y24`). Hai lượt được bộ theo dõi đánh dấu qua loại `/tmp/jj` vì agent chọn thư mục đó; lượt thứ ba không bị đánh dấu;
+  - 0/110 ở `lf_none`, 0 ở hai nhánh môi trường gốc;
+  - **so với paper:** trong 2.699 lượt có trace của mọi file trên `main` (47 file), có 0 lượt tải gói phát hành để so (mẫu `pip download`, `pip install …jinja2==`, `pypi.org`, `files.pythonhosted`; 3 lượt khớp mẫu đều không phải tải: hai lần đọc README của pluggy, một lời khuyên trong skill giả của §27).
+  - **Hệ quả:** môi trường một commit chỉ bỏ kênh lịch sử git. Khi có mạng, gói đã phát hành vẫn là một kênh tới mã trước lỗi. Agent Gemini của paper không dùng kênh này; Haiku có skill dùng nó ở 3% số lượt.
+- **Xử lý (theo R5):** phép thử và quy tắc đánh dấu đã đăng ký không đổi. Thêm **một phân tích độ nhạy sau dữ liệu**, ghi rõ là sau dữ liệu: bỏ các lượt có tải gói phát hành (mẫu ở trên) ở mọi nhánh, và báo kết quả cả khi tính và khi bỏ. Mẫu được chốt tại đây, trước khi tính bất kỳ mức tăng nào của C4′.
+- **Không đổi:** task, model, thứ tự, khối, seed, cost_limit, các trần, phép thử chính.
