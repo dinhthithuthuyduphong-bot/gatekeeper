@@ -95,6 +95,7 @@ def main() -> int:
     ap.add_argument("--total-cap", required=True, type=float)
     ap.add_argument("--hours", required=True, type=float)
     ap.add_argument("--drop-kwargs", nargs="*", default=[])
+    ap.add_argument("--strip-format-tags", action="store_true")  # note 40-15
     ap.add_argument("--mock-response")
     a = ap.parse_args()
     t0 = time.time()
@@ -147,6 +148,8 @@ def main() -> int:
             if a.packages:
                 cmd += ["--packages", a.packages]
             cmd += ["--base-env", "MODEL_PROXY_URL", "--key-env", "MODEL_PROXY_API_KEY"]
+            if a.strip_format_tags:
+                cmd += ["--strip-format-tags"]
             cmd += ["--base-suffix", "/openapi", "--drop-kwargs", *a.drop_kwargs, "--"]
             cmd += ["--rows", str(sub), "--split", split, "--model", a.model]
             cmd += ["--seed", str(a.seed), "--cost-limit", str(a.cost_limit)]

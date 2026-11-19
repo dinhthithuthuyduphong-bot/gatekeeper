@@ -24,11 +24,24 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
+
+
+FORMAT_TAG = re.compile(r"<\|(?:start|channel|message|end|return|call|constrain)\|>")
+
+
+def strip_format_tags(messages: list[dict]) -> list[dict]:
+    """Copy of the messages with gpt-oss format tags replaced by a space (note 40-15)."""
+    out = []
+    for m in messages:
+        c = m.get("content")
+        out.append({**m, "content": FORMAT_TAG.sub(" ", c)} if isinstance(c, str) else m)
+    return out
 
 
 def main() -> int:
@@ -50,6 +63,11 @@ def main() -> int:
         nargs="*",
         default=[],
         help="model kwargs of f1_probe.py that the endpoint rejects (recorded as a deviation)",
+    )
+    ap.add_argument(
+        "--strip-format-tags",
+        action="store_true",
+        help="remove the model's own format tags from messages sent back (note 40-15)",
     )
     ap.add_argument("rest", nargs=argparse.REMAINDER)
     a = ap.parse_args()
@@ -96,6 +114,18 @@ def main() -> int:
     shim.install()
 
     import f1_probe
+
+    if a.strip_format_tags:
+        import litellm
+
+        sent = litellm.completion
+
+        def completion(*args, **kw):  # the stored trajectory keeps the reply as returned
+            if kw.get("messages"):
+                kw["messages"] = strip_format_tags(kw["messages"])
+            return sent(*args, **kw)
+
+        litellm.completion = completion
 
     reported = {"calls": 0, "endpoint_usd": 0.0, "tokens_in": 0, "tokens_out": 0}
     inner = f1_probe._track  # sums LiteLLM's response_cost into f1_probe._spent (its budget cap)

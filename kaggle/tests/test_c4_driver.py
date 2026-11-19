@@ -180,3 +180,32 @@ def test_second_infra_failure_of_a_chunk_is_kept_with_the_task_listed(tmp_path):
     second = run_crash(tmp_path, INFRA_AGENT)
     d = json.loads((tmp_path / "out" / "m_none_c00.json").read_text())
     assert second["chunks_done"] == 1 and d["accepted_with_infra"] == ["test0"]
+
+
+def test_strip_format_tags_keeps_the_text():
+    import c3_agent
+
+    msgs = [
+        {"role": "user", "content": "go"},
+        {"role": "assistant", "content": "<|channel|>commentary<|message|>```bash\nls\n```<|end|>"},
+        {"role": "tool", "content": None},
+    ]
+    out = c3_agent.strip_format_tags(msgs)
+    assert "<|" not in out[1]["content"] and "```bash\nls\n```" in out[1]["content"]
+    assert out[0] == msgs[0] and out[2] == msgs[2] and "<|" in msgs[1]["content"]
+
+
+def test_driver_passes_strip_format_tags(tmp_path):
+    code = tmp_path / "code"
+    code.mkdir()
+    shutil.copy(ROOT / "kaggle" / "scripts" / "c4_driver.py", code)
+    (code / "c3_agent.py").write_text(FAKE_AGENT)
+    rows(tmp_path / "rows.jsonl", "test", 2)
+    cmd = [sys.executable, str(code / "c4_driver.py"), "--tag", "m", "--model", "openai/x"]
+    cmd += ["--rows", str(tmp_path / "rows.jsonl"), "--skills-file", "s.txt", "--registry", "r"]
+    cmd += ["--isolation", "chroot", "--gskill-yaml", "y", "--outdir", str(tmp_path / "out")]
+    cmd += ["--chunk", "2", "--seed", "41", "--cost-limit", "0.3", "--day-cap", "9"]
+    cmd += ["--total-cap", "9", "--hours", "1", "--arms", "none", "--strip-format-tags"]
+    subprocess.run(cmd, check=True, capture_output=True, text=True)
+    calls = [json.loads(x) for x in (code / "calls.jsonl").read_text().splitlines()]
+    assert all("--strip-format-tags" in c[: c.index("--")] for c in calls)

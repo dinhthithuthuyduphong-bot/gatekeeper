@@ -44,7 +44,9 @@ FILES = {
 MODELS = [  # (tag, Kaggle model key, USD per token in, out: note 40-1), run in this order
     ("haiku", "anthropic/claude-haiku-5-5", 1e-7, 5e-7),
     ("nano", "openai/gpt-5.4-nano-2026-03-17", 2e-7, 1.25e-6),
-    ("oss", "openai/gpt-oss-120b", 9e-8, 3.6e-7),
+    # gpt-oss restarted under a new tag with its format tags stripped (note 40-15); the files of
+    # tag "oss" (one chunk before the fix) are kept aside and not used
+    ("ossh", "openai/gpt-oss-120b", 9e-8, 3.6e-7),
 ]
 CHUNK, SEED, COST_LIMIT = 10, 41, 0.30  # seed and per-task limit as in section 25
 DAY_CAP = 2.0  # USD of quota per session, all models together (leaves room for section 38)
@@ -222,7 +224,8 @@ try:
             f"--isolation chroot {extra} --gskill-yaml {yaml} --outdir {OUTDIR} "
             f"--prev /kaggle/input --chunk {CHUNK} --seed {SEED} --cost-limit {COST_LIMIT} "
             f"--day-cap {left_day} --total-cap {MODEL_CAP} --hours {left_hours} "
-            f"--drop-kwargs {drop} 2>&1 | tail -n 60"
+            f"--drop-kwargs {drop} {'--strip-format-tags' if tag == 'ossh' else ''} "
+            f"2>&1 | tail -n 60"
         )
         m["driver_tail"] = tail
         sh(

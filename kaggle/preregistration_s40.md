@@ -422,3 +422,20 @@ Hai phép nhận này đúng là hai phép nhận của §25 và §25 bước 3,
 - **Quy tắc thêm, chốt trước lần chạy lại (mở rộng 40-13):** nếu lần chạy lại của một khối vẫn có lượt lỗi hạ tầng (kể cả bộ chấm quá thời gian), khối được giữ, kèm danh sách (`accepted_with_infra`). Task đó bị bỏ khỏi cả 4 nhánh của agent, như task sập, và được báo. Lý do giống 40-13: một lỗi lặp lại không được chặn agent mãi. Quy tắc chấm lại một lần của L57 không dùng ở đây, vì mục 6 đã đăng ký chạy lại cả khối.
 - **Mã:** `kaggle/scripts/c4_driver.py`, `kaggle/scripts/c4p_analyse.py`, test trong `kaggle/tests/test_c4_driver.py`; commit trong cùng lần sửa ghi chú này; ô ghim commit đó.
 - **Không đổi:** mọi điều khác.
+
+### Ghi chú 40-15 (19/11/2026): C4′ phiên 5; kết quả của nano; gpt-oss chạy lại với thẻ định dạng được gỡ
+
+- **Lượt chạy:** 13:30:57Z–16:59:53Z. Khối `lf_skill` 8 của nano chạy lại: đạt (quy tắc 40-14 không phải dùng). **Nano xong 56/56 khối.** Nano cộng dồn 3,0987 USD hạn mức (gồm hai lần hỏng); 6.708 lần gọi, 40,74 triệu token vào, 0,802 triệu token ra. Dữ liệu `kaggle/results/c4p/s5/` (zip sha256 `780208ff32a5b1a44232d4b4eec098380b585c3854c17df6e8b6eb609d77ed04`). Bộ theo dõi (`--include-bad`) đúng `monitor.json`: 1.108 lượt, **exposure 0**.
+- **Kết quả của nano** (`kaggle/results/c4p/nano_analysis.json`, cùng lệnh với 40-12):
+  - 70 task không mô tả, đủ 4 nhánh, 0 task bỏ vì sập hay lỗi hạ tầng. Giải được: môi trường gốc không skill 0, skill **20**; một commit không skill 0, skill **0**.
+  - D trung bình = **−0,143** (khoảng 95% theo xấp xỉ chuẩn, chỉ mô tả: [−0,196; −0,090]); 20 task D < 0, 0 task D > 0; **E = 86,7**.
+  - **Ngưỡng họ 120 (3 agent, 40-5): không bác bỏ.** Ngưỡng giữ nguyên dù gpt-oss có chạy xong hay không (R5). E = 1,25²⁰: mỗi task D = −0,5 nhân E với 1,25; cần 22 task như vậy để vượt 120.
+  - Chiều đúng như phát hiện của paper: mọi task không mô tả mà skill giúp ở môi trường gốc đều mất khi bỏ hai commit của benchmark.
+  - Mô tả kèm: nano không skill thấy "Bug Patch" ở 0 lượt; có skill ở khoảng 61/136 lượt (hiệu với số của Haiku trong `monitor.json`). Không task nào trong pool có tải gói phát hành, nên phân tích độ nhạy của 40-10 trùng phép thử chính.
+  - Trên mọi 136 task: giải được 1, 49, 1, 33 (gốc không skill, gốc skill, một commit không skill, một commit skill).
+- **gpt-oss, lần đầu:** khối `none` 0 xong (10 lượt), khối `skill` 0 hỏng: lượt `…5w1ny04u` sập vì máy chủ trả lỗi 400 "You have passed a message containing <|channel|> tags in the content field". Lời đáp của gpt-oss qua proxy chứa thẻ định dạng (`<|channel|>`, `<|message|>`, `<|end|>`; 611, 604, 586 lần trong 10 lượt của khối `none` 0), và mini-swe-agent gửi lại nguyên văn trong lịch sử. Máy chủ chấp nhận ở khối đầu, rồi từ chối từ khoảng 16:33Z. Chi phí 0,3769 USD hạn mức.
+- **Sửa (trước mọi lượt mới của gpt-oss):**
+  - `kaggle/scripts/c3_agent.py --strip-format-tags`: trước khi gửi, các thẻ trên trong nội dung tin nhắn được thay bằng một dấu cách; phần chữ, kể cả khối lệnh bash, giữ nguyên. Trace lưu lời đáp đúng như model trả về. Test trong `kaggle/tests/test_c4_driver.py`.
+  - Chỉ dùng cho gpt-oss. gpt-oss **chạy lại từ đầu dưới tag `ossh`**, để mọi lượt của model này chạy cùng một cách. Các file tag `oss` (khối `none` 0 và khối hỏng) để riêng, không dùng trong phân tích (L12: đổi cách chạy giữa chừng thì chạy thành giai đoạn riêng).
+  - Sai lệch về độ trung thành với gskill: tin nhắn gửi lại khác lời đáp gốc ở các thẻ định dạng. Ghi vào phần giới hạn của C4′.
+- **Không đổi:** task, thứ tự, khối, seed, cost_limit, trần (12 USD cho gpt-oss tính trên tag `ossh` cộng 0,3769 đã chi), phép thử.
