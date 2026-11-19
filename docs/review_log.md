@@ -1212,3 +1212,15 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Danh sách §4:** L66, L69, L72, L74.
 - **Giới hạn:** chế độ chạy thử dùng model giả lập ở `llm.chat`, nên không đi qua hàm bọc; hàm bọc chỉ được kiểm bằng test. Lượt có phí đầu tiên dùng nó là bước đo tiếp (trong trần 6,10).
 - **Kết luận R-87:** đạt.
+
+## R-88. Trần bước học W7 (§45, ghi chú 45-5; 19/11/2026; trước bước học đầy đủ)
+- **Đối tượng:** `kaggle/scripts/w7_caps.py` (commit `cadacba` của nhánh mặc định); `kaggle/results/w7/w7_caps.json`.
+- **Đã kiểm:**
+  - Số đo đọc thẳng từ `cost_log.jsonl` của hai file zip; tổng discover 1,73796 USD theo giá niêm yết, khớp số ô báo (proxy) cho cùng các lệnh gọi; 15 ứng viên đếm từ thư mục `candidates/`.
+  - Danh sách loại (`lookup`, `verification`, `replay`, `search_recipe`) và cỡ lô 32 đọc từ mã XRepoSkill tại `26fd703` (`schemas.py`, `configs/pipeline.yaml`).
+  - Test: hàm khớp đường thẳng; mô phỏng tính đủ discover, merge và judge trên một ví dụ tính tay.
+  - Hạn mức tháng sau khi cộng các trần: 82,7 ≤ 100.
+- **Danh sách §4:** L66 (trần = phân vị + dự trữ), L69 (đủ mọi khâu), L72 (mọi lần gọi), L74 (chốt chặn từng lệnh gọi; cận so với số đo).
+- **Giới hạn:** pool B chưa có số đo riêng; merge chỉ có 3 lệnh gọi đo được. Hai giả định này được bước kiểm theo từng lệnh gọi che: nếu trần không đủ, lượt dừng ở trần và chờ @thuthuy.
+- **Kết luận R-88:** đạt.
+
