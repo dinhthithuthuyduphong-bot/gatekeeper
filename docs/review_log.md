@@ -1224,3 +1224,13 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Giới hạn:** pool B chưa có số đo riêng; merge chỉ có 3 lệnh gọi đo được. Hai giả định này được bước kiểm theo từng lệnh gọi che: nếu trần không đủ, lượt dừng ở trần và chờ @thuthuy.
 - **Kết luận R-88:** đạt.
 
+## R-89. Phân tích C4′ (`kaggle/scripts/c4p_analyse.py`; 19/11/2026; trước khi đọc kết quả của Haiku)
+- **Đối tượng:** script ở commit `45561e0` của nhánh mặc định; ghi chú 40-12 của `kaggle/preregistration_s40.md`.
+- **Đã kiểm trước khi chạy trên dữ liệu thật:**
+  - Đại lượng đúng 40-5: D = (Z_gốc − Z_một commit)/2, Z = fails(skill) − fails(none), fails = không giải theo S; cùng dấu với §33, §35 và `scripts/c10_stop_audit.py` (D < 0 là skill giúp nhiều hơn ở môi trường gốc).
+  - E dùng `end_of_pool_log_e` (λ = 0,5, θ = 0), ngưỡng 120 = 3/α; test tính tay: hai task D = −0,5 cho E = 1,25².
+  - Pool: 34 task test không mô tả lấy từ file kết quả §34 (34 mã, không trùng), cộng các task của khối extra (khối ≥ 10); chỉ lấy task đủ 4 nhánh và báo task thiếu.
+  - Mẫu tải gói đúng chuỗi đã chốt ở 40-10.
+- **Danh sách §4:** R5 (quy tắc chốt trước), L68 (mọi con số ghi chú chép từ đầu ra của lệnh).
+- **Kết luận R-89:** đạt.
+
