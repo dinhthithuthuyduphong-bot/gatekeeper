@@ -631,3 +631,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Một khối có thể sập lặp lại phải có quy tắc dừng đăng ký trước (số lần chạy lại tối đa, cách tính task sập).
   - Thêm vào danh sách review `docs/research_rules.md` §4.
 
+## L77. Một ô chạy nhiều phiên phải tự kiểm rằng nó đang nối đúng phiên trước, trước mọi lệnh tốn tiền (K29 ở `kaggle/audit.md`)
+- **Nguyên nhân gốc:** ô C4′ dựa vào việc người chạy nhớ bước "Add Input → output của phiên trước". Thiếu bước đó, ô vẫn chạy và chạy lại từ đầu, không báo gì.
+- **Phòng ngừa:**
+  - Ô kiểm input có đúng một bản output phiên trước, và trạng thái trong đó khớp với trạng thái đã ghi trong bản đăng ký (model nào đã xong), rồi mới gọi model.
+  - Mỗi lần gửi ô, ghi rõ output của phiên nào phải gắn.
+  - Thêm vào danh sách review `docs/research_rules.md` §4.
+
