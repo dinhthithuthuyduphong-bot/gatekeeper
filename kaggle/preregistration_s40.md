@@ -531,3 +531,9 @@ Câu cũ của 40-16 giữ nguyên (R5); hai câu sau thay cách đọc của n�
 - **Mô phỏng phần còn lại theo L66** (26 khối + 1 lần chạy lại; mỗi khối rút có hoàn lại từ 31 chi phí đã đo; 20.000 lần; seed 4510): dự kiến 5,18 USD, phân vị 0,999 là 6,26 USD. Tổng của `ossh` ở phân vị 0,999: 12,73 USD, lớn hơn trần 11,62 (12 − 0,3769). Dự kiến (11,65) cũng đã vượt trần.
 - **Hệ quả nếu giữ trần:** driver dừng khi chạm trần, có thể thiếu vài khối cuối; các task của khối thiếu bị bỏ khỏi cả 4 nhánh (40-13, 40-23). Pool có thể vẫn trên 22 task (40-19), nhưng mất task của khối extra (các task không mô tả của §35 nằm ở khối 10–13).
 - Nâng trần là quyền của @thuthuy; đề xuất gửi kèm ghi chú này.
+
+### Ghi chú 40-25 (20/11/2026): trần của gpt-oss nâng lên 13,11 USD hạn mức
+
+- @thuthuy 20/11: "Nâng" (đề xuất ở 40-24). Tổng trần của gpt-oss = 13,11 USD hạn mức = phân vị 0,999 theo L66 của tổng `ossh` (12,731) + 0,3769 đã chi dưới tag `oss` trước khi chạy lại, làm tròn lên. Trần của tag `ossh` trong driver = 13,11 − 0,3769 = 12,733.
+- Ô `c4p_cell.py`: `CAP_BY_TAG = {"ossh": 13.11}`; mã tải về không đổi (`COMMIT` vẫn `e7875d3`). Haiku và nano giữ 12.
+- **Không đổi:** mọi điều khác, kể cả trần phiên 2,0 USD.

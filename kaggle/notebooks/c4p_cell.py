@@ -51,6 +51,7 @@ MODELS = [  # (tag, Kaggle model key, USD per token in, out: note 40-1), run in 
 CHUNK, SEED, COST_LIMIT = 10, 41, 0.30  # seed and per-task limit as in section 25
 DAY_CAP = 2.0  # USD of quota per session, all models together (leaves room for section 38)
 MODEL_CAP = 12.0  # USD of quota per model, all sessions
+CAP_BY_TAG = {"ossh": 13.11}  # note 40-25, @thuthuy 20/11 "Nâng": L66 0.999 quantile + 0.3769
 SPENT_BEFORE_RESTART = {"ossh": 0.3769}  # tag "oss" before note 40-15 counts toward the cap
 HOURS = 8.0  # no new chunk after this many hours of one session
 EXPECT_PREVIOUS = True  # K29: from session 2 on, the last output must be attached
@@ -236,7 +237,7 @@ try:
         }
         with open(f"{W}/registry_{tag}.json", "w") as fh:
             json.dump({n: spec for n in ("openai/" + model, model, model.split("/", 1)[1])}, fh)
-        model_cap = MODEL_CAP - SPENT_BEFORE_RESTART.get(tag, 0.0)
+        model_cap = CAP_BY_TAG.get(tag, MODEL_CAP) - SPENT_BEFORE_RESTART.get(tag, 0.0)
         rc, tail = sh(
             f"MSWEA_SILENT_STARTUP=1 MSWEA_CONFIGURED=true "
             f"PYTHONPATH={W}/gepa/src/gepa/gskill:{W}/code {hv}/bin/python {W}/code/c4_driver.py "

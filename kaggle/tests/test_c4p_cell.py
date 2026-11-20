@@ -25,3 +25,8 @@ def test_session_stops_without_exactly_one_previous_output():
 def test_finished_models_must_come_back_finished():
     assert 'DONE_MODELS = ("haiku", "nano")' in CELL
     assert CELL.index("for tag in DONE_MODELS") < CELL.index("for tag, model, pin, pout in MODELS")
+
+
+def test_gpt_oss_cap_raised_per_note_40_25():
+    assert 'CAP_BY_TAG = {"ossh": 13.11}' in CELL
+    assert "CAP_BY_TAG.get(tag, MODEL_CAP) - SPENT_BEFORE_RESTART.get(tag, 0.0)" in CELL
