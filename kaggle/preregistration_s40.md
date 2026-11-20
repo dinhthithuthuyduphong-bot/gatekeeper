@@ -496,3 +496,10 @@ Câu cũ của 40-16 giữ nguyên (R5); hai câu sau thay cách đọc của n�
 - **Phiên 8:** gắn **output của phiên 6** (phiên cuối có gpt-oss), không gắn output phiên 7.
 - **Không đổi:** mọi điều khác.
 
+### Ghi chú 40-21 (20/11/2026): C4′ phiên 8; gpt-oss 17/56 khối; Kaggle cắt trace khi tải dataset (K30)
+
+- **Lượt chạy:** 08:48:48Z–11:44:25Z, 168,8 phút. Input: dataset `c4p-s6` (output phiên 6); bước kiểm K29 đạt (`previous_output` có đúng một file, Haiku và nano đã xong). Khối `lf_none` 1 của `ossh` chạy lại: đạt. `ossh` xong **17/56 khối**, dừng vì trần phiên (2,046 USD). 170 lượt trong các khối được giữ, 0 sập, 0 lỗi hạ tầng. Zip sha256 `f2a16e98f810647cce44913d50f72b850b1db8e70be2a157e930d443af91b9d4`, ở `kaggle/results/c4p/s8/`.
+- **Chi phí `ossh` cộng dồn:** 3,3148 USD hạn mức (trần 11,62); 3.763 lần gọi, 29,20 triệu token vào, 1,91 triệu token ra. Dự kiến cả 56 khối khoảng 10,9 USD.
+- **K30:** các trace của phiên 1–6 trong output phiên 8 bị cắt còn bản ghi đầu tiên (do Kaggle xử lý dataset). Kết quả `.json` không đổi. Mọi phân tích trace (bộ theo dõi, kênh tải gói) lấy bản đầy đủ từ các zip trong repo (`--traces-dirs`). `monitor.json` của phiên 8 chỉ đếm 120 lượt mới (exposure 0); bộ theo dõi tại máy của phiên cho đúng số đó.
+- **Không đổi:** mọi điều khác.
+

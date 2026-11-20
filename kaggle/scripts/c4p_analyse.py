@@ -46,11 +46,26 @@ def load(d: Path, tag: str) -> tuple[dict, dict]:
     return runs, chunk
 
 
-def downloads(d: Path, tag: str) -> set[str]:
+def traces(dirs: list[Path], tag: str) -> list[list[dict]]:
+    """Each chunk's trace file, the longest copy among `dirs` (K30: a Kaggle dataset upload
+    turned *.traces.jsonl.gz into *.traces.jsonl holding only the first record)."""
+    best: dict[str, list[dict]] = {}
+    for d in dirs:
+        for f in glob.glob(f"{d}/{tag}_*_c[0-9][0-9].traces.jsonl*"):
+            if not (f.endswith(".gz") or f.endswith(".jsonl")):
+                continue
+            stem = Path(f).name.split(".traces")[0]
+            opener = gzip.open if f.endswith(".gz") else open
+            rows = [json.loads(x) for x in opener(f, "rt") if x.strip()]
+            if len(rows) > len(best.get(stem, [])):
+                best[stem] = rows
+    return list(best.values())
+
+
+def downloads(dirs: list[Path], tag: str) -> set[str]:
     hit = set()
-    for f in glob.glob(f"{d}/{tag}_*_c[0-9][0-9].traces.jsonl.gz"):
-        for line in gzip.open(f, "rt"):
-            t = json.loads(line)
+    for rows in traces(dirs, tag):
+        for t in rows:
             text = " ".join(
                 str(m.get("content", ""))
                 for m in (t.get("messages") or [])
@@ -98,6 +113,7 @@ def main() -> int:
     ap.add_argument("--theta", type=float, required=True)
     ap.add_argument("--threshold", type=float, required=True)
     ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--traces-dirs", type=Path, nargs="*", default=[])  # K30
     a = ap.parse_args()
     runs, chunk = load(a.dir, a.tag)
     complete = set.intersection(*(set(v) for v in runs.values()))
@@ -111,7 +127,7 @@ def main() -> int:
         i for i, k in chunk.items() if k >= a.test_chunks
     }
     ids = sorted(nodesc & complete)
-    dl = downloads(a.dir, a.tag)
+    dl = downloads([a.dir, *a.traces_dirs], a.tag)
     res = {
         "tag": a.tag,
         "tasks_complete_all_arms": len(complete),

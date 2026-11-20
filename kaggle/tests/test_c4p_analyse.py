@@ -34,3 +34,17 @@ def test_contrast_signs_and_pool(tmp_path):
 def test_download_pattern_is_the_registered_one():
     assert c4p_analyse.DOWNLOAD.search("pip download jinja2==3.1.6")
     assert not c4p_analyse.DOWNLOAD.search("env = Environment()")
+
+
+def test_traces_take_the_longest_copy(tmp_path):
+    import gzip
+
+    a, b = tmp_path / "a", tmp_path / "b"
+    a.mkdir()
+    b.mkdir()
+    rows = [{"instance_id": f"t{k}", "messages": []} for k in range(3)]
+    with gzip.open(a / "m_none_c00.traces.jsonl.gz", "wt") as f:
+        f.write("".join(json.dumps(r) + "\n" for r in rows))
+    (b / "m_none_c00.traces.jsonl").write_text(json.dumps(rows[0]) + "\n")  # truncated copy
+    got = c4p_analyse.traces([b, a], "m")
+    assert len(got) == 1 and len(got[0]) == 3
