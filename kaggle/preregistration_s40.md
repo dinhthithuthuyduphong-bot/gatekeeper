@@ -503,3 +503,10 @@ Câu cũ của 40-16 giữ nguyên (R5); hai câu sau thay cách đọc của n�
 - **K30:** các trace của phiên 1–6 trong output phiên 8 bị cắt còn bản ghi đầu tiên (do Kaggle xử lý dataset). Kết quả `.json` không đổi. Mọi phân tích trace (bộ theo dõi, kênh tải gói) lấy bản đầy đủ từ các zip trong repo (`--traces-dirs`). `monitor.json` của phiên 8 chỉ đếm 120 lượt mới (exposure 0); bộ theo dõi tại máy của phiên cho đúng số đó.
 - **Không đổi:** mọi điều khác.
 
+
+### Ghi chú 40-22 (20/11/2026): C4′ phiên 9; gpt-oss 19/56 khối
+
+- **Lượt chạy:** 12:43:23Z–14:09:06Z, 71,8 phút. Input: notebook output của phiên 8 (bước kiểm K29 đạt). `ossh` thêm 2 khối, xong **19/56**; khối `lf_skill` 4 hỏng: lượt `…dr4pfs4n` sập vì proxy trả lời đáp không có `message` (như 40-13, 40-19). Khối để riêng và chạy lại một lần ở phiên 10.
+- 190 lượt trong các khối được giữ, 0 sập, 0 lỗi hạ tầng. Bộ theo dõi (`--include-bad`) đúng `monitor.json`: 140 lượt (các trace mang từ phiên 1–6 là bản bị cắt của K30, nên không được đếm), **exposure 0**.
+- **Chi phí `ossh` cộng dồn:** 4,0272 USD hạn mức (trần 11,62); 4.462 lần gọi, 35,64 triệu token vào, 2,28 triệu token ra. Zip sha256 `89a1be491560a1b2ffb95dc2a397aad6d5cff3e6b67106501c9f349ce388c2d1`, ở `kaggle/results/c4p/s9/`.
+- **Không đổi:** mọi điều khác.
