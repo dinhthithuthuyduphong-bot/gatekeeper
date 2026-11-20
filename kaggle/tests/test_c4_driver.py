@@ -148,15 +148,14 @@ def run_crash(tmp_path, agent):
 
 
 def test_second_crash_of_a_chunk_is_kept_with_the_crash_listed(tmp_path):
+    # note 40-23: the same session re-runs the set-aside chunk once and keeps it
     first = run_crash(tmp_path, CRASH_AGENT)
-    assert first["status"].startswith("stopped") and first["chunks_done"] == 0
     out = tmp_path / "out"
-    assert (out / "m_none_c00.json.bad1").exists() and (out / "m_none_c00.cost.json").exists()
-    second = run_crash(tmp_path, CRASH_AGENT)
     d = json.loads((out / "m_none_c00.json").read_text())
-    assert second["chunks_done"] == 1 and d["accepted_with_crashes"] == ["test1"]
+    assert first["chunks_done"] == 1 and d["accepted_with_crashes"] == ["test1"]
+    assert (out / "m_none_c00.json.bad1").exists()
     assert (out / "m_none_c00.try1.cost.json").exists()  # first attempt's money still counted
-    assert abs(second["spent_total"] - 0.002) < 1e-9
+    assert abs(first["spent_total"] - 0.002) < 1e-9
 
 
 def test_spend_counts_this_model_only(tmp_path):
@@ -176,10 +175,21 @@ INFRA_AGENT = FAKE_AGENT.replace(
 
 def test_second_infra_failure_of_a_chunk_is_kept_with_the_task_listed(tmp_path):
     first = run_crash(tmp_path, INFRA_AGENT)
-    assert first["chunks_done"] == 0
-    second = run_crash(tmp_path, INFRA_AGENT)
     d = json.loads((tmp_path / "out" / "m_none_c00.json").read_text())
-    assert second["chunks_done"] == 1 and d["accepted_with_infra"] == ["test0"]
+    assert first["chunks_done"] == 1 and d["accepted_with_infra"] == ["test0"]
+
+
+FAIL_AGENT = "import sys\nsys.exit(3)\n"  # never writes a result
+
+
+def test_a_chunk_is_tried_at_most_twice_across_sessions(tmp_path):
+    first = run_crash(tmp_path, FAIL_AGENT)
+    out = tmp_path / "out"
+    assert first["chunks_done"] == 0 and len(list(out.glob("m_none_c00.*bad*"))) >= 1
+    calls_before = len(list(out.glob("m_none_c00*.bad*")))
+    second = run_crash(tmp_path, FAIL_AGENT)
+    assert second["chunks_done"] == 0
+    assert len(list(out.glob("m_none_c00*.bad*"))) == calls_before  # no third attempt
 
 
 def test_strip_format_tags_keeps_the_text():

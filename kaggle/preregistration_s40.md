@@ -510,3 +510,16 @@ Câu cũ của 40-16 giữ nguyên (R5); hai câu sau thay cách đọc của n�
 - 190 lượt trong các khối được giữ, 0 sập, 0 lỗi hạ tầng. Bộ theo dõi (`--include-bad`) đúng `monitor.json`: 140 lượt (các trace mang từ phiên 1–6 là bản bị cắt của K30, nên không được đếm), **exposure 0**.
 - **Chi phí `ossh` cộng dồn:** 4,0272 USD hạn mức (trần 11,62); 4.462 lần gọi, 35,64 triệu token vào, 2,28 triệu token ra. Zip sha256 `89a1be491560a1b2ffb95dc2a397aad6d5cff3e6b67106501c9f349ce388c2d1`, ở `kaggle/results/c4p/s9/`.
 - **Không đổi:** mọi điều khác.
+
+### Ghi chú 40-23 (20/11/2026): C4′ phiên 10; driver không dừng cả phiên vì một khối hỏng
+
+- **Phiên 10:** 15:01:08Z–16:00:40Z, 42,6 phút cho `ossh`. Khối `lf_skill` 4 chạy lại: đạt. Khối `none` 5 hỏng (lượt `…bmpp6ej8` sập vì proxy trả lời đáp không có `message`). `ossh` xong **20/56 khối**; 200 lượt trong các khối được giữ, 0 sập. Bộ theo dõi đúng `monitor.json`: 150 lượt, exposure 0. `ossh` cộng dồn 4,4173 USD hạn mức; 4.887 lần gọi, 39,08 triệu token vào, 2,50 triệu token ra. Zip sha256 `68f84e5f3ce5329f1b2ae392a9b8be773ecddc99a7f125a6986861ef9fc23d84`, ở `kaggle/results/c4p/s10/`.
+- **Vấn đề:** lỗi lời đáp rỗng của proxy xảy ra ở 4 lượt trên khoảng 240 lượt `ossh` (khối `lf_none` 1, `lf_skill` 4, `none` 5, cùng một lượt của nano). Driver dừng cả phiên ở khối hỏng đầu tiên, nên ba phiên gần nhất mỗi phiên chỉ đi được 1–11 khối.
+- **Sửa (vận hành, trước mọi lượt mới; không đổi quy tắc tính):**
+  - một khối hỏng được để riêng và phiên **chạy tiếp** các khối sau;
+  - cuối phiên, một lượt thứ hai chạy lại **một lần** các khối đã để riêng trong phiên (quy tắc giữ khối của 40-13, 40-14 áp nguyên);
+  - một khối đã có hai lần thử không đạt thì không chạy nữa; các task của nó vắng ở nhánh đó và bị bỏ khỏi cả 4 nhánh (như 40-13), được báo trong `pool_missing`;
+  - phiên dừng khi có 3 khối hỏng (`--max-failed 3`), để không lặp mãi khi lỗi do hạn mức. Số 3 là giá trị vận hành;
+  - lần thử không ra file kết quả vẫn được ghi dấu (`*.badN`), để đếm đúng số lần thử.
+- Test trong `kaggle/tests/test_c4_driver.py`. Ô `c4p_cell.py` ghim commit có driver này.
+- **Không đổi:** task, thứ tự, khối, seed, cost_limit, các trần, phép thử, điều kiện 22 task (40-19).

@@ -96,6 +96,7 @@ def main() -> int:
     ap.add_argument("--hours", required=True, type=float)
     ap.add_argument("--drop-kwargs", nargs="*", default=[])
     ap.add_argument("--strip-format-tags", action="store_true")  # note 40-15
+    ap.add_argument("--max-failed", type=int, default=3)  # note 40-23: chunks set aside per session
     ap.add_argument("--mock-response")
     a = ap.parse_args()
     t0 = time.time()
@@ -120,89 +121,108 @@ def main() -> int:
             chunks += [(split, ts[i : i + a.chunk]) for i in range(0, len(ts), a.chunk)]
     status = "all done"
     arms = {k: v for k, v in ARMS.items() if k in a.arms}
-    for k, (split, chunk) in enumerate(chunks):
-        for arm, (skill, lf) in arms.items():
-            out = a.outdir / f"{a.tag}_{arm}_c{k:02d}.json"
-            if complete(out, len(chunk)):
-                continue
-            total = spent(a.outdir, a.tag)
-            worst = a.cost_limit * len(chunk)
-            if total - before >= a.day_cap:
-                status = f"day cap: spent today {total - before:.3f}"
+    stop, failed = False, 0
+    for _pass in range(2):  # note 40-23: pass 2 re-runs, once, the chunks set aside in pass 1
+        for k, (split, chunk) in enumerate(chunks):
+            for arm, (skill, lf) in arms.items():
+                out = a.outdir / f"{a.tag}_{arm}_c{k:02d}.json"
+                if complete(out, len(chunk)):
+                    continue
+                total = spent(a.outdir, a.tag)
+                worst = a.cost_limit * len(chunk)
+                if total - before >= a.day_cap:
+                    status = f"day cap: spent today {total - before:.3f}"
+                    stop = True
+                    break
+                if total >= a.total_cap:
+                    status = f"total cap: spent {total:.3f}"
+                    stop = True
+                    break
+                if time.time() - t0 > a.hours * 3600:
+                    status = "time limit of this session"
+                    stop = True
+                    break
+                # an earlier attempt of this chunk: keep its cost counted under another name (K28)
+                cost_file = a.outdir / f"{out.stem}.cost.json"
+                if cost_file.exists():
+                    m = len(list(a.outdir.glob(f"{out.stem}.try*.cost.json"))) + 1
+                    os.replace(cost_file, a.outdir / f"{out.stem}.try{m}.cost.json")
+                earlier = sorted(a.outdir.glob(f"{out.name}.bad*"))  # an attempt that crashed
+                if len(earlier) >= 2:  # notes 40-13, 40-23: run once, re-run once, no more
+                    continue
+                sub = work / f"rows_c{k:02d}.jsonl"
+                sub.write_text("".join(json.dumps(r) + "\n" for r in chunk))
+                cmd = [sys.executable, str(HERE / "c3_agent.py"), "--isolation", a.isolation]
+                if a.packages:
+                    cmd += ["--packages", a.packages]
+                cmd += ["--base-env", "MODEL_PROXY_URL", "--key-env", "MODEL_PROXY_API_KEY"]
+                if a.strip_format_tags:
+                    cmd += ["--strip-format-tags"]
+                cmd += ["--base-suffix", "/openapi", "--drop-kwargs", *a.drop_kwargs, "--"]
+                cmd += ["--rows", str(sub), "--split", split, "--model", a.model]
+                cmd += ["--seed", str(a.seed), "--cost-limit", str(a.cost_limit)]
+                cap = a.chunk_cap if a.chunk_cap is not None else worst + a.cost_limit
+                cmd += ["--cap", str(cap), "--registry", a.registry]
+                cmd += ["--gskill-yaml", a.gskill_yaml, "--out", str(out)]
+                if skill:
+                    cmd += ["--skills-file", a.skills_file]
+                if lf:
+                    cmd += ["--leak-free"]
+                if a.mock_response:
+                    cmd += ["--mock-response", a.mock_response]
+                with (a.outdir / f"{a.tag}.log").open("a") as log:
+                    log.write(f"\n=== {arm} chunk {k} {time.strftime('%H:%M:%S')}\n")
+                    log.flush()
+                    rc = subprocess.run(
+                        cmd, cwd=work, stdout=log, stderr=subprocess.STDOUT
+                    ).returncode
+                out.with_suffix(".mini.yaml").unlink(missing_ok=True)  # holds the endpoint URL
+                ok = rc == 0 and complete(out, len(chunk))
+                if not ok and rc == 0 and earlier:
+                    # notes 40-13, 40-14: the second attempt of a chunk failed again; keep it when
+                    # every task ran, with the crashed and infrastructure-error runs listed (the
+                    # analysis drops those tasks from every arm of this agent)
+                    try:
+                        d = json.loads(out.read_text())
+                    except (OSError, ValueError):
+                        d = {}
+                    runs = d.get("runs", [])
+                    if len(runs) == len(chunk) and not d.get("stopped"):
+                        d["accepted_with_crashes"] = sorted(
+                            r["instance_id"] for r in runs if r.get("crashed")
+                        )
+                        d["accepted_with_infra"] = sorted(  # note 40-14
+                            r["instance_id"] for r in runs if r.get("infra_error")
+                        )
+                        out.write_text(json.dumps(d, indent=1))
+                        ok = complete(out, len(chunk))
+                print(f"{a.tag} {arm} chunk {k}: {'ok' if ok else 'FAILED'} rc={rc}", flush=True)
+                if not ok:
+                    n_bad = len(earlier) + 1
+                    for f in a.outdir.glob(f"{out.stem}.*"):
+                        if f.name.endswith(".cost.json") or ".bad" in f.name:
+                            continue  # the money was spent: keep it counted; keep earlier attempts
+                        os.replace(f, f.with_name(f"{f.name}.bad{n_bad}"))
+                    marker = a.outdir / f"{out.name}.bad{n_bad}"
+                    if not marker.exists():  # no result file: still count the attempt
+                        marker.write_text(json.dumps({"no_result": True, "rc": rc}) + "\n")
+                    # note 40-23: set the chunk aside and go on; the second pass re-runs it once
+                    failed += 1
+                    status = f"stopped: {arm} chunk {k} did not complete (see {a.tag}.log)"
+                    if failed >= a.max_failed:
+                        stop = True
+                        break
+            if stop:
                 break
-            if total >= a.total_cap:
-                status = f"total cap: spent {total:.3f}"
-                break
-            if time.time() - t0 > a.hours * 3600:
-                status = "time limit of this session"
-                break
-            # an earlier attempt of this chunk: keep its cost counted under another name (K28)
-            cost_file = a.outdir / f"{out.stem}.cost.json"
-            if cost_file.exists():
-                m = len(list(a.outdir.glob(f"{out.stem}.try*.cost.json"))) + 1
-                os.replace(cost_file, a.outdir / f"{out.stem}.try{m}.cost.json")
-            earlier = sorted(a.outdir.glob(f"{out.name}.bad*"))  # an attempt that crashed
-            sub = work / f"rows_c{k:02d}.jsonl"
-            sub.write_text("".join(json.dumps(r) + "\n" for r in chunk))
-            cmd = [sys.executable, str(HERE / "c3_agent.py"), "--isolation", a.isolation]
-            if a.packages:
-                cmd += ["--packages", a.packages]
-            cmd += ["--base-env", "MODEL_PROXY_URL", "--key-env", "MODEL_PROXY_API_KEY"]
-            if a.strip_format_tags:
-                cmd += ["--strip-format-tags"]
-            cmd += ["--base-suffix", "/openapi", "--drop-kwargs", *a.drop_kwargs, "--"]
-            cmd += ["--rows", str(sub), "--split", split, "--model", a.model]
-            cmd += ["--seed", str(a.seed), "--cost-limit", str(a.cost_limit)]
-            cap = a.chunk_cap if a.chunk_cap is not None else worst + a.cost_limit
-            cmd += ["--cap", str(cap), "--registry", a.registry]
-            cmd += ["--gskill-yaml", a.gskill_yaml, "--out", str(out)]
-            if skill:
-                cmd += ["--skills-file", a.skills_file]
-            if lf:
-                cmd += ["--leak-free"]
-            if a.mock_response:
-                cmd += ["--mock-response", a.mock_response]
-            with (a.outdir / f"{a.tag}.log").open("a") as log:
-                log.write(f"\n=== {arm} chunk {k} {time.strftime('%H:%M:%S')}\n")
-                log.flush()
-                rc = subprocess.run(cmd, cwd=work, stdout=log, stderr=subprocess.STDOUT).returncode
-            out.with_suffix(".mini.yaml").unlink(missing_ok=True)  # holds the endpoint URL
-            ok = rc == 0 and complete(out, len(chunk))
-            if not ok and rc == 0 and earlier:
-                # notes 40-13, 40-14: the second attempt of a chunk failed again; keep it when
-                # every task ran, with the crashed and infrastructure-error runs listed (the
-                # analysis drops those tasks from every arm of this agent)
-                try:
-                    d = json.loads(out.read_text())
-                except (OSError, ValueError):
-                    d = {}
-                runs = d.get("runs", [])
-                if len(runs) == len(chunk) and not d.get("stopped"):
-                    d["accepted_with_crashes"] = sorted(
-                        r["instance_id"] for r in runs if r.get("crashed")
-                    )
-                    d["accepted_with_infra"] = sorted(  # note 40-14
-                        r["instance_id"] for r in runs if r.get("infra_error")
-                    )
-                    out.write_text(json.dumps(d, indent=1))
-                    ok = complete(out, len(chunk))
-            print(f"{a.tag} {arm} chunk {k}: {'ok' if ok else 'FAILED'} rc={rc}", flush=True)
-            if not ok:
-                n_bad = len(earlier) + 1
-                for f in a.outdir.glob(f"{out.stem}.*"):
-                    if f.name.endswith(".cost.json") or ".bad" in f.name:
-                        continue  # the money was spent: keep it counted; keep earlier attempts
-                    os.replace(f, f.with_name(f"{f.name}.bad{n_bad}"))
-                status = f"stopped: {arm} chunk {k} did not complete (see {a.tag}.log)"
-                break
-        else:
-            continue
-        break
+        if stop:
+            break
     done = sum(
         complete(a.outdir / f"{a.tag}_{arm}_c{k:02d}.json", len(c))
         for k, (_, c) in enumerate(chunks)
         for arm in arms
     )
+    if done == len(chunks) * len(arms):
+        status = "all done"
     summary = {
         "tag": a.tag,
         "status": status,
