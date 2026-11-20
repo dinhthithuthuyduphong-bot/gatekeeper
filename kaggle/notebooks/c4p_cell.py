@@ -53,6 +53,8 @@ DAY_CAP = 2.0  # USD of quota per session, all models together (leaves room for 
 MODEL_CAP = 12.0  # USD of quota per model, all sessions
 SPENT_BEFORE_RESTART = {"ossh": 0.3769}  # tag "oss" before note 40-15 counts toward the cap
 HOURS = 8.0  # no new chunk after this many hours of one session
+EXPECT_PREVIOUS = True  # K29: from session 2 on, the last output must be attached
+DONE_MODELS = ("haiku", "nano")  # finished (notes 40-11, 40-15); checked in the input
 # --------------------------------------------------------------------------------------------------
 W, OUTDIR = "/kaggle/working/c4p", "/kaggle/working/c4pout"
 out = {"started": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "models": {}}
@@ -106,6 +108,23 @@ try:
     if POOL not in ("A", "B"):
         raise RuntimeError('set POOL = "A" or POOL = "B" at the top of the cell (note 40-5)')
     out["pool"] = POOL
+    # K29: a session without the previous session's output re-runs finished models from
+    # scratch. Stop before any model call unless the earlier output is attached exactly once.
+    done_before = sorted(glob.glob("/kaggle/input/**/haiku_summary.json", recursive=True))
+    out["previous_output"] = done_before
+    if EXPECT_PREVIOUS and len(done_before) != 1:
+        raise RuntimeError(
+            f"expected the previous session's output attached once, found {len(done_before)}: "
+            "Add Input -> the output of the LAST version of this notebook, and only that one"
+        )
+    for tag in DONE_MODELS:  # models already finished must come back finished
+        f = glob.glob(f"/kaggle/input/**/{tag}_summary.json", recursive=True)
+        st = json.load(open(f[0])).get("status") if len(f) == 1 else None
+        if st != "all done":
+            raise RuntimeError(
+                f"the attached output does not hold the finished {tag} run (status {st!r}): "
+                "attach the output of the session that ran after it"
+            )
     try:
         import kaggle_benchmarks  # noqa: F401
 

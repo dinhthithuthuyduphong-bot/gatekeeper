@@ -487,3 +487,12 @@ Câu cũ của 40-16 giữ nguyên (R5); hai câu sau thay cách đọc của n�
 - **Điều kiện "pool quá nhỏ", chốt trước khi tính bất kỳ mức tăng nào của gpt-oss:** E = Π(1 − λDᵢ) với λ = 0,5 và Dᵢ ≥ −0,5, nên mỗi task nhân E tối đa 1,25 lần, và E ≥ 120 cần ít nhất ⌈ln 120 / ln 1,25⌉ = 22 task. Nếu sau khi bỏ các task sập hay lỗi hạ tầng (40-13, 40-14), pool của gpt-oss còn dưới 22 task, phép thử của nó không thể bác bỏ; khi đó gpt-oss chỉ được báo như kết quả mô tả. Ngưỡng họ vẫn là 120.
 - **Tiền:** `ossh` chi khoảng 0,18 USD hạn mức mỗi khối (1,2689 cho 7 khối đã chạy, kể cả khối hỏng); 56 khối khoảng 10,2 USD, gần trần 11,62 (12 − 0,3769). Đây là dự kiến suy từ 7 khối, không phải số đo của cả lượt. Nếu chạm trần, driver dừng và @thuthuy quyết (CLAUDE.md).
 - **Không đổi:** mọi điều khác; ô `c4p_cell.py` (ghim `505cab7`) dùng tiếp.
+
+### Ghi chú 40-20 (20/11/2026): C4′ phiên 7 chạy lại Haiku ngoài kế hoạch (K29)
+
+- **Sự việc:** 00:14:33Z–08:34:27Z. Notebook không được gắn output của phiên 6, nên driver chạy lại Haiku từ đầu: 32/56 khối, 1,4674 USD hạn mức, dừng vì giới hạn 8 giờ. gpt-oss không chạy. Zip sha256 `4dff26660d2139ea97e04aeb08d05ad1b6898c709792f606724138254a6aac5a`, lưu ở `kaggle/results/c4p/s7_unplanned_haiku_rerun/`.
+- **Xử lý (R5, L6):** kết quả của Haiku là lượt đã đăng ký ở phiên 1–2 (ghi chú 40-12) và **không đổi**. Lượt Haiku thứ hai không thay, không gộp, không chọn giữa hai lượt, và không dùng trong phép thử. Nếu có dùng, chỉ để mô tả biến thiên giữa hai lượt chạy cùng seed, ghi rõ là ngoài kế hoạch.
+- **Phòng ngừa:** ô `c4p_cell.py` dừng trước mọi lời gọi model nếu input không có đúng một output phiên trước, hoặc output đó không cho thấy Haiku và nano đã xong. Ô chỉ đổi phần kiểm này; `COMMIT` (mã tải về) không đổi (`505cab7`).
+- **Phiên 8:** gắn **output của phiên 6** (phiên cuối có gpt-oss), không gắn output phiên 7.
+- **Không đổi:** mọi điều khác.
+

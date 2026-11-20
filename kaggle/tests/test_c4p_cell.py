@@ -13,3 +13,15 @@ def test_day_cap_uses_the_drivers_session_spend():
 
 def test_missing_summary_stops_the_session():
     assert "session_spent = DAY_CAP" in CELL
+
+
+def test_session_stops_without_exactly_one_previous_output():
+    assert "EXPECT_PREVIOUS = True" in CELL
+    assert "if EXPECT_PREVIOUS and len(done_before) != 1:" in CELL
+    i, j = CELL.index("if EXPECT_PREVIOUS"), CELL.index("for tag, model, pin, pout in MODELS")
+    assert i < j  # checked before any model call
+
+
+def test_finished_models_must_come_back_finished():
+    assert 'DONE_MODELS = ("haiku", "nano")' in CELL
+    assert CELL.index("for tag in DONE_MODELS") < CELL.index("for tag, model, pin, pout in MODELS")
