@@ -468,3 +468,22 @@ Câu cũ của 40-16 giữ nguyên (R5); hai câu sau thay cách đọc của n�
 - Mọi lượt `ossh` dùng `kaggle/scripts/c3_agent.py` tại commit `505cab724aff00dc46e7510e654fa1e429c3ee4a` (ô `c4p_cell.py` tải mã theo đúng commit này; một commit git không đổi được). sha256 của file: `436ad1a5144cf78e6ba8fb6c1e3b9feae1c4b07da0985c944bb4d805fba97439`. Hàm: `strip_format_tags`, mẫu `FORMAT_TAG` ở dòng 35 của file đó.
 - Bước dựng lại nội dung gửi lại (ghi chú 40-17) dùng đúng file này, không dùng bản mới hơn. Nếu hàm được sửa về sau, bản sửa phải có tên khác và tag model khác (như `oss` → `ossh`).
 - Kiểm khi có kết quả phiên 6: `c4p.json` không ghi commit, nên đối chiếu bằng sha256 của `c3_agent.py` nếu có trong output, hoặc bằng ngày chạy so với ngày của các commit sau `505cab7` có đụng tới file này.
+
+### Ghi chú 40-19 (20/11/2026): C4′ phiên 6; gpt-oss (`ossh`) 6/56 khối; bảng kiểm của 40-17; điều kiện "pool quá nhỏ"
+
+- **Lượt chạy:** 17:48:25Z–20:24:15Z (19/11). `ossh` xong 6 khối (`none`, `skill`, `lf_none`, `lf_skill` khối 0; `none`, `skill` khối 1), rồi khối `lf_none` 1 hỏng: lượt `…7duhf8bc` sập vì proxy trả lời đáp không có `message` (cùng kiểu lỗi của nano ở 40-13). Khối được để riêng và chạy lại một lần theo 40-13. Chi phí 1,2689 USD hạn mức; 1.343 lần gọi; 11,03 triệu token vào, 0,768 triệu token ra. Dữ liệu `kaggle/results/c4p/s6/` (zip sha256 `95e52d95de1b2ecb96018a1d127889a9bcb6de7f433edcc8df6fa6f8433410bc`). Bộ theo dõi (`--include-bad`) đúng `monitor.json`: 1.158 lượt, **exposure 0**.
+- **Bảng kiểm của 40-17**, cùng 10 task của khối `none` 0 (mô tả, không phải phép thử tương đương):
+
+  | | `oss` (trước khi sửa) | `ossh` (sau khi sửa) |
+  | --- | --- | --- |
+  | Task giải được | 1 | 1 |
+  | Số bước (tổng 10 lượt) | 219 | 160 |
+  | Tin nhắn của agent có thẻ | 110/219 | 79/160 |
+  | Lượt sập | 0 | 0 |
+  | Lỗi 400 của endpoint (`BadRequestError` trong log) | có, ở khối sau (40-15) | **0** trong cả phiên |
+
+  - Nội dung gửi lại, dựng từ trace bằng `strip_format_tags` của `c3_agent.py` tại `505cab7` (sha256 khớp 40-18): không còn thẻ nào; **365/365** khối lệnh bash trong lời đáp gốc còn nguyên trong nội dung gửi lại.
+  - Số bước ít hơn (160 so với 219) trên cùng 10 task; với n = 10 không tách được phần do bước gỡ thẻ khỏi biến thiên giữa hai lượt chạy. Báo nguyên trạng.
+- **Điều kiện "pool quá nhỏ", chốt trước khi tính bất kỳ mức tăng nào của gpt-oss:** E = Π(1 − λDᵢ) với λ = 0,5 và Dᵢ ≥ −0,5, nên mỗi task nhân E tối đa 1,25 lần, và E ≥ 120 cần ít nhất ⌈ln 120 / ln 1,25⌉ = 22 task. Nếu sau khi bỏ các task sập hay lỗi hạ tầng (40-13, 40-14), pool của gpt-oss còn dưới 22 task, phép thử của nó không thể bác bỏ; khi đó gpt-oss chỉ được báo như kết quả mô tả. Ngưỡng họ vẫn là 120.
+- **Tiền:** `ossh` chi khoảng 0,18 USD hạn mức mỗi khối (1,2689 cho 7 khối đã chạy, kể cả khối hỏng); 56 khối khoảng 10,2 USD, gần trần 11,62 (12 − 0,3769). Đây là dự kiến suy từ 7 khối, không phải số đo của cả lượt. Nếu chạm trần, driver dừng và @thuthuy quyết (CLAUDE.md).
+- **Không đổi:** mọi điều khác; ô `c4p_cell.py` (ghim `505cab7`) dùng tiếp.
