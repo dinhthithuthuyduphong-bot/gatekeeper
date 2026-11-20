@@ -523,3 +523,11 @@ Câu cũ của 40-16 giữ nguyên (R5); hai câu sau thay cách đọc của n�
   - lần thử không ra file kết quả vẫn được ghi dấu (`*.badN`), để đếm đúng số lần thử.
 - Test trong `kaggle/tests/test_c4_driver.py`. Ô `c4p_cell.py` ghim commit có driver này.
 - **Không đổi:** task, thứ tự, khối, seed, cost_limit, các trần, phép thử, điều kiện 22 task (40-19).
+
+### Ghi chú 40-24 (20/11/2026): C4′ phiên 11; gpt-oss 30/56 khối; trần của gpt-oss có thể không đủ
+
+- **Lượt chạy:** 16:22:13Z–19:51:56Z, 192,3 phút. Driver mới (40-23) chạy tiếp sau khối hỏng `lf_none` 5 (lượt `…b8uqu2r8`, lời đáp rỗng của proxy), rồi dừng vì trần phiên (2,058 USD) trước lượt chạy lại. `ossh` xong **30/56 khối**; 300 lượt trong các khối được giữ, 0 sập. Bộ theo dõi đúng `monitor.json`: 250 lượt, exposure 0. Zip sha256 `48a4d40de4b326424ce68999f496d3e406ea2c5d5c4299713e5fde3d5c9f68d1`, ở `kaggle/results/c4p/s11/`.
+- **Chi phí `ossh` cộng dồn:** 6,4757 USD hạn mức; 7.061 lần gọi, 57,13 triệu token vào, 3,71 triệu token ra. Chi phí một khối (31 file chi phí của khối): trung bình 0,1917, lớn nhất 0,3469 USD.
+- **Mô phỏng phần còn lại theo L66** (26 khối + 1 lần chạy lại; mỗi khối rút có hoàn lại từ 31 chi phí đã đo; 20.000 lần; seed 4510): dự kiến 5,18 USD, phân vị 0,999 là 6,26 USD. Tổng của `ossh` ở phân vị 0,999: 12,73 USD, lớn hơn trần 11,62 (12 − 0,3769). Dự kiến (11,65) cũng đã vượt trần.
+- **Hệ quả nếu giữ trần:** driver dừng khi chạm trần, có thể thiếu vài khối cuối; các task của khối thiếu bị bỏ khỏi cả 4 nhánh (40-13, 40-23). Pool có thể vẫn trên 22 task (40-19), nhưng mất task của khối extra (các task không mô tả của §35 nằm ở khối 10–13).
+- Nâng trần là quyền của @thuthuy; đề xuất gửi kèm ghi chú này.
