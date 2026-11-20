@@ -167,6 +167,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Biến môi trường qua ranh giới người dùng (L70)**
 - [ ] Lệnh chạy dưới người dùng khác (`sudo`, môi trường sạch) nhận từng biến cần thiết một cách tường minh, và có một bước kiểm 0 USD dưới đúng người dùng đó xác nhận khóa nạp được trước lần gọi có phí đầu tiên. Đọc mọi cảnh báo trong log của lượt chạy thử.
 
+**Bản sao qua dịch vụ trung gian (L78)**
+- [ ] Dữ liệu chép qua dataset, upload hay đồng bộ được so sha256 hoặc số bản ghi với bản gốc trước khi dùng (K30).
+
 **Nối đúng phiên trước (L77)**
 - [ ] Ô chạy nhiều phiên dừng trước mọi lệnh tốn tiền nếu input không có đúng một output phiên trước có trạng thái khớp bản đăng ký (K29).
 
