@@ -22,7 +22,7 @@ import urllib.request
 # ---- set before running (note 40-5) --------------------------------------------------------------
 POOL = "B"  # T5, @thuthuy 17/11: "chọn B" (100 test tasks + the 36 tasks of section 35)
 
-COMMIT = "505cab724aff00dc46e7510e654fa1e429c3ee4a"  # notes 40-6, 40-7, 40-13 to 40-15
+COMMIT = "e7875d3909bfd32b07236002ca2799080e58d662"  # notes 40-6, 40-7, 40-13 to 40-23
 TRIAL = "97cd0a5c9d69b45b95a978dc872ad91ac6f90e91"  # branch trial: the paper's agent-run script
 GEPA = "8c7b697a71977980afc7537dac0881e784eef99f"  # gskill, as in every run of the paper
 RAW = "https://raw.githubusercontent.com/dinhthithuthuyduphong-bot/gatekeeper/"
