@@ -2,6 +2,7 @@
 
 **Cập nhật:** 18/11/2026. Tóm tắt mọi hướng (cả Vertex): `TODO.md` mục "★ Tình hình hiện tại".
 **Hướng đang chọn:** `plan_v4.md`. Xong mục A (38-6 đến 38-9) và A′ (38-11). Cổng C5 và C6 đạt trên Kaggle (40-9). Đang chờ: C4′ (POOL B) và lượt chạy thử W7 (§45 ở `docs/preregistration_main.md`).
+**Lưu kết quả (@thuthuy 20/11: "nhánh main đợi khi nào done từng thí nghiệm rồi merge, đang chạy phiên thì không cần"):** kết quả từng phiên ở `kaggle/results/` của nhánh này, sha256 trong bản đăng ký; chỉ chuyển `kaggle/` của một thí nghiệm sang `main` khi thí nghiệm đó xong.
 **Quy tắc của file này:** mỗi khi một việc đổi trạng thái hoặc hướng đi đổi, sửa file này trong cùng commit với thay đổi đó.
 
 Hạn mức AI Kaggle đã dùng: P0 0,47; B 3,05; A cộng dồn 20,06 (Kaggle báo, 38-6); A′ 1,30; C3 0,01; C4 phiên 1 0,77; C6 0,0314 (USD hạn mức). Tiền thật: 0.
