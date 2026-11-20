@@ -638,3 +638,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Mỗi lần gửi ô, ghi rõ output của phiên nào phải gắn.
   - Thêm vào danh sách review `docs/research_rules.md` §4.
 
+## L78. Kiểm từng byte mọi dữ liệu đi qua một dịch vụ trung gian trước khi coi nó là bản sao (K30 ở `kaggle/audit.md`)
+- **Nguyên nhân gốc:** tôi đưa cách "tải zip lên làm dataset" như một cách tương đương với "gắn output notebook", mà không biết Kaggle xử lý file khi tạo dataset. Kaggle giải nén `.gz` và chỉ giữ dòng đầu của mỗi file JSONL.
+- **Phòng ngừa:**
+  - Sau mỗi bước chép qua một dịch vụ (dataset, upload, đồng bộ), so sha256 hay số bản ghi với bản gốc trước khi dùng.
+  - Ưu tiên đường đã kiểm (notebook output làm input); đường mới thì kiểm trước.
+  - Thêm vào danh sách review `docs/research_rules.md` §4.
+
