@@ -3076,6 +3076,13 @@ Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước ki�
 - **Hạn mức tháng:** đã dùng khoảng 29,5 USD (đến C4′ phiên 1 và hai bước đo W7). Cộng phần trần còn lại của C4′ (36 − 1,94 = 34,06) và phần mới của W7 (21,016 − 1,844 = 19,17), tổng 82,7 ≤ 100.
 - **Trần đã duyệt** (@thuthuy 19/11: "duyệt trần 14,640 và 6,376"). Thứ tự không đổi: bước học đầy đủ chạy sau C4′.
 
+**Ghi chú thực thi 45-6** (21/11/2026, C4′ xong, trước bước học đầy đủ):
+- **Thứ tự (§45 bước 6):** C4′ xong 21/11 (`kaggle/preregistration_s40.md` ghi chú 40-27), nên bước học chạy từ hôm nay.
+- **Pool B chạy thử trước (0 USD):** dữ liệu pool B chưa từng đi qua `ingest`, `pair`, `fork`. Ô chạy thử phải cho đủ các bước và số cặp; dự kiến 24 cặp trên 12 issue (ghi chú 45-5). Lệch thì dừng và báo.
+- **Trần mỗi phiên:** `DAY_CAP_USD = 9,5` cho cả hai pool, dưới hạn mức ngày 10 USD của Kaggle (`kaggle/preregistration_s37.md`). Giá trị vận hành: bước kiểm theo từng lệnh gọi (ghi chú 45-4) giữ mỗi phiên ≤ 9,5. Pool A dự kiến còn 11,24 USD, nên cần hai phiên. Không chạy hai ô trong cùng ngày nếu tổng hai trần phiên vượt 10.
+- **Trần mục:** pool A 14,640 (gồm 1,8444 của các bước đo; chạy tiếp từ output của bước đo thứ hai), pool B 6,376.
+- **Hạn mức tháng:** đã dùng khoảng 45,1 USD; cộng phần mới của W7 (12,80 + 6,376) là 64,3 ≤ 100.
+
 ## 46. X2′: cầu nối giữa môi trường Docker và lớp `chroot` của Kaggle (đăng ký 18/11/2026, trước mọi lượt có phí của §46)
 
 **Vì sao:** C4′ (`kaggle/preregistration_s40.md`) chạy agent khác hãng trong lớp `chroot` dựng từ image gốc (ghi chú 40-4), không trong Docker. Các cổng C1, C5 chỉ chứng minh bộ chấm cho điểm giống Docker và agent không thấy gì ngoài image. Nếu C4′ cho kết quả khác paper, chưa tách được phần do agent khác với phần do môi trường khác (`docs/plan_vs_review.md` mục 4 và 7.2). @thuthuy duyệt 18/11 (`CLAUDE.md`, trần cộng dồn 38,96 USD cùng §47).
