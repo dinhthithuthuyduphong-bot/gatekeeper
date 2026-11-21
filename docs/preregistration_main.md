@@ -3085,6 +3085,12 @@ Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước ki�
 - **Hạn mức tháng:** đã dùng khoảng 45,1 USD; cộng phần mới của W7 (12,80 + 6,376) là 64,3 ≤ 100.
 - **Chạy thử pool B (21/11, 05:18:17Z–05:18:47Z, 0 USD; `kaggle/results/w7/w7_B_dryrun.json`):** mọi bước chạy; **24 cặp trên 12 issue**, đúng dự kiến; tỉ lệ giải Flash 0,3529 (12/34), Flash-Lite 0; 144 lệnh gọi giả lập = 24 × 3 × 2. Đạt.
 
+**Ghi chú thực thi 45-7** (21/11/2026, sau phiên học đầu của pool A):
+- 05:58:08Z–06:06:18Z, trần phiên 3,3. Khối 3–6 xong (cộng khối 0–2 của các bước đo: **7/21 khối**, 21 cặp, 34 ứng viên, 0 trùng). Khối 7 bị bước kiểm theo từng lệnh gọi cắt sau 3 lệnh gọi và được hoàn tác (6 file); 3 lệnh gọi đó vẫn tính vào số đã chi. 0 lệnh gọi thất bại.
+- Phiên: 59 lệnh gọi, 213.685 token vào, 181.035 token ra, **2,5998 USD**; cộng dồn pool A **4,4442** (trần 14,640). Zip sha256 `c49d3c10868ef3545f208229e53adc50c3b125c18963f03824ae3a945657df87`, ở `kaggle/results/w7/w7_A_learn1_run.zip` (nhánh mặc định).
+- Kiểm: `cost_log.jsonl` chỉ còn lệnh gọi của các cặp thuộc khối đã xong; sổ lệnh gọi của ô (`w7_calls_*.json`) giữ cả 3 lệnh gọi bị hoàn tác. Bước kiểm theo từng lệnh gọi lần đầu cắt một khối: chạy đúng như ghi chú 45-4.
+- Còn 14 khối: dự kiến khoảng 7,8 USD, cộng merge và judge; vừa trong trần phiên 9,5 của phiên tối nay.
+
 ## 46. X2′: cầu nối giữa môi trường Docker và lớp `chroot` của Kaggle (đăng ký 18/11/2026, trước mọi lượt có phí của §46)
 
 **Vì sao:** C4′ (`kaggle/preregistration_s40.md`) chạy agent khác hãng trong lớp `chroot` dựng từ image gốc (ghi chú 40-4), không trong Docker. Các cổng C1, C5 chỉ chứng minh bộ chấm cho điểm giống Docker và agent không thấy gì ngoài image. Nếu C4′ cho kết quả khác paper, chưa tách được phần do agent khác với phần do môi trường khác (`docs/plan_vs_review.md` mục 4 và 7.2). @thuthuy duyệt 18/11 (`CLAUDE.md`, trần cộng dồn 38,96 USD cùng §47).
