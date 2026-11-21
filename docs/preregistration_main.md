@@ -3091,6 +3091,12 @@ Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước ki�
 - Kiểm: `cost_log.jsonl` chỉ còn lệnh gọi của các cặp thuộc khối đã xong; sổ lệnh gọi của ô (`w7_calls_*.json`) giữ cả 3 lệnh gọi bị hoàn tác. Bước kiểm theo từng lệnh gọi lần đầu cắt một khối: chạy đúng như ghi chú 45-4.
 - Còn 14 khối: dự kiến khoảng 7,8 USD, cộng merge và judge; vừa trong trần phiên 9,5 của phiên tối nay.
 
+**Ghi chú thực thi 45-8** (21/11/2026, sau phiên học thứ hai của pool A):
+- 13:03:01Z–13:32:30Z, trần phiên 9,5. Khối 7–20 xong: **21/21 khối**, 102 ứng viên trên 31 issue, 0 trùng. Merge xong: 21 quy tắc. Judge bị bước kiểm theo từng lệnh gọi cắt sau 13 lệnh gọi (số đã chi trong phiên 8,6478 + phần giữ chỗ chạm 9,5) và được hoàn tác (2 file); chưa có `rules_judged`.
+- Phiên: 215 lệnh gọi (discover 197: 8,2984 USD; merge 5: 0,2473; judge 13: 0,1021), 740.132 token vào, 597.292 token ra, 0 lệnh gọi thất bại, **8,6478 USD**; cộng dồn pool A **13,0920** (trần 14,640; còn 1,548). Zip sha256 `78d012d31bd01332d624b8b27ce2e4605e51cfaaffed723931fd5783ba51e9a3`, ở `kaggle/results/w7/w7_A_learn2_run.zip` (nhánh mặc định).
+- **Phiên tiếp:** chỉ còn judge (21 quy tắc; 13 lệnh gọi đầu tốn 0,10), score và audit (không gọi model). Hạn mức ngày còn khoảng 1,35 USD, nên trần phiên **1,3**. Phần giữ chỗ của bước kiểm (3 luồng × khoảng 0,29) vừa trong 1,3.
+- **Mô tả trước khi có pool B (không phải phép thử):** chỉ báo H (dòng RULE của §29) có ở **30/31 issue** của pool A; G (`git log`/`git show`) cũng 30/31. Phép thử chính cần pool B.
+
 ## 46. X2′: cầu nối giữa môi trường Docker và lớp `chroot` của Kaggle (đăng ký 18/11/2026, trước mọi lượt có phí của §46)
 
 **Vì sao:** C4′ (`kaggle/preregistration_s40.md`) chạy agent khác hãng trong lớp `chroot` dựng từ image gốc (ghi chú 40-4), không trong Docker. Các cổng C1, C5 chỉ chứng minh bộ chấm cho điểm giống Docker và agent không thấy gì ngoài image. Nếu C4′ cho kết quả khác paper, chưa tách được phần do agent khác với phần do môi trường khác (`docs/plan_vs_review.md` mục 4 và 7.2). @thuthuy duyệt 18/11 (`CLAUDE.md`, trần cộng dồn 38,96 USD cùng §47).
