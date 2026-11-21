@@ -3240,6 +3240,29 @@ Q3 được báo cáo đầy đủ trong mọi trường hợp, kể cả khi kh
 - **Cổng 3:** đã chi 0,7995 + 10,3521 + 11,3685 = **22,5201 USD** ≤ 24,509; còn 12,48 cho năm nhánh chấm (tổng trần 10,491). Khâu chấm chạy.
 - Hai skill được chép đúng từng byte vào `docs/skills/gskill/jinja_x1ship_best_skills.txt` và `jinja_x1lf_best_skills.txt`, như bước `cmp` của workflow yêu cầu.
 
+**Ghi chú thực thi 47-9 (21/11/2026): kết quả của §46 và §47.**
+- **Khâu chấm** (run 44920720965, 15:47–19:33Z): năm nhánh đủ lượt (100, 100, 100, 100, 34), 0 sập, 0 lỗi hạ tầng; `infra_failures`, `endpoint_mismatch`, `patch_apply_failed` đều không có; cảnh báo 47-4: không. Chi 1,3186 + 1,8135 + 1,5970 + 1,9697 + 0,4986 = **7,1975 USD** (tổng trần 10,491). **Tổng §46–§47: 29,7176 / 35,00 USD.**
+- **Q1:** `x1ship` có dòng lịch sử, `x1lf` không (ghi chú 47-8). Theo bảng "Cách đọc", hàng 1: "Chỉ dẫn xuất hiện ở cả hai lượt học trong môi trường gốc và không ở lượt nào trong môi trường một commit (2/2 và 0/2)".
+- **Q3** (`scripts/s25_ab.py` của `trial`, không sửa; S; `results/x1eval_ship_ab.json`, `results/x1eval_lf_ab.json`):
+
+  | Môi trường | Không skill / skill (100 task) | Mức tăng [bootstrap 95%] | Dấu một phía p | Nhận ở trial | 34 task không mô tả: không skill / skill |
+  | --- | --- | --- | --- | --- | --- |
+  | gốc, skill `x1ship` | 13 / 67 | +0,54 [0,44; 0,64] | 7,9 × 10⁻¹⁶ | 24 | 0 / 22 |
+  | một commit, skill `x1lf` | 8 / 33 | +0,25 [0,17; 0,34] | 3,0 × 10⁻⁸ | 37 | 0 / 0 |
+
+- **Q4:** skill `x1lf` chạy ở môi trường gốc trên 34 task không mô tả: **0/34** (không skill cùng lúc: 0/34). Skill học khi không có rò rỉ không giúp ở các task cần đọc lịch sử, cả khi lịch sử có sẵn.
+- **Q5 (mô tả, n = 2 lượt mỗi môi trường):** lượt cũ (§25 bước 2, §30) và lượt mới cùng chiều: môi trường gốc, skill có chỉ dẫn đọc lịch sử ở 2/2 lượt và mức tăng lớn; môi trường một commit, 0/2 lượt có chỉ dẫn, mức tăng nhỏ hơn và bằng 0 trên task không mô tả. Số của lượt cũ lấy từ các mục đã đăng ký, không tính lại.
+- **§46 X2′** (`results/x2_analysis.json`; 34 task không mô tả; bootstrap 10.000 lần theo task, seed 1):
+
+  | Nhánh | chroot | Docker seed 41 / 51 / 61 | chroot − D41 [95%] | D51 − D41 | D61 − D41 | D61 − D51 |
+  | --- | --- | --- | --- | --- | --- | --- |
+  | không skill | 0 | 1 / 0 / 0 | −0,029 [−0,088; 0] | −0,029 | −0,029 | 0 |
+  | skill | 20 | 15 / 17 / 16 | +0,147 [−0,088; 0,382] | +0,059 | +0,029 | −0,029 |
+
+  - Thấy diff "Bug Patch": nhánh skill 34/34 lượt, nhánh không skill 0/34 (đếm chuỗi trong quan sát; các quy tắc đầy đủ của `history_audit.py` chạy khi đưa vào bài). Lượt đụng đường dẫn của máy chủ (`/var/lib/cshim`, `/home/runner/work`): **0** ở cả hai nhánh.
+  - Đọc theo "Cách đọc" của §46 (không có quy tắc đạt/không đạt): ở nhánh không skill, chroot và Docker như nhau. Ở nhánh skill, chroot giải hơn Docker 3–5 task; hiệu với seed 41 (+0,147) lớn hơn các hiệu Docker − Docker (từ −0,029 tới +0,059), nhưng khoảng 95% chứa 0. Câu trong bài: "trong lớp `chroot`, agent của paper giải ít nhất ngang Docker (20/34 so với 15–17/34 có skill; 0/34 so với 0–1/34 không skill)"; không viết là hai môi trường tương đương.
+
+
 
 ## 48. X1′-LF: lượt học gskill thứ hai ở môi trường một commit, chạy trên Kaggle (BẢN NHÁP 18/11/2026; **RÚT LẠI cùng ngày theo ghi chú 47-3**, chưa đăng ký, chưa có lệnh gọi model nào; giữ lại để thấy lịch sử quyết định)
 
