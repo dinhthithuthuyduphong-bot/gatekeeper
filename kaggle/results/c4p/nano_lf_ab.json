@@ -1,0 +1,65 @@
+{
+ "all": {
+  "n": 100,
+  "S": {
+   "skill": 33,
+   "none": 1,
+   "b": 32,
+   "c": 0,
+   "p_one_sided": 2.3283064365386963e-10,
+   "gain": 0.32,
+   "boot95": [
+    0.23,
+    0.41
+   ]
+  },
+  "L": {
+   "skill": 66,
+   "none": 3,
+   "b": 63,
+   "c": 0,
+   "p_one_sided": 1.0842021724855044e-19,
+   "gain": 0.63,
+   "boot95": [
+    0.53,
+    0.72
+   ]
+  },
+  "holm_reject": {
+   "L": true,
+   "S": true
+  },
+  "outcome": "A",
+  "gatekeeper_admit_trial": 18
+ },
+ "no_problem_statement": {
+  "n": 34,
+  "S": {
+   "skill": 0,
+   "none": 0,
+   "b": 0,
+   "c": 0,
+   "p_one_sided": 1.0,
+   "gain": 0.0,
+   "boot95": [
+    0.0,
+    0.0
+   ]
+  }
+ },
+ "with_problem_statement": {
+  "n": 66,
+  "S": {
+   "skill": 33,
+   "none": 1,
+   "b": 32,
+   "c": 0,
+   "p_one_sided": 2.3283064365386963e-10,
+   "gain": 0.48484848484848486,
+   "boot95": [
+    0.36363636363636365,
+    0.6060606060606061
+   ]
+  }
+ }
+}

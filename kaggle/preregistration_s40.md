@@ -542,3 +542,31 @@ Câu cũ của 40-16 giữ nguyên (R5); hai câu sau thay cách đọc của n�
 
 - 20:54:47Z (20/11)–01:17:04Z (21/11), 247,2 phút. Khối `lf_none` 5 chạy lại: đạt. Không khối nào hỏng. `ossh` xong **44/56 khối**; dừng vì trần phiên (2,034 USD). 440 lượt trong các khối được giữ, 0 sập, 0 lỗi hạ tầng, không khối nào phải giữ theo 40-13/40-14. Bộ theo dõi đúng `monitor.json`: 390 lượt, exposure 0.
 - `ossh` cộng dồn 8,5101 USD hạn mức (trần 12,733); 9.545 lần gọi, 75,01 triệu token vào, 4,89 triệu token ra. Zip sha256 `c8cdc8feae96247470345ca3c0deac117cf5397dbafadcb18915810edec6aaec`, ở `kaggle/results/c4p/s12/`.
+
+### Ghi chú 40-27 (21/11/2026): C4′ xong; kết quả của ba agent
+
+- **Phiên 13:** 01:33:47Z–04:46:29Z. `ossh` xong **56/56 khối**; 544 lượt, 0 sập, 0 lỗi hạ tầng, không khối nào phải giữ theo 40-13/40-14. Bộ theo dõi (`--include-bad`) đúng `monitor.json`: 494 lượt, exposure 0. `ossh` cộng dồn 9,7684 USD hạn mức (trần 12,733); 11.119 lần gọi, 86,19 triệu token vào, 5,59 triệu token ra. Zip sha256 `a70bffbe615c2e06bfee120445a7dc0166195f8ee64807619ebbc18d6231ea9f`, ở `kaggle/results/c4p/s13/`.
+- **Phép thử chính (40-5), pool 70 task không mô tả, ngưỡng họ 120** (`kaggle/results/c4p/{haiku,nano,ossh}_analysis.json`; với gpt-oss, trace của khối đầu lấy từ zip phiên 6–12 theo K30):
+
+  | Agent | Gốc không skill / skill | Một commit không skill / skill | D trung bình | D < 0 / D > 0 | E | Ở ngưỡng 120 |
+  | --- | --- | --- | --- | --- | --- | --- |
+  | Haiku | 24 / 24 | 1 / 19 | +0,129 | 10 / 25 | 0,002 | không bác bỏ (ngược chiều) |
+  | nano | 0 / 20 | 0 / 0 | −0,143 | 20 / 0 | 86,7 | không bác bỏ |
+  | gpt-oss | 0 / 23 | 0 / 0 | −0,164 | 23 / 0 | **169,4** | **bác bỏ** |
+
+  - gpt-oss: 0 task bị bỏ vì sập; pool đủ 70 (điều kiện 22 task của 40-19 đạt). Độ sạch (40-10, bỏ 1 task có tải gói): 69 task, E = 169,4, vẫn bác bỏ.
+  - Cách đọc theo bảng 40-5 mục 5: gpt-oss "bác bỏ: lặp lại được phát hiện". nano: không bác bỏ, nhưng không khớp hàng nào của bảng: agent không dùng kênh rò rỉ khi không có skill, và có dùng khi có skill (40-15); báo nguyên trạng. Haiku: ngược chiều (40-12).
+  - Giới hạn của gpt-oss: sai lệch giao thức ở 40-15 đến 40-18.
+- **Phép nhận theo từng môi trường (mục 6, phép phụ; `scripts/s25_ab.py` của `trial`, 100 task test, bộ chấm S; `kaggle/results/c4p/per_environment.json`)**:
+
+  | Agent | Môi trường | Không skill / skill | Mức tăng [bootstrap 95%] | Nhận ở trial (α = 0,025) | Nhận ở trial (α/6) |
+  | --- | --- | --- | --- | --- | --- |
+  | Haiku | gốc | 65 / 70 | +0,05 [−0,03; 0,13] | không | không |
+  | Haiku | một commit | 60 / 68 | +0,08 [0,03; 0,14] | không | không |
+  | nano | gốc | 1 / 37 | +0,36 [0,27; 0,46] | 17 | 31 |
+  | nano | một commit | 1 / 33 | +0,32 [0,23; 0,41] | 18 | 31 |
+  | gpt-oss | gốc | 9 / 40 | +0,31 [0,21; 0,41] | 31 | 42 |
+  | gpt-oss | một commit | 9 / 26 | +0,17 [0,08; 0,26] | 78 | 96 |
+
+  - Theo bảng mục 6: nano và gpt-oss "nhận | nhận" (skill giúp cả khi không còn rò rỉ, trên 100 task gồm cả task có mô tả); Haiku "không nhận | không nhận". Trong paper, skill cũng được nhận ở cả hai môi trường (40-5 mục 1): phép thử chính là hiệu giữa hai môi trường, không phải cặp nhận.
+- **Dữ liệu ngoài kế hoạch** (40-20, lượt Haiku thứ hai) không dùng.
