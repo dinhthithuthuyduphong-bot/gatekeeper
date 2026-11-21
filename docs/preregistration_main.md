@@ -3232,6 +3232,15 @@ Q3 được báo cáo đầy đủ trong mọi trường hợp, kể cả khi kh
 
 **Ghi chú thực thi 47-7 (20/11/2026, trước mọi lượt có phí):** @thuthuy 20/11: "Hẹn lại lịch bắt đầu chạy vertex và 0h ngày 21/11/2026 theo múi giờ Mỹ", múi giờ: "Miền Đông (New York)". Lượt có phí đầu tiên của §46–§47 không trước **00:00 ngày 21/11/2026 giờ New York (EST, UTC−5), tức 05:00 UTC, 12:00 giờ Việt Nam**. Một lời nhắc đã được hẹn vào phiên làm việc của Claude ở đúng thời điểm đó; chỉ một phiên kích hoạt các lượt có phí (tránh chạy trùng). Không đổi gì khác.
 
+**Ghi chú thực thi 47-8 (21/11/2026, sau hai lượt học lại, trước khâu chấm):**
+- **§46 X2′** (run 44868962430, 05:02–05:53Z): `x2_none` 0/34, `x2_skill` 20/34 giải được (S); 0 sập, 0 lỗi hạ tầng; 0,1662 + 0,6333 = 0,7995 USD (trần 1,863). Cảnh báo 47-4: không. Phép so với Docker chạy sau, theo §46.
+- **§47 học lại ở môi trường gốc `x1ship`** (runs 44873611790, 44886950016): nửa 1 5,8104, nửa 2 4,5417, **tổng 10,3521 USD** (trần 14,50); 601 lần gọi metric, 8 ứng viên, điểm tốt nhất 0,92; phép chia trùng lượt cũ (`same_split`). Skill tốt nhất (3.235 ký tự, sha256 `9d4613ec7c7d186d8e4d20196311929c9950c972cbcc28a908976336edbdd580`) có **3 dòng khớp RULE của §29**, ví dụ "Run `git log -n 5` to find the commit hash of the "Bug Patch"." Cảnh báo: không (A5 không bật).
+- **§47 học lại ở môi trường một commit `x1lf`** (runs 44899695171, 44912325782): nửa 1 6,1017 (331 lần viết lại một commit đạt), nửa 2 5,2668 (269 lần đạt), **tổng 11,3685 USD** (trần 14,50); 600 lần gọi metric, 9 ứng viên, điểm tốt nhất 0,78; phép chia trùng. Skill tốt nhất (2.463 ký tự, sha256 `4d6f2f2801577e4ebf4415cf1129f58fa2ed2fad0c35277b60c3953a7e4bb926`) có **0 dòng khớp RULE** và 0 dòng `git log`/`git show`. Cảnh báo: không.
+- **Q1 theo bảng "Cách đọc" của §47:** cả hai lượt học lại cho đúng cách đọc dự kiến: có rò rỉ thì skill có chỉ dẫn đọc lịch sử, không có rò rỉ thì không. Đây là n = 2 cho mỗi môi trường (lượt cũ §25, §30 và lượt này); mô tả, không phải phép thử.
+- **Cổng 3:** đã chi 0,7995 + 10,3521 + 11,3685 = **22,5201 USD** ≤ 24,509; còn 12,48 cho năm nhánh chấm (tổng trần 10,491). Khâu chấm chạy.
+- Hai skill được chép đúng từng byte vào `docs/skills/gskill/jinja_x1ship_best_skills.txt` và `jinja_x1lf_best_skills.txt`, như bước `cmp` của workflow yêu cầu.
+
+
 ## 48. X1′-LF: lượt học gskill thứ hai ở môi trường một commit, chạy trên Kaggle (BẢN NHÁP 18/11/2026; **RÚT LẠI cùng ngày theo ghi chú 47-3**, chưa đăng ký, chưa có lệnh gọi model nào; giữ lại để thấy lịch sử quyết định)
 
 **Vì sao:** ghi chú 47-1. Đây là phần một commit của §47, chuyển sang hạn mức Kaggle để tổng chi trên Vertex ≤ 20 USD (25 từ ghi chú 47-2; vẫn không đủ cho lượt này: 31,158 > 25).
