@@ -537,3 +537,8 @@ Câu cũ của 40-16 giữ nguyên (R5); hai câu sau thay cách đọc của n�
 - @thuthuy 20/11: "Nâng" (đề xuất ở 40-24). Tổng trần của gpt-oss = 13,11 USD hạn mức = phân vị 0,999 theo L66 của tổng `ossh` (12,731) + 0,3769 đã chi dưới tag `oss` trước khi chạy lại, làm tròn lên. Trần của tag `ossh` trong driver = 13,11 − 0,3769 = 12,733.
 - Ô `c4p_cell.py`: `CAP_BY_TAG = {"ossh": 13.11}`; mã tải về không đổi (`COMMIT` vẫn `e7875d3`). Haiku và nano giữ 12.
 - **Không đổi:** mọi điều khác, kể cả trần phiên 2,0 USD.
+
+### Ghi chú 40-26 (21/11/2026): C4′ phiên 12; gpt-oss 44/56 khối
+
+- 20:54:47Z (20/11)–01:17:04Z (21/11), 247,2 phút. Khối `lf_none` 5 chạy lại: đạt. Không khối nào hỏng. `ossh` xong **44/56 khối**; dừng vì trần phiên (2,034 USD). 440 lượt trong các khối được giữ, 0 sập, 0 lỗi hạ tầng, không khối nào phải giữ theo 40-13/40-14. Bộ theo dõi đúng `monitor.json`: 390 lượt, exposure 0.
+- `ossh` cộng dồn 8,5101 USD hạn mức (trần 12,733); 9.545 lần gọi, 75,01 triệu token vào, 4,89 triệu token ra. Zip sha256 `c8cdc8feae96247470345ca3c0deac117cf5397dbafadcb18915810edec6aaec`, ở `kaggle/results/c4p/s12/`.
