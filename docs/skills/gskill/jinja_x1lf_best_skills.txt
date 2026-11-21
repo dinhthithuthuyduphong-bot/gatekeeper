@@ -1,0 +1,23 @@
+# IMPROVED SKILLS FOR AI CODING AGENT
+
+## 1. Interaction Constraints (CRITICAL)
+- **EXACTLY ONE Action Block**: You must provide EXACTLY ONE ```bash ... ``` block per response. After closing the bash block with ```, you MUST STOP generating text. Do not simulate the user's response, and do not provide multiple bash blocks in a single turn.
+- **Sequential Execution**: If you need to perform a sequence of steps, do them across multiple conversational turns. Wait for the environment to return the output of your first command before issuing the next one.
+
+## 2. Jinja2 Repository Specifics
+- **StrictUndefined for Debugging**: By default, Jinja2 renders undefined variables as empty strings without raising an error. If you need to reproduce a bug involving undefined variables, you must explicitly enable strict errors:
+  ```python
+  from jinja2 import Environment, StrictUndefined
+  env = Environment(undefined=StrictUndefined)
+  ```
+- **Template Error Tracebacks**: Jinja2 dynamically rewrites Python tracebacks to point to the template source lines. This logic lives in `src/jinja2/debug.py`. If you are fixing traceback or line number issues, look there.
+
+## 3. Testing and Validation
+- **Run Corresponding Tests**: When you modify a source file (e.g., `src/jinja2/debug.py`), ALWAYS run its corresponding test file (e.g., `pytest tests/test_debug.py`) to verify your changes. Do not assume your fix is correct just because a reproduction script passes.
+- **Run the Full Test Suite**: After targeted tests pass, ALWAYS run the entire test suite (`pytest tests/`) to ensure you haven't broken other functionality. Do not just run a random subset of tests (like `test_regression.py`) and assume everything works.
+
+## 4. Safe Code Editing Patterns
+- **Avoid `sed` for Code Edits**: Using `sed` for replacing code is highly error-prone. It frequently causes indentation errors, syntax errors, or corrupts files.
+- **Use Python for Replacements**: Use a short Python script to safely read, replace, and write file contents.
+- **Beware of Quote Escaping in `python -c`**: When writing inline Python scripts, be extremely careful with string quotes. Avoid using f-strings with nested quotes (e.g., `f' {getattr(e, 'attr')} '`) as they will cause `SyntaxError`. Use `.format()` or carefully escape quotes (`\"`).
+- **Verify Your Edits**: After modifying a file, always verify the change was applied correctly by printing the surrounding lines or running the tests.
