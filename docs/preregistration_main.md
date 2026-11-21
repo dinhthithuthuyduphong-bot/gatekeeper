@@ -3097,6 +3097,10 @@ Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước ki�
 - **Phiên tiếp:** chỉ còn judge (21 quy tắc; 13 lệnh gọi đầu tốn 0,10), score và audit (không gọi model). Hạn mức ngày còn khoảng 1,35 USD, nên trần phiên **1,3**. Phần giữ chỗ của bước kiểm (3 luồng × khoảng 0,29) vừa trong 1,3.
 - **Mô tả trước khi có pool B (không phải phép thử):** chỉ báo H (dòng RULE của §29) có ở **30/31 issue** của pool A; G (`git log`/`git show`) cũng 30/31. Phép thử chính cần pool B.
 
+**Ghi chú thực thi 45-9** (21/11/2026): **pool A xong.** Phiên 3 (13:45:31Z–13:47:05Z): judge 21 lệnh gọi, score, audit; 13.196 token vào, 11.797 token ra; 0,168 USD. Pool A cộng dồn **13,2599 USD** (trần 14,640). Zip sha256 `603e6e26f05a30f813bdd62ada8b84d797f3fa254ae789073de887436868d39b`; tóm tắt `kaggle/results/w7/w7_A_summary.json` (nhánh mặc định, `w7_analyse.pool_summary`).
+- Phép thử chính chờ pool B. Mô tả của pool A: 62 cặp, 31 issue, 102 ứng viên; **H ở 30/31 issue**, G ở 30/31.
+- Phụ (mô tả): 20 quy tắc qua judge; 5 có `git log`/`git show` trong tiêu đề hay thân ("Run git log when issue description is missing", "Inspect git history for missing issue descriptions", "Identify regressions via recent commit history", "Inspect recent commit diffs with git show", "Inspect git history when issue description is missing"); cả 5 được `score` chấm (`lift` 0,929–0,962, `z` 23,4–36,1, hỗ trợ 8–16 cặp); **0/5 bị bước kiểm n-gram của XRepoSkill đánh dấu**.
+
 ## 46. X2′: cầu nối giữa môi trường Docker và lớp `chroot` của Kaggle (đăng ký 18/11/2026, trước mọi lượt có phí của §46)
 
 **Vì sao:** C4′ (`kaggle/preregistration_s40.md`) chạy agent khác hãng trong lớp `chroot` dựng từ image gốc (ghi chú 40-4), không trong Docker. Các cổng C1, C5 chỉ chứng minh bộ chấm cho điểm giống Docker và agent không thấy gì ngoài image. Nếu C4′ cho kết quả khác paper, chưa tách được phần do agent khác với phần do môi trường khác (`docs/plan_vs_review.md` mục 4 và 7.2). @thuthuy duyệt 18/11 (`CLAUDE.md`, trần cộng dồn 38,96 USD cùng §47).
