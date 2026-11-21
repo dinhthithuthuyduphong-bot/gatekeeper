@@ -1,0 +1,56 @@
+{
+ "pairs": 62,
+ "issues": 31,
+ "candidates": 102,
+ "issues_G": 30,
+ "issues_H": 30,
+ "judged_rules": 20,
+ "judged_rules_G": [
+  {
+   "rule_id": "pallets__jinja:lookup:0",
+   "title": "Run git log when issue description is missing",
+   "support": 16,
+   "score_status": "scored",
+   "gain": 0.9318,
+   "z": 24.5221,
+   "ngram_flagged": false
+  },
+  {
+   "rule_id": "pallets__jinja:lookup:1",
+   "title": "Inspect git history for missing issue descriptions",
+   "support": 15,
+   "score_status": "scored",
+   "gain": 0.9286,
+   "z": 23.3666,
+   "ngram_flagged": false
+  },
+  {
+   "rule_id": "pallets__jinja:lookup:2",
+   "title": "Identify regressions via recent commit history",
+   "support": 12,
+   "score_status": "scored",
+   "gain": 0.95,
+   "z": 27.5681,
+   "ngram_flagged": false
+  },
+  {
+   "rule_id": "pallets__jinja:lookup:3",
+   "title": "Inspect recent commit diffs with git show",
+   "support": 10,
+   "score_status": "scored",
+   "gain": 0.96,
+   "z": 34.641,
+   "ngram_flagged": false
+  },
+  {
+   "rule_id": "pallets__jinja:lookup:4",
+   "title": "Inspect git history when issue description is missing",
+   "support": 8,
+   "score_status": "scored",
+   "gain": 0.9615,
+   "z": 36.0555,
+   "ngram_flagged": false
+  }
+ ],
+ "failed_calls": 0
+}
