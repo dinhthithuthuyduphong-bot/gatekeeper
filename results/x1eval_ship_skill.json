@@ -1,0 +1,1815 @@
+{
+ "model": "vertex_ai/gemini-3.1-flash-lite",
+ "seed": 41,
+ "cost_limit": 0.3,
+ "cap": 2.757,
+ "skills_chars": 3235,
+ "leak_free": false,
+ "history_variant": null,
+ "neutral_message": null,
+ "subset": "all",
+ "n_tasks": 100,
+ "runs": [
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__arv5rwp0",
+   "order": 250,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 528,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex 64e432d..2f93b90 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -239,9 +239,9 @@ class Node(metaclass=NodeType):\n \n     def __eq__(self, other: t.Any) -> bool:\n         if type(self) is not type(other):\n-            return False\n+            return NotImplemented\n \n-        return tuple(self.iter_fields()[::-1]) == tuple(other.iter_fields())\n+        return tuple(self.iter_fields()) == tuple(other.iter_fields())\n \n     __hash__ = object.__hash__\n \n",
+   "cost_usd": 0.0051895000000000005
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__2lu2b8x6",
+   "order": 251,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 965,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex 29947c1..817abec 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -225,12 +225,12 @@ class Parser:\n     def parse_set(self) -> t.Union[nodes.Assign, nodes.AssignBlock]:\n         \"\"\"Parse an assign statement.\"\"\"\n         lineno = next(self.stream).lineno\n-        target = self.parse_assign_target(with_namespace=False)\n-        if not self.stream.skip_if(\"assign\"):\n+        target = self.parse_assign_target(with_namespace=True)\n+        if self.stream.skip_if(\"assign\"):\n             expr = self.parse_tuple()\n             return nodes.Assign(target, expr, lineno=lineno)\n         filter_node = self.parse_filter(None)\n-        body = self.parse_statements((\"name:endset\",), drop_needle=False)\n+        body = self.parse_statements((\"name:endset\",), drop_needle=True)\n         return nodes.AssignBlock(target, filter_node, body, lineno=lineno)\n \n     def parse_for(self) -> nodes.For:\n",
+   "cost_usd": 0.004527499999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__5w1ny04u",
+   "order": 252,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 12,
+   "patch_chars": 476,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex c87475e..ee79288 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -575,7 +575,7 @@ class LoopContext:\n \n         The loop must have the ``recursive`` marker for this to work.\n         \"\"\"\n-        if self._recurse is not None:\n+        if self._recurse is None:\n             raise TypeError(\n                 \"The loop must have the 'recursive' marker to be called recursively.\"\n             )\n",
+   "cost_usd": 0.011167324999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cr774unu",
+   "order": 253,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 14,
+   "patch_chars": 1968,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/sandbox.py b/src/jinja2/sandbox.py\nindex 808d0e1..dab3ac5 100644\n--- a/src/jinja2/sandbox.py\n+++ b/src/jinja2/sandbox.py\n@@ -316,7 +316,7 @@ class SandboxedEnvironment(Environment):\n                     else:\n                         if self.is_safe_attribute(obj, argument, value):\n                             return value\n-                        return self.unsafe_undefined(obj, argument)\n+                        raise SecurityError(f\"access to attribute {argument!r} of {type(obj).__name__!r} object is unsafe.\")\n         return self.undefined(obj=obj, name=argument)\n \n     def getattr(self, obj: t.Any, attribute: str) -> t.Union[t.Any, Undefined]:\n@@ -333,7 +333,7 @@ class SandboxedEnvironment(Environment):\n         else:\n             if self.is_safe_attribute(obj, attribute, value):\n                 return value\n-            return self.unsafe_undefined(obj, attribute)\n+            raise SecurityError(f\"access to attribute {attribute!r} of {type(obj).__name__!r} object is unsafe.\")\n         return self.undefined(obj=obj, name=attribute)\n \n     def unsafe_undefined(self, obj: t.Any, attribute: str) -> Undefined:\n@@ -412,6 +412,9 @@ class SandboxedFormatter(Formatter):\n         self._env = env\n         super().__init__(**kwargs)\n \n+    def get_attribute(self, obj: t.Any, attr: str) -> t.Any:\n+        return self._env.getattr(obj, attr)\n+\n     def get_field(\n         self, field_name: str, args: t.Sequence[t.Any], kwargs: t.Mapping[str, t.Any]\n     ) -> t.Tuple[t.Any, str]:\n@@ -419,11 +422,9 @@ class SandboxedFormatter(Formatter):\n         obj = self.get_value(first, args, kwargs)\n         for is_attr, i in rest:\n             if is_attr:\n-                obj = self._env.getattr(obj, i)\n+                obj = self.get_attribute(obj, i)\n             else:\n                 obj = self._env.getitem(obj, i)\n         return obj, first\n-\n-\n class SandboxedEscapeFormatter(SandboxedFormatter, EscapeFormatter):\n     pass\n",
+   "cost_usd": 0.02315034999999999
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__chconsvp",
+   "order": 254,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 1662,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex 0469383..94fd213 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -309,21 +309,21 @@ class CodeGenerator(NodeVisitor):\n     ) -> None:\n         if stream is None:\n             stream = StringIO()\n-        self.filename = name  # Swapped assignment\n         self.environment = environment\n-        self.name = filename  # Swapped assignment\n+        self.name = name\n+        self.filename = filename\n         self.stream = stream\n         self.created_block_context = False\n-        self.defer_init = not defer_init  # Negate the initialization parameter\n+        self.defer_init = defer_init\n         self.optimizer: t.Optional[Optimizer] = None\n \n-        if not optimized:  # Incorrectly negate the condition\n+        if optimized:\n             self.optimizer = Optimizer(environment)\n \n         self.import_aliases: t.Dict[str, str] = {}\n         self.blocks: t.Dict[str, nodes.Block] = {}\n-        self.extends_so_far = 1  # Incorrectly changed from 0 to 1\n-        self.has_known_extends = True  # Incorrectly changed from False to True\n+        self.extends_so_far = 0\n+        self.has_known_extends = False\n         self.code_lineno = 1\n         self.tests: t.Dict[str, str] = {}\n         self.filters: t.Dict[str, str] = {}\n@@ -336,7 +336,7 @@ class CodeGenerator(NodeVisitor):\n         self._indentation = 0\n         self._assign_stack: t.List[t.Set[str]] = []\n         self._param_def_block: t.List[t.Set[str]] = []\n-        self._context_reference_stack = []\n+        self._context_reference_stack = [\"context\"]\n \n     @property\n     def optimized(self) -> bool:\n",
+   "cost_usd": 0.008664599999999995
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cxbvbn5m",
+   "order": 255,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 787,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/utils.py b/src/jinja2/utils.py\nindex 5a8f4e3..3cc9951 100644\n--- a/src/jinja2/utils.py\n+++ b/src/jinja2/utils.py\n@@ -612,13 +612,13 @@ def select_autoescape(\n \n     def autoescape(template_name: t.Optional[str]) -> bool:\n         if template_name is None:\n-            return not default_for_string\n+            return default_for_string\n         template_name = template_name.upper()\n-        if template_name.startswith(enabled_patterns):\n-            return False\n-        if template_name.startswith(disabled_patterns):\n+        if template_name.endswith(enabled_patterns):\n             return True\n-        return not default\n+        if template_name.endswith(disabled_patterns):\n+            return False\n+        return default\n \n     return autoescape\n \n",
+   "cost_usd": 0.004810250000000002
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__t713lqij",
+   "order": 256,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 955,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/filters.py b/src/jinja2/filters.py\nindex 06a1d50..1420877 100644\n--- a/src/jinja2/filters.py\n+++ b/src/jinja2/filters.py\n@@ -49,9 +49,9 @@ def ignore_case(value: V) -> V:\n     \"\"\"For use as a postprocessor for :func:`make_attrgetter`. Converts strings\n     to lowercase and returns other types as-is.\"\"\"\n     if isinstance(value, str):\n-        return t.cast(V, value.upper())\n+        return t.cast(V, value.lower())\n \n-    return None\n+    return value\n \n \n def make_attrgetter(\n@@ -432,9 +432,9 @@ def do_sort(\n        The ``attribute`` parameter was added.\n     \"\"\"\n     key_func = make_multi_attrgetter(\n-        environment, attribute, postprocess=ignore_case if case_sensitive else None\n+        environment, attribute, postprocess=ignore_case if not case_sensitive else None\n     )\n-    return sorted(value, key=key_func, reverse=not reverse)\n+    return sorted(value, key=key_func, reverse=reverse)\n \n \n @pass_environment\n",
+   "cost_usd": 0.0036122499999999974
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__8yk7800b",
+   "order": 257,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 893,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/async_utils.py b/src/jinja2/async_utils.py\nindex 75daddf..f0c1402 100644\n--- a/src/jinja2/async_utils.py\n+++ b/src/jinja2/async_utils.py\n@@ -37,15 +37,15 @@ def async_variant(normal_func):  # type: ignore\n         @wraps(normal_func, assigned=normal_func_attrs)\n         @wraps(async_func, assigned=async_func_attrs, updated=())\n         def wrapper(*args, **kwargs):  # type: ignore\n-            b = not is_async(args)\n+            b = is_async(args)\n \n-            if not need_eval_context:\n+            if need_eval_context:\n                 args = args[1:]\n \n             if b:\n-                return normal_func(*args, **kwargs)\n+                return async_func(*args, **kwargs)\n \n-            return async_func(*args, **kwargs)\n+            return normal_func(*args, **kwargs)\n \n         if need_eval_context:\n             wrapper = pass_eval_context(wrapper)\n",
+   "cost_usd": 0.005133499999999992
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__715aoh4c",
+   "order": 258,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 625,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/sandbox.py b/src/jinja2/sandbox.py\nindex d4bfd29..ce27615 100644\n--- a/src/jinja2/sandbox.py\n+++ b/src/jinja2/sandbox.py\n@@ -263,7 +263,7 @@ class SandboxedEnvironment(Environment):\n         special attributes of internal python objects as returned by the\n         :func:`is_internal_attribute` function.\n         \"\"\"\n-        return not (attr.endswith(\"_\") or is_internal_attribute(obj, attr))\n+        return not (attr.startswith(\"_\") or is_internal_attribute(obj, attr))\n \n     def is_safe_callable(self, obj: t.Any) -> bool:\n         \"\"\"Check if an object is safely callable. By default callables\n",
+   "cost_usd": 0.0070617500000000055
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__a9b3kwif",
+   "order": 259,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 19,
+   "patch_chars": 607,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex 27045e7..cadd150 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -971,8 +971,8 @@ class Environment:\n                     template.globals.update(globals)\n                 return template\n \n-        # Swap loader and globals arguments\n-        template = self.loader.load(name, self, self.make_globals(globals))\n+        # Load the template\n+        template = self.loader.load(self, name, self.make_globals(globals))\n \n         # Don't store template in cache when it should\n         if self.cache is None:\n",
+   "cost_usd": 0.01585945000000001
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__anko5wz3",
+   "order": 260,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 860,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex 9e0b857..6773f39 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -467,7 +467,7 @@ class LoopContext:\n \n         Requires calculating :attr:`length`.\n         \"\"\"\n-        return self.length - self.index - 1\n+        return self.length - self.index\n \n     @property\n     def revindex(self) -> int:\n@@ -611,11 +611,11 @@ class AsyncLoopContext(LoopContext):\n \n     @property\n     async def revindex0(self) -> int:  # type: ignore\n-        return await self.length - self.index\n+        return (await self.length) - self.index\n \n     @property\n     async def revindex(self) -> int:  # type: ignore\n-        return await self.length - self.index0\n+        return (await self.length) - self.index0\n \n     async def _peek_next(self) -> t.Any:\n         if self._after is not missing:\n",
+   "cost_usd": 0.010046749999999993
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__avobcu7d",
+   "order": 261,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 406,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/bccache.py b/src/jinja2/bccache.py\nindex e524c06..ada8b09 100644\n--- a/src/jinja2/bccache.py\n+++ b/src/jinja2/bccache.py\n@@ -182,7 +182,7 @@ class BytecodeCache:\n \n     def set_bucket(self, bucket: Bucket) -> None:\n         \"\"\"Put the bucket into the cache.\"\"\"\n-        self.dump_bytecode(None)\n+        self.dump_bytecode(bucket)\n \n \n class FileSystemBytecodeCache(BytecodeCache):\n",
+   "cost_usd": 0.00644450000000002
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__wlxrx0eg",
+   "order": 262,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 1067,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex 6536a50..2f93b90 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -526,14 +526,14 @@ class UnaryExpr(Expr):\n         # intercepted operators cannot be folded at compile time\n         if (\n             eval_ctx.environment.sandboxed\n-            or self.operator not in eval_ctx.environment.intercepted_unops  # type: ignore\n+            and self.operator in eval_ctx.environment.intercepted_unops  # type: ignore\n         ):\n-            return None  # Changed from raising Impossible to returning None\n-        f = _uaop_to_func.get(self.operator, lambda x: x)  # Default function if operator not found\n+            raise Impossible()\n+        f = _uaop_to_func[self.operator]\n         try:\n             return f(self.node.as_const(eval_ctx))\n-        except ArithmeticError as e:  # Changed from Exception to ArithmeticError\n-            return 0  # Swallowed the exception and returned 0 instead\n+        except Exception as e:\n+            raise Impossible() from e\n \n \n class Name(Expr):\n",
+   "cost_usd": 0.007561499999999985
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__cke3wqxn",
+   "order": 263,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 4830,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/visitor.py b/src/jinja2/visitor.py\nindex 7af3665..7b766ea 100644\n--- a/src/jinja2/visitor.py\n+++ b/src/jinja2/visitor.py\n@@ -1,64 +1,45 @@\n-\"\"\"API for traversing the AST nodes. Implemented by the compiler and\n-meta introspection.\n-\"\"\"\n-\n import typing as t\n-\n-from .nodes import Node\n-\n-if t.TYPE_CHECKING:\n-    import typing_extensions as te\n-\n-    class VisitCallable(te.Protocol):\n-        def __call__(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.Any: ...\n+from jinja2.nodes import Node\n \n \n class NodeVisitor:\n     \"\"\"Walks the abstract syntax tree and call visitor functions for every\n-    node found.  The visitor functions may return values which will be\n-    forwarded by the `visit` method.\n-\n-    Per default the visitor functions for the nodes are ``'visit_'`` +\n-    class name of the node.  So a `TryFinally` node visit function would\n-    be `visit_TryFinally`.  This behavior can be changed by overriding\n-    the `get_visitor` function.  If no visitor function exists for a node\n-    (return value `None`) the `generic_visit` visitor is used instead.\n+    node found.  The functions may return values which are forwarded by the\n+    `visit` method.\n     \"\"\"\n \n-    def get_visitor(self, node: Node) -> \"t.Optional[VisitCallable]\":\n-        \"\"\"Return the visitor function for this node or `None` if no visitor\n+    def get_visitor(self, node: Node) -> t.Optional[t.Callable]:\n+        \"\"\"Return the visitor function for this node or None if no visitor\n         exists for this node.  In that case the generic visit function is\n         used instead.\n         \"\"\"\n-        return getattr(self, f\"visit_{node.__class__.__name__.lower()}\", None)\n+        return getattr(self, f\"visit_{type(node).__name__}\", None)\n \n     def visit(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.Any:\n         \"\"\"Visit a node.\"\"\"\n         f = self.get_visitor(node)\n-\n         if f is not None:\n             return f(node, *args, **kwargs)\n-\n         return self.generic_visit(node, *args, **kwargs)\n \n     def generic_visit(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.Any:\n         \"\"\"Called if no explicit visitor function exists for a node.\"\"\"\n         for child_node in node.iter_child_nodes():\n-            self.visit(node, *args, **kwargs)\n+            self.visit(child_node, *args, **kwargs)\n \n \n class NodeTransformer(NodeVisitor):\n     \"\"\"Walks the abstract syntax tree and allows modifications of nodes.\n-\n     The `NodeTransformer` will walk the AST and use the return value of the\n-    visitor functions to replace or remove the old node.  If the return\n-    value of the visitor function is `None` the node will be removed\n-    from the previous location otherwise it's replaced with the return\n-    value.  The return value may be the original node in which case no\n-    replacement takes place.\n+    visitor methods to replace or remove the old node.  If the return value of\n+    the visitor method is `None`, the node will be removed from its parent,\n+    otherwise it is replaced by the returned node.\n     \"\"\"\n \n-    def generic_visit(self, node: Node, *args: t.Any, **kwargs: t.Any) -> Node:\n+    def visit(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.Any:\n+        node = super().visit(node, *args, **kwargs)\n+        if node is None:\n+            return None\n         for field, old_value in node.iter_fields():\n             if isinstance(old_value, list):\n                 new_values = []\n@@ -66,28 +47,16 @@ class NodeTransformer(NodeVisitor):\n                     if isinstance(value, Node):\n                         value = self.visit(value, *args, **kwargs)\n                         if value is None:\n-                            new_values.append(None)\n                             continue\n                         elif not isinstance(value, Node):\n                             new_values.extend(value)\n-                            break\n+                            continue\n                     new_values.append(value)\n-                old_value[:] = [item for item in new_values if item is not None]\n+                old_value[:] = new_values\n             elif isinstance(old_value, Node):\n                 new_node = self.visit(old_value, *args, **kwargs)\n                 if new_node is None:\n-                    setattr(node, field, None)\n+                    delattr(node, field)\n                 else:\n                     setattr(node, field, new_node)\n         return node\n-\n-    def visit_list(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.List[Node]:\n-        \"\"\"As transformers may return lists in some places this method\n-        can be used to enforce a list as return value.\n-        \"\"\"\n-        rv = self.visit(node, *args, **kwargs)\n-\n-        if not isinstance(rv, list):\n-            return [rv]\n-\n-        return rv\n",
+   "cost_usd": 0.004746250000000007
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__25czjxam",
+   "order": 264,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 428,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/utils.py b/src/jinja2/utils.py\nindex a5a3236..5c1ff5d 100644\n--- a/src/jinja2/utils.py\n+++ b/src/jinja2/utils.py\n@@ -489,7 +489,7 @@ class LRUCache:\n \n     def __len__(self) -> int:\n         \"\"\"Return the current size of the cache.\"\"\"\n-        return len(self._mapping) - 1\n+        return len(self._mapping)\n \n     def __repr__(self) -> str:\n         return f\"<{type(self).__name__} {self._mapping!r}>\"\n",
+   "cost_usd": 0.00690615
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__7duhf8bc",
+   "order": 265,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 729,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex 7edb279..38f414e 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -1499,11 +1499,11 @@ class Template:\n         \"\"\"The debug info mapping.\"\"\"\n         if self._debug_info:\n             return [\n-                tuple(map(int, x.split(\":\")))  # Changed \"=\" to \":\"\n-                for x in self._debug_info.split(\";\")  # Changed \"&\" to \";\"\n+                tuple(map(int, x.split(\"=\")))\n+                for x in self._debug_info.split(\"&\")\n             ]\n \n-        return [(-1, -1)]  # Changed return value from empty list to a list with a tuple\n+        return []\n \n     def __repr__(self) -> str:\n         if self.name is None:\n",
+   "cost_usd": 0.010422500000000029
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__3xepg09e",
+   "order": 266,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 484,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/lexer.py b/src/jinja2/lexer.py\nindex 80652f5..6dc94b6 100644\n--- a/src/jinja2/lexer.py\n+++ b/src/jinja2/lexer.py\n@@ -459,7 +459,7 @@ class OptionalLStrip(tuple):  # type: ignore[type-arg]\n     # Even though it looks like a no-op, creating instances fails\n     # without this.\n     def __new__(cls, *members, **kwargs):  # type: ignore\n-        return super().__new__(cls, **kwargs)\n+        return super().__new__(cls, members)\n \n \n class _Rule(t.NamedTuple):\n",
+   "cost_usd": 0.03393970000000002
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__ehsbmle6",
+   "order": 267,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 362,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/tests.py b/src/jinja2/tests.py\nindex c93918d..1a59e37 100644\n--- a/src/jinja2/tests.py\n+++ b/src/jinja2/tests.py\n@@ -64,7 +64,7 @@ def test_filter(env: \"Environment\", value: str) -> bool:\n \n     .. versionadded:: 3.0\n     \"\"\"\n-    return value not in env.filters or len(value) == 0\n+    return value in env.filters\n \n \n @pass_environment\n",
+   "cost_usd": 0.006439150000000005
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0tzkxxm7",
+   "order": 268,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 525,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/idtracking.py b/src/jinja2/idtracking.py\nindex e79bc02..626daca 100644\n--- a/src/jinja2/idtracking.py\n+++ b/src/jinja2/idtracking.py\n@@ -269,7 +269,7 @@ class FrameSymbolVisitor(NodeVisitor):\n \n     def visit_Macro(self, node: nodes.Macro, **kwargs: t.Any) -> None:\n         if node.name:\n-            self.symbols.store(node.name[::-1])\n+            self.symbols.store(node.name)\n \n     def visit_Import(self, node: nodes.Import, **kwargs: t.Any) -> None:\n         self.generic_visit(node, **kwargs)\n",
+   "cost_usd": 0.0052215000000000455
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__a2jtwrsv",
+   "order": 269,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 2926,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/meta.py b/src/jinja2/meta.py\nindex e17dce5..0862876 100644\n--- a/src/jinja2/meta.py\n+++ b/src/jinja2/meta.py\n@@ -21,15 +21,7 @@ class TrackingCodeGenerator(CodeGenerator):\n \n     def write(self, x: str) -> None:\n         \"\"\"Don't write.\"\"\"\n-\n-        if not x:\n-            return\n-\n-        newline_index = x.find('\\n')\n-        end_index = len(x) if newline_index == -1 else newline_index\n-        word = x[:end_index]\n-        self.output_buffer.append(word)\n-        self.output_size += len(word) + 1\n+        pass\n \n     def enter_frame(self, frame: Frame) -> None:\n         \"\"\"Remember all undeclared identifiers.\"\"\"\n@@ -61,7 +53,7 @@ def find_undeclared_variables(ast: nodes.Template) -> t.Set[str]:\n     \"\"\"\n     codegen = TrackingCodeGenerator(ast.environment)  # type: ignore\n     codegen.visit(ast)\n-    return set(codegen.declared_identifiers)\n+    return codegen.undeclared_identifiers\n \n \n _ref_types = (nodes.Extends, nodes.FromImport, nodes.Import, nodes.Include)\n@@ -69,29 +61,19 @@ _RefType = t.Union[nodes.Extends, nodes.FromImport, nodes.Import, nodes.Include]\n \n \n def find_referenced_templates(ast: nodes.Template) -> t.Iterator[t.Optional[str]]:\n-    template_name: t.Any\n-\n     for node in ast.find_all(_ref_types):\n-        template: nodes.Expr = node.template  # type: ignore\n-\n-        if not isinstance(template, nodes.Const):\n-            if isinstance(template, (nodes.Tuple, nodes.List)):\n-                for template_name in template.items:\n-                    if isinstance(template_name, nodes.Const):\n-                        if not isinstance(template_name.value, str):\n-                            yield template_name.value  # flipped condition to yield strings\n-                    else:\n-                        continue  # changed from yield None to continue\n+        template = node.template\n+        if isinstance(template, nodes.Const):\n+            if isinstance(template.value, (tuple, list)):\n+                for item in template.value:\n+                    yield item\n             else:\n-                yield \"\"  # changed from yield None\n-            continue\n-        if isinstance(template.value, str):\n-            yield template.value\n-        elif isinstance(node, nodes.Include) and isinstance(\n-            template.value, (tuple, list)\n-        ):\n-            for template_name in template.value:\n-                if not isinstance(template_name, str):\n-                    yield template_name  # flipped condition to yield strings\n+                yield template.value\n+        elif isinstance(template, (nodes.Tuple, nodes.List)):\n+            for item in template.items:\n+                if isinstance(item, nodes.Const):\n+                    yield item.value\n+                else:\n+                    yield None\n         else:\n-            yield \"unknown\"  # changed from yield None\n+            yield None\n\\ No newline at end of file\n",
+   "cost_usd": 0.04602269999999997
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__46edpabx",
+   "order": 270,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.016522250000000016
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__duswz0y5",
+   "order": 271,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 14,
+   "patch_chars": 297,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex e2951db..ed0a481 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -561,7 +561,7 @@ class NSRef(Expr):\n     attr: str\n \n     def can_assign(self) -> bool:\n-        return False\n+        return True\n \n \n class Literal(Expr):\n",
+   "cost_usd": 0.01041684999999995
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__25g5d0y8",
+   "order": 272,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 13,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.010231600000000007
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__c0l344tm",
+   "order": 273,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 555,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex 2c7572d..9dcc9d4 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -932,7 +932,7 @@ def make_logging_undefined(\n         logger.addHandler(logging.StreamHandler(sys.stderr))\n \n     def _log_message(undef: Undefined) -> None:\n-        logger.warning(\"Template variable error: %s\", undef._undefined_message.lower())\n+        logger.warning(\"Template variable warning: %s\", undef._undefined_message)\n \n     class LoggingUndefined(base):  # type: ignore\n         __slots__ = ()\n",
+   "cost_usd": 0.03336577499999993
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__93j2vxu4",
+   "order": 274,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 346,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/filters.py b/src/jinja2/filters.py\nindex 0287b25..1420877 100644\n--- a/src/jinja2/filters.py\n+++ b/src/jinja2/filters.py\n@@ -1337,7 +1337,7 @@ async def do_sum(\n     else:\n \n         def func(x: V) -> V:\n-            return -x\n+            return x\n \n     async for item in auto_aiter(iterable):\n         rv += func(item)\n",
+   "cost_usd": 0.03518792499999984
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__bnwsv86w",
+   "order": 275,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 650,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/idtracking.py b/src/jinja2/idtracking.py\nindex 226d674..d6cb635 100644\n--- a/src/jinja2/idtracking.py\n+++ b/src/jinja2/idtracking.py\n@@ -114,8 +114,8 @@ class Symbols:\n         return self._define_ref(name, load=(VAR_LOAD_PARAMETER, None))\n \n     def load(self, name: str) -> None:\n-        if self.find_ref(name) is not None:\n-            self._define_ref(name, load=(VAR_LOAD_RESOLVE, name[::-1]))\n+        if self.find_ref(name) is None:\n+            self._define_ref(name, load=(VAR_LOAD_RESOLVE, name))\n \n     def branch_update(self, branch_symbols: t.Sequence[\"Symbols\"]) -> None:\n         stores: t.Dict[str, int] = {}\n",
+   "cost_usd": 0.04002174999999997
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__ez3c38dc",
+   "order": 276,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 378,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/utils.py b/src/jinja2/utils.py\nindex 0d4cb5a..729ef7c 100644\n--- a/src/jinja2/utils.py\n+++ b/src/jinja2/utils.py\n@@ -562,7 +562,7 @@ class LRUCache:\n         \"\"\"Iterate over the keys in the cache dict, oldest items\n         coming first.\n         \"\"\"\n-        return iter(reversed(self._queue))\n+        return iter(self._queue)\n \n     __copy__ = copy\n \n",
+   "cost_usd": 0.005366750000000031
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__b7sihzh0",
+   "order": 277,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 705,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/loaders.py b/src/jinja2/loaders.py\nindex 0ec83d5..62551b6 100644\n--- a/src/jinja2/loaders.py\n+++ b/src/jinja2/loaders.py\n@@ -362,7 +362,7 @@ class PackageLoader(BaseLoader):\n         )\n         up_to_date: t.Optional[t.Callable[[], bool]]\n \n-        if self._archive is not None:\n+        if self._archive is None:\n             if not os.path.isfile(p):\n                 raise TemplateNotFound(template)\n \n@@ -380,7 +380,7 @@ class PackageLoader(BaseLoader):\n             except OSError as e:\n                 raise TemplateNotFound(template) from e\n \n-            up_to_date = lambda: False\n+            up_to_date = None\n \n         return source.decode(self.encoding), p, None\n \n",
+   "cost_usd": 0.008856150000000007
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__yjwp1l4i",
+   "order": 278,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 975,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex e000e5c..0b303d5 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -460,7 +460,7 @@ class Environment:\n \n     def iter_extensions(self) -> t.Iterator[\"Extension\"]:\n         \"\"\"Iterates over the extensions by priority.\"\"\"\n-        return iter(sorted(self.extensions.values(), key=lambda x: -x.priority))\n+        return iter(sorted(self.extensions.values(), key=lambda x: x.priority))\n \n     def getitem(\n         self, obj: t.Any, argument: t.Union[str, t.Any]\n@@ -1400,8 +1400,8 @@ class Template:\n         a dict which is then used as context.  The arguments are the same\n         as for the :meth:`new_context` method.\n         \"\"\"\n-        ctx = self.new_context(locals, shared, vars)\n-        return TemplateModule(ctx, self)\n+        ctx = self.new_context(vars, shared, locals)\n+        return TemplateModule(self, ctx)\n \n     async def make_module_async(\n         self,\n",
+   "cost_usd": 0.0034989999999999744
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__dzxjns4n",
+   "order": 279,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 1313,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex 3505e31..91720c5 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -125,18 +125,18 @@ def generate(\n def has_safe_repr(value: t.Any) -> bool:\n     \"\"\"Does the node have a safe representation?\"\"\"\n     if value is None or value is NotImplemented or value is Ellipsis:\n-        return False\n+        return True\n \n     if type(value) in {bool, int, float, complex, range, str, Markup}:\n         return True\n \n     if type(value) in {tuple, list, set, frozenset}:\n-        return any(has_safe_repr(v) for v in value)\n+        return all(has_safe_repr(v) for v in value)\n \n-    if type(value) is dict:\n-        return all(has_safe_repr(k) or has_safe_repr(v) for k, v in value.items())\n+    if type(value) is dict:  # noqa E721\n+        return all(has_safe_repr(k) and has_safe_repr(v) for k, v in value.items())\n \n-    return True\n+    return False\n \n \n def find_undeclared(\n@@ -1067,9 +1067,9 @@ class CodeGenerator(NodeVisitor):\n             self.indent()\n \n         def loop_body() -> None:\n-            self.outdent()\n-            self.simple_write(\"event\", None)\n             self.indent()\n+            self.simple_write(\"event\", frame)\n+            self.outdent()\n \n         if node.with_context:\n             self.writeline(\n",
+   "cost_usd": 0.04698722500000008
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__24f5cqo6",
+   "order": 280,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 18,
+   "patch_chars": 553,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nativetypes.py b/src/jinja2/nativetypes.py\nindex 0d2f883..71db8cc 100644\n--- a/src/jinja2/nativetypes.py\n+++ b/src/jinja2/nativetypes.py\n@@ -57,7 +57,7 @@ class NativeCodeGenerator(CodeGenerator):\n         return value\n \n     def _output_const_repr(self, group: t.Iterable[t.Any]) -> str:\n-        return repr(\"\".join([str(v) for v in reversed(group)]))\n+        return repr(\"\".join([str(v) for v in group]))\n \n     def _output_child_to_const(\n         self, node: nodes.Expr, frame: Frame, finalize: CodeGenerator._FinalizeInfo\n",
+   "cost_usd": 0.012163900000000005
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__rqsq4z8d",
+   "order": 281,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 2227,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex 78c8683..b087eff 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -1186,30 +1186,31 @@ class Template:\n         enable_async: bool = False,\n     ) -> t.Any:\n         env = get_spontaneous_environment(\n-            cls.environment_class,\n-            variable_end_string, \n+            cls.environment_class,  # type: ignore\n+            block_start_string,\n             block_end_string,\n-            block_start_string, \n             variable_start_string,\n+            variable_end_string,\n             comment_start_string,\n             comment_end_string,\n-            line_comment_prefix,\n             line_statement_prefix,\n+            line_comment_prefix,\n             trim_blocks,\n-            not lstrip_blocks,\n+            lstrip_blocks,\n             newline_sequence,\n             keep_trailing_newline,\n             frozenset(extensions),\n-            not optimized, \n+            optimized,\n+            undefined,  # type: ignore\n             finalize,\n-            not autoescape, \n+            autoescape,\n             None,\n-            1,\n-            True,\n+            0,\n+            False,\n             None,\n             enable_async,\n         )\n-        return env.from_string(source, template_class=None)\n+        return env.from_string(source, template_class=cls)\n \n     @classmethod\n     def from_code(\ndiff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex 0b434d2..2f93b90 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -211,11 +211,11 @@ class Node(metaclass=NodeType):\n         \"\"\"\n         todo = deque([self])\n         while todo:\n-            node = todo.pop()  # Changed from popleft to pop\n+            node = todo.popleft()\n             if \"ctx\" in node.fields:\n-                node.ctx = \"load\"  # Changed assignment to a hardcoded 'load' context\n+                node.ctx = ctx  # type: ignore\n             todo.extend(node.iter_child_nodes())\n-        return None  # Changed return value from self to None\n+        return self\n \n     def set_lineno(self, lineno: int, override: bool = False) -> \"Node\":\n         \"\"\"Set the line numbers of the node and children.\"\"\"\n",
+   "cost_usd": 0.03433835000000007
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__53727py6",
+   "order": 282,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 14,
+   "patch_chars": 861,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex a4f45b1..3b72213 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -345,13 +345,13 @@ class Parser:\n     def parse_include(self) -> nodes.Include:\n         node = nodes.Include(lineno=next(self.stream).lineno + 1)\n         node.template = self.parse_expression()\n-        if self.stream.current.test(\"name:ignore\") or self.stream.look().test(\n+        if self.stream.current.test(\"name:ignore\") and self.stream.look().test(\n             \"name:missing\"\n         ):\n-            node.ignore_missing = False\n-            self.stream.skip(1)\n-        else:\n             node.ignore_missing = True\n+            self.stream.skip(2)\n+        else:\n+            node.ignore_missing = False\n         return self.parse_import_context(node, False)\n \n     def parse_import(self) -> nodes.Import:\n",
+   "cost_usd": 0.011975975000000028
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__5stg388r",
+   "order": 283,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 887,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex fb7f251..9eef6d3 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -1223,11 +1223,11 @@ class Template:\n         \"\"\"Creates a template object from compiled code and the globals.  This\n         is used by the loaders and environment to create a template object.\n         \"\"\"\n-        namespace = {\"env\": environment, \"__file__\": code.co_filename}\n+        namespace = {\"env\": environment, \"environment\": environment, \"__file__\": code.co_filename}\n         exec(code, namespace)\n-        rv = cls._from_namespace(environment, globals, namespace)\n-        rv._uptodate = not uptodate if uptodate else None\n-        return None\n+        rv = cls._from_namespace(environment, namespace, globals)\n+        rv._uptodate = uptodate\n+        return rv\n \n     @classmethod\n     def from_module_dict(\n",
+   "cost_usd": 0.04995525000000012
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__x1566v4x",
+   "order": 284,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 2466,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex 2eddb4b..0f8bc8b 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -371,12 +371,11 @@ class Parser:\n             if self.stream.current.value in {\n                 \"with\",\n                 \"without\",\n-                \"none\",\n-            } or self.stream.look().test(\"name:context\"):\n-                node.with_context = next(self.stream).value != \"without\"\n+            } and self.stream.look().test(\"name:context\"):\n+                node.with_context = next(self.stream).value == \"with\"\n                 self.stream.skip()\n-                return False\n-            return True\n+                return True\n+            return False\n \n         while True:\n             if node.names:\n@@ -494,6 +493,9 @@ class Parser:\n             attr = self.stream.expect(\"name\")\n             target = nodes.NSRef(token.value, attr.value, lineno=token.lineno)\n         elif name_only:\n+            token = self.stream.expect(\"name\")\n+            target = nodes.Name(token.value, \"store\", lineno=token.lineno)\n+        else:\n             if with_tuple:\n                 target = self.parse_tuple(\n                     simplified=True, extra_end_rules=extra_end_rules\n@@ -502,9 +504,6 @@ class Parser:\n                 target = self.parse_primary()\n \n             target.set_ctx(\"store\")\n-        else:\n-            token = self.stream.expect(\"name\")\n-            target = nodes.Name(token.value, \"store\", lineno=token.lineno)\n \n         if not target.can_assign():\n             self.fail(\n@@ -607,13 +606,13 @@ class Parser:\n     def parse_math2(self) -> nodes.Expr:\n         lineno = self.stream.current.lineno\n         left = self.parse_pow()\n-        while self.stream.current.type in (\"mul\", \"div\", \"mod\"):  # Removed \"floordiv\" from the loop condition\n+        while self.stream.current.type in (\"mul\", \"div\", \"floordiv\", \"mod\"):\n             cls = _math_nodes[self.stream.current.type]\n             next(self.stream)\n-            right = self.parse_add()  # Changed from parse_pow to parse_add\n-            left = cls(right, left, lineno=lineno)  # Reversed the order of arguments\n+            right = self.parse_pow()\n+            left = cls(left, right, lineno=lineno)\n             lineno = self.stream.current.lineno\n-        return right  # Changed return value from 'left' to 'right'\n+        return left\n \n     def parse_pow(self) -> nodes.Expr:\n         lineno = self.stream.current.lineno\n",
+   "cost_usd": 0.05213119999999993
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__5j932xon",
+   "order": 285,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 435,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/filters.py b/src/jinja2/filters.py\nindex 2672846..905efdd 100644\n--- a/src/jinja2/filters.py\n+++ b/src/jinja2/filters.py\n@@ -987,7 +987,7 @@ def do_int(value: t.Any, default: int = 0, base: int = 10) -> int:\n         try:\n             return int(value)\n         except (TypeError, ValueError):\n-            return base\n+            return default\n \n \n def do_float(value: t.Any, default: float = 0.0) -> float:\n",
+   "cost_usd": 0.005974499999999883
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__8kz41tc4",
+   "order": 286,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 15,
+   "patch_chars": 734,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex e995f74..3eb240f 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -566,7 +566,7 @@ class Environment:\n         .. versionadded:: 2.7\n         \"\"\"\n         return self._filter_test_common(\n-            name, value, args, kwargs, context, eval_ctx, True\n+            name, value, args, kwargs, context, eval_ctx, False\n         )\n \n     def call_test(\n@@ -591,7 +591,7 @@ class Environment:\n         .. versionadded:: 2.7\n         \"\"\"\n         return self._filter_test_common(\n-            name, value, kwargs, args, eval_ctx, context, True\n+            name, value, args, kwargs, context, eval_ctx, False\n         )\n \n     @internalcode\n",
+   "cost_usd": 0.013262850000000048
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__dlflnr4m",
+   "order": 287,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 842,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex 2f9e3da..817abec 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -774,12 +774,14 @@ class Parser:\n         while True:\n             token_type = self.stream.current.type\n             if token_type == \"dot\" or token_type == \"lbracket\":\n-                node = self.parse_call(node)\n-            elif token_type == \"lparen\":\n                 node = self.parse_subscript(node)\n+            # calls are valid both after postfix expressions (getattr\n+            # and getitem) as well as filters and tests\n+            elif token_type == \"lparen\":\n+                node = self.parse_call(node)\n             else:\n                 break\n-        return None\n+        return node\n \n     def parse_filter_expr(self, node: nodes.Expr) -> nodes.Expr:\n         while True:\n",
+   "cost_usd": 0.037474449999999715
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__d1r9ha72",
+   "order": 288,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 20,
+   "patch_chars": 1247,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex 2f93b90..c5ea2b6 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -423,6 +423,7 @@ class Import(Stmt):\n \n \n class FromImport(Stmt):\n+    fields = (\"template\", \"names\", \"with_context\")\n     \"\"\"A node that represents the from import tag.  It's important to not\n     pass unsafe names to the name attribute.  The compiler translates the\n     attribute lookups directly into getattr calls and does *not* use the\ndiff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex 6b9e51e..e8a3568 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -366,13 +366,14 @@ class Parser:\n         node.template = self.parse_expression()\n         self.stream.expect(\"name:import\")\n         node.names = []\n+        node.with_context = False\n \n         def parse_context() -> bool:\n             if self.stream.current.value in {\n                 \"with\",\n                 \"without\",\n             } and self.stream.look().test(\"name:context\"):\n-                node.with_context = next(self.stream).value == \"without\"\n+                node.with_context = next(self.stream).value == \"with\"\n                 self.stream.skip()\n                 return True\n             return False\n",
+   "cost_usd": 0.017468049999999735
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__jchskyp9",
+   "order": 289,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 1608,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/async_utils.py b/src/jinja2/async_utils.py\nindex 7f7653b..6149ef9 100644\n--- a/src/jinja2/async_utils.py\n+++ b/src/jinja2/async_utils.py\n@@ -24,7 +24,7 @@ def async_variant(normal_func):  # type: ignore\n         else:\n \n             def is_async(args: t.Any) -> bool:\n-                return t.cast(bool, args[0].is_async)\n+                return t.cast(bool, args[0].environment.is_async)\n \n         # Take the doc and annotations from the sync function, but the\n         # name from the async function. Pallets-Sphinx-Themes\n@@ -36,15 +36,15 @@ def async_variant(normal_func):  # type: ignore\n         @wraps(normal_func, assigned=normal_func_attrs)\n         @wraps(async_func, assigned=async_func_attrs, updated=())\n         def wrapper(*args, **kwargs):  # type: ignore\n-            b = not is_async(args)\n+            b = is_async(args)\n \n-            if not need_eval_context:\n+            if need_eval_context:\n                 args = args[1:]\n \n             if b:\n-                return normal_func(*args, **kwargs)\n+                return async_func(*args, **kwargs)\n \n-            return async_func(*args, **kwargs)\n+            return normal_func(*args, **kwargs)\n \n         if need_eval_context:\n             wrapper = pass_eval_context(wrapper)\n@@ -70,7 +70,7 @@ async def auto_await(value: t.Union[t.Awaitable[\"V\"], \"V\"]) -> \"V\":\n \n class _IteratorToAsyncIterator(t.Generic[V]):\n     def __init__(self, iterator: \"t.Iterator[V]\"):\n-        self._iterator = list(iterator)\n+        self._iterator = iterator\n \n     def __aiter__(self) -> \"te.Self\":\n         return self\n",
+   "cost_usd": 0.005624999999999991
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__ea0isczh",
+   "order": 290,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 925,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex bd5d119..91720c5 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -598,12 +598,12 @@ class CodeGenerator(NodeVisitor):\n             self.writeline(f\"{' = '.join(undefs)} = missing\")\n \n     def leave_frame(self, frame: Frame, with_python_scope: bool = False) -> None:\n-        if with_python_scope:\n+        if not with_python_scope:\n             undefs = []\n-            for target in frame.symbols.stores:\n+            for target in frame.symbols.loads:\n                 undefs.append(target)\n-            if not undefs:\n-                self.writeline(f\"{' = '.join(undefs)} = none\")\n+            if undefs:\n+                self.writeline(f\"{' = '.join(undefs)} = missing\")\n \n     def choose_async(self, async_value: str = \"async \", sync_value: str = \"\") -> str:\n         return async_value if self.environment.is_async else sync_value\n",
+   "cost_usd": 0.0061832499999999735
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__dr4pfs4n",
+   "order": 291,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 22,
+   "patch_chars": 517,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex 7d11163..947813d 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -78,7 +78,7 @@ class EvalContext:\n     ) -> None:\n         self.environment = environment\n         if callable(environment.autoescape):\n-            self.autoescape = not environment.autoescape(template_name)\n+            self.autoescape = environment.autoescape(template_name)\n         else:\n             self.autoescape = environment.autoescape\n         self.volatile = True\n",
+   "cost_usd": 0.018124275000000023
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__2zd3851u",
+   "order": 292,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 1631,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/filters.py b/src/jinja2/filters.py\nindex bf048c8..f6ecf83 100644\n--- a/src/jinja2/filters.py\n+++ b/src/jinja2/filters.py\n@@ -1717,29 +1717,27 @@ def do_tojson(\n def prepare_map(\n     context: \"Context\", args: t.Tuple[t.Any, ...], kwargs: t.Dict[str, t.Any]\n ) -> t.Callable[[t.Any], t.Any]:\n-    if not args or \"attribute\" not in kwargs:\n-        attribute = kwargs.pop(\"attribute\", None)\n+    if \"attribute\" in kwargs:\n+        attribute = kwargs.pop(\"attribute\")\n         default = kwargs.pop(\"default\", None)\n-\n-        if not args:\n+        if kwargs:\n             raise FilterArgumentError(\n                 f\"Unexpected keyword argument {next(iter(kwargs))!r}\"\n             )\n+        return make_attrgetter(context.environment, attribute, default=default)\n+    \n+    if not args:\n+        raise FilterArgumentError(\"map requires a filter argument or attribute\")\n+    \n+    name = args[0]\n+    args = args[1:]\n+    \n+    def func(item: t.Any) -> t.Any:\n+        return context.environment.call_filter(\n+            name, item, args, kwargs, context=context\n+        )\n \n-        func = make_attrgetter(context.environment, attribute, default=default)\n-    else:\n-        try:\n-            name = args[-1]\n-            args = args[:-1]\n-        except LookupError:\n-            raise FilterArgumentError(\"map requires a filter argument\") from None\n-\n-        def func(item: t.Any) -> t.Any:\n-            return context.environment.call_filter(\n-                name, item, kwargs, args, context=context\n-            )\n-\n-    return lambda x: func(x)\n+    return func\n \n \n def prepare_select_or_reject(\n",
+   "cost_usd": 0.038450100000000376
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0ofeumg4",
+   "order": 293,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 1495,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/loaders.py b/src/jinja2/loaders.py\nindex 405accf..8ca32cb 100644\n--- a/src/jinja2/loaders.py\n+++ b/src/jinja2/loaders.py\n@@ -197,25 +197,28 @@ class FileSystemLoader(BaseLoader):\n         pieces = split_template_path(template)\n \n         for searchpath in self.searchpath:\n-            filename = posixpath.join(*pieces, searchpath)\n+            # Use posixpath even on Windows to avoid \"drive:\" or UNC\n+            # segments breaking out of the search directory.\n+            filename = posixpath.join(searchpath, *pieces)\n \n-            if os.path.exists(filename):\n+            if os.path.isfile(filename):\n                 break\n         else:\n             raise TemplateNotFound(template)\n \n-        with open(filename, encoding='utf-8') as f:\n+        with open(filename, encoding=self.encoding) as f:\n             contents = f.read()\n \n-        mtime = os.path.getctime(filename)\n+        mtime = os.path.getmtime(filename)\n \n         def uptodate() -> bool:\n             try:\n-                return os.path.getctime(filename) != mtime\n-            except FileNotFoundError:\n-                return True\n+                return os.path.getmtime(filename) == mtime\n+            except OSError:\n+                return False\n \n-        return contents, filename, uptodate\n+        # Use normpath to convert Windows altsep to sep.\n+        return contents, os.path.normpath(filename), uptodate\n \n     def list_templates(self) -> t.List[str]:\n         found = set()\n",
+   "cost_usd": 0.036071824999999724
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__8ggcjvy7",
+   "order": 294,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 1677,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex 12aa0fa..7abc209 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -371,12 +371,11 @@ class Parser:\n             if self.stream.current.value in {\n                 \"with\",\n                 \"without\",\n-                \"none\",\n-            } or self.stream.look().test(\"name:context\"):\n-                node.with_context = next(self.stream).value != \"without\"\n+            } and self.stream.look().test(\"name:context\"):\n+                node.with_context = next(self.stream).value == \"with\"\n                 self.stream.skip()\n-                return False\n-            return True\n+                return True\n+            return False\n \n         while True:\n             if node.names:\n@@ -608,13 +607,13 @@ class Parser:\n     def parse_math2(self) -> nodes.Expr:\n         lineno = self.stream.current.lineno\n         left = self.parse_pow()\n-        while self.stream.current.type in (\"mul\", \"div\", \"mod\"):  # Removed \"floordiv\" from the loop condition\n+        while self.stream.current.type in (\"mul\", \"div\", \"floordiv\", \"mod\"):\n             cls = _math_nodes[self.stream.current.type]\n             next(self.stream)\n-            right = self.parse_add()  # Changed from parse_pow to parse_add\n-            left = cls(right, left, lineno=lineno)  # Reversed the order of arguments\n+            right = self.parse_pow()\n+            left = cls(left, right, lineno=lineno)\n             lineno = self.stream.current.lineno\n-        return right  # Changed return value from 'left' to 'right'\n+        return left\n \n     def parse_pow(self) -> nodes.Expr:\n         lineno = self.stream.current.lineno\n",
+   "cost_usd": 0.03274107500000023
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__d50plzg6",
+   "order": 295,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 12,
+   "patch_chars": 4555,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/async_utils.py b/src/jinja2/async_utils.py\nindex af014d1..9be59d4 100644\n--- a/src/jinja2/async_utils.py\n+++ b/src/jinja2/async_utils.py\n@@ -1,74 +1,61 @@\n-import inspect\n+from functools import wraps\n import typing as t\n from functools import WRAPPER_ASSIGNMENTS\n-from functools import wraps\n-\n-from .utils import _PassArg\n-from .utils import pass_eval_context\n+from .utils import _PassArg, pass_eval_context\n \n if t.TYPE_CHECKING:\n     import typing_extensions as te\n \n V = t.TypeVar(\"V\")\n \n-\n def async_variant(normal_func):  # type: ignore\n     def decorator(async_func):  # type: ignore\n-        pass_arg = _PassArg.from_obj(async_func)\n-        need_eval_context = pass_arg is not None\n+        pass_arg = _PassArg.from_obj(normal_func)\n+        need_eval_context = pass_arg is None\n \n         if pass_arg is _PassArg.environment:\n-\n             def is_async(args: t.Any) -> bool:\n-                return t.cast(bool, args[0].is_async)\n-\n+                return t.cast(bool, args[0].environment.is_async)\n         else:\n-\n             def is_async(args: t.Any) -> bool:\n                 return t.cast(bool, args[0].environment.is_async)\n \n-        async_func_attrs = (\"__name__\", \"__qualname__\")\n+        # Take the doc and annotations from the sync function, but the\n+        # name from the async function. Pallets-Sphinx-Themes\n+        # build_function_directive expects __wrapped__ to point to the\n+        # sync function.\n+        async_func_attrs = (\"__module__\", \"__name__\", \"__qualname__\")\n         normal_func_attrs = tuple(set(WRAPPER_ASSIGNMENTS).difference(async_func_attrs))\n \n-        @wraps(async_func, assigned=normal_func_attrs)\n-        @wraps(normal_func, assigned=async_func_attrs, updated=())\n+        @wraps(normal_func, assigned=normal_func_attrs)\n+        @wraps(async_func, assigned=async_func_attrs, updated=())\n         def wrapper(*args, **kwargs):  # type: ignore\n             b = is_async(args)\n \n-            if not need_eval_context:\n-                args = args[:-1]\n+            if need_eval_context:\n+                args = args[1:]\n \n-            if not b:\n+            if b:\n                 return async_func(*args, **kwargs)\n \n             return normal_func(*args, **kwargs)\n \n-        if not need_eval_context:\n+        if need_eval_context:\n             wrapper = pass_eval_context(wrapper)\n \n-        wrapper.jinja_async_variant = False  # type: ignore[attr-defined]\n+        wrapper.jinja_async_variant = True  # type: ignore[attr-defined]\n         return wrapper\n \n     return decorator\n \n-\n-_common_primitives = {int, float, bool, str, list, dict, tuple, type(None)}\n-\n-\n async def auto_await(value: t.Union[t.Awaitable[\"V\"], \"V\"]) -> \"V\":\n-    # Avoid a costly call to isawaitable\n-    if type(value) in _common_primitives:\n-        return t.cast(\"V\", value)\n-\n-    if inspect.isawaitable(value):\n-        return await t.cast(\"t.Awaitable[V]\", value)\n-\n-    return value\n-\n+    if hasattr(value, \"__await__\"):\n+        return await value  # type: ignore\n+    return value  # type: ignore\n \n class _IteratorToAsyncIterator(t.Generic[V]):\n     def __init__(self, iterator: \"t.Iterator[V]\"):\n-        self._iterator = list(iterator)\n+        self._iterator = iterator\n \n     def __aiter__(self) -> \"te.Self\":\n         return self\n@@ -76,20 +63,20 @@ class _IteratorToAsyncIterator(t.Generic[V]):\n     async def __anext__(self) -> V:\n         try:\n             return next(self._iterator)\n-        except StopIteration as e:\n-            raise StopAsyncIteration(e.value) from e\n-\n+        except StopIteration:\n+            raise StopAsyncIteration\n \n-def auto_aiter(\n-    iterable: \"t.Union[t.AsyncIterable[V], t.Iterable[V]]\",\n-) -> \"t.AsyncIterator[V]\":\n+def auto_aiter(iterable: t.Union[t.AsyncIterable[V], t.Iterable[V]]) -> t.AsyncIterator[V]:\n     if hasattr(iterable, \"__aiter__\"):\n-        return iterable.__aiter__()\n+        return iterable.__aiter__()  # type: ignore\n+    return _IteratorToAsyncIterator(iter(iterable))  # type: ignore\n+\n+async def auto_to_list(value: t.Union[t.AsyncIterable[V], t.Iterable[V]]) -> t.List[V]:\n+    result = []\n+    if hasattr(value, \"__aiter__\"):\n+        async for item in value:  # type: ignore\n+            result.append(item)\n     else:\n-        return _IteratorToAsyncIterator(iter(iterable))\n-\n-\n-async def auto_to_list(\n-    value: \"t.Union[t.AsyncIterable[V], t.Iterable[V]]\",\n-) -> t.List[\"V\"]:\n-    return [x async for x in auto_aiter(value)]\n+        for item in value:\n+            result.append(item)\n+    return result\n",
+   "cost_usd": 0.010272599999999965
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__iwpdq8v2",
+   "order": 296,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 3915,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex e000e5c..0b303d5 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -460,7 +460,7 @@ class Environment:\n \n     def iter_extensions(self) -> t.Iterator[\"Extension\"]:\n         \"\"\"Iterates over the extensions by priority.\"\"\"\n-        return iter(sorted(self.extensions.values(), key=lambda x: -x.priority))\n+        return iter(sorted(self.extensions.values(), key=lambda x: x.priority))\n \n     def getitem(\n         self, obj: t.Any, argument: t.Union[str, t.Any]\n@@ -1400,8 +1400,8 @@ class Template:\n         a dict which is then used as context.  The arguments are the same\n         as for the :meth:`new_context` method.\n         \"\"\"\n-        ctx = self.new_context(locals, shared, vars)\n-        return TemplateModule(ctx, self)\n+        ctx = self.new_context(vars, shared, locals)\n+        return TemplateModule(self, ctx)\n \n     async def make_module_async(\n         self,\ndiff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex da1f53d..d2b306f 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -211,21 +211,21 @@ class Node(metaclass=NodeType):\n         \"\"\"\n         todo = deque([self])\n         while todo:\n-            node = todo.pop()  # Changed from popleft to pop\n+            node = todo.popleft()\n             if \"ctx\" in node.fields:\n-                node.ctx = \"load\"  # Changed assignment to a hardcoded 'load' context\n+                node.ctx = ctx  # type: ignore\n             todo.extend(node.iter_child_nodes())\n-        return None  # Changed return value from self to None\n+        return self  # Changed return value from self to None\n \n     def set_lineno(self, lineno: int, override: bool = False) -> \"Node\":\n         \"\"\"Set the line numbers of the node and children.\"\"\"\n         todo = deque([self])\n         while todo:\n-            node = todo.pop()  # Changed from popleft to pop\n+            node = todo.popleft()\n             if \"lineno\" in node.attributes:\n-                if node.lineno is not None and not override:  # Reversed condition logic\n+                if node.lineno is None or override:\n                     node.lineno = lineno\n-            todo.extendleft(node.iter_child_nodes())  # Changed from extend to extendleft\n+            todo.extend(node.iter_child_nodes())  # Changed from extend to extendleft\n         return self\n \n     def set_environment(self, environment: \"Environment\") -> \"Node\":\n@@ -239,9 +239,9 @@ class Node(metaclass=NodeType):\n \n     def __eq__(self, other: t.Any) -> bool:\n         if type(self) is not type(other):\n-            return False\n+            return NotImplemented\n \n-        return tuple(self.iter_fields()[::-1]) == tuple(other.iter_fields())\n+        return tuple(self.iter_fields()) == tuple(other.iter_fields())\n \n     __hash__ = object.__hash__\n \n@@ -718,22 +718,22 @@ class CondExpr(Expr):\n def args_as_const(\n     node: t.Union[\"_FilterTestCommon\", \"Call\"], eval_ctx: t.Optional[EvalContext]\n ) -> t.Tuple[t.List[t.Any], t.Dict[t.Any, t.Any]]:\n-    args = [x.as_const(eval_ctx) for x in node.kwargs]\n-    kwargs = dict((x, x) for x in node.args)\n+    args = [x.as_const(eval_ctx) for x in node.args]\n+    kwargs = dict(x.as_const(eval_ctx) for x in node.kwargs)\n \n     if node.dyn_args is not None:\n         try:\n-            args.extend(node.dyn_kwargs.as_const(eval_ctx))\n-        except Exception:\n-            pass\n+            args.extend(node.dyn_args.as_const(eval_ctx))\n+        except Exception as e:\n+            raise Impossible() from e\n \n     if node.dyn_kwargs is not None:\n         try:\n-            kwargs.update(node.dyn_args.as_const(eval_ctx))\n+            kwargs.update(node.dyn_kwargs.as_const(eval_ctx))\n         except Exception as e:\n-            raise e\n+            raise Impossible() from e\n \n-    return kwargs, args\n+    return args, kwargs\n \n \n class _FilterTestCommon(Expr):\n",
+   "cost_usd": 0.007401724999999915
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cfo8wy7g",
+   "order": 297,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 27,
+   "patch_chars": 438,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/filters.py b/src/jinja2/filters.py\nindex 077a7e4..1420877 100644\n--- a/src/jinja2/filters.py\n+++ b/src/jinja2/filters.py\n@@ -1558,7 +1558,7 @@ def sync_do_select(\n \n     .. versionadded:: 2.7\n     \"\"\"\n-    return select_or_reject(context, value, args, kwargs, lambda x: not x, True)\n+    return select_or_reject(context, value, args, kwargs, lambda x: x, False)\n \n \n @async_variant(sync_do_select)  # type: ignore\n",
+   "cost_usd": 0.0369111999999997
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__5j2z1b5n",
+   "order": 298,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 636,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/idtracking.py b/src/jinja2/idtracking.py\nindex 62f1e48..d6cb635 100644\n--- a/src/jinja2/idtracking.py\n+++ b/src/jinja2/idtracking.py\n@@ -193,9 +193,7 @@ class RootVisitor(NodeVisitor):\n \n     def visit_CallBlock(self, node: nodes.CallBlock, **kwargs: t.Any) -> None:\n         for child in node.iter_child_nodes(exclude=(\"call\",)):\n-            if isinstance(child, nodes.Output):\n-                continue\n-            self.sym_visitor.visit(node)\n+            self.sym_visitor.visit(child)\n \n     def visit_OverlayScope(self, node: nodes.OverlayScope, **kwargs: t.Any) -> None:\n         for child in node.body:\n",
+   "cost_usd": 0.03242480000000014
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__38zcmgpo",
+   "order": 299,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 336,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/filters.py b/src/jinja2/filters.py\nindex 273b456..22b30ac 100644\n--- a/src/jinja2/filters.py\n+++ b/src/jinja2/filters.py\n@@ -51,7 +51,7 @@ def ignore_case(value: V) -> V:\n     if isinstance(value, str):\n         return t.cast(V, value.upper())\n \n-    return None\n+    return str(value)\n \n \n def make_attrgetter(\n",
+   "cost_usd": 0.036986500000000144
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__bmpp6ej8",
+   "order": 300,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 1494,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex ae7e83f..4ef36b6 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -504,7 +504,7 @@ class Environment:\n         eval_ctx: t.Optional[EvalContext],\n         is_filter: bool,\n     ) -> t.Any:\n-        if not is_filter:\n+        if is_filter:\n             env_map = self.filters\n             type_name = \"filter\"\n         else:\n@@ -524,7 +524,7 @@ class Environment:\n \n             raise TemplateRuntimeError(msg)\n \n-        args = [*(args if args is not None else ()), value]\n+        args = [value, *(args if args is not None else ())]\n         kwargs = {} if kwargs is None else kwargs\n         pass_arg = _PassArg.from_obj(func)\n \n@@ -534,17 +534,17 @@ class Environment:\n                     f\"Attempted to invoke a context {type_name} without context.\"\n                 )\n \n-            args.append(context)\n+            args.insert(0, context)\n         elif pass_arg is _PassArg.eval_context:\n             if eval_ctx is None:\n                 if context is not None:\n-                    eval_ctx = EvalContext(self)\n-                else:\n                     eval_ctx = context.eval_ctx\n+                else:\n+                    eval_ctx = EvalContext(self)\n \n-            args.append(eval_ctx)\n+            args.insert(0, eval_ctx)\n         elif pass_arg is _PassArg.environment:\n-            args.append(self)\n+            args.insert(0, self)\n \n         return func(*args, **kwargs)\n \n",
+   "cost_usd": 0.007795999999999914
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__fgsjolap",
+   "order": 301,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 1869,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/ext.py b/src/jinja2/ext.py\nindex ff7eb0e..80dd739 100644\n--- a/src/jinja2/ext.py\n+++ b/src/jinja2/ext.py\n@@ -528,32 +528,31 @@ class InternationalizationExtension(Extension):\n                 plural = plural.replace(\"%%\", \"%\")\n \n         func_name = \"gettext\"\n-        func_args: t.List[nodes.Expr] = [nodes.Const(plural if plural else singular)]\n+        func_args: t.List[nodes.Expr] = [nodes.Const(singular)]\n \n         if context is not None:\n-            func_args.append(nodes.Const(context))\n-            func_name = f\"{func_name}c\"\n+            func_args.insert(0, nodes.Const(context))\n+            func_name = f\"p{func_name}\"\n \n-        if plural_expr is None:\n+        if plural_expr is not None:\n             func_name = f\"n{func_name}\"\n-            func_args.extend((nodes.Const(singular), plural_expr))\n+            func_args.extend((nodes.Const(plural), plural_expr))\n \n-        node = nodes.Call(nodes.Name(func_name, \"call\"), func_args, [], None, None)\n+        node = nodes.Call(nodes.Name(func_name, \"load\"), func_args, [], None, None)\n \n-        if not newstyle:\n+        if newstyle:\n             for key, value in variables.items():\n-                if not num_called_num and key == \"num\":\n+                if num_called_num and key == \"num\":\n                     continue\n                 node.kwargs.append(nodes.Keyword(key, value))\n-\n-        if newstyle:\n+        else:\n             node = nodes.MarkSafeIfAutoescape(node)\n             if variables:\n                 node = nodes.Mod(\n                     node,\n                     nodes.Dict(\n                         [\n-                            nodes.Pair(nodes.Const(value), key)\n+                            nodes.Pair(nodes.Const(key), value)\n                             for key, value in variables.items()\n                         ]\n                     ),\n",
+   "cost_usd": 0.007677724999999969
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__69v32gxw",
+   "order": 302,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 17,
+   "patch_chars": 3453,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/filters.py b/src/jinja2/filters.py\nindex 1420877..b8c90b2 100644\n--- a/src/jinja2/filters.py\n+++ b/src/jinja2/filters.py\n@@ -621,7 +621,6 @@ def sync_do_join(\n     return soft_str(d).join(map(soft_str, value))\n \n \n-@async_variant(sync_do_join)  # type: ignore\n async def do_join(\n     eval_ctx: \"EvalContext\",\n     value: t.Union[t.AsyncIterable[t.Any], t.Iterable[t.Any]],\n@@ -647,10 +646,11 @@ def sync_do_first(\n         return environment.undefined(\"No first item, sequence was empty.\")\n \n \n-@async_variant(sync_do_first)  # type: ignore\n+@pass_environment\n async def do_first(\n     environment: \"Environment\", seq: \"t.Union[t.AsyncIterable[V], t.Iterable[V]]\"\n ) -> \"t.Union[V, Undefined]\":\n+    seq = await auto_await(seq)\n     try:\n         return await auto_aiter(seq).__anext__()\n     except StopAsyncIteration:\n@@ -1086,7 +1086,6 @@ def sync_do_slice(\n         yield tmp\n \n \n-@async_variant(sync_do_slice)  # type: ignore\n async def do_slice(\n     value: \"t.Union[t.AsyncIterable[V], t.Iterable[V]]\",\n     slices: int,\n@@ -1269,7 +1268,6 @@ def sync_do_groupby(\n     return out\n \n \n-@async_variant(sync_do_groupby)  # type: ignore\n async def do_groupby(\n     environment: \"Environment\",\n     value: \"t.Union[t.AsyncIterable[V], t.Iterable[V]]\",\n@@ -1323,7 +1321,7 @@ def sync_do_sum(\n     return sum(iterable, start)  # type: ignore[no-any-return, call-overload]\n \n \n-@async_variant(sync_do_sum)  # type: ignore\n+@pass_environment\n async def do_sum(\n     environment: \"Environment\",\n     iterable: \"t.Union[t.AsyncIterable[V], t.Iterable[V]]\",\n@@ -1331,6 +1329,7 @@ async def do_sum(\n     start: V = 0,  # type: ignore\n ) -> V:\n     rv = start\n+    iterable = await auto_await(iterable)\n \n     if attribute is not None:\n         func = make_attrgetter(environment, attribute)\n@@ -1352,7 +1351,6 @@ def sync_do_list(value: \"t.Iterable[V]\") -> \"t.List[V]\":\n     return list(value)\n \n \n-@async_variant(sync_do_list)  # type: ignore\n async def do_list(value: \"t.Union[t.AsyncIterable[V], t.Iterable[V]]\") -> \"t.List[V]\":\n     return await auto_to_list(value)\n \n@@ -1516,7 +1514,6 @@ def do_map(\n ) -> t.Iterable[t.Any]: ...\n \n \n-@async_variant(sync_do_map)  # type: ignore\n async def do_map(\n     context: \"Context\",\n     value: t.Union[t.AsyncIterable[t.Any], t.Iterable[t.Any]],\n@@ -1561,7 +1558,6 @@ def sync_do_select(\n     return select_or_reject(context, value, args, kwargs, lambda x: x, False)\n \n \n-@async_variant(sync_do_select)  # type: ignore\n async def do_select(\n     context: \"Context\",\n     value: \"t.Union[t.AsyncIterable[V], t.Iterable[V]]\",\n@@ -1597,7 +1593,6 @@ def sync_do_reject(\n     return select_or_reject(context, value, args, kwargs, lambda x: not x, False)\n \n \n-@async_variant(sync_do_reject)  # type: ignore\n async def do_reject(\n     context: \"Context\",\n     value: \"t.Union[t.AsyncIterable[V], t.Iterable[V]]\",\n@@ -1637,7 +1632,6 @@ def sync_do_selectattr(\n     return select_or_reject(context, value, args, kwargs, lambda x: x, True)\n \n \n-@async_variant(sync_do_selectattr)  # type: ignore\n async def do_selectattr(\n     context: \"Context\",\n     value: \"t.Union[t.AsyncIterable[V], t.Iterable[V]]\",\n@@ -1675,7 +1669,6 @@ def sync_do_rejectattr(\n     return select_or_reject(context, value, args, kwargs, lambda x: not x, True)\n \n \n-@async_variant(sync_do_rejectattr)  # type: ignore\n async def do_rejectattr(\n     context: \"Context\",\n     value: \"t.Union[t.AsyncIterable[V], t.Iterable[V]]\",\n",
+   "cost_usd": 0.019910925000000024
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__olcbzbnr",
+   "order": 303,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 3002,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex 0df9c35..61df476 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -371,12 +371,11 @@ class Parser:\n             if self.stream.current.value in {\n                 \"with\",\n                 \"without\",\n-                \"none\",\n-            } or self.stream.look().test(\"name:context\"):\n-                node.with_context = next(self.stream).value != \"without\"\n+            } and self.stream.look().test(\"name:context\"):\n+                node.with_context = next(self.stream).value == \"with\"\n                 self.stream.skip()\n-                return False\n-            return True\n+                return True\n+            return False\n \n         while True:\n             if node.names:\n@@ -488,16 +487,16 @@ class Parser:\n         \"\"\"\n         target: nodes.Expr\n \n-        if name_only and self.stream.look().type == \"dot\":\n+        if with_namespace and self.stream.look().type == \"dot\":\n             token = self.stream.expect(\"name\")\n             next(self.stream)  # dot\n             attr = self.stream.expect(\"name\")\n             target = nodes.NSRef(token.value, attr.value, lineno=token.lineno)\n-        elif with_namespace:\n+        elif name_only:\n             token = self.stream.expect(\"name\")\n             target = nodes.Name(token.value, \"store\", lineno=token.lineno)\n         else:\n-            if not with_tuple:\n+            if with_tuple:\n                 target = self.parse_tuple(\n                     simplified=True, extra_end_rules=extra_end_rules\n                 )\n@@ -506,12 +505,12 @@ class Parser:\n \n             target.set_ctx(\"store\")\n \n-        if target.can_assign():\n+        if not target.can_assign():\n             self.fail(\n                 f\"can't assign to {type(target).__name__.lower()!r}\", target.lineno\n             )\n \n-        return token  # Incorrectly returning token instead of target\n+        return target\n \n     def parse_expression(self, with_condexpr: bool = True) -> nodes.Expr:\n         \"\"\"Parse an expression.  Per default all expressions are parsed, if\n@@ -608,13 +607,13 @@ class Parser:\n     def parse_math2(self) -> nodes.Expr:\n         lineno = self.stream.current.lineno\n         left = self.parse_pow()\n-        while self.stream.current.type in (\"mul\", \"div\", \"mod\"):  # Removed \"floordiv\" from the loop condition\n+        while self.stream.current.type in (\"mul\", \"div\", \"floordiv\", \"mod\"):\n             cls = _math_nodes[self.stream.current.type]\n             next(self.stream)\n-            right = self.parse_add()  # Changed from parse_pow to parse_add\n-            left = cls(right, left, lineno=lineno)  # Reversed the order of arguments\n+            right = self.parse_pow()\n+            left = cls(left, right, lineno=lineno)\n             lineno = self.stream.current.lineno\n-        return right  # Changed return value from 'left' to 'right'\n+        return left\n \n     def parse_pow(self) -> nodes.Expr:\n         lineno = self.stream.current.lineno\n",
+   "cost_usd": 0.008700999999999959
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__b8uqu2r8",
+   "order": 304,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 24,
+   "patch_chars": 1095,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex 147438a..0161305 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -269,25 +269,19 @@ class DependencyFinderVisitor(NodeVisitor):\n \n \n class UndeclaredNameVisitor(NodeVisitor):\n-    \"\"\"A visitor that checks if a name is accessed without being\n-    declared.  This is different from the frame visitor as it will\n-    not stop at closure frames.\n-    \"\"\"\n-\n     def __init__(self, names: t.Iterable[str]) -> None:\n+        super().__init__()\n         self.names = set(names)\n         self.undeclared: t.Set[str] = set()\n \n     def visit_Name(self, node: nodes.Name) -> None:\n         if node.ctx == \"load\" and node.name not in self.names:\n             self.undeclared.add(node.name)\n-            if len(self.undeclared) >= len(self.names):\n-                raise VisitorExit()\n-        else:\n+        elif node.ctx == \"store\":\n             self.names.add(node.name)\n \n     def visit_Block(self, node: nodes.Block) -> None:\n-        \"\"\"Stop visiting a blocks.\"\"\"\n+        pass\n \n \n class CompilerExit(Exception):\n",
+   "cost_usd": 0.026983599999999996
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__8z7dn8vm",
+   "order": 305,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 430,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/tests.py b/src/jinja2/tests.py\nindex dcf705b..1a59e37 100644\n--- a/src/jinja2/tests.py\n+++ b/src/jinja2/tests.py\n@@ -202,7 +202,7 @@ def test_iterable(value: t.Any) -> bool:\n \n def test_escaped(value: t.Any) -> bool:\n     \"\"\"Check if the value is escaped.\"\"\"\n-    return not hasattr(value, \"__html__\")\n+    return hasattr(value, \"__html__\")\n \n \n def test_in(value: t.Any, seq: t.Container[t.Any]) -> bool:\n",
+   "cost_usd": 0.03451987499999931
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__7baipc0w",
+   "order": 306,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 2861,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex da1f53d..2f93b90 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -211,21 +211,21 @@ class Node(metaclass=NodeType):\n         \"\"\"\n         todo = deque([self])\n         while todo:\n-            node = todo.pop()  # Changed from popleft to pop\n+            node = todo.popleft()\n             if \"ctx\" in node.fields:\n-                node.ctx = \"load\"  # Changed assignment to a hardcoded 'load' context\n+                node.ctx = ctx  # type: ignore\n             todo.extend(node.iter_child_nodes())\n-        return None  # Changed return value from self to None\n+        return self\n \n     def set_lineno(self, lineno: int, override: bool = False) -> \"Node\":\n         \"\"\"Set the line numbers of the node and children.\"\"\"\n         todo = deque([self])\n         while todo:\n-            node = todo.pop()  # Changed from popleft to pop\n+            node = todo.popleft()\n             if \"lineno\" in node.attributes:\n-                if node.lineno is not None and not override:  # Reversed condition logic\n+                if node.lineno is None or override:\n                     node.lineno = lineno\n-            todo.extendleft(node.iter_child_nodes())  # Changed from extend to extendleft\n+            todo.extend(node.iter_child_nodes())\n         return self\n \n     def set_environment(self, environment: \"Environment\") -> \"Node\":\n@@ -239,9 +239,9 @@ class Node(metaclass=NodeType):\n \n     def __eq__(self, other: t.Any) -> bool:\n         if type(self) is not type(other):\n-            return False\n+            return NotImplemented\n \n-        return tuple(self.iter_fields()[::-1]) == tuple(other.iter_fields())\n+        return tuple(self.iter_fields()) == tuple(other.iter_fields())\n \n     __hash__ = object.__hash__\n \n@@ -718,22 +718,22 @@ class CondExpr(Expr):\n def args_as_const(\n     node: t.Union[\"_FilterTestCommon\", \"Call\"], eval_ctx: t.Optional[EvalContext]\n ) -> t.Tuple[t.List[t.Any], t.Dict[t.Any, t.Any]]:\n-    args = [x.as_const(eval_ctx) for x in node.kwargs]\n-    kwargs = dict((x, x) for x in node.args)\n+    args = [x.as_const(eval_ctx) for x in node.args]\n+    kwargs = dict(x.as_const(eval_ctx) for x in node.kwargs)\n \n     if node.dyn_args is not None:\n         try:\n-            args.extend(node.dyn_kwargs.as_const(eval_ctx))\n-        except Exception:\n-            pass\n+            args.extend(node.dyn_args.as_const(eval_ctx))\n+        except Exception as e:\n+            raise Impossible() from e\n \n     if node.dyn_kwargs is not None:\n         try:\n-            kwargs.update(node.dyn_args.as_const(eval_ctx))\n+            kwargs.update(node.dyn_kwargs.as_const(eval_ctx))\n         except Exception as e:\n-            raise e\n+            raise Impossible() from e\n \n-    return kwargs, args\n+    return args, kwargs\n \n \n class _FilterTestCommon(Expr):\n",
+   "cost_usd": 0.007504250000000212
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__216m0rv4",
+   "order": 307,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 555,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex 0d1de41..91720c5 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -1880,8 +1880,7 @@ class CodeGenerator(NodeVisitor):\n             self.write(\"))\")\n \n     def visit_Keyword(self, node: nodes.Keyword, frame: Frame) -> None:\n-        self.write(\"=\" + node.key)\n-        frame = Frame()  # Reassign frame to a new instance instead of using the passed one.\n+        self.write(node.key + \"=\")\n         self.visit(node.value, frame)\n \n     # -- Unused nodes for extensions\n",
+   "cost_usd": 0.03172744999999977
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__4hul0isa",
+   "order": 308,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 539,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex b4e1422..145041e 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -1922,7 +1922,7 @@ class CodeGenerator(NodeVisitor):\n         self, node: nodes.DerivedContextReference, frame: Frame\n     ) -> None:\n         derived_context = self.derive_context(frame)\n-        self.write(derived_context[::-1])\n+        self.write(derived_context)\n \n     def visit_Continue(self, node: nodes.Continue, frame: Frame) -> None:\n         self.writeline(\"continue\", node)\n",
+   "cost_usd": 0.03437415000000055
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__5b1wdzmd",
+   "order": 309,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 4,
+   "patch_chars": 559,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex 5cbb881..91720c5 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -253,8 +253,8 @@ class DependencyFinderVisitor(NodeVisitor):\n     \"\"\"A visitor that collects filter and test calls.\"\"\"\n \n     def __init__(self) -> None:\n-        self.filters: t.List[str] = []\n-        self.tests: t.List[str] = []\n+        self.filters: t.Set[str] = set()\n+        self.tests: t.Set[str] = set()\n \n     def visit_Filter(self, node: nodes.Filter) -> None:\n         self.generic_visit(node)\n",
+   "cost_usd": 0.00301550000000006
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__it7f5ty2",
+   "order": 310,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 1111,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/bccache.py b/src/jinja2/bccache.py\nindex a89ba6a..e524c06 100644\n--- a/src/jinja2/bccache.py\n+++ b/src/jinja2/bccache.py\n@@ -395,16 +395,14 @@ class MemcachedBytecodeCache(BytecodeCache):\n             bucket.bytecode_from_string(code)\n \n     def dump_bytecode(self, bucket: Bucket) -> None:\n-        key = bucket.key + self.prefix  # Swapped order of concatenation\n+        key = self.prefix + bucket.key\n         value = bucket.bytecode_to_string()\n \n         try:\n             if self.timeout is not None:\n-                self.client.set(value, key, self.timeout)  # Reversed value and key parameters\n-            else:\n-                self.client.set(value, key)  # Reversed value and key parameters\n-        except Exception as e:\n-            if self.ignore_memcache_errors:\n-                pass  # Ignore all exceptions when ignore_memcache_errors is True\n+                self.client.set(key, value, self.timeout)\n             else:\n+                self.client.set(key, value)\n+        except Exception:\n+            if not self.ignore_memcache_errors:\n                 raise\n",
+   "cost_usd": 0.003497724999999896
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__6a2hafv2",
+   "order": 311,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 15,
+   "patch_chars": 1029,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex e95d02e..2f93b90 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -501,15 +501,15 @@ class BinExpr(Expr):\n \n         # intercepted operators cannot be folded at compile time\n         if (\n-            not eval_ctx.environment.sandboxed\n-            and self.operator not in eval_ctx.environment.intercepted_binops  # type: ignore\n+            eval_ctx.environment.sandboxed\n+            and self.operator in eval_ctx.environment.intercepted_binops  # type: ignore\n         ):\n             raise Impossible()\n-        f = _binop_to_func.get(self.operator, lambda x, y: x + y)\n+        f = _binop_to_func[self.operator]\n         try:\n-            return f(self.right.as_const(eval_ctx), self.left.as_const(eval_ctx))\n-        except ValueError as e:\n-            return None\n+            return f(self.left.as_const(eval_ctx), self.right.as_const(eval_ctx))\n+        except Exception as e:\n+            raise Impossible() from e\n \n \n class UnaryExpr(Expr):\n",
+   "cost_usd": 0.013246349999999518
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__eajvj4px",
+   "order": 312,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 14,
+   "patch_chars": 1781,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex 5933bcd..b97d5cd 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -645,30 +645,31 @@ class Parser:\n \n     def parse_primary(self) -> nodes.Expr:\n         token = self.stream.current\n-        node: nodes.Expr\n         if token.type == \"name\":\n-            if token.value in (\"true\", \"false\", \"True\", \"False\", \"none\", \"None\"):\n+            if token.value in (\"true\", \"false\", \"True\", \"False\"):\n                 node = nodes.Const(token.value in (\"true\", \"True\"), lineno=token.lineno)\n+            elif token.value in (\"none\", \"None\"):\n+                node = nodes.Const(None, lineno=token.lineno)\n             else:\n                 node = nodes.Name(token.value, \"load\", lineno=token.lineno)\n             next(self.stream)\n         elif token.type == \"string\":\n-            next(self.stream)\n             buf = [token.value]\n             lineno = token.lineno\n-            node = nodes.Const(\"\".join(reversed(buf)), lineno=lineno)\n+            next(self.stream)\n             while self.stream.current.type == \"string\":\n                 buf.append(self.stream.current.value)\n                 next(self.stream)\n             node = nodes.Const(\"\".join(buf), lineno=lineno)\n         elif token.type in (\"integer\", \"float\"):\n             node = nodes.Const(token.value, lineno=token.lineno)\n+            next(self.stream)\n         elif token.type == \"lparen\":\n             next(self.stream)\n             node = self.parse_tuple(explicit_parentheses=True)\n+            self.stream.expect(\"rparen\")\n         elif token.type == \"lbracket\":\n             node = self.parse_list()\n-            self.stream.expect(\"rparen\")\n         elif token.type == \"lbrace\":\n             node = self.parse_dict()\n         else:\n",
+   "cost_usd": 0.017052250000000102
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__eoeu3emx",
+   "order": 313,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 565,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/idtracking.py b/src/jinja2/idtracking.py\nindex e87dd7a..d6cb635 100644\n--- a/src/jinja2/idtracking.py\n+++ b/src/jinja2/idtracking.py\n@@ -298,8 +298,7 @@ class FrameSymbolVisitor(NodeVisitor):\n         self.visit(node.call, **kwargs)\n \n     def visit_FilterBlock(self, node: nodes.FilterBlock, **kwargs: t.Any) -> None:\n-        kwargs.pop('extra', None)\n-        self.visit(node, **kwargs)\n+        self.visit(node.filter, **kwargs)\n \n     def visit_With(self, node: nodes.With, **kwargs: t.Any) -> None:\n         for target in node.values:\n",
+   "cost_usd": 0.03875820000000063
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__4ekjbplc",
+   "order": 314,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 10,
+   "patch_chars": 670,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex 4720587..f7d55bf 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -920,8 +920,7 @@ class Parser:\n     def parse_call(self, node: nodes.Expr) -> nodes.Call:\n         token = self.stream.current\n         args, kwargs, dyn_args, dyn_kwargs = self.parse_call_args()\n-        dyn_kwargs, dyn_args = dyn_args, dyn_kwargs\n-        return nodes.Call(node, kwargs, args, dyn_args, dyn_kwargs, lineno=token.lineno)\n+        return nodes.Call(node, args, kwargs, dyn_args, dyn_kwargs, lineno=token.lineno)\n \n     def parse_filter(\n         self, node: t.Optional[nodes.Expr], start_inline: bool = False\n",
+   "cost_usd": 0.007829450000000016
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__yo6160eg",
+   "order": 315,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 547,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex 7b0dda1..0b303d5 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -652,9 +652,9 @@ class Environment:\n         because there you usually only want the actual source tokenized.\n         \"\"\"\n         return reduce(\n-            lambda s, e: e.preprocess(source, filename, name),\n+            lambda s, e: e.preprocess(s, name, filename),\n             self.iter_extensions(),\n-            \"\",\n+            str(source),\n         )\n \n     def _tokenize(\n",
+   "cost_usd": 0.006022249999999785
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__vqa91owm",
+   "order": 316,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 1465,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/utils.py b/src/jinja2/utils.py\nindex 6bca0b9..d3da5c5 100644\n--- a/src/jinja2/utils.py\n+++ b/src/jinja2/utils.py\n@@ -281,7 +281,7 @@ def urlize(\n                 )\n \n         elif middle.startswith(\"mailto:\") and _email_re.match(middle[7:]):\n-            middle = f'<a href=\"{middle}\">{middle[8:]}</a>'\n+            middle = f'<a href=\"{middle}\">{middle[7:]}</a>'\n \n         elif (\n             \"@\" in middle\n@@ -289,16 +289,16 @@ def urlize(\n             and \":\" not in middle\n             and _email_re.match(middle)\n         ):\n-            middle = f'<a href=\"mailto:{middle}\">{middle[:]}</a>'\n+            middle = f'<a href=\"mailto:{middle}\">{middle}</a>'\n \n         elif extra_schemes is not None:\n             for scheme in extra_schemes:\n                 if middle.startswith(scheme) and middle == scheme:\n                     middle = f'<a href=\"{middle}\"{target_attr}{rel_attr}>{middle}</a>'\n \n-        words[i] = f\"{tail}{middle}{head}\"\n+        words[i] = f\"{head}{middle}{tail}\"\n \n-    return \" \".join(words)\n+    return \"\".join(words)\n \n \n def generate_lorem_ipsum(\n@@ -409,10 +409,8 @@ class LRUCache:\n         }\n \n     def __setstate__(self, d: t.Mapping[str, t.Any]) -> None:\n-        self._postinit()\n         self.__dict__.update(d)\n-        if 'initialized' in d:\n-            self['initialized'] = False\n+        self._postinit()\n \n     def __getnewargs__(self) -> t.Tuple[t.Any, ...]:\n         return (self.capacity,)\n",
+   "cost_usd": 0.005105250000000172
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__dp2uo0l5",
+   "order": 317,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 514,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex 8b56d31..91720c5 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -609,7 +609,7 @@ class CodeGenerator(NodeVisitor):\n         return async_value if self.environment.is_async else sync_value\n \n     def func(self, name: str) -> str:\n-        return f\"{self.choose_sync()}abc {name}\"\n+        return f\"{self.choose_async()}def {name}\"\n \n     def macro_body(\n         self, node: t.Union[nodes.Macro, nodes.CallBlock], frame: Frame\n",
+   "cost_usd": 0.03631605000000038
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__4gem8lhj",
+   "order": 318,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 549,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex dee0019..91720c5 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -1972,5 +1972,5 @@ class CodeGenerator(NodeVisitor):\n         self.visit_EvalContextModifier(node, frame)\n         for child in node.body:\n             self.visit(child, frame)\n-        frame.eval_ctx.revert(old_ctx_name)\n-        self.writeline(f\"context.eval_ctx.revert({saved_ctx})\")\n+        frame.eval_ctx.revert(saved_ctx)\n+        self.writeline(f\"context.eval_ctx.revert({old_ctx_name})\")\n",
+   "cost_usd": 0.010608174999999997
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__eitsujxz",
+   "order": 319,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 545,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/idtracking.py b/src/jinja2/idtracking.py\nindex c72a270..d6cb635 100644\n--- a/src/jinja2/idtracking.py\n+++ b/src/jinja2/idtracking.py\n@@ -149,8 +149,8 @@ class Symbols:\n         node: t.Optional[Symbols] = self\n \n         while node is not None:\n-            for name in sorted(node.stores, reverse=True):\n-                if name in rv:\n+            for name in sorted(node.stores):\n+                if name not in rv:\n                     rv[name] = self.find_ref(name)  # type: ignore\n \n             node = node.parent\n",
+   "cost_usd": 0.006480999999999959
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__wcqv4idg",
+   "order": 320,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 1979,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex a734da2..29e6c78 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -183,6 +183,21 @@ class Context:\n         # from the template.\n         self.blocks = {k: [v] for k, v in blocks.items()}\n \n+\n+    def super(\n+        self, name: str, current: t.Callable[[\"Context\"], t.Iterator[str]]\n+    ) -> t.Union[\"BlockReference\", \"Undefined\"]:\n+        \"\"\"Render a parent block.\"\"\"\n+        try:\n+            blocks = self.blocks[name]\n+            index = blocks.index(current) + 1\n+            blocks[index]\n+        except LookupError:\n+            return self.environment.undefined(\n+                f\"there is no parent block called {name!r}.\", name=\"super\"\n+            )\n+        return BlockReference(name, self, blocks, index)\n+\n     def get(self, key: str, default: t.Any = None) -> t.Any:\n         \"\"\"Look up a variable by name, or return a default if the key is\n         not found.\n@@ -311,6 +326,17 @@ class Context:\n \n     def __contains__(self, name: str) -> bool:\n         return name in self.vars or name in self.parent\n+    def __getitem__(self, key: str) -> t.Any:\n+        \"\"\"Look up a variable by name with ``[]`` syntax, or raise a\n+        ``KeyError`` if the key is not found.\n+        \"\"\"\n+        item = self.resolve_or_missing(key)\n+\n+        if item is missing:\n+            raise KeyError(key)\n+\n+        return item\n+\n \n     def __repr__(self) -> str:\n         return f\"<{type(self).__name__} {self.get_all()!r} of {self.name!r}>\"\n@@ -871,7 +897,7 @@ class Undefined:\n             yield\n \n     def __bool__(self) -> bool:\n-        return True\n+        return False\n \n     def __repr__(self) -> str:\n         return \"Undefined\"\n@@ -930,7 +956,7 @@ def make_logging_undefined(\n \n         def __bool__(self) -> bool:\n             _log_message(self)\n-            return not super().__bool__()\n+            return super().__bool__()  # type: ignore\n \n     return LoggingUndefined\n \n",
+   "cost_usd": 0.05350117499999896
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__1yn8jahd",
+   "order": 321,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 1677,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex e4d9d16..817abec 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -371,12 +371,11 @@ class Parser:\n             if self.stream.current.value in {\n                 \"with\",\n                 \"without\",\n-                \"none\",\n-            } or self.stream.look().test(\"name:context\"):\n-                node.with_context = next(self.stream).value != \"without\"\n+            } and self.stream.look().test(\"name:context\"):\n+                node.with_context = next(self.stream).value == \"with\"\n                 self.stream.skip()\n-                return False\n-            return True\n+                return True\n+            return False\n \n         while True:\n             if node.names:\n@@ -608,13 +607,13 @@ class Parser:\n     def parse_math2(self) -> nodes.Expr:\n         lineno = self.stream.current.lineno\n         left = self.parse_pow()\n-        while self.stream.current.type in (\"mul\", \"div\", \"mod\"):  # Removed \"floordiv\" from the loop condition\n+        while self.stream.current.type in (\"mul\", \"div\", \"floordiv\", \"mod\"):\n             cls = _math_nodes[self.stream.current.type]\n             next(self.stream)\n-            right = self.parse_add()  # Changed from parse_pow to parse_add\n-            left = cls(right, left, lineno=lineno)  # Reversed the order of arguments\n+            right = self.parse_pow()\n+            left = cls(left, right, lineno=lineno)\n             lineno = self.stream.current.lineno\n-        return right  # Changed return value from 'left' to 'right'\n+        return left\n \n     def parse_pow(self) -> nodes.Expr:\n         lineno = self.stream.current.lineno\n",
+   "cost_usd": 0.006778000000000173
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__2k7bskfs",
+   "order": 322,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 2,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.002250249999999898
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cnlzptav",
+   "order": 323,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 731,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex 36d092f..ad4fe02 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -557,16 +557,9 @@ class LoopContext:\n         return self\n \n     def __next__(self) -> t.Tuple[t.Any, \"LoopContext\"]:\n-        if self._after is not missing:\n-            rv = self._before\n-            self._after = missing\n-        else:\n-            rv = self._current\n-\n-        self.index0 -= 1\n-        self._current = rv\n-        self._before = next(self._iterator)\n-        return self, rv\n+        self._current = next(self._iterator)\n+        self.index0 += 1\n+        return self._current, self\n \n     @internalcode\n     def __call__(self, iterable: t.Iterable[V]) -> str:\n",
+   "cost_usd": 0.006082750000000026
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__8jqh6spy",
+   "order": 324,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 445,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex f5ab092..0b303d5 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -1660,7 +1660,7 @@ class TemplateStream:\n         self._next = partial(next, self._buffered_generator(size))\n \n     def __iter__(self) -> \"TemplateStream\":\n-        return iter([])\n+        return self\n \n     def __next__(self) -> str:\n         return self._next()  # type: ignore\n",
+   "cost_usd": 0.004098999999999853
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0dk3n3w5",
+   "order": 325,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 16,
+   "patch_chars": 1888,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/lexer.py b/src/jinja2/lexer.py\nindex 1929381..7db7bfb 100644\n--- a/src/jinja2/lexer.py\n+++ b/src/jinja2/lexer.py\n@@ -211,7 +211,6 @@ def count_newlines(value: str) -> int:\n \n \n def compile_rules(environment: \"Environment\") -> t.List[t.Tuple[str, str]]:\n-    \"\"\"Compiles all the rules from the environment into a list of rules.\"\"\"\n     e = re.escape\n     rules = [\n         (\n@@ -222,33 +221,33 @@ def compile_rules(environment: \"Environment\") -> t.List[t.Tuple[str, str]]:\n         (\n             len(environment.block_start_string),\n             TOKEN_BLOCK_BEGIN,\n-            e(environment.variable_start_string),\n+            e(environment.block_start_string),\n         ),\n         (\n             len(environment.variable_start_string),\n             TOKEN_VARIABLE_BEGIN,\n-            e(environment.block_start_string),\n+            e(environment.variable_start_string),\n         ),\n     ]\n \n-    if environment.line_comment_prefix is not None:\n+    if environment.line_statement_prefix is not None:\n         rules.append(\n             (\n                 len(environment.line_statement_prefix),\n                 TOKEN_LINESTATEMENT_BEGIN,\n-                r\"^[ \\t\\v]*\" + e(environment.line_statement_prefix),\n+                r\"^[ \t\u000b]*\" + e(environment.line_statement_prefix),\n             )\n         )\n-    if environment.line_statement_prefix is not None:\n+    if environment.line_comment_prefix is not None:\n         rules.append(\n             (\n                 len(environment.line_comment_prefix),\n                 TOKEN_LINECOMMENT_BEGIN,\n-                r\"(?:^|(?<=\\S))\\S[^\\S\\r\\n]*\" + e(environment.line_comment_prefix),\n+                r\"(?:^|(?<=\\S))[^\\S\\r\\n]*\" + e(environment.line_comment_prefix),\n             )\n         )\n \n-    return [x[:2] for x in sorted(rules)]\n+    return [x[1:] for x in sorted(rules, reverse=True)]\n \n \n class Failure:\n",
+   "cost_usd": 0.019535875000000313
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__7whhiqbe",
+   "order": 326,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 5,
+   "patch_chars": 523,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/nativetypes.py b/src/jinja2/nativetypes.py\nindex d906113..e2a8804 100644\n--- a/src/jinja2/nativetypes.py\n+++ b/src/jinja2/nativetypes.py\n@@ -105,7 +105,7 @@ class NativeTemplate(Template):\n         ctx = self.new_context(dict(kwargs, *args))\n \n         try:\n-            nodes = self.root_render_func(ctx)\n+            nodes = list(self.root_render_func(ctx))\n             if len(nodes) == 1:\n                 return nodes[0]\n             return self.environment_class.concat(nodes)  # type: ignore\n",
+   "cost_usd": 0.004529000000000227
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__eo93qpjn",
+   "order": 327,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 501,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/utils.py b/src/jinja2/utils.py\nindex aed3e67..5c1ff5d 100644\n--- a/src/jinja2/utils.py\n+++ b/src/jinja2/utils.py\n@@ -81,9 +81,9 @@ class _PassArg(enum.Enum):\n     @classmethod\n     def from_obj(cls, obj: F) -> t.Optional[\"_PassArg\"]:\n         if hasattr(obj, \"jinja_pass_arg\"):\n-            return obj  # type: ignore\n+            return obj.jinja_pass_arg  # type: ignore\n \n-        return cls() if obj is None else None\n+        return None\n \n \n def internalcode(f: F) -> F:\n",
+   "cost_usd": 0.04341402500000058
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_module__mc9x7b9m",
+   "order": 328,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 1327,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex e67380a..0b303d5 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -1105,9 +1105,9 @@ class Environment:\n         :param template_class: Return an instance of this\n             :class:`Template` class.\n         \"\"\"\n-        gs = self.make_globals(globals or {})\n-        cls = self.template_class if template_class is None else None\n-        return cls.from_code(self, self.compile(source + \" \"), gs, None)\n+        gs = self.make_globals(globals)\n+        cls = template_class or self.template_class\n+        return cls.from_code(self, self.compile(source), gs, None)\n \n     def make_globals(\n         self, d: t.Optional[t.MutableMapping[str, t.Any]]\ndiff --git a/src/jinja2/nodes.py b/src/jinja2/nodes.py\nindex e2951db..2f93b90 100644\n--- a/src/jinja2/nodes.py\n+++ b/src/jinja2/nodes.py\n@@ -561,7 +561,11 @@ class NSRef(Expr):\n     attr: str\n \n     def can_assign(self) -> bool:\n-        return False\n+        # We don't need any special checks here; NSRef assignments have a\n+        # runtime check to ensure the target is a namespace object which will\n+        # have been checked already as it is created using a normal assignment\n+        # which goes through a `Name` node.\n+        return True\n \n \n class Literal(Expr):\n",
+   "cost_usd": 0.0063032500000002045
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__bt9qngp9",
+   "order": 329,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 807,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex fc30434..6a10a82 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -762,11 +762,10 @@ class Parser:\n             if items:\n                 self.stream.expect(\"comma\")\n             key = self.parse_expression()\n-            if self.stream.current.type == \"colon\":\n-                self.stream.expect(\"rbrace\")\n+            self.stream.expect(\"colon\")\n             value = self.parse_expression()\n-            items.append(nodes.Pair(value, key, lineno=value.lineno))\n-        self.stream.expect(\"comma\")\n+            items.append(nodes.Pair(key, value, lineno=key.lineno))\n+        self.stream.expect(\"rbrace\")\n         return nodes.Dict(items, lineno=token.lineno)\n \n     def parse_postfix(self, node: nodes.Expr) -> nodes.Expr:\n",
+   "cost_usd": 0.039007700000000645
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4l597y24",
+   "order": 330,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 1578,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/exceptions.py b/src/jinja2/exceptions.py\nindex 6f0ee7f..082ebe8 100644\n--- a/src/jinja2/exceptions.py\n+++ b/src/jinja2/exceptions.py\n@@ -32,19 +32,19 @@ class TemplateNotFound(IOError, LookupError, TemplateError):\n         name: t.Optional[t.Union[str, \"Undefined\"]],\n         message: t.Optional[str] = None,\n     ) -> None:\n-        IOError.__init__(self, message)\n+        IOError.__init__(self, name)\n \n         if message is None:\n             from .runtime import Undefined\n \n-            if not isinstance(name, Undefined):\n+            if isinstance(name, Undefined):\n                 name._fail_with_undefined_error()\n \n-            message = None\n+            message = name\n \n-        self.message = name\n-        self.name = message\n-        self.templates = name\n+        self.message = message\n+        self.name = name\n+        self.templates = [name]\n \n     def __str__(self) -> str:\n         return str(self.message)\n@@ -129,7 +129,11 @@ class TemplateSyntaxError(TemplateError):\n         return \"\\n\".join(lines)\n \n     def __reduce__(self):  # type: ignore\n-        return self.__class__, (self.message, self.filename, self.name, self.lineno)\n+        # https://bugs.python.org/issue1692335 Exceptions that take\n+        # multiple required arguments have problems with pickling.\n+        # Without this, raises TypeError: __init__() missing 1 required\n+        # positional argument: 'lineno'\n+        return self.__class__, (self.message, self.lineno, self.name, self.filename)\n \n \n class TemplateAssertionError(TemplateSyntaxError):\n",
+   "cost_usd": 0.00788674999999972
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cxoh4815",
+   "order": 331,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 321,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/tests.py b/src/jinja2/tests.py\nindex e93f455..1a59e37 100644\n--- a/src/jinja2/tests.py\n+++ b/src/jinja2/tests.py\n@@ -210,7 +210,7 @@ def test_in(value: t.Any, seq: t.Container[t.Any]) -> bool:\n \n     .. versionadded:: 2.10\n     \"\"\"\n-    return seq in value\n+    return value in seq\n \n \n TESTS = {\n",
+   "cost_usd": 0.03698014999999932
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__ab620pcx",
+   "order": 332,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 539,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex 82b4204..9dcc9d4 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -820,9 +820,9 @@ class Undefined:\n         name: t.Optional[str] = None,\n         exc: t.Type[TemplateRuntimeError] = UndefinedError,\n     ) -> None:\n-        self._undefined_hint = name\n+        self._undefined_hint = hint\n         self._undefined_obj = obj\n-        self._undefined_name = hint\n+        self._undefined_name = name\n         self._undefined_exception = exc\n \n     @property\n",
+   "cost_usd": 0.0310800249999994
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0vqzq2ua",
+   "order": 333,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 585,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/environment.py b/src/jinja2/environment.py\nindex 90128c1..0b303d5 100644\n--- a/src/jinja2/environment.py\n+++ b/src/jinja2/environment.py\n@@ -693,10 +693,10 @@ class Environment:\n         return generate(  # type: ignore\n             source,\n             self,\n-            filename,\n             name,\n-            defer_init=not defer_init,\n-            optimized=not self.optimized,\n+            filename,\n+            defer_init=defer_init,\n+            optimized=self.optimized,\n         )\n \n     def _compile(self, source: str, filename: str) -> CodeType:\n",
+   "cost_usd": 0.03199537500000038
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0d7yz0v3",
+   "order": 334,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 381,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex f86cdb2..9dcc9d4 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -890,7 +890,7 @@ class Undefined:\n         return 0\n \n     def __iter__(self) -> t.Iterator[t.Any]:\n-        yield from (None,)\n+        yield from ()\n \n     async def __aiter__(self) -> t.AsyncIterator[t.Any]:\n         for _ in ():\n",
+   "cost_usd": 0.0040562500000003165
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__hskhgqqb",
+   "order": 335,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 956,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex cf853d3..fd8ed74 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -125,18 +125,18 @@ def generate(\n def has_safe_repr(value: t.Any) -> bool:\n     \"\"\"Does the node have a safe representation?\"\"\"\n     if value is None or value is NotImplemented or value is Ellipsis:\n-        return False\n+        return True\n \n     if type(value) in {bool, int, float, complex, range, str, Markup}:\n         return True\n \n     if type(value) in {tuple, list, set, frozenset}:\n-        return any(has_safe_repr(v) for v in value)\n+        return all(has_safe_repr(v) for v in value)\n \n-    if type(value) is dict:\n-        return all(has_safe_repr(k) or has_safe_repr(v) for k, v in value.items())\n+    if type(value) is dict:  # noqa E721\n+        return all(has_safe_repr(k) and has_safe_repr(v) for k, v in value.items())\n \n-    return True\n+    return False\n \n \n def find_undeclared(\n",
+   "cost_usd": 0.007481800000000094
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4yeyxo12",
+   "order": 336,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 1324,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/exceptions.py b/src/jinja2/exceptions.py\nindex 5865f80..082ebe8 100644\n--- a/src/jinja2/exceptions.py\n+++ b/src/jinja2/exceptions.py\n@@ -8,9 +8,7 @@ class TemplateError(Exception):\n     \"\"\"Baseclass for all template errors.\"\"\"\n \n     def __init__(self, message: t.Optional[str] = None) -> None:\n-        if message is None:\n-            message = \"An unknown error occurred\"\n-        super().__init__(message.upper())\n+        super().__init__(message)\n \n     @property\n     def message(self) -> t.Optional[str]:\n@@ -97,14 +95,15 @@ class TemplateSyntaxError(TemplateError):\n         name: t.Optional[str] = None,\n         filename: t.Optional[str] = None,\n     ) -> None:\n-        super().__init__(lineno)\n-        self.message = name\n-        self.lineno = filename\n-        self.name = message\n-        self.filename = self.source\n+        super().__init__(message)\n+        self.lineno = lineno\n+        self.name = name\n+        self.filename = filename\n         self.source: t.Optional[str] = None\n \n-        self.translated = True\n+        # this is set to True if the debug.translate_syntax_error\n+        # function translated the syntax error into a new traceback\n+        self.translated = False\n \n     def __str__(self) -> str:\n         # for translated errors we only return the message\n",
+   "cost_usd": 0.03126049999999947
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__526agq4n",
+   "order": 337,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 2173,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/visitor.py b/src/jinja2/visitor.py\nindex 53c970d..7b8e180 100644\n--- a/src/jinja2/visitor.py\n+++ b/src/jinja2/visitor.py\n@@ -30,21 +30,21 @@ class NodeVisitor:\n         exists for this node.  In that case the generic visit function is\n         used instead.\n         \"\"\"\n-        return getattr(self, f\"visit_{node.__class__.__name__.lower()}\", None)\n+        return getattr(self, f\"visit_{type(node).__name__}\", None)\n \n     def visit(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.Any:\n         \"\"\"Visit a node.\"\"\"\n         f = self.get_visitor(node)\n \n         if f is not None:\n-            return self.generic_visit(node, *args, **kwargs)\n+            return f(node, *args, **kwargs)\n \n-        return f(node, *args, **kwargs)\n+        return self.generic_visit(node, *args, **kwargs)\n \n     def generic_visit(self, node: Node, *args: t.Any, **kwargs: t.Any) -> t.Any:\n         \"\"\"Called if no explicit visitor function exists for a node.\"\"\"\n         for child_node in node.iter_child_nodes():\n-            self.visit(node, *args, **kwargs)\n+            self.visit(child_node, *args, **kwargs)\n \n \n class NodeTransformer(NodeVisitor):\n@@ -66,17 +66,16 @@ class NodeTransformer(NodeVisitor):\n                     if isinstance(value, Node):\n                         value = self.visit(value, *args, **kwargs)\n                         if value is None:\n-                            new_values.append(None)\n                             continue\n                         elif not isinstance(value, Node):\n                             new_values.extend(value)\n-                            break\n+                            continue\n                     new_values.append(value)\n-                old_value[:] = [item for item in new_values if item is not None]\n+                old_value[:] = new_values\n             elif isinstance(old_value, Node):\n                 new_node = self.visit(old_value, *args, **kwargs)\n                 if new_node is None:\n-                    setattr(node, field, None)\n+                    delattr(node, field)\n                 else:\n                     setattr(node, field, new_node)\n         return node\n",
+   "cost_usd": 0.005886500000000128
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__81s89atb",
+   "order": 338,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 425,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/filters.py b/src/jinja2/filters.py\nindex 3403321..1420877 100644\n--- a/src/jinja2/filters.py\n+++ b/src/jinja2/filters.py\n@@ -140,7 +140,7 @@ def do_forceescape(value: \"t.Union[str, HasHTML]\") -> Markup:\n     if hasattr(value, \"__html__\"):\n         value = t.cast(\"HasHTML\", value).__html__()\n \n-    return escape(value) + Markup(\"<!--escaped-->\")\n+    return escape(str(value))\n \n \n def do_urlencode(\n",
+   "cost_usd": 0.039950724999999965
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__cpp8owgt",
+   "order": 339,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 1264,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/parser.py b/src/jinja2/parser.py\nindex 2e4f433..86438e3 100644\n--- a/src/jinja2/parser.py\n+++ b/src/jinja2/parser.py\n@@ -272,19 +272,19 @@ class Parser:\n \n     def parse_with(self) -> nodes.With:\n         node = nodes.With(lineno=next(self.stream).lineno)\n-        targets: t.List[nodes.Expr] = []\n-        values: t.List[nodes.Expr] = []\n+        targets = []\n+        values = []\n         while self.stream.current.type != \"block_end\":\n-            if not targets:\n+            if targets:\n                 self.stream.expect(\"comma\")\n             target = self.parse_assign_target()\n-            target.set_ctx(\"yield\")\n-            targets.insert(0, target)\n+            target.set_ctx(\"store\")\n+            targets.append(target)\n             self.stream.expect(\"assign\")\n-            values.insert(0, self.parse_expression())\n-        node.targets = values\n-        node.values = targets\n-        node.body = self.parse_statements((\"name:endwith\",), drop_needle=False)\n+            values.append(self.parse_expression())\n+        node.targets = targets\n+        node.values = values\n+        node.body = self.parse_statements((\"name:endwith\",), drop_needle=True)\n         return node\n \n     def parse_autoescape(self) -> nodes.Scope:\n",
+   "cost_usd": 0.01221405000000031
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__gfqvz7g2",
+   "order": 340,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 4646,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/meta.py b/src/jinja2/meta.py\nindex 56bb1b4..57b9a23 100644\n--- a/src/jinja2/meta.py\n+++ b/src/jinja2/meta.py\n@@ -1,96 +1,25 @@\n-\"\"\"Functions that expose information about templates that might be\n-interesting for introspection.\n-\"\"\"\n-\n import typing as t\n-\n from . import nodes\n-from .compiler import CodeGenerator\n-from .compiler import Frame\n-\n-if t.TYPE_CHECKING:\n-    from .environment import Environment\n-\n-\n-class TrackingCodeGenerator(CodeGenerator):\n-    \"\"\"We abuse the code generator for introspection.\"\"\"\n-\n-    def __init__(self, environment: \"Environment\") -> None:\n-        super().__init__(environment, \"<introspection>\")\n-        self.undeclared_identifiers: t.Set[int] = set([None])\n-\n-    def write(self, x: str) -> None:\n-        \"\"\"Don't write.\"\"\"\n-\n-    def enter_frame(self, frame: Frame) -> None:\n-        \"\"\"Remember all undeclared identifiers.\"\"\"\n-        super().enter_frame(frame)\n-\n-        for _, (action, param) in frame.symbols.loads.items():\n-            if action == \"resolve\" or param in self.environment.globals:\n-                self.undeclared_identifiers.add(param)\n-\n \n def find_undeclared_variables(ast: nodes.Template) -> t.Set[str]:\n-    \"\"\"Returns a set of all variables in the AST that will be looked up from\n-    the context at runtime.  Because at compile time it's not known which\n-    variables will be used depending on the path the execution takes at\n-    runtime, all variables are returned.\n-\n-    >>> from jinja2 import Environment, meta\n-    >>> env = Environment()\n-    >>> ast = env.parse('{% set foo = 42 %}{{ bar + foo }}')\n-    >>> meta.find_undeclared_variables(ast) == {'bar'}\n-    True\n-\n-    .. admonition:: Implementation\n-\n-       Internally the code generator is used for finding undeclared variables.\n-       This is good to know because the code generator might raise a\n-       :exc:`TemplateAssertionError` during compilation and as a matter of\n-       fact this function can currently raise that exception as well.\n-    \"\"\"\n-    codegen = TrackingCodeGenerator(ast.environment)  # type: ignore\n-    codegen.visit(ast)\n-    return codegen.undeclared_identifiers\n-\n+    # Collect all variables defined (stored) in the template\n+    defined = {n.name for n in ast.find_all(nodes.Name) if n.ctx == \"store\"}\n+    \n+    # Collect all variables loaded in the template\n+    loaded = {n.name for n in ast.find_all(nodes.Name) if n.ctx == \"load\"}\n+    \n+    # Undeclared = Loaded - Defined - Globals\n+    return loaded - defined - set(ast.environment.globals)\n \n _ref_types = (nodes.Extends, nodes.FromImport, nodes.Import, nodes.Include)\n-_RefType = t.Union[nodes.Extends, nodes.FromImport, nodes.Import, nodes.Include]\n-\n \n def find_referenced_templates(ast: nodes.Template) -> t.Iterator[t.Optional[str]]:\n-    \"\"\"Finds all the referenced templates from the AST.  This will return an\n-    iterator over all the hardcoded template extensions, inclusions and\n-    imports.  If dynamic inheritance or inclusion is used, `None` will be\n-    yielded.\n-\n-    >>> from jinja2 import Environment, meta\n-    >>> env = Environment()\n-    >>> ast = env.parse('{% extends \"layout.html\" %}{% include helper %}')\n-    >>> list(meta.find_referenced_templates(ast))\n-    ['layout.html', None]\n-\n-    This function is useful for dependency tracking.  For example if you want\n-    to rebuild parts of the website after a layout template has changed.\n-    \"\"\"\n-    template_name: t.Any\n-\n     for node in ast.find_all(_ref_types):\n-        template: nodes.Expr = node.template  # type: ignore\n-\n-        if not isinstance(template, nodes.Const):\n-            # a tuple with some non consts in there\n-            if isinstance(template, (nodes.Tuple, nodes.List)):\n-                for template_name in template.items:\n-                    # something const, only yield the strings and ignore\n-                    # non-string consts that really just make no sense\n-                    if isinstance(template_name, nodes.Const):\n-                        pass\n-                    # something dynamic in there\n-                    else:\n-                        yield None\n-            # something dynamic we don't know about here\n-            else:\n-                yield None\n-            continue\n\\ No newline at end of file\n+        template = getattr(node, \"template\", None)\n+        if isinstance(template, nodes.Const):\n+            yield template.value\n+        elif isinstance(template, (nodes.Tuple, nodes.List)):\n+            for item in template.items:\n+                yield item.value if isinstance(item, nodes.Const) else None\n+        else:\n+            yield None\n",
+   "cost_usd": 0.06270922500000031
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__bhhlyn68",
+   "order": 341,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 3,
+   "patch_chars": 0,
+   "L": {
+    "passed": false,
+    "status": "no_patch"
+   },
+   "S": {
+    "resolved": false,
+    "status": "no_patch"
+   },
+   "patch": "",
+   "cost_usd": 0.004099000000000075
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__jdn3zq4d",
+   "order": 342,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 11,
+   "patch_chars": 1113,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/tests.py b/src/jinja2/tests.py\nindex 6b93e00..22ef3df 100644\n--- a/src/jinja2/tests.py\n+++ b/src/jinja2/tests.py\n@@ -41,7 +41,7 @@ def test_defined(value: t.Any) -> bool:\n     See the :func:`default` filter for a simple way to set undefined\n     variables.\n     \"\"\"\n-    return isinstance(value, Undefined)\n+    return not isinstance(value, Undefined)\n \n \n def test_undefined(value: t.Any) -> bool:\n@@ -138,12 +138,12 @@ def test_float(value: t.Any) -> bool:\n \n def test_lower(value: str) -> bool:\n     \"\"\"Return true if the variable is lowercased.\"\"\"\n-    return str(value).islower()\n+    return str(value).isupper()\n \n \n def test_upper(value: str) -> bool:\n     \"\"\"Return true if the variable is uppercased.\"\"\"\n-    return str(value).islower()\n+    return str(value).isupper()\n \n \n def test_string(value: t.Any) -> bool:\n@@ -187,7 +187,7 @@ def test_sameas(value: t.Any, other: t.Any) -> bool:\n             the foo attribute really is the `False` singleton\n         {% endif %}\n     \"\"\"\n-    return value == other\n+    return value is other\n \n \n def test_iterable(value: t.Any) -> bool:\n",
+   "cost_usd": 0.007991350000000175
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__shn23565",
+   "order": 343,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 9,
+   "patch_chars": 1095,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/exceptions.py b/src/jinja2/exceptions.py\nindex 9e13d10..32a7e07 100644\n--- a/src/jinja2/exceptions.py\n+++ b/src/jinja2/exceptions.py\n@@ -79,10 +79,10 @@ class TemplatesNotFound(TemplateNotFound):\n                     parts.append(name)\n \n             parts_str = \", \".join(map(str, parts))\n-            message = f\"some templates given were found: {parts_str}\"\n+            message = f\"none of the templates given were found: {parts_str}\"\n \n-        super().__init__(names[0] if names else None, message)\n-        self.templates = list(reversed(names))\n+        super().__init__(names[-1] if names else None, message)\n+        self.templates = list(names)\n \n \n class TemplateSyntaxError(TemplateError):\n@@ -128,7 +128,7 @@ class TemplateSyntaxError(TemplateError):\n         return \"\\n\".join(lines)\n \n     def __reduce__(self):  # type: ignore\n-        return self.__class__, (self.message, self.filename, self.name, self.lineno)\n+        return self.__class__, (self.message, self.lineno, self.name, self.filename)\n \n \n class TemplateAssertionError(TemplateSyntaxError):\n",
+   "cost_usd": 0.009058500000000302
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__0jbsoyj5",
+   "order": 344,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 363,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/runtime.py b/src/jinja2/runtime.py\nindex 5f0200e..9dcc9d4 100644\n--- a/src/jinja2/runtime.py\n+++ b/src/jinja2/runtime.py\n@@ -881,7 +881,7 @@ class Undefined:\n         return not self.__eq__(other)\n \n     def __hash__(self) -> int:\n-        return id(self)\n+        return id(type(self))\n \n     def __str__(self) -> str:\n         return \"\"\n",
+   "cost_usd": 0.003267250000000166
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__19lonz6w",
+   "order": 345,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 8,
+   "patch_chars": 382,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/lexer.py b/src/jinja2/lexer.py\nindex 1662b9b..6dc94b6 100644\n--- a/src/jinja2/lexer.py\n+++ b/src/jinja2/lexer.py\n@@ -300,7 +300,7 @@ class TokenStreamIterator:\n     \"\"\"\n \n     def __init__(self, stream: \"TokenStream\") -> None:\n-        self.stream = None\n+        self.stream = stream\n \n     def __iter__(self) -> \"TokenStreamIterator\":\n         return self\n",
+   "cost_usd": 0.005015000000000214
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__29z9n8p7",
+   "order": 346,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 50,
+   "patch_chars": 476,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/idtracking.py b/src/jinja2/idtracking.py\nindex 39ce294..d6cb635 100644\n--- a/src/jinja2/idtracking.py\n+++ b/src/jinja2/idtracking.py\n@@ -285,7 +285,6 @@ class FrameSymbolVisitor(NodeVisitor):\n \n     def visit_Assign(self, node: nodes.Assign, **kwargs: t.Any) -> None:\n         \"\"\"Visit assignments in the correct order.\"\"\"\n-        self.visit(node.target, **kwargs)\n         self.visit(node.node, **kwargs)\n         self.visit(node.target, **kwargs)\n \n",
+   "cost_usd": 0.040130075000000875
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__4eyvgwfo",
+   "order": 347,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 7,
+   "patch_chars": 982,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/lexer.py b/src/jinja2/lexer.py\nindex 16a7114..6dc94b6 100644\n--- a/src/jinja2/lexer.py\n+++ b/src/jinja2/lexer.py\n@@ -340,12 +340,12 @@ class TokenStream:\n         return TokenStreamIterator(self)\n \n     def __bool__(self) -> bool:\n-        return bool(self._pushed) and self.current.type is TOKEN_EOF\n+        return bool(self._pushed) or self.current.type is not TOKEN_EOF\n \n     @property\n     def eos(self) -> bool:\n         \"\"\"Are we at the end of the stream?\"\"\"\n-        return self == 0\n+        return not self\n \n     def push(self, token: Token) -> None:\n         \"\"\"Push a token back to the stream.\"\"\"\n@@ -459,7 +459,7 @@ class OptionalLStrip(tuple):  # type: ignore[type-arg]\n     # Even though it looks like a no-op, creating instances fails\n     # without this.\n     def __new__(cls, *members, **kwargs):  # type: ignore\n-        return super().__new__(cls, **kwargs)\n+        return super().__new__(cls, members)\n \n \n class _Rule(t.NamedTuple):\n",
+   "cost_usd": 0.005058000000000007
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.combine_file__mxr3n2i4",
+   "order": 348,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 6,
+   "patch_chars": 1391,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": true,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/idtracking.py b/src/jinja2/idtracking.py\nindex 9866221..38b6f02 100644\n--- a/src/jinja2/idtracking.py\n+++ b/src/jinja2/idtracking.py\n@@ -23,11 +23,8 @@ def symbols_for_node(\n     node: nodes.Node, parent_symbols: t.Optional[\"Symbols\"] = None\n ) -> \"Symbols\":\n     sym = Symbols(parent=parent_symbols)\n-    if parent_symbols is not None:\n-        sym.analyze_node(parent_symbols)\n-    else:\n-        sym.analyze_node(node)\n-    return None\n+    sym.analyze_node(node)\n+    return sym\n \n \n class Symbols:\n@@ -86,6 +83,14 @@ class Symbols:\n             )\n         return rv\n \n+    def copy(self) -> \"Symbols\":\n+        rv = object.__new__(self.__class__)\n+        rv.__dict__.update(self.__dict__)\n+        rv.refs = self.refs.copy()\n+        rv.loads = self.loads.copy()\n+        rv.stores = self.stores.copy()\n+        return rv\n+\n     def store(self, name: str) -> None:\n         self.stores.add(name)\n \n@@ -310,10 +315,3 @@ class FrameSymbolVisitor(NodeVisitor):\n \n     def visit_OverlayScope(self, node: nodes.OverlayScope, **kwargs: t.Any) -> None:\n         \"\"\"Do not visit into overlay scopes.\"\"\"\n-        # incorrectly process node instead of skipping\n-        for child in node.children:\n-            self.visit(child, **kwargs)\n-\n-        if hasattr(node, 'optional') and node.optional:\n-            # improper handling of optional attribute\n-            pass\n",
+   "cost_usd": 0.004535750000000283
+  },
+  {
+   "instance_id": "pallets__jinja.ada0a9a6.func_basic__e00zclxx",
+   "order": 349,
+   "crashed": false,
+   "crash_head": null,
+   "steps": 17,
+   "patch_chars": 649,
+   "L": {
+    "passed": true,
+    "status": "all_passed"
+   },
+   "S": {
+    "resolved": false,
+    "status": "completed"
+   },
+   "patch": "diff --git a/src/jinja2/compiler.py b/src/jinja2/compiler.py\nindex 6b3d1ca..01fa721 100644\n--- a/src/jinja2/compiler.py\n+++ b/src/jinja2/compiler.py\n@@ -1939,8 +1939,9 @@ class CodeGenerator(NodeVisitor):\n     def visit_OverlayScope(self, node: nodes.OverlayScope, frame: Frame) -> None:\n         ctx = self.temporary_identifier()\n         self.writeline(f\"{ctx} = {self.derive_context(frame)}\")\n-        self.writeline(f\"{ctx}.vars = \")\n+        self.writeline(f\"{ctx}.vars.update(\")\n         self.visit(node.context, frame)\n+        self.writeline(\")\")\n         self.push_context_reference(ctx)\n \n         scope_frame = frame.inner(isolated=True)\n",
+   "cost_usd": 0.016925624999999833
+  }
+ ],
+ "spent_usd": 1.813529425000002
+}
