@@ -3080,6 +3080,7 @@ Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước ki�
 - **Thứ tự (§45 bước 6):** C4′ xong 21/11 (`kaggle/preregistration_s40.md` ghi chú 40-27), nên bước học chạy từ hôm nay.
 - **Pool B chạy thử trước (0 USD):** dữ liệu pool B chưa từng đi qua `ingest`, `pair`, `fork`. Ô chạy thử phải cho đủ các bước và số cặp; dự kiến 24 cặp trên 12 issue (ghi chú 45-5). Lệch thì dừng và báo.
 - **Trần mỗi phiên:** `DAY_CAP_USD = 9,5` cho cả hai pool, dưới hạn mức ngày 10 USD của Kaggle (`kaggle/preregistration_s37.md`). Giá trị vận hành: bước kiểm theo từng lệnh gọi (ghi chú 45-4) giữ mỗi phiên ≤ 9,5. Pool A dự kiến còn 11,24 USD, nên cần hai phiên. Không chạy hai ô trong cùng ngày nếu tổng hai trần phiên vượt 10.
+  - 21/11: Kaggle báo còn 3,4 USD của hạn mức ngày, đặt lại lúc 20:00 giờ Việt Nam (@thuthuy). Phiên pool A đầu tiên chạy với `DAY_CAP_USD = 3,3`; phiên sau, khi hạn mức ngày đã đặt lại, dùng 9,5 như trên. Trần mục không đổi.
 - **Trần mục:** pool A 14,640 (gồm 1,8444 của các bước đo; chạy tiếp từ output của bước đo thứ hai), pool B 6,376.
 - **Hạn mức tháng:** đã dùng khoảng 45,1 USD; cộng phần mới của W7 (12,80 + 6,376) là 64,3 ≤ 100.
 - **Chạy thử pool B (21/11, 05:18:17Z–05:18:47Z, 0 USD; `kaggle/results/w7/w7_B_dryrun.json`):** mọi bước chạy; **24 cặp trên 12 issue**, đúng dự kiến; tỉ lệ giải Flash 0,3529 (12/34), Flash-Lite 0; 144 lệnh gọi giả lập = 24 × 3 × 2. Đạt.
