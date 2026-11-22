@@ -37,6 +37,41 @@ dl.terms dt{font-weight:600;margin-top:10px}dl.terms dd{margin:2px 0 0 0;max-wid
 .flow{display:grid;gap:6px;margin:12px 0}.flow div{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:8px 12px}
 .flow .arr{border:0;background:none;text-align:center;color:var(--muted);padding:0}
 footer{margin-top:52px;color:var(--muted);font-size:.84rem}
+/* charts (HTML/CSS, readable at phone width) */
+.viz{--c-none:#86b6ef;--c-skill:#1c5cab;--band:#e8eef6;--band2:#f3ece0;--rule:#c9ccc5}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .viz{--c-none:#256abf;--c-skill:#9ec5f4;--band:#1f2a38;--band2:#2e2719;--rule:#4a4f56}}
+:root[data-theme="dark"] .viz{--c-none:#256abf;--c-skill:#9ec5f4;--band:#1f2a38;--band2:#2e2719;--rule:#4a4f56}
+figure.viz{margin:18px 0 22px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px 12px}
+figure.viz figcaption{font-size:.86rem;color:var(--muted);margin-top:10px;max-width:72ch}
+.viz .vt{font-weight:600;font-size:.95rem;margin:0 0 2px}.viz .vs{font-size:.82rem;color:var(--muted);margin:0 0 10px}
+.viz .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.82rem;color:var(--muted);margin:0 0 10px}
+.viz .legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.viz .grp{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:12px 0 2px}
+.viz .row{margin:6px 0 2px}
+.viz .lab{display:flex;justify-content:space-between;gap:10px;font-size:.84rem;line-height:1.3}
+.viz .lab b{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.viz .track{position:relative;height:18px}
+.viz .track.hdr::before{display:none}
+.viz .track::before{content:"";position:absolute;left:0;right:0;top:8px;height:2px;background:var(--line)}
+.viz .seg{position:absolute;top:7px;height:4px;background:var(--c-none);border-radius:2px;opacity:.7}
+.viz .dot{position:absolute;top:3px;width:12px;height:12px;margin-left:-6px;border-radius:50%;border:2px solid var(--card);box-sizing:content-box;margin-top:-2px}
+.viz .dot.none{background:var(--c-none)}.viz .dot.skill{background:var(--c-skill)}
+.viz .axis{position:relative;height:18px;font-size:.74rem;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:4px;border-top:1px solid var(--rule)}
+.viz .axis span{position:absolute;top:2px;transform:translateX(-50%)}
+.viz .axis span:first-child{transform:none}.viz .axis span:last-child{transform:translateX(-100%)}
+.viz .bar{height:14px;background:var(--c-skill);border-radius:0 4px 4px 0;min-width:3px;margin-top:3px}
+.viz .bar.mute{background:var(--c-none)}
+.viz .vline{position:absolute;top:0;bottom:0;width:0;border-left:1.5px dashed var(--rule)}
+.viz .vline em{position:absolute;top:-1px;left:4px;font-size:.72rem;color:var(--muted);font-style:normal;white-space:nowrap}
+.viz .plot{position:relative;padding-top:16px}
+.viz .bandz{position:absolute;top:0;bottom:0}
+.viz .zone{position:relative;height:30px;border-radius:4px;overflow:hidden;background:var(--band2)}
+.viz .zone .rej{position:absolute;left:0;top:0;bottom:0;background:var(--band)}
+.viz .zone span{position:absolute;top:6px;font-size:.78rem;color:var(--fg)}
+.viz .marks{position:relative;height:40px}
+.viz .marks .m{position:absolute;transform:translateX(-50%);font-size:.76rem;text-align:center;line-height:1.2;white-space:nowrap}
+.viz .marks .m i{display:block;width:12px;height:12px;border-radius:50%;margin:0 auto 3px;background:var(--c-skill)}
+.viz .marks .m.b i{background:none;border:2px solid var(--muted);width:8px;height:8px}
 </style>
 </head>
 <body>
@@ -97,6 +132,25 @@ footer{margin-top:52px;color:var(--muted);font-size:.84rem}
 <tr><td>Jinja, môi trường gốc, seed 51</td><td class="n">21</td><td class="n">55</td><td class="n">+0,34 [0,23; 0,44]</td><td class="n">53</td></tr>
 <tr><td>Bleve, môi trường gốc</td><td class="n">13</td><td class="n">43</td><td class="n">+0,30 [0,19; 0,40]</td><td class="n">34</td></tr>
 </table></div>
+<figure class="viz" role="img" aria-label="Số task giải được trên 100 task test, không skill và có skill, theo điều kiện">
+<p class="vt">Hình 1. Số task giải được trên 100 task test (bộ chấm S)</p>
+<p class="vs">Mỗi dòng là một điều kiện; đoạn nối là mức tăng do skill</p>
+<div class="legend"><span><i style="background:var(--c-none)"></i>Không skill</span><span><i style="background:var(--c-skill)"></i>Có skill</span></div>
+<div class="grp">Jinja, skill gskill đã công bố</div>
+<div class="row"><div class="lab"><span>Môi trường gốc, seed 41</span><b>15 → 53 (+0,38)</b></div><div class="track"><div class="seg" style="left:15%;width:38%"></div><div class="dot none" style="left:15%" title="Môi trường gốc, seed 41: không skill 15/100"></div><div class="dot skill" style="left:53%" title="Môi trường gốc, seed 41: có skill 53/100"></div></div></div>
+<div class="row"><div class="lab"><span>Môi trường gốc, seed 51</span><b>21 → 55 (+0,34)</b></div><div class="track"><div class="seg" style="left:21%;width:34%"></div><div class="dot none" style="left:21%" title="Môi trường gốc, seed 51: không skill 21/100"></div><div class="dot skill" style="left:55%" title="Môi trường gốc, seed 51: có skill 55/100"></div></div></div>
+<div class="row"><div class="lab"><span>Một commit, seed 41</span><b>14 → 35 (+0,21)</b></div><div class="track"><div class="seg" style="left:14%;width:21%"></div><div class="dot none" style="left:14%" title="Một commit, seed 41: không skill 14/100"></div><div class="dot skill" style="left:35%" title="Một commit, seed 41: có skill 35/100"></div></div></div>
+<div class="row"><div class="lab"><span>Một commit, seed 51</span><b>17 → 35 (+0,18)</b></div><div class="track"><div class="seg" style="left:17%;width:18%"></div><div class="dot none" style="left:17%" title="Một commit, seed 51: không skill 17/100"></div><div class="dot skill" style="left:35%" title="Một commit, seed 51: có skill 35/100"></div></div></div>
+<div class="row"><div class="lab"><span>Gốc, bỏ dòng đọc lịch sử (§29)</span><b>17 → 40 (+0,23)</b></div><div class="track"><div class="seg" style="left:17%;width:23%"></div><div class="dot none" style="left:17%" title="Gốc, bỏ dòng đọc lịch sử (§29): không skill 17/100"></div><div class="dot skill" style="left:40%" title="Gốc, bỏ dòng đọc lịch sử (§29): có skill 40/100"></div></div></div>
+<div class="grp">Jinja, skill học lại</div>
+<div class="row"><div class="lab"><span>Học ở một commit (§30)</span><b>16 → 33 (+0,17)</b></div><div class="track"><div class="seg" style="left:16%;width:17%"></div><div class="dot none" style="left:16%" title="Học ở một commit (§30): không skill 16/100"></div><div class="dot skill" style="left:33%" title="Học ở một commit (§30): có skill 33/100"></div></div></div>
+<div class="row"><div class="lab"><span>X1′: học lại ở gốc</span><b>13 → 67 (+0,54)</b></div><div class="track"><div class="seg" style="left:13%;width:54%"></div><div class="dot none" style="left:13%" title="X1′: học lại ở gốc: không skill 13/100"></div><div class="dot skill" style="left:67%" title="X1′: học lại ở gốc: có skill 67/100"></div></div></div>
+<div class="row"><div class="lab"><span>X1′: học lại ở một commit</span><b>8 → 33 (+0,25)</b></div><div class="track"><div class="seg" style="left:8%;width:25%"></div><div class="dot none" style="left:8%" title="X1′: học lại ở một commit: không skill 8/100"></div><div class="dot skill" style="left:33%" title="X1′: học lại ở một commit: có skill 33/100"></div></div></div>
+<div class="grp">Bleve (Go)</div>
+<div class="row"><div class="lab"><span>Môi trường gốc</span><b>13 → 43 (+0,30)</b></div><div class="track"><div class="seg" style="left:13%;width:30%"></div><div class="dot none" style="left:13%" title="Môi trường gốc: không skill 13/100"></div><div class="dot skill" style="left:43%" title="Môi trường gốc: có skill 43/100"></div></div></div>
+<div class="row"><div class="lab"><span>Một commit</span><b>14 → 31 (+0,17)</b></div><div class="track"><div class="seg" style="left:14%;width:17%"></div><div class="dot none" style="left:14%" title="Một commit: không skill 14/100"></div><div class="dot skill" style="left:31%" title="Một commit: có skill 31/100"></div></div></div>
+<div class="axis"><span style="left:0%">0</span><span style="left:25%">25</span><span style="left:50%">50</span><span style="left:75%">75</span><span style="left:100%">100</span></div>
+<figcaption>Ở môi trường gốc, mức tăng là 0,30–0,54. Khi bỏ hai commit của benchmark, bỏ dòng đọc lịch sử, hoặc học trong môi trường một commit, mức tăng còn 0,17–0,25. Khoảng tin cậy và thời điểm nhận: bảng ở mục 4, 6 và 7.</figcaption></figure>
 <p>Cả ba mức tăng đều được nhận. Mệnh đề được chứng nhận là: tác dụng trung bình trên đúng pool task này, trong điều kiện của lượt chạy này (<code>docs/method_end_of_pool.md</code>). Mệnh đề không nói gì về lý do của mức tăng; câu hỏi đó là RQ2 và RQ3.</p>
 
 <h2 id="rq2">5. RQ2. Cơ chế: rò rỉ qua lịch sử git</h2>
@@ -116,6 +170,16 @@ footer{margin-top:52px;color:var(--muted);font-size:.84rem}
 <tr><td>Học lại trong môi trường một commit (§30)</td><td>Skill không có chỉ dẫn lịch sử (0/8 ứng viên); 16 → 33, +0,17 [0,08; 0,26]</td><td>Bộ học chỉ viết chỉ dẫn khi có rò rỉ</td></tr>
 <tr><td><b>C10R</b>: tách tên commit khỏi nội dung diff (đăng ký trước, 70 task không mô tả cố định, 8 nhánh)</td><td>A (lịch sử như benchmark) so với C (commit "Bug Patch" rỗng, không có mã trước lỗi): skill giải 41/70 ở A, 1/70 ở C; D = −0,29 [−0,35; −0,24], 40 task âm, 0 dương, <b>E = 9,0·10³</b>. B (diff giữ, tên trung tính) − D (không commit lỗi): −0,01; C − D: +0,02</td><td>Mức tăng cần <b>mã trước lỗi</b> trong lịch sử (A so với C). Riêng diff dưới tên trung tính, hay riêng tên không có diff, đều không tạo mức tăng (mô tả). Tên commit dẫn agent tới diff: có skill, agent hiển thị diff ở 70/70 lượt của A. Tương tác −0,28 [−0,36; −0,21]</td></tr>
 </table></div>
+<figure class="viz" role="img" aria-label="C10R: số task giải được trên 70 task theo bốn lịch sử">
+<p class="vt">Hình 2. C10R: số task giải được trên 70 task không mô tả, theo bốn lịch sử</p>
+<p class="vs">Cùng cây mã và cùng commit xóa test; tám nhánh chạy trong một job</p>
+<div class="legend"><span><i style="background:var(--c-none)"></i>Không skill</span><span><i style="background:var(--c-skill)"></i>Có skill</span></div>
+<div class="row"><div class="lab"><span><b>A</b> · Như benchmark: tên “Bug Patch” + mã trước lỗi</span><b>0 / 41</b></div><div class="bar mute" style="width:0.0%" title="A, không skill: 0/70"></div><div class="bar" style="width:58.6%" title="A, có skill: 41/70"></div></div>
+<div class="row"><div class="lab"><span><b>B</b> · Cùng diff, tên trung tính</span><b>0 / 5</b></div><div class="bar mute" style="width:0.0%" title="B, không skill: 0/70"></div><div class="bar" style="width:7.1%" title="B, có skill: 5/70"></div></div>
+<div class="row"><div class="lab"><span><b>C</b> · Tên “Bug Patch”, commit rỗng</span><b>1 / 1</b></div><div class="bar mute" style="width:1.4%" title="C, không skill: 1/70"></div><div class="bar" style="width:1.4%" title="C, có skill: 1/70"></div></div>
+<div class="row"><div class="lab"><span><b>D</b> · Không có commit lỗi</span><b>0 / 3</b></div><div class="bar mute" style="width:0.0%" title="D, không skill: 0/70"></div><div class="bar" style="width:4.3%" title="D, có skill: 3/70"></div></div>
+<div class="axis"><span style="left:0%">0</span><span style="left:28.571428571428573%">20</span><span style="left:57.142857142857146%">40</span><span style="left:100%">70</span></div>
+<figcaption>Phép kiểm đã đăng ký so A với C (khác nhau đúng ở chỗ có mã trước lỗi hay không): 40 task nghiêng về A, 0 về C, E = 9,0·10³ ≥ 40. B và C gần bằng D: tên commit chỉ đường, diff chứa đáp án; mức tăng chỉ xuất hiện khi có cả hai.</figcaption></figure>
 <p>Phần mức tăng còn lại khi không có rò rỉ (0,17–0,23) là phần được chứng nhận theo phạm vi. Đóng góp của bài được đặt ở đây: một skill phải được chứng nhận theo từng phạm vi, dưới đối chứng trong đó nguyên nhân được giả định không còn.</p>
 
 <h2 id="rq4">7. RQ4. Độ vững: lặp lại và mở rộng</h2>
@@ -142,6 +206,17 @@ footer{margin-top:52px;color:var(--muted);font-size:.84rem}
 <tr><td>nano (OpenAI)</td><td class="n">0 / 20</td><td class="n">0 / 0</td><td class="n">−0,143</td><td class="n">86,7</td><td class="mid">Cùng chiều, chưa tới ngưỡng</td></tr>
 <tr><td>Haiku (Anthropic)</td><td class="n">24 / 24</td><td class="n">1 / 19</td><td class="n">+0,129</td><td class="n">0,002</td><td class="no">Ngược chiều</td></tr>
 </table></div>
+<figure class="viz" role="img" aria-label="C4′: giá trị E cuối pool của ba agent trên thang log">
+<p class="vt">Hình 3. C4′: giá trị E cuối pool của ba agent khác hãng (thang log)</p>
+<p class="vs">70 task không mô tả; E &gt; 1 là bằng chứng theo chiều dự đoán; bác bỏ khi E ≥ 120 (ngưỡng họ, 3 agent)</p>
+<div>
+<div class="track hdr" style="height:16px"><div class="vline" style="left:50.0%"><em>1</em></div><div class="vline" style="left:76.7%"><em style="left:auto;right:4px">40</em></div><div class="vline" style="left:84.7%"><em>120</em></div></div>
+<div class="row"><div class="lab"><span>gpt-oss <span class="muted">(gốc 0/23, một commit 0/0)</span></span><b>E = 169,4 · bác bỏ</b></div><div class="track"><div class="vline" style="left:50.0%"></div><div class="vline" style="left:76.7%"></div><div class="vline" style="left:84.7%"></div><div class="dot skill" style="left:87.1%" title="gpt-oss: E = 169,4"></div></div></div>
+<div class="row"><div class="lab"><span>nano <span class="muted">(gốc 0/20, một commit 0/0)</span></span><b>E = 86,7 · chưa tới 120</b></div><div class="track"><div class="vline" style="left:50.0%"></div><div class="vline" style="left:76.7%"></div><div class="vline" style="left:84.7%"></div><div class="dot skill" style="left:82.3%" title="nano: E = 86,7"></div></div></div>
+<div class="row"><div class="lab"><span>Haiku <span class="muted">(gốc 24/24, một commit 1/19)</span></span><b>E = 0,002 · ngược chiều</b></div><div class="track"><div class="vline" style="left:50.0%"></div><div class="vline" style="left:76.7%"></div><div class="vline" style="left:84.7%"></div><div class="dot skill" style="left:5.0%" title="Haiku: E = 0,002"></div></div></div>
+</div>
+<div class="axis"><span style="left:0%">10⁻³</span><span style="left:16.666666666666668%">10⁻²</span><span style="left:33.333333333333336%">10⁻¹</span><span style="left:50%">1</span><span style="left:66.66666666666667%">10</span><span style="left:83.33333333333333%">10²</span><span style="left:100%">10³</span></div>
+<figcaption>Số trong ngoặc là số task giải được, dạng không skill/có skill. Với gpt-oss và nano, skill chỉ giúp khi còn hai commit của benchmark. Haiku tự khai thác lịch sử ở nhánh không skill (24 task), nên D ra dương và E gần 0. Đường 40 là ngưỡng của một phép kiểm đơn.</figcaption></figure>
 <ul>
 <li>Với nano và gpt-oss, mọi task không mô tả mà skill giúp ở môi trường gốc đều mất tác dụng khi bỏ hai commit. Không có skill, hai agent này không tự khai thác lịch sử.</li>
 <li>Haiku tự tìm ra rò rỉ mà không cần skill (24/70 task không mô tả ở nhánh không skill), nên skill không thêm được gì ở môi trường gốc.</li>
@@ -176,6 +251,13 @@ footer{margin-top:52px;color:var(--muted);font-size:.84rem}
 <tr><td>K4</td><td>bất kỳ</td><td>—</td><td>Phân tích phụ: quy tắc ở B có thể nhắc <code>git log</code> nhưng không trỏ tới commit lỗi (ở B không có commit đó). Báo nội dung, lift và cờ n-gram, như pool A.</td></tr>
 <tr><td>K5</td><td>lượt dừng vì trần hoặc lỗi</td><td>—</td><td>Báo nguyên trạng. Phép thử chạy trên các issue đã xử lý nếu số issue có cặp ≥ 5 (§45). Nếu dưới 5 thì chỉ báo mô tả.</td></tr>
 </table></div>
+<figure class="viz" role="img" aria-label="W7: tỉ lệ issue có quy tắc đọc lịch sử ở pool A và vùng bác bỏ cho pool B">
+<p class="vt">Hình 4. W7: tỉ lệ issue có quy tắc đọc lịch sử (H)</p>
+<p class="vs">Pool A đã có; vùng xanh là nơi kết quả pool B (12 issue) dẫn tới bác bỏ theo Fisher một phía, α = 0,025</p>
+<div class="zone"><div class="rej" style="width:66.7%"></div><span style="left:8px">bác bỏ: B ≤ 8/12</span><span style="right:8px">không bác bỏ</span></div>
+<div class="marks"><div class="m b" style="left:66.7%"><i></i>8/12</div><div class="m" style="left:96.8%;transform:translateX(-80%)" title="Pool A: 30/31 issue"><i></i>A 30/31</div></div>
+<div class="axis"><span style="left:0%">0%</span><span style="left:25%">25%</span><span style="left:50%">50%</span><span style="left:75%">75%</span><span style="left:100%">100%</span></div>
+<figcaption>Kịch bản K1–K2 (B ≤ 8/12) bác bỏ; K3 (B ≥ 9/12) không bác bỏ. Bảng giá trị p ở mục 8.2.</figcaption></figure>
 <div class="box"><p><b>Tổng kết theo kịch bản.</b> Ở K1, K2: phát hiện chính có thêm một bộ học thứ hai, và bài viết được "hai bộ học skill độc lập đều biến rò rỉ thành chỉ dẫn". Ở K3: kết luận chính không đổi, vì nó dựa trên C10R, X1′ và C4′; câu về bộ học được thu hẹp thành "gskill, không chung cho mọi bộ học", và phần Thảo luận nêu rằng XRepoSkill viết chỉ dẫn đọc lịch sử không phụ thuộc rò rỉ. Cả hai trường hợp đều báo được, và EASE nhận kết quả âm tính. Ở mọi kịch bản, phần "bước kiểm n-gram không bắt kênh này" (8.1) đứng độc lập.</p></div>
 
 <h2 id="hanche">9. Độ tin cậy và hạn chế</h2>
