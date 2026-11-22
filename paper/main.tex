@@ -18,6 +18,11 @@
 \newcommand{\agentmodel}{Gemini~3.1 Flash-Lite}
 \newcommand{\promodel}{Gemini~3.1 Pro (preview)}
 \newcommand{\flashmodel}{Gemini~3.8 Flash}
+% Models of other vendors (Sections on scope); exact versions in the replication package.
+\newcommand{\haikumodel}{Claude Haiku~5.5}
+\newcommand{\nanomodel}{GPT-5.4 nano}
+\newcommand{\ossmodel}{gpt-oss-120b}
+\newcommand{\grokmodel}{Grok~4.6}
 % Every number in the text is a macro generated from results/ by scripts/make_numbers.py.
 \input{numbers}
 
@@ -33,11 +38,15 @@ instruction to look for a suspicious recent commit, and every SWE-smith task kee
 the benchmark's construction added: one injects the bug, the next deletes the tests that reproduce
 it. Removing these two commits lowers the gain from \njinjaGain{} to \njinjaLFGain{} (difference
 \nleak{} [\nleakLo{}, \nleakHi{}]); deleting the one instruction leaves a gain of \nabGain{};
-rerunning the learner without the two commits yields a skill without the instruction. A second
-agent seed reproduces the difference (\nsdLeak{} [\nsdLeakLo{}, \nsdLeakHi{}]), and a preregistered
-test on \ncfN{} tasks without an issue description confirms it (\ncfNewFor{} of the \ncfNew{} never
-used before favour the environment with the commits, none the other). A skill learned for a Go
-repository repeats the pattern, and a stronger agent model reads both commits with no skill at all.
+of two learning runs per environment, both wrote the instruction with the two commits and neither
+without them. A second agent seed reproduces the difference (\nsdLeak{} [\nsdLeakLo{},
+\nsdLeakHi{}]), a preregistered test on \ncfN{} tasks without an issue description confirms it
+(\ncfNewFor{} of the \ncfNew{} never used before favour the environment with the commits, none the
+other), and a registered intervention on the history shows that the gain needs the pre-bug code in
+the history; the commit's name alone carries none. A skill learned for a Go repository and an open-weight agent of
+another vendor repeat the pattern. An agent of a third vendor that reads the commits without any skill gains
+nothing from the instruction, and a second skill learner writes history steps with or without the
+commits.
 The part of each gain that persists without the commits is certified by an end-of-pool test whose
 guarantee we state and prove for the design we ran: the mean effect over a fixed pool of tasks,
 within one run. A learned skill must be certified per scope, under controls in which the claimed
@@ -79,10 +88,13 @@ claimed cause is absent. The contributions are:
       for it), the agent follows it on the tasks without an issue description, and every such task
       the agent resolved in the original environment shows the bug-injecting diff in its trace
       (Section~\ref{sec:mechanism}).
-\item Three registered interventions that remove the cause from three sides: from the environment
-      (the two construction commits), from the skill (the one instruction) and from the learning
-      (relearning without the commits); with a second seed and a preregistered test on tasks no
-      analysis had seen (Sections~\ref{sec:interventions}--\ref{sec:replication}).
+\item Registered interventions that remove the cause from three sides: from the environment
+      (the two construction commits, and the bug-injecting diff alone), from the skill (the one
+      instruction) and from the learning (two learning runs per environment); with a second seed and
+      a preregistered test on tasks no analysis had seen
+      (Sections~\ref{sec:interventions}--\ref{sec:replication}).
+\item Where the finding stops, measured with registered analyses: agents of three other vendors,
+      four other models as skill writers, and a second learner (Section~\ref{sec:scope}).
 \item A statement of what a certification of this kind means: an end-of-pool test whose guarantee
       holds for the mean effect over a fixed pool within one run, with heterogeneous tasks, and does
       not extend to other runs or other tasks (Section~\ref{sec:certified}).
@@ -146,6 +158,12 @@ A & is the instruction the cause & skill minus its history line & Jinja test, 10
 R & does the learner write it without the leak & relearn with one commit & Jinja test, 100 & same job (\neopSameG/100) & registered\\
 S1--S3 & second agent seed, four arms & J1, J2 and their contrast & Jinja test, 100 & same job & registered\\
 C & confirmatory contrast & J1 vs J2 & 34 test (seed 51) + 36 new & same job per task & registered\\
+C10 & message or pre-bug code & four histories & the 70 tasks of C & same job & registered\\
+R2 & is the learning outcome repeated & relearn, both histories & Jinja test, 100 & same job & registered, descr.\\
+V1--V3 & agents of other vendors & J1 vs J2 contrast & the 70 tasks of C & same session per task & registered\\
+K & does the sandbox change our agent & chroot vs Docker & Jinja, 34 without descr. & same job & registered, descr.\\
+W & other skill-writing models & rewrite saved prompts & 32 prompts, 3 seeds & one platform & registered\\
+L2 & a second learner (XRepoSkill) & both histories & 31 and 12 issues & -- & registered\\
 G & second agent model & none (descriptive) & Jinja, 34 without description & same job & registered, descr.\\
 X & reuse on another repository & Jinja skill on Pygments & Pygments test, 100 & same job (\neopSameH/100) & registered\\
 H & what the agent saw & trace audit & every saved trace & -- & post hoc\\
@@ -377,8 +395,20 @@ checked (one commit, one reference, no remote, no object carrying the bug-inject
 of the \ncleanCandNonEmpty{} non-empty rewrites kept contains a line about commits or history, and
 the skill is certified with one commit (R: \ncleanNone{} to \ncleanSkill{}, $E=\neopG$), though not
 at the family threshold. In the shipped environment it resolves \ncleanShipSolved{} of the \ncleanShipN{} tasks
-without a description. Each condition had one learning run of a stochastic loop: the absence of the
-instruction is an observation on this run, not an estimated rate.
+without a description.
+
+We then repeated both learning runs once, with the same split and settings (R2, registered). The
+skill relearned as shipped again contains the instruction (\nxoShipHistLines{} lines, e.g.\
+``Run \texttt{git log -n 5} to find the commit hash of the `Bug Patch'\,''); with both arms in one
+job it raises the resolved count from \nxoShipNone{} to \nxoShipSkill{} (gain \nxoShipGain{}
+[\nxoShipGainLo{}, \nxoShipGainHi{}]) and resolves \nxoShipNoPS{} of the 34 tasks without a
+description, against \nxoShipNoPSNone{} without it. The skill relearned with one commit again
+contains no such line and raises \nxoLFNone{} to \nxoLFSkill{} (gain \nxoLFGain{} [\nxoLFGainLo{},
+\nxoLFGainHi{}]), with \nxoLFNoPS{} tasks without a description resolved. Run in the shipped
+environment, it resolves \nxoLFOnShip{} of these \nxoLFOnShipN{} tasks: the commits are there, and
+nothing in the skill sends the agent to them. With two learning runs per environment, the
+instruction was written in two of two with the commits and in none of two without them; this
+describes the runs, it does not estimate a rate.
 
 \begin{figure}[t]\centering
 \begin{tikzpicture}
@@ -475,6 +505,69 @@ uses both channels without any skill: it displayed the bug-injecting diff in \nh
 files from the history in \nhiFlNoneRestore{} (\nhiFlSkillTests{} runs with the deleted tests
 displayed with the skill). We did not run the single-commit control for this model, so how much of
 its \nflNone{} resolved tasks the commits explain is not measured.
+
+\paragraph{Agents of other vendors}
+We ran \ossmodel{}, \nanomodel{} and \haikumodel{} as the agent, with the learned Jinja skill, on the
+\ncfN{} tasks of the confirmatory test C in its four arms (V1--V3; registered, family threshold
+$3/\alpha=120$). These runs used a model proxy without Docker: each task's image is unpacked into a
+\texttt{chroot} that holds the image's files and nothing of the host. A registered bridge with our
+agent (K) gives \nxtChrootSkill{} of \nxtN{} tasks resolved with the skill in the \texttt{chroot}
+against \nxtDockSkillLo{} to \nxtDockSkillHi{} in three Docker runs, and \nxtChrootNone{} against at
+most \nxtDockNoneHi{} without it. Table~\ref{tab:vendors} gives the contrast $D_i$ of test C
+(Table~\ref{tab:decisions}).
+\ossmodel{} repeats the finding and is certified at the family threshold; \nanomodel{} points the
+same way without reaching it. Without a skill, neither resolves any of these tasks in either
+environment. \haikumodel{} resolves \nvendHaikuNone{} of them with no skill as shipped and
+\nvendHaikuLFNone{} with one commit: it reads the commits on its own, the instruction adds nothing
+as shipped, and the rest of the skill helps with one commit, so the contrast points the other way.
+On \nvendHaikuDl{} of the tasks (in any arm), \haikumodel{} downloaded the released Jinja package
+to compare against, a channel the single-commit control does not remove; without these tasks the
+contrast keeps its direction ($E=\nvendHaikuDlE$ on \nvendHaikuDlN{} tasks). For \ossmodel{}, the format tags the
+endpoint returned inside message content were replaced by spaces before the conversation was sent
+back, because the endpoint rejected them; the agent's actions were parsed from the unmodified
+replies. The same normalisation was applied to all four arms; an interaction between it and the
+condition cannot be excluded.
+
+\begin{table}[t]\centering\footnotesize\setlength{\tabcolsep}{2.5pt}
+\caption{Agents of other vendors on the \ncfN{} Jinja tasks without a description (learned skill,
+scorer $S$, four arms per task). $D<0$: the skill helps more with the two commits. Certified when
+$E\ge120$ (three agents).}\label{tab:vendors}
+\begin{tabular}{@{}lccrcc@{}}\toprule
+Agent & Shipped & One commit & Mean $D$ [95\% CI] & $E$ & $\ge120$\\
+ & none/skill & none/skill & & &\\\midrule
+\ossmodel & \nvendOssNone/\nvendOssSkill & \nvendOssLFNone/\nvendOssLFSkill & \nvendOssMean{} [\nvendOssLo, \nvendOssHi] & \nvendOssE & \nvendOssRej\\
+\nanomodel & \nvendNanoNone/\nvendNanoSkill & \nvendNanoLFNone/\nvendNanoLFSkill & \nvendNanoMean{} [\nvendNanoLo, \nvendNanoHi] & \nvendNanoE & \nvendNanoRej\\
+\haikumodel & \nvendHaikuNone/\nvendHaikuSkill & \nvendHaikuLFNone/\nvendHaikuLFSkill & \nvendHaikuMean{} [\nvendHaikuLo, \nvendHaikuHi] & \nvendHaikuE & \nvendHaikuRej\\
+\bottomrule\end{tabular}
+\end{table}
+
+\paragraph{Other skill-writing models}
+We sent every saved skill-writing prompt of the Jinja and Bleve learning runs (32 prompts, three
+seeds each) to five models in the role of the skill writer (W, registered; Holm over the four
+models of other vendors at 0.025). \promodel{}, gskill's writer, wrote a history line in
+\nwrProLeak{} of the rewrites from prompts whose traces show the bug-injecting commit, against
+\nwrProNoLeak{} from prompts whose traces do not, and \nwrProClean{} from single-commit prompts. No
+other vendor's model is certified (smallest $p=\nwrMinP$ against $\nwrHolm$): \nanomodel{} and
+\ossmodel{} point the same way (\nwrNanoLeak{} against \nwrNanoNoLeak{}, \nwrOssLeak{} against
+\nwrOssNoLeak{}), and \grokmodel{} and \haikumodel{} write such a line in nearly every rewrite
+(\nwrGrokNoLeak{} and \nwrHaikuNoLeak{} without the leak), which leaves the comparison no room. The
+prompts are the saved calls, not randomised, and differ in order and length. Renaming ``Bug Patch''
+to a neutral message in six prompts did not change the rate ($p=\nwrRenP$); \nwrRenNamed{} of the
+\nwrRenN{} rewrites named the renamed commit as the place of the bug.
+
+\paragraph{A second learner}
+We ran XRepoSkill's learner (Stages 1--2 of its released code~\cite{xreposkill}), with gskill's
+reflection model, on pairs of a successful \flashmodel{} trace and a failed \agentmodel{} trace of
+the same task without a description: \nwsPairsA{} pairs on \nwsNA{} tasks with the shipped history
+and \nwsPairsB{} pairs on \nwsNB{} tasks with one commit (L2, registered). The registered indicator,
+a candidate rule with \texttt{git log} or \texttt{git show}, holds for \nwsGA{} of \nwsNA{} tasks
+and \nwsGB{} of \nwsNB{} (one-sided Fisher $p=\nwsP$): not rejected, so this learner's history
+steps cannot be told apart from habit. Read post hoc, the rules differ: \nwsBugA{} of the \nwsNA{}
+shipped tasks have a rule that points to the commit that introduced the bug and \nwsShowA{} one that
+runs \texttt{git show}, against \nwsBugB{} and \nwsShowB{} of \nwsNB{}, where the rules check
+\texttt{git status} before listing files (\nwsStatusB{} tasks). Of the \nwsJudgedGA{} judged rules
+with \texttt{git log} or \texttt{git show} from the shipped pool (lift \nwsLiftLoA{} to
+\nwsLiftHiA{} under XRepoSkill's own scoring), XRepoSkill's n-gram audit flags \nwsFlagA{}.
 
 \paragraph{Other agent--model configurations (post hoc)}
 SWE-Skills-Bench publishes one run per skill for \nsskbConfigs{} configurations~\cite{sskb_paper}.
@@ -587,7 +680,8 @@ statement about future runs: the model behind the same name changed between our 
 runs (a registered check found identical first responses on \ndriftMatch{} of \ndriftTasks{} tasks),
 and the replication with a second seed is descriptive evidence of stability, not a guarantee. It is
 not a statement about other tasks or repositories: the Pygments reuse and the second agent show how
-far a scope can differ.
+far a scope can differ. The agent is part of the scope as well: an agent that reads the commits on
+its own leaves the instruction nothing to add, and the same skill's contrast changes sign.
 
 \section{Threats to Validity}\label{sec:threats}
 \paragraph{Measurement}
@@ -603,9 +697,10 @@ harm. We could not verify the model's training cutoff and make no claim that tas
 The single-commit control removes both construction commits at once. C10 separates the message of
 the bug-injecting commit from its diff on one repository, one skill and one seed; it keeps the
 ``Remove F2P Tests'' commit in every history, so that channel was not varied.
-Other channels (image artefacts, file names, timestamps) were not probed. One learning run per
-condition: the presence or absence of the instruction is an observation, and the learning calls of
-the first half were overwritten. The reflection model was not varied.
+Other channels (image artefacts, file names, timestamps) were not probed; one agent used a third,
+the released package. Two learning runs per environment: the presence or absence of the instruction
+is an observation, and the learning calls of the first half of the original runs were overwritten.
+The reflection model was varied only in the rewriting step, on saved prompts.
 
 \paragraph{Inference}
 The certification rests on Assumption~\ref{ass:indep} given the run state, which diagnostics can
@@ -616,8 +711,11 @@ procedure over the registered sign tests does not control the error of the e-pro
 Table~\ref{tab:decisions} reports both readings.
 
 \paragraph{Scope}
-One agent model for the confirmatory runs; the descriptive runs with \promodel{} and \flashmodel{}
-are of the same vendor. Whether other vendors' models learn or follow the instruction is open.
+One agent model for the confirmatory Jinja runs. Of three agents of other vendors, one is certified,
+one points the same way and one reads the commits without a skill; they ran in a \texttt{chroot}
+sandbox bridged to Docker on our agent only. No skill-writing model of another vendor is certified,
+and a second learner did not separate the leak from habit, so the claim that a learner turns the
+leak into an instruction is made for gskill's learner and writer only.
 
 \section{Related Work}
 Skill libraries go back to Voyager~\cite{voyager}; for coding agents, skills are mined from
@@ -648,7 +746,9 @@ environment is part of that scope. On SWE-smith a published learner turned two c
 into advice: on Jinja, \nleak{} of a \njinjaGain{} gain depends on them, a second seed and a
 preregistered test on tasks without a description confirm the difference, and a Go skill repeats
 the pattern. The rest of each gain persists without the commits and is certified for its pool and
-run. A stronger agent reads both commits with no skill. Evaluating a learned skill therefore needs
+run. A repeated learning run, an intervention on the history and an agent of another vendor
+confirm the dependence; an agent that reads the commits with no skill, and a second learner whose
+history steps do not depend on them, mark where it stops. Evaluating a learned skill therefore needs
 controls in which the claimed cause is absent, and a statement of what the certification covers.
 
 \section*{Data Availability}

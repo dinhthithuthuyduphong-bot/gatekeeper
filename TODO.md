@@ -24,16 +24,16 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 | Việc | Kết quả | Ghi chú |
 | --- | --- | --- |
 | C10R (§44) | A − C: E = 9.028 (ngưỡng 40), bác bỏ | đã vào bài |
-| X2′ (§46) | `chroot` 20/34 có skill so với Docker 15–17/34 | 47-8, 47-9; chưa vào bài |
-| X1′ (§47) | Học lại: gốc có chỉ dẫn lịch sử, một commit không (2/2 so với 0/2 tính cả lượt cũ); +0,54 và +0,25 | 47-8, 47-9; chưa vào bài |
-| C4′ (§40) | gpt-oss bác bỏ (E = 169,4 ≥ 120); nano E = 86,7; Haiku ngược chiều | `kaggle/preregistration_s40.md` 40-27; chưa vào bài |
-| §38, A′ | Không model khác hãng nào qua Holm; A′ không bác bỏ | 38-6 đến 38-11; chưa vào bài |
-| W7 (§45) | **Không bác bỏ:** G ở A 30/31, ở B 11/12, p = 0,485 ("Không tách được rò rỉ với thói quen"). Hậu kiểm: quy tắc nhắc commit gây lỗi ở 23/31 issue A, 0/12 issue B | 45-9, 45-10; chưa vào bài |
+| X2′ (§46) | `chroot` 20/34 có skill so với Docker 15–17/34 | 47-8, 47-9; đã vào bài |
+| X1′ (§47) | Học lại: gốc có chỉ dẫn lịch sử, một commit không (2/2 so với 0/2 tính cả lượt cũ); +0,54 và +0,25 | 47-8, 47-9; đã vào bài |
+| C4′ (§40) | gpt-oss bác bỏ (E = 169,4 ≥ 120); nano E = 86,7; Haiku ngược chiều | `kaggle/preregistration_s40.md` 40-27; đã vào bài |
+| §38, A′ | Không model khác hãng nào qua Holm; A′ không bác bỏ | 38-6 đến 38-11; đã vào bài |
+| W7 (§45) | **Không bác bỏ:** G ở A 30/31, ở B 11/12, p = 0,485 ("Không tách được rò rỉ với thói quen"). Hậu kiểm: quy tắc nhắc commit gây lỗi ở 23/31 issue A, 0/12 issue B | 45-9, 45-10; đã vào bài |
 
 **Chi đã dùng:** Vertex 29,72 / 35 USD cho X2′ + X1′. Kaggle tháng 11 khoảng 61,9 / 100 USD (C4′ 17,54; W7 pool A 13,26; pool B 5,40).
 
 **Việc tiếp theo:**
-1. 👤 Sửa LaTeX của bài với các kết quả trên: **chờ lệnh của @thuthuy** (@thuthuy 22/11: "Latex của paper sau khi có w7 pool B thì chờ lệnh làm từ tôi").
+1. ~~Sửa LaTeX~~ **Xong 22/11** (@thuthuy: "Chỉnh sửa latex"; R-91): X1′, X2′, C4′, §38/A′, W7 trong `paper/main.tex`; 9 trang kể cả tham khảo.
 2. Q2 của §47 (0 USD), `history_audit` của X2′ cho bài.
 3. X3′ (nhãn độc lập cho bộ theo dõi trace), X4 (người ngoài đọc chứng minh), A4 (gói tái lập), A5 (khai báo AI), G1 (27 ghi chú PDF).
 
@@ -98,7 +98,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 6. 👤 Nhờ người biết thống kê đọc chứng minh cuối pool.
 
 **Bậc 3, viết bài (làm sau):**
-7. Đưa §38, A′, §39, C4′, W7 vào bài (cần chép `kaggle/results/a38_analysis.json` sang `main`; sửa bài theo kết quả Kaggle cần @thuthuy đồng ý).
+7. ~~Đưa §38, A′, C4′, W7 vào bài~~ **Xong 22/11** (R-91; X1′, X2′ cũng vào). §39 chưa đưa vào.
 8. D10, A5 (khai báo AI), G1 (27 ghi chú PDF), G4, các ghi chú về hình và bảng.
 9. Gói tái lập ẩn danh (A4) và dựng lại trên máy sạch (F4): làm sau, nhưng bắt buộc trước khi nộp.
 

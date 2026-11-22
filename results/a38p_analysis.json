@@ -1,0 +1,60 @@
+{
+ "model": "google/gemini-3.1-pro-preview",
+ "alpha": 0.025,
+ "pairs": [
+  {
+   "pid": "jinja-c04-renamed",
+   "original": 0.6666666666666666,
+   "renamed": 0.3333333333333333
+  },
+  {
+   "pid": "jinja-c05-renamed",
+   "original": 1.0,
+   "renamed": 1.0
+  },
+  {
+   "pid": "jinja-c06-renamed",
+   "original": 1.0,
+   "renamed": 1.0
+  },
+  {
+   "pid": "bleve-c04-renamed",
+   "original": 1.0,
+   "renamed": 1.0
+  },
+  {
+   "pid": "bleve-c05-renamed",
+   "original": 1.0,
+   "renamed": 1.0
+  },
+  {
+   "pid": "bleve-c06-renamed",
+   "original": 1.0,
+   "renamed": 1.0
+  }
+ ],
+ "H": {
+  "n_pairs": 6,
+  "mean_d": 0.05555555555555555,
+  "n_positive": 1,
+  "n_negative": 0,
+  "p_one_sided": 0.5
+ },
+ "G": {
+  "n_pairs": 6,
+  "mean_d": 0.05555555555555555,
+  "n_positive": 1,
+  "n_negative": 0,
+  "p_one_sided": 0.5
+ },
+ "renamed_seeds": {
+  "jinja-c04-renamed": 3,
+  "jinja-c05-renamed": 3,
+  "jinja-c06-renamed": 3,
+  "bleve-c04-renamed": 3,
+  "bleve-c05-renamed": 3,
+  "bleve-c06-renamed": 3
+ },
+ "complete": true,
+ "reject_H": false
+}
