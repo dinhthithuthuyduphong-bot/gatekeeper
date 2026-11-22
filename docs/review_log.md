@@ -1244,3 +1244,14 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Danh sách §4:** R5, L68 (số chép từ đầu ra), L79 (chép định nghĩa đại lượng từ bản đăng ký).
 - **Kết luận R-90:** đạt.
 
+## R-91. Đưa X1′, X2′, C4′, §38/A′ và W7 vào bài (22/11/2026; @thuthuy: "Chỉnh sửa latex")
+- **Đối tượng:** `scripts/make_numbers.py` (khối mới sau `ctrNoneMax`), `paper/main.tex`, các file kết quả chép sang `results/`.
+- **Đã kiểm:**
+  - Mọi số mới là macro sinh từ file kết quả; script dừng nếu số không khớp ghi chú đã đăng ký (47-8, 47-9, 40-27, 38-6, 38-11, 45-10) hay nếu quyết định khác (gpt-oss bác bỏ, nano và Haiku không, không model khác hãng nào qua Holm, W7 không bác bỏ).
+  - Chạy lại `make_numbers.py` trước khi sửa cho `numbers.tex` giống hệt bản cũ; sau khi sửa, hai lần chạy cho cùng kết quả.
+  - Câu chữ dùng đúng câu đã chốt ở `docs/reviewer_fidelity.md` (gpt-oss, XRepoSkill) và câu diễn giải đặt trước (38-9, 38-11, 45-10). Phần nội dung W7 ghi "read post hoc".
+  - Đọc lại PDF và sửa bốn câu nói quá bằng chứng trước khi commit: "agents ... gain nothing" (chỉ đúng cho Haiku; Flash có skill 34 so với 31), "rerunning twice" (thực là hai lượt mỗi môi trường kể cả lượt gốc), "not the commit's name" (C10R: riêng diff cũng không tạo mức tăng), "with one commit ... downloaded" (16 task tính trên mọi nhánh).
+  - Biên dịch: 0 tràn ngang; 9 trang kể cả tham khảo (nội dung khoảng 7,5 trang ≤ 10). Một cảnh báo tràn dọc 1,15pt ở trang tham khảo cuối.
+- **Danh sách §4:** R2 (số có nguồn), R5, L58 (câu nhân quả có hai nhánh chỉ khác đúng nguyên nhân), L79 (diễn giải số theo câu của nguồn).
+- **Kết luận R-91:** đạt.
+

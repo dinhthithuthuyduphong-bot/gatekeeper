@@ -1,0 +1,36 @@
+{
+ "status": "post hoc, not registered (note 45-10)",
+ "features": {
+  "git_show": "git show",
+  "diff": "diff",
+  "introduced_bug": "bug patch|inject|introduc|regression",
+  "git_status": "git status"
+ },
+ "A": {
+  "issues": 31,
+  "issues_with": {
+   "G": 30,
+   "git_show": 13,
+   "diff": 7,
+   "introduced_bug": 23,
+   "git_status": 3
+  }
+ },
+ "B": {
+  "issues": 12,
+  "issues_with": {
+   "G": 11,
+   "git_show": 0,
+   "diff": 0,
+   "introduced_bug": 0,
+   "git_status": 9
+  }
+ },
+ "p_one_sided_post_hoc": {
+  "G": 0.4850498338870432,
+  "git_show": 0.005638896879596222,
+  "diff": 0.08160270907681123,
+  "introduced_bug": 8.212572024256652e-06,
+  "git_status": 0.9999979748581028
+ }
+}

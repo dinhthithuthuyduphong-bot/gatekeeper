@@ -153,4 +153,7 @@ Mọi con số khác bên dưới đều được **suy ra từ α**, **suy ra t
 | **§45: trần bước học W7, pool A 14,640, pool B 6,376 USD hạn mức; seed 4506; dự trữ 3 × 0,311** | Suy ra (L66) | `kaggle/scripts/w7_caps.py` trên số đo của ghi chú 45-5; 3 = `WORKERS` của ô; 35.000 ký tự = lô merge 32 × 1.000 ký tự + prompt merge 3.253 |
 | **§45: 0,0647 USD mỗi lệnh gọi trong bước kiểm trước khối** | Đo, vận hành | Lệnh gọi đắt nhất của khối đo (0,0640), làm tròn lên; chỉ để không bắt đầu một khối sẽ bị cắt (ghi chú 45-4) |
 | **§45: pool B có 24 cặp** | Suy ra | 12 issue Flash giải × 2 quỹ đạo Flash-Lite thất bại; quy tắc ghép cặp K = 4 của XRepoSkill (`pairing.py`) |
-
+| **Bài, số của X2′ và X1′ (§46–§47): macro `xt*`, `xo*`** | Suy ra | `results/x2_analysis.json`, `results/x1eval_ship_ab.json`, `results/x1eval_lf_ab.json`, `results/x1eval_lfskill_ship34.json` (chép từ `pilot-snapshots`), hai file skill ở `docs/skills/gskill/` đếm bằng RULE của §29; `scripts/make_numbers.py` kiểm khớp ghi chú 47-8, 47-9 |
+| **Bài, số của C4′ (§40): macro `vend*`; ngưỡng họ 120 = 3/α** | Suy ra | `results/c4p_{haiku,nano,ossh}_analysis.json` (chép từ `kaggle/results/c4p/` của nhánh mặc định); 120 là ngưỡng đăng ký ở 40-5 |
+| **Bài, số của §38 và A′: macro `wr*`; mức Holm 0,00625 = 0,025/4** | Suy ra | `results/a38_analysis.json`, `results/a38p_analysis.json`, `results/a38p_results_20261117.jsonl` (chép từ `kaggle/results/`); 11/18 đếm bằng máy như ghi chú 38-11 |
+| **Bài, số của W7 (§45): macro `ws*`** | Suy ra; phần nội dung là hậu kiểm | `results/w7_analysis.json` (phép thử đăng ký), `results/w7_content_posthoc.json` (hậu kiểm, ghi chú 45-10) |

@@ -1,0 +1,80 @@
+[
+ {
+  "agent": "haiku",
+  "env": "g\u1ed1c",
+  "none": 65,
+  "skill": 70,
+  "gain": 0.05,
+  "boot95": [
+   -0.03,
+   0.13
+  ],
+  "admit_trial_alpha_0.025": null,
+  "admit_trial_bonferroni_6": null
+ },
+ {
+  "agent": "haiku",
+  "env": "m\u1ed9t commit",
+  "none": 60,
+  "skill": 68,
+  "gain": 0.08,
+  "boot95": [
+   0.03,
+   0.14
+  ],
+  "admit_trial_alpha_0.025": null,
+  "admit_trial_bonferroni_6": null
+ },
+ {
+  "agent": "nano",
+  "env": "g\u1ed1c",
+  "none": 1,
+  "skill": 37,
+  "gain": 0.36,
+  "boot95": [
+   0.27,
+   0.46
+  ],
+  "admit_trial_alpha_0.025": 17,
+  "admit_trial_bonferroni_6": 31
+ },
+ {
+  "agent": "nano",
+  "env": "m\u1ed9t commit",
+  "none": 1,
+  "skill": 33,
+  "gain": 0.32,
+  "boot95": [
+   0.23,
+   0.41
+  ],
+  "admit_trial_alpha_0.025": 18,
+  "admit_trial_bonferroni_6": 31
+ },
+ {
+  "agent": "ossh",
+  "env": "g\u1ed1c",
+  "none": 9,
+  "skill": 40,
+  "gain": 0.31,
+  "boot95": [
+   0.21,
+   0.41
+  ],
+  "admit_trial_alpha_0.025": 31,
+  "admit_trial_bonferroni_6": 42
+ },
+ {
+  "agent": "ossh",
+  "env": "m\u1ed9t commit",
+  "none": 9,
+  "skill": 26,
+  "gain": 0.17,
+  "boot95": [
+   0.08,
+   0.26
+  ],
+  "admit_trial_alpha_0.025": 78,
+  "admit_trial_bonferroni_6": 96
+ }
+]

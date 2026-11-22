@@ -1359,6 +1359,134 @@ def main() -> int:
         print("MISMATCH s44 decision")
         return 1
     N["ctrNoneMax"] = max(cr["solved"][v + "_none"][0] for v in "ABCD")
+    # sections 46-47 (X2', X1', registered 18/11): bridge chroot vs Docker; second learning runs
+    from make_ablation import RULE
+
+    x2 = load(Path("results/x2_analysis.json"))
+    dock = ("docker41", "docker51", "docker61")
+    N["xtN"] = x2["skill"]["n"]
+    N["xtChrootSkill"], N["xtChrootNone"] = x2["skill"]["chroot"], x2["none"]["chroot"]
+    N["xtDockSkillLo"] = min(x2["skill"][k] for k in dock)
+    N["xtDockSkillHi"] = max(x2["skill"][k] for k in dock)
+    N["xtDockNoneHi"] = max(x2["none"][k] for k in dock)
+    for env, f in (("Ship", "x1eval_ship_ab.json"), ("LF", "x1eval_lf_ab.json")):
+        xe = load(Path("results") / f)
+        s, nps = xe["all"]["S"], xe["no_problem_statement"]["S"]
+        N["xo" + env + "None"], N["xo" + env + "Skill"] = s["none"], s["skill"]
+        N["xo" + env + "Gain"], (N["xo" + env + "GainLo"], N["xo" + env + "GainHi"]) = (
+            s["gain"],
+            s["boot95"],
+        )
+        N["xo" + env + "Admit"] = xe["all"]["gatekeeper_admit_trial"]
+        N["xo" + env + "NoPS"], N["xo" + env + "NoPSNone"] = nps["skill"], nps["none"]
+    for env, f in (("Ship", "jinja_x1ship_best_skills.txt"), ("LF", "jinja_x1lf_best_skills.txt")):
+        text = Path("docs/skills/gskill", f).read_text()
+        N["xo" + env + "HistLines"] = sum(bool(RULE.search(x)) for x in text.splitlines())
+    q4 = load(Path("results/x1eval_lfskill_ship34.json"))["runs"]
+    N["xoLFOnShip"] = sum(r["S"]["resolved"] for r in q4)
+    N["xoLFOnShipN"] = len(q4)
+    for k, v in {
+        "xoShipSkill": 67,
+        "xoShipNone": 13,
+        "xoLFSkill": 33,
+        "xoLFNone": 8,
+        "xoShipNoPS": 22,
+        "xoLFNoPS": 0,
+        "xoShipHistLines": 3,
+        "xoLFHistLines": 0,
+        "xoLFOnShip": 0,
+        "xoLFOnShipN": 34,
+        "xtChrootSkill": 20,
+    }.items():
+        if N[k] != v:  # the values of notes 47-8 and 47-9
+            print("MISMATCH s46-47", k, N[k], v)
+            return 1
+    # section 40 (C4', kaggle/preregistration_s40.md, note 40-27): other vendors' agents, 70 tasks
+    for tag, key in (("ossh", "Oss"), ("nano", "Nano"), ("haiku", "Haiku")):
+        m = load(Path(f"results/c4p_{tag}_analysis.json"))["main"]
+        N["vend" + key + "N"] = m["n"]
+        for arm, a in (
+            ("none", "None"),
+            ("skill", "Skill"),
+            ("lf_none", "LFNone"),
+            ("lf_skill", "LFSkill"),
+        ):
+            N["vend" + key + a] = m["solved"][arm]
+        N["vend" + key + "Neg"], N["vend" + key + "Pos"] = m["neg_pos"]
+        N["vend" + key + "Mean"] = m["mean_D"]
+        N["vend" + key + "Lo"], N["vend" + key + "Hi"] = m["ci95_D"]
+        e = m["E"]
+        N["vend" + key + "E"] = f"{e:.3f}" if e < 1 else f"{e:.1f}" if e < 1e3 else sci(e)
+        N["vend" + key + "Rej"] = "yes" if e >= 120 else "no"  # family threshold 3/alpha
+    hs = load(Path("results/c4p_haiku_analysis.json"))
+    N["vendHaikuDl"] = len(hs["download_tasks_in_pool"])
+    N["vendHaikuDlN"] = hs["sensitivity_without_downloads"]["n"]
+    N["vendHaikuDlE"] = f"{hs['sensitivity_without_downloads']['E']:.2f}"
+    for k, v in {
+        "vendOssSkill": 23,
+        "vendNanoSkill": 20,
+        "vendHaikuNone": 24,
+        "vendHaikuLFSkill": 19,
+    }.items():
+        if N[k] != v:
+            print("MISMATCH s40", k, N[k], v)
+            return 1
+    if N["vendOssRej"] != "yes" or N["vendNanoRej"] != "no" or N["vendHaikuRej"] != "no":
+        print("MISMATCH s40 decisions")
+        return 1
+    # section 38 and A' (kaggle/preregistration_s38.md, notes 38-6 to 38-11): other skill writers
+    a38 = load(Path("results/a38_analysis.json"))
+    wr = {
+        "Pro": "google/gemini-3.1-pro-preview",
+        "Nano": "openai/gpt-5.4-nano-2026-03-17",
+        "Oss": "openai/gpt-oss-120b",
+        "Grok": "xai/grok-4.6",
+        "Haiku": "anthropic/claude-haiku-5-5",
+    }
+    for key, m in wr.items():
+        h = a38["models"][m]["H"]
+        N["wr" + key + "Leak"] = h["leak/ablated"]["mean"]
+        N["wr" + key + "NoLeak"] = h["noleak_leaky_env/ablated"]["mean"]
+        N["wr" + key + "P"] = h["leak/ablated - noleak_leaky_env/ablated"]["p_one_sided"]
+    N["wrProClean"] = a38["models"][wr["Pro"]]["G"]["clean/ablated"]["mean"]
+    N["wrMinP"] = min(N["wr" + k + "P"] for k in ("Nano", "Oss", "Grok", "Haiku"))
+    N["wrHolm"] = f"{0.025 / 4:.5f}"  # Holm's first step over the four other vendors
+    if any(a38["holm_primary_H"].values()) or N["wrMinP"] <= 0.025 / 4:
+        print("MISMATCH s38: a model of another vendor passes Holm")
+        return 1
+    ap_ = load(Path("results/a38p_analysis.json"))
+    N["wrRenP"] = ap_["H"]["p_one_sided"]
+    rows_ap = [
+        json.loads(x)
+        for x in Path("results/a38p_results_20261117.jsonl").read_text().splitlines()
+        if x.strip()
+    ]
+    N["wrRenN"] = len(rows_ap)
+    N["wrRenNamed"] = sum("Merge branch 'stable'" in r.get("new_skills", "") for r in rows_ap)
+    if (N["wrRenN"], N["wrRenNamed"]) != (18, 11) or ap_["reject_H"]:
+        print("MISMATCH s38 A'")
+        return 1
+    # section 45 (W7-b, notes 45-9, 45-10): a second learner, XRepoSkill
+    w7 = load(Path("results/w7_analysis.json"))
+    for p, key in (("A", "A"), ("B", "B")):
+        N["wsN" + key], N["wsG" + key] = w7[p]["issues"], w7[p]["issues_G"]
+        N["wsPairs" + key], N["wsJudged" + key] = w7[p]["pairs"], w7[p]["judged_rules"]
+        N["wsJudgedG" + key] = len(w7[p]["judged_rules_G"])
+        N["wsFlag" + key] = sum(r["ngram_flagged"] for r in w7[p]["judged_rules_G"])
+    N["wsLiftLoA"] = min(r["gain"] for r in w7["A"]["judged_rules_G"])
+    N["wsLiftHiA"] = max(r["gain"] for r in w7["A"]["judged_rules_G"])
+    N["wsP"] = w7["p_one_sided_G"]
+    wc = load(Path("results/w7_content_posthoc.json"))
+    N["wsBugA"] = wc["A"]["issues_with"]["introduced_bug"]
+    N["wsBugB"] = wc["B"]["issues_with"]["introduced_bug"]
+    N["wsShowA"] = wc["A"]["issues_with"]["git_show"]
+    N["wsShowB"] = wc["B"]["issues_with"]["git_show"]
+    N["wsStatusA"] = wc["A"]["issues_with"]["git_status"]
+    N["wsStatusB"] = wc["B"]["issues_with"]["git_status"]
+    N["wsBugP"] = wc["p_one_sided_post_hoc"]["introduced_bug"]
+    if w7["reject_G"] or (N["wsGA"], N["wsNA"], N["wsGB"], N["wsNB"]) != (30, 31, 11, 12):
+        print("MISMATCH s45")
+        return 1
     N["leakSharePct"] = round(100 * N["leakShare"])
     N["fzeroGoldMinPct"] = int(100 * f0["S_gold_min"])  # floor: "at least"
     for k in ("sskbOpp", "sskbRho"):
