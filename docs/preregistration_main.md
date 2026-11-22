@@ -3315,3 +3315,47 @@ Q3 được báo cáo đầy đủ trong mọi trường hợp, kể cả khi kh
 - **Chặn theo tháng:** số đã dùng trong tháng (do @thuthuy đọc ở trang Settings, nhập vào ô) + trần của phiên ≤ 100. Đến 18/11, tháng 11 đã dùng khoảng 25,69 USD hạn mức (`kaggle/TODO.md`).
 
 **Đọc kết quả:** như bảng "Cách đọc" của §47 cho phần `x1lf`, thêm câu về khác biệt 1–3.
+
+## 49. X3′: kiểm bộ theo dõi trace bằng nhãn của người, không xem nhãn máy (đăng ký 22/11/2026, trước khi người gán nhãn mở trace nào)
+
+**Vì sao:** ghi chú trang 8 trên PDF của thầy (16/11): bộ theo dõi trace phải được đánh giá bằng nhãn độc lập, có ma trận nhầm lẫn, và tách "thấy thông điệp commit" khỏi "dùng thông tin rò rỉ" (`docs/todo_ease_revision.md` §8). Thiết kế theo `docs/plan_vs_review.md` §7.3, @thuthuy chấp nhận 18/11: kiểm **toàn bộ** tầng quan trọng, không lấy mẫu. @thuthuy 22/11: "Tôi gán nhãn X3′, soạn bộ trace đi".
+
+**Đã thấy trước khi đăng ký:** mọi nhãn máy của các trace này (`results/history_audit.json`, đã dùng trong bài). Người gán nhãn (@thuthuy) chưa mở trace nào và không xem nhãn máy.
+
+**Đơn vị và tập trace (toàn bộ, không lấy mẫu):** mọi trace của agent nghiên cứu, **có skill gốc, môi trường gốc, task không mô tả**, ở ba nhóm mà đoạn "What the agent saw" của bài dựa vào:
+- `s27_trace34` + `s27_trace34b` (34 task test, seed 41);
+- `s33_ship_skill`, 34 task không mô tả (seed 51);
+- `s35_ship_skill`, 36 task mới (seed 51).
+Tổng **104 trace**; 52 trace giải được theo S. Bỏ qua lượt sập hay lỗi hạ tầng như `scripts/history_audit.py` (không có lượt nào trong 104).
+Không gán nhãn các môi trường một commit: ở đó kênh không tồn tại theo cách dựng (kiểm bằng `history_check`), nên nhãn chỉ kiểm được dương tính giả (`docs/plan_vs_review.md` §7.3).
+
+**Che mù:** mỗi trace mang một mã `T001`–`T104` theo một hoán vị cố định (`random.Random(4901)`; số vận hành). Trang gán nhãn không hiện: nhóm, seed, tên task, kết quả chấm S hay L, nhãn máy. Trang hiện: mọi tin nhắn của trace theo thứ tự (lời agent, lệnh, kết quả lệnh), bản vá cuối của agent, và hai tham chiếu của benchmark cho task đó: bản vá chèn lỗi (`patch` của hàng SWE-smith) và tên các test FAIL_TO_PASS. Bảng mã → trace nằm ở `results/x3_codes.json`; người gán nhãn không mở file này trước khi gán xong.
+
+**Câu hỏi gán nhãn (định nghĩa cố định; chỉ tính phần "kết quả lệnh", tức tin nhắn môi trường trả về, không tính lời agent tự viết):**
+- **Q1, thấy tên commit:** có ít nhất một kết quả lệnh chứa chuỗi "Bug Patch". Có/Không.
+- **Q2, thấy diff chèn lỗi:** có ít nhất một kết quả lệnh hiện nội dung thay đổi của commit "Bug Patch" (toàn bộ hay một phần), nhận ra được nhờ bản vá chèn lỗi tham chiếu. Có/Không.
+- **Q3, thấy test bị xóa:** có ít nhất một kết quả lệnh hiện nội dung các test mà commit "Remove F2P Tests" đã xóa, hoặc agent khôi phục từ lịch sử một file test đã bị xóa rồi chạy nó. Có/Không.
+- **Q4, dùng thông tin** (chỉ khi Q2 = Có): sau lần đầu thấy diff, agent dựa vào nó để sửa, tức là (a) agent viết rằng sẽ đảo ngược hay khôi phục thay đổi của commit đó, hoặc (b) bản vá cuối đổi lại đúng các dòng mà bản vá chèn lỗi đã đổi. Có/Không/Không xác định. Khi Q2 = Không, Q4 ghi "Không áp dụng".
+- Ô ghi chú tự do cho mọi trace.
+
+**Nhãn máy để so (đã có, không sửa):** từ `results/history_audit.json`, các trường `seen_bug_msg` (Q1), `bug_diff_shown` (Q2), `deleted_tests_shown` hoặc `tests_restored_and_run` (Q3), `exact_revert` (đặt cạnh Q4, chỉ mô tả, vì hai khái niệm khác nhau).
+
+**Phân tích** (`scripts/x3_analyse.py`, viết và test trước khi có nhãn):
+1. Với Q1, Q2, Q3: ma trận nhầm lẫn 2 × 2 (người × máy) trên 104 trace, số trace đồng thuận, và riêng trên 52 trace giải được. Báo đếm, không có ngưỡng chấp nhận và không có khoảng tin cậy: tập trace là toàn bộ tầng, không phải mẫu.
+2. Đếm lại theo nhãn người các con số của bài: diff hiện ở bao nhiêu trace trong mỗi nhóm (máy: 29/34, 32/34, 35/36), test bị xóa ở bao nhiêu trace (máy: 0), và bao nhiêu trace giải được có Q2 = Có (máy: 52/52).
+3. Q4: bảng chéo với `exact_revert` và với kết quả chấm S (mô tả). Đây là phần tách "thấy" khỏi "dùng".
+4. Mọi trace có người và máy lệch nhau được liệt kê kèm mã, câu hỏi, ghi chú của người.
+
+**Câu được viết trong bài (đặt trước):**
+- Nếu Q2 của người = Có ở cả 52 trace giải được: giữ câu "every such task it resolved shows the diff", thêm "an author labelled all 104 traces blind to the detector and the outcome; the labels agree on k of 104 (Q2)".
+- Nếu có trace giải được với Q2 của người = Không: thay câu đó bằng số theo nhãn người, và nêu số trace lệch.
+- Các số 29/32/35 và 0 được báo theo cả máy và người; nếu khác, bài dùng nhãn người cho câu khẳng định và ghi số của máy kèm theo.
+- Q4 được báo như chỉ báo sử dụng do người đánh giá, không phải bằng chứng nhân quả (bằng chứng nhân quả là các can thiệp ở §25, §29, §44).
+
+**Không sửa nhãn sau khi xem nhãn máy (R5).** Người gán nhãn không đổi nhãn đã nộp sau khi biết kết quả so sánh; nếu phát hiện gõ nhầm, ghi một ghi chú thực thi có ngày, giữ cả nhãn cũ.
+
+**Giới hạn nêu trước:** một người gán nhãn, là tác giả (che mù với nhãn máy, nhóm và kết quả, nhưng không độc lập với nghiên cứu); không đo độ đồng thuận giữa hai người. Bản vá chèn lỗi tham chiếu giúp người nhận ra diff, nên cách nhận ra của người gần với quy tắc của máy ở Q2.
+
+**Chi phí:** 0 USD; không gọi model.
+
+**Ghi chú thực thi 49-1** (22/11/2026, trước khi có nhãn): trang gán nhãn đã publish ở artifact riêng tư `https://claude.ai/artifact/RZMUpAYAGKYga7xDCvy99n`, đọc bộ trace `traces.json` (sha256 `6afe511ffbf589653dd06e4c7af4f981673aae2db2f81b60297eb646ccac861f`, khớp `results/x3_codes.json`). Nhãn lưu trong cơ sở dữ liệu của trang, bộ sưu tập `labels`, một tài liệu cho mỗi mã (`q1`, `q2`, `q3`, `q4`, `note`, `saved_at`); Q4 tự ghi "na" khi Q2 = Không. Kiểm chức năng: một tài liệu thử `zz-probe` được ghi, đọc lại rồi xóa; bộ sưu tập trống khi giao cho @thuthuy. Khi @thuthuy báo xong, Claude xuất nhãn thành `results/x3_labels.json` rồi chạy `scripts/x3_analyse.py`.

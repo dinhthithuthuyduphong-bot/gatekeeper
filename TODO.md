@@ -35,7 +35,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 **Việc tiếp theo:**
 1. ~~Sửa LaTeX~~ **Xong 22/11** (@thuthuy: "Chỉnh sửa latex"; R-91): X1′, X2′, C4′, §38/A′, W7 trong `paper/main.tex`; 9 trang kể cả tham khảo.
 2. Q2 của §47 (0 USD), `history_audit` của X2′ cho bài.
-3. X3′ (nhãn độc lập cho bộ theo dõi trace), X4 (người ngoài đọc chứng minh), A4 (gói tái lập), A5 (khai báo AI), G1 (27 ghi chú PDF).
+3. **X3′ (§49): @thuthuy đang gán nhãn 104 trace** ở trang `https://claude.ai/artifact/RZMUpAYAGKYga7xDCvy99n`; khi xong, xuất nhãn và chạy `scripts/x3_analyse.py`. Còn: X4 (người ngoài đọc chứng minh), A4 (gói tái lập), A5 (khai báo AI), G1 (27 ghi chú PDF).
 
 ### Tổng hợp thí nghiệm còn lại và chi phí (18/11/2026; lịch sử, đã chạy xong)
 
