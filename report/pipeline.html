@@ -34,7 +34,7 @@ details{border:1px solid var(--line);border-radius:9px;padding:9px 14px;margin:9
 <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#c0392b"/></marker>
 </defs></svg>
 <header><div><h1>Cách dự án Gatekeeper vận hành</h1>
-<p>Viết cho một người chưa từng dùng Git, GitHub, CI/CD, Docker hay dịch vụ đám mây. Đọc từ trên xuống: mỗi khái niệm được giải thích bằng lời thường và một hình vẽ trước khi được dùng. Nội dung theo trạng thái của repo ngày 16/11/2026, trên mọi nhánh.</p></div></header>
+<p>Viết cho một người chưa từng dùng Git, GitHub, CI/CD, Docker hay dịch vụ đám mây. Đọc từ trên xuống: mỗi khái niệm được giải thích bằng lời thường và một hình vẽ trước khi được dùng. Nội dung theo trạng thái của repo ngày 22/11/2026. Các mục C5, E5, E6, F2 và F4 được viết lại hoặc bổ sung ngày này; các hình vẽ và số commit trong hình vẫn theo ngày 16/11.</p></div></header>
 <main><div class="grid"><nav><b>Mục lục</b>
 <a href="#cach-doc">Cách đọc trang này</a>
 <div class="grp">A. Chuyện gì đang diễn ra</div>
@@ -55,6 +55,7 @@ details{border:1px solid var(--line);border-radius:9px;padding:9px 14px;margin:9
 <a href="#c2">C2. Mở từng file quan trọng</a>
 <a href="#c3">C3. Đường đi của một con số</a>
 <a href="#c4">C4. Bản đồ 20 nhánh</a>
+<a href="#c5">C5. Chọn repo và task</a>
 <div class="grp">D. Các cơ chế bảo vệ</div>
 <a href="#d1">D1. Bốn cổng chặn</a>
 <a href="#d2">D2. Kiểm soát tiền</a>
@@ -67,6 +68,7 @@ details{border:1px solid var(--line);border-radius:9px;padding:9px 14px;margin:9
 <a href="#e3">E3. Các luồng có phí</a>
 <a href="#e4">E4. Luồng tại máy làm việc</a>
 <a href="#e5">E5. Hướng Kaggle</a>
+<a href="#e6">E6. Vertex 21/11: X1′, X2′</a>
 <div class="grp">F. Ghép lại</div>
 <a href="#f1">F1. Ví dụ trọn vẹn: §34</a>
 <a href="#f2">F2. Dòng thời gian</a>
@@ -637,6 +639,18 @@ logs/</code></pre>
 <p><b>3. Vì sao bài báo không gõ tay con số?</b> Để con số luôn khớp với file kết quả, và để một script so nó với giá trị đã ghi.</p>
 <p><b>4. Kết quả của một lần chạy trên runner nằm ở nhánh loại nào?</b> Nhánh dữ liệu, ví dụ <code>pilot-snapshots</code>.</p></details>
 
+<h2 id="c5">C5. Chọn repo và task bằng quy tắc nào</h2>
+<p>Một nghiên cứu phải chứng minh được vì sao chọn repo này mà không chọn repo khác. Nếu chọn tùy ý, reviewer có thể nói "chọn repo có kết quả đẹp". Vì vậy mỗi lựa chọn dưới đây đều theo một quy tắc ghi trước, dựa vào tài liệu đã công bố của gskill.</p>
+<div class="tbl"><table>
+<tr><th>Repo</th><th>Ngôn ngữ</th><th>Vì sao chọn</th><th>Vai trò</th></tr>
+<tr><td>Jinja (<code>pallets__jinja</code>)</td><td>Python</td><td>gskill đã công bố skill cho repo này. Dùng đúng skill đó thì không ai nói được là mình tự viết skill cho có lợi.</td><td>Repo chính: mọi thí nghiệm từ §25 tới C4′, X1′, W7</td></tr>
+<tr><td>Bleve (<code>blevesearch__bleve</code>)</td><td>Go</td><td>Repo thứ hai trong blog của gskill, với mức tăng lớn nhất được báo (24% → 93%). Ghi ở §25.</td><td>Lặp lại trên ngôn ngữ khác</td></tr>
+<tr><td>Pygments (<code>pygments__pygments</code>)</td><td>Python</td><td>Repo mặc định trong README của gskill (§25 mục F0, §27).</td><td>Thử chuyển skill Jinja sang repo khác</td></tr>
+<tr><td>Ba repo Python rút thăm</td><td>Python</td><td>Rút ngẫu nhiên bằng <code>random.Random("2027-s25-f0x").sample(pool, 3)</code> trong 93 repo Python có ít nhất 100 task.</td><td>Kiểm bộ chấm L trên nhiều repo (206/216 bản vá rỗng được nhận)</td></tr>
+</table></div>
+<p><b>Task trong mỗi repo:</b> lấy từ SWE-smith. Phép chia train/val/test tái tạo đúng hàm <code>load_and_split_data</code> của gskill: <code>random.seed(42)</code>, 200/50/100. Có test so với mã gốc. Chấm luôn trên 100 task test.</p>
+<p><b>Task không có issue:</b> trong 100 task test, Jinja có 34 task không có mô tả lỗi, Bleve có 42. Đây là nơi rò rỉ thể hiện rõ nhất, vì agent không có manh mối nào khác. Pool 70 task của C10R và C4′ gồm 34 task này cộng 36 task không mô tả đầu tiên nằm ngoài các hàng gskill lấy mẫu (theo thứ tự của bộ dữ liệu, §35).</p>
+
 <div class="part"><b>Phần D. Các cơ chế bảo vệ</b><span>Bốn cổng chặn mã hỏng, năm tầng giữ tiền, kho lưu trữ, và việc giữ bí mật.</span></div>
 
 <h2 id="d1">D1. Bốn cổng chặn</h2>
@@ -984,15 +998,61 @@ preflight: FAIL</code></pre>
 <p class="muted"><code>CLAUDE.md</code> nhắc tới hai script điều phối <code>run_e1_par.sh</code> và <code>run_e2.sh</code>. Hai file này hiện không nằm trong Git; phần có trong repo là <code>run_batched_pilot.py</code> mà chúng gọi.</p>
 
 <h2 id="e5">E5. Hướng Kaggle</h2>
-<p><b>Kaggle</b> là một trang web cho chạy <b>notebook</b> (sổ tay gồm các ô mã, bấm chạy từng ô) trên máy của họ, và cấp sẵn một hạn mức gọi model mỗi ngày. <b>Lý do mở hướng này:</b> chạy thêm thí nghiệm với model của hãng khác mà không dùng tiền của dự án.</p>
-<p>Theo yêu cầu của người phụ trách ngày 14/11, mọi thứ của hướng này nằm trong thư mục <code>kaggle/</code> trên nhánh mặc định, và chỉ được đưa lên <code>main</code> khi tất cả đã chạy ổn.</p>
+<p><b>Kaggle</b> là trang web cho chạy <b>notebook</b> trên máy của họ. Notebook là một trang gồm các ô mã; bấm chạy thì ô chạy. Loại notebook "Benchmarks" có sẵn một <b>hạn mức gọi model</b> của nhiều hãng: 10 USD mỗi ngày, làm mới lúc 20:00 giờ Việt Nam (13:00 UTC), và 100 USD mỗi tháng. Tài khoản không gắn thẻ thanh toán, nên hạn mức chỉ là giới hạn dùng, không phải tiền thật.</p>
+<p><b>Lý do mở hướng này:</b> chạy agent và bộ học với model của hãng khác (OpenAI, Anthropic, ...) mà không dùng tiền của dự án. Mọi file của hướng này nằm trong <code>kaggle/</code> trên nhánh mặc định.</p>
+<h3>Ba khó khăn kỹ thuật và cách giải</h3>
 <div class="tbl"><table>
-<tr><th>Việc</th><th>Cách làm</th><th>Trạng thái theo <code>kaggle/README.md</code></th></tr>
-<tr><td>Giai đoạn 0 (§37): thử chạy container trên Kaggle</td><td>Kaggle không có Docker. Dự án viết một lớp thay thế (<code>udocker_shim.py</code>) để mã chấm chạy nguyên văn qua một công cụ khác tên là udocker.</td><td>Trên máy làm việc: đạt (117/117 bản vá trùng điểm). Trên Kaggle: phiên bị ngắt nhiều lần; <b>đã dừng</b> việc chạy container ở đó.</td></tr>
-<tr><td>§38: model viết skill của hãng khác</td><td>Chỉ cần văn bản: gửi lại các câu hỏi đã lưu của gskill cho model khác. Mỗi ngày chạy một ô notebook cho tới khi in “all done”, vì hạn mức tính theo ngày.</td><td>Đã đo chi phí và chọn model; chờ chạy.</td></tr>
-<tr><td>§39: bộ kiểm của hãng khác</td><td>Chỉ cần văn bản, trên 102 câu hỏi.</td><td>Xong ngày 16/11: 408/408 lần gọi.</td></tr>
-<tr><td>§40: agent của hãng khác, không cần container</td><td>Dựng môi trường của đề bài mà không dùng image, rồi cho agent chạy ngay trong notebook. Đi qua các cổng C0–C4; ba cổng đầu tốn 0 đồng.</td><td>Đã đăng ký và được duyệt ngày 16/11 (<code>kaggle/preregistration_s40.md</code>); đang thực hiện.</td></tr>
+<tr><th>Khó khăn</th><th>Cách giải</th><th>Kiểm bằng gì</th></tr>
+<tr><td>Kaggle không có Docker. Mỗi task của SWE-smith lại cần chạy trong "hộp" Docker riêng.</td><td><code>kaggle/scripts/chroot_shim.py</code>: tải các lớp file của image Docker, giải nén thành một cây thư mục, rồi dùng lệnh <code>chroot</code> để mọi lệnh của agent "nhìn thấy" cây đó như gốc của máy. Agent không thấy task khác, không thấy mã chấm, không thấy notebook.</td><td>Cổng C5 và C6 (exposure 0, 6/6 lượt); X2′ trên Vertex (mục E6)</td></tr>
+<tr><td>Model không được gọi trực tiếp, mà qua một máy trung gian (<code>MODEL_PROXY_URL</code>) của Kaggle, và mỗi lời gọi trừ vào hạn mức.</td><td>Mỗi ô có <b>bộ giữ trần</b>: trước mỗi lời gọi, giữ chỗ mức tốn xấu nhất; vượt trần thì từ chối; một phần việc bị cắt giữa chừng thì hoàn tác (A145, A147).</td><td>Test <code>kaggle/tests/test_w7_cell_guard.py</code>, <code>test_c4p_cell.py</code></td></tr>
+<tr><td>Một phiên notebook chạy tối đa khoảng 8 giờ, và hạn mức ngày chỉ 10 USD. Việc lớn phải chia nhiều ngày.</td><td>Chia việc thành <b>khối</b> nhỏ. Mỗi khối xong thì ghi file. Phiên sau đọc file của phiên trước, bỏ qua khối đã xong.</td><td>Ô dừng trước mọi lời gọi nếu thiếu output phiên trước (K29)</td></tr>
 </table></div>
+<h3>Cách chạy một phiên Kaggle, từng bước</h3>
+<ol>
+<li>Mở notebook (tạo từ trang Benchmarks, để có <code>kaggle_benchmarks</code>).</li>
+<li><b>Ghi đè</b> ô duy nhất bằng toàn bộ nội dung file ô mà Claude gửi (ví dụ <code>c4p_cell.py</code>). Không thêm ô mới: mỗi notebook chỉ có một ô.</li>
+<li>Nếu là phiên tiếp nối: thêm input là <b>output của notebook ở phiên trước</b> (Add Input → Notebook output). Không tải zip lên thành dataset: Kaggle giải nén file <code>.gz</code> và chỉ giữ bản ghi đầu (K30).</li>
+<li>Bấm Save Version → Save &amp; Run All. Chờ chạy xong.</li>
+<li>Tải file output (zip và json) và gửi cho Claude. Claude kiểm sha256, số khối, chi phí, exposure, rồi commit vào <code>kaggle/results/</code>.</li>
+</ol>
+<h3>Các thí nghiệm đã chạy trên Kaggle</h3>
+<div class="tbl"><table>
+<tr><th>Mục</th><th>Việc</th><th>Kết quả</th><th>Hạn mức đã dùng</th></tr>
+<tr><td>§38, A′</td><td>5 model viết skill từ cùng trace</td><td>Xong; không model khác hãng nào qua Holm</td><td>20,06 + 1,30 USD</td></tr>
+<tr><td>§39</td><td>Bộ kiểm khác hãng</td><td>Xong 16/11: 408/408 lần gọi</td><td>3,05 USD</td></tr>
+<tr><td>C6</td><td>Thử lớp <code>chroot</code> với agent thật</td><td>Đạt: 6/6 lượt, exposure 0</td><td>0,03 USD</td></tr>
+<tr><td>C4′ (§40)</td><td>3 agent × 4 nhánh × 136 task, 13 phiên</td><td>Xong 21/11: gpt-oss bác bỏ, nano chưa đủ, Haiku ngược chiều</td><td>17,54 USD (gồm 1,47 USD chạy lại Haiku ngoài kế hoạch, K29)</td></tr>
+<tr><td>W7 pool A (§45)</td><td>XRepoSkill học trên 62 cặp trace</td><td>Xong 21/11: H 30/31 issue</td><td>13,26 USD</td></tr>
+<tr><td>W7 pool B (§45)</td><td>XRepoSkill học trên 24 cặp trace</td><td>Chạy tối 22/11</td><td>trần 6,376 USD</td></tr>
+</table></div>
+<h3>Chạy W7 pool B tối nay</h3>
+<ul>
+<li><b>Notebook:</b> tạo mới, tên <code>w7-pool-b</code>, từ trang Benchmarks.</li>
+<li><b>Ô:</b> dán toàn bộ <code>w7_learn_B_cell.py</code> (đã có <code>POOL = "B"</code>, <code>DRY_RUN = False</code>).</li>
+<li><b>Input:</b> không gắn gì, vì đây là phiên đầu của pool B.</li>
+<li><b>Khi nào:</b> sau 20:00 giờ Việt Nam, khi hạn mức ngày đã làm mới.</li>
+<li><b>Trần:</b> 9,5 USD mỗi phiên, dưới hạn mức ngày 10; tổng 6,376 USD cho pool B.</li>
+<li><b>Ô tự làm:</b> tải mã XRepoSkill đã ghim (<code>26fd703</code>), kiểm sha256 của dữ liệu, chạy discover → merge → judge → score → audit, ghi <code>w7_B.json</code> và <code>w7_B_run.zip</code>.</li>
+<li><b>Nếu ô in "all stages done":</b> gửi hai file đó cho Claude. Nếu chưa xong, hôm sau chạy tiếp với input là output của phiên này.</li>
+</ul>
+<h3>Hạn mức tháng 11</h3>
+<p>Đã dùng khoảng 56,5/100 USD. Pool B dùng tối đa 6,376, nên tổng tối đa khoảng 63.</p>
+
+<h2 id="e6">E6. Vertex ngày 21/11: X2′ và X1′</h2>
+<p>Hai thí nghiệm này chạy trên Vertex AI (dịch vụ trả tiền của Google), qua đường ống <code>pilot.yml</code> trên GitHub Actions, sau mốc 00:00 ngày 21/11 giờ New York do chị đặt. Trần chung là 35 USD; đã chi 29,72 USD.</p>
+<div class="tbl"><table>
+<tr><th>Khâu</th><th>Làm gì</th><th>Chi</th></tr>
+<tr><td>X2′ (§46)</td><td>Cùng agent của paper, chạy 34 task không issue qua <code>chroot</code> và qua Docker, để chứng minh <code>chroot</code> không làm sai kết quả</td><td class="n">≈ 0,8 USD</td></tr>
+<tr><td>Học lại ở môi trường gốc (<code>x1ship</code>)</td><td>Chạy lại gskill hai nửa</td><td class="n">10,35 USD</td></tr>
+<tr><td>Học lại ở môi trường một commit (<code>x1lf</code>)</td><td>Như trên, lịch sử một commit</td><td class="n">11,37 USD</td></tr>
+<tr><td>Chấm 5 nhánh cùng lúc</td><td>Không skill, hai skill mới, ở hai môi trường</td><td class="n">7,20 USD</td></tr>
+</table></div>
+<p><b>Cơ chế giữ an toàn đã dùng:</b></p>
+<ul>
+<li>Sau mỗi khâu, <code>scripts/x1_alerts.py</code> kiểm năm dấu hiệu: lỗi hạ tầng, lỗi hạn mức, thiếu lượt, tiền dự kiến vượt phần còn lại của trần, và skill học được đi ngược chiều dự kiến. Có cảnh báo thì dừng và hỏi chị. Lượt này không có cảnh báo nào.</li>
+<li>Các lượt có phí được kích hoạt lần lượt, lượt sau chỉ khi lượt trước xong (A144).</li>
+<li>Biến môi trường được truyền từng biến qua <code>sudo env</code> (A143).</li>
+</ul>
 <details><summary>Tự kiểm tra phần E</summary>
 <p><b>1. Vì sao Pilot dry run dùng một skill “biết đáp án”?</b> Vì khi đáp án biết trước, sai lệch nào cũng là lỗi của đường ống.</p>
 <p><b>2. Trong đường ống có phí, bước nào vẫn chạy khi thí nghiệm hỏng giữa chừng?</b> Gửi artifact và công bố lên nhánh dữ liệu.</p>
@@ -1035,6 +1095,12 @@ preflight: FAIL</code></pre>
 <tr><td>11/11</td><td>§31: trả lời phản biện, chỉ tính toán lại.</td><td>máy làm việc</td></tr>
 <tr><td>12/11</td><td>§32, §33, §35, §34. Cập nhật bài báo và báo cáo.</td><td>GitHub</td></tr>
 <tr><td>14–16/11</td><td>Hướng Kaggle: §37, §38, §39, §40.</td><td>Kaggle</td></tr>
+<tr><td>16/11</td><td>Thầy review bản thảo; chuyển đích sang EASE 2027; lập kế hoạch trả lời review (<code>docs/plan_vs_review.md</code>).</td><td>—</td></tr>
+<tr><td>17–18/11</td><td>C10 và C10R (tách tên commit và diff); lượt agent Flash một commit lấy dữ liệu cho W7.</td><td>Vertex</td></tr>
+<tr><td>18–21/11</td><td>C4′: 13 phiên, 3 agent khác hãng.</td><td>Kaggle</td></tr>
+<tr><td>18–21/11</td><td>W7: chạy thử, hai khối đo, pool A.</td><td>Kaggle</td></tr>
+<tr><td>21/11</td><td>X2′ và X1′, sau 00:00 giờ New York.</td><td>Vertex</td></tr>
+<tr><td>22/11</td><td>Cập nhật báo cáo; W7 pool B sau 20:00.</td><td>Kaggle</td></tr>
 </table></div>
 
 <h2 id="f3">F3. Tự chạy từng việc</h2>
@@ -1102,6 +1168,14 @@ python scripts/verify_archive.py</code></pre>
 <tr><td>A128</td><td>Trần của bước tính từ chi phí ước đoán, nên một nhánh dừng sớm.</td><td>Đo chi phí thật ở bước đo thử rồi mới đặt trần.</td></tr>
 <tr><td>A129, L58</td><td>Một câu “X gây ra Y” được viết khi thiếu nhánh đối chứng.</td><td>Mục soát mới: câu nhân quả phải chỉ ra hai nhánh chỉ khác nhau ở đúng nguyên nhân.</td></tr>
 <tr><td>L50</td><td>Bài kiểm tra đọc file chỉ có trên máy làm việc, nên CI hỏng.</td><td>Sau mỗi push phải đọc kết luận CI.</td></tr>
+<tr><td>A141, A142</td><td>Ước tính chi phí X1′ bỏ sót khâu chấm, rồi lấy chi phí chấm của môi trường khác.</td><td>Chi phí mỗi khâu phải lấy từ đúng môi trường và đúng lượt đã đo; tách chi phí sự cố khỏi chi phí thiết kế (L69).</td></tr>
+<tr><td>A143</td><td><code>sudo -E</code> bỏ qua biến môi trường, nên tiến trình root sẽ không thấy khóa Vertex. Bắt được ở lượt chạy thử.</td><td>Truyền từng biến; bước kiểm 0 USD dưới quyền root trước khi chạy (L70).</td></tr>
+<tr><td>A144</td><td>Bốn lượt có phí được kích hoạt cùng lúc; GitHub chỉ giữ một lượt chờ nên hủy hai lượt.</td><td>Kích hoạt lần lượt (L71).</td></tr>
+<tr><td>A145, A147</td><td>Bộ giữ trần của W7 đếm thiếu lần hỏi lại; bản sửa đầu lại đòi khoảng 120 USD trước khi merge.</td><td>Giữ trần theo từng lời gọi, hoàn tác phần bị cắt (L72, L74).</td></tr>
+<tr><td>A146</td><td>Lệnh git nối bằng <code>;</code> chạy tiếp khi bước trước hỏng, gộp nhầm nhánh ở máy.</td><td>Luôn nối bằng <code>&amp;&amp;</code>, kiểm tên nhánh trước khi gộp (L73).</td></tr>
+<tr><td>K27, K28</td><td>Ô C4′ đếm chi phí của phiên trước và của model khác vào trần hôm nay.</td><td>Đếm theo từng model và từng phiên; đổi tên file chi phí cũ khi chạy lại (L75, L76).</td></tr>
+<tr><td>K29</td><td>Phiên 7 chạy không gắn output phiên trước, nên chạy lại Haiku từ đầu (1,47 USD hạn mức).</td><td>Ô dừng trước mọi lời gọi nếu input thiếu hoặc sai (L77).</td></tr>
+<tr><td>K30</td><td>Tải output lên thành dataset làm Kaggle cắt trace còn bản ghi đầu.</td><td>Chỉ gắn output bằng "Notebook output"; phân tích lấy bản trace dài nhất (L78).</td></tr>
 </table></div>
 
 <h2 id="f5">F5. Tự kiểm tra cuối bài</h2>

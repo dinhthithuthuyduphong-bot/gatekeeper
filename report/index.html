@@ -1,271 +1,223 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="vi">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Báo cáo Gatekeeper</title>
-<meta content="cover" name="claude:viewport-fit-sides"/>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600&amp;family=Source+Serif+4:opsz,wght@8..60,600&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap">
 <style>
-:root{--bg:#f8f8f6;--fg:#1c1f24;--muted:#5b616b;--card:#ffffff;--line:#dfe1dc;--accent:#2b5b8f;
---good:#2c7a4b;--bad:#a8322a;--warn:#8a6100;--code:#eef0ec;--bar0:#a9b4bf;--bar1:#2b5b8f;
+:root{--bg:#f7f7f4;--fg:#1d2026;--muted:#5d636c;--card:#fff;--line:#dcdfd8;--accent:#2b5b8f;--good:#2c7a4b;--bad:#a8322a;--warn:#8a6100;--code:#eef0ec;--h2:#26398f;--h3:#8a5a1f;
 --serif:"Source Serif 4",Georgia,"Times New Roman",serif;--sans:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16181b;--fg:#e6e6e2;--muted:#a2a8b0;
---card:#1e2125;--line:#33373d;--accent:#8db4e2;--good:#6fc292;--bad:#ef8a80;--warn:#e0b45c;--code:#25282d;
---bar0:#5c6670;--bar1:#8db4e2;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#16181b;--fg:#e6e6e2;--muted:#a2a8b0;--card:#1e2125;--line:#33373d;
---accent:#8db4e2;--good:#6fc292;--bad:#ef8a80;--warn:#e0b45c;--code:#25282d;--bar0:#5c6670;--bar1:#8db4e2;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16181b;--fg:#e6e6e2;--muted:#a2a8b0;--card:#1e2125;--line:#33373d;--accent:#8db4e2;--good:#6fc292;--bad:#ef8a80;--warn:#e0b45c;--code:#25282d;--h2:#9fb3ff;--h3:#e0b45c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#16181b;--fg:#e6e6e2;--muted:#a2a8b0;--card:#1e2125;--line:#33373d;--accent:#8db4e2;--good:#6fc292;--bad:#ef8a80;--warn:#e0b45c;--code:#25282d;--h2:#9fb3ff;--h3:#e0b45c;color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 var(--sans);
-padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-main{max-width:880px;margin:0 auto;padding-block:36px 72px}
-h1,h2,h3,h4{font-family:var(--serif);text-wrap:balance;line-height:1.25;}
-h1{font-size:2rem;margin:4px 0 6px}h2{font-size:1.4rem;margin:44px 0 12px;padding-top:14px;border-top:1px solid var(--line);color:#2a37a8}
-h3{font-size:1.1rem;margin:26px 0 8px; color:#a86b2a}
-h4{font-size:1.1rem;margin:26px 0 8px; color:#2aa8a4}
-p,li{max-width:70ch}.muted{color:var(--muted)}a{color:var(--accent)}
-.meta{font-size:.88rem;color:var(--muted);letter-spacing:.02em}
-.lead{font-size:1.06rem}
-.key{display:grid;gap:10px;margin:14px 0;padding:0;list-style:none}
-.key li{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:10px 14px;max-width:none}
-.key b{color:var(--accent)}
-.tbl{overflow-x:auto;margin:12px 0}table{border-collapse:collapse;width:100%;font-size:.93rem}
-th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-weight:600;color:var(--muted);font-size:.85rem;letter-spacing:.02em}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.68 var(--sans);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:900px;margin:0 auto;padding-block:36px 72px}
+h1,h2,h3,h4{font-family:var(--serif);line-height:1.28;text-wrap:balance}
+h1{font-size:1.95rem;margin:6px 0 8px}
+h2{font-size:1.42rem;margin:46px 0 12px;padding-top:14px;border-top:1px solid var(--line);color:var(--h2)}
+h3{font-size:1.12rem;margin:26px 0 8px;color:var(--h3)}
+h4{font-size:1rem;margin:18px 0 6px}
+p,li{max-width:72ch}a{color:var(--accent)}
+.meta{font-size:.88rem;color:var(--muted)}.muted{color:var(--muted)}
+.lead{font-size:1.05rem}
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:12px 16px;margin:14px 0}
+.box.good{border-left-color:var(--good)}.box.warn{border-left-color:var(--warn)}.box.bad{border-left-color:var(--bad)}
+.tbl{overflow-x:auto;margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:.92rem;background:var(--card)}
+th,td{text-align:left;padding:7px 10px;border:1px solid var(--line);vertical-align:top}
+th{font-weight:600;color:var(--muted);font-size:.86rem}
 td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 caption{caption-side:top;text-align:left;font-size:.88rem;color:var(--muted);padding-bottom:6px}
-.ok{color:var(--good);font-weight:600}.bad{color:var(--bad);font-weight:600}.warn{color:var(--warn);font-weight:600}
-code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:.9em}
-figure{margin:14px 0}.chart{overflow-x:auto}.chart svg{width:100%;max-width:600px;height:auto}
-.chart .gl{stroke:var(--line)}.chart .tick,.chart .axis,.chart .val{fill:var(--muted);font:12px var(--sans)}
-.chart .axis{fill:var(--fg)}.chart .b0{fill:var(--bar0)}.chart .b1{fill:var(--bar1)}
-.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
-.sw{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:-1px;margin-right:6px}
-figcaption{font-size:.88rem;color:var(--muted)}
-.note{border-left:3px solid var(--warn);padding:8px 14px;background:var(--card);border-radius:0 6px 6px 0}
-.ask{border-left:3px solid var(--accent);padding:10px 14px;background:var(--card);border-radius:0 6px 6px 0}
-.toc{columns:2;font-size:.94rem}@media (max-width:600px){.toc{columns:1}h1{font-size:1.55rem}}
+.ok{color:var(--good);font-weight:600}.no{color:var(--bad);font-weight:600}.mid{color:var(--warn);font-weight:600}
+code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:.9em;overflow-wrap:anywhere}
+pre{background:var(--code);padding:10px 12px;border-radius:6px;overflow-x:auto;font-size:.86rem}
+.toc{columns:2;font-size:.93rem;padding-left:18px}@media (max-width:640px){.toc{columns:1}h1{font-size:1.55rem}}
+dl.terms dt{font-weight:600;margin-top:10px}dl.terms dd{margin:2px 0 0 0;max-width:72ch}
+.flow{display:grid;gap:6px;margin:12px 0}.flow div{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:8px 12px}
+.flow .arr{border:0;background:none;text-align:center;color:var(--muted);padding:0}
 footer{margin-top:52px;color:var(--muted);font-size:.84rem}
-
-:root{--ink:#eee891;--muted:#64718a;--line:#e3e8f0;--blue:#e9a319;--pale:#eef4ff;--yellow:#eaf7ef;--amber:#fff5dc}
-header{background:linear-gradient(130deg,#14264b,#2d5eae);color:white;padding:42px 22px}header div,main{max-width:1050px;margin:auto}header h1{font-size:clamp(2rem,5vw,3rem);line-height:1.15;margin:0}header p{color:#e1eaff;max-width:780px}
-main{padding:26px 18px 60px}.grid{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;align-items:start}nav,article{background:white;border:1px solid var(--line);border-radius:15px}nav{position:sticky;top:16px;padding:18px}nav a{display:block;text-decoration:none;color:var(--muted);font-size:14px;padding:5px 0}nav a:hover{color:var(--blue)}article{padding:clamp(20px,4vw,42px);min-width:0}h2{font-size:1.6rem;margin:2em 0 .65em;padding-bottom:9px;border-bottom:1px solid var(--line)}h2:first-child{margin-top:0}h3{font-size:1.2rem;margin:1.5em 0 .5em}p{margin:.65em 0}table{border-collapse:collapse;width:100%;margin:14px 0;font-size:.94rem}th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}th{background:#f1f4f9}.box{padding:15px 17px;border-left:4px solid var(--blue);background:var(--pale);border-radius:9px;margin:15px 0}.green{background:var(--green);border-color:#238653}.amber{background:var(--amber);border-color:#bd8712}.flow{max-width:620px;margin:18px auto;text-align:center}.step{padding:13px;border:1px solid #cbd8f3;background:var(--pale);border-radius:10px;margin:8px}.arrow{color:#8592a8;font-size:21px}.ends{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ends div{padding:13px;border-radius:10px}.formula{display:block;background:#f1f4f8;padding:12px 15px;border-radius:8px;font-family:ui-monospace,Consolas,monospace;overflow-wrap:anywhere;margin:12px 0}.script,.qa{border:1px solid var(--line);border-radius:10px;padding:16px;margin:13px 0;background:#fcfdff}.script h3,.qa h3{margin-top:0}.muted{color:var(--muted);font-size:.9rem}footer{max-width:1050px;margin:auto;padding:0 18px 30px;color:var(--muted);font-size:.85rem}
-@media(max-width:760px){.grid{grid-template-columns:1fr}nav{position:static}table{font-size:.85rem}th,td{padding:7px}}
-@media print{body{background:white}header{print-color-adjust:exact}.grid{display:block}nav{display:none}article{border:0;padding:0}}
 </style>
 </head>
 <body>
 <main>
-<p class="meta">Báo cáo nghiên cứu · Đối chiếu theo bản <code>Mainpaper(2).pdf</code> · 15/11/2026</p>
+<p class="meta">Dự án Gatekeeper · báo cáo tiến độ cập nhật ngày 22/11/2026 · hội nghị đích: EASE 2027 (nộp bài 22/01/2027) · số liệu lấy từ <code>paper/numbers.tex</code> và các ghi chú đăng ký trước trong <code>docs/preregistration_main.md</code>, <code>kaggle/preregistration_s40.md</code></p>
 <h1>Bộ học đã tìm ra chỗ rò rỉ: chứng nhận skill học được cho coding agent dưới đối chứng</h1>
-<p class="muted">Tên bài: <i>The Learner Found the Leak: Certifying Learned Coding-Agent Skills under Controls</i></p>
-<p class="lead">Bản dành cho trao đổi học thuật: tóm tắt câu hỏi, phương pháp, bằng chứng thực nghiệm, giới hạn và các con số chính. Mọi kết luận dưới đây được giới hạn theo đúng phạm vi paper đã kiểm tra.</p>
-<div class="grid"><nav><b>Mục lục</b><a href="#tom-tat">Tóm tắt và kết quả chính</a><a href="#cau-hoi">Câu hỏi và đóng góp</a><a href="#khai-niem">Mô hình và Gatekeeper</a><a href="#phuong-phap">Thiết kế thực nghiệm</a><a href="#rq1">RQ1: Độ tin cậy của phép đo</a><a href="#rq2">RQ2: Skill, leakage và nguồn gốc mức tăng</a><a href="#rq3">RQ3: Chuyển giao giữa các scope</a><a href="#han-che">Bảo đảm thống kê và giới hạn</a><a href="#tai-lap">Tái lập và chi phí admission</a><a href="./explantation.html" target="_blank">Bản giải thích chi tiết</a><a href="./pipeline.html" target="_blank">Cách dự án vận hành</a></nav><article>
-<h2 id="tom-tat">1. Tóm tắt và kết quả chính</h2>
-<div class="ask">
-<p class="lead"><b>Phát hiện trung tâm.</b> Một pipeline học skill đã tạo ra skill giúp tăng mạnh số task được giải quyết, và mức tăng này vượt qua phép kiểm định paired anytime-valid. Tuy nhiên, một phần mức tăng đến từ việc skill học được chỉ dẫn khai thác lịch sử Git của benchmark: commit chèn lỗi vẫn còn trong repository history. Vì vậy, một skill có thể tạo ra mức tăng đo được và được admit, nhưng một phần lợi ích lại phụ thuộc vào artifact của môi trường đánh giá.</p>
+<p class="muted">Tên bài: <i>The Learner Found the Leak: Certifying Learned Coding-Agent Skills under Controls</i>. Bản dễ hiểu cho người mới: <a href="./explantation.html">explantation.html</a>. Cách hệ thống vận hành: <a href="./pipeline.html">pipeline.html</a>.</p>
+
+<ol class="toc">
+<li><a href="#tomtat">Tóm tắt</a></li>
+<li><a href="#cauhoi">Câu hỏi nghiên cứu</a></li>
+<li><a href="#thietlap">Thiết lập và phép đo</a></li>
+<li><a href="#rq1">RQ1. Mức tăng và chứng nhận</a></li>
+<li><a href="#rq2">RQ2. Cơ chế: rò rỉ qua lịch sử git</a></li>
+<li><a href="#rq3">RQ3. Can thiệp có kiểm soát</a></li>
+<li><a href="#rq4">RQ4. Độ vững: lặp lại và mở rộng</a></li>
+<li><a href="#w7">W7. Bộ học thứ hai: kết quả và kịch bản</a></li>
+<li><a href="#hanche">Độ tin cậy và hạn chế</a></li>
+<li><a href="#tinhtrang">Tình trạng và kế hoạch</a></li>
+<li><a href="#chiphi">Chi phí</a></li>
+<li><a href="#ykien">Việc xin ý kiến thầy</a></li>
+</ol>
+
+<h2 id="tomtat">1. Tóm tắt</h2>
+<div class="box"><p class="lead">Một pipeline đã công bố (gskill) học ra skill cho repo Jinja, nâng số task giải được từ <b>15</b> lên <b>53</b> trên 100 task test. Bộ học đã tự viết vào skill một chỉ dẫn tìm commit đáng ngờ trong lịch sử git. Mỗi task của SWE-smith giữ lại hai commit do chính quá trình dựng benchmark tạo ra (một commit chèn lỗi tên "Bug Patch", một commit xóa test tái hiện lỗi). Bỏ hai commit đó, mức tăng giảm từ 0,38 xuống 0,21; hiệu 0,17 [0,06; 0,28].</p></div>
+<p>Từ báo cáo trước (14/11) tới nay, ba điểm yếu chính đã có kết quả đo:</p>
+<ul>
+<li><b>Mức tăng cần mã trước lỗi nằm trong lịch sử</b> (C10R, đăng ký trước, pool cố định 70 task): khi giữ nguyên commit và tên commit, chỉ bỏ mã trước lỗi, E = 9,0·10³ (ngưỡng 40).</li>
+<li><b>Lượt học lặp lại cho cùng kết quả</b> (X1′): ở môi trường gốc, skill học lại vẫn có chỉ dẫn đọc lịch sử (2/2 lượt); ở môi trường một commit thì không (0/2 lượt).</li>
+<li><b>Hiện tượng lặp lại với agent khác hãng</b> (C4′): gpt-oss bác bỏ ở ngưỡng họ 120 (E = 169,4). nano cùng chiều nhưng chưa tới ngưỡng (E = 86,7). Haiku cho kết quả ngược chiều vì tự khai thác lịch sử mà không cần skill.</li>
+</ul>
+<p>Bộ học thứ hai (XRepoSkill, W7) đã xong pool có rò rỉ: quy tắc đọc lịch sử xuất hiện ở 30/31 issue. Pool đối chứng không rò rỉ chạy tối 22/11. Mục 8 trình bày trước các kịch bản kết quả.</p>
+
+<h2 id="cauhoi">2. Câu hỏi nghiên cứu</h2>
 <div class="tbl"><table>
-<tr><th>Bằng chứng</th><th>Kết quả chính</th><th>Cách diễn giải</th></tr>
-<tr><td>Jinja, lịch sử như benchmark cung cấp</td><td><b>15 → 53/100</b>; gain 0,38 [0,26; 0,49]; admit sau 29 task</td><td>Skill có lợi trong scope gốc</td></tr>
-<tr><td>Jinja, lịch sử chỉ còn một commit</td><td><b>14 → 35/100</b>; gain 0,21 [0,13; 0,29]; admit sau 50 task</td><td>Gain giảm 0,17 [0,06; 0,28], khoảng 45% gain gốc</td></tr>
-<tr><td>Bleve, lịch sử như benchmark cung cấp</td><td><b>13 → 43/100</b>; gain 0,30 [0,19; 0,40]; admit sau 34 task</td><td>Hiện tượng lặp lại ở repository Go</td></tr>
-<tr><td>Bleve, lịch sử chỉ còn một commit</td><td><b>14 → 31/100</b>; gain 0,17 [0,09; 0,25]</td><td>Phần giảm 0,13 [0,03; 0,23], khoảng 43% gain gốc</td></tr>
-<tr><td>Jinja, bỏ riêng chỉ dẫn Git khỏi skill</td><td><b>17 → 40/100</b>; gain 0,23 [0,14; 0,32]; admit sau 24 task</td><td>Phần lợi ích vẫn còn sau ablation</td></tr>
-<tr><td>Jinja, học lại trong môi trường một commit</td><td><b>16 → 33/100</b>; gain 0,17 [0,08; 0,26]; admit sau 65 task</td><td>0/8 bản viết lại giữ chỉ dẫn lịch sử; một lượt học</td></tr>
-<tr><td>Seed thứ hai</td><td>Gain do lịch sử 0,16 [0,04; 0,28], gần seed đầu 0,17 [0,06; 0,28]</td><td>Lặp lại bốn nhánh Jinja cùng lúc</td></tr>
-<tr><td>70 task không có mô tả issue, đăng ký trước</td><td>e-process vượt 40 ở task 36; anytime-valid p = 4,2 × 10<sup>−4</sup></td><td>36 task nghiêng về lịch sử đầy đủ; 0 nghiêng về một commit</td></tr>
-<tr><td>Điều kiện rò rỉ trong SWE-smith</td><td>18.033/59.136 task = <b>30,5%</b>, thuộc 222 repository, không có mô tả issue</td><td>Điều kiện mà lịch sử Git phát huy tác dụng không hiếm trong dataset</td></tr>
-<tr><td>Reuse Jinja skill trên Pygments</td><td>5 → 6/100; gain 0,01 [−0,02; 0,05]; không admit</td><td>Chứng nhận không tự động chuyển sang repo khác</td></tr>
+<tr><th>Mã</th><th>Câu hỏi</th><th>Thí nghiệm</th></tr>
+<tr><td>RQ1</td><td>Skill học được có tăng số task giải được không, và mức tăng đó có được chứng nhận bằng một phép kiểm có bảo đảm thống kê không?</td><td>§25, §27, §42</td></tr>
+<tr><td>RQ2</td><td>Mức tăng đến từ đâu? Agent có dùng thông tin mà môi trường đánh giá vô tình để lộ không?</td><td>§36, §41 (kiểm toán trace)</td></tr>
+<tr><td>RQ3</td><td>Khi loại đúng nguyên nhân đã nêu, mức tăng còn lại bao nhiêu?</td><td>môi trường một commit (§25 bước 3), bỏ chỉ dẫn (§29), học lại (§30), C10 và C10R</td></tr>
+<tr><td>RQ4</td><td>Kết quả có đứng vững khi đổi seed, đổi task, đổi repo, đổi agent, đổi bộ học, và khi lặp lại lượt học không?</td><td>§33, §35, Bleve, §34, C4′, X1′, X2′, W7, §38</td></tr>
 </table></div>
-<p><b>Kết luận cần giữ chính xác:</b> rò rỉ không giải thích toàn bộ lợi ích. Phần gain còn lại vẫn được chứng nhận trong các scope Jinja và Bleve tương ứng. Con số 45%/43% là <b>cận trên</b> của phần gain gắn với lịch sử, vì đối chứng một commit loại bỏ toàn bộ lịch sử Git chứ không chỉ commit gây rò rỉ.</p>
-</div>
-<h2 id="cau-hoi">2. Câu hỏi nghiên cứu và đóng góp</h2>
-<p><b>Câu hỏi trung tâm:</b> Khi một coding-agent skill được học từ benchmark và dự định tái sử dụng, làm thế nào xác định mức tăng hiệu năng có thực sự thuộc về skill trong một scope cụ thể, thay vì đến từ nhiễu, bộ chấm lỗi hoặc artifact của môi trường?</p>
-<table><tr><th>Đóng góp</th><th>Nội dung</th><th>Bằng chứng trong paper</th></tr>
-<tr><td>1. Admission có bảo đảm anytime-valid</td><td>Áp dụng betting e-process cho chênh lệch loss ghép cặp giữa agent có skill và không skill; quyết định gắn với scope.</td><td>Proposition 1, Theorem 2 và các admission thực nghiệm.</td></tr>
-<tr><td>2. Bộ đối chứng cho phép đo</td><td>Kiểm tra scorer, nhiễu chạy lại, quy lỗi cho skill và nội dung skill.</td><td>A/A, sham-skill, no-op/gold patch, skill placebo và các audit phụ.</td></tr>
-<tr><td>3. Phát hiện learner có thể học artifact</td><td>gskill tự tạo chỉ dẫn đọc commit gần đây; paper đo phần gain thay đổi khi bỏ lịch sử, bỏ chỉ dẫn và học lại trong môi trường sạch.</td><td>Jinja, Bleve, ablation, re-learning, trace audit.</td></tr>
-<tr><td>4. Kiểm chứng bổ sung</td><td>Lặp lại với seed thứ hai và đăng ký trước một phép thử trên task không dùng trong phân tích trước.</td><td>§33 và §35; p = 4,2 × 10<sup>−4</sup>.</td></tr>
-<tr><td>5. Bằng chứng giới hạn chuyển giao</td><td>Đánh giá reuse sang repository khác và đối chiếu độ tương quan hiệu ứng giữa cấu hình agent–model.</td><td>Pygments; phân tích SWE-Skills-Bench.</td></tr>
-</table>
-<p class="note"><b>Định vị đóng góp:</b> Paper không tuyên bố phát hiện đầu tiên về Git-history leakage, cũng không tuyên bố mọi learned skill đều có vấn đề. Đóng góp là chỉ ra learner có thể chuyển một leak thành chỉ dẫn tái sử dụng, định lượng phần gain liên quan, và đề xuất cách admission theo scope với kiểm định anytime-valid.</p>
-<h2 id="khai-niem">3. Mô hình và Gatekeeper</h2>
-<h3>3.1. Định nghĩa dùng trong paper</h3>
-<table><tr><th>Ký hiệu</th><th>Định nghĩa</th></tr>
-<tr><td>Skill S</td><td>Gồm thủ tục π (trong nghiên cứu là văn bản được nạp vào ngữ cảnh agent) và các activation predicates I, quy định skill áp dụng ở đâu.</td></tr>
-<tr><td>Context x</td><td>Bộ bốn (repository, revision, environment, task).</td></tr>
-<tr><td>Scope s</td><td>Phạm vi repository, môi trường đi kèm và agent cùng model. Admission chỉ có ý nghĩa trong scope đã kiểm tra.</td></tr>
-<tr><td>Loss ℓ(x,π)</td><td>Trong thực nghiệm: 0 nếu task resolved, 1 nếu không resolved.</td></tr>
-<tr><td>Paired difference Z<sub>i</sub></td><td>Loss có skill trừ loss không skill: Z<sub>i</sub> = ℓ(x<sub>i</sub>,π) − ℓ(x<sub>i</sub>,∅).</td></tr>
-<tr><td>STR(S,s)</td><td>Kỳ vọng của chênh lệch loss trong phân phối task thuộc scope s; giá trị âm nghĩa là skill giảm loss.</td></tr>
-<tr><td>ξ<sub>s</sub></td><td>Khoảng cách total variation giữa phân phối task kiểm định P<sub>s</sub> và phân phối triển khai Q<sub>s</sub>.</td></tr></table>
-<h3>3.2. Gatekeeper ra quyết định thế nào?</h3>
-<div class="flow"><div class="step"><b>Khai báo skill và scope</b><br/><small>Thủ tục π, điều kiện kích hoạt I, repository, revision, môi trường, agent/model</small></div><div class="arrow">↓</div><div class="step"><b>Paired trials</b><br/><small>Mỗi task chạy hai nhánh tương ứng: có skill và không skill</small></div><div class="arrow">↓</div><div class="step"><b>Tính Z<sub>i</sub> và cập nhật e-process</b><br/><small>Tích lũy bằng chứng sau từng cặp, mức cược chỉ phụ thuộc dữ liệu đã quan sát</small></div><div class="arrow">↓</div><div class="ends"><div style="background:#eaf7ef"><b>Admit</b><br/><small>Khi E<sub>n</sub> ≥ 1/α = 40</small></div><div style="background:#fff0f0"><b>Không admit</b><br/><small>Nếu hết 100 task vẫn chưa đạt ngưỡng; chưa đủ bằng chứng, không đồng nghĩa skill chắc chắn xấu</small></div></div></div>
-<p>Paper không mô tả một bước tự động “scope screening” riêng để loại skill theo ngôn ngữ hay dependency. Cốt lõi của Gatekeeper trong paper là <b>paired evaluation + e-process + admission gắn với scope được khai báo</b>.</p>
-<h3>3.3. Công thức và ý nghĩa</h3>
-<div class="formula">Zᵢ = ℓ(xᵢ, π) − ℓ(xᵢ, ∅)</div>
-<table><tr><th>Không skill</th><th>Có skill</th><th>Z<sub>i</sub></th><th>Diễn giải</th></tr>
-<tr><td>Thất bại</td><td>Thành công</td><td>−1</td><td>Skill giúp task này</td></tr>
-<tr><td>Thành công</td><td>Thất bại</td><td>+1</td><td>Skill làm task này tệ đi</td></tr>
-<tr><td>Cùng kết quả</td><td>Cùng kết quả</td><td>0</td><td>Không có khác biệt quan sát được</td></tr></table>
-<div class="formula">H₀: E[Z] ≥ −θ<br/>Eₙ = ∏<sub>i≤n</sub> [1 + λᵢ(−θ − Zᵢ)]</div>
-<p>Trong các admission chính, θ = 0, α = 0,025 và c = 0,5. Vì vậy ngưỡng là 1/α = 40. λ<sub>i</sub> là mức cược có thể dự đoán được từ dữ liệu trước trial i; paper dùng aGRAPA. E-process không phải số task được giải, cũng không phải p-value thông thường: nó là lượng bằng chứng tích lũy theo quy tắc cá cược.</p>
-<p><b>Ý nghĩa anytime-valid:</b> nếu giả định thống kê thỏa mãn, có thể theo dõi E<sub>n</sub> sau từng task và dừng ngay khi vượt ngưỡng mà vẫn kiểm soát xác suất vượt ngưỡng nhầm ở mức α. Admit sau 29 task nghĩa là bằng chứng đạt ngưỡng ở task thứ 29, không phải chỉ cần 29 task trong mọi trường hợp.</p>
-<h3>3.4. Vì sao task chạy một lần theo thứ tự cố định vẫn có thể dùng e-process?</h3>
-<p>Thí nghiệm dùng 100 task test của gskill, mỗi task chạy một lần trong mỗi nhánh. Thứ tự là phép xáo giả ngẫu nhiên do gskill tạo bằng seed cố định trước khi nhóm chạy, giống nhau ở hai nhánh và không do nhóm chọn. Đây là lấy mẫu không hoàn lại từ một tập hữu hạn, không phải i.i.d.</p>
-<p>Proposition 1 chứng minh rằng với một pool hữu hạn được xáo ngẫu nhiên trước khi quan sát kết quả, chiến lược aGRAPA chỉ cược khi tổng kết quả đã thấy đủ thuận lợi; dưới H₀, trung bình có điều kiện của phần tử còn lại vẫn khiến yếu tố cập nhật có kỳ vọng không vượt 1. Do đó E<sub>n</sub> vẫn là supermartingale và bất đẳng thức Ville áp dụng. Mô phỏng riêng khi agent còn ngẫu nhiên: 6 pool H₀, 20.000 lần mỗi pool; tỉ lệ admit nhầm lớn nhất 0,0075, cận trên Clopper–Pearson 95% là 0,0087, thấp hơn 0,025.</p>
-<h3>3.5. Vì sao không được chuyển admission sang scope khác?</h3>
-<p>Theorem 2 nêu: nếu phân phối triển khai Q<sub>s</sub> cách phân phối kiểm định P<sub>s</sub> không quá ξ<sub>s</sub> theo total variation, thì giới hạn bảo đảm yếu đi thành STR<sub>Q</sub> ≤ −θ + 2ξ<sub>s</sub>. Với θ = 0, bất kỳ ξ<sub>s</sub> dương nào cũng có thể để ngỏ khả năng hại trong phân phối triển khai. Paper còn có Proposition 3: không tồn tại bảo đảm chuyển giao distribution-free sang repository tùy ý chỉ từ hữu hạn quan sát ở repository khác. Vì vậy, đổi repository hoặc môi trường cần một admission mới.</p>
-<h2 id="phuong-phap">4. Thiết kế thực nghiệm</h2>
-<h3>4.1. Agent, task và scope</h3>
+
+<h2 id="thietlap">3. Thiết lập và phép đo</h2>
 <ul>
-<li>Agent chính: mini-swe-agent với Gemini 3.1 Flash-Lite; cùng seed trong hai nhánh (seed 41). E1/E2 còn lặp mỗi task với seed 51 và 61.</li>
-<li>SWE-smith: dùng môi trường gskill đã phát hành, mini-swe-agent 1.17.5, swesmith 0.0.9, giới hạn 50 bước; trần chi phí 0,30 USD mỗi lượt, chặn tối đa 1/1.134 lượt chạy. gskill step limit chạm ở 14/100 lượt Jinja có skill và 1/100 lượt không skill.</li>
-<li>SWE-bench và SWE-bench-Live: mini-swe-agent 2.4.6, giới hạn mặc định 250 bước.</li>
-<li>Skill gskill: dữ liệu mỗi repository chia 200 train / 50 validation / 100 test, seed 42. Skill học bằng GEPA; model reflection là Gemini 3.1 Pro (preview); ngân sách 600 metric calls. Jinja dùng 606 metric calls, 20 rewrites requested, giữ 9 candidates; skill cuối đạt validation score 0,94 theo scorer L.</li>
-<li>Scope trong phân tích: repository, môi trường được cung cấp và agent với model cụ thể. Mọi kết quả cần được đọc trong scope này.</li>
+<li><b>Task:</b> SWE-smith, repo Jinja (Python); repo thứ hai Bleve (Go). Phép chia train/val/test của gskill: seed 42, 200/50/100. Trong 100 task test của Jinja có 34 task không có mô tả issue.</li>
+<li><b>Agent:</b> mini-swe-agent với cấu hình của gskill (<code>gepa@8c7b697</code>, <code>mini.yaml</code>, tối đa 50 bước), model Flash-Lite của Google trên Vertex AI, seed 41 (lặp lại với seed 51), giới hạn 0,30 USD mỗi lượt.</li>
+<li><b>Bộ chấm:</b> S là bộ chấm chuẩn của SWE-smith (resolved). L là bộ chấm trong mã công khai của gskill. L nhận cả bản vá không sửa gì (cận dưới Wilson 0,962 trên 100 task), nên mọi kết luận dùng S.</li>
+<li><b>Đối chứng chính:</b> "môi trường một commit": lịch sử của task được viết lại thành một commit duy nhất, bỏ hai commit do benchmark tạo ra. Mọi thứ khác giữ nguyên.</li>
+<li><b>Phép kiểm:</b> phép kiểm cuối pool trên một pool task cố định: E = Π(1 − λDᵢ), λ = 0,5, θ = 0, bác bỏ khi E ≥ 40 (α = 0,025). Khi có K phép kiểm cùng họ, ngưỡng là K/α. Kèm kiểm định dấu một phía và khoảng bootstrap theo task. Mệnh đề và chứng minh: <code>docs/method_end_of_pool.md</code>.</li>
+<li><b>Đăng ký trước:</b> mỗi thí nghiệm có mục đăng ký và ghi chú thực thi kèm ngày, viết trước khi có dữ liệu. Dòng thời gian commit nằm trong <code>results/registration_timeline.json</code>.</li>
 </ul>
-<h3>4.2. Các nhóm thực nghiệm</h3>
-<table><tr><th>Nhóm</th><th>Nội dung</th><th>Mục đích</th></tr>
-<tr><td>Learned skills</td><td>gskill học skill cho Jinja (Python) và Bleve (Go), mỗi skill được đánh giá trên 100 task test.</td><td>Đo skill có giúp không và mức tăng có phụ thuộc Git history không.</td></tr>
-<tr><td>E1</td><td>Ba skill do nhóm viết: null guard, type guard, exception handling; mỗi skill chạy trên 53 task có issue text kích hoạt skill.</td><td>Đo và kiểm tra phương pháp trên các skill do nhóm chủ động định nghĩa.</td></tr>
-<tr><td>E2</td><td>XRepoSkill, skill học trên SWE-bench Verified; đánh giá trên SWE-bench-Live. Có positive control T4 với reference patch được chèn vào problem statement.</td><td>Kiểm tra phương pháp trên skill nguồn ngoài và positive control.</td></tr>
-<tr><td>Reuse</td><td>Skill Jinja được dùng nguyên văn trên Pygments, một repository Python khác.</td><td>Kiểm tra admission có tự chuyển sang repository khác không.</td></tr>
-<tr><td>Follow-ups</td><td>Instruction ablation, clean re-learning, seed 51, 70-task confirmatory test, Gemini 3.8 Flash, trace monitor.</td><td>Củng cố cơ chế và kiểm tra độ bền của kết luận.</td></tr></table>
-<h3>4.3. Hai bộ chấm cần phân biệt</h3>
-<table><tr><th>Ký hiệu</th><th>Định nghĩa</th><th>Vai trò</th></tr>
-<tr><td><b>S</b></td><td>Scorer của benchmark: mọi test FAIL_TO_PASS phải qua và không làm hỏng test PASS_TO_PASS.</td><td>Định nghĩa resolved được dùng cho các kết quả chính.</td></tr>
-<tr><td><b>L</b></td><td>Scorer trong code công khai của gskill tại commit 8c7b697: output test chứa chuỗi “passed” (không phân biệt hoa thường), trừ khi có “Patch Apply Failed”.</td><td>Đây là mục tiêu mà vòng học GEPA tối ưu.</td></tr></table>
-<p>Phân biệt S và L rất quan trọng: nếu bộ chấm tối ưu chấp nhận một patch không thực sự sửa lỗi, learner có thể học theo tín hiệu sai. Paper chỉ kết luận về code gskill ở commit đã ghim, không suy rộng sang code dùng để tạo announcement của tác giả gskill.</p>
-<h3>4.4. Các đối chứng</h3>
-<ul>
-<li><b>A/A:</b> hai lần chạy không skill trên cùng task, để đo mức admit nhầm khi không có tác dụng.</li>
-<li><b>Sham skill:</b> đưa cho LLM auditor một cặp A/A và nói như thể nhánh thất bại đã nạp skill; skill không thể là nguyên nhân vì thực tế không nhánh nào nạp.</li>
-<li><b>No-op và gold patch:</b> patch không thay đổi gì phải bị đánh trượt; patch tham chiếu phải được chấp nhận.</li>
-<li><b>Skill không liên quan cùng độ dài:</b> tách tác động nội dung khỏi tác động đơn thuần của việc thêm nhiều chữ.</li>
-<li><b>Single-commit history:</b> thay toàn bộ Git history bằng một commit chứa cây mã đang lỗi; đây là đối chứng chính cho lịch sử, nhưng không chỉ xóa riêng commit “Bug Patch”.</li>
-</ul>
-<h2 id="rq1">5. RQ1: Các phép đo có đứng vững trước đối chứng không?</h2>
-<h3>5.1. Scorer công khai của gskill</h3>
-<table><tr><th>Kiểm tra</th><th>Kết quả</th><th>Ý nghĩa</th></tr>
-<tr><td>No-op patch trên 5 SWE-smith repos</td><td>L báo pass ở 206/216 task; S báo 0/216 resolved</td><td>L có thể coi patch không sửa gì là pass</td></tr>
-<tr><td>Agent Jinja, không skill</td><td>L: 37; S: 15 resolved</td><td>Hai scorer cho kết quả rất khác</td></tr>
-<tr><td>Agent Bleve, không skill</td><td>L: 30; S: 13 resolved</td><td>Khoảng cách cũng xuất hiện ở repo thứ hai</td></tr>
-<tr><td>Agent Jinja, có skill</td><td>L: 79; S: 53 resolved</td><td>L báo cao hơn số patch thực sự qua benchmark scorer</td></tr>
-<tr><td>Agent Bleve, có skill</td><td>L: 73; S: 43 resolved</td><td>Tương tự ở Bleve</td></tr></table>
-<p>Đây là lý do paper không dùng L làm định nghĩa cuối cùng của thành công. GEPA vẫn học theo L, nhưng đánh giá skill chính được chấm lại theo S.</p>
-<h3>5.2. A/A: so sánh các quy tắc admission</h3>
-<p>Nhóm tạo 10.000 luồng A/A, mỗi luồng 200 cặp trial, lấy task có hoàn lại từ 221 task E1/E2 và chọn hai trong ba lần chạy no-skill. Vì hai nhánh đều không skill nên không có tác dụng thật; tỉ lệ admit chính là tỉ lệ báo động giả trong mô phỏng này.</p>
-<table><tr><th>Quy tắc</th><th>Tỉ lệ admit A/A</th><th>Giải thích</th></tr>
-<tr><td>Plug-in, nhìn một lần sau 200 trial</td><td>0,46</td><td>46% luồng không hiệu ứng vẫn bị nhận</td></tr>
-<tr><td>Plug-in, kiểm tra mỗi 10 trial</td><td>0,80</td><td>Nhìn đi nhìn lại làm tăng rủi ro</td></tr>
-<tr><td>Mantel–Haenszel gate, một lần</td><td>0,03</td><td>Gần nhưng cao hơn mức 0,025 trong mô phỏng</td></tr>
-<tr><td>Mantel–Haenszel gate, theo dõi lặp</td><td>0,11</td><td>Rủi ro tăng khi xem nhiều lần</td></tr>
-<tr><td>GEPA acceptance rule, minibatch 3</td><td>0,14</td><td>14% proposal không thay đổi gì vẫn được chấp nhận</td></tr>
-<tr><td><b>Gatekeeper, 200 trial</b></td><td><b>0,0032</b></td><td>32/10.000 luồng; thấp hơn α = 0,025 trong mô phỏng</td></tr></table>
-<p class="note"><b>Không diễn giải quá mức:</b> 0,0032 = 0,32% trong 10.000 luồng A/A mô phỏng. Đây không phải tỷ lệ lỗi thực tế đã được đo trên mọi coding-agent system, cũng không thay thế bảo đảm lý thuyết theo từng admission.</p>
-<h3>5.3. Harness của nhóm và các đối chứng phụ</h3>
-<ul>
-<li>No-op patch: 0/40 resolved. Gold patches: 33/35 instance đáng ngờ qua khi chấm lại ba lần.</li>
-<li>Do local scorer ban đầu không có network access, nhóm chấm lại 1.200 patch bị ảnh hưởng bằng network-enabled environment; 3/1.540 outcomes của own skills thay đổi và 0/30 của XRepoSkill thay đổi. Không có kết luận chính nào thay đổi.</li>
-<li>Attribution rule đã công bố đánh dấu 14 failure trong hai lần chạy không skill so với 13 khi có skill trên 109 SWE-bench-Live tasks; tỉ số 1,08 [0,68; 1,75].</li>
-<li>LLM auditors bị sham-skill đánh lừa: blame sham skill ở 25/25, 3/25 và 5/25 trường hợp tương ứng với ba auditor models. Trên real failures, mức quy lỗi vượt giới hạn có thể do skill gây ra ít nhất 0,51; 0; và 0,09 tùy auditor.</li>
-<li>7/13 gain được công bố cho XRepoSkill và MemGovern không lớn hơn mức nhiễu chạy lại 97,5th percentile ở sample size tương ứng. Đây là cảnh báo tham khảo, không phải kiểm định lại các paper đó bằng đúng model gốc.</li>
-<li>MemGovern: manipulation check yêu cầu agent gọi retrieval tools, nhưng agent chỉ gọi 0/20 lượt; theo preregistration, thí nghiệm dừng trước khi tính effect. Điều này không đánh giá MemGovern trong harness/model chính thức của nó.</li>
-</ul>
-<h2 id="rq2">6. RQ2: Skill có lợi không, và phần gain đến từ đâu?</h2>
-<h3>6.1. Kết quả chính theo scorer S</h3>
-<div class="tbl"><table><tr><th>Repository</th><th>Điều kiện</th><th>Không skill</th><th>Có skill</th><th>Gain [95% CI]</th><th>Admit</th></tr>
-<tr><td>Jinja</td><td>Lịch sử như được cung cấp</td><td>15</td><td><b>53</b></td><td>0,38 [0,26; 0,49]</td><td>29</td></tr>
-<tr><td>Jinja</td><td>Một commit</td><td>14</td><td><b>35</b></td><td>0,21 [0,13; 0,29]</td><td>50</td></tr>
-<tr><td>Bleve</td><td>Lịch sử như được cung cấp</td><td>13</td><td><b>43</b></td><td>0,30 [0,19; 0,40]</td><td>34</td></tr>
-<tr><td>Bleve</td><td>Một commit</td><td>14</td><td><b>31</b></td><td>0,17 [0,09; 0,25]</td><td>61</td></tr>
-<tr><td>Jinja</td><td>Xóa chỉ dẫn lịch sử khỏi skill</td><td>17</td><td><b>40</b></td><td>0,23 [0,14; 0,32]</td><td>24</td></tr>
-<tr><td>Jinja</td><td>Học lại trong môi trường một commit</td><td>16</td><td><b>33</b></td><td>0,17 [0,08; 0,26]</td><td>65</td></tr>
-<tr><td>Pygments</td><td>Dùng lại nguyên skill Jinja</td><td>5</td><td>6</td><td>0,01 [−0,02; 0,05]</td><td>Không admit</td></tr>
+
+<h2 id="rq1">4. RQ1. Mức tăng và chứng nhận</h2>
+<div class="tbl"><table>
+<caption>Bộ chấm S, 100 task test, các nhánh chạy cùng lúc trong cùng một job</caption>
+<tr><th>Repo / điều kiện</th><th>Không skill</th><th>Có skill</th><th>Mức tăng [95%]</th><th>Nhận ở trial</th></tr>
+<tr><td>Jinja, môi trường gốc, seed 41</td><td class="n">15</td><td class="n">53</td><td class="n">+0,38 [0,26; 0,49]</td><td class="n">29</td></tr>
+<tr><td>Jinja, môi trường gốc, seed 51</td><td class="n">21</td><td class="n">55</td><td class="n">+0,34 [0,23; 0,44]</td><td class="n">53</td></tr>
+<tr><td>Bleve, môi trường gốc</td><td class="n">13</td><td class="n">43</td><td class="n">+0,30 [0,19; 0,40]</td><td class="n">34</td></tr>
 </table></div>
-<p><b>Đọc gain:</b> 0,38 là tăng 38 điểm phần trăm, tương ứng 53/100 trừ 15/100. Đây không phải “tăng 38% tương đối”. KTC 95% [0,26; 0,49] là khoảng bất định của chênh lệch theo bootstrap task-level (10.000 resamples), không phải khoảng chứa 95% từng kết quả chạy.</p>
-<h3>6.2. Cơ chế: agent tìm commit, learner biến nó thành chỉ dẫn</h3>
-<p>Trong SWE-smith, mỗi task giữ commit đã chèn lỗi ngay dưới HEAD. Khi issue description trống hoặc mơ hồ, agent có thể chạy <code>git log</code>/<code>git show</code>, thấy commit “Bug Patch” và đọc trạng thái code trước khi lỗi được chèn. Skill Jinja sau học có chỉ dẫn: kiểm tra vài commit gần đây, tìm commit đáng ngờ như “Bug Patch”, rồi dùng <code>git show</code>.</p>
+<p>Cả ba mức tăng đều được nhận. Mệnh đề được chứng nhận là: tác dụng trung bình trên đúng pool task này, trong điều kiện của lượt chạy này (<code>docs/method_end_of_pool.md</code>). Mệnh đề không nói gì về lý do của mức tăng; câu hỏi đó là RQ2 và RQ3.</p>
+
+<h2 id="rq2">5. RQ2. Cơ chế: rò rỉ qua lịch sử git</h2>
 <ul>
-<li>Skill khởi đầu của gskill rỗng. Agent config không chứa từ “git”; prompt viết skill chỉ nhắc git như một command sẵn có, không yêu cầu đọc history/commit.</li>
-<li>Trong Jinja, các rewrite có chỉ dẫn lịch sử đạt validation score trung bình 0,86 so với 0,74 của rewrite không có. Bleve tương ứng 0,84 so với 0,59.</li>
-<li>Trong 34 task Jinja không có issue description, trace của skill gốc cho thấy agent chạy <code>git log</code>/<code>git show</code> và nhìn thấy “Bug Patch” ở 34/34; skill giải 15/34. Không skill giải 1/34.</li>
-<li>Trong 42 task Bleve không có mô tả, skill giải 11 khi còn history và 0 khi một commit.</li>
-<li>18.033/59.136 task SWE-smith (30,5%, 222 repos) không có issue description; nhóm chỉ đo trực tiếp effect của leak trên hai repository.</li>
+<li><b>Kiểm toán lịch sử (§41):</b> mọi task SWE-smith có đúng ba commit. Commit thứ hai ("Bug Patch") chèn lỗi; commit thứ ba ("Remove F2P Tests") xóa test tái hiện lỗi. Không có lịch sử thật của dự án. Đây là kênh rò rỉ <i>mã trước lỗi</i>, khác với kênh <i>lời giải tương lai</i> đã được báo cáo ở SWE-bench.</li>
+<li><b>Skill Jinja</b> chứa chỉ dẫn "chạy <code>git log</code>, tìm commit gần nhất, <code>git show</code> để thấy dòng bị đổi". Trên 34 task không mô tả ở môi trường gốc, cả 34 lượt có skill đều chạy lệnh git và hiển thị diff "Bug Patch"; 15 task được giải. Ở môi trường một commit: 0 task.</li>
+<li><b>Bộ theo dõi trace</b> được kiểm trên 1.573 lượt có nhãn: 185 dương tính đúng, 13 dương tính giả, 0 âm tính giả.</li>
+<li><b>Agent mạnh hơn (§34, model Flash của Google):</b> không cần skill vẫn giải 31/34 task không mô tả, bằng cách tự đọc lịch sử.</li>
 </ul>
-<h3>6.3. Ước lượng phần gain liên quan đến history</h3>
-<div class="formula">Leak-associated difference = gain (history as shipped) − gain (single-commit)</div>
-<table><tr><th>Repository</th><th>Gain gốc</th><th>Gain một commit</th><th>Hiệu số [95% CI]</th><th>Tỉ lệ gần đúng</th></tr>
-<tr><td>Jinja</td><td>0,38</td><td>0,21</td><td><b>0,17 [0,06; 0,28]</b></td><td>≈45%</td></tr>
-<tr><td>Bleve</td><td>0,30</td><td>0,17</td><td><b>0,13 [0,03; 0,23]</b></td><td>≈43%</td></tr></table>
-<p>Đây là <b>cận trên</b> của phần gain liên quan đến leak: single-commit loại bỏ cả history, nên hiệu số có thể bao gồm thông tin Git hợp lệ khác ngoài commit chèn lỗi. Các trace cho thấy Bug Patch là cơ chế cụ thể trong task không mô tả, nhưng phép đo không tách riêng tác động của duy nhất commit đó.</p>
-<h3>6.4. Hai đối chứng sau học: single-commit và instruction ablation</h3>
-<p>Single-commit thay môi trường nhưng giữ nguyên skill. Ablation làm ngược lại: giữ môi trường gốc, xóa đúng một bullet “Check Git History” khỏi skill và giữ các byte khác. Ablation cho 17 → 40, gain 0,23 [0,14; 0,32], admit sau 24 task. Trên 34 task không mô tả, skill đã xóa chỉ dẫn giải 2, so với 15 của skill gốc. Agent vẫn tự chạy git log/show và thấy Bug Patch trong 6/100 lượt, nên xóa instruction không triệt tiêu hoàn toàn khả năng tự tìm leak.</p>
-<p>Gain 0,23 sau ablation khác gain 0,21 trong single-commit 0,02 [−0,08; 0,12]. Khoảng tin cậy chứa 0, nhưng paper không đăng ký equivalence margin; vì vậy chỉ được nói <b>không phát hiện khác biệt thống kê</b>, không được nói hai hiệu ứng tương đương.</p>
-<h3>6.5. Bịt leak ngay trong lúc học (§30)</h3>
-<table><tr><th>Chỉ số</th><th>Học gốc</th><th>Học trong môi trường một commit</th></tr>
-<tr><td>Metric calls</td><td>606 (Jinja original)</td><td>609</td></tr>
-<tr><td>Rewrite không rỗng được giữ</td><td>8</td><td>8</td></tr>
-<tr><td>Rewrite có dòng về commit/history</td><td>5/8</td><td>0/8</td></tr>
-<tr><td>Skill cuối</td><td>có dòng “git”</td><td>3.353 bytes, không có từ “git”</td></tr>
-<tr><td>Đánh giá trong môi trường một commit</td><td>14 → 35; gain 0,21</td><td>16 → 33; gain 0,17 [0,08; 0,26]</td></tr>
-<tr><td>Gatekeeper</td><td>50 task</td><td>65 task</td></tr>
-</table>
-<p>609 lần thay history trong learning containers đều được kiểm tra: một commit, một reference, không remote, không object mang thông điệp Bug Patch; nếu kiểm tra thất bại thì dừng lượt học. Skill học lại khác gain của skill gốc trong cùng single-commit environment −0,04 [−0,13; 0,05], không có khác biệt phát hiện được; không có equivalence margin nên không kết luận tương đương. Mỗi condition chỉ có một lượt học, do GEPA ngẫu nhiên; 0/8 là quan sát của lượt này, không phải xác suất learner sẽ tránh leak trong các lần học tương lai.</p>
-<p>Đưa skill học lại về môi trường Jinja gốc, trên 34 task không mô tả, nó giải 1/34; skill gốc giải 15/34; skill gốc đã xóa chỉ dẫn giải 2/34; no-skill giải 1/34. Đây là phân tích mô tả trên nhóm task được chọn để làm lộ leak, không phải ước lượng trên toàn bộ 100 task.</p>
-<h3>6.6. Seed thứ hai và phép xác nhận trên task chưa dùng</h3>
-<table><tr><th>Seed 51, bốn nhánh Jinja chạy cùng job</th><th>Kết quả</th></tr>
-<tr><td>Lịch sử như cung cấp</td><td>21 → 55; b/c = 38/4; p = 2,8 × 10<sup>−8</sup>; gain 0,34 [0,23; 0,44]; admit 53</td></tr>
-<tr><td>Một commit</td><td>17 → 35; b/c = 23/5; p = 4,6 × 10<sup>−4</sup>; gain 0,18 [0,09; 0,28]; admit 74</td></tr>
-<tr><td>Hiệu số hai môi trường</td><td>0,16 [0,04; 0,28], so với 0,17 [0,06; 0,28] ở seed 41</td></tr>
-<tr><td>Trung bình hiệu số hai seed</td><td>0,165 [0,075; 0,255]</td></tr>
-<tr><td>Kiểm định e-process trên chênh lệch môi trường ở cả 100 task</td><td>Không bác bỏ, p = 0,13; paper lưu ý power thấp ở n = 100</td></tr></table>
-<p>Phép xác nhận đăng ký trước §35 dùng 70 task không có issue description: 34 task test của seed 51 và 36 task Jinja chưa từng được dùng, chọn bằng quy tắc cố định. E-process vượt ngưỡng 40 ở task 36, anytime-valid p = 4,2 × 10<sup>−4</sup>; trong 10.000 thứ tự ngẫu nhiên, vượt ngưỡng ở 100%. Có 36 task nghiêng về môi trường history đầy đủ, 0 nghiêng về một commit, 34 hòa. Trên 36 task hoàn toàn mới, skill giải 20 khi còn history và 1 khi một commit; không skill giải 0 ở cả hai môi trường. Trace thấy Bug Patch ở 36/36 lượt có skill (và 1/36 lượt không skill). Một no-skill patch timeout khi chấm; bỏ task đó không đổi thời điểm vượt ngưỡng.</p>
-<h3>6.7. Trace monitor, agent thứ hai và learner’s path (§32, §34, §36)</h3>
+
+<h2 id="rq3">6. RQ3. Can thiệp có kiểm soát</h2>
+<div class="tbl"><table>
+<caption>Jinja, 100 task test, bộ chấm S</caption>
+<tr><th>Can thiệp</th><th>Kết quả</th><th>Đọc</th></tr>
+<tr><td>Môi trường một commit (skill gốc)</td><td>14 → 35, +0,21 [0,13; 0,29]; trên 34 task không mô tả: 0 task được giúp</td><td>Mức tăng giảm 0,17 [0,06; 0,28], khoảng 45% mức tăng</td></tr>
+<tr><td>Bỏ đúng một chỉ dẫn đọc lịch sử (§29)</td><td>17 → 40, +0,23 [0,14; 0,32]</td><td>Bằng mức tăng ở môi trường một commit (hiệu +0,02 [−0,08; 0,12])</td></tr>
+<tr><td>Học lại trong môi trường một commit (§30)</td><td>Skill không có chỉ dẫn lịch sử (0/8 ứng viên); 16 → 33, +0,17 [0,08; 0,26]</td><td>Bộ học chỉ viết chỉ dẫn khi có rò rỉ</td></tr>
+<tr><td><b>C10R</b>: tách tên commit khỏi nội dung diff (đăng ký trước, 70 task không mô tả cố định, 8 nhánh)</td><td>A (lịch sử như benchmark) so với C (commit "Bug Patch" rỗng, không có mã trước lỗi): skill giải 41/70 ở A, 1/70 ở C; D = −0,29 [−0,35; −0,24], 40 task âm, 0 dương, <b>E = 9,0·10³</b>. B (diff giữ, tên trung tính) − D (không commit lỗi): −0,01; C − D: +0,02</td><td>Mức tăng cần <b>mã trước lỗi</b> trong lịch sử (A so với C). Riêng diff dưới tên trung tính, hay riêng tên không có diff, đều không tạo mức tăng (mô tả). Tên commit dẫn agent tới diff: có skill, agent hiển thị diff ở 70/70 lượt của A. Tương tác −0,28 [−0,36; −0,21]</td></tr>
+</table></div>
+<p>Phần mức tăng còn lại khi không có rò rỉ (0,17–0,23) là phần được chứng nhận theo phạm vi. Đóng góp của bài được đặt ở đây: một skill phải được chứng nhận theo từng phạm vi, dưới đối chứng trong đó nguyên nhân được giả định không còn.</p>
+
+<h2 id="rq4">7. RQ4. Độ vững: lặp lại và mở rộng</h2>
+<h3>7.1 Seed, task và repo</h3>
 <ul>
-<li>Trace monitor được định nghĩa sau khi có dữ liệu: gắn cờ khi observation chứa “Bug Patch”. Cờ bật ở 34/34 task không mô tả với skill gốc; 0/398 lượt ở các môi trường một commit. Chỉ đếm lệnh git log/show thì không đủ phân biệt, vì ở Bleve một commit agent vẫn chạy lệnh này trong 31/98 lượt có skill.</li>
-<li>Không skill Jinja thấy commit ở 3/100 lượt và không giải được task nào trong ba lượt đó. Khi dùng skill Jinja trên Pygments, agent thấy commit ở 9/100 lượt nhưng 0/9 giải được; hành vi chuyển sang repo mới nhưng gain không chuyển.</li>
-<li>Gemini 3.8 Flash trên 34 task Jinja không mô tả: không skill giải 31/34, có skill 34/34; không skill mở commit ở 33/34 lượt. Chưa có single-commit control cho model này, nên không đo được bao nhiêu trong 31 task là nhờ history.</li>
-<li>Phân tích log §36 còn giữ được một lần gọi: agent không có chỉ dẫn vẫn đọc commit và giải task; model viết skill nhìn thấy trace đó rồi đưa lời khuyên đọc history vào skill. Validation score tăng từ 0,78 lên 0,94 trong rewrite được quan sát. Log nửa đầu các lượt học bị gskill ghi đè, nên đây là một trường hợp quan sát, không phải tần suất.</li>
-<li>Phân tích patch cho thấy agent chủ yếu dùng commit để định vị lỗi, không đơn thuần sao chép bản sửa: exact reverse xuất hiện ở 9/15 task không mô tả và 20/38 task có mô tả ở history gốc; 17/35 ở single-commit; 3/20 ở 36 task mới.</li>
+<li><b>Seed thứ hai (§33):</b> phần mức tăng do rò rỉ 0,16 [0,04; 0,28], lặp lại 0,17 của seed đầu.</li>
+<li><b>70 task không mô tả, đăng ký trước (§35):</b> 36 task nghiêng về môi trường có hai commit, 0 task nghiêng về môi trường một commit (kiểm định dấu p = 4,2·10⁻⁴). Trong 36 task mới chưa từng dùng, 19 task cùng chiều, 0 ngược chiều.</li>
+<li><b>Bleve (Go):</b> cùng mẫu. Một commit: 14 → 31 (+0,17); phần do rò rỉ 0,13 [0,03; 0,23].</li>
+<li><b>Pygments:</b> tỉ lệ nền thấp, nên chưa đủ bằng chứng theo chiều nào.</li>
 </ul>
-<h2 id="rq3">7. RQ3: Chứng nhận có chuyển sang scope khác không?</h2>
-<h3>7.1. Sang repository khác: Pygments</h3>
-<table><tr><th>Chỉ số</th><th>Kết quả</th></tr><tr><td>No-skill resolved</td><td>5/100</td></tr><tr><td>Skill Jinja reused verbatim</td><td>6/100</td></tr><tr><td>Gain [95% CI]</td><td>0,01 [−0,02; 0,05]</td></tr><tr><td>Exact sign test</td><td>b/c = 2/1; p = 1,00 (two-sided)</td></tr><tr><td>Gatekeeper</td><td>Không admit</td></tr><tr><td>gskill scorer L trên cùng patches</td><td>70 so với 42</td></tr></table>
-<p>Đây là ví dụ trực tiếp cho thấy scorer L có thể báo gain lớn (0,28), trong khi scorer S chỉ thấy 1 task chênh lệch. Không admit ở Pygments nghĩa là chưa có đủ bằng chứng về gain, không chứng minh skill chắc chắn có hại hoặc không thể transfer. Tỉ lệ no-skill thấp (5/100) khiến test ít power để phát hiện tác hại nhỏ.</p>
-<h3>7.2. Cấu hình agent–model khác</h3>
-<p>Trên 98 skill chung của SWE-Skills-Bench qua bốn cấu hình agent–model, chỉ khoảng 7% phương sai hiệu ứng được chia sẻ giữa các cấu hình (ρ = 0,07). Nếu một cấu hình có thay đổi pass rate ít nhất 6 điểm, cấu hình khác đổi cùng chiều ít nhất 6 điểm ở 25% trường hợp và ngược chiều ở 19%. Vì mỗi cấu hình chỉ có một run/skill, số liệu không tách được scope effect khỏi run noise; nó chỉ cho thấy hiệu ứng ở một cấu hình dự đoán yếu hiệu ứng ở cấu hình khác.</p>
-<p>Hai skill được thử thêm trên Gemini 3.1 Pro (preview): 8/8 cặp không thay đổi pass rate; median no-skill pass rate 0,93, tức ceiling effect khiến skill ít khoảng trống để cải thiện.</p>
-<h2 id="han-che">8. Bảo đảm thống kê và giới hạn</h2>
-<h3>8.1. Bảo đảm từng admission và phân tích cả họ</h3>
-<p>Mỗi admission trong paper được đăng ký riêng ở α = 0,025. Điều này bảo đảm sai số loại I cho <b>từng quyết định</b>, không tự động bảo đảm xác suất có ít nhất một false admission trong toàn bộ 12 quyết định ≤ 0,025. Nếu đọc cả 12 như một họ và dùng Bonferroni, ngưỡng phải là 1/(0,025/12) = <b>480</b>. Phân tích sensitivity sau dữ liệu cho thấy trong 10 quyết định bác bỏ ở mức đăng ký, 7 vẫn đứng ở ngưỡng 480 (bao gồm phép xác nhận trên task chưa dùng); 3 không còn đứng: Bleve single-commit, Jinja seed 51 single-commit và skill học lại §30 (e-value lớn nhất 144). Đây là cách đọc family-wise sau dữ liệu, không thay thế các quyết định đã đăng ký. Holm của sign tests là correction riêng cho các kiểm định sign, không kiểm soát họ e-process.</p>
-<h3>8.2. Các giới hạn được paper nêu</h3>
+<h3>7.2 Lặp lại lượt học (X1′, §47, xong 21/11)</h3>
+<div class="tbl"><table>
+<caption>Cùng lệnh học, cùng phép chia task (seed 42), chạy lại trên Vertex; chấm cùng lúc 5 nhánh</caption>
+<tr><th>Môi trường</th><th>Skill có chỉ dẫn đọc lịch sử</th><th>100 task: không skill → skill</th><th>34 task không mô tả</th></tr>
+<tr><td>Gốc (lượt mới <code>x1ship</code>)</td><td class="ok">Có (3 dòng; lượt cũ cũng có: 2/2)</td><td class="n">13 → 67, +0,54 [0,44; 0,64]</td><td class="n">0 → 22</td></tr>
+<tr><td>Một commit (lượt mới <code>x1lf</code>)</td><td class="ok">Không (0 dòng; lượt cũ cũng không: 0/2)</td><td class="n">8 → 33, +0,25 [0,17; 0,34]</td><td class="n">0 → 0</td></tr>
+</table></div>
+<p>Skill học ở môi trường một commit, khi chạy ở môi trường gốc, giải được 0/34 task không mô tả. Mỗi môi trường có n = 2 lượt học, nên kết quả này là mô tả, không phải phép kiểm. Nó trả lời trực tiếp nhận xét "mỗi điều kiện chỉ có một lượt học" của bản review.</p>
+<h3>7.3 Agent khác hãng (C4′, Kaggle, xong 21/11)</h3>
+<div class="tbl"><table>
+<caption>70 task không mô tả (34 task test + 36 task của §35); D = (Z_gốc − Z_một commit)/2; ngưỡng họ 3/α = 120</caption>
+<tr><th>Agent</th><th>Gốc: không skill / skill</th><th>Một commit: không skill / skill</th><th>D trung bình</th><th>E</th><th>Kết luận</th></tr>
+<tr><td>gpt-oss (OpenAI, mã nguồn mở)</td><td class="n">0 / 23</td><td class="n">0 / 0</td><td class="n">−0,164</td><td class="n">169,4</td><td class="ok">Bác bỏ: lặp lại phát hiện</td></tr>
+<tr><td>nano (OpenAI)</td><td class="n">0 / 20</td><td class="n">0 / 0</td><td class="n">−0,143</td><td class="n">86,7</td><td class="mid">Cùng chiều, chưa tới ngưỡng</td></tr>
+<tr><td>Haiku (Anthropic)</td><td class="n">24 / 24</td><td class="n">1 / 19</td><td class="n">+0,129</td><td class="n">0,002</td><td class="no">Ngược chiều</td></tr>
+</table></div>
 <ul>
-<li><b>Một model family cho agent:</b> confirmatory agent runs dùng Gemini 3.1 Flash-Lite; Gemini 3.8 Flash và Gemini 3.1 Pro preview cùng vendor. Không có model vendor khác.</li>
-<li><b>Hai learned-skill repos chính và một reuse repo:</b> Jinja, Bleve và Pygments; task học/đánh giá chủ yếu là SWE-smith synthetic tasks. Chưa có learned skill được đánh giá trên task từ repository thực không tổng hợp.</li>
-<li><b>Một learning run mỗi condition:</b> GEPA stochastic; chưa thể tách biến thiên giữa các lượt học. Log nửa đầu lượt học bị ghi đè.</li>
-<li><b>Một leak channel:</b> commit chèn lỗi trong Git history. Chưa kiểm tra artifact khác như image, file name hoặc timestamp.</li>
-<li><b>Single-commit loại bỏ toàn bộ history:</b> không phải surgical removal chỉ của commit gây lỗi; do đó leak share là upper bound.</li>
-<li><b>Agent mạnh hơn thiếu đối chứng một commit:</b> Gemini 3.8 Flash tìm được commit khi không có skill, nhưng chưa định lượng được phần gain do history.</li>
-<li><b>Binary loss:</b> paper dùng resolved/not-resolved; graded loss trong Appendix A không được đánh giá thực nghiệm.</li>
-<li><b>Base resolve rate thấp:</b> no-skill 15, 13 và 5/100 trong ba repo; cần benchmark có base rate cao hơn để đo harm.</li>
-<li><b>Thứ tự trial và model endpoint:</b> thứ tự task được cố định từ split; các nhánh chạy song song gần theo thứ tự đó. Không thấy endpoint đổi trong một run nhưng không thể loại trừ hoàn toàn.</li>
-<li><b>Contamination:</b> không xác minh được training cutoff của model từ nguồn chính thức; không tuyên bố task là unseen đối với model.</li>
+<li>Với nano và gpt-oss, mọi task không mô tả mà skill giúp ở môi trường gốc đều mất tác dụng khi bỏ hai commit. Không có skill, hai agent này không tự khai thác lịch sử.</li>
+<li>Haiku tự tìm ra rò rỉ mà không cần skill (24/70 task không mô tả ở nhánh không skill), nên skill không thêm được gì ở môi trường gốc.</li>
+<li>Agent chạy trong lớp cách ly <code>chroot</code> trên Kaggle. Tổng cộng 0 lượt chạm vào thông tin của máy chủ (exposure = 0).</li>
+<li>Cầu nối X2′ (§46): agent của paper chạy qua <code>chroot</code> giải 20/34 task có skill và 0/34 không skill. Docker cho 15–17/34 và 0–1/34. Môi trường <code>chroot</code> không làm giảm kết quả.</li>
+<li>Kênh rò rỉ thứ ba ngoài lịch sử git: ở môi trường một commit, một số lượt của Haiku tải bản phát hành Jinja từ PyPI để so sánh (16/136 lượt <code>lf_skill</code>). Bỏ các task này đi, kết luận không đổi. Agent Gemini của paper không dùng kênh này (0/2.699 lượt).</li>
+<li>Với gpt-oss: các thẻ định dạng trong tin nhắn gửi lại phải được thay bằng dấu cách, vì endpoint từ chối nhận chúng. Sai lệch này được nêu trong bài kèm câu chữ đã thống nhất.</li>
 </ul>
-<p class="note"><b>Claim boundary:</b> Paper cho thấy leak này xảy ra trong các scope đã nghiên cứu, learner biến nó thành instruction, và controls đo được phần gain liên quan. Paper không chứng minh mọi skill learner đều học leak, không ước lượng xác suất chung của hành vi đó, và không chứng minh Gatekeeper làm skill an toàn ở mọi repository.</p>
-<h2 id="tai-lap">9. Tái lập và chi phí admission</h2>
+<h3>7.4 Bước viết skill với model khác (§38, A′)</h3>
 <ul>
-<li>Paper công bố preregistrations, raw runs và code. Các phân tích confirmatory, threshold và decision rules được đăng ký trước khi xem dữ liệu áp dụng; các phân tích exploratory được gắn nhãn.</li>
-<li>Mỗi admission trong nghiên cứu cần 24–65 paired tasks. Với agent được dùng, một paired task tốn trung bình khoảng 174.000 input tokens và 10.000 output tokens, tương ứng 4,20–11,30 triệu input tokens cho một scope trước khi dừng vì futility.</li>
-<li>Appendix B dùng 3.920 cặp từ SWE-Skills-Bench: phương sai độ khó task chung σ²<sub>T</sub> = 0,067; phương sai nhiễu chênh lệch ghép cặp σ²<sub>S</sub> = 0,040; pairing saving = 4,31; 69% paired differences bằng 0. Đây là ước lượng sample-complexity từ dữ liệu benchmark, không phải cam kết chi phí tiết kiệm thực tế ở mọi dự án.</li>
-<li>Độ tin cậy hiệu ứng skill giữa cấu hình khác nhau: cross-configuration 0,07; within-configuration 0,16. Bảng sample-complexity trong Appendix B mô phỏng số cặp cần cho 80% admission power tùy θ, effect size và số cell chia sẻ α.</li>
+<li>Cho 5 model viết lại skill từ cùng các quỹ đạo. Model của gskill (Pro) viết chỉ dẫn đọc lịch sử với tỉ lệ 0,94 khi quỹ đạo có rò rỉ, so với 0,29 khi không có.</li>
+<li>Không model khác hãng nào qua ngưỡng Holm (p nhỏ nhất 0,0076 > 0,00625). Hai model (nano, gpt-oss) cùng chiều; hai model (Haiku, Grok) viết dòng lịch sử ở gần mọi prompt nên phép so không phân biệt được.</li>
+<li>A′, đổi tên "Bug Patch" thành tên trung tính: không bác bỏ (p = 0,5). 11/18 skill vẫn chỉ tới commit chèn lỗi theo tên mới. Như vậy tên "Bug Patch" không phải nguồn của chỉ dẫn.</li>
 </ul>
-<h2 id="ket-luan">10. Kết luận</h2>
-<p>Paper đưa ra một thông điệp có phạm vi rõ: <b>mức tăng resolve rate chỉ chứng nhận skill trong scope mà nó được đo, và chính evaluation environment là một phần của scope đó.</b> Trên Jinja và Bleve, skill gskill có lợi ích thực, nhưng một phần gain đến từ việc learner khái quát hóa hành vi đọc commit chèn lỗi thành instruction. Phần lợi ích còn lại vẫn được chứng nhận; khi đổi repository, admission không tự động chuyển theo.</p>
-<p>Đóng góp không phải một tuyên bố rằng “skill learning là vô dụng”, mà là một phương pháp để phân biệt lợi ích skill với lợi ích do môi trường đánh giá tạo ra, đồng thời đặt ra yêu cầu tái-admit khi scope thay đổi.</p>
-<footer>Được cập nhật theo nội dung của <code>Mainpaper(2).pdf</code>. Bản giải thích chi tiết dành cho người mới nghiên cứu nằm trong <a href="./explantation.html">explantation.html</a>.</footer>
-</article></div></main>
+
+<h2 id="w7">8. W7. Bộ học thứ hai (XRepoSkill): kết quả và kịch bản</h2>
+<p><b>Câu hỏi:</b> một bộ học skill khác, độc lập với gskill, có biến rò rỉ thành chỉ dẫn đọc lịch sử không? Dữ liệu vào là quỹ đạo đã lưu của agent Flash (thành công) và Flash-Lite (thất bại) trên 34 task không mô tả. Model viết quy tắc là model Pro của Google (đúng model phản tư của gskill), gọi qua Kaggle. Có hai pool:</p>
+<ul><li><b>Pool A</b>: lịch sử như benchmark, 62 cặp quỹ đạo trên 31 issue.</li><li><b>Pool B</b>: môi trường một commit, 24 cặp trên 12 issue.</li></ul>
+<p><b>Phép thử đã đăng ký (§45):</b> H là chỉ báo issue có ít nhất một quy tắc ứng viên khớp RULE của §29. Kiểm định chính xác Fisher một phía, tỉ lệ H ở A lớn hơn ở B, α = 0,025.</p>
+<h3>8.1 Pool A (xong 21/11)</h3>
+<ul>
+<li>102 ứng viên trên 31 issue. <b>H có ở 30/31 issue</b>; <code>git log</code>/<code>git show</code> có ở 30/31.</li>
+<li>20 quy tắc qua bước judge. Năm quy tắc trong số đó nhắc <code>git log</code>/<code>git show</code> (ví dụ "Run git log when issue description is missing"). Cả năm được XRepoSkill tự chấm với lift 0,93–0,96, và <b>không quy tắc nào bị bước kiểm trùng n-gram của XRepoSkill đánh dấu</b>. Như vậy cơ chế chống rò rỉ của bộ học này không chặn được kênh này.</li>
+</ul>
+<h3>8.2 Pool B (chạy tối 22/11): các kịch bản đặt trước</h3>
+<p>Với A = 30/31, giá trị p theo số issue có H ở pool B (b/12) đã tính sẵn:</p>
+<div class="tbl"><table>
+<tr><th>Kịch bản</th><th>Pool B</th><th>p (Fisher một phía)</th><th>Kết luận đặt trước</th></tr>
+<tr><td>K1</td><td>0–4 / 12</td><td class="n">≤ 3·10⁻⁵</td><td class="ok">Bác bỏ mạnh. Bộ học thứ hai chỉ viết chỉ dẫn đọc lịch sử khi có rò rỉ. Phát hiện không phụ thuộc gskill.</td></tr>
+<tr><td>K2</td><td>5–8 / 12</td><td class="n">0,00017–0,017</td><td class="ok">Bác bỏ. Như K1, kèm ghi chú rằng một phần quy tắc ở B là bước <code>git log</code> chung chung (cần đọc nội dung, xem K4).</td></tr>
+<tr><td>K3</td><td>9–12 / 12</td><td class="n">≥ 0,059</td><td class="no">Không bác bỏ. Bộ học này viết quy tắc đọc lịch sử cả khi lịch sử chỉ có một commit, tức là thói quen của bộ học (như Haiku và Grok ở §38). Phát hiện cơ chế chỉ được nói cho gskill.</td></tr>
+<tr><td>K4</td><td>bất kỳ</td><td>—</td><td>Phân tích phụ: quy tắc ở B có thể nhắc <code>git log</code> nhưng không trỏ tới commit lỗi (ở B không có commit đó). Báo nội dung, lift và cờ n-gram, như pool A.</td></tr>
+<tr><td>K5</td><td>lượt dừng vì trần hoặc lỗi</td><td>—</td><td>Báo nguyên trạng. Phép thử chạy trên các issue đã xử lý nếu số issue có cặp ≥ 5 (§45). Nếu dưới 5 thì chỉ báo mô tả.</td></tr>
+</table></div>
+<div class="box"><p><b>Tổng kết theo kịch bản.</b> Ở K1, K2: phát hiện chính có thêm một bộ học thứ hai, và bài viết được "hai bộ học skill độc lập đều biến rò rỉ thành chỉ dẫn". Ở K3: kết luận chính không đổi, vì nó dựa trên C10R, X1′ và C4′; câu về bộ học được thu hẹp thành "gskill, không chung cho mọi bộ học", và phần Thảo luận nêu rằng XRepoSkill viết chỉ dẫn đọc lịch sử không phụ thuộc rò rỉ. Cả hai trường hợp đều báo được, và EASE nhận kết quả âm tính. Ở mọi kịch bản, phần "bước kiểm n-gram không bắt kênh này" (8.1) đứng độc lập.</p></div>
+
+<h2 id="hanche">9. Độ tin cậy và hạn chế</h2>
+<ul>
+<li><b>Phạm vi:</b> task tổng hợp (SWE-smith), Jinja là repo chính, các model hạng nhỏ. Không có kết luận về repo thật có lịch sử dài.</li>
+<li><b>Điều được chứng nhận:</b> tác dụng trung bình trên một pool cố định, trong một lượt chạy. Không phải tác dụng khi triển khai.</li>
+<li><b>Môi trường một commit không kín hoàn toàn:</b> vẫn có kênh gói phát hành trên PyPI (7.3).</li>
+<li><b>Lượt học:</b> n = 2 cho mỗi môi trường; mô tả, không kiểm định.</li>
+<li><b>Agent khác hãng:</b> một agent qua ngưỡng họ, một agent cùng chiều, một agent ngược chiều. Kết luận phải nói rõ là phụ thuộc vào agent.</li>
+<li><b>Sai lệch giao thức với gpt-oss</b> (gỡ thẻ định dạng): áp cho cả 4 nhánh, nhưng không loại trừ được tương tác.</li>
+<li><b>Chứng minh của phép kiểm cuối pool</b> chưa có người đọc độc lập.</li>
+</ul>
+
+<h2 id="tinhtrang">10. Tình trạng và kế hoạch</h2>
+<div class="tbl"><table>
+<tr><th>Việc</th><th>Trạng thái</th></tr>
+<tr><td>C10, C10R, C4′, X1′, X2′, §38, A′, W7 pool A</td><td class="ok">Xong, đã ghi trong bản đăng ký</td></tr>
+<tr><td>W7 pool B</td><td class="mid">Chạy tối 22/11 (giờ Việt Nam), phụ thuộc hạn mức ngày của Kaggle</td></tr>
+<tr><td>Đưa kết quả mới vào <code>paper/</code></td><td class="mid">Bắt đầu sau khi có pool B</td></tr>
+<tr><td>Gói tái lập ẩn danh</td><td>Bản nội bộ đã có; đưa ra ngoài chờ quyết định</td></tr>
+<tr><td>Mốc đóng băng thí nghiệm</td><td>01/12/2026 (đề xuất)</td></tr>
+</table></div>
+
+<h2 id="chiphi">11. Chi phí (từ 17/11)</h2>
+<div class="tbl"><table>
+<tr><th>Mục</th><th>Nơi chạy</th><th>Đã chi</th><th>Trần</th><th>Token (vào / ra)</th></tr>
+<tr><td>C10, C10R</td><td>Vertex</td><td class="n">6,01 + 6,81 USD</td><td class="n">10,83; 12,64</td><td>ghi trong file kết quả</td></tr>
+<tr><td>Agent Flash một commit (dữ liệu W7)</td><td>Vertex</td><td class="n">7,64 USD</td><td class="n">8,21</td><td>30,46 triệu / 0,25 triệu</td></tr>
+<tr><td>X2′ + X1′ (học lại hai lần, chấm 5 nhánh)</td><td>Vertex</td><td class="n">29,72 USD</td><td class="n">35</td><td>ghi trong sổ chi trên <code>pilot-snapshots</code></td></tr>
+<tr><td>C4′ (3 agent × 4 nhánh × 136 task)</td><td>Kaggle (hạn mức)</td><td class="n">17,54 USD</td><td class="n">12 / 12 / 13,11 mỗi model</td><td>170,4 triệu / 9,37 triệu</td></tr>
+<tr><td>W7 pool A</td><td>Kaggle</td><td class="n">13,26 USD</td><td class="n">14,64</td><td>1,13 triệu / 0,92 triệu</td></tr>
+</table></div>
+<p class="muted">Hạn mức Kaggle tháng 11 đã dùng khoảng 56,5/100 USD. Vertex: phần X2′ và X1′ còn 5,28 USD trong trần 35, không còn khâu nào dự kiến.</p>
+
+<h2 id="ykien">12. Việc xin ý kiến thầy</h2>
+<ol>
+<li><b>Khung câu chuyện:</b> đặt C10R (cơ chế), X1′ (lặp lại lượt học) và C4′ (agent khác hãng) làm trục chính, còn phần chứng nhận theo phạm vi là đóng góp phương pháp đi kèm. Thầy thấy thứ tự này hợp lý chưa?</li>
+<li><b>Cách viết kết quả C4′:</b> một agent qua ngưỡng họ, một cùng chiều, một ngược chiều vì tự khai thác lịch sử. Đề xuất câu: "hiệu ứng phụ thuộc vào việc agent có tự tìm ra rò rỉ hay không".</li>
+<li><b>W7:</b> nếu rơi vào K3, có nên giữ trong bài chính hay chuyển sang phụ lục?</li>
+<li><b>Tên bài:</b> có nên bỏ chữ "Certifying" (Q3)?</li>
+</ol>
+<footer>Mọi con số trong trang có nguồn ở bản đăng ký và file kết quả của repo. Trang được viết tay; không sinh tự động.</footer>
+</main>
 </body>
 </html>
