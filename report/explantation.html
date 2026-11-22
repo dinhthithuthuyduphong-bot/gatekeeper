@@ -95,6 +95,7 @@ figure.viz figcaption{font-size:.86rem;color:var(--muted);margin-top:10px;max-wi
 <li><a href="#b10">B10. Model khác viết skill (§38)</a></li>
 <li><a href="#b11">B11. Bộ học thứ hai (W7 pool A)</a></li>
 <li><a href="#c">C. W7 pool B: các kịch bản</a></li>
+<li><a href="#r">R. Bản review của thầy và đã sửa gì</a></li>
 <li><a href="#d">D. Tổng kết: paper đang ở đâu</a></li>
 </ol>
 
@@ -163,7 +164,7 @@ Nếu cuối pool E ≥ 40 (= 1/α), ta bác bỏ giả thuyết không. Lý thu
 <h2 id="b3">B3. Vì sao skill giúp? Phát hiện rò rỉ (§36, §41)</h2>
 <p><b>Đọc skill:</b> skill Jinja có một dòng bảo agent chạy <code>git log</code>, tìm commit gần nhất, rồi <code>git show</code> để thấy dòng bị đổi. Đây là dòng mà bộ học <b>tự viết ra</b>.</p>
 <p><b>Kiểm lịch sử:</b> mọi task SWE-smith có đúng ba commit, trong đó commit "Bug Patch" chứa đáp án (mục A3).</p>
-<p><b>Kiểm trace:</b> một chương trình đọc trace để xem agent có hiển thị diff "Bug Patch" không. Chương trình này được kiểm trên 1.573 lượt có nhãn: 185 lần bắt đúng, 13 lần báo nhầm, 0 lần bỏ sót. Kết quả: trên 34 task không có issue, cả 34 lượt có skill đều hiển thị diff "Bug Patch".</p>
+<p><b>Kiểm trace:</b> một chương trình đọc trace để xem agent có hiển thị diff "Bug Patch" không. Một cách kiểm rẻ hơn (chỉ xem tên "Bug Patch" có xuất hiện không) khớp với chương trình này ở 1.560/1.573 trace: nó bắt đủ cả 185 lượt có hiển thị diff, và báo thêm 13 lượt chỉ thấy tên mà không xem diff. Lưu ý: chưa có người nào ngồi gán nhãn độc lập để kiểm chương trình này (việc X3′, còn mở). Kết quả: trên 34 task không có issue, cả 34 lượt có skill đều hiển thị diff "Bug Patch".</p>
 <p><b>Ý nghĩa:</b> có thể một phần mức tăng là do skill dạy agent "xem đáp án". Muốn biết phần đó lớn bao nhiêu thì phải bịt rò rỉ rồi đo lại.</p>
 
 <h2 id="b4">B4. Bịt rò rỉ thì còn lại bao nhiêu? (§25 bước 3)</h2>
@@ -277,6 +278,32 @@ Nếu cuối pool E ≥ 40 (= 1/α), ta bác bỏ giả thuyết không. Lý thu
 <p><b>Xử lý theo đăng ký:</b> phép thử vẫn chạy nếu có ít nhất 5 issue đã xử lý xong. Nếu ít hơn thì chỉ báo mô tả. Nếu do lỗi kỹ thuật thì sửa lỗi, ghi lỗi, rồi chạy tiếp phần còn lại. Không chạy lại phần đã xong, để không "chạy tới khi đẹp".</p>
 
 <div class="box"><p><b>Tóm tắt theo kịch bản.</b> Kịch bản 1 và 2 làm paper mạnh hơn (thêm bộ học thứ hai). Kịch bản 3 thu hẹp một câu nhưng không đụng tới kết luận chính. Kịch bản 4 chỉ làm chậm. Không kịch bản nào làm đổ phát hiện chính.</p></div>
+
+<h2 id="r">R. Bản review của thầy (16/11) và những gì đã sửa</h2>
+<p><b>Review là gì:</b> trước khi nộp, thầy đọc bản thảo dưới bốn góc nhìn, giống bốn người chấm của hội nghị. Mỗi góc chấm từ 1 tới 5 điểm. Kết luận lúc đó là <b>weak reject</b>, tức "nghiêng về loại, cần sửa nhiều". Vì sao bị chấm như vậy:</p>
+<ul>
+<li><b>Phát hiện (4/5):</b> thầy đánh giá cao, nhưng hỏi: bỏ lịch sử là bỏ "rò rỉ", hay bỏ cả những thứ khác?</li>
+<li><b>Thống kê (2/5), điểm thấp nhất:</b> định lý trong bài giả định task được bốc ngẫu nhiên, nhưng thí nghiệm không làm vậy. Nói cách khác, lời bảo đảm không khớp với cách chạy.</li>
+<li><b>Đối chứng (3/5):</b> mỗi điều kiện chỉ học skill <b>một lần</b>, nên có thể là may rủi.</li>
+<li><b>Tái lập và trình bày (3/5):</b> người đọc không xem được bản đăng ký và dữ liệu. Bài còn ghi tên tác giả, sai mẫu trình bày và dài quá 10 trang.</li>
+</ul>
+
+<h3>Lúc review, dự án đã có gì</h3>
+<p>Các thí nghiệm B1 đến B6 ở trang này (trừ phần C10R của B7) và một phần B10. Nghĩa là đã có mức tăng, phát hiện rò rỉ, môi trường một commit, bỏ dòng, học lại một lần, seed 2, 36 task mới, Bleve, agent Flash. Còn thiếu: tách tên khỏi diff, học lại lần hai, agent và bộ học của hãng khác.</p>
+
+<h3>Sau review đã làm gì, theo từng điểm yếu</h3>
+<div class="tbl"><table>
+<tr><th>Điểm yếu thầy nêu</th><th>Đã làm (giải thích ở mục nào)</th><th>Tới đâu</th></tr>
+<tr><td>Bỏ lịch sử có phải chỉ bỏ rò rỉ?</td><td>Kiểm toán: lịch sử chỉ có 3 commit do benchmark tạo ra. C10R tách tên commit khỏi diff (B7)</td><td class="ok">Giải quyết</td></tr>
+<tr><td>Định lý không khớp cách chạy</td><td>Viết một mệnh đề mới chỉ nói về đúng pool task cố định, có chứng minh và mô phỏng. C10R chạy đúng một pool cố định 70 task</td><td class="mid">Giải quyết trong bài; còn cần một người ngoài nhóm đọc chứng minh</td></tr>
+<tr><td>Chỉ học một lần</td><td>X1′: học thêm một lần ở mỗi môi trường (B8)</td><td class="mid">Có kết quả cùng chiều; n = 2 nên chỉ là mô tả; chưa đưa vào bài</td></tr>
+<tr><td>Chỉ có model của Google</td><td>C4′: ba agent khác hãng (B9); §38: model khác viết skill (B10); W7: bộ học khác (B11, C)</td><td class="mid">C4′ xong, §38 xong; W7 chờ pool B; chưa đưa vào bài</td></tr>
+<tr><td>Không xem được bản đăng ký và dữ liệu</td><td>Bảng mốc thời gian đăng ký; danh mục gói; gói ẩn danh dựng nội bộ</td><td class="mid">Một phần: chưa công bố ra ngoài (chờ chị quyết nơi đặt)</td></tr>
+<tr><td>Ghi tên tác giả, sai mẫu, quá dài</td><td>Đổi sang mẫu ACM ẩn danh, 7 trang</td><td class="ok">Giải quyết; kiểm lại số trang khi thêm kết quả mới</td></tr>
+<tr><td>Chương trình đọc trace chưa được kiểm bằng nhãn của người</td><td>Mới so với một cách kiểm khác (1.560/1.573 khớp)</td><td class="no">Còn mở (X3′)</td></tr>
+<tr><td>Câu chữ, hình, bảng (khoảng 20 điểm nhỏ)</td><td>Sửa hết trong bài ngày 17/11</td><td class="mid">Xong; còn đối chiếu với 27 ghi chú trên PDF</td></tr>
+</table></div>
+<div class="box"><p><b>Tóm lại:</b> điểm yếu nặng nhất (thống kê) đã được sửa trong bài. Điểm yếu thực nghiệm lớn nhất (một lượt học, chỉ một hãng) đã có thí nghiệm trả lời, nhưng kết quả chưa được đưa vào bài, vì chờ W7 pool B rồi làm một lần. Các việc còn mở là: nhãn độc lập cho chương trình đọc trace, người ngoài đọc chứng minh, công bố gói tái lập, và khai báo dùng AI.</p></div>
 
 <h2 id="d">D. Tổng kết: paper đang ở đâu</h2>
 <h3>Đã chắc chắn (có phép kiểm đã đăng ký, vượt ngưỡng)</h3>
