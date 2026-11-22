@@ -1255,3 +1255,17 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Danh sách §4:** R2 (số có nguồn), R5, L58 (câu nhân quả có hai nhánh chỉ khác đúng nguyên nhân), L79 (diễn giải số theo câu của nguồn).
 - **Kết luận R-91:** đạt.
 
+## R-92. Đối chiếu bản review AI của paperreview.ai (22/11/2026; @thuthuy dán vào chat)
+- **Bản review** do công cụ AI tạo, trên bản thảo ngày 22/11; khuyên nhận bài. Không thay bản review của thầy ngày 16/11.
+- **Điểm review sai hoặc chưa chính xác (không sửa bài theo):**
+  - "the deleted tests ... not separately varied except partially via C10": C10 giữ commit xóa test giống hệt ở bốn lịch sử, nên kênh này hoàn toàn không được thay đổi, không phải "một phần".
+  - "a third [agent] resolves many tasks ... using history/testing channels": số liệu chỉ cho thấy Haiku tự đọc lịch sử; không có số nào trong bài về việc Haiku dùng test bị xóa.
+  - "Reliance on proprietary models": từ bản 22/11 có một agent mã nguồn mở (gpt-oss) được chứng nhận.
+- **Điểm đúng, đã sửa trong bài (0 USD, không đổi số):**
+  - Câu hỏi 2 (metadata của C10): `scripts/history_variants.py` giữ nguyên tác giả, người commit, ngày giờ và thông điệp gốc trừ phần biến thể đổi; thêm câu này vào đoạn C10.
+  - Câu hỏi 1 (commit xóa test): thêm câu nói rõ commit này giống hệt ở bốn lịch sử nên tự nó không tạo khác biệt, và việc bỏ nó chưa được thử.
+  - Câu hỏi 10 (đối chứng chuẩn cho benchmark): thêm đoạn Discussion "A control for benchmarks built this way", dựa trên kiểm tra đã dùng ở lượt học lại và kết quả A′ (11/18).
+- **Điểm đúng nhưng cần thí nghiệm hoặc nguồn mới (thuộc quyền @thuthuy hoặc R1; chưa làm):** bộ kiểm ngữ nghĩa độc lập (câu hỏi 5), nhiễu prompt cho GEPA (câu hỏi 8), biến thể bỏ commit xóa test (câu hỏi 1), các công trình liên quan reviewer nêu (STING, SWE-ABS, SWE-Explore, agentic shortcutting): chưa đọc bản gốc nên không trích dẫn.
+- **Điểm đã có trong bài:** tỉ lệ bản vá đảo ngược (câu hỏi 4), so sánh cùng job S1 với J1 (câu hỏi 6), cổng hợp lệ trong vòng học vẫn nhận skill rò rỉ (câu hỏi 9).
+- **Kết luận R-92:** đạt; bài 9 trang, 0 tràn ngang.
+

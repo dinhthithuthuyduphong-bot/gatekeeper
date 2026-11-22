@@ -360,7 +360,9 @@ registered experiment (C10) rebuilt four histories for the \nctenTasks{} Jinja t
 description, all with the same working tree and the same ``Remove F2P Tests'' commit: A, the shipped
 history (rebuilt to the same hashes); B, the same diff under a neutral message from the upstream
 history; C, an empty commit named ``Bug Patch'' on the buggy tree, so the pre-bug code is absent; D,
-no bug commit. The eight arms (four histories, with and without the skill) run in one job. The
+no bug commit. Every rebuilt commit keeps the original author, committer, dates and message unless
+the variant changes the message. The eight arms (four histories, with and without the skill) run in
+one job. The
 registered test compares A with C, which have the same commits and messages and differ only in
 whether the pre-bug code is in the history. In a first run six arms stopped at their spending cap
 (our caps left no margin above the cost estimate), so we registered a second run with a new seed,
@@ -377,7 +379,8 @@ under a narrower per-task null because its pool was cut by spend). Neither part 
 agent to the diff: with the skill it displays the diff in \nctrADiff{} of \nctrASkillN{} runs in A.
 When no message points to the diff (B) or no diff exists (C, D), it restores and runs the deleted
 tests in some runs (\nctrBTests{}, \nctrCTests{} and \nctrDTests{}) and still rarely resolves the
-task.
+task. The deletion commit is identical in the four histories, so it cannot by itself produce a
+difference between them; whether removing it would change the contrast was not tested.
 
 \paragraph{Removing the instruction}
 A fixed rule deletes every line of the skill that mentions a commit or the history; on the Jinja
@@ -673,6 +676,15 @@ A change of scope means a new certification. With our agent a paired task cost o
 would have stopped after \nadmitMinTrials{} to \nadmitMaxTrials{} paired tasks, that is
 \ntokAdmitLo{} to \ntokAdmitHi{} million input tokens per scope. These are retrospective: every
 comparison ran all its tasks.
+
+\paragraph{A control for benchmarks built this way}
+For SWE-smith-style tasks we suggest reporting every skill gain also in a single-commit environment:
+one commit that holds the buggy tree~\cite{debuggym_swesmith_git_fix}, checked before the agent
+starts (one commit, one reference, no remote, no object carrying the bug-injecting message), as in
+our relearning run. Renaming the commit is not enough: the diff under a neutral name still holds
+the pre-bug code, and skill writers shown such traces named the renamed commit as the place of the
+bug (\nwrRenNamed{} of \nwrRenN{} rewrites). The control does not close channels outside the
+repository, such as a released package of the project.
 
 \paragraph{What a certification is worth}
 A certification here is a statement about a fixed pool of tasks within one run (T1). It is not a
