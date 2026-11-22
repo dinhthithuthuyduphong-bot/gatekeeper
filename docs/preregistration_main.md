@@ -3357,3 +3357,5 @@ Không gán nhãn các môi trường một commit: ở đó kênh không tồn 
 **Giới hạn nêu trước:** một người gán nhãn, là tác giả (che mù với nhãn máy, nhóm và kết quả, nhưng không độc lập với nghiên cứu); không đo độ đồng thuận giữa hai người. Bản vá chèn lỗi tham chiếu giúp người nhận ra diff, nên cách nhận ra của người gần với quy tắc của máy ở Q2.
 
 **Chi phí:** 0 USD; không gọi model.
+
+**Ghi chú thực thi 49-1** (22/11/2026, trước khi có nhãn): trang gán nhãn đã publish ở artifact riêng tư `https://claude.ai/artifact/RZMUpAYAGKYga7xDCvy99n`, đọc bộ trace `traces.json` (sha256 `6afe511ffbf589653dd06e4c7af4f981673aae2db2f81b60297eb646ccac861f`, khớp `results/x3_codes.json`). Nhãn lưu trong cơ sở dữ liệu của trang, bộ sưu tập `labels`, một tài liệu cho mỗi mã (`q1`, `q2`, `q3`, `q4`, `note`, `saved_at`); Q4 tự ghi "na" khi Q2 = Không. Kiểm chức năng: một tài liệu thử `zz-probe` được ghi, đọc lại rồi xóa; bộ sưu tập trống khi giao cho @thuthuy. Khi @thuthuy báo xong, Claude xuất nhãn thành `results/x3_labels.json` rồi chạy `scripts/x3_analyse.py`.
