@@ -1,13 +1,13 @@
 # Việc của hướng Kaggle: đã làm, đang làm, đang chờ
 
-**Cập nhật:** 18/11/2026. Tóm tắt mọi hướng (cả Vertex): `TODO.md` mục "★ Tình hình hiện tại".
-**Hướng đang chọn:** `plan_v4.md`. Xong mục A (38-6 đến 38-9) và A′ (38-11). Cổng C5 và C6 đạt trên Kaggle (40-9). Đang chờ: C4′ (POOL B) và lượt chạy thử W7 (§45 ở `docs/preregistration_main.md`).
+**Cập nhật:** 22/11/2026. Tóm tắt mọi hướng (cả Vertex): `TODO.md` mục "★ Tình hình hiện tại".
+**Hướng đang chọn:** `plan_v4.md`. Xong mục A (38-6 đến 38-9) và A′ (38-11). Cổng C5 và C6 đạt trên Kaggle (40-9). **C4′ xong 21/11** (40-27). **W7 xong 22/11** (§45 ghi chú 45-10 ở `docs/preregistration_main.md`): pool B G 11/12, p = 0,485, không bác bỏ. Không còn phiên Kaggle nào đang chờ.
 **Lưu kết quả (@thuthuy 20/11: "nhánh main đợi khi nào done từng thí nghiệm rồi merge, đang chạy phiên thì không cần"):** kết quả từng phiên ở `kaggle/results/` của nhánh này, sha256 trong bản đăng ký; chỉ chuyển `kaggle/` của một thí nghiệm sang `main` khi thí nghiệm đó xong.
 **Quy tắc của file này:** mỗi khi một việc đổi trạng thái hoặc hướng đi đổi, sửa file này trong cùng commit với thay đổi đó.
 
 Hạn mức AI Kaggle đã dùng: P0 0,47; B 3,05; A cộng dồn 20,06 (Kaggle báo, 38-6); A′ 1,30; C3 0,01; C4 phiên 1 0,77; C6 0,0314 (USD hạn mức). Tiền thật: 0.
 
-**Trần hạn mức Kaggle: ≤ 100 USD mỗi tháng** (@thuthuy 18/11: "Còn kaggle không quá 100 đô (theo hạn mức tháng)"). Tháng 11 đã dùng khoảng 25,69 USD (cộng các số trên). Mọi ô chạy mới phải nhận số đã dùng trong tháng (@thuthuy đọc ở Settings) và từ chối nếu số đó + trần của phiên > 100. Trần riêng của W7 bước học vẫn xin kèm số đo.
+**Trần hạn mức Kaggle: ≤ 100 USD mỗi tháng** (@thuthuy 18/11: "Còn kaggle không quá 100 đô (theo hạn mức tháng)"). Tháng 11 đã dùng khoảng 61,9 USD (đến 22/11: 56,5 + W7 pool B 5,3981). Mọi ô chạy mới phải nhận số đã dùng trong tháng (@thuthuy đọc ở Settings) và từ chối nếu số đó + trần của phiên > 100. Trần riêng của W7 bước học vẫn xin kèm số đo.
 
 ## Đang chờ @thuthuy
 
@@ -36,7 +36,7 @@ Hạn mức AI Kaggle đã dùng: P0 0,47; B 3,05; A cộng dồn 20,06 (Kaggle 
 | ~~N2~~ | ~~Chạy ô C5 trên Kaggle~~ **Xong:** gộp vào ô C6 (40-6) | — | — |
 | ~~N3~~ | ~~C6: 6 task qua lớp cách ly~~ **Xong 18/11: đạt** (40-9) | — | — |
 | N4 | **C4′:** ba agent, 4 nhánh, POOL B (100 + 36 task), chạy lại từ đầu | Đang chờ T6 | @thuthuy chạy, Claude phân tích (40-5, 40-8) |
-| N4b | **W7:** chạy thử (T7), đo một khối 3 cặp, xin trần bước học, rồi chạy sau C4′ | Đang chờ T7 | cả hai (§45) |
+| N4b | **W7:** chạy thử (T7), đo một khối 3 cặp, xin trần bước học, rồi chạy sau C4′ | **Xong 22/11** (45-9, 45-10) | cả hai (§45) |
 | ~~N4c~~ | ~~§48 X1′-LF trên Kaggle~~ **Rút lại 18/11** (@thuthuy: "oke nâng trần lên 35 đô"; ghi chú 47-3): lượt học một commit chạy trên Vertex | — | — |
 | N5 | Đề xuất C7 (Pygments), C8 (seed 2), C9 (agent hạng giữa), D (lượt học) | Có kết quả C4′ | Claude đề xuất, @thuthuy duyệt |
 | N6 | Mục E (việc thuần văn bản), ví dụ E1: kiểm endpoint của §38 bằng đọc tay | Theo kết quả §38 (đã có) | Claude |
