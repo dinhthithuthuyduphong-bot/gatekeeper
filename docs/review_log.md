@@ -1269,3 +1269,12 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Điểm đã có trong bài:** tỉ lệ bản vá đảo ngược (câu hỏi 4), so sánh cùng job S1 với J1 (câu hỏi 6), cổng hợp lệ trong vòng học vẫn nhận skill rò rỉ (câu hỏi 9).
 - **Kết luận R-92:** đạt; bài 9 trang, 0 tràn ngang.
 
+## R-93. X3′ (§49): bộ trace che mù và script phân tích (22/11/2026; trước khi có nhãn)
+- **Đối tượng:** `scripts/x3_build.py`, `scripts/x3_analyse.py`, `tests/test_x3.py`, `results/x3_codes.json` (bảng mã; không đặt tên `*key*.json` vì quy tắc chặn khóa bí mật của `.gitignore`).
+- **Đã kiểm:**
+  - Tập trace: 104 = 25 + 9 + 34 + 36, đúng tầng mà `results/history_audit.json` dùng (cùng bộ lọc task không mô tả, bỏ lượt sập và lỗi hạ tầng).
+  - Che mù: test xác nhận bộ trace không chứa `instance_id` hay tên nhóm; mã T001–T104 theo hoán vị cố định (seed 4901, số vận hành). Trang gán nhãn không chứa điểm S, L hay nhãn máy.
+  - Phân tích: test tính tay ma trận 2 × 2, số đồng thuận, việc đếm "khôi phục và chạy test" vào Q3 của máy, và kiểm tra nhãn hợp lệ (Q4 = "na" đúng khi Q2 = "no"). Không có ngưỡng, không có khoảng tin cậy (toàn bộ tầng, không lấy mẫu).
+- **Danh sách §4:** R5 (quy tắc trước dữ liệu), R6 (định nghĩa Q1–Q4 cố định), L58.
+- **Kết luận R-93:** đạt.
+
