@@ -78,7 +78,7 @@ figure.viz figcaption{font-size:.86rem;color:var(--muted);margin-top:10px;max-wi
 <main>
 <p class="meta">Dành cho chị đọc · cập nhật 22/11/2026 · đọc từ trên xuống, mỗi khái niệm được giải thích trước khi dùng · bản gửi thầy: <a href="./index.html">index.html</a> · cách hệ thống chạy: <a href="./pipeline.html">pipeline.html</a></p>
 <h1>Giải thích nghiên cứu Gatekeeper từ con số 0</h1>
-<p class="lead">Trang này kể lại toàn bộ nghiên cứu như một câu chuyện có nguyên nhân và kết quả. Mỗi thí nghiệm trả lời một câu hỏi do thí nghiệm trước để lại. Phần A giải thích các khái niệm. Phần B kể từng thí nghiệm theo thứ tự. Phần C nói về W7 pool B, thí nghiệm chưa có kết quả. Phần D tổng kết.</p>
+<p class="lead">Trang này kể lại toàn bộ nghiên cứu như một câu chuyện có nguyên nhân và kết quả. Mỗi thí nghiệm trả lời một câu hỏi do thí nghiệm trước để lại. Phần A giải thích các khái niệm. Phần B kể từng thí nghiệm theo thứ tự. Phần C nói về W7 pool B, thí nghiệm cuối cùng (xong 22/11). Phần D tổng kết.</p>
 
 <ol class="toc">
 <li><a href="#a">A. Các khái niệm cần biết trước</a></li>
@@ -94,7 +94,7 @@ figure.viz figcaption{font-size:.86rem;color:var(--muted);margin-top:10px;max-wi
 <li><a href="#b9">B9. Agent khác hãng (X2′, C4′)</a></li>
 <li><a href="#b10">B10. Model khác viết skill (§38)</a></li>
 <li><a href="#b11">B11. Bộ học thứ hai (W7 pool A)</a></li>
-<li><a href="#c">C. W7 pool B: các kịch bản</a></li>
+<li><a href="#c">C. W7 pool B: kết quả</a></li>
 <li><a href="#r">R. Bản review của thầy và đã sửa gì</a></li>
 <li><a href="#d">D. Tổng kết: paper đang ở đâu</a></li>
 </ol>
@@ -241,43 +241,35 @@ Nếu cuối pool E ≥ 40 (= 1/α), ta bác bỏ giả thuyết không. Lý thu
 <ul><li>ghép trace thành công (agent Flash) với trace thất bại (agent Flash-Lite) trên cùng task;</li><li>nhờ model Pro rút ra "quy tắc";</li><li>gộp, chấm và lọc các quy tắc đó;</li><li>dùng một bước kiểm trùng chữ (n-gram) để chặn quy tắc chép đáp án.</li></ul>
 <p>Có hai pool:</p>
 <ul><li><b>Pool A</b>: trace từ môi trường gốc, 31 issue.</li><li><b>Pool B</b>: trace từ môi trường một commit, 12 issue.</li></ul>
-<p><b>Đại lượng đo:</b> H là "issue này có ít nhất một quy tắc bảo đọc lịch sử để tìm lỗi". So tỉ lệ H ở A và B bằng kiểm định Fisher.</p>
+<p><b>Đại lượng đo (chính):</b> G là "issue này có ít nhất một quy tắc nhắc lệnh <code>git log</code> hoặc <code>git show</code>". So tỉ lệ G ở A và B bằng kiểm định Fisher. Có thêm một chỉ báo phụ H (khớp quy tắc nhận dạng dòng đọc lịch sử của §29).</p>
 <p><b>Kết quả pool A:</b></p>
 <ul>
-<li>H có ở <b>30/31</b> issue.</li>
+<li>G có ở <b>30/31</b> issue (H cũng 30/31).</li>
 <li>Sau các bước lọc còn 20 quy tắc. Năm quy tắc trong số đó nhắc <code>git log</code>/<code>git show</code>, ví dụ "Run git log when issue description is missing".</li>
 <li>Bước kiểm n-gram không chặn quy tắc nào trong năm quy tắc này. Như vậy cơ chế chống chép đáp án của XRepoSkill không nhận ra kênh rò rỉ này.</li>
 </ul>
 <p>Muốn kết luận "vì rò rỉ" thì phải so với pool B. Đó là phần C.</p>
 
-<h2 id="c">C. W7 pool B: các kịch bản trước khi có kết quả</h2>
-<p><b>Tình trạng:</b> pool B chạy sau 20:00 tối 22/11 (giờ Việt Nam), khi hạn mức ngày của Kaggle được làm mới. Trần đã duyệt 6,376 USD; dự kiến khoảng 4,5 USD.</p>
-<p><b>Ngưỡng đã tính trước</b> (A = 30/31; b là số issue có H trong 12 issue của pool B):</p>
+<h2 id="c">C. W7 pool B: kết quả (22/11)</h2>
+<p><b>Đã chạy:</b> tối 22/11, một phiên Kaggle, 18 phút. Mọi bước đều xong, 0 lỗi. Tốn 5,40 USD hạn mức (trần 6,376), tương đương 0,47 triệu token vào và 0,37 triệu token ra.</p>
+<h3>Phép thử chính: không bác bỏ</h3>
 <div class="tbl"><table>
-<tr><th>b</th><th>0–7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th></tr>
-<tr><th>p</th><td class="n">≤ 0,0042</td><td class="n">0,017</td><td class="n">0,059</td><td class="n">0,18</td><td class="n">0,49</td><td class="n">1,0</td></tr>
-<tr><th>Bác bỏ?</th><td class="ok">Có</td><td class="ok">Có</td><td class="no">Không</td><td class="no">Không</td><td class="no">Không</td><td class="no">Không</td></tr>
+<tr><th></th><th>Pool A (có rò rỉ)</th><th>Pool B (không rò rỉ)</th></tr>
+<tr><td>Issue có quy tắc nhắc <code>git log</code>/<code>git show</code> (G)</td><td class="n">30/31 (97%)</td><td class="n">11/12 (92%)</td></tr>
 </table></div>
-<p>Vì pool B chỉ có 12 issue, khác biệt phải rõ thì mới bác bỏ được: B phải có tối đa 8/12 (67%), so với 97% ở A.</p>
-
-<h3>Kịch bản 1: b từ 0 đến 4 (bác bỏ mạnh)</h3>
-<p><b>Nghĩa là:</b> không có rò rỉ thì XRepoSkill gần như không viết quy tắc đọc lịch sử.</p>
-<p><b>Với paper:</b> phát hiện chính mạnh lên rõ: <b>hai bộ học độc lập</b> đều biến rò rỉ thành quy tắc. Reviewer khó nói "chỉ là đặc điểm của gskill".</p>
-<p><b>Khả năng:</b> cao. Ở môi trường một commit, <code>git log</code> chỉ hiện một commit, nên trace thành công của Flash không có lý do để dựa vào lịch sử.</p>
-
-<h3>Kịch bản 2: b từ 5 đến 8 (bác bỏ)</h3>
-<p><b>Nghĩa là:</b> vẫn bác bỏ, nhưng một số quy tắc ở B có nhắc <code>git log</code>. Có lẽ đó là bước "xem qua repo" chung chung, không phải tìm commit lỗi, vì ở B không có commit lỗi để tìm.</p>
-<p><b>Với paper:</b> như kịch bản 1, kèm một câu mô tả nội dung các quy tắc ở B.</p>
-
-<h3>Kịch bản 3: b từ 9 đến 12 (không bác bỏ)</h3>
-<p><b>Nghĩa là:</b> XRepoSkill viết quy tắc đọc lịch sử dù có rò rỉ hay không, giống Haiku và Grok ở B10. Đó là thói quen của bộ học, không phải phản ứng với rò rỉ.</p>
-<p><b>Với paper:</b> kết luận chính <b>không đổi</b>, vì nó dựa trên C10R, X1′ và C4′. Câu về bộ học phải hẹp lại: "gskill học ra rò rỉ; XRepoSkill viết quy tắc lịch sử bất kể rò rỉ". Phần "bước kiểm n-gram không chặn được" (pool A) vẫn đứng riêng và vẫn là một phát hiện. Kết quả âm này vẫn được báo cáo đầy đủ.</p>
-
-<h3>Kịch bản 4: lượt chạy dừng giữa chừng</h3>
-<p><b>Có thể xảy ra khi:</b> chạm trần 6,376 USD, hết hạn mức ngày của Kaggle, hoặc lỗi kỹ thuật.</p>
-<p><b>Xử lý theo đăng ký:</b> phép thử vẫn chạy nếu có ít nhất 5 issue đã xử lý xong. Nếu ít hơn thì chỉ báo mô tả. Nếu do lỗi kỹ thuật thì sửa lỗi, ghi lỗi, rồi chạy tiếp phần còn lại. Không chạy lại phần đã xong, để không "chạy tới khi đẹp".</p>
-
-<div class="box"><p><b>Tóm tắt theo kịch bản.</b> Kịch bản 1 và 2 làm paper mạnh hơn (thêm bộ học thứ hai). Kịch bản 3 thu hẹp một câu nhưng không đụng tới kết luận chính. Kịch bản 4 chỉ làm chậm. Không kịch bản nào làm đổ phát hiện chính.</p></div>
+<p>Pool B có 11/12, nằm ngoài vùng bác bỏ (cần ≤ 8/12). p = 0,485, nghĩa là chênh lệch này dễ xảy ra do may rủi. Đây là <b>kịch bản 3</b> đã đặt trước.</p>
+<p><b>Ý nghĩa theo câu đã đăng ký:</b> XRepoSkill viết quy tắc nhắc lịch sử git ở cả hai môi trường, nên ta không phân biệt được nó viết vì có rò rỉ hay chỉ vì thói quen. Vì vậy câu "bộ học biến rò rỉ thành chỉ dẫn" chỉ được nói cho gskill, không nói được cho XRepoSkill.</p>
+<h3>Đọc kỹ nội dung (hậu kiểm, không phải phép thử)</h3>
+<p>Hai pool đều nhắc git, nhưng nói những điều khác nhau:</p>
+<ul>
+<li><b>Pool A:</b> "chạy <code>git log</code> ngay để tìm các commit gần đây, <b>chẳng hạn bản vá chèn lỗi</b>". 23/31 issue có quy tắc nhắc tới commit gây lỗi; 13/31 bảo dùng <code>git show</code> để xem diff.</li>
+<li><b>Pool B:</b> "chạy <code>git status</code> và <code>git log</code> để biết trạng thái thư mục trước khi liệt kê file". Có 0/12 issue nhắc commit gây lỗi và 0/12 nhắc <code>git show</code>.</li>
+</ul>
+<p><b>Vì sao không dùng chênh lệch này làm kết luận:</b> cách đếm này được nghĩ ra <b>sau</b> khi thấy kết quả và đọc quy tắc. Theo quy tắc R5, đổi cách đo sau khi thấy dữ liệu thì dễ "chọn cách đo cho đẹp số". Vì vậy nó chỉ là giả thuyết cho lần sau, không thay kết luận chính.</p>
+<p><b>Bài học về thiết kế:</b> chỉ báo G (có chữ <code>git log</code>/<code>git show</code>) lấy từ §38, nơi nó phân biệt được tốt với model của gskill. Với XRepoSkill, chỉ báo này quá rộng, vì bộ học này hay thêm một bước "kiểm git" chung chung.</p>
+<h3>Phần đứng độc lập</h3>
+<p>Bước kiểm trùng chữ (n-gram) của XRepoSkill, vốn dùng để chặn quy tắc chép đáp án, không chặn quy tắc nào ở cả hai pool, kể cả 5 quy tắc ở pool A bảo agent tìm commit chèn lỗi.</p>
+<div class="box warn"><p><b>Với paper:</b> kết luận chính không đổi, vì nó dựa trên C10R, X1′ và C4′. Có thêm một kết quả âm tính phải báo trung thực (bộ học thứ hai) và một giới hạn phạm vi rõ ràng. EASE nhận kết quả âm tính, và việc báo đúng như đã đăng ký giúp bài đáng tin hơn.</p></div>
 
 <h2 id="r">R. Bản review của thầy (16/11) và những gì đã sửa</h2>
 <p><b>Review là gì:</b> trước khi nộp, thầy đọc bản thảo dưới bốn góc nhìn, giống bốn người chấm của hội nghị. Mỗi góc chấm từ 1 tới 5 điểm. Kết luận lúc đó là <b>weak reject</b>, tức "nghiêng về loại, cần sửa nhiều". Vì sao bị chấm như vậy:</p>
@@ -297,13 +289,13 @@ Nếu cuối pool E ≥ 40 (= 1/α), ta bác bỏ giả thuyết không. Lý thu
 <tr><td>Bỏ lịch sử có phải chỉ bỏ rò rỉ?</td><td>Kiểm toán: lịch sử chỉ có 3 commit do benchmark tạo ra. C10R tách tên commit khỏi diff (B7)</td><td class="ok">Giải quyết</td></tr>
 <tr><td>Định lý không khớp cách chạy</td><td>Viết một mệnh đề mới chỉ nói về đúng pool task cố định, có chứng minh và mô phỏng. C10R chạy đúng một pool cố định 70 task</td><td class="mid">Giải quyết trong bài; còn cần một người ngoài nhóm đọc chứng minh</td></tr>
 <tr><td>Chỉ học một lần</td><td>X1′: học thêm một lần ở mỗi môi trường (B8)</td><td class="mid">Có kết quả cùng chiều; n = 2 nên chỉ là mô tả; chưa đưa vào bài</td></tr>
-<tr><td>Chỉ có model của Google</td><td>C4′: ba agent khác hãng (B9); §38: model khác viết skill (B10); W7: bộ học khác (B11, C)</td><td class="mid">C4′ xong, §38 xong; W7 chờ pool B; chưa đưa vào bài</td></tr>
+<tr><td>Chỉ có model của Google</td><td>C4′: ba agent khác hãng (B9); §38: model khác viết skill (B10); W7: bộ học khác (B11, C)</td><td class="mid">C4′, §38, W7 xong (W7 không bác bỏ); chưa đưa vào bài</td></tr>
 <tr><td>Không xem được bản đăng ký và dữ liệu</td><td>Bảng mốc thời gian đăng ký; danh mục gói; gói ẩn danh dựng nội bộ</td><td class="mid">Một phần: chưa công bố ra ngoài (chờ chị quyết nơi đặt)</td></tr>
 <tr><td>Ghi tên tác giả, sai mẫu, quá dài</td><td>Đổi sang mẫu ACM ẩn danh, 7 trang</td><td class="ok">Giải quyết; kiểm lại số trang khi thêm kết quả mới</td></tr>
 <tr><td>Chương trình đọc trace chưa được kiểm bằng nhãn của người</td><td>Mới so với một cách kiểm khác (1.560/1.573 khớp)</td><td class="no">Còn mở (X3′)</td></tr>
 <tr><td>Câu chữ, hình, bảng (khoảng 20 điểm nhỏ)</td><td>Sửa hết trong bài ngày 17/11</td><td class="mid">Xong; còn đối chiếu với 27 ghi chú trên PDF</td></tr>
 </table></div>
-<div class="box"><p><b>Tóm lại:</b> điểm yếu nặng nhất (thống kê) đã được sửa trong bài. Điểm yếu thực nghiệm lớn nhất (một lượt học, chỉ một hãng) đã có thí nghiệm trả lời, nhưng kết quả chưa được đưa vào bài, vì chờ W7 pool B rồi làm một lần. Các việc còn mở là: nhãn độc lập cho chương trình đọc trace, người ngoài đọc chứng minh, công bố gói tái lập, và khai báo dùng AI.</p></div>
+<div class="box"><p><b>Tóm lại:</b> điểm yếu nặng nhất (thống kê) đã được sửa trong bài. Điểm yếu thực nghiệm lớn nhất (một lượt học, chỉ một hãng) đã có thí nghiệm trả lời, nhưng kết quả chưa được đưa vào bài, để đưa vào một lần khi chị ra lệnh. Các việc còn mở là: nhãn độc lập cho chương trình đọc trace, người ngoài đọc chứng minh, công bố gói tái lập, và khai báo dùng AI.</p></div>
 
 <h2 id="d">D. Tổng kết: paper đang ở đâu</h2>
 <h3>Đã chắc chắn (có phép kiểm đã đăng ký, vượt ngưỡng)</h3>
@@ -320,15 +312,15 @@ Nếu cuối pool E ≥ 40 (= 1/α), ta bác bỏ giả thuyết không. Lý thu
 <h3>Giới hạn phải nói rõ trong bài</h3>
 <ul>
 <li>Agent mạnh tự tìm ra rò rỉ (Flash, Haiku).</li>
-<li>Câu về bộ học chỉ chắc cho model của gskill (B10).</li>
+<li>Câu về bộ học chỉ chắc cho gskill: model khác viết skill (B10) và bộ học khác (W7, phần C) đều không tách được rò rỉ với thói quen.</li>
 <li>Task là task tổng hợp, chưa có repo thật.</li>
 <li>Còn kênh PyPI.</li>
 <li>Có sai lệch giao thức với gpt-oss.</li>
 </ul>
 <h3>Việc tiếp</h3>
 <ul>
-<li>Pool B tối 22/11, rồi phân tích theo phần C.</li>
-<li>Sửa LaTeX của paper: <b>chờ lệnh của chị</b> sau khi có pool B.</li>
+<li>Mọi thí nghiệm có phí đã xong.</li>
+<li>Sửa LaTeX của paper: <b>chờ lệnh của chị</b>.</li>
 </ul>
 <footer>Mọi con số lấy từ bản đăng ký (<code>docs/preregistration_main.md</code>, <code>kaggle/preregistration_s40.md</code>) và <code>paper/numbers.tex</code>.</footer>
 </main>

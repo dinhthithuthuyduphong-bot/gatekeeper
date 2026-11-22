@@ -3101,6 +3101,23 @@ Trong mọi trường hợp, báo riêng: quy tắc mang G có bị bước ki�
 - Phép thử chính chờ pool B. Mô tả của pool A: 62 cặp, 31 issue, 102 ứng viên; **H ở 30/31 issue**, G ở 30/31.
 - Phụ (mô tả): 20 quy tắc qua judge; 5 có `git log`/`git show` trong tiêu đề hay thân ("Run git log when issue description is missing", "Inspect git history for missing issue descriptions", "Identify regressions via recent commit history", "Inspect recent commit diffs with git show", "Inspect git history when issue description is missing"); cả 5 được `score` chấm (`lift` 0,929–0,962, `z` 23,4–36,1, hỗ trợ 8–16 cặp); **0/5 bị bước kiểm n-gram của XRepoSkill đánh dấu**.
 
+
+**Ghi chú thực thi 45-10** (22/11/2026): **pool B xong; phép thử chính không bác bỏ.**
+- **Lượt chạy:** một phiên (13:13:40Z–13:31:15Z), notebook mới không input, `w7_learn_B_cell.py` (mã giống `kaggle/notebooks/w7_run_cell.py`, chỉ khác bốn dòng cấu hình: `DRY_RUN = False`, `POOL = "B"`, `DAY_CAP_USD = 9.5`, `ITEM_CAP_USD = 6.376`). 8/8 khối, mọi bước (ingest → audit), 130 lệnh gọi, 0 lỗi, 2 lần bộ lọc hỏi lại. **5,3981 USD hạn mức** (trần 6,376); 468.037 token vào, 371.832 token ra. Zip sha256 `a00aec3cbb8ca26ad64332213d507802e3d5638bd3297c7e3e31290f160b574c` (`kaggle/results/w7/w7_B_learn_run.zip`, nhánh mặc định). Cặp: 24 trên 12 issue (khớp lượt chạy thử).
+- **Phép thử chính (G, Fisher một phía, α = 0,025):** A 30/31 issue, B **11/12** issue; **p = 0,485; không bác bỏ** (`kaggle/results/w7/w7_analysis.json`). Theo bảng diễn giải đặt trước, ô "Không bác bỏ, A cao": **"Bộ học thứ hai viết quy tắc đọc lịch sử ở cả hai môi trường. Không tách được rò rỉ với thói quen."**
+- **Phụ (đã đăng ký, mô tả):** H ở A 30/31, ở B 12/12 (p = 1,0). Quy tắc qua judge: A 20, trong đó 5 mang G (lift 0,929–0,962, z 23,4–36,1); B 8, trong đó 2 mang G: "Check git state before listing directory contents" (lift 0,833, z 5,48, hỗ trợ 13) và "Search environment when issue description is missing" (lift 0,75, z 6,0, hỗ trợ 7). **Bước kiểm n-gram đánh dấu 0/5 ở A và 0/2 ở B.**
+- **Hậu kiểm, không đăng ký** (viết sau khi có kết quả chính và sau khi đọc văn bản quy tắc; chỉ để gợi giả thuyết; `kaggle/scripts/w7_content_posthoc.py`, `kaggle/results/w7/w7_content_posthoc.json`). Trong các quy tắc ứng viên mang G, số issue có ít nhất một quy tắc khớp:
+
+  | Đặc điểm (mẫu cố định trong script) | A (31) | B (12) | p một phía, hậu kiểm |
+  | --- | --- | --- | --- |
+  | `bug patch\|inject\|introduc\|regression` (commit chèn lỗi, thay đổi gây lỗi) | 23 | 0 | 8,2·10⁻⁶ |
+  | `git show` | 13 | 0 | 0,0056 |
+  | `diff` | 7 | 0 | 0,082 |
+  | `git status` | 3 | 9 | 1,0 |
+
+  Đọc văn bản: ở A, quy tắc bảo xem diff của commit gần nhất để tìm thay đổi đã đưa lỗi vào (ví dụ "run `git log` immediately to identify recent commits, such as injected bug patches"); ở B, quy tắc bảo chạy `git status`/`git log` để nắm trạng thái thư mục trước khi liệt kê file. Đây là mô tả hậu kiểm; nó **không** thay câu diễn giải đã đăng ký ở trên. Một phép thử xác nhận cho sự khác biệt này cần một lượt học mới với tiêu chí viết trước.
+- **Sai lệch đã thấy trong cách báo cáo (A149):** báo cáo ngày 22/11 ghi H là chỉ báo chính; bản đăng ký ghi G là chính, H là phụ. Ở pool A hai số bằng nhau (30/31), nên bảng ngưỡng không đổi; phân tích trên dùng G như đăng ký.
+
 ## 46. X2′: cầu nối giữa môi trường Docker và lớp `chroot` của Kaggle (đăng ký 18/11/2026, trước mọi lượt có phí của §46)
 
 **Vì sao:** C4′ (`kaggle/preregistration_s40.md`) chạy agent khác hãng trong lớp `chroot` dựng từ image gốc (ghi chú 40-4), không trong Docker. Các cổng C1, C5 chỉ chứng minh bộ chấm cho điểm giống Docker và agent không thấy gì ngoài image. Nếu C4′ cho kết quả khác paper, chưa tách được phần do agent khác với phần do môi trường khác (`docs/plan_vs_review.md` mục 4 và 7.2). @thuthuy duyệt 18/11 (`CLAUDE.md`, trần cộng dồn 38,96 USD cùng §47).

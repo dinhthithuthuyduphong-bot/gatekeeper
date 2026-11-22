@@ -1234,3 +1234,13 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Danh sách §4:** R5 (quy tắc chốt trước), L68 (mọi con số ghi chú chép từ đầu ra của lệnh).
 - **Kết luận R-89:** đạt.
 
+## R-90. Phân tích W7 pool B và đếm nội dung hậu kiểm (22/11/2026)
+- **Đối tượng:** `kaggle/scripts/w7_analyse.py` (đã review cùng §45, không sửa) chạy với `--alpha 0.025 --min-issues-b 5` như đăng ký; script mới `kaggle/scripts/w7_content_posthoc.py` (commit `96ffde1`, nhánh mặc định).
+- **Đã kiểm:**
+  - Đại lượng chính là G theo §45 (A149: báo cáo trước đó ghi nhầm H); `reject_G` được đọc từ đầu ra, không tính tay.
+  - Dữ liệu: pool A từ `w7_A_final_run.zip` (sha256 ở 45-9), pool B từ zip sha256 `a00aec3c…`; giải nén có kiểm đường dẫn; 24 cặp, 12 issue khớp lượt chạy thử.
+  - Script hậu kiểm: ghi rõ trong docstring và trong JSON là không đăng ký; mẫu đặc điểm cố định trong file; bỏ `failed.jsonl`; chỉ đếm quy tắc mang G; test `kaggle/tests/test_w7_content_posthoc.py` (đếm mỗi issue một lần, bỏ quy tắc không mang G, bỏ file lỗi).
+  - Câu kết luận chép nguyên văn ô "Không bác bỏ, A cao" của bảng diễn giải đặt trước (R5); kết quả hậu kiểm không thay câu này.
+- **Danh sách §4:** R5, L68 (số chép từ đầu ra), L79 (chép định nghĩa đại lượng từ bản đăng ký).
+- **Kết luận R-90:** đạt.
+
