@@ -645,3 +645,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Ưu tiên đường đã kiểm (notebook output làm input); đường mới thì kiểm trước.
   - Thêm vào danh sách review `docs/research_rules.md` §4.
 
+## L79. Diễn giải một con số bằng đúng câu của nguồn, không bằng tên biến (A148)
+- **Nguyên nhân gốc:** tôi đọc tên macro `\nmonConfTP`, `\nmonConfFP` ("confusion") trong `paper/numbers.tex` và suy ra đó là kết quả kiểm bộ theo dõi bằng nhãn, mà không đọc câu dùng các số đó trong `paper/main.tex`.
+- **Phòng ngừa:**
+  - Mỗi con số đưa vào báo cáo hay bài phải lấy kèm câu mô tả gốc (bài, bản đăng ký hoặc file kết quả), không suy từ tên biến.
+  - Câu về "kiểm định", "nhãn", "xác nhận" phải chỉ ra được ai hay cái gì làm nhãn tham chiếu.
+  - Thêm vào danh sách review `docs/research_rules.md` §4.
+

@@ -93,6 +93,7 @@ figure.viz figcaption{font-size:.86rem;color:var(--muted);margin-top:10px;max-wi
 <li><a href="#tinhtrang">Tình trạng và kế hoạch</a></li>
 <li><a href="#chiphi">Chi phí</a></li>
 <li><a href="#ykien">Việc xin ý kiến thầy</a></li>
+<li><a href="#review">Phản hồi bản review 16/11</a></li>
 </ol>
 
 <h2 id="tomtat">1. Tóm tắt</h2>
@@ -157,7 +158,7 @@ figure.viz figcaption{font-size:.86rem;color:var(--muted);margin-top:10px;max-wi
 <ul>
 <li><b>Kiểm toán lịch sử (§41):</b> mọi task SWE-smith có đúng ba commit. Commit thứ hai ("Bug Patch") chèn lỗi; commit thứ ba ("Remove F2P Tests") xóa test tái hiện lỗi. Không có lịch sử thật của dự án. Đây là kênh rò rỉ <i>mã trước lỗi</i>, khác với kênh <i>lời giải tương lai</i> đã được báo cáo ở SWE-bench.</li>
 <li><b>Skill Jinja</b> chứa chỉ dẫn "chạy <code>git log</code>, tìm commit gần nhất, <code>git show</code> để thấy dòng bị đổi". Trên 34 task không mô tả ở môi trường gốc, cả 34 lượt có skill đều chạy lệnh git và hiển thị diff "Bug Patch"; 15 task được giải. Ở môi trường một commit: 0 task.</li>
-<li><b>Bộ theo dõi trace</b> được kiểm trên 1.573 lượt có nhãn: 185 dương tính đúng, 13 dương tính giả, 0 âm tính giả.</li>
+<li><b>Bộ theo dõi trace:</b> một cờ rẻ hơn (tên "Bug Patch" xuất hiện trong trace) khớp với kiểm toán hiển thị diff ở 1.560/1.573 trace đã lưu. Cờ bật ở cả 185 lượt có hiển thị diff (0 lượt bị sót) và ở 13 lượt chỉ thấy tên commit. Đây là chỉ báo của việc dùng, không phải bằng chứng; chưa có nhãn độc lập do người gán (mục 13, X3′).</li>
 <li><b>Agent mạnh hơn (§34, model Flash của Google):</b> không cần skill vẫn giải 31/34 task không mô tả, bằng cách tự đọc lịch sử.</li>
 </ul>
 
@@ -299,6 +300,91 @@ figure.viz figcaption{font-size:.86rem;color:var(--muted);margin-top:10px;max-wi
 <li><b>W7:</b> nếu rơi vào K3, có nên giữ trong bài chính hay chuyển sang phụ lục?</li>
 <li><b>Tên bài:</b> có nên bỏ chữ "Certifying" (Q3)?</li>
 </ol>
+<h2 id="review">13. Phản hồi bản review ngày 16/11</h2>
+<h3>13.1 Kết luận của bản review</h3>
+<p>Kết luận kỹ thuật là <b>weak reject</b>, cần sửa lớn trước khi nộp; bản nộp lúc đó chưa sẵn sàng về định dạng và ẩn danh. Bốn góc nhìn chấm như sau:</p>
+<div class="tbl"><table>
+<tr><th>Góc nhìn</th><th>Điểm / 5</th><th>Mối lo chính</th></tr>
+<tr><td>R1 Phát hiện thực nghiệm</td><td class="n">4</td><td>Phụ thuộc lịch sử hay rò rỉ thuần</td></tr>
+<tr><td>R2 Bảo đảm thống kê</td><td class="n">2</td><td>Thiết kế lấy mẫu và phạm vi của Định lý 2</td></tr>
+<tr><td>R3 Đối chứng nhân quả</td><td class="n">3</td><td>Tính ngẫu nhiên của lượt học; tính công bằng của phép so</td></tr>
+<tr><td>R4 Tái lập và trình bày</td><td class="n">3</td><td>Thiếu liên kết tới đăng ký và gói tái lập; mạch bài dày</td></tr>
+</table></div>
+
+<h3>13.2 Dự án có gì lúc review (16/11)</h3>
+<ul>
+<li><b>Thí nghiệm đã xong:</b>
+<ul>
+<li>E1, E2, T4: đo nhiễu và đối chứng dương của phép kiểm;</li>
+<li>§25: Jinja và Bleve, có so với môi trường một commit;</li>
+<li>§27: Pygments;</li>
+<li>§29: bỏ dòng đọc lịch sử; §30: học lại không rò rỉ (một lượt);</li>
+<li>§33: seed thứ hai; §34: agent Flash; §35: 36 task mới; §36: bộ học tìm ra rò rỉ bằng cách nào;</li>
+<li>kiểm toán bộ chấm L.</li>
+</ul></li>
+<li><b>Phía Kaggle:</b> §39 vừa xong; §38 có 2/3 phiên; phiên 1 của agent khác hãng không hợp lệ (K21).</li>
+<li><b>Bản thảo:</b> mẫu IEEE, ghi tên tác giả, 13 trang (gồm phụ lục sau tham khảo). Còn dùng Định lý 2 và Mệnh đề 3 cũ, và đọc phép thử 70 task theo kiểu anytime-valid.</li>
+<li><b>Mỗi điều kiện chỉ có một lượt học.</b> Chưa có agent hay bộ học khác hãng, chưa có phép tách tên commit khỏi diff.</li>
+</ul>
+
+<h3>13.3 Thí nghiệm và phân tích thêm sau review</h3>
+<div class="tbl"><table>
+<tr><th>Ngày</th><th>Việc</th><th>Trả lời điểm nào</th><th>Kết quả</th></tr>
+<tr><td>17/11</td><td>§41 kiểm toán lịch sử và trace (S0)</td><td>R1: rò rỉ thuần hay can thiệp lịch sử</td><td>Mỗi task đúng 3 commit, không có lịch sử thật; hai kênh rò rỉ. Câu chữ đổi thành "tác động của việc bỏ hai commit do benchmark tạo ra"</td></tr>
+<tr><td>17/11</td><td>Mệnh đề cuối pool có chứng minh, mô phỏng (B1–B7, <code>docs/method_end_of_pool.md</code>)</td><td>R2: Định lý 2, Mệnh đề 3, ba đại lượng mục tiêu</td><td>Thay Định lý 2 và Mệnh đề 3 bằng mệnh đề cho pool cố định; nhận nhầm ≤ 0,0013 trong mô phỏng</td></tr>
+<tr><td>17/11</td><td>§42: liệt kê 12 quyết định, cấu trúc lượt chạy, ngưỡng họ</td><td>R2: liệt kê mọi quyết định và cách chia α</td><td>Ngưỡng 40 ra đúng mọi quyết định đã đăng ký; ngưỡng họ 480 giữ 8/10</td></tr>
+<tr><td>17/11</td><td>C10 và C10R (§43–§44)</td><td>P2 "giữ lịch sử hợp lệ, chỉ bỏ kênh rò rỉ"; R2: pool cố định cho phép thử 70 task</td><td>Pool 70 task cố định, đủ 8 nhánh: A − C, E = 9,0·10³</td></tr>
+<tr><td>17/11</td><td>§38 phiên 3, A′</td><td>R3: hành vi chung của bộ học</td><td>Không model khác hãng nào qua Holm; câu cơ chế giới hạn ở model của gskill</td></tr>
+<tr><td>17/11</td><td>Bảng đăng ký có mốc commit (F1); danh mục gói tái lập (F2); gói ẩn danh nội bộ (A4)</td><td>R4: đăng ký có mốc thời gian, mã task, mã băm, phiên bản</td><td>52 dòng đăng ký, không mục nào có kết quả trước khi đăng ký; gói 2.034 file, 0 chỗ lộ danh tính</td></tr>
+<tr><td>21/11</td><td>X2′ (§46): <code>chroot</code> so với Docker</td><td>Cầu nối để kết quả agent khác hãng so được với paper</td><td>20/34 qua <code>chroot</code> so với 15–17/34 qua Docker; không làm giảm kết quả</td></tr>
+<tr><td>21/11</td><td>X1′ (§47): học lại lần hai ở mỗi môi trường</td><td>R3: một lượt học mỗi điều kiện; P2 "repeat learning"</td><td>2/2 lượt có chỉ dẫn lịch sử ở môi trường gốc, 0/2 ở môi trường một commit (mô tả, n = 2)</td></tr>
+<tr><td>18–21/11</td><td>C4′ (§40): ba agent khác hãng</td><td>P2 "different model family"</td><td>gpt-oss bác bỏ (E = 169,4 ≥ 120); nano cùng chiều; Haiku ngược chiều</td></tr>
+<tr><td>21–22/11</td><td>W7 (§45): bộ học XRepoSkill</td><td>R3: hành vi chung của bộ học</td><td>Pool A: H 30/31 issue. Pool B chạy tối 22/11 (mục 8)</td></tr>
+</table></div>
+
+<h3>13.4 Đối chiếu từng điểm yếu</h3>
+<p class="muted">Ghi chú: "xong trong bài" là đã sửa trong bản thảo trên <code>main</code>. "Có kết quả, chưa vào bài" là thí nghiệm đã xong nhưng bản thảo chưa được cập nhật; bản thảo sẽ được cập nhật sau khi có pool B.</p>
+<div class="tbl"><table>
+<tr><th>Điểm yếu</th><th>Đã làm</th><th>Trạng thái</th></tr>
+<tr><th colspan="3">P0, thống kê và trình tự</th></tr>
+<tr><td>Tách ba đại lượng: pool đã hiện thực, kỳ vọng của agent, khi triển khai</td><td>T1, T2, T3 trong ghi chú phương pháp; Threats sắp theo đại lượng</td><td class="ok">Xong trong bài</td></tr>
+<tr><td>Lập luận lấy mẫu cho phép thử 70 task</td><td>Mệnh đề cuối pool trên pool cố định; C10R chạy đủ pool 70 task</td><td class="ok">Xong trong bài</td></tr>
+<tr><td>70 = 34 task quen (seed mới) + 36 task mới</td><td>Báo riêng từng nhóm: 17/34 và 19/36 cùng chiều, 0 ngược chiều</td><td class="ok">Xong trong bài</td></tr>
+<tr><td>Định lý 2 và Mệnh đề 3</td><td>Thay bằng mệnh đề cuối pool có chứng minh; điều kiện "thủ tục nhận với xác suất dương"</td><td class="mid">Xong trong bài; chưa có người ngoài nhóm đọc chứng minh (X4)</td></tr>
+<tr><td>Liệt kê quyết định tuần tự, cách chia α, số 12</td><td>§42, bảng 12 quyết định</td><td class="ok">Xong trong bài</td></tr>
+<tr><td>Đăng ký có mốc thời gian, thông tin đã thấy lúc đăng ký</td><td><code>results/registration_timeline.json</code></td><td class="mid">Một phần: chỉ truy cập được khi gói tái lập được đưa ra ngoài</td></tr>
+<tr><th colspan="3">P0, nộp bài</th></tr>
+<tr><td>Mẫu ACM ẩn danh, giới hạn trang</td><td><code>acmart</code> sigconf, review, anonymous; 7 trang kể cả tham khảo</td><td class="mid">Xong; phải kiểm lại số trang sau khi thêm các kết quả mới</td></tr>
+<tr><td>Gói tái lập ẩn danh, kiểm từ máy sạch</td><td>Gói nội bộ; dựng lại <code>numbers.tex</code> giống hệt trong thư mục sạch</td><td class="mid">Một phần: chưa thử trên máy cài mới; nơi công bố chờ quyết định</td></tr>
+<tr><th colspan="3">P1, diễn giải và tái lập</th></tr>
+<tr><td>Gọi là can thiệp lịch sử, không phải rò rỉ thuần</td><td>§41; C10R tách tên commit khỏi mã trước lỗi</td><td class="ok">Xong; C10R đã vào bài</td></tr>
+<tr><td>Một lượt học mỗi điều kiện</td><td>Ghi giới hạn cạnh kết luận; X1′ thêm một lượt mỗi môi trường</td><td class="mid">Có kết quả, chưa vào bài (n = 2, mô tả)</td></tr>
+<tr><td>"Length-only effect"</td><td>Đổi thành "tác dụng của một skill không liên quan"</td><td class="ok">Xong trong bài</td></tr>
+<tr><td>Tách so sánh cùng ngày và khác ngày</td><td>Cột cấu trúc lượt chạy trong bảng quyết định</td><td class="ok">Xong trong bài</td></tr>
+<tr><td>"Benchmark-resolved gains"</td><td>Câu chữ theo bộ chấm của benchmark</td><td class="ok">Xong trong bài</td></tr>
+<tr><td>Công bố mã task, mã băm skill, phiên bản model, ngày chạy, kết quả chấm</td><td><code>results/package_manifest.json</code></td><td class="mid">Một phần: chưa ghi riêng phiên bản image của bộ chấm; chuỗi model là tên endpoint</td></tr>
+<tr><td>Nhật ký học bị ghi đè</td><td>Ghi rõ số lần gọi còn lại (6, 7, 14) ở Threats</td><td class="ok">Xong trong bài</td></tr>
+<tr><td>So sánh với PACE</td><td>Đọc toàn văn; câu so sánh khớp bản gốc</td><td class="ok">Xong trong bài</td></tr>
+<tr><td>Bộ theo dõi trace: nhãn độc lập, ma trận nhầm lẫn (ghi chú trang 8)</td><td>§41 tách ba mức; so cờ rẻ với kiểm toán (1.560/1.573)</td><td class="no">Mở: chưa có nhãn do người gán (X3′)</td></tr>
+<tr><th colspan="3">P1, mạch bài, hình và bảng</th></tr>
+<tr><td>Mạch bài, tóm tắt, bảng kê thí nghiệm, ký hiệu, Hình 1–3, Bảng I–III</td><td>E1–E8, D8</td><td class="mid">Xong trong bài; đối chiếu với 27 ghi chú trên PDF chưa xong (G1)</td></tr>
+<tr><th colspan="3">P2, tùy chọn</th></tr>
+<tr><td>Lặp lượt học; so bộ chấm S và L khi học</td><td>X1′ lặp lượt học; chưa so S với L khi học</td><td class="mid">Một phần</td></tr>
+<tr><td>Giữ lịch sử hợp lệ, chỉ bỏ kênh rò rỉ</td><td>C10, C10R</td><td class="ok">Xong trong bài</td></tr>
+<tr><td>Họ model khác hoặc repo độc lập</td><td>§38, §39, C4′, W7</td><td class="mid">Có kết quả (W7 pool B chờ), chưa vào bài</td></tr>
+</table></div>
+
+<h3>13.5 Việc còn mở</h3>
+<ol>
+<li><b>Đưa các kết quả sau review vào bản thảo</b> (X1′, X2′, C4′, §38, W7), sau khi có pool B; rồi kiểm lại giới hạn 10 trang.</li>
+<li><b>X3′:</b> kiểm bộ theo dõi trace bằng nhãn độc lập do người gán.</li>
+<li><b>X4:</b> nhờ một người ngoài nhóm có chuyên môn thống kê đọc chứng minh cuối pool.</li>
+<li><b>Gói tái lập:</b> dựng lại trên máy cài mới; quyết định nơi công bố ẩn danh.</li>
+<li><b>Khai báo dùng AI theo chính sách ACM:</b> trang chính sách bị chặn khi tải tự động, cần bản gốc.</li>
+<li><b>G1:</b> đối chiếu từng ghi chú trong 27 ghi chú trên PDF.</li>
+<li><b>Tên bài:</b> có giữ chữ "Certifying" không.</li>
+</ol>
+
 <footer>Mọi con số trong trang có nguồn ở bản đăng ký và file kết quả của repo. Trang được viết tay; không sinh tự động.</footer>
 </main>
 </body>
