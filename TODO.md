@@ -13,13 +13,31 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 ---
 
-## ★ Tình hình hiện tại (cập nhật 18/11/2026)
+## ★ Tình hình hiện tại (cập nhật 22/11/2026)
 
 > **Mục này là điểm vào cho mọi phiên mới.** Hook khởi động phiên in ngày cập nhật của mục này. Mỗi khi một việc dưới đây đổi trạng thái, sửa mục này trong cùng commit, và chép sang nhánh kia (`main` ↔ `claude/gatekeeper-13-research-nxytoh`). Chi tiết từng việc nằm ở file được dẫn; mục này chỉ tóm tắt.
 
 **Đích:** EASE 2027 (tóm tắt 15/01/2027, bài 22/01/2027). Đóng băng thí nghiệm xác nhận: 01/12/2026 (đề xuất, Q2 chờ @thuthuy). Danh sách sửa bài: `docs/todo_ease_revision.md`.
 
-### Tổng hợp thí nghiệm còn lại và chi phí (18/11/2026)
+### Trạng thái 22/11/2026: mọi thí nghiệm có phí đã xong
+
+| Việc | Kết quả | Ghi chú |
+| --- | --- | --- |
+| C10R (§44) | A − C: E = 9.028 (ngưỡng 40), bác bỏ | đã vào bài |
+| X2′ (§46) | `chroot` 20/34 có skill so với Docker 15–17/34 | 47-8, 47-9; chưa vào bài |
+| X1′ (§47) | Học lại: gốc có chỉ dẫn lịch sử, một commit không (2/2 so với 0/2 tính cả lượt cũ); +0,54 và +0,25 | 47-8, 47-9; chưa vào bài |
+| C4′ (§40) | gpt-oss bác bỏ (E = 169,4 ≥ 120); nano E = 86,7; Haiku ngược chiều | `kaggle/preregistration_s40.md` 40-27; chưa vào bài |
+| §38, A′ | Không model khác hãng nào qua Holm; A′ không bác bỏ | 38-6 đến 38-11; chưa vào bài |
+| W7 (§45) | **Không bác bỏ:** G ở A 30/31, ở B 11/12, p = 0,485 ("Không tách được rò rỉ với thói quen"). Hậu kiểm: quy tắc nhắc commit gây lỗi ở 23/31 issue A, 0/12 issue B | 45-9, 45-10; chưa vào bài |
+
+**Chi đã dùng:** Vertex 29,72 / 35 USD cho X2′ + X1′. Kaggle tháng 11 khoảng 61,9 / 100 USD (C4′ 17,54; W7 pool A 13,26; pool B 5,40).
+
+**Việc tiếp theo:**
+1. 👤 Sửa LaTeX của bài với các kết quả trên: **chờ lệnh của @thuthuy** (@thuthuy 22/11: "Latex của paper sau khi có w7 pool B thì chờ lệnh làm từ tôi").
+2. Q2 của §47 (0 USD), `history_audit` của X2′ cho bài.
+3. X3′ (nhãn độc lập cho bộ theo dõi trace), X4 (người ngoài đọc chứng minh), A4 (gói tái lập), A5 (khai báo AI), G1 (27 ghi chú PDF).
+
+### Tổng hợp thí nghiệm còn lại và chi phí (18/11/2026; lịch sử, đã chạy xong)
 
 **Tiền thật (Vertex): tổng chi mới ≤ 35 USD, cả hai lượt học lại trên Vertex** (@thuthuy 18/11: "oke nâng trần lên 35 đô"; ghi chú 47-3, thay 47-1 và 47-2). Bắt đầu **21/11** (@thuthuy 18/11: "chỉnh kế hoạch, việc làm trên vertex AI sẽ bắt đầu vào ngày 21/11"). Trần 10 USD của project không chặn (@thuthuy 18/11: "Liên quan gì, gg xài nhiêu tính nhiêu"), nên các khâu chạy nối tiếp ngay khi khâu trước xong và qua cảnh báo (ghi chú 47-6); bảng dưới giữ thứ tự, ngày chỉ là muộn nhất:
 

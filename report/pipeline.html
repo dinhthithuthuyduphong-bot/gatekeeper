@@ -1023,9 +1023,9 @@ preflight: FAIL</code></pre>
 <tr><td>C6</td><td>Thử lớp <code>chroot</code> với agent thật</td><td>Đạt: 6/6 lượt, exposure 0</td><td>0,03 USD</td></tr>
 <tr><td>C4′ (§40)</td><td>3 agent × 4 nhánh × 136 task, 13 phiên</td><td>Xong 21/11: gpt-oss bác bỏ, nano chưa đủ, Haiku ngược chiều</td><td>17,54 USD (gồm 1,47 USD chạy lại Haiku ngoài kế hoạch, K29)</td></tr>
 <tr><td>W7 pool A (§45)</td><td>XRepoSkill học trên 62 cặp trace</td><td>Xong 21/11: H 30/31 issue</td><td>13,26 USD</td></tr>
-<tr><td>W7 pool B (§45)</td><td>XRepoSkill học trên 24 cặp trace</td><td>Chạy tối 22/11</td><td>trần 6,376 USD</td></tr>
+<tr><td>W7 pool B (§45)</td><td>XRepoSkill học trên 24 cặp trace</td><td>Xong 22/11: G 11/12, không bác bỏ</td><td>5,40 USD</td></tr>
 </table></div>
-<h3>Chạy W7 pool B tối nay</h3>
+<h3>Cách đã chạy W7 pool B (22/11, một phiên, 18 phút)</h3>
 <ul>
 <li><b>Notebook:</b> tạo mới, tên <code>w7-pool-b</code>, từ trang Benchmarks.</li>
 <li><b>Ô:</b> dán toàn bộ <code>w7_learn_B_cell.py</code> (đã có <code>POOL = "B"</code>, <code>DRY_RUN = False</code>).</li>
@@ -1036,7 +1036,7 @@ preflight: FAIL</code></pre>
 <li><b>Nếu ô in "all stages done":</b> gửi hai file đó cho Claude. Nếu chưa xong, hôm sau chạy tiếp với input là output của phiên này.</li>
 </ul>
 <h3>Hạn mức tháng 11</h3>
-<p>Đã dùng khoảng 56,5/100 USD. Pool B dùng tối đa 6,376, nên tổng tối đa khoảng 63.</p>
+<p>Đã dùng khoảng 61,9/100 USD sau pool B (5,40 USD).</p>
 
 <h2 id="e6">E6. Vertex ngày 21/11: X2′ và X1′</h2>
 <p>Hai thí nghiệm này chạy trên Vertex AI (dịch vụ trả tiền của Google), qua đường ống <code>pilot.yml</code> trên GitHub Actions, sau mốc 00:00 ngày 21/11 giờ New York do chị đặt. Trần chung là 35 USD; đã chi 29,72 USD.</p>
