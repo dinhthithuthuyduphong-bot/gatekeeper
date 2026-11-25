@@ -663,3 +663,11 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Chạy script một lần trên file thật (hoặc trên một phần của nó) trước khi commit, kể cả khi chưa có dữ liệu mới.
   - Thêm vào danh sách review `docs/research_rules.md` §4.
 
+## L81. Khi có dữ liệu mới, rà lại mọi câu giới hạn và câu "chưa làm" trong bài (A152, A153)
+- **Nguyên nhân gốc:** khi đưa kết quả mới vào bài, tôi chỉ thêm đoạn mới, không tìm các câu cũ mà dữ liệu mới làm lỗi thời ("did not run", "first confirmatory use must be", "reproduces"). Hai nguồn trùng URL lọt qua vì không có kiểm tra máy nào cho tham khảo trùng.
+- **Phòng ngừa:**
+  - Sau mỗi lần thêm kết quả vào bài, tìm trong `paper/main.tex` các cụm "did not", "not run", "not measured", "must be", "open", "one learning run", "post hoc" và đối chiếu với dữ liệu hiện có.
+  - Tóm tắt chỉ dùng động từ khẳng định ("reproduces", "confirms") cho kết quả đã qua ngưỡng đăng ký.
+  - Preflight `[bib duplicates]` chặn hai khóa được trích cùng URL.
+  - Thêm vào danh sách review `docs/research_rules.md` §4.
+

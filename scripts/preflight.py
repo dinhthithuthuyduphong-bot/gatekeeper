@@ -188,6 +188,31 @@ def check_workflow_deps(wf_dir: Path = Path(".github/workflows")) -> list[str]:
     return bad
 
 
+def check_bib_duplicates(
+    tex: Path = Path("paper/main.tex"), bib: Path = Path("paper/refs.bib")
+) -> list[str]:
+    """A152: two cited keys that point to the same URL print the same reference twice."""
+    if not tex.exists() or not bib.exists():
+        return []
+    keys = {
+        k.strip() for g in re.findall(r"\\cite\{([^}]*)\}", tex.read_text()) for k in g.split(",")
+    }
+    url_of = {}
+    for m in re.finditer(r"@\w+\{([^,]+),(.*?)\n\}", bib.read_text(), re.S):
+        u = re.search(r"\\url\{([^}]*)\}", m.group(2))
+        if u:
+            url_of[m.group(1).strip()] = u.group(1)
+    seen: dict[str, str] = {}
+    bad = []
+    for k in sorted(keys):
+        u = url_of.get(k)
+        if u and u in seen:
+            bad.append(f"cited keys {seen[u]} and {k} point to the same URL {u} (A152)")
+        elif u:
+            seen[u] = k
+    return bad
+
+
 def run(cmd: list[str]) -> bool:
     return subprocess.run(cmd, check=False).returncode == 0
 
@@ -207,6 +232,9 @@ def main() -> int:
     w = check_workflow_deps()
     print(f"[workflow deps] {'ok' if not w else 'FAIL'}")
     failures += w
+    bd = check_bib_duplicates()
+    print(f"[bib duplicates] {'ok' if not bd else 'FAIL'}")
+    failures += bd
     s = check_secrets()
     print(f"[secrets] {'ok' if not s else 'FAIL'}")
     failures += s

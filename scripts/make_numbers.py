@@ -1466,6 +1466,25 @@ def main() -> int:
     if (N["wrRenN"], N["wrRenNamed"]) != (18, 11) or ap_["reject_H"]:
         print("MISMATCH s38 A'")
         return 1
+    # bridge K: chroot minus the first Docker run, skill arm (note 47-9)
+    N["xtDiff"], (N["xtDiffLo"], N["xtDiffHi"]) = (
+        x2["skill"]["chroot-d41"][0],
+        x2["skill"]["chroot-d41"][1],
+    )
+    # C10R arm A with the skill: runs that displayed or restored the deleted tests (history audit)
+    arA = crarm[("C10 A: original history", "original skill")]
+    N["ctrATests"] = arA["deleted_tests_shown"] + arA["tests_restored_and_run"]
+    # section 34 model without a skill in the single-commit environment (W7-b runs, note 45-2)
+    flf = [
+        r
+        for f in ("s34_lfnone.json", "s34_lfnone_rest.json")
+        for r in load(Path("results") / f)["runs"]
+    ]
+    N["flLFNone"] = sum(bool((r.get("S") or {}).get("resolved")) for r in flf)
+    N["flLFN"] = len(flf)
+    if (N["flLFNone"], N["flLFN"], N["ctrATests"]) != (12, 34, 0):
+        print("MISMATCH bridge/C10R/s34 one commit", N["flLFNone"], N["flLFN"], N["ctrATests"])
+        return 1
     # section 49 (X3', notes 49-1 to 49-3): blind human labels of the 104-trace stratum
     x3 = load(Path("results/x3_analysis.json"))
     N["xhN"] = x3["n"]

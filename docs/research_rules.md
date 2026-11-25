@@ -167,6 +167,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Biến môi trường qua ranh giới người dùng (L70)**
 - [ ] Lệnh chạy dưới người dùng khác (`sudo`, môi trường sạch) nhận từng biến cần thiết một cách tường minh, và có một bước kiểm 0 USD dưới đúng người dùng đó xác nhận khóa nạp được trước lần gọi có phí đầu tiên. Đọc mọi cảnh báo trong log của lượt chạy thử.
 
+**Câu lỗi thời trong bài (L81)**
+- [ ] Sau mỗi lần đưa kết quả mới vào bài, tìm các câu "did not", "not run", "not measured", "must be", "post hoc", "one learning run" và sửa những câu dữ liệu mới đã làm lỗi thời; tóm tắt chỉ dùng "reproduces/confirms" cho kết quả đã qua ngưỡng đăng ký (A153).
+
 **Dữ liệu giả theo dạng file thật (L80)**
 - [ ] Test của một hàm đọc file kết quả có sẵn dùng dữ liệu giả dựng từ dạng thật của file đó, và script được chạy thử một lần trên file thật trước khi commit (A151).
 

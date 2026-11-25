@@ -39,8 +39,8 @@ the benchmark's construction added: one injects the bug, the next deletes the te
 it. Removing these two commits lowers the gain from \njinjaGain{} to \njinjaLFGain{} (difference
 \nleak{} [\nleakLo{}, \nleakHi{}]); deleting the one instruction leaves a gain of \nabGain{};
 of two learning runs per environment, both wrote the instruction with the two commits and neither
-without them. A second agent seed reproduces the difference (\nsdLeak{} [\nsdLeakLo{},
-\nsdLeakHi{}]), a preregistered test on \ncfN{} tasks without an issue description confirms it
+without them. A second agent seed gives a similar difference (\nsdLeak{} [\nsdLeakLo{},
+\nsdLeakHi{}], not certified on 100 tasks), a preregistered test on \ncfN{} tasks without an issue description confirms it
 (\ncfNewFor{} of the \ncfNew{} never used before favour the environment with the commits, none the
 other), and a registered intervention on the history shows that the gain needs the pre-bug code in
 the history; the commit's name alone carries none. A skill learned for a Go repository and an open-weight agent of
@@ -120,7 +120,7 @@ tests, and no project history.
 gskill~\cite{gskill} learns a block of text that its agent configuration inserts into the system
 prompt, after ``Here are some of the skills you learned while working with similar
 problems''~\cite{gskill_mini_yaml}. The loop, GEPA~\cite{gskill_train_config}, starts from an empty
-skill~\cite{gskill_seed_candidate}; \promodel{} reads the current skill with the agent's runs on a
+skill~\cite{gskill_train_config}; \promodel{} reads the current skill with the agent's runs on a
 minibatch of three training tasks and proposes a rewrite, accepted if its summed score on the
 minibatch is strictly higher than the parent's~\cite{gepa_acceptance}. Tasks are split into
 \nlearnTrain{} training, \nlearnVal{} validation and \nlearnTest{} test tasks (seed 42, gskill's
@@ -223,9 +223,9 @@ e-process~\cite{waudby_smith_ramdas} run over the tasks in gskill's split order 
 $c=0.5$, threshold 40), which allows stopping at any task. We keep both as registered. The
 e-process is valid for the narrower null that no task's conditional expectation favours the skill;
 we report its first crossing as the point at which a run could have stopped. All tasks were run in
-every comparison, so stopping points and savings are retrospective. The end-of-pool test is a post
-hoc reanalysis of the registered comparisons; its first confirmatory use must be a new registered
-experiment.
+every comparison, so stopping points and savings are retrospective. For the twelve decisions of
+Table~\ref{tab:decisions} the end-of-pool test is a post hoc reanalysis; it was registered as the
+primary test, before the runs, for the fixed-pool experiments C10 and V1--V3 (Section~\ref{sec:scope}).
 
 \section{Results}
 \subsection{The gain and its certification}\label{sec:gain}
@@ -270,7 +270,7 @@ $^{b}$\neopSameH{} of 100 tasks; \npygLate{} tasks of the skill arm ran later th
 \paragraph{The learner wrote the instruction}
 gskill's seed skill is empty, its agent configuration does not contain ``git'', and its
 skill-writing prompts mention \texttt{git} once, as an available command, never history or
-commits~\cite{gskill_seed_candidate,gskill_mini_yaml}. In the Jinja learning run the instruction
+commits~\cite{gskill_train_config,gskill_mini_yaml}. In the Jinja learning run the instruction
 first appears in the second rewrite, and \ncandHist{} of the \ncandNonEmpty{} non-empty rewrites
 the loop kept contain a line about commits or history. Under gskill's own scorer, rewrites with
 the instruction score higher on the validation tasks than those without (on average \nlrnValHist{}
@@ -383,7 +383,8 @@ under a narrower per-task null because its pool was cut by spend). Neither part 
 (descriptive): the diff under a neutral message (B$-$D, $D=\nctrBDMean{}$ [\nctrBDLo{},
 \nctrBDHi{}]) and the message without the diff (C$-$D, $D=\nctrCDMean{}$ [\nctrCDLo{},
 \nctrCDHi{}]); the interaction is \nctrIxMean{} [\nctrIxLo{}, \nctrIxHi{}]. The message leads the
-agent to the diff: with the skill it displays the diff in \nctrADiff{} of \nctrASkillN{} runs in A.
+agent to the diff: with the skill it displays the diff in \nctrADiff{} of \nctrASkillN{} runs in A,
+and the deleted tests in \nctrATests{}.
 When no message points to the diff (B) or no diff exists (C, D), it restores and runs the deleted
 tests in some runs (\nctrBTests{}, \nctrCTests{} and \nctrDTests{}) and still rarely resolves the
 task. The deletion commit is identical in the four histories, so it cannot by itself produce a
@@ -451,7 +452,9 @@ With a second agent seed, all four Jinja arms in one job, the skill is confirmed
 environments (S1, S2; Holm at 0.025) and the difference of the gains is \nsdLeak{} [\nsdLeakLo{},
 \nsdLeakHi{}], against \nleak{} on the first seed. The registered contrast over all 100 tasks (S3)
 is not significant ($E=\neopK$; anytime-valid $p=\nsdEnvP$): at $n=100$ and a difference of this size
-it has little power.
+it has little power. A task on which only one environment's gain occurs has $D_i=\pm1/2$ and moves
+$E$ by a factor $1\pm\lambda/2$, half the bet of a single comparison, so the contrast needs many
+more discordant tasks.
 
 Before opening any result of the second seed we registered one confirmatory test where the
 mechanism predicts the contrast: the \ncfOld{} test tasks without a description, \emph{already used}
@@ -513,8 +516,9 @@ other repositories.
 uses both channels without any skill: it displayed the bug-injecting diff in \nhiFlNoneDiff{} of
 \nflN{} no-skill runs and the deleted tests in \nhiFlNoneTests{}, and ran a command that restores
 files from the history in \nhiFlNoneRestore{} (\nhiFlSkillTests{} runs with the deleted tests
-displayed with the skill). We did not run the single-commit control for this model, so how much of
-its \nflNone{} resolved tasks the commits explain is not measured.
+displayed with the skill). Without a skill and with one commit, run on a later day for L2, it
+resolves \nflLFNone{} of the \nflLFN{} (descriptive, different runs); the skill arm with one commit
+was not run.
 
 \paragraph{Agents of other vendors}
 We ran \ossmodel{}, \nanomodel{} and \haikumodel{} as the agent, with the learned Jinja skill, on the
@@ -522,8 +526,9 @@ We ran \ossmodel{}, \nanomodel{} and \haikumodel{} as the agent, with the learne
 $3/\alpha=120$). These runs used a model proxy without Docker: each task's image is unpacked into a
 \texttt{chroot} that holds the image's files and nothing of the host. A registered bridge with our
 agent (K) gives \nxtChrootSkill{} of \nxtN{} tasks resolved with the skill in the \texttt{chroot}
-against \nxtDockSkillLo{} to \nxtDockSkillHi{} in three Docker runs, and \nxtChrootNone{} against at
-most \nxtDockNoneHi{} without it. Table~\ref{tab:vendors} gives the contrast $D_i$ of test C
+against \nxtDockSkillLo{} to \nxtDockSkillHi{} in three Docker runs (difference to the first,
+\nxtDiff{} [\nxtDiffLo{}, \nxtDiffHi{}]), and \nxtChrootNone{} against at most \nxtDockNoneHi{}
+without it. Table~\ref{tab:vendors} gives the contrast $D_i$ of test C
 (Table~\ref{tab:decisions}).
 \ossmodel{} repeats the finding and is certified at the family threshold; \nanomodel{} points the
 same way without reaching it. Without a skill, neither resolves any of these tasks in either
