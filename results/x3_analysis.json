@@ -1,0 +1,111 @@
+{
+ "n": 104,
+ "tables": {
+  "q1": {
+   "human_yes_detector_yes": 104,
+   "human_yes_detector_no": 0,
+   "human_no_detector_yes": 0,
+   "human_no_detector_no": 0,
+   "agree": 104,
+   "n": 104
+  },
+  "q2": {
+   "human_yes_detector_yes": 96,
+   "human_yes_detector_no": 0,
+   "human_no_detector_yes": 0,
+   "human_no_detector_no": 8,
+   "agree": 104,
+   "n": 104
+  },
+  "q3": {
+   "human_yes_detector_yes": 0,
+   "human_yes_detector_no": 0,
+   "human_no_detector_yes": 0,
+   "human_no_detector_no": 104,
+   "agree": 104,
+   "n": 104
+  }
+ },
+ "tables_resolved": {
+  "q1": {
+   "human_yes_detector_yes": 52,
+   "human_yes_detector_no": 0,
+   "human_no_detector_yes": 0,
+   "human_no_detector_no": 0,
+   "agree": 52,
+   "n": 52
+  },
+  "q2": {
+   "human_yes_detector_yes": 52,
+   "human_yes_detector_no": 0,
+   "human_no_detector_yes": 0,
+   "human_no_detector_no": 0,
+   "agree": 52,
+   "n": 52
+  },
+  "q3": {
+   "human_yes_detector_yes": 0,
+   "human_yes_detector_no": 0,
+   "human_no_detector_yes": 0,
+   "human_no_detector_no": 52,
+   "agree": 52,
+   "n": 52
+  }
+ },
+ "paper_counts": {
+  "q2_by_cohort": {
+   "new tasks": {
+    "human": 35,
+    "detector": 35,
+    "n": 36
+   },
+   "seed 41": {
+    "human": 29,
+    "detector": 29,
+    "n": 34
+   },
+   "seed 51": {
+    "human": 32,
+    "detector": 32,
+    "n": 34
+   }
+  },
+  "q3_any": {
+   "human": 0,
+   "detector": 0
+  },
+  "resolved_with_q2": {
+   "human": 52,
+   "detector": 52,
+   "resolved": 52
+  }
+ },
+ "q4": {
+  "by_exact_revert": {
+   "yes": {
+    "False": 56,
+    "True": 20
+   },
+   "no": {
+    "False": 1
+   },
+   "unclear": {
+    "False": 19
+   }
+  },
+  "by_resolved": {
+   "yes": {
+    "False": 28,
+    "True": 48
+   },
+   "no": {
+    "False": 1
+   },
+   "unclear": {
+    "False": 15,
+    "True": 4
+   }
+  }
+ },
+ "disagreements": []
+}

@@ -1278,3 +1278,9 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Danh sách §4:** R5 (quy tắc trước dữ liệu), R6 (định nghĩa Q1–Q4 cố định), L58.
 - **Kết luận R-93:** đạt.
 
+## R-94. Kết quả X3′ vào bài (25/11/2026)
+- **Đối tượng:** sửa `scripts/x3_analyse.py` (A151), `results/x3_labels.json`, `results/x3_analysis.json`, khối §49 trong `scripts/make_numbers.py` (macro `xh*`), đoạn "What the agent saw", bảng kê và Threats của `paper/main.tex`.
+- **Đã kiểm:** nhãn xuất từ trang khớp CSV ở 104/104 mã; phân tích chạy đúng quy tắc §49, không đổi sau khi thấy số; câu trong bài theo câu đặt trước; `make_numbers.py` dừng nếu 104, 96, 52 khác hoặc các nhóm Q4 không cộng đủ 96; biên dịch 0 tràn ngang, 9 trang.
+- **Danh sách §4:** R5, L79, L80.
+- **Kết luận R-94:** đạt.
+

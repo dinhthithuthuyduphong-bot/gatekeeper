@@ -656,3 +656,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Câu về "kiểm định", "nhãn", "xác nhận" phải chỉ ra được ai hay cái gì làm nhãn tham chiếu.
   - Thêm vào danh sách review `docs/research_rules.md` §4.
 
+## L80. Dữ liệu giả của test phải theo đúng dạng của file thật (A151)
+- **Nguyên nhân gốc:** tôi viết test cho `scripts/x3_analyse.py` với dữ liệu giả theo dạng tôi nhớ, không mở file `results/history_audit.json` để xem dạng thật trước khi viết.
+- **Phòng ngừa:**
+  - Trước khi viết hàm đọc một file kết quả có sẵn, in ra dạng thật của nó (kiểu, khóa, một bản ghi) và dựng dữ liệu giả từ đó.
+  - Chạy script một lần trên file thật (hoặc trên một phần của nó) trước khi commit, kể cả khi chưa có dữ liệu mới.
+  - Thêm vào danh sách review `docs/research_rules.md` §4.
+

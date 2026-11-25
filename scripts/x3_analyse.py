@@ -77,7 +77,11 @@ def analyse(labels: dict[str, dict], key: dict, audit: dict) -> dict:
     runs = {
         (stem, r["instance_id"]): r
         for stem in COHORT
-        for r in (audit["runs"][stem]["runs"] if isinstance(audit["runs"][stem], dict) else [])
+        for r in (
+            audit["runs"][stem]["runs"]
+            if isinstance(audit["runs"][stem], dict)
+            else audit["runs"][stem]
+        )
     }
     rows = []
     for code, k in sorted(key["codes"].items()):

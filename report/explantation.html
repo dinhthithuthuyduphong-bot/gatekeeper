@@ -164,7 +164,7 @@ Nếu cuối pool E ≥ 40 (= 1/α), ta bác bỏ giả thuyết không. Lý thu
 <h2 id="b3">B3. Vì sao skill giúp? Phát hiện rò rỉ (§36, §41)</h2>
 <p><b>Đọc skill:</b> skill Jinja có một dòng bảo agent chạy <code>git log</code>, tìm commit gần nhất, rồi <code>git show</code> để thấy dòng bị đổi. Đây là dòng mà bộ học <b>tự viết ra</b>.</p>
 <p><b>Kiểm lịch sử:</b> mọi task SWE-smith có đúng ba commit, trong đó commit "Bug Patch" chứa đáp án (mục A3).</p>
-<p><b>Kiểm trace:</b> một chương trình đọc trace để xem agent có hiển thị diff "Bug Patch" không. Một cách kiểm rẻ hơn (chỉ xem tên "Bug Patch" có xuất hiện không) khớp với chương trình này ở 1.560/1.573 trace: nó bắt đủ cả 185 lượt có hiển thị diff, và báo thêm 13 lượt chỉ thấy tên mà không xem diff. Lưu ý: chưa có người nào ngồi gán nhãn độc lập để kiểm chương trình này (việc X3′, còn mở). Kết quả: trên 34 task không có issue, cả 34 lượt có skill đều hiển thị diff "Bug Patch".</p>
+<p><b>Kiểm trace:</b> một chương trình đọc trace để xem agent có hiển thị diff "Bug Patch" không. Để kiểm chương trình này, chị đã tự gán nhãn che mù cả 104 trace (X3′): nhãn của chị và của máy khớp 104/104. Chị cũng đánh giá agent thật sự dựa vào diff để sửa ở 76/96 trace có thấy diff.</p>
 <p><b>Ý nghĩa:</b> có thể một phần mức tăng là do skill dạy agent "xem đáp án". Muốn biết phần đó lớn bao nhiêu thì phải bịt rò rỉ rồi đo lại.</p>
 
 <h2 id="b4">B4. Bịt rò rỉ thì còn lại bao nhiêu? (§25 bước 3)</h2>
@@ -292,10 +292,10 @@ Nếu cuối pool E ≥ 40 (= 1/α), ta bác bỏ giả thuyết không. Lý thu
 <tr><td>Chỉ có model của Google</td><td>C4′: ba agent khác hãng (B9); §38: model khác viết skill (B10); W7: bộ học khác (B11, C)</td><td class="mid">C4′, §38, W7 xong (W7 không bác bỏ); đã vào bài</td></tr>
 <tr><td>Không xem được bản đăng ký và dữ liệu</td><td>Bảng mốc thời gian đăng ký; danh mục gói; gói ẩn danh dựng nội bộ</td><td class="mid">Một phần: chưa công bố ra ngoài (chờ chị quyết nơi đặt)</td></tr>
 <tr><td>Ghi tên tác giả, sai mẫu, quá dài</td><td>Đổi sang mẫu ACM ẩn danh, 7 trang</td><td class="ok">Giải quyết; kiểm lại số trang khi thêm kết quả mới</td></tr>
-<tr><td>Chương trình đọc trace chưa được kiểm bằng nhãn của người</td><td>Mới so với một cách kiểm khác (1.560/1.573 khớp)</td><td class="no">Còn mở (X3′)</td></tr>
+<tr><td>Chương trình đọc trace chưa được kiểm bằng nhãn của người</td><td>X3′: chị gán nhãn che mù 104 trace</td><td class="ok">Giải quyết: khớp 104/104; giới hạn là chỉ một người gán</td></tr>
 <tr><td>Câu chữ, hình, bảng (khoảng 20 điểm nhỏ)</td><td>Sửa hết trong bài ngày 17/11</td><td class="mid">Xong; còn đối chiếu với 27 ghi chú trên PDF</td></tr>
 </table></div>
-<div class="box"><p><b>Tóm lại:</b> điểm yếu nặng nhất (thống kê) đã được sửa trong bài. Điểm yếu thực nghiệm lớn nhất (một lượt học, chỉ một hãng) đã có thí nghiệm trả lời, và kết quả đã được đưa vào bài ngày 22/11. Các việc còn mở là: nhãn độc lập cho chương trình đọc trace, người ngoài đọc chứng minh, công bố gói tái lập, và khai báo dùng AI.</p></div>
+<div class="box"><p><b>Tóm lại:</b> điểm yếu nặng nhất (thống kê) đã được sửa trong bài. Điểm yếu thực nghiệm lớn nhất (một lượt học, chỉ một hãng) đã có thí nghiệm trả lời, và kết quả đã được đưa vào bài ngày 22/11. Các việc còn mở là: người ngoài đọc chứng minh, công bố gói tái lập, và khai báo dùng AI.</p></div>
 
 <h2 id="d">D. Tổng kết: paper đang ở đâu</h2>
 <h3>Đã chắc chắn (có phép kiểm đã đăng ký, vượt ngưỡng)</h3>

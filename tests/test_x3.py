@@ -92,3 +92,16 @@ def test_blind_is_a_fixed_permutation_without_ids(tmp_path):
     assert sorted(v["instance_id"] for v in k1.values()) == [f"i{k}" for k in range(10)]
     text = json.dumps(b1)
     assert "instance_id" not in text and '"stem"' not in text
+
+
+def test_audit_runs_as_lists():
+    """results/history_audit.json keeps each stem's runs as a plain list (A151)."""
+    audit, key = _setup()
+    audit = {"runs": {k: v["runs"] for k, v in audit["runs"].items()}}
+    labels = {
+        "T001": {"q1": "yes", "q2": "no", "q3": "no", "q4": "na"},
+        "T002": {"q1": "yes", "q2": "yes", "q3": "no", "q4": "yes"},
+        "T003": {"q1": "no", "q2": "no", "q3": "yes", "q4": "na"},
+    }
+    out = xa.analyse(labels, key, audit)
+    assert out["n"] == 3 and out["tables"]["q2"]["agree"] == 3
