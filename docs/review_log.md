@@ -1293,3 +1293,16 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Kiểm:** số mới là macro do `make_numbers.py` sinh và kiểm (12/34, 0, 0,15); biên dịch 0 tràn ngang, 9 trang, 40 tài liệu tham khảo; preflight thêm `[bib duplicates]`.
 - **Kết luận R-95:** đạt.
 
+## R-96. Đối chiếu ba bản đánh giá AI thứ hai ngày 25/11 (một bản tiếng Việt chấm "weak accept / major revision", một bản "4,0/5", một bản paperreview.ai mới)
+- **Điểm sai (không sửa):**
+  - "J1/J2 là hai run khác ngày": Table 1 ghi "2 runs, same day"; khác run thì đúng, và bài đã có S1/S2 cùng job (0,16).
+  - "E của C10 phải là 1,25⁴⁰ ≈ 7,5×10³": 40 task âm gồm 39 task D = −1/2 và 1 task D = −1, nên E = 1,25³⁹ × 1,5 = 9,0×10³. Bài nay ghi rõ (macro `ctrACFull`, `make_numbers.py` kiểm E đúng dạng này).
+  - "Giới hạn 0,042 chỉ nằm ở Threats": nằm ở mục 3; nay thêm câu nói rõ 0,042 là sai số của T2, còn T1 giữ được cận của mệnh đề.
+  - "Table 1 thiếu cột registered/post hoc": đã có cột Analysis.
+  - "Bản review 3,5 nói end-of-pool post hoc": đã sửa ở R-95 (C10, V1–V3 đăng ký trước).
+- **Điểm đúng, đã sửa (0 USD):** tóm tắt nói test C xác nhận "it" → "the dependence there" (C chỉ trên task không mô tả, xác nhận cơ chế, không xác nhận tỉ trọng); đoạn phần còn lại nói rõ đó là phần còn lại khi bỏ hai commit này, chưa phải phần chứng minh thuộc về skill; trích dẫn placebo và mục Holm (A155); khóa tham khảo gõ tay (A154 đóng).
+- **Điểm đúng nhưng cần quyết định của @thuthuy:** tên bài (Q3: nhân cách hóa "The Learner", phạm vi "a published learner"); người gán nhãn thứ hai cho X3′ (0 USD, cần một người); thí nghiệm mới (lặp thêm lượt học, tắt mạng, kiểm ngữ nghĩa, bỏ commit xóa test): không khuyên trước khi nộp; rút gọn mục 4.7 và 3: bài còn 1,5 trang trống, không bắt buộc.
+- **Chưa kiểm được:** ProdCodeBench, DDBENCH, SkillOpt, SkillMorph, CASD (chưa đọc bản gốc, R1).
+- **Kiểm:** `make_bib.py` 40 mục, 0 VERIFY; `make_numbers.py` kiểm E của A − C; biên dịch 0 tràn ngang, 9 trang.
+- **Kết luận R-96:** đạt.
+

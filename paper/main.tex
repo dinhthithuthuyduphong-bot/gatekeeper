@@ -40,7 +40,7 @@ it. Removing these two commits lowers the gain from \njinjaGain{} to \njinjaLFGa
 \nleak{} [\nleakLo{}, \nleakHi{}]); deleting the one instruction leaves a gain of \nabGain{};
 of two learning runs per environment, both wrote the instruction with the two commits and neither
 without them. A second agent seed gives a similar difference (\nsdLeak{} [\nsdLeakLo{},
-\nsdLeakHi{}], not certified on 100 tasks), a preregistered test on \ncfN{} tasks without an issue description confirms it
+\nsdLeakHi{}], not certified on 100 tasks), a preregistered test on \ncfN{} tasks without an issue description confirms the dependence there
 (\ncfNewFor{} of the \ncfNew{} never used before favour the environment with the commits, none the
 other), and a registered intervention on the history shows that the gain needs the pre-bug code in
 the history; the commit's name alone carries none. A skill learned for a Go repository and an open-weight agent of
@@ -212,7 +212,8 @@ The test is not anytime-valid, and it does not cover T2. In a simulation on the 
 their measured base rates (\neopValidReps{} replicates per pool), the rate of false certification was
 at most \neopTypeMax{} on three null pools, from homogeneous to ten tasks always helped and the rest
 harmed; with a state shared by the whole run (two equally likely states of opposite effect, mean over
-states $0$) it was \neopShared{}, above $\alpha$. Its power is lower than that of the exact sign test
+states $0$) it was \neopShared{}, above $\alpha$. This is the error for T2, the mean over states;
+given the state (T1) the bound of Proposition~\ref{prop:eop} holds, which is why we certify T1 only. Its power is lower than that of the exact sign test
 for small effects (\neopPowSmall{} against \neopSignPowSmall{} for a gain of 0.109; \neopPowMid{}
 against \neopSignPowMid{} for 0.2).
 
@@ -376,7 +377,8 @@ whether the pre-bug code is in the history. In a first run six arms stopped at t
 caps simulated against the stopping rule, and the same test on the fixed pool; every arm ran all
 \nctrACN{} tasks. There the skill resolves \nctrASkill{} of \nctrASkillN{} tasks in A and
 \nctrBSkill{}, \nctrCSkill{} and \nctrDSkill{} in B, C and D; without it, at most \nctrNoneMax{} per
-history. The difference of gains favours A on \nctrACNeg{} tasks and C on \nctrACPos{}, mean
+history. The difference of gains favours A on \nctrACNeg{} tasks (\nctrACFull{} of them with
+$D_i=-1$, the rest $-1/2$) and C on \nctrACPos{}, mean
 $D=\nctrACMean{}$ [\nctrACLo{}, \nctrACHi{}], $E=\nctrACE{}\geq 40$: certified. The first run agrees
 (\nctenACNeg{} against \nctenACPos{} over its first \nctenACN{} tasks, $E=\nctenACE{}$, valid only
 under a narrower per-task null because its pool was cut by spend). Neither part carries a gain alone
@@ -492,9 +494,12 @@ followed by 36 new tasks. Times are UTC commit and publication times.}
 \subsection{What persists under the control}\label{sec:residual}
 Without the two commits, the Jinja skill still raises the resolved count from \njinjaLFNone{} to
 \njinjaLFSkill{} and is certified (J2), as are the Bleve skill (B2) and the second-seed replicate
-(S2). This part of the gain persists under the single-commit control according to $S$. It is not
+(S2). This part of the gain persists under the single-commit control according to $S$; the control
+removes the two construction commits, not every channel (Section~\ref{sec:threats}), so it is the
+gain that remains without these two, not a gain shown to come from the skill alone. It is not
 explained by the length of the prompt as far as one control can show: replacing the skill by the
-only public SWE-Skills-Bench skill within $\pm5\%$ of its length~\cite{webdev_skills_bench_2026}, a
+only public SWE-Skills-Bench skill~\cite{sskb_paper} within $\pm5\%$ of its length (the
+length-matched control of~\cite{webdev_skills_bench_2026}), a
 Go concurrency guide that says nothing about Jinja, the agent resolves \nplcS{} tasks; the learned
 skill's content effect is \nconGain{} [\nconGainLo{}, \nconGainHi{}], and this particular irrelevant
 skill's effect is \nlenGain{} [\nlenGainLo{}, \nlenGainHi{}] ($p=\nlenP$, two-sided). One placebo
@@ -713,7 +718,7 @@ Gains are under the benchmark's tests ($S$), which we checked with no-op and gol
 with an independent semantic check. The skill experiments use SWE-smith tasks: real repositories
 (three) with injected bugs and a history built by the benchmark, so the leak result concerns
 benchmarks built this way. The A/A streams and the rerun-noise level use human-written issues from
-SWE-bench~\cite{swebench_iclr} and SWE-bench-Live~\cite{swebench_live}. Base rates without a skill
+SWE-bench~\cite{swebench} and SWE-bench-Live~\cite{swe_bench_live}. Base rates without a skill
 are low (\njinjaNone{}, \nbleveNone{}, \npygNone{} of 100), so the tests have little power to detect
 harm. The trace labels come from one labeller, an author, who saw the benchmark's bug patch as
 a reference; no second labeller measured agreement. We could not verify the model's training
