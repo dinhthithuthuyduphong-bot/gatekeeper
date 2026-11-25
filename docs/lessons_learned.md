@@ -696,3 +696,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Trước khi nộp, tìm mỗi tên riêng của bài trên GitHub. Repo nào của tác giả trùng tên thì báo @thuthuy (chuyển sang private là quyền của @thuthuy).
   - Sau mỗi thay đổi ở phần đầu file `.tex`, đọc trang 1 trên PDF: năm, tên hội nghị, bản quyền.
 
+## L85. Câu trích phải giữ nghĩa của đoạn chứa nó trong bản gốc (A161)
+- **Nguyên nhân gốc:** tôi kiểm rằng câu trích có trong bản gốc, nhưng không đọc đoạn bao quanh nó. Câu bị đặt vào một ngữ cảnh khác (rò rỉ git) với ngữ cảnh gốc (quá khớp vào dữ liệu huấn luyện). Các con số tham chiếu cũng được dùng trong bài mà không mang theo nguồn của chúng.
+- **Phòng ngừa:**
+  - Với mỗi câu trích, đọc trong snapshot ít nhất ba câu trước và sau nó. Câu trong bài phải nói đúng điều đoạn gốc nói.
+  - Mỗi con số tham chiếu xuất hiện trong bài (một mốc power, một ngưỡng) phải kèm nguồn ngay tại chỗ.
+  - Mỗi ký hiệu được định nghĩa ở lần dùng đầu tiên.
+
