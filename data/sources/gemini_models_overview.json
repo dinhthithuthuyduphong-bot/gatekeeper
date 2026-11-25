@@ -8,7 +8,7 @@
   }
  ],
  "url": "https://ai.google.dev/gemini-api/docs/models",
- "sha256": "ed369e9d50d90ff443bb2bf5bb910307b9fa1be9177e66919558acf16e7d4b61",
+ "sha256": "2edfdd7a321d61470f193725c58acfb8f205cbbe3a27b97e48b6abd6c11f4223",
  "n_chars": 25787,
  "head": " Models - Gemini API | Google AI Studio > ## AI Agent Context > - Full documentation index: https://aistudio.google.com/llms.txt > - Gemini Docs MCP server (consistent live info): https://gemini-api-docs-mcp.dev > - Coding agent skills & setup guide: https://aistudio.google.com/docs/coding-agents.md # Models Not sure where to start? Read [Choosing a model](/docs/choosing-a-model) to compare reasoning depth, speed, and cost across Gemini models, or see [Latest Gemini models](/docs/latest-model). ## Gemini 4 {% id=\"gemini-4\" %} {% card-grid columns=\"3\" %} {% card description=\"Our strongest reasoning model, built for complex software engineering, multimodal knowledge work, scientific reasoning, and cybersecurity defense.\" title=\"Gemini 4 Carbon\" variant=\"model-card\" %} {% section class=\"model-specs\" %} * *Model code* **gemini-4-carbon** * *Context* **1M tokens** * *Max output* **64K / 1M tokens** * *Modalities* **Text, Image, Audio, Video, PDF** {% /section %} {% section class=\"card-actions\" %} {% button href=\"https://aistudio.google.com/prompts/new_chat?model=gemini-4-carbon\" variant=\"primary\" %}Try in AI Studio{% /button %} {% button href=\"/docs/models/gemini-4-carbon\" icon=\"arrow_forward\" tooltip=\"View models\" variant=\"icon-primary\" /%} {% /section %} {% /card %} {% card description=\"Frontier-level intelligence with fast end-to-end task completion across complex soft",
  "excerpts": {
@@ -26,5 +26,5 @@
    "d badge=\"Preview\" description=\"Low-latency, real-time speech to speech translation model that supports 70+ languages.\" href=\"/docs/models/gemini-3.5-live-translate-preview\" icon=\"translate\" title=\"Gemini 3.5 Live Translate\" variant=\"model\" /%} {% card badge=\"Preview\" description=\"Legacy Live API preview model. We recommend updating to Gemini 3.8 Live.\" href=\"/docs/models/gemini-3.1-flash-live-preview\" icon=\"settings_voice\" title=\"Gemini 3.1 Flash Live\" variant=\"model\" /%} {% card badge=\"Preview\" description=\"Legacy TTS preview model. We recommend updating to Gemini 3.8 Flash TTS or Gemini 3.8 Flash-Lite TTS.\" href=\"/docs/models/gemini-3.1-flash-tts-preview\" icon=\"graphic_eq\" title=\"Gemini 3.1 Flash TTS\" variant=\"model\" /%} {% /card-grid %} ## All Gemini 3 models {% id=\"all-gemini-3-models\" %} {% table variant=\"model\" %} * Model * Endpoint --- * [Gemini 3.8 Flash](/docs/models/gemini-3.8-flash) * `gemini-3.8-flash` --- * [Gemini 3.8 Live](/docs/models/gemini-3.8-live) * `gemini-3.8-live` --- * [Gemini 3.8 Live Extended Thinking](/docs/models/gemini-3.8-live-extended-thinking) * `gemini-3.8-live-extended-thinking` --- * [Gemini 3.8 Flash TTS](/docs/models/gemini-3.8-flash-tts) * `gemini-3.8-fl"
   ]
  },
- "fetched_utc": "2026-11-25T17:29:51+00:00"
+ "fetched_utc": "2026-11-25T23:44:36+00:00"
 }
