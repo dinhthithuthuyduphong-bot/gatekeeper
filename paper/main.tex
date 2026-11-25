@@ -32,21 +32,20 @@
 
 \begin{abstract}
 Skills for coding agents are increasingly learned by optimising a text against a benchmark and
-judged by one number, the gain in resolved tasks. We study one such gain under controls. A
-published pipeline learned a skill for the Jinja repository that raises the resolved tasks from
-\njinjaNone{} to \njinjaSkill{} of 100. Unprompted, its learner wrote an instruction to look for a
-suspicious recent commit, and every SWE-smith task keeps two commits added by the benchmark's
-construction: one injects the bug, the next deletes the tests that reproduce it. In a preregistered
-test on \ncfN{} tasks without an issue description, with both environments in one job, the skill's
-gain is larger with the commits on \ncfFor{} tasks and smaller on \ncfAgainst{}. A registered
-intervention on the history shows that this needs the pre-bug code; the commit's name alone carries
-none. On all 100 tasks, removing the commits lowers the gain from \njinjaGain{} to \njinjaLFGain{}
-(arms in different runs). Both learning runs with the commits wrote the instruction, neither of two
-without them (an observation, not a rate). A Go skill and an open-weight agent of another vendor
-repeat the pattern; an agent that reads the commits on its own gains nothing from the instruction.
-The gain that remains without the commits passes the registered tests and, read post hoc, an
-end-of-pool test for its pool and run whose guarantee we state and prove; it is the gain left without these two channels, not a gain shown to come from the
-skill alone. Learned skills need controls in which the claimed cause is absent.
+judged by one number, the gain in tasks the benchmark's tests count as resolved. A published
+pipeline learned a skill for the Jinja repository that raises these from \njinjaNone{} to
+\njinjaSkill{} of 100. Unprompted, its learner wrote an instruction to look for a suspicious recent
+commit, and every SWE-smith task keeps two commits from the benchmark's construction: one injects the
+bug, the next deletes the tests that reproduce it. In a preregistered test on \ncfN{} tasks without
+an issue description, both environments in one job, the skill's gain is larger with the commits on
+\ncfFor{} tasks and smaller on \ncfAgainst{}; a registered intervention on the history shows that
+this needs the pre-bug code, not the commit's name. Removing the commits lowers the gain on all 100
+tasks from \njinjaGain{} to \njinjaLFGain{} (arms in different runs). Both learning runs with the commits wrote the
+instruction, neither of two without them (an observation, not a rate). A Go skill and an open-weight agent of another vendor
+repeat the pattern. The gain that remains passes the registered tests and, read post hoc, an
+end-of-pool test whose guarantee we state and prove; it is the gain left without these two channels,
+not one shown to come from the skill alone. Learned skills need controls in which the claimed cause
+is absent.
 \end{abstract}
 \ccsdesc{Software and its engineering~Software verification and validation}
 \ccsdesc{Computing methodologies~Artificial intelligence}
@@ -88,7 +87,7 @@ claimed cause is absent. We ask four questions.
 learners (Section~\ref{sec:scope})?
 \textbf{RQ4}: what does a certification of such a gain cover, and do the scorer and decision rules
 used for skills pass controls with a known answer (Sections~\ref{sec:certified},
-\ref{sec:measurement})? The contributions are:
+\ref{sec:measurement})? Figure~\ref{fig:design} places each question in the design. The contributions are:
 \begin{itemize}
 \item A traced mechanism: the learner introduced the instruction during optimisation (no prompt asks
       for it), the agent follows it on the tasks without an issue description, and every such task
@@ -114,6 +113,36 @@ skills (Section~\ref{sec:discussion}) is methodological guidance (meta-science).
 We do not claim that the leak is new, that the numbers reported for gskill were produced with the
 code we tested, or that learned skills do not help: the gain that remains without the two commits is
 certified for its pool and run (Section~\ref{sec:residual}).
+
+\begin{figure}[t]\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[every node/.style={font=\scriptsize,align=center},
+  box/.style={draw,rounded corners=2pt,inner sep=2pt,minimum height=9mm,text width=19mm},
+  arr/.style={-{Stealth[length=1.5mm]}},rq/.style={font=\tiny\itshape,text=black!70}]
+\node[box] (env) {SWE-smith task\\history: shipped,\\one commit, C10};
+\node[box,right=4mm of env] (learn) {learner (gskill)\\rewrites the skill};
+\node[box,right=4mm of learn] (skill) {skill text\\(or one line\\deleted, placebo)};
+\node[box,below=6mm of skill] (agent) {agent runs in the\\same environment:\\no skill / skill};
+\node[box,left=4mm of agent] (score) {scorer $S$\\(checked: no-op,\\gold); $L$ audited};
+\node[box,left=4mm of score] (dec) {registered tests;\\end-of-pool, T1};
+\draw[arr] (env) -- (learn); \draw[arr] (learn) -- (skill); \draw[arr] (skill) -- (agent);
+\draw[arr] (agent) -- (score); \draw[arr] (score) -- (dec);
+\node[rq,above=0pt of learn] {RQ2, RQ3 (learners, writers)};
+\node[rq,above=0pt of env] {RQ1 (interventions)};
+\node[rq,below=0pt of agent] {RQ3 (agents, repositories)};
+\node[rq,below=0pt of dec] {RQ4};
+\node[rq,below=0pt of score] {RQ4};
+\end{tikzpicture}}
+\caption{Study design. A learner rewrites a skill in an environment whose history we vary; agents run
+with and without the skill in that environment; the benchmark's scorer $S$ grades the runs and the
+registered tests decide. Each RQ sits where it is answered.}
+\Description{Flow diagram in two rows. Top: the SWE-smith task history (shipped, one commit, or
+the four C10 histories) feeds the learner, which writes the skill text. Bottom: agents run with and
+without the skill in the same environment, the scorer S grades the runs, and the registered tests
+decide. Labels mark RQ1 at the environment, RQ2 and RQ3 at the learner, RQ3 at the agent runs, and
+RQ4 at the scorer and the decision.}
+\label{fig:design}
+\end{figure}
 
 \section{Setting}\label{sec:setting}
 \paragraph{Tasks and their history}
@@ -195,7 +224,7 @@ X3 & 2 & does the audit match a human & blind labels & Jinja, 104 runs with the 
 
 \section{What is certified}\label{sec:certified}
 Let a fixed pool of $N$ tasks be chosen before any outcome, and for task $i$ let
-$Z_i=\ell_i(\text{skill})-\ell_i(\text{none})\in\{-1,0,1\}$ with $\ell=1-\mathbb{1}[\text{resolved
+$Z_i=\ell_i(\text{skill})-\ell_i(\text{none})\in\{-1,0,1\}$ with $\ell=1-\mathbf{1}[\text{resolved
 under }S]$, so $Z_i<0$ means the skill helped. Let $C$ be the \emph{state of the run}: everything
 shared between the tasks of a run, such as the model version the provider served, the harness
 configuration, and the provider's state over time; when two arms ran in different runs, $C$ is the
@@ -244,6 +273,16 @@ given the state (T1) the bound of Proposition~\ref{prop:eop} holds, which is why
 for small effects (\neopPowSmall{} against \neopSignPowSmall{} for a gain of 0.109, the 95th percentile
 of the 392 skill--configuration gains released with SWE-Skills-Bench~\cite{sskb_paper}; \neopPowMid{}
 against \neopSignPowMid{} for 0.2).
+
+\paragraph{Sensitivity to dependence between tasks}
+A second simulation, fixed before it ran, links the tasks of a run in their order through a latent
+correlation that leaves each task's base rate unchanged (\ndepReps{} replicates per case). With a
+correlation up to 0.5 within each arm, a correlation up to 0.8 shared by both arms, or an outage that
+fails up to 20 consecutive tasks of one arm, the end-of-pool test certified a null pool at most at
+rate \ndepEopMild{}. At a correlation of 0.8 within each arm it reached \ndepEopStrong{}, near
+$\alpha$, while the registered sign test reached \ndepSignStrong{} (and \ndepSignBlock{} under the
+longest outage). The end-of-pool test is thus the more robust of the two to this kind of violation,
+and only a strong link inside one arm brings it to $\alpha$.
 
 \paragraph{The registered tests and their role}
 Every comparison was registered with an exact one-sided sign test on the discordant pairs (Holm's

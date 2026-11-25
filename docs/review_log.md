@@ -1458,3 +1458,28 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Copula Gauss giữ đúng tỉ lệ giải của từng task (có test).
 - **Cách báo cáo:** tỉ lệ chứng nhận sai lớn nhất của từng kịch bản, so với α = 0,025, cho cả phép end-of-pool và sign test, ghi đúng như kết quả ra.
 
+## R-102 (kết quả) và R-103. Phân tích độ nhạy đã chạy; phản biện hai bản review AI lượt 3 (25/11) và sửa các ý đúng (0 USD)
+- **Kết quả R-102** (`results/dependence_sensitivity.json`, chạy sau commit f54122a; báo đủ mọi ô):
+  - Độc lập: phép end-of-pool ≤ 0,0008.
+  - AR(1) trong từng nhánh: ρ = 0,2 cho 0,0018 và 0,0010; ρ = 0,5 cho 0,0037 và 0,0043; ρ = 0,8 cho 0,0187 và **0,0276**.
+  - AR(1) chung cho hai nhánh: ≤ 0,0027.
+  - Sự cố L = 5, 10, 20: ≤ 0,0082.
+  - Sign test đã đăng ký: 0,0638 ở ρ = 0,8 và 0,0335 ở L = 20.
+  - MCSE khoảng 0,0014.
+  - Diễn giải trong bài: phép end-of-pool bền hơn sign test với dạng vi phạm này; chỉ tương quan mạnh trong một nhánh mới đưa nó tới mức α. Các macro in 4 chữ số để không làm tròn 0,0276 thành 0,03.
+- **Phản biện:**
+  - "Mục 4.7 là phần mới bổ sung" (review 2): không đúng, mục này đã có từ các bản trước. Không ảnh hưởng gì.
+  - "Rút Bảng 1 còn 8 dòng, chuyển phần còn lại sang gói" và "rút mục 3 còn một nửa" (review 1): giữ nguyên, lý do như ở R-101. Bảng 1 là bản kê đăng ký và post hoc, phục vụ E-C4 và E-R1. Mục 3 nay còn mang thêm phân tích độ nhạy mà review 2 yêu cầu, tức đúng phần mà hai review coi là rủi ro lớn nhất.
+  - "Kiểm ngữ nghĩa độc lập": cần người; thuộc quyền @thuthuy (như R-101).
+- **Ý đúng, đã sửa:**
+  1. **Bảo vệ Assumption 1** (review 2, ưu tiên 1): mục 3 thêm đoạn "Sensitivity to dependence between tasks" với kết quả trên.
+  2. **Hình tổng quan thiết kế** (review 1, ưu tiên 1): Hình 1 nối môi trường, learner, skill, agent, scorer và quyết định, gắn RQ1–RQ4. Đã sửa một mũi tên cắt ngang hộp scorer, phát hiện khi xem ảnh dựng.
+  3. **Tóm tắt** từ 256 xuống khoảng 231 từ. Câu đầu nói rõ gain là theo "the benchmark's tests" (review 2: "benchmark-resolved"). Giữ hai chữ giới hạn "arms in different runs" và "an observation, not a rate".
+  4. Ký hiệu chỉ báo $\mathbb{1}$ in ra khó đọc (thấy trên ảnh trang 2), đổi sang $\mathbf{1}$.
+- **Kiểm:**
+  - Test mới 3 (`tests/test_dependence_sensitivity.py`): copula giữ đúng tỉ lệ giải, sự cố làm hỏng đúng L task liên tiếp.
+  - Biên dịch: 0 tràn ngang; phần chính tới trang 9, tài liệu tham khảo trang 10.
+  - `ease_pdf_check.py` chỉ còn E-A4.
+  - Preflight đạt.
+- **Kết luận R-103:** đạt.
+
