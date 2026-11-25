@@ -320,7 +320,9 @@ audit on \nmonConfAgree{} of \nmonConfN{} saved traces: it is raised on all \nmo
 displayed the diff (\nmonConfFN{} missed) and on \nmonConfFP{} runs that saw only the message. An
 author labelled all \nxhN{} of these runs (skill, shipped environment, no description) blind to the
 audit, the cohort and the outcome (registered); for the message, the diff and the deleted tests the
-labels agree with the audit on all \nxhAgreeMin{}. The labeller judged that the agent relied on the
+labels agree with the audit on all \nxhAgreeMin{}. One rater sufficed for these three nominal labels,
+which ask whether a given text appears in a tool output, where there is no reason to expect two
+raters to differ~\cite{sigsoft_irr_supplement}. The labeller judged that the agent relied on the
 diff, by reverting it or by copying its lines into the patch, in \nxhUse{} of the \nxhDiff{} runs
 that displayed it (\nxhUseRes{} of the \nxhResWithDiff{} resolved), could not tell in
 \nxhUnclear{}, and saw no use in \nxhNoUse{}.
@@ -723,7 +725,8 @@ benchmarks built this way. The A/A streams and the rerun-noise level use human-w
 SWE-bench~\cite{swebench} and SWE-bench-Live~\cite{swe_bench_live}. Base rates without a skill
 are low (\njinjaNone{}, \nbleveNone{}, \npygNone{} of 100), so the tests have little power to detect
 harm. The trace labels come from one labeller, an author, who saw the benchmark's bug patch as
-a reference; no second labeller measured agreement. We could not verify the model's training
+a reference; no second labeller measured agreement, which matters for the judgment of reliance on
+the diff, not for whether the diff was shown. We could not verify the model's training
 cutoff and make no claim that tasks are unseen.
 
 \paragraph{Interventions}
