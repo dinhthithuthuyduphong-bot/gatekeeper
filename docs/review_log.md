@@ -1306,3 +1306,18 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Kiểm:** `make_bib.py` 40 mục, 0 VERIFY; `make_numbers.py` kiểm E của A − C; biên dịch 0 tràn ngang, 9 trang.
 - **Kết luận R-96:** đạt.
 
+## R-97. Đối chiếu ba bản đánh giá AI thứ ba ngày 25/11 (mô phỏng hội đồng "+1,33"; bản "4,0/5"; bản "weak accept / major revision" đọc lại bản sửa)
+- **Tài liệu đã tải (R1):** chuẩn IRR và chuẩn Benchmarking của ACM SIGSOFT Empirical Standards (`sigsoft_irr_supplement`, `sigsoft_benchmarking_standard`, workflow `sources` run 45597581868); CFP EASE 2027 tải lại với từ khóa mới. Trang chính sách tác quyền ACM vẫn 403 từ runner; `conf.researchr.org`, `www.acm.org`, `acmsigsoft.github.io` bị chặn trong phiên.
+- **Điểm sai (không sửa):**
+  - Table 2 "đảo cột ở 8/10 hàng", "thiếu tiêu đề cột E"; "Rungit", "thiếu τ", "dính chữ chú thích a82/b79", "acceptance. py": kiểm trên PDF (ảnh trang 3, `pdftotext`), đều không có; là lỗi trích chữ của bên review (chữ mũ dính vào số, từ dính khi trích).
+  - Bảng 5 "gộp nhầm ô giữa Gatekeeper và end-of-pool": mã nguồn hai dòng tách riêng; "--" nay có chú thích.
+  - "EASE 2027 không có vòng rebuttal", "tỉ lệ nhận 27%", "chính sách ACM 14/05/2026 bắt buộc khai báo AI trong Methods": CFP tải lại không có chữ "rebuttal", "generative", "acceptance"; chính sách ACM chưa đọc được. Không sửa bài theo các khẳng định chưa kiểm được.
+  - "Chuẩn SIGSOFT coi IRR là thuộc tính thiết yếu, một người gán là chưa đạt": chuẩn cho phép một người gán khi có lý do ("e.g. the ratings are uncontroversial") và coi là phê bình không hợp lệ "Criticizing use of a single rater when the data is such that there is no reason to suspect different raters would reach different conclusions". Đúng một phần: Q4 là phán đoán nên thiếu người thứ hai là giới hạn thật.
+  - "Abstract thiếu khoảng tin cậy cho 0,17": tóm tắt đã có [0,06; 0,28].
+  - "Chưa có bảng registered/post hoc": Table 1 có cột Analysis.
+  - "Chuyển 4.7 sang phụ lục để gọn": CFP tính phụ lục vào 10 trang ("including all figures, tables, appendices"), nên không lợi trang.
+- **Điểm đúng, đã sửa (0 USD):** lý do một người gán cho Q1–Q3 kèm trích chuẩn IRR, và giới hạn còn lại cho Q4; 45% ghi là ước lượng điểm, hiệu không được chứng nhận trên 100 task, phép thử đăng ký là C; kết luận thêm khoảng tin cậy và bỏ chữ "confirm" cho seed thứ hai; hai lượt học mỗi môi trường cho Fisher p = 1/6; R và S2 dưới ngưỡng 480; chú thích "--" ở Bảng 5; chi phí tái chứng nhận rút còn một câu.
+- **Thuộc quyền @thuthuy:** tên bài (Q3); URL gói tái lập (Q6); người gán thứ hai cho Q4 (0 USD, cần một người); CCS Concepts (acmart báo bắt buộc với bài trên 2 trang; cần cây phân loại ACM CCS, trang ACM bị chặn); khai báo AI (cần bản chép chính sách ACM); thí nghiệm mới (placebo thứ hai, thăm dò kênh khác): không khuyên trước khi nộp.
+- **Kiểm:** biên dịch 0 tràn ngang, 9 trang, 41 tài liệu tham khảo, `make_bib.py` 0 VERIFY; preflight.
+- **Kết luận R-97:** đạt.
+
