@@ -15,6 +15,7 @@ them. Third-party texts without a licence were never committed and are not in th
 from __future__ import annotations
 
 import argparse
+import gzip
 import re
 import shutil
 import subprocess
@@ -62,7 +63,32 @@ REDACT = [
     (re.compile(r"/tmp/claude-0/[^\s'\"]+"), "<scratch>"),
     (re.compile(r"[A-Za-z0-9._%+-]+@gmail\.com"), "<email>"),
 ]
+# A160: the project name is also the name of the authors' repositories (one of them public), so it
+# is a search key for reviewers; every occurrence, in paths and contents (also inside .gz), is
+# replaced case-preservingly by a neutral name that occurs nowhere else.
+NEUTRAL = "evalgate"
+NAME = re.compile(r"gatekeeper", re.I)
+
+
+def neutral(t: str) -> str:
+    def sub(m: re.Match) -> str:
+        w = m.group(0)
+        if w.isupper():
+            return NEUTRAL.upper()
+        return NEUTRAL.capitalize() if w[0].isupper() else NEUTRAL
+
+    return NAME.sub(sub, t)
+
+
 TEXT = {".py", ".md", ".json", ".jsonl", ".yml", ".yaml", ".toml", ".tex", ".bib", ".txt", ".sh"}
+
+
+def is_utf8(f: Path) -> bool:
+    try:
+        f.read_bytes().decode("utf-8")
+    except UnicodeDecodeError:
+        return False
+    return True
 
 
 def copy(src: Path, dst: Path) -> int:
@@ -72,13 +98,20 @@ def copy(src: Path, dst: Path) -> int:
         rel = f.relative_to(src.parent if src.is_file() else src)
         if SKIP.search(str(f)):
             continue
-        out = dst / rel if src.is_dir() else dst
+        # only the part below the package root is renamed (the output directory may itself
+        # contain the name)
+        out = dst / Path(*[neutral(part) for part in rel.parts]) if src.is_dir() else dst
         out.parent.mkdir(parents=True, exist_ok=True)
-        if f.suffix in TEXT:
+        if f.suffix in TEXT or (not f.suffix and is_utf8(f)):
             t = f.read_text(errors="replace")
             for pat, rep in REDACT:
                 t = pat.sub(rep, t)
-            out.write_text(t)
+            out.write_text(neutral(t))
+        elif f.suffix == ".gz":
+            t = gzip.decompress(f.read_bytes()).decode(errors="replace")
+            for pat, rep in REDACT:
+                t = pat.sub(rep, t)
+            out.write_bytes(gzip.compress(neutral(t).encode(), mtime=0))
         else:
             shutil.copy2(f, out)
         n += 1
@@ -107,6 +140,10 @@ kept on the main line of work) and `trial/results/` (runs kept on a second line 
 - Documents are written in Vietnamese; code and comments in English.
 
 Third-party texts without a licence (XRepoSkill guidance, MemGovern data) are not included.
+
+For anonymity, identities were replaced by neutral placeholders and the project's working name by
+`evalgate` everywhere (paths, code, results, traces). The sha256 values in
+`results/package_manifest.json` were computed on the files before this rewriting.
 """
 
 
@@ -171,7 +208,7 @@ def main() -> int:
             "scripts/check_anonymity.py",
             str(a.out),
             "--names",
-            "thuthuy,Thu Thuy,Dinh Thi,dinhthithuthuy,gatekeeper-research",
+            "thuthuy,Thu Thuy,Dinh Thi,dinhthithuthuy,gatekeeper-research,gatekeeper,Gatekeeper",
             "--named-only",
         ],
         capture_output=True,

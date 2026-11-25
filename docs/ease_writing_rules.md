@@ -208,6 +208,9 @@ Ký hiệu: **đạt**; **sửa R-98** (sửa trong lượt này); **chờ** (th
 | E-S3 | sửa R-98 | `verify_methods.py` ghi phiên bản; bài nêu NumPy, seed cố định |
 | E-R1 | sửa R-98 | Chú thích bảng inventory |
 | E-V2 | sửa R-98 | Chú thích Hình 3 (paired gains) nêu thông điệp |
+| E-A3 (tên riêng) | sửa R-100 | Bỏ tên "Gatekeeper" (trùng tên repo công khai `-gatekeeper-p6` của tác giả); preflight [ease] chặn tên repo; gói đổi sang `evalgate`. **Khuyến nghị @thuthuy:** để `-gatekeeper-p6` ở chế độ private tới khi có kết quả (12/03/2027) |
+| E-G1 (câu hỏi nghiên cứu) | sửa R-100 | Bốn RQ tường minh ở phần mở đầu, mỗi RQ trỏ tới mục trả lời nó |
+| Năm trên trang 1 | sửa R-100 | `\acmYear{2027}`, `\copyrightyear{2027}` |
 | E-I2 | đạt | Câu "One rater sufficed" và giới hạn Q4 trong Threats |
 | CCS Concepts | sửa R-99 | "Software and its engineering → Software verification and validation" và "Computing methodologies → Artificial intelligence". Hai khái niệm này được dùng nguyên văn trong `continuous_skill_eval_2026`, một bài cùng chủ đề theo mẫu ACM. Trang CCS của ACM bị 403; khi đọc được thì đối chiếu lại |
 | Tiêu đề | sửa R-99 | "A Published Skill Learner Found the Leak: Controls for Evaluating Learned Coding-Agent Skills". "A published skill learner" chỉ đúng một learner, khớp Threats (E-G16). Bỏ "Certifying" vì chứng nhận không còn là đóng góp chính (Q3) |
