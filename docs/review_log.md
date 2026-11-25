@@ -1284,3 +1284,12 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Danh sách §4:** R5, L79, L80.
 - **Kết luận R-94:** đạt.
 
+## R-95. Đối chiếu ba bản đánh giá AI ngày 25/11 (@thuthuy gửi): hai bản tiếng Việt và bản PDF của paperreview.ai
+- **Bản PDF** trùng bản đã đối chiếu ở R-92; không có điểm mới.
+- **Điểm sai, không sửa (kiểm trên PDF hiện tại):** Table 2 "đảo cột None/Skill" và "mất tiêu đề cột E" (ảnh trang 3: None 15, Skill 53, cột E có tiêu đề); "Rungit log", "thiếu τ", "thiếu ngoặc đóng ở câu R" (mã nguồn đúng; lỗi do công cụ trích chữ của bên review); `\mathbb{E}` "giống chữ B" (ký hiệu kỳ vọng chuẩn); Table 5 "ô trống" (các ô không áp dụng đã có "--"; ô trống duy nhất là dòng tiếp nối cùng mục đích).
+- **Điểm chưa kiểm được, không làm theo:** chính sách tác quyền ACM "14/05/2026" yêu cầu khai báo AI trong Methods, và các con số về EasyChair, tỉ lệ nhận 27%: chưa đọc bản gốc (trang ACM bị chặn khi tải, A5a). Theo R1, không sửa bài theo các khẳng định này; chờ @thuthuy gửi bản chép trang chính sách.
+- **Điểm đúng, đã sửa (0 USD):** tham khảo trùng (A152); tóm tắt nói quá ở seed thứ hai, câu "post hoc" lỗi thời, câu "chưa chạy Flash một commit" lỗi thời (A153); thêm giải thích vì sao phép so tương phản S3 ít power (hệ số cược 1 ± λ/2); thêm số nhánh A của C10R dùng test bị xóa (0/70); thêm khoảng chênh chroot − Docker 0,15 [−0,09; 0,38].
+- **Điểm đúng nhưng cần quyết định hay việc khác:** URL gói tái lập ẩn danh (A4, Q6 chờ @thuthuy); kiểm định ngữ nghĩa độc lập (thí nghiệm mới, không khuyên); nhánh Flash có skill ở môi trường một commit (thí nghiệm mới, có phí).
+- **Kiểm:** số mới là macro do `make_numbers.py` sinh và kiểm (12/34, 0, 0,15); biên dịch 0 tràn ngang, 9 trang, 40 tài liệu tham khảo; preflight thêm `[bib duplicates]`.
+- **Kết luận R-95:** đạt.
+
