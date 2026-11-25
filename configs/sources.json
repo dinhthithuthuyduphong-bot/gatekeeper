@@ -2374,8 +2374,15 @@
     "Essential Attributes",
     "Invalid Criticisms",
     "no universal rule",
-    "Applies to"
-   ]
+    "Applies to",
+    "Application",
+    "Essential",
+    "Desirable",
+    "Extraordinary",
+    "Antipatterns",
+    "- [ ]"
+   ],
+   "max_hits": 40
   },
   {
    "id": "sigsoft_benchmarking_standard",
@@ -2388,8 +2395,14 @@
     "Application",
     "Invalid Criticisms",
     "not widely used",
-    "independent replication"
-   ]
+    "independent replication",
+    "Essential",
+    "Desirable",
+    "Extraordinary",
+    "Antipatterns",
+    "- [ ]"
+   ],
+   "max_hits": 40
   },
   {
    "id": "ease_2027_home",
@@ -2470,6 +2483,146 @@
     "Standards",
     "Checklist",
     "ACM"
+   ]
+  },
+  {
+   "id": "sigsoft_general_standard",
+   "claim": "ACM SIGSOFT Empirical Standards, General Standard: applies to all SE studies that collect and analyze data; EASE 2027 asks for standards-based review (R-98)",
+   "urls": [
+    "https://raw.githubusercontent.com/acmsigsoft/EmpiricalStandards/master/docs/standards/GeneralStandard.md",
+    "https://github.com/acmsigsoft/EmpiricalStandards/blob/master/docs/standards/GeneralStandard.md"
+   ],
+   "keywords": [
+    "Application",
+    "Essential",
+    "Desirable",
+    "Extraordinary",
+    "Antipatterns",
+    "Invalid Criticisms",
+    "- [ ]"
+   ],
+   "max_hits": 40
+  },
+  {
+   "id": "sigsoft_metascience_standard",
+   "claim": "ACM SIGSOFT Empirical Standards, Methodological Guidelines and Meta-Science standard; EASE 2027 asks for standards-based review (R-98)",
+   "urls": [
+    "https://raw.githubusercontent.com/acmsigsoft/EmpiricalStandards/master/docs/standards/MetaScience.md",
+    "https://github.com/acmsigsoft/EmpiricalStandards/blob/master/docs/standards/MetaScience.md"
+   ],
+   "keywords": [
+    "Application",
+    "Essential",
+    "Desirable",
+    "Extraordinary",
+    "Antipatterns",
+    "Invalid Criticisms",
+    "- [ ]"
+   ],
+   "max_hits": 40
+  },
+  {
+   "id": "sigsoft_simulation_standard",
+   "claim": "ACM SIGSOFT Empirical Standards, Quantitative Simulation standard (method checks by simulation); EASE 2027 asks for standards-based review (R-98)",
+   "urls": [
+    "https://raw.githubusercontent.com/acmsigsoft/EmpiricalStandards/master/docs/standards/QuantitativeSimulation.md",
+    "https://github.com/acmsigsoft/EmpiricalStandards/blob/master/docs/standards/QuantitativeSimulation.md"
+   ],
+   "keywords": [
+    "Application",
+    "Essential",
+    "Desirable",
+    "Extraordinary",
+    "Antipatterns",
+    "Invalid Criticisms",
+    "- [ ]"
+   ],
+   "max_hits": 40
+  },
+  {
+   "id": "sigsoft_open_science_supplement",
+   "claim": "ACM SIGSOFT Empirical Standards, Open Science supplement: applies to all research; EASE 2027 asks for standards-based review (R-98)",
+   "urls": [
+    "https://raw.githubusercontent.com/acmsigsoft/EmpiricalStandards/master/docs/supplements/OpenScience.md",
+    "https://github.com/acmsigsoft/EmpiricalStandards/blob/master/docs/supplements/OpenScience.md"
+   ],
+   "keywords": [
+    "Application",
+    "Essential",
+    "Desirable",
+    "Extraordinary",
+    "Antipatterns",
+    "Invalid Criticisms",
+    "- [ ]"
+   ],
+   "max_hits": 40
+  },
+  {
+   "id": "sigsoft_infovis_supplement",
+   "claim": "ACM SIGSOFT Empirical Standards, Information Visualization supplement (figures of quantitative data); EASE 2027 asks for standards-based review (R-98)",
+   "urls": [
+    "https://raw.githubusercontent.com/acmsigsoft/EmpiricalStandards/master/docs/supplements/InformationVisualization.md",
+    "https://github.com/acmsigsoft/EmpiricalStandards/blob/master/docs/supplements/InformationVisualization.md"
+   ],
+   "keywords": [
+    "Application",
+    "Essential",
+    "Desirable",
+    "Extraordinary",
+    "Antipatterns",
+    "Invalid Criticisms",
+    "- [ ]"
+   ],
+   "max_hits": 40
+  },
+  {
+   "id": "sigsoft_registered_reports_supplement",
+   "claim": "ACM SIGSOFT Empirical Standards, Registered Reports supplement (to state what preregistration here is and is not); EASE 2027 asks for standards-based review (R-98)",
+   "urls": [
+    "https://raw.githubusercontent.com/acmsigsoft/EmpiricalStandards/master/docs/supplements/RegisteredReports.md",
+    "https://github.com/acmsigsoft/EmpiricalStandards/blob/master/docs/supplements/RegisteredReports.md"
+   ],
+   "keywords": [
+    "Application",
+    "Essential",
+    "Desirable",
+    "Extraordinary",
+    "Antipatterns",
+    "Invalid Criticisms",
+    "- [ ]"
+   ],
+   "max_hits": 40
+  },
+  {
+   "id": "sigsoft_open_science_policy",
+   "claim": "ACM SIGSOFT Open Science Policies (required by the EASE 2027 call): Data Availability section, persistent archives, anonymous artifacts, no rejection for non-disclosure (R-98); found from github.com/acmsigsoft",
+   "urls": [
+    "https://raw.githubusercontent.com/acmsigsoft/open-science-policies/master/sigsoft-open-science-policies.md",
+    "https://github.com/acmsigsoft/open-science-policies/blob/master/sigsoft-open-science-policies.md"
+   ],
+   "keywords": [
+    "Data Availability",
+    "after the",
+    "zenodo",
+    "figshare",
+    "GitHub",
+    "anonym",
+    "double-blind",
+    "optional",
+    "same review process",
+    "CC0",
+    "CC-BY",
+    "encourage",
+    "should",
+    "trusted",
+    "HOWTO"
+   ],
+   "max_hits": 10,
+   "link_keywords": [
+    "HOWTO",
+    "double-blind",
+    "disclos",
+    "zenodo"
    ]
   }
  ]

@@ -38,11 +38,11 @@ def to_text(raw: bytes, ctype: str) -> str:
     return unescape(re.sub(r"(?s)<[^>]+>", " ", html))
 
 
-def excerpts(text: str, keywords: list[str]) -> dict[str, list[str]]:
+def excerpts(text: str, keywords: list[str], max_hits: int = MAX_HITS) -> dict[str, list[str]]:
     flat = re.sub(r"\s+", " ", text)
     out = {}
     for k in keywords:
-        hits = [m.start() for m in re.finditer(re.escape(k), flat)][:MAX_HITS]
+        hits = [m.start() for m in re.finditer(re.escape(k), flat)][:max_hits]
         out[k] = [flat[max(0, i - WINDOW) : i + len(k) + WINDOW] for i in hits]
     return out
 
@@ -106,7 +106,7 @@ def main() -> int:
                     sha256=hashlib.sha256(raw).hexdigest(),
                     n_chars=len(text),
                     head=re.sub(r"\s+", " ", text[:1500]),
-                    excerpts=excerpts(text, s["keywords"]),
+                    excerpts=excerpts(text, s["keywords"], s.get("max_hits", MAX_HITS)),
                 )
                 if s.get("link_keywords") and not raw[:4] == b"%PDF":
                     rec["links"] = links(raw, url, s["link_keywords"])
