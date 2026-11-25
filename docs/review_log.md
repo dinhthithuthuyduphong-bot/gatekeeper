@@ -1506,3 +1506,33 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Preflight đạt.
 - **Kết luận R-104:** đạt.
 
+## R-105. Phản biện bản review AI (Gemini, 25/11); sửa các ý đúng sau khi @thuthuy đồng ý; tài liệu đọc kèm cho reviewer (0 USD)
+- **Đồng ý của @thuthuy:** "Ok, sau khi sửa cho tôi thêm 1 file word để reviewer ko còn review lệch". Đồng ý cho mục 1–4 của bản phân tích; không đổi tên L2, theo lời khuyên.
+- **Ý sai, không sửa** (kiểm trên PDF và mã nguồn):
+  - Bảng 5: 0.0032 lệch hàng. Sai: 0.0032 ở hàng "Registered e-process".
+  - Bảng 1: hàng G ghi "same job (79/100)"; hàng H và X3 ghi "same job". Sai: G ghi "same job"; H, X3 ghi "–".
+  - Bảng 2: đảo cột, thiếu tiêu đề E. Sai lần thứ năm.
+  - "Rungit", τ, 𝔹, "Fix ix": lỗi trích chữ của bên review.
+  - PACE trích ở mục 5: sai, đã trích ở mục 3.
+  - URL của [2] bị cách: chỉ là xuống dòng.
+  - [22], [27]: review không nêu lỗi cụ thể.
+  - "CORE A", "26,1%", "không có rebuttal", "75–92%": không có trong nguồn đã tải.
+- **Ý đúng, đã sửa (A162):**
+  - [6] và [13]: escape `~`, `--`, backtick trong `make_bib.py`.
+  - Bảng 3: chú thích c cho hàng A.
+- **Waudby-Smith & Ramdas, bản JRSS B:** đã tải hai nguồn qua workflow `sources`:
+  - trang arXiv abs: không có "Journal reference";
+  - bản NSF PAR: chỉ ghi "To be read before The Royal Statistical Society … May 23rd, 2023".
+
+  Chưa nguồn nào xác nhận tập, số, trang của bản đăng. Theo R1 giữ trích dẫn arXiv. Nếu @thuthuy có trang của tạp chí hoặc DOI thì sẽ đổi.
+- **Tài liệu đọc kèm cho reviewer (file Word):**
+  - `scripts/reviewer_guide_data.py` trích mọi bảng từ `main.tex` và thay macro bằng giá trị trong `numbers.tex`, tức đúng các số PDF in ra. Script dừng nếu còn macro chưa thay.
+  - `scripts/reviewer_guide.js` dựng `reader_companion.docx` gồm: các lỗi trích chữ đã kiểm, ký hiệu, năm bảng dạng văn bản, kết quả chính kèm mục, phân biệt đăng ký và post hoc, những gì bài không khẳng định, và các sự thật về hội nghị đã đối chiếu CFP.
+  - Đây là tài liệu nội bộ, **không nộp kèm bài**, vì không nằm trong giới hạn trang và không phải phần của bài.
+- **Kiểm:**
+  - Biên dịch: 0 tràn ngang; phần chính tới trang 9.
+  - `ease_pdf_check.py` chỉ còn E-A4.
+  - File Word chuyển sang PDF và được xem từng trang (4 trang).
+  - Preflight đạt.
+- **Kết luận R-105:** đạt.
+

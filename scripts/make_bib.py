@@ -84,7 +84,13 @@ def year_of(url: str, snap: dict, commits: dict) -> str | None:
 
 
 def bib_escape(s: str) -> str:
-    return s.replace("&", r"\&").replace("%", r"\%").replace("_", r"\_").replace("#", r"\#")
+    """Escape a title so LaTeX prints it as written (A162): `~` would print a space, `--` an en
+    dash and a backtick a curly quote, which changes commands such as `git checkout HEAD~1 -- .`."""
+    s = s.replace("&", r"\&").replace("%", r"\%").replace("_", r"\_").replace("#", r"\#")
+    s = s.replace("~", r"\textasciitilde{}").replace("`", r"\textasciigrave{}")
+    while "--" in s:
+        s = s.replace("--", "-{}-")
+    return s
 
 
 def main() -> int:

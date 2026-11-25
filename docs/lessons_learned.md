@@ -703,3 +703,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Mỗi con số tham chiếu xuất hiện trong bài (một mốc power, một ngưỡng) phải kèm nguồn ngay tại chỗ.
   - Mỗi ký hiệu được định nghĩa ở lần dùng đầu tiên.
 
+## L86. Đọc tài liệu tham khảo đã in, không chỉ file `.bib` (A162)
+- **Nguyên nhân gốc:** tôi kiểm rằng tiêu đề trong `.bib` khớp với bản gốc, nhưng không đọc mục đó sau khi LaTeX in ra. Các ký tự có nghĩa riêng trong LaTeX (`~`, `--`, backtick) đổi nội dung mà không báo lỗi gì.
+- **Phòng ngừa:**
+  - `bib_escape` escape mọi ký tự có nghĩa riêng; có test cho các lệnh git.
+  - Sau mỗi lần sinh `refs.bib`, đọc các mục có mã lệnh trên PDF (`pdftotext`).
+  - Chú thích của bảng được kiểm theo từng hàng: hàng nào lấy số từ lượt chạy khác thì phải có chú thích.
+

@@ -167,6 +167,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Biến môi trường qua ranh giới người dùng (L70)**
 - [ ] Lệnh chạy dưới người dùng khác (`sudo`, môi trường sạch) nhận từng biến cần thiết một cách tường minh, và có một bước kiểm 0 USD dưới đúng người dùng đó xác nhận khóa nạp được trước lần gọi có phí đầu tiên. Đọc mọi cảnh báo trong log của lượt chạy thử.
 
+**Tài liệu tham khảo đã in (L86)**
+- [ ] Các mục tham khảo có mã lệnh đã được đọc trên PDF (`~`, `--`, backtick in đúng). Chú thích bảng về lượt chạy được kiểm theo từng hàng (A162).
+
 **Câu trích giữ nghĩa gốc (L85)**
 - [ ] Mỗi câu trích trong bài đã được đọc cùng đoạn bao quanh trong snapshot. Mỗi con số tham chiếu kèm nguồn tại chỗ. Mỗi ký hiệu được định nghĩa ở lần dùng đầu tiên (A161).
 
