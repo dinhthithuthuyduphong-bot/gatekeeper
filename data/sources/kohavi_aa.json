@@ -4,15 +4,10 @@
  "attempts": [
   {
    "url": "https://ai.stanford.edu/~ronnyk/2007GuideControlledExperiments.pdf",
-   "ok": false,
-   "error": "<urlopen error timed out>"
-  },
-  {
-   "url": "https://exp-platform.com/Documents/GuideControlledExperiments.pdf",
    "ok": true
   }
  ],
- "url": "https://exp-platform.com/Documents/GuideControlledExperiments.pdf",
+ "url": "https://ai.stanford.edu/~ronnyk/2007GuideControlledExperiments.pdf",
  "sha256": "a5c920f44743444bff16ca0768c4beb4a512a81a2ae18316e3b424c8bf6e24fa",
  "n_chars": 54941,
  "head": "Appears in KDD 2007. © ACM, 2007. This is the author's version of the work. It is posted at http://exp-platform.com/hippo.aspx by permission of ACM for your personal use. Not for redistribution. The definitive version is published in KDD 2007 (http://www.kdd2007.com/) Practical Guide to Controlled Experiments on the Web: Listen to Your Customers not to the HiPPO Ron Kohavi Microsoft One Microsoft Way Redmond, WA 98052 ronnyk@microsoft.com Randal M. Henne Microsoft One Microsoft Way Redmond, WA 98052 rhenne@microsoft.com Dan Sommerfield Microsoft One Microsoft Way Redmond, WA 98052 dans@microsoft.com ABSTRACT The web provides an unprecedented opportunity to evaluate ideas quickly using controlled experiments, also called randomized experiments (single-factor or factorial designs), A/B tests (and their generalizations), split tests, Control/Treatment tests, and parallel flights. Controlled experiments embody the best scientific design for establishing a causal relationship between changes and their influence on user-observable behavior. We provide a practical guide to conducting online experiments, where end-users can help guide the development of features. Our experience indicates that significant learning and return-on- investment (ROI) are seen when development teams listen to their customers, not to the Highest Paid Person’s Opinion (HiPPO). We provide several examples of controlled experiments with surprising results. We revi",
@@ -31,5 +26,5 @@
    "tly underperforming relative to the Control. An auto-abort simply reduces the percentage of users assigned to a treatment to zero. By reducing the risk in exposing many users to egregious errors, the organization can make bold bets and innovate faster. Ramp-up is quite easy to do in online environments, yet hard to do in offline studies. We have seen no mention of these practical ideas in the literature, yet they are extremely useful. 5.2.3 Determine the Minimum Sample Size Decide on the statistical power, the effect you would like to detect, and estimate the variability of the OEC through an A/A test. Based on this data you can compute the minimum sample size needed for the experiment and hence the running time for your web site. A common mistake is to run experiments that are underpowered. Consider the techniques mentioned in Section 3.2 point 3 to reduce the variability of the OEC. 5.2.4 Assign 50% of Users to Treatment One common practice among novice experimenters is to run new variants for only a small percentage of users. The logic behind that decision is that in case of an error only few users will see a bad treatment, which is why we recommend Treatment ramp-up. In order to maximi"
   ]
  },
- "fetched_utc": "2026-11-18T02:03:11+00:00"
+ "fetched_utc": "2026-11-25T10:43:06+00:00"
 }
