@@ -1445,3 +1445,16 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Kiểm:** biên dịch 0 tràn ngang, không còn cảnh báo acmart; phần chính tới trang 9, tài liệu tham khảo trang 10. `ease_pdf_check.py` chỉ còn E-A4. Preflight đạt.
 - **Kết luận R-101:** đạt.
 
+## R-102 (trước khi chạy). Phân tích độ nhạy của phép end-of-pool khi các task phụ thuộc nhau (0 USD, chỉ mô phỏng)
+- **Vì sao:** cả hai review lượt 3 (25/11) và các lượt trước đều coi Assumption 1 là rủi ro lớn nhất. Giả định này không kiểm được trên dữ liệu. Simulation Standard (E-S) và General Standard ("discusses study's realism, assumptions and sensitivity of the results") yêu cầu báo cáo độ nhạy.
+- **Thiết kế, chốt trong `scripts/dependence_sensitivity.py` trước khi chạy:**
+  - Ba kịch bản phụ thuộc theo thứ tự chạy:
+    - (a) AR(1) trong từng nhánh;
+    - (b) AR(1) chung cho cả hai nhánh;
+    - (c) sự cố làm hỏng L task liên tiếp với xác suất 1/2 ở mỗi nhánh. Kịch bản này thuộc trạng thái chạy C, nên được báo như sai số của T2.
+  - Lưới: ρ ∈ {0,2; 0,5; 0,8}, L ∈ {5; 10; 20}. Đây là lưới độ nhạy, không phải ngưỡng; mọi ô đều được báo cáo.
+  - Hai giả thuyết không giống mô phỏng của mục 3: đồng nhất, và ±0,3 dịch về trung bình 0.
+  - 12.000 lần lặp mỗi ô (MCSE khoảng 0,0014), seed 20261125, tỉ lệ nền của 100 task Jinja.
+  - Copula Gauss giữ đúng tỉ lệ giải của từng task (có test).
+- **Cách báo cáo:** tỉ lệ chứng nhận sai lớn nhất của từng kịch bản, so với α = 0,025, cho cả phép end-of-pool và sign test, ghi đúng như kết quả ra.
+
