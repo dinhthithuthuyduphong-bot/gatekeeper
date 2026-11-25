@@ -152,9 +152,16 @@ def main() -> int:
             # the label ACM's style builds for an entry without author: first letters of the key
             label = (authors or "").split(" and ")[0].split()[-1] if authors else k[:3]
             yearless.setdefault(label, []).append(k)
-        fields["howpublished"] = "{" + (ov["howpublished"] + ", " if ov.get("howpublished") else "")
-        fields["howpublished"] += "\\url{" + url + "}}"
-        if snap.get("fetched_utc"):
+        if ov.get("no_url"):
+            # the saved original is a secondary source (Holm via Shaffer 1986, A155): print the
+            # bibliographic data only, never the secondary source's URL as if it were the work
+            fields["howpublished"] = "{" + ov["howpublished"] + "}"
+        else:
+            fields["howpublished"] = "{" + (
+                ov["howpublished"] + ", " if ov.get("howpublished") else ""
+            )
+            fields["howpublished"] += "\\url{" + url + "}}"
+        if snap.get("fetched_utc") and not ov.get("no_url"):
             fields["note"] = "{Accessed " + snap["fetched_utc"][:10] + "}"
         if not title or (
             not authors and not re.match(r"https://(github\.com|raw\.githubusercontent\.com)/", url)

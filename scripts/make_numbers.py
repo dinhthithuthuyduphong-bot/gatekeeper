@@ -1359,6 +1359,18 @@ def main() -> int:
         print("MISMATCH s44 decision")
         return 1
     N["ctrNoneMax"] = max(cr["solved"][v + "_none"][0] for v in "ABCD")
+    # tasks of A-C with D_i = -1 (the rest of the negative tasks have -1/2): from E, lambda = 0.5
+    import math
+
+    c = cr["contrasts"]["main A-C"]
+    k_full = round(math.log(c["E"] / 1.25 ** c["n_negative"]) / math.log(1.5 / 1.25))
+    if (
+        c["n_positive"]
+        or abs(1.25 ** (c["n_negative"] - k_full) * 1.5**k_full - c["E"]) > 1e-6 * c["E"]
+    ):
+        print("MISMATCH s44: E is not 1.25^a 1.5^b over the negative tasks")
+        return 1
+    N["ctrACFull"] = k_full
     # sections 46-47 (X2', X1', registered 18/11): bridge chroot vs Docker; second learning runs
     from make_ablation import RULE
 
