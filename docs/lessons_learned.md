@@ -671,3 +671,11 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Preflight `[bib duplicates]` chặn hai khóa được trích cùng URL.
   - Thêm vào danh sách review `docs/research_rules.md` §4.
 
+## L82. Viết bài theo quy tắc của hội nghị đã tải về, không theo trí nhớ hay theo review (A156, A157)
+- **Nguyên nhân gốc:** bài được viết và sửa theo các bản review AI và theo hiểu biết chung về EASE. Tôi chưa từng tải và đọc CFP cùng các chuẩn mà CFP dẫn tới (Open Science Policy, Empirical Standards) để rút thành quy tắc kiểm được. Vì vậy, các lỗi kiểm được bằng máy (ẩn danh, thứ tự mục) và các mục Essential của chuẩn chỉ được phát hiện khi có người nêu. Ngược lại, các khẳng định sai của review (vòng rebuttal, tỉ lệ nhận bài) suýt được dùng làm căn cứ.
+- **Phòng ngừa:**
+  - Mọi lần sửa `paper/` đi qua `docs/ease_writing_rules.md`. Mỗi quy tắc có câu nguyên văn và khóa nguồn trên `sources-snapshots`.
+  - Preflight [ease] chặn commit khi định dạng, Data Availability hay ẩn danh sai. Trước mỗi lần gửi PDF, chạy `scripts/ease_pdf_check.py`.
+  - Tóm tắt và kết luận được đọc cạnh mục thân bài tương ứng: không câu nào mạnh hơn câu ở thân bài (E-G14).
+  - Một khẳng định của review về quy định của hội nghị chỉ được dùng sau khi tìm thấy câu đó trong nguồn đã tải.
+

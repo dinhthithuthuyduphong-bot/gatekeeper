@@ -39,7 +39,7 @@ the benchmark's construction added: one injects the bug, the next deletes the te
 it. Removing these two commits lowers the gain from \njinjaGain{} to \njinjaLFGain{} (difference
 \nleak{} [\nleakLo{}, \nleakHi{}]); deleting the one instruction leaves a gain of \nabGain{};
 of two learning runs per environment, both wrote the instruction with the two commits and neither
-without them. A second agent seed gives a similar difference (\nsdLeak{} [\nsdLeakLo{},
+without them (an observation, not a rate). A second agent seed gives a similar difference (\nsdLeak{} [\nsdLeakLo{},
 \nsdLeakHi{}], not certified on 100 tasks), a preregistered test on \ncfN{} tasks without an issue description confirms the dependence there
 (\ncfNewFor{} of the \ncfNew{} never used before favour the environment with the commits, none the
 other), and a registered intervention on the history shows that the gain needs the pre-bug code in
@@ -47,9 +47,10 @@ the history; the commit's name alone carries none. A skill learned for a Go repo
 another vendor repeat the pattern. An agent of a third vendor that reads the commits without any skill gains
 nothing from the instruction, and a second skill learner writes history steps with or without the
 commits.
-The part of each gain that persists without the commits is certified by an end-of-pool test whose
-guarantee we state and prove for the design we ran: the mean effect over a fixed pool of tasks,
-within one run. A learned skill must be certified per scope, under controls in which the claimed
+The gain that remains without the two commits passes the registered tests and, read again post hoc,
+an end-of-pool test whose guarantee we state and prove for the design we ran: the mean effect over a
+fixed pool of tasks, within one run. It is the gain left without these two channels, not a gain
+shown to come from the skill alone. A learned skill must be certified per scope, under controls in which the claimed
 cause is absent.
 \end{abstract}
 \keywords{coding agents, agent skills, benchmark leakage, controlled experiments, e-values}
@@ -102,13 +103,18 @@ claimed cause is absent. The contributions are:
       skill) applied to a learning pipeline's scorer and to common decision rules
       (Section~\ref{sec:measurement}).
 \end{itemize}
+In the terms of the ACM SIGSOFT Empirical Standards, this is a benchmarking study with registered
+interventions; the checks of the test are quantitative simulations, and the advice on evaluating
+skills (Section~\ref{sec:discussion}) is methodological guidance (meta-science).
 We do not claim that the leak is new, that the numbers reported for gskill were produced with the
-code we tested, or that learned skills do not help: the part of each gain that persists without the
-leak is certified.
+code we tested, or that learned skills do not help: the gain that remains without the two commits is
+certified for its pool and run (Section~\ref{sec:residual}).
 
 \section{Setting}\label{sec:setting}
 \paragraph{Tasks and their history}
-A SWE-smith task is a branch of a mirror of the project. We read every task branch of the three
+We use the two repositories of gskill's announcement (``we learn repository-specific skills for
+jinja and bleve''~\cite{gskill}) and, for reuse, Pygments, the example repository of gskill's
+training script~\cite{gskill_train_config}. A SWE-smith task is a branch of a mirror of the project. We read every task branch of the three
 repositories we use (Jinja and Pygments in Python, Bleve in Go; \nhiTasks{} tasks): all
 \nhiThree{} have exactly three commits, \emph{Initial commit} (the whole project in one commit),
 \emph{Bug Patch} (whose diff equals the benchmark's bug patch in all \nhiBugEq{}), and \emph{Remove
@@ -146,7 +152,8 @@ repository, its environment, and the agent with its model.
 \begin{table*}[t]\centering\footnotesize\setlength{\tabcolsep}{4pt}
 \caption{Experiment inventory. ``Same job'': both arms of a task ran in one job at the same time;
 otherwise the arms ran in different runs (same day or a later day). Registered: the analysis rule
-was committed before the data it applies to; post hoc analyses are labelled in the text.}
+was committed before the data it applies to. Post hoc analyses are labelled in the text and are
+exploratory; the confirmatory decisions are the registered ones.}
 \label{tab:inventory}
 \begin{tabular}{@{}llllll@{}}\toprule
 ID & Question & Intervention & Tasks (cohort) & Arms & Analysis\\\midrule
@@ -209,7 +216,8 @@ fair coin flips. Proposition~\ref{prop:eop} shows that, read once at the end of 
 statistic is valid for the weaker null on the pool mean. We claim no new method.
 
 The test is not anytime-valid, and it does not cover T2. In a simulation on the 100 Jinja tasks with
-their measured base rates (\neopValidReps{} replicates per pool), the rate of false certification was
+their measured base rates (\neopValidReps{} replicates per pool;
+NumPy~\nsimNumpy{}, fixed seed, script in the package), the rate of false certification was
 at most \neopTypeMax{} on three null pools, from homogeneous to ten tasks always helped and the rest
 harmed; with a state shared by the whole run (two equally likely states of opposite effect, mean over
 states $0$) it was \neopShared{}, above $\alpha$. This is the error for T2, the mean over states;
@@ -221,7 +229,9 @@ against \neopSignPowMid{} for 0.2).
 Every comparison was registered with an exact one-sided sign test on the discordant pairs (Holm's
 procedure~\cite{holm} at family level 0.025 where registered) and with Gatekeeper, a betting
 e-process~\cite{waudby_smith_ramdas} run over the tasks in gskill's split order ($\theta=0$,
-$c=0.5$, threshold 40), which allows stopping at any task. We keep both as registered. The
+$c=0.5$, threshold 40), which allows stopping at any task. We keep both as registered. The sign test assumes, like
+Assumption~\ref{ass:indep}, independent tasks and, under its null, that each discordant pair favours
+either arm with probability $1/2$; Section~\ref{sec:gain} reports the ordering diagnostics. The
 e-process is valid for the narrower null that no task's conditional expectation favours the skill;
 we report its first crossing as the point at which a run could have stopped. All tasks were run in
 every comparison, so stopping points and savings are retrospective. For the twelve decisions of
@@ -450,7 +460,8 @@ one-sided Fisher $p=1/6$.
 \end{axis}
 \end{tikzpicture}
 \caption{Paired gains with 95\% task-level bootstrap intervals, 100 tasks each (scorer $S$). Pairs of
-rows differ only in the history (J1/J2, S1/S2, B1/B2). Arms in one job (S1, S2, A, R) or in
+rows differ only in the history (J1/J2, S1/S2, B1/B2): in each pair the gain with one commit is
+smaller, and its interval lies right of the dashed line of no gain. Arms in one job (S1, S2, A, R) or in
 different runs (J, B).}
 \label{fig:effects}
 \end{figure}
@@ -682,7 +693,7 @@ indication measured with our agent, not a test of those papers. For MemGovern, a
 manipulation check (the agent must call the memory tools) failed on our harness (\nmgUsed{} of
 \nmgRuns{} runs), so we did not evaluate it; this says nothing about MemGovern with its own harness.
 
-\section{Discussion}
+\section{Discussion}\label{sec:discussion}
 \paragraph{A statistical gate certifies a gain, not its source}
 A gate such as PACE~\cite{pace_paired_anytime_gate} or Gatekeeper answers whether a change raises
 the score on the evaluation tasks. It cannot answer whether the rise comes from a capability or from
@@ -778,24 +789,29 @@ claimed cause of a gain is absent, and state what such a certification covers.
 
 \section{Conclusion}
 A resolve-rate gain certifies a skill only in the scope where it was measured, and the evaluation
-environment is part of that scope. On SWE-smith a published learner turned two construction commits
+environment is part of that scope. On SWE-smith gskill's learner turned two construction commits
 into advice: on Jinja, \nleak{} [\nleakLo{}, \nleakHi{}] of a \njinjaGain{} gain depends on them, a
 preregistered test on tasks without a description confirms the dependence, a second seed gives a
-similar difference, and a Go skill repeats the pattern. The rest of each gain persists without the commits and is certified for its pool and
-run. A repeated learning run, an intervention on the history and an agent of another vendor
-confirm the dependence; an agent that reads the commits with no skill, and a second learner whose
+similar difference, and a Go skill repeats the pattern. The gain that remains without the two
+commits is certified for its pool and run; it is the gain left without these two channels, not a
+gain shown to come from the skill alone. An intervention on the history and an agent of another
+vendor confirm the dependence, and a repeated learning run agrees with it; an agent that reads the commits with no skill, and a second learner whose
 history steps do not depend on them, mark where it stops. Evaluating a learned skill therefore needs
 controls in which the claimed cause is absent, and a statement of what the certification covers.
 
 \section*{Data Availability}
-An anonymized replication package accompanies the submission: the preregistrations with the commit
-time of every registration, the analysis scripts, the raw runs and traces, and the scripts that
-generate every number in this paper. Third-party texts without a licence are not redistributed.
+An anonymized replication package accompanies the submission. It holds the code and configuration
+of every run; for each run file, the model string the runner recorded, the seed, and hashes of the
+task list and of every skill text; the raw runs and the saved traces; the preregistrations with the
+commit time of every registration; and the scripts that generate every number in this paper. Not
+redistributed: the SWE-smith task rows, a third-party dataset (the runs name every task, and
+the package says how to obtain the rows), and third-party texts without a licence, cited by URL.
 
 \section*{Use of AI Tools}
 AI coding assistants were used to write the experiment and analysis code, to run the analyses and to
-draft text. Every number in the paper is generated by a script from the raw results; the
-preregistrations, the code and the generated numbers were reviewed by the author.
+draft text. Every number in the paper is generated by a script from the raw results. An author
+labelled the traces of Section~\ref{sec:mechanism} and reviewed the preregistrations, the code and
+the generated numbers; the authors are responsible for the content.
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{refs}

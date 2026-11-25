@@ -38,12 +38,31 @@ def to_text(raw: bytes, ctype: str) -> str:
     return unescape(re.sub(r"(?s)<[^>]+>", " ", html))
 
 
-def excerpts(text: str, keywords: list[str]) -> dict[str, list[str]]:
+def excerpts(text: str, keywords: list[str], max_hits: int = MAX_HITS) -> dict[str, list[str]]:
     flat = re.sub(r"\s+", " ", text)
     out = {}
     for k in keywords:
-        hits = [m.start() for m in re.finditer(re.escape(k), flat)][:MAX_HITS]
+        hits = [m.start() for m in re.finditer(re.escape(k), flat)][:max_hits]
         out[k] = [flat[max(0, i - WINDOW) : i + len(k) + WINDOW] for i in hits]
+    return out
+
+
+def links(raw: bytes, base: str, keywords: list[str]) -> list[dict]:
+    """Hyperlinks of an HTML page whose anchor text or URL contains a keyword (case-insensitive),
+    so that linked policy pages are found from the page itself, never guessed (R1)."""
+    from urllib.parse import urljoin
+
+    html = raw.decode("utf-8", errors="replace")
+    out, seen = [], set()
+    pat = r"""(?is)<a\s[^>]*?href\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))[^>]*>(.*?)</a>"""
+    for m in re.finditer(pat, html):
+        raw_href = m.group(1) or m.group(2) or m.group(3) or ""
+        href = urljoin(base, unescape(raw_href).strip())
+        text = re.sub(r"\s+", " ", unescape(re.sub(r"(?s)<[^>]+>", " ", m.group(4)))).strip()
+        hay = (text + " " + href).lower()
+        if href.startswith("http") and any(k.lower() in hay for k in keywords) and href not in seen:
+            seen.add(href)
+            out.append({"text": text[:200], "url": href})
     return out
 
 
@@ -87,8 +106,10 @@ def main() -> int:
                     sha256=hashlib.sha256(raw).hexdigest(),
                     n_chars=len(text),
                     head=re.sub(r"\s+", " ", text[:1500]),
-                    excerpts=excerpts(text, s["keywords"]),
+                    excerpts=excerpts(text, s["keywords"], s.get("max_hits", MAX_HITS)),
                 )
+                if s.get("link_keywords") and not raw[:4] == b"%PDF":
+                    rec["links"] = links(raw, url, s["link_keywords"])
                 rec["attempts"].append({"url": url, "ok": True})
                 break
             except Exception as exc:  # noqa: BLE001 - record and try the next mirror

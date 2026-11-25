@@ -1200,6 +1200,8 @@ def main() -> int:
             "eopPowMid": mc["power"]["0.2"]["end_of_pool"],
             "eopSignPowMid": mc["power"]["0.2"]["sign_test"],
             "eopValidReps": int(round((1 / mc["type1_mcse"] ** 2) * 0.025 * 0.975)),
+            # E-S3 (docs/ease_writing_rules.md): package version of the simulation run
+            "simNumpy": load(Path("results/method_check.json"))["environment"]["numpy"],
         }
     )
     for k, v in {

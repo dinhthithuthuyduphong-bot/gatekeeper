@@ -17,7 +17,7 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 > **Mục này là điểm vào cho mọi phiên mới.** Hook khởi động phiên in ngày cập nhật của mục này. Mỗi khi một việc dưới đây đổi trạng thái, sửa mục này trong cùng commit, và chép sang nhánh kia (`main` ↔ `claude/gatekeeper-13-research-nxytoh`). Chi tiết từng việc nằm ở file được dẫn; mục này chỉ tóm tắt.
 
-**Đích:** EASE 2027 (tóm tắt 15/01/2027, bài 22/01/2027). Đóng băng thí nghiệm xác nhận: 01/12/2026 (đề xuất, Q2 chờ @thuthuy). Danh sách sửa bài: `docs/todo_ease_revision.md`.
+**Đích:** EASE 2027 (tóm tắt 15/01/2027, bài 22/01/2027). **Quy tắc viết bài:** `docs/ease_writing_rules.md` (R-98, 25/11); §9 ghi các mục còn chờ: Q6 nơi đặt gói và giấy phép, chính sách ACM về AI, Q3 tên bài, CCS. Đóng băng thí nghiệm xác nhận: 01/12/2026 (đề xuất, Q2 chờ @thuthuy). Danh sách sửa bài: `docs/todo_ease_revision.md`.
 
 ### Trạng thái 22/11/2026: mọi thí nghiệm có phí đã xong
 

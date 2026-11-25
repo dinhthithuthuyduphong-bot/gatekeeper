@@ -95,6 +95,7 @@ Gửi yêu cầu **sớm nhất có thể**, kèm hạn cần trả lời, để
 | Bài học L1–L18 | `docs/lessons_learned.md` |
 | Nguồn gốc mọi con số | `docs/number_provenance.md` |
 | Ký hiệu và thuật ngữ (một nghĩa duy nhất) | `docs/glossary.md` §7 |
+| **Quy tắc viết bài cho EASE 2027 (nguyên văn CFP, Open Science, Empirical Standards; đọc trước khi sửa `paper/`)** | `docs/ease_writing_rules.md` |
 | Kiểm định phương pháp bằng số | `docs/method_check.md`, `scripts/verify_methods.py` |
 | Bản đăng ký trước | `docs/preregistration_g1_v2.md`, `_e1.md`, `_e2.md` |
 | Kiểm tra tự động trước khi chạy | `scripts/preflight.py` (chạy cả trong CI) |

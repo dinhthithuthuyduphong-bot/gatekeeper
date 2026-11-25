@@ -213,6 +213,59 @@ def check_bib_duplicates(
     return bad
 
 
+# EASE 2027 rules machine-checkable on the source (docs/ease_writing_rules.md, R-98)
+EASE_CLASS = r"\documentclass[sigconf,review,anonymous]{acmart}"
+EASE_CONF = (
+    r"\acmConference[EASE 2027]{The 31st International Conference on Evaluation and Assessment"
+    r" in Software Engineering}{15--18 June, 2027}{Hanoi, Vietnam}"
+)
+FIRST_PERSON_PRIOR = re.compile(
+    r"\b(our|my) (own )?(previous|prior|earlier|past) (work|paper|study|studies|papers)\b", re.I
+)
+
+
+def repo_owner() -> str | None:
+    r = subprocess.run(
+        ["git", "remote", "get-url", "origin"], capture_output=True, text=True, check=False
+    )
+    m = re.search(r"github\.com[/:]([^/]+)/", r.stdout) or re.search(r"/git/([^/]+)/", r.stdout)
+    return m.group(1) if m else None
+
+
+def check_ease(tex: Path = Path("paper/main.tex"), owner: str | None = None) -> list[str]:
+    """E-F4, E-F5, E-O2, E-A1..E-A3 of docs/ease_writing_rules.md."""
+    if not tex.exists():
+        return []
+    src = tex.read_text()
+    body = "\n".join(re.sub(r"(?<!\\)%.*", "", line) for line in src.splitlines())
+    bad = []
+    if EASE_CLASS not in body.splitlines():
+        bad.append(f"E-F4: no line equal to {EASE_CLASS}")
+    if EASE_CONF not in body.splitlines():
+        bad.append("E-F5: the \\acmConference line differs from the call for papers")
+    concl = body.find("\\section{Conclusion}")
+    da = body.find("\\section*{Data Availability}")
+    bib = body.find("\\bibliography{")
+    if da < 0:
+        bad.append("E-O2: no section named Data Availability")
+    elif concl < 0 or not (concl < da) or (bib >= 0 and da > bib):
+        bad.append(
+            "E-O2: Data Availability must follow the Conclusion (and precede the references)"
+        )
+    for cmd in ("\\author{", "\\affiliation{", "\\email{", "\\begin{acks}"):
+        if cmd in body:
+            bad.append(f"E-A1: {cmd} in an anonymous submission")
+    if re.search(r"\bthe author\b(?!s)", body):
+        bad.append("E-A1: 'the author' (singular) reveals the number of authors; write 'an author'")
+    m = FIRST_PERSON_PRIOR.search(body)
+    if m:
+        bad.append(f"E-A2: first-person reference to prior work: '{m.group(0)}'")
+    owner = owner if owner is not None else repo_owner()
+    if owner and owner.lower() in body.lower():
+        bad.append("E-A3: the repository owner's account name appears in the paper")
+    return bad
+
+
 def run(cmd: list[str]) -> bool:
     return subprocess.run(cmd, check=False).returncode == 0
 
@@ -235,6 +288,9 @@ def main() -> int:
     bd = check_bib_duplicates()
     print(f"[bib duplicates] {'ok' if not bd else 'FAIL'}")
     failures += bd
+    ea = check_ease()
+    print(f"[ease] {'ok' if not ea else 'FAIL'}")
+    failures += ea
     s = check_secrets()
     print(f"[secrets] {'ok' if not s else 'FAIL'}")
     failures += s

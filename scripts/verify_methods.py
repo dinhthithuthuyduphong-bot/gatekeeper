@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import json
 import math
+import platform
 import sys
 from collections import Counter
 from itertools import product
@@ -289,6 +290,8 @@ def main() -> int:
     out["AA_E2"] = aa_check(rng, q, 119, R_VALID)
     out["RQ1"] = rq1_check(rng, q)
     out["end_of_pool"] = end_of_pool_check(np.random.default_rng(20261117), R_VALID, R_POWER)
+    # Simulation standard: packages and versions of the run (EASE rule E-S3, R-98)
+    out["environment"] = {"python": platform.python_version(), "numpy": np.__version__}
     Path("results/method_check.json").write_text(json.dumps(out, indent=1) + "\n")
     show = ("inputs", "AA_E1", "AA_E2", "end_of_pool")
     print(json.dumps({k: v for k, v in out.items() if k in show}, indent=1))
