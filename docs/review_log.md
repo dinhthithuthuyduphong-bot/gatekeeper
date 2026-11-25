@@ -1420,3 +1420,28 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Preflight đạt.
 - **Kết luận R-100:** đạt.
 
+## R-101. Phản biện ba bản review AI 25/11, lượt 2 (bản "+1/+1/0 khi giả định có gói"; bản Word "+2/+2/+2"; bản "3.6/5") và sửa các ý đúng (0 USD)
+- **Cách kiểm:** đối chiếu với PDF (`pdftotext`), mã nguồn `.tex`, snapshot của các nguồn (`skill_issue_2026`, `sskb_paper`) và `results/sskb_analysis.json`.
+- **Ý sai, không sửa:**
+  - "Bảng 2 đảo cột None/Skill; thiếu tiêu đề E", "𝔹[Z_i|C]", "mất τ", "Rungit": sai, bác lần thứ ba (R-97, R-100). PDF in J1 = 15, 53; có 𝐸; "E[𝑍𝑖 | 𝐶]"; "Kendall's 𝜏"; "Run git log -n 5".
+  - "Bảng 3 ghi 5/34 thay vì 15/34": PDF in 15/34.
+  - "Dòng 508 thiếu gạch ở -n 5", "dòng 653 thừa ngoặc ((E=0.03": PDF in "git log -n 5" và "(𝐸 = 0.03 on 54 tasks)".
+  - "Tỉ lệ nhận 26,1% (ccfddl)", "thang EasyChair", "mời viết cho EMSE": không có trong nguồn đã tải; không dùng.
+  - "Rút mục 3 còn một nửa, chuyển Proposition sang gói": giữ nguyên. Review 3 đánh giá Assumption 1 là rủi ro lớn nhất, nên mục này cần đủ chặt hơn là ngắn hơn. Đây cũng là đóng góp 4.
+  - "Rút Bảng 1 còn 6–8 dòng": không rút, vì bảng là bản kê đầy đủ, phục vụ E-C4 (minh bạch) và E-R1 (đăng ký hay post hoc). Thay vào đó thêm cột RQ để mỗi thí nghiệm gắn với một câu hỏi.
+  - "Thêm báo cáo tunix #3017": tìm web không ra nguồn nào. Theo R1 không thêm; nếu @thuthuy có đường dẫn thì bổ sung.
+- **Ý đúng, đã sửa (A161):**
+  1. Câu trích Kozyrev et al. nay giữ nghĩa gốc (quá khớp vào các PR huấn luyện), cùng một câu nêu khác biệt với bài này.
+  2. Related Work chia thành ba đoạn: skill học được; rò rỉ và scorer yếu, kèm các bản vá đã có; cổng thống kê. Nêu khác biệt: các công trình trước nghiên cứu agent tìm ra rò rỉ trong một lần đánh giá, còn bài này nghiên cứu learner viết rò rỉ vào một văn bản được dùng lại.
+  3. Discussion thêm đoạn "After the benchmark is fixed", trả lời câu hỏi "benchmark đã vá thì bài học còn lại là gì".
+  4. Mục 4.1: "nine skill admissions and the contrast C". Mục 4.5: J2 và B2 đạt cả ngưỡng họ 480, S2 thì không.
+  5. Mục 3: định nghĩa c tại chỗ; nguồn của 0.109; một câu nói Assumption 1 cho phép gì và loại trừ gì.
+  6. Bảng 1 thêm cột RQ.
+- **Ý đúng nhưng cần người hoặc tiền (thuộc quyền @thuthuy):**
+  - Người gán nhãn thứ hai cho Q4 và hệ số κ.
+  - Kiểm ngữ nghĩa thủ công trên khoảng 20 bản vá của J2.
+  - Biến thể C10 bỏ commit "Remove F2P Tests" (có phí).
+  - Thêm repo hoặc agent nền mạnh hơn (có phí).
+- **Kiểm:** biên dịch 0 tràn ngang, không còn cảnh báo acmart; phần chính tới trang 9, tài liệu tham khảo trang 10. `ease_pdf_check.py` chỉ còn E-A4. Preflight đạt.
+- **Kết luận R-101:** đạt.
+

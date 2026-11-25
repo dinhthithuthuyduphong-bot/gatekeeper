@@ -170,26 +170,26 @@ otherwise the arms ran in different runs (same day or a later day). Registered: 
 was committed before the data it applies to. Post hoc analyses are labelled in the text and are
 exploratory; the confirmatory decisions are the registered ones.}
 \label{tab:inventory}
-\begin{tabular}{@{}llllll@{}}\toprule
-ID & Question & Intervention & Tasks (cohort) & Arms & Analysis\\\midrule
-J1 & gain of the learned Jinja skill & none & Jinja test, 100 & 2 runs, same day & registered\\
-J2 & gain without the construction commits & history $\to$ one commit & Jinja test, 100 & 2 runs, same day & registered\\
-B1, B2 & the same for the Bleve skill & as J1, J2 & Bleve test, 100 & different days & registered\\
-P & does an irrelevant skill explain the gain & skill $\to$ length-matched placebo & Jinja test, 100 & different days & registered\\
-A & is the instruction the cause & skill minus its history line & Jinja test, 100 & same job & registered\\
-R & does the learner write it without the leak & relearn with one commit & Jinja test, 100 & same job (\neopSameG/100) & registered\\
-S1--S3 & second agent seed, four arms & J1, J2 and their contrast & Jinja test, 100 & same job & registered\\
-C & confirmatory contrast & J1 vs J2 & 34 test (seed 51) + 36 new & same job per task & registered\\
-C10 & message or pre-bug code & four histories & the 70 tasks of C & same job & registered\\
-R2 & is the learning outcome repeated & relearn, both histories & Jinja test, 100 & same job & registered, descr.\\
-V1--V3 & agents of other vendors & J1 vs J2 contrast & the 70 tasks of C & same session per task & registered\\
-K & does the sandbox change our agent & chroot vs Docker & Jinja, 34 without descr. & same job & registered, descr.\\
-W & other skill-writing models & rewrite saved prompts & 32 prompts, 3 seeds & one platform & registered\\
-L2 & a second learner (XRepoSkill) & both histories & 31 and 12 issues & -- & registered\\
-G & second agent model & none (descriptive) & Jinja, 34 without description & same job & registered, descr.\\
-X & reuse on another repository & Jinja skill on Pygments & Pygments test, 100 & same job (\neopSameH/100) & registered\\
-H & what the agent saw & trace audit & every saved trace & -- & post hoc\\
-X3 & does the audit match a human & blind labels & Jinja, 104 runs with the skill & -- & registered\\
+\begin{tabular}{@{}lllllll@{}}\toprule
+ID & RQ & Question & Intervention & Tasks (cohort) & Arms & Analysis\\\midrule
+J1 & 1 & gain of the learned Jinja skill & none & Jinja test, 100 & 2 runs, same day & registered\\
+J2 & 1 & gain without the construction commits & history $\to$ one commit & Jinja test, 100 & 2 runs, same day & registered\\
+B1, B2 & 1 & the same for the Bleve skill & as J1, J2 & Bleve test, 100 & different days & registered\\
+P & 1 & does an irrelevant skill explain the gain & skill $\to$ length-matched placebo & Jinja test, 100 & different days & registered\\
+A & 2 & is the instruction the cause & skill minus its history line & Jinja test, 100 & same job & registered\\
+R & 2 & does the learner write it without the leak & relearn with one commit & Jinja test, 100 & same job (\neopSameG/100) & registered\\
+S1--S3 & 1 & second agent seed, four arms & J1, J2 and their contrast & Jinja test, 100 & same job & registered\\
+C & 1 & confirmatory contrast & J1 vs J2 & 34 test (seed 51) + 36 new & same job per task & registered\\
+C10 & 2 & message or pre-bug code & four histories & the 70 tasks of C & same job & registered\\
+R2 & 2 & is the learning outcome repeated & relearn, both histories & Jinja test, 100 & same job & registered, descr.\\
+V1--V3 & 3 & agents of other vendors & J1 vs J2 contrast & the 70 tasks of C & same session per task & registered\\
+K & 3 & does the sandbox change our agent & chroot vs Docker & Jinja, 34 without descr. & same job & registered, descr.\\
+W & 3 & other skill-writing models & rewrite saved prompts & 32 prompts, 3 seeds & one platform & registered\\
+L2 & 3 & a second learner (XRepoSkill) & both histories & 31 and 12 issues & -- & registered\\
+G & 3 & second agent model & none (descriptive) & Jinja, 34 without description & same job & registered, descr.\\
+X & 3 & reuse on another repository & Jinja skill on Pygments & Pygments test, 100 & same job (\neopSameH/100) & registered\\
+H & 2 & what the agent saw & trace audit & every saved trace & -- & post hoc\\
+X3 & 2 & does the audit match a human & blind labels & Jinja, 104 runs with the skill & -- & registered\\
 \bottomrule\end{tabular}
 \end{table*}
 
@@ -207,6 +207,10 @@ certify T1 only.
 \begin{assumption}\label{ass:indep}
 Given $C$, $Z_1,\dots,Z_N$ are independent. (The two arms of one task may depend on each other.)
 \end{assumption}
+\noindent What tasks of a run share is part of $C$ and allowed; what the assumption excludes is a
+link between tasks beyond it, such as a rate limit or an outage that hits a stretch of consecutive
+tasks. Section~\ref{sec:gain} reports the checks for this (order of tasks, crashes); they can reveal
+such a link, not exclude it.
 
 \begin{proposition}\label{prop:eop}
 Fix $\theta\in[0,1)$ and $\lambda\in[0,1/(1+\theta))$ before the data, and let
@@ -221,7 +225,7 @@ $1+x\le e^x$, this is at most $\exp(-\lambda\sum_i(\theta+\mu_i))\le1$ under $H_
 inequality concludes.
 \end{proof}
 The null constrains only the sum: a few tasks helped strongly and many harmed mildly is a null pool,
-and the bound still holds. We use $\theta=0$ and $\lambda=c/(1+\theta)=0.5$, the largest bet
+and the bound still holds. We use $\theta=0$ and $\lambda=c/(1+\theta)=0.5$ with $c=0.5$, the largest bet
 registered for our sequential test (below), so no parameter was chosen after the data; a skill is
 \emph{certified} in a scope when $E\ge1/\alpha=40$ ($\alpha=0.025$). With $\theta=0$ and
 $Z_i\in\{-1,0,1\}$, $E=(1+\lambda)^b(1-\lambda)^c$, with $b$ and $c$ the tasks resolved only with and
@@ -237,7 +241,8 @@ at most \neopTypeMax{} on three null pools, from homogeneous to ten tasks always
 harmed; with a state shared by the whole run (two equally likely states of opposite effect, mean over
 states $0$) it was \neopShared{}, above $\alpha$. This is the error for T2, the mean over states;
 given the state (T1) the bound of Proposition~\ref{prop:eop} holds, which is why we certify T1 only. Its power is lower than that of the exact sign test
-for small effects (\neopPowSmall{} against \neopSignPowSmall{} for a gain of 0.109; \neopPowMid{}
+for small effects (\neopPowSmall{} against \neopSignPowSmall{} for a gain of 0.109, the 95th percentile
+of the 392 skill--configuration gains released with SWE-Skills-Bench~\cite{sskb_paper}; \neopPowMid{}
 against \neopSignPowMid{} for 0.2).
 
 \paragraph{The registered tests and their role}
@@ -261,7 +266,7 @@ each conclusion names the test it rests on.
 \subsection{The gain and its certification}\label{sec:gain}
 Table~\ref{tab:decisions} lists the twelve registered decisions. At the per-decision threshold of 40
 the end-of-pool test reproduces every registered decision: \neopHeldForty{} of the \neopRegN{}
-comparisons registered as admissions are certified, and the Pygments reuse test and the contrast on
+comparisons with a registered positive decision (nine skill admissions and the contrast C) are certified, and the Pygments reuse test and the contrast on
 all 100 tasks of the second seed are not. Read as one family of twelve (threshold 480, union bound,
 no independence needed), \neopHeldFam{} of the \neopRegN{} hold; R and S2, admitted by their
 registered tests, fall below 480. The headline comparison J1 ran its
@@ -538,7 +543,8 @@ registration of the confirmatory test, the second-seed runs and the run of 36 ne
 \subsection{What persists under the control}\label{sec:residual}
 Without the two commits, the Jinja skill still raises the resolved count from \njinjaLFNone{} to
 \njinjaLFSkill{} and is certified (J2), as are the Bleve skill (B2) and the second-seed replicate
-(S2). This part of the gain persists under the single-commit control according to $S$; the control
+(S2), at the per-decision threshold of 40; J2 and B2 also hold at the family threshold of 480, S2
+does not. This part of the gain persists under the single-commit control according to $S$; the control
 removes the two construction commits, not every channel (Section~\ref{sec:threats}), so it is the
 gain that remains without these two, not a gain shown to come from the skill alone. It is not
 explained by the length of the prompt as far as one control can show: replacing the skill by the
@@ -745,6 +751,14 @@ the pre-bug code, and skill writers shown such traces named the renamed commit a
 bug (\nwrRenNamed{} of \nwrRenN{} rewrites). The control does not close channels outside the
 repository, such as a released package of the project.
 
+\paragraph{After the benchmark is fixed}
+Fixes that remove the history exist~\cite{swebench_git_log_fix,debuggym_swesmith_git_fix}. What
+remains is the evaluation practice: a learner optimises whatever its environment exposes, writes it
+into a text that is reused, and a gate inside the loop admits it because the score rises. A fix
+closes one channel; the agent of Section~\ref{sec:scope} that fetched the released package used
+another. Reporting each gain also under a control that removes the suspected channel is what
+shows how much of the gain depends on it, for channels known now and found later.
+
 \paragraph{What a certification is worth}
 A certification here is a statement about a fixed pool of tasks within one run (T1). It is not a
 statement about future runs: the model behind the same name changed between our earlier and later
@@ -792,27 +806,38 @@ and a second learner did not separate the leak from habit, so the claim that a l
 leak into an instruction is made for gskill's learner and writer only.
 
 \section{Related Work}
+\paragraph{Learned skills and their evaluation}
 Skill libraries go back to Voyager~\cite{voyager}; for coding agents, skills are mined from
 trajectories~\cite{xreposkill}, stored as cards~\cite{memgovern_repo} or optimised against a
 benchmark~\cite{gskill}. SWE-Skills-Bench measures skills by one run per configuration~\cite{sskb_paper},
 SkillsBench across tasks~\cite{skillsbench_2026}, and SkillJuror how a skill's organisation changes
 behaviour~\cite{skilljuror_2026}. Closest to gskill, Kozyrev et al.\ optimise repository skill files
 with GEPA, run every attempt ``on an isolated checkout at the frozen base with .git removed'', and
-report that one score ``wrote the training pull requests back into prose''~\cite{skill_issue_2026};
-our single-commit control is close to that setup, and we measure how much of a certified gain the
-history accounts for. Run-to-run variance~\cite{randomness_agentic_evals_2026}, the
-harness~\cite{same_model_harness_2026} and tests that accept incorrect
-patches~\cite{patchdiff_2025,utboost_2025,test_overfitting_2025} move resolve rates. Git-history
-leaks are documented for SWE-bench~\cite{swebench_git_log_leak,swebench_git_log_fix}, SWE-Bench
-Pro~\cite{swebench_pro_verified}, other benchmarks~\cite{cursor_reward_hacking,
+observe that a document optimised for solved tasks ``wrote the training pull requests back into
+prose'', useful only for the instances the optimiser saw~\cite{skill_issue_2026}. Their setup
+excludes the history by construction; ours keeps it, shows that a learner turned it into an
+instruction, and measures the part of a certified gain that depends on it.
+
+\paragraph{Leaks and weak scorers}
+Git-history leaks are documented for SWE-bench~\cite{swebench_git_log_leak,swebench_git_log_fix},
+SWE-Bench Pro~\cite{swebench_pro_verified}, other benchmarks~\cite{cursor_reward_hacking,
 poolside_benchmark_hacking} and SWE-smith~\cite{marin_swesmith_git_leak,debuggym_swesmith_git_leak,
-debuggym_swesmith_git_fix,rllm_hide_git_history}; these works study agents that find a leak, and
-hack-verifiable environments plant such opportunities by design~\cite{hack_verifiable_2026}. Paired
-anytime-valid gates accept changes of self-evolving agents (PACE~\cite{pace_paired_anytime_gate})
+debuggym_swesmith_git_fix,rllm_hide_git_history}, with fixes that remove or hide the
+history~\cite{swebench_git_log_fix,debuggym_swesmith_git_fix,rllm_hide_git_history}. These works study
+an agent that finds a leak during one evaluation, and hack-verifiable environments plant such
+opportunities by design~\cite{hack_verifiable_2026}; we study a learner that writes the leak into a
+text reused on every later task. Run-to-run variance~\cite{randomness_agentic_evals_2026}, the
+harness~\cite{same_model_harness_2026} and tests that accept incorrect
+patches~\cite{patchdiff_2025,utboost_2025,test_overfitting_2025} also move resolve rates; we test the
+scorers we use with no-op and gold patches (Section~\ref{sec:measurement}).
+
+\paragraph{Statistical gates}
+Paired anytime-valid gates accept changes of self-evolving agents (PACE~\cite{pace_paired_anytime_gate})
 and investment factors~\cite{anytime_referee_2026}; e-processes certify the performance of one
 system~\cite{celeus_2026,evaluator_2025}. HDSO and Library Drift accept or retire skills by
-validation and outcome floors~\cite{hdso_2026,library_drift_2026}. We add controls in which the
-claimed cause of a gain is absent, and state what such a certification covers.
+validation and outcome floors~\cite{hdso_2026,library_drift_2026}. Such gates answer whether a
+change raises the score; we add controls in which the claimed cause of a gain is absent, and state
+what a certification covers.
 
 \section{Conclusion}
 A resolve-rate gain certifies a skill only in the scope where it was measured, and the evaluation
