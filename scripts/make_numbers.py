@@ -31,6 +31,24 @@ def load(p: Path) -> dict:
     return json.loads(p.read_text())
 
 
+def dep_numbers(d: dict) -> dict:
+    """R-102: largest false-certification rates of the dependence sensitivity simulation.
+    Mild = within-arm rho <= 0.5, shared rho <= 0.8, block outages L <= 20, independent;
+    strong = within-arm rho = 0.8 (the end-of-pool test and the registered sign test)."""
+    cells = [(k, v) for c in d["results"].values() for k, v in c.items() if k != "pool_mean_EZ"]
+    mild = [v["end_of_pool_reject"] for k, v in cells if not k.startswith("a_within_arm_rho0.8")]
+    strong = [v for k, v in cells if k.startswith("a_within_arm_rho0.8")]
+    assert len(strong) == 2 and len(mild) == len(cells) - 2, (len(strong), len(mild))
+    # four decimals: these rates are compared with alpha = 0.025, so two decimals would mislead
+    return {
+        "depEopMild": f"{max(mild):.4f}",
+        "depEopStrong": f"{max(v['end_of_pool_reject'] for v in strong):.4f}",
+        "depSignStrong": f"{max(v['sign_test_reject'] for v in strong):.4f}",
+        "depSignBlock": f"{max(v['sign_test_reject'] for k, v in cells if k.startswith('c_')):.4f}",
+        "depReps": d["inputs"]["reps"],
+    }
+
+
 def s25_module(trial: Path):
     sys.path.insert(0, str(trial / "src"))
     spec = importlib.util.spec_from_file_location("s25_ab", trial / "scripts" / "s25_ab.py")
@@ -1202,6 +1220,8 @@ def main() -> int:
             "eopValidReps": int(round((1 / mc["type1_mcse"] ** 2) * 0.025 * 0.975)),
             # E-S3 (docs/ease_writing_rules.md): package version of the simulation run
             "simNumpy": load(Path("results/method_check.json"))["environment"]["numpy"],
+            # R-102: sensitivity of the end-of-pool test to dependence between tasks
+            **dep_numbers(load(Path("results/dependence_sensitivity.json"))),
         }
     )
     for k, v in {
