@@ -134,7 +134,7 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 | [ ] G2 | Gộp `main` và nhánh mặc định thành một nguồn duy nhất. Trước đó: gắn tag cho đầu hai nhánh, liệt kê file khác nhau, **báo phiên Kaggle đang đẩy commit lên nhánh mặc định**. | Một nhánh chứa cả bài mới nhất lẫn `kaggle/`; CI đạt | tự làm, nhưng phải phối hợp |
 | [x] D8 | Xong 17/11 (R-69). Sửa ba câu sai dữ kiện trên `main`: "All agent runs use one model" (mâu thuẫn với §34); "609 rewrites" (đếm sai đơn vị); câu "chỉ so trên luồng A/A" ở Threats (bài đã so trên 20 luồng thật). Ghi vào `docs/audit_pilot.md`. | Ba câu khớp với dữ liệu | tự làm |
 | [x] S0 | **Bước 0: kiểm toán lịch sử git và trace.** Xong 17/11: `docs/preregistration_main.md` §41. Mỗi task có đúng ba commit; không có lịch sử thật; có **hai** kênh rò rỉ (diff "Bug Patch" và test bị xóa trong "Remove F2P Tests"); agent nghiên cứu chỉ dùng kênh thứ nhất, agent thứ hai dùng cả hai. | Có bảng kết quả và file JSON | tự làm |
-| [ ] A5a | Đưa chính sách của ACM về AI vào `configs/sources.json`, để runner tải, rồi đọc. | Có trích đoạn trên `sources-snapshots` | tự làm |
+| [x] A5a | Đưa chính sách của ACM về AI vào `configs/sources.json`, để runner tải, rồi đọc. | Có trích đoạn trên `sources-snapshots` | **Xong 25/11 (R-99), qua nguồn thứ cấp:** bản gốc 403; trang SIGCSE TS 2027 trích nguyên văn (`sigcse_2027_ai_policy`) |
 | [x] D9a | **Xong 18/11** (mục 8.1): toàn văn PACE trên `sources-snapshots`; câu trong bài khớp bản gốc. Tải toàn văn PACE (hiện mới có tóm tắt) và đọc. | Biết chính xác quy tắc của PACE | tự làm |
 
 ### Đợt 2: thống kê và phạm vi tuyên bố
@@ -203,7 +203,7 @@ Cột "Duyệt": **tự làm** = việc kỹ thuật, không tốn tiền, làm 
 | [x] A2 | Xong 17/11: 7 trang kể cả tham khảo. Cắt còn 10 trang, tính cả hình, bảng, phụ lục. | tự làm |
 | [x] A3 | Xong 17/11 trong PDF; gói tái lập vẫn ở A4. Ẩn danh trong PDF: tên tác giả, đường dẫn repo, siêu dữ liệu, cách nhắc tới việc của chính mình. | tự làm |
 | [~] A4 | Gói tái lập ẩn danh, dựng thành **bản xuất có chọn lọc** trong một thư mục của repo. Không dùng repo kèm lịch sử: repo chứa tên người phụ trách (`CLAUDE.md`), địa chỉ tài khoản dịch vụ (`docs/vertex_setup.md`), đường dẫn phiên trong lời nhắn commit. Bằng chứng thời điểm đăng ký giữ bằng một file liệt kê mã commit, thời điểm, lời nhắn đã gỡ danh tính. | **Bản nội bộ xong 17/11:** `python scripts/build_replication_package.py --trial <worktree nhánh trial> --rows <rows> --out <thư mục rỗng>`: 2034 file, quét danh tính 0 chỗ lộ (kể cả các file `.gz`, kiểm riêng bằng `zcat`). **Đưa ra ngoài (Zenodo hay nơi khác): chờ @thuthuy.** Bản trên Zenodo không xóa được. |
-| [ ] A5 | Khai báo việc dùng AI theo chính sách của ACM. Lập bảng: công cụ, việc AI đã làm, phần nào tác giả đã kiểm. Viết sau A5a. | **chờ** (nội dung khai báo) |
+| [x] A5 | Khai báo việc dùng AI theo chính sách của ACM. Lập bảng: công cụ, việc AI đã làm, phần nào tác giả đã kiểm. Viết sau A5a. | **Xong 25/11 (R-99):** đoạn trong mục Setting, theo E-AI1a–c của `docs/ease_writing_rules.md` |
 | [ ] A6 | Đăng ký tóm tắt trước 15/01; nộp trước 22/01. | @thuthuy |
 | [ ] G1 | Bảng đối chiếu: 27 ghi chú trên PDF và danh sách của thầy (mục 8) với từng chỗ sửa. | tự làm |
 | [ ] G3 | Một vòng review lại sau khi sửa. | @thuthuy và thầy |
@@ -359,10 +359,10 @@ Ký hiệu: **xong** = đã sửa trong bài trên `main`; **một phần** = c�
 | --- | --- | --- |
 | Q1 | Xác nhận đích là EASE 2027 (hạn 22/01). `CLAUDE.md` và `README.md` vẫn ghi ASE 2027. | Xác nhận rồi cập nhật hai file |
 | Q2 | Mốc đóng băng 01/12 theo định nghĩa ở đợt 3. | Đồng ý |
-| Q3 | Tên bài: giữ hay bỏ chữ "Certifying". | Bỏ, vì chứng nhận không còn là đóng góp chính |
+| Q3 | Tên bài: giữ hay bỏ chữ "Certifying". | **Đã chọn 25/11** (@thuthuy: "chọn điều tốt nhất để lọt vào ease mà không bị trừ điểm gì"): "A Published Skill Learner Found the Leak: Controls for Evaluating Learned Coding-Agent Skills" |
 | Q4 | Ngân sách C10: trần 5,49 USD cho 34 task, hoặc 10,83 USD cho 70 task (§43) (A135 sửa con số 7,5 cũ). | Quyết sau khi có kết quả S0 |
 | Q5 | Ngân sách C6 (khoảng 5,9 USD). | Chỉ khi C1 không chạy được |
-| Q6 | Nơi đặt gói tái lập ẩn danh, và thời điểm đưa ra ngoài. | Dựng nội bộ trước; chỉ đưa ra khi đã xem bản cuối |
+| Q6 | Nơi đặt gói tái lập ẩn danh, và thời điểm đưa ra ngoài. | **Đã chọn 25/11:** figshare, link riêng tư ẩn danh khi review, công bố có DOI khi bài được nhận; CC-BY 4.0 cho dữ liệu, MIT cho mã. Còn lại: @thuthuy tải lên (việc ra bên ngoài, tài khoản của @thuthuy) |
 | Q7 | Dừng mở rộng hướng Kaggle (C7, C8, C9, D, E trong `kaggle/plan_v4.md`). | Dừng cho tới khi bài về 10 trang |
 
 Mọi "quyết định" xuất hiện trong các vòng phản biện ngày 16/11 đều là lời của bên phản biện. Trong các vòng đó @thuthuy mới quyết hai điều: không bỏ khung chứng nhận, và yêu cầu lập file này.

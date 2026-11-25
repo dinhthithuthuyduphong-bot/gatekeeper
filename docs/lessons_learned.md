@@ -679,3 +679,11 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Tóm tắt và kết luận được đọc cạnh mục thân bài tương ứng: không câu nào mạnh hơn câu ở thân bài (E-G14).
   - Một khẳng định của review về quy định của hội nghị chỉ được dùng sau khi tìm thấy câu đó trong nguồn đã tải.
 
+## L83. Cảnh báo của mẫu và nguồn thứ cấp trích nguyên văn đều là quy tắc (A158, A159)
+- **Nguyên nhân gốc:**
+  - Tôi chỉ đếm "0 tràn ngang" trong log LaTeX. Các cảnh báo "mandatory" của acmart bị bỏ qua, dù chính mẫu ACM gọi đó là bắt buộc.
+  - Khi bản gốc chính sách ACM bị chặn, tôi dừng ở mức "chưa đọc được" mà không tìm các trang chính thức khác trích nguyên văn chính sách đó. Vì vậy, yêu cầu "mô tả trong phần phương pháp" bị bỏ sót.
+- **Phòng ngừa:**
+  - `ease_pdf_check.py` đọc log và báo lỗi với mọi cảnh báo "mandatory" (E-F9). Không tắt phần tử mặc định của mẫu.
+  - Khi bản gốc bị chặn, tìm một nguồn chính thức khác trích nguyên văn nó (trang của một hội nghị cùng nhà xuất bản), ghi rõ là nguồn thứ cấp và ngày, rồi chọn cách viết đúng với mọi phiên bản đã thấy.
+

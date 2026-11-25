@@ -1356,3 +1356,34 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - CCS Concepts: cần cây phân loại ACM.
 - **Kết luận R-98:** đạt.
 
+## R-99. Chọn phương án tốt nhất cho các mục còn chờ của EASE (25/11/2026; 0 USD)
+- **Yêu cầu (@thuthuy):** "chọn điều tốt nhất để lọt vào ease mà không bị trừ điểm gì". Đây là ủy quyền cho các mục Q3 (tên bài) và Q6 (nơi đặt gói, giấy phép). Riêng việc tải gói lên mạng vẫn cần tài khoản của @thuthuy.
+- **Nguồn mới (workflow `sources`, commit ee81dc2):**
+  - Tải được: `sigcse_2027_ai_policy`, `sigchi_acm_ai_policy_guidance`, `disclose_data_dbr_howto`.
+  - Bị 403: `acm_ccs2012` (bản lưu trữ lỗi SSL) và `acm_publications_faq`.
+  - URL lấy từ kết quả tìm kiếm web hoặc từ liên kết trong chính sách SIGSOFT, không đoán.
+- **Quyết định và lý do:**
+  1. **Khai báo AI (A158):** mô tả chi tiết trong mục Setting, theo câu ACM được trích nguyên văn ở trang SIGCSE 2027. Vẫn khai báo việc hỗ trợ viết, vì cách đó đúng với cả bản chính sách cũ và mới.
+  2. **Mẫu ACM (A159):** bỏ ba lệnh tắt phần tử bắt buộc; thêm CCS và `\Description`.
+     - Hai khái niệm CCS lấy nguyên văn từ `continuous_skill_eval_2026`, một bài cùng chủ đề trình bày theo mẫu ACM.
+     - Mức ưu tiên dùng mặc định của acmart, không đặt con số.
+  3. **Tên bài:** "A Published Skill Learner Found the Leak: Controls for Evaluating Learned Coding-Agent Skills".
+     - Ứng với điểm M3 của review 1: claim chỉ cho một learner, khớp Threats.
+     - Bỏ "Certifying" theo lời khuyên Q3 từ trước.
+  4. **Gói:** figshare với link riêng tư ẩn danh.
+     - Đây là phương án trội so với Zenodo. Theo hướng dẫn mà chính sách SIGSOFT dẫn tới, Zenodo chỉ ẩn danh được khi công bố công khai ngay ("the file will be publicly accessible and indexed in Zenodo"). figshare cho link riêng tư trong lúc review, rồi công bố có DOI khi bài được nhận. Cả hai đều được chính sách SIGSOFT chấp nhận là kho lưu trữ.
+     - Giấy phép: CC-BY 4.0 cho dữ liệu và tài liệu, MIT cho mã. Cả hai thuộc các ví dụ của chính sách SIGSOFT.
+     - Văn bản MIT chép nguyên văn từ file LICENSE của một gói MIT đã cài. Tên chủ bản quyền để ẩn danh.
+     - Nội dung bên thứ ba trong trace giữ giấy phép gốc.
+- **Mã:**
+  - `ease_pdf_check.py`: thêm E-F9 (cảnh báo "mandatory" trong log) và E-A4 (link còn là placeholder; chuẩn hóa gạch và khoảng trắng vì `pdftotext` bỏ gạch ở chỗ ngắt dòng, lỗi này bắt được khi chạy thử).
+  - `build_replication_package.py`: ghi `LICENSE` và `LICENSE-DATA.md`.
+  - Test: 8 trong `tests/test_ease_rules.py`.
+- **Kiểm:**
+  - Biên dịch: 0 tràn ngang; log không còn cảnh báo nào của acmart; phần chính tới trang 9.
+  - `ease_pdf_check.py` chỉ còn lỗi E-A4. Lỗi này đúng như dự kiến: macro `\anonpackage` chờ link figshare.
+  - Gói dựng thử: 2152 file, quét danh tính 0 chỗ lộ. `make_numbers.py` chạy trong gói cho `numbers.tex` giống hệt bản trong repo (F4).
+  - Preflight đạt.
+- **Còn lại cho @thuthuy:** tải `replication_package.zip` lên figshare theo `docs/figshare_upload.md`, rồi gửi link riêng tư để thay macro `\anonpackage`.
+- **Kết luận R-99:** đạt.
+
