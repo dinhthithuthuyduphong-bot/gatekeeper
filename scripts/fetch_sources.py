@@ -47,6 +47,23 @@ def excerpts(text: str, keywords: list[str]) -> dict[str, list[str]]:
     return out
 
 
+def links(raw: bytes, base: str, keywords: list[str]) -> list[dict]:
+    """Hyperlinks of an HTML page whose anchor text or URL contains a keyword (case-insensitive),
+    so that linked policy pages are found from the page itself, never guessed (R1)."""
+    from urllib.parse import urljoin
+
+    html = raw.decode("utf-8", errors="replace")
+    out, seen = [], set()
+    for m in re.finditer(r'(?is)<a\s[^>]*href\s*=\s*["\']([^"\']+)["\'][^>]*>(.*?)</a>', html):
+        href = urljoin(base, unescape(m.group(1)).strip())
+        text = re.sub(r"\s+", " ", unescape(re.sub(r"(?s)<[^>]+>", " ", m.group(2)))).strip()
+        hay = (text + " " + href).lower()
+        if href.startswith("http") and any(k.lower() in hay for k in keywords) and href not in seen:
+            seen.add(href)
+            out.append({"text": text[:200], "url": href})
+    return out
+
+
 def previous_good(sid: str) -> dict | None:
     """Latest SUCCESSFUL snapshot of a source in the history of the sources-snapshots branch
     (audit A44: a failed re-fetch used to overwrite a good snapshot, e.g. nosek_2018)."""
@@ -89,6 +106,8 @@ def main() -> int:
                     head=re.sub(r"\s+", " ", text[:1500]),
                     excerpts=excerpts(text, s["keywords"]),
                 )
+                if s.get("link_keywords") and not raw[:4] == b"%PDF":
+                    rec["links"] = links(raw, url, s["link_keywords"])
                 rec["attempts"].append({"url": url, "ok": True})
                 break
             except Exception as exc:  # noqa: BLE001 - record and try the next mirror
