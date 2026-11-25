@@ -1483,3 +1483,26 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Preflight đạt.
 - **Kết luận R-103:** đạt.
 
+## R-104. Phản biện hai bản review AI lượt 4 (25/11) và sửa các ý đúng (0 USD)
+- **Ý đúng, đã sửa:**
+  1. **Độ nhạy cho e-process tuần tự đã đăng ký** (review 2: phân tích độ nhạy "cho e-process"). Mô phỏng R-102 chỉ phủ phép end-of-pool và sign test.
+     - Đã thêm e-process, tính trên đúng các mảng Z đã sinh, không rút thêm số ngẫu nhiên.
+     - Các số cũ của R-102 giữ nguyên (đã kiểm từng ô).
+     - Bản vector hóa khớp từng hàng với lớp `BettingEProcess` (test mới).
+     - Kết quả: ≤ 0,0099 khi phụ thuộc vừa phải; 0,0291 ở ρ = 0,8 trong từng nhánh.
+     - **R5:** đây là phần mở rộng sau khi đã thấy kết quả R-102. Docstring của script và mục này ghi rõ điều đó. Mở rộng này không đổi kịch bản, lưới hay seed nào.
+  2. **Nhãn RQ4 trong Hình 1 nằm dưới hai ô** (review 1): nay ghi "RQ4 (scorer, rules)" và "RQ4 (what is certified)".
+  3. **Bảng 1 nhóm theo RQ**, có đường kẻ giữa ba nhóm. Đây là phương án trội so với việc bỏ dòng: người đọc thấy mạch của bài mà bảng vẫn là bản kê đầy đủ.
+- **Phản biện, giữ nguyên:**
+  - "Rút Bảng 1 còn 8 dòng" (lần thứ ba): như R-101 và R-103; thay bằng nhóm theo RQ.
+  - "Chuyển chứng minh Proposition 3.1 sang gói": chứng minh chỉ dài 4 dòng, nên chuyển đi gần như không tiết kiệm chỗ. Reviewer thống kê cần thấy nó trong bài, và chính review này cho Soundness lên 5 sau khi đọc mục 3.
+  - Review 2 kể C, C10, các agent khác và mục 4.7 như phần "mới trong bản này": các phần này đã có từ trước. Không ảnh hưởng gì.
+  - "Kiểm ngữ nghĩa độc lập", "người gán nhãn thứ hai": cần người, thuộc quyền @thuthuy (như R-101, R-103).
+  - "Biến thể C10 bỏ Remove F2P Tests", "các kênh khác": đã nêu ở Threats; cần chi phí.
+- **Kiểm:**
+  - Test: 4 trong `tests/test_dependence_sensitivity.py`.
+  - Biên dịch: 0 tràn ngang; phần chính tới trang 9.
+  - `ease_pdf_check.py` chỉ còn E-A4.
+  - Preflight đạt.
+- **Kết luận R-104:** đạt.
+

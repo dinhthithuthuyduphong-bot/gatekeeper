@@ -130,8 +130,8 @@ certified for its pool and run (Section~\ref{sec:residual}).
 \node[rq,above=0pt of learn] {RQ2, RQ3 (learners, writers)};
 \node[rq,above=0pt of env] {RQ1 (interventions)};
 \node[rq,below=0pt of agent] {RQ3 (agents, repositories)};
-\node[rq,below=0pt of dec] {RQ4};
-\node[rq,below=0pt of score] {RQ4};
+\node[rq,below=0pt of dec] {RQ4 (what is certified)};
+\node[rq,below=0pt of score] {RQ4 (scorer, rules)};
 \end{tikzpicture}}
 \caption{Study design. A learner rewrites a skill in an environment whose history we vary; agents run
 with and without the skill in that environment; the benchmark's scorer $S$ grades the runs and the
@@ -205,20 +205,22 @@ J1 & 1 & gain of the learned Jinja skill & none & Jinja test, 100 & 2 runs, same
 J2 & 1 & gain without the construction commits & history $\to$ one commit & Jinja test, 100 & 2 runs, same day & registered\\
 B1, B2 & 1 & the same for the Bleve skill & as J1, J2 & Bleve test, 100 & different days & registered\\
 P & 1 & does an irrelevant skill explain the gain & skill $\to$ length-matched placebo & Jinja test, 100 & different days & registered\\
-A & 2 & is the instruction the cause & skill minus its history line & Jinja test, 100 & same job & registered\\
-R & 2 & does the learner write it without the leak & relearn with one commit & Jinja test, 100 & same job (\neopSameG/100) & registered\\
 S1--S3 & 1 & second agent seed, four arms & J1, J2 and their contrast & Jinja test, 100 & same job & registered\\
 C & 1 & confirmatory contrast & J1 vs J2 & 34 test (seed 51) + 36 new & same job per task & registered\\
+\midrule
+A & 2 & is the instruction the cause & skill minus its history line & Jinja test, 100 & same job & registered\\
+R & 2 & does the learner write it without the leak & relearn with one commit & Jinja test, 100 & same job (\neopSameG/100) & registered\\
 C10 & 2 & message or pre-bug code & four histories & the 70 tasks of C & same job & registered\\
 R2 & 2 & is the learning outcome repeated & relearn, both histories & Jinja test, 100 & same job & registered, descr.\\
+H & 2 & what the agent saw & trace audit & every saved trace & -- & post hoc\\
+X3 & 2 & does the audit match a human & blind labels & Jinja, 104 runs with the skill & -- & registered\\
+\midrule
 V1--V3 & 3 & agents of other vendors & J1 vs J2 contrast & the 70 tasks of C & same session per task & registered\\
 K & 3 & does the sandbox change our agent & chroot vs Docker & Jinja, 34 without descr. & same job & registered, descr.\\
 W & 3 & other skill-writing models & rewrite saved prompts & 32 prompts, 3 seeds & one platform & registered\\
 L2 & 3 & a second learner (XRepoSkill) & both histories & 31 and 12 issues & -- & registered\\
 G & 3 & second agent model & none (descriptive) & Jinja, 34 without description & same job & registered, descr.\\
 X & 3 & reuse on another repository & Jinja skill on Pygments & Pygments test, 100 & same job (\neopSameH/100) & registered\\
-H & 2 & what the agent saw & trace audit & every saved trace & -- & post hoc\\
-X3 & 2 & does the audit match a human & blind labels & Jinja, 104 runs with the skill & -- & registered\\
 \bottomrule\end{tabular}
 \end{table*}
 
@@ -281,8 +283,10 @@ correlation up to 0.5 within each arm, a correlation up to 0.8 shared by both ar
 fails up to 20 consecutive tasks of one arm, the end-of-pool test certified a null pool at most at
 rate \ndepEopMild{}. At a correlation of 0.8 within each arm it reached \ndepEopStrong{}, near
 $\alpha$, while the registered sign test reached \ndepSignStrong{} (and \ndepSignBlock{} under the
-longest outage). The end-of-pool test is thus the more robust of the two to this kind of violation,
-and only a strong link inside one arm brings it to $\alpha$.
+longest outage). The registered e-process, run on the same draws, behaves like the end-of-pool test
+(at most \ndepEpMild{}; \ndepEpStrong{} at a correlation of 0.8 within each arm). Both are thus more
+robust than the sign test to this kind of violation, and only a strong link inside one arm brings
+them to $\alpha$.
 
 \paragraph{The registered tests and their role}
 Every comparison was registered with an exact one-sided sign test on the discordant pairs (Holm's

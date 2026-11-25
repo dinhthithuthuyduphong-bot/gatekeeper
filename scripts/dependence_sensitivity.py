@@ -76,10 +76,34 @@ def block_fail(rng, r: np.ndarray, length: int) -> np.ndarray:
     return out
 
 
+def eprocess_crossed(z: np.ndarray, theta: float, c: float, alpha: float) -> np.ndarray:
+    """Registered sequential e-process (src/.../eprocess.py BettingEProcess with its defaults
+    prior_mean 0, prior_var 1, prior_weight 1), vectorised over replicates: True where log E_n
+    reaches log(1/alpha) at any n. Added 25/11 after the first results, at a reviewer's request
+    (R-104); it is computed on the same Z arrays, so the earlier numbers do not change."""
+    reps, n = z.shape
+    w0, s, s2 = 1.0, np.zeros(reps), np.ones(reps)
+    log_e, crossed = np.zeros(reps), np.zeros(reps, dtype=bool)
+    lam_max, thr = c / (1.0 + theta), np.log(1.0 / alpha)
+    for i in range(n):
+        mean = s / (i + w0)
+        var = np.maximum(s2 / (i + w0) - mean * mean, 0.0)
+        gap = -theta - mean
+        lam = np.where(
+            gap > 0, np.minimum(gap / np.where(gap > 0, var + gap * gap, 1.0), lam_max), 0.0
+        )
+        log_e += np.log1p(lam * (-theta - z[:, i]))
+        crossed |= log_e >= thr
+        s += z[:, i]
+        s2 += z[:, i] * z[:, i]
+    return crossed
+
+
 def rates(z: np.ndarray) -> dict:
     return {
         "end_of_pool_reject": float(vm.eop_reject(z, vm.ALPHA).mean()),
         "sign_test_reject": float(vm.sign_reject(z, vm.ALPHA).mean()),
+        "eprocess_cross": float(eprocess_crossed(z, 0.0, 0.5, vm.ALPHA).mean()),
     }
 
 
@@ -124,6 +148,10 @@ def summarise(res: dict) -> dict:
         "max_eop_independent": mx("independent", "end_of_pool_reject"),
         "max_sign_within_arm": mx("a_", "sign_test_reject"),
         "max_sign_block_outage": mx("c_", "sign_test_reject"),
+        "max_ep_independent": mx("independent", "eprocess_cross"),
+        "max_ep_within_arm": mx("a_", "eprocess_cross"),
+        "max_ep_shared": mx("b_", "eprocess_cross"),
+        "max_ep_block_outage": mx("c_", "eprocess_cross"),
         "alpha": vm.ALPHA,
         "mcse_at_alpha": float(np.sqrt(vm.ALPHA * (1 - vm.ALPHA) / REPS)),
     }

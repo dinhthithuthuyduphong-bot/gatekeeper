@@ -19,86 +19,106 @@
    "pool_mean_EZ": 0.0,
    "independent": {
     "end_of_pool_reject": 0.00075,
-    "sign_test_reject": 0.010833333333333334
+    "sign_test_reject": 0.010833333333333334,
+    "eprocess_cross": 0.00025
    },
    "a_within_arm_rho0.2": {
     "end_of_pool_reject": 0.00175,
-    "sign_test_reject": 0.0155
+    "sign_test_reject": 0.0155,
+    "eprocess_cross": 0.0013333333333333333
    },
    "b_shared_rho0.2": {
     "end_of_pool_reject": 0.0,
-    "sign_test_reject": 0.0
+    "sign_test_reject": 0.0,
+    "eprocess_cross": 0.0
    },
    "a_within_arm_rho0.5": {
     "end_of_pool_reject": 0.0036666666666666666,
-    "sign_test_reject": 0.023083333333333334
+    "sign_test_reject": 0.023083333333333334,
+    "eprocess_cross": 0.00325
    },
    "b_shared_rho0.5": {
     "end_of_pool_reject": 0.0,
-    "sign_test_reject": 0.0
+    "sign_test_reject": 0.0,
+    "eprocess_cross": 0.0
    },
    "a_within_arm_rho0.8": {
     "end_of_pool_reject": 0.018666666666666668,
-    "sign_test_reject": 0.06375
+    "sign_test_reject": 0.06375,
+    "eprocess_cross": 0.017166666666666667
    },
    "b_shared_rho0.8": {
     "end_of_pool_reject": 0.0,
-    "sign_test_reject": 0.0
+    "sign_test_reject": 0.0,
+    "eprocess_cross": 0.0
    },
    "c_block_outage_L5": {
     "end_of_pool_reject": 0.0023333333333333335,
-    "sign_test_reject": 0.015083333333333334
+    "sign_test_reject": 0.015083333333333334,
+    "eprocess_cross": 0.0014166666666666668
    },
    "c_block_outage_L10": {
     "end_of_pool_reject": 0.0025,
-    "sign_test_reject": 0.01725
+    "sign_test_reject": 0.01725,
+    "eprocess_cross": 0.002
    },
    "c_block_outage_L20": {
     "end_of_pool_reject": 0.008166666666666666,
-    "sign_test_reject": 0.0335
+    "sign_test_reject": 0.0335,
+    "eprocess_cross": 0.009916666666666667
    }
   },
   "heterogeneous_pm0.3": {
    "pool_mean_EZ": -7.274475466445552e-13,
    "independent": {
     "end_of_pool_reject": 0.0005,
-    "sign_test_reject": 0.006416666666666667
+    "sign_test_reject": 0.006416666666666667,
+    "eprocess_cross": 0.0003333333333333333
    },
    "a_within_arm_rho0.2": {
     "end_of_pool_reject": 0.001,
-    "sign_test_reject": 0.009333333333333334
+    "sign_test_reject": 0.009333333333333334,
+    "eprocess_cross": 0.0005833333333333334
    },
    "b_shared_rho0.2": {
     "end_of_pool_reject": 0.0004166666666666667,
-    "sign_test_reject": 0.004083333333333333
+    "sign_test_reject": 0.004083333333333333,
+    "eprocess_cross": 0.00025
    },
    "a_within_arm_rho0.5": {
     "end_of_pool_reject": 0.00425,
-    "sign_test_reject": 0.017583333333333333
+    "sign_test_reject": 0.017583333333333333,
+    "eprocess_cross": 0.00325
    },
    "b_shared_rho0.5": {
     "end_of_pool_reject": 0.0005,
-    "sign_test_reject": 0.00425
+    "sign_test_reject": 0.00425,
+    "eprocess_cross": 0.0
    },
    "a_within_arm_rho0.8": {
     "end_of_pool_reject": 0.027583333333333335,
-    "sign_test_reject": 0.06091666666666667
+    "sign_test_reject": 0.06091666666666667,
+    "eprocess_cross": 0.029083333333333333
    },
    "b_shared_rho0.8": {
     "end_of_pool_reject": 0.0026666666666666666,
-    "sign_test_reject": 0.010166666666666666
+    "sign_test_reject": 0.010166666666666666,
+    "eprocess_cross": 0.0015833333333333333
    },
    "c_block_outage_L5": {
     "end_of_pool_reject": 0.0011666666666666668,
-    "sign_test_reject": 0.008333333333333333
+    "sign_test_reject": 0.008333333333333333,
+    "eprocess_cross": 0.00075
    },
    "c_block_outage_L10": {
     "end_of_pool_reject": 0.0018333333333333333,
-    "sign_test_reject": 0.01025
+    "sign_test_reject": 0.01025,
+    "eprocess_cross": 0.0014166666666666668
    },
    "c_block_outage_L20": {
     "end_of_pool_reject": 0.006,
-    "sign_test_reject": 0.024
+    "sign_test_reject": 0.024,
+    "eprocess_cross": 0.006
    }
   }
  },
@@ -109,6 +129,10 @@
   "max_eop_independent": 0.00075,
   "max_sign_within_arm": 0.06375,
   "max_sign_block_outage": 0.0335,
+  "max_ep_independent": 0.0003333333333333333,
+  "max_ep_within_arm": 0.029083333333333333,
+  "max_ep_shared": 0.0015833333333333333,
+  "max_ep_block_outage": 0.009916666666666667,
   "alpha": 0.025,
   "mcse_at_alpha": 0.0014252192813739226
  },

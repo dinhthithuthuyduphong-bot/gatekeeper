@@ -39,12 +39,16 @@ def dep_numbers(d: dict) -> dict:
     mild = [v["end_of_pool_reject"] for k, v in cells if not k.startswith("a_within_arm_rho0.8")]
     strong = [v for k, v in cells if k.startswith("a_within_arm_rho0.8")]
     assert len(strong) == 2 and len(mild) == len(cells) - 2, (len(strong), len(mild))
+    ep_mild = [v["eprocess_cross"] for k, v in cells if not k.startswith("a_within_arm_rho0.8")]
     # four decimals: these rates are compared with alpha = 0.025, so two decimals would mislead
     return {
         "depEopMild": f"{max(mild):.4f}",
         "depEopStrong": f"{max(v['end_of_pool_reject'] for v in strong):.4f}",
         "depSignStrong": f"{max(v['sign_test_reject'] for v in strong):.4f}",
         "depSignBlock": f"{max(v['sign_test_reject'] for k, v in cells if k.startswith('c_')):.4f}",
+        # R-104: the registered sequential e-process on the same Z arrays
+        "depEpMild": f"{max(ep_mild):.4f}",
+        "depEpStrong": f"{max(v['eprocess_cross'] for v in strong):.4f}",
         "depReps": d["inputs"]["reps"],
     }
 
