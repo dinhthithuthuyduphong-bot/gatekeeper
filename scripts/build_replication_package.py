@@ -110,6 +110,43 @@ Third-party texts without a licence (XRepoSkill guidance, MemGovern data) are no
 """
 
 
+# Licences chosen for the package (docs/ease_writing_rules.md E-O4, R-99). The MIT text below is
+# copied verbatim from an installed MIT-licensed package's LICENSE file, not typed from memory;
+# the holder line stays anonymous for double-anonymous review.
+MIT_LICENSE = """MIT License
+
+Copyright (c) 2026 The authors of the anonymized submission
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+"""
+DATA_LICENSE = """# Licence of data and documentation
+
+Data (`results/`, `trial/results/`) and documentation (`docs/`, `paper/`, this README) are released
+under the Creative Commons Attribution 4.0 International licence (CC-BY 4.0),
+https://creativecommons.org/licenses/by/4.0/ . Code (`src/`, `scripts/`, `tests/`, `configs/`,
+`.github/workflows/`, `trial/src/`, `trial/scripts/`) is released under the MIT licence (`LICENSE`).
+
+Third-party content keeps its own licence: the agent traces quote files of the benchmark's
+repositories and task texts of the SWE-smith dataset, which are not ours to relicense.
+"""
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--trial", type=Path, required=True)
@@ -125,6 +162,8 @@ def main() -> int:
     for p in TRIAL:
         n += copy(a.trial / p, a.out / "trial" / p)
     (a.out / "README.md").write_text(README)
+    (a.out / "LICENSE").write_text(MIT_LICENSE)
+    (a.out / "LICENSE-DATA.md").write_text(DATA_LICENSE)
     print(f"{n} files copied")
     r = subprocess.run(
         [

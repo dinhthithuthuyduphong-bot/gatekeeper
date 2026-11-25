@@ -25,7 +25,11 @@ Một quy tắc mới, hay một quy tắc bị vi phạm, được ghi vào b�
 | `sigsoft_infovis_supplement` | Phụ lục Information Visualization |
 | `sigsoft_irr_supplement` | Phụ lục Inter-Rater Reliability and Agreement |
 | `sigsoft_registered_reports_supplement` | Phụ lục Registered Reports |
-| `acm_authorship_ai_policy` | Chính sách ACM về tác giả và AI. **Chưa đọc được** (HTTP 403, xem §4) |
+| `acm_authorship_ai_policy` | Chính sách ACM về tác giả và AI. **Bản gốc trả về 403** (cả `acm_publications_faq`) |
+| `sigcse_2027_ai_policy` | Trang của SIGCSE TS 2027 (một hội nghị ACM), **trích nguyên văn** chính sách ACM hiện hành. Đây là nguồn thứ cấp cho E-AI1 |
+| `sigchi_acm_ai_policy_guidance` | Blog SIGCHI (07/2023) về bản chính sách cũ hơn. Chỉ dùng để thấy chính sách đã đổi |
+| `disclose_data_dbr_howto` | Hướng dẫn mà chính sách Open Science dẫn tới: chia sẻ hiện vật cho review ẩn danh, rồi mở khi bài được nhận |
+| `continuous_skill_eval_2026` | Bài cùng chủ đề trình bày theo mẫu ACM. Là nguồn bên thứ ba cho tên khái niệm CCS, vì trang CCS của ACM (`acm_ccs2012`) trả về 403 |
 
 **Chuẩn nào áp dụng.** Mỗi chuẩn tự nêu phạm vi của nó trong mục "Application". Ta xét bài theo đúng câu đó, không theo cảm nhận.
 
@@ -50,6 +54,7 @@ Một quy tắc mới, hay một quy tắc bị vi phạm, được ghi vào b�
 | E-F5 | Dòng `\acmConference` phải đúng nguyên văn; `--` trong LaTeX in ra dấu "–" | "\acmConference[EASE 2027]{The 31st International Conference on Evaluation and Assessment in Software Engineering}{15–18 June, 2027}{Hanoi, Vietnam}" | `ease_2027_research_cfp` | preflight [ease] |
 | E-F6 | Hạn nộp, giờ AoE (UTC−12): tóm tắt 15/01/2027, bài 22/01/2027; thông báo kết quả 12/03/2027 | "Abstract Submission deadline: 15 January 2027, AoE Submission deadline: 22 January 2027, AoE Notification: 12 March 2027, AoE" | `ease_2027_research_cfp` | người (lịch) |
 | E-F7 | Nếu bài được nhận, ít nhất một tác giả phải đăng ký và trình bày | "at least one author of the paper is required to register for the conference and present the paper" | `ease_2027_research_cfp` | @thuthuy |
+| E-F9 | Không còn cảnh báo nào của acmart gọi một phần tử là "mandatory" (ACM reference format, CCS concepts, keywords). Không tắt các phần tử mặc định của mẫu (`printacmref=false`, `\setcopyright{none}`). Mỗi hình có `\Description` | acmart: "CCS concepts are mandatory for papers over two pages", "ACM reference format is mandatory for papers over one page", "Some images may lack descriptions" | `acmart.cls` (TeX Live) | `ease_pdf_check.py` đọc log |
 | E-F8 | Bài được nhận xuất bản open access trong ICPS và có thể phải trả APC | "this may require payment of an ACM Article Processing Charge (APC)" | `ease_2027_research_cfp` | @thuthuy |
 
 CFP **không** nhắc tới vòng rebuttal hay tỉ lệ nhận bài. Một review nói có các thứ đó là sai so với nguồn (R-97).
@@ -82,10 +87,13 @@ Hệ quả cho cách viết: không viết "the author" ở số ít, vì như v
 
 | Mã | Quy tắc | Nguyên văn | Nguồn | Kiểm |
 | --- | --- | --- | --- | --- |
-| E-AI1 | Theo chính sách của ACM về tác giả | "Concerning AI Generated content, authors should adopt the ACM Policy: https://www.acm.org/publications/policies/new-acm-policy-on-authorship" | `ease_2027_research_cfp` | **chưa đủ**: trang của ACM trả về 403 (A5a). Theo R1 không đoán nội dung của nó |
+| E-AI1 | Theo chính sách của ACM về tác giả | "Concerning AI Generated content, authors should adopt the ACM Policy: https://www.acm.org/publications/policies/new-acm-policy-on-authorship" | `ease_2027_research_cfp` | người |
+| E-AI1a | AI dùng để **làm nghiên cứu** (viết mã, chạy mô phỏng, phân tích dữ liệu, kiểm thử, lưu trữ mã và dữ liệu, tạo hình) phải được mô tả chi tiết **trong phần phương pháp** | "When using Artificial Intelligence to conduct research, including ... coding, implementing models, running simulations, data analysis, testing, validating results, deploying software, archiving data and code for reproducibility ... the specific use(s) of AI tools must be described in detail in the methods section of the Work. This includes the creation of artifacts that are directly relevant to the conclusions of the research, such as code, datasets, and charts or figures that rely on the AI tools." | `sigcse_2027_ai_policy` (trích chính sách ACM) | người: đoạn "AI tools used in this research" ở mục Setting |
+| E-AI1b | AI hỗ trợ **viết** không còn bắt buộc khai báo. Ta vẫn khai báo, vì việc đó không bị trừ điểm dưới bản chính sách nào | "When using Artificial Intelligence to assist with writing an ACM submission, ACM no longer requires the disclosure of information regarding the use of AI" | như trên | người |
+| E-AI1c | Mọi tác giả chịu trách nhiệm về nội dung, bất kể nguồn gốc; ACM có quyền từ chối bài | "All named authors on an ACM submission will be held responsible and accountable for any problematic content contained in the submission regardless of the source of that problematic content" | như trên | người |
 | E-AI2 | Khai báo phù hợp về nội dung do AI tạo hay hỗ trợ; tác giả chịu trách nhiệm về độ chính xác và tính nguyên bản | "Appropriate disclosure of any AI-generated or AI-assisted content" | `ease_2027_rnr_track` | người: mục "Use of AI Tools" |
 
-Cho tới khi đọc được trang của ACM, mục "Use of AI Tools" phải nêu ba điều: công cụ được dùng vào việc gì; phần nào tác giả đã kiểm; và rằng tác giả chịu trách nhiệm về nội dung. Tên model hay phiên bản chỉ ghi trong gói tái lập, theo quy tắc của repo.
+Bản gốc của ACM vẫn bị chặn (403). Câu trích ở E-AI1a đến E-AI1c lấy từ trang của một hội nghị ACM khác, nơi chính sách được trích nguyên văn. Blog SIGCHI năm 2023 mô tả bản cũ, bắt buộc khai báo cả việc AI hỗ trợ viết. Cách viết hiện tại của bài đúng với cả hai bản: mô tả việc AI làm trong nghiên cứu ở phần phương pháp, và khai báo luôn việc hỗ trợ viết. Bài nêu tên công cụ (Claude Code). Tên model hay phiên bản của các agent được nghiên cứu chỉ ghi trong gói tái lập, theo quy tắc của repo.
 
 ## 5. Tiêu chí reviewer chấm (E-C)
 
@@ -183,14 +191,15 @@ Ký hiệu: **đạt**; **sửa R-98** (sửa trong lượt này); **chờ** (th
 
 | Mã | Tình trạng | Ghi chú |
 | --- | --- | --- |
-| E-F2 | đạt | Phần chính 9 trang; đo lại bằng `ease_pdf_check.py` sau mỗi lần build |
+| E-F2 | đạt | Phần chính tới trang 9, tức dưới giới hạn 10; đo lại bằng `ease_pdf_check.py` sau mỗi lần build |
+| E-F9 | sửa R-99 | Bỏ `printacmref=false`, `\setcopyright{none}` và lệnh ẩn ô bản quyền. Thêm CCS và `\Description` cho ba hình. Log không còn cảnh báo "mandatory" |
 | E-F4, E-F5 | đạt | preflight [ease] |
 | E-A1–E-A3 | sửa R-98 | Sửa "reviewed by the author" (lộ số tác giả) thành "an author". preflight [ease] kiểm tên chủ repo, `\author`, `acks` và cụm ngôi thứ nhất |
-| E-A4, E-O3, E-O4 | **chờ** | Q6 (nơi đặt gói) và giấy phép là việc ra bên ngoài, thuộc quyền @thuthuy. Khi có quyết định, mục Data Availability phải nêu kho lưu trữ (không phải GitHub) và giấy phép |
+| E-A4, E-O3, E-O4 | sửa R-99; **còn bước tải lên** | Chọn (R-99) figshare với link riêng tư ẩn danh. Theo `disclose_data_dbr_howto`, Zenodo buộc công bố công khai ngay ("the file will be publicly accessible and indexed in Zenodo"), còn figshare cho link riêng tư trong lúc review và công bố khi bài được nhận. Giấy phép: CC-BY 4.0 cho dữ liệu và tài liệu, MIT cho mã (file `LICENSE`, `LICENSE-DATA.md` trong gói). Còn lại: @thuthuy tải gói lên figshare bằng tài khoản của mình (việc ra bên ngoài), rồi thay macro `\anonpackage`. `ease_pdf_check.py` báo lỗi khi macro còn là ANON-LINK-PENDING |
 | E-O2 | đạt | preflight [ease] |
 | E-O5, E-O8 | sửa R-98 | Data Availability nêu lý do không phân phối lại: các văn bản bên thứ ba không có giấy phép, và khóa truy cập |
 | E-O7 | sửa R-98 | Data Availability liệt kê phiên bản model và công cụ, prompt, seed trong gói |
-| E-AI1 | **chờ** | Trang chính sách ACM bị 403; cần @thuthuy gửi bản chép hoặc đường dẫn khác (A5a) |
+| E-AI1 | sửa R-99 | Chuyển phần khai báo vào mục Setting (phần phương pháp), nêu chi tiết việc AI làm; bỏ mục riêng ở cuối bài |
 | E-AI2 | sửa R-98 | Use of AI Tools: thêm câu tác giả chịu trách nhiệm, và tác giả gán nhãn X3′ |
 | E-C1, E-G14, E-G16 | sửa R-98 | Tóm tắt, phần mở đầu và kết luận viết lại cho khớp mục 4.5: phần gain còn lại là gain khi không có hai commit, được các phép kiểm đã đăng ký nhận; phép end-of-pool là đọc lại post hoc |
 | E-G4 | sửa R-98 | Gọi tên phương pháp theo Empirical Standards. Không thêm mục trích dẫn cho từng chuẩn: bản gốc không ghi năm, và nhiều mục không năm cùng nhãn "sig" làm hỏng kiểu ACM (`make_bib.py` dừng). Theo R1 không tự điền năm |
@@ -200,5 +209,5 @@ Ký hiệu: **đạt**; **sửa R-98** (sửa trong lượt này); **chờ** (th
 | E-R1 | sửa R-98 | Chú thích bảng inventory |
 | E-V2 | sửa R-98 | Chú thích Hình 3 (paired gains) nêu thông điệp |
 | E-I2 | đạt | Câu "One rater sufficed" và giới hạn Q4 trong Threats |
-| CCS Concepts | **chờ** | acmart cảnh báo thiếu `\ccsdesc`. Cần bảng phân loại ACM CCS 2012 làm nguồn, nhưng chưa tải được. Không tự đoán mã CCS |
-| Tiêu đề | **chờ** | Q3. Review 1 (25/11) cho rằng tiêu đề nói quá so với Threats (claim chỉ cho learner và writer của gskill). Lời khuyên: thêm "a published learner" hoặc "gskill's learner" vào tiêu đề |
+| CCS Concepts | sửa R-99 | "Software and its engineering → Software verification and validation" và "Computing methodologies → Artificial intelligence". Hai khái niệm này được dùng nguyên văn trong `continuous_skill_eval_2026`, một bài cùng chủ đề theo mẫu ACM. Trang CCS của ACM bị 403; khi đọc được thì đối chiếu lại |
+| Tiêu đề | sửa R-99 | "A Published Skill Learner Found the Leak: Controls for Evaluating Learned Coding-Agent Skills". "A published skill learner" chỉ đúng một learner, khớp Threats (E-G16). Bỏ "Certifying" vì chứng nhận không còn là đóng góp chính (Q3) |

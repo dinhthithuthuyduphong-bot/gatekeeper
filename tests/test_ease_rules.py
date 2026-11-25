@@ -69,3 +69,17 @@ def test_pdf_pages():
     many_refs = ["text"] * 5 + ["REFERENCES"] + ["[2]"] * 3
     assert any("3 pages" in b for b in ease_pdf_check.evaluate(many_refs, ""))
     assert any(b.startswith("E-A1") for b in ease_pdf_check.evaluate(main9, "Someone"))
+
+
+def test_mandatory_warnings():
+    log = (
+        "Class acmart Warning: CCS concepts are mandatory for papers over two pages.\n"
+        "Class acmart Warning: some other warning\n"
+    )
+    w = ease_pdf_check.mandatory_warnings(log)
+    assert w == ["CCS concepts are mandatory for papers over two pages."]
+
+
+def test_placeholder_link_fails():
+    pages = ["see (ANON-\nLINK-PENDING)", "REFERENCES"]
+    assert any(b.startswith("E-A4") for b in ease_pdf_check.evaluate(pages, ""))

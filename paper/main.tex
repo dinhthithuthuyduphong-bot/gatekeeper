@@ -3,9 +3,6 @@
 % bibliography: paper/refs.bib (scripts/make_bib.py). None is edited by hand.
 \documentclass[sigconf,review,anonymous]{acmart}
 \acmConference[EASE 2027]{The 31st International Conference on Evaluation and Assessment in Software Engineering}{15--18 June, 2027}{Hanoi, Vietnam}
-\settopmatter{printacmref=false}
-\setcopyright{none}
-\renewcommand\footnotetextcopyrightpermission[1]{}
 \usepackage{booktabs}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc}
@@ -25,9 +22,11 @@
 \newcommand{\grokmodel}{Grok~4.6}
 % Every number in the text is a macro generated from results/ by scripts/make_numbers.py.
 \input{numbers}
+% E-A4: the figshare private link; replace before submission (scripts/ease_pdf_check.py fails on it)
+\newcommand{\anonpackage}{\textbf{ANON-LINK-PENDING}}
 
 \begin{document}
-\title{The Learner Found the Leak: Certifying Learned Coding-Agent Skills under Controls}
+\title{A Published Skill Learner Found the Leak: Controls for Evaluating Learned Coding-Agent Skills}
 
 \begin{abstract}
 Skills for coding agents are increasingly learned by optimising a text against a benchmark and
@@ -53,6 +52,8 @@ fixed pool of tasks, within one run. It is the gain left without these two chann
 shown to come from the skill alone. A learned skill must be certified per scope, under controls in which the claimed
 cause is absent.
 \end{abstract}
+\ccsdesc{Software and its engineering~Software verification and validation}
+\ccsdesc{Computing methodologies~Artificial intelligence}
 \keywords{coding agents, agent skills, benchmark leakage, controlled experiments, e-values}
 \maketitle
 
@@ -148,6 +149,16 @@ gain under $S$: the benchmark's tests, not an independent check of the patches' 
 Table~\ref{tab:inventory} lists every experiment, its intervention and cohort, whether its arms ran
 in the same job, and whether its analysis was registered before the data. A \emph{scope} is a
 repository, its environment, and the agent with its model.
+
+\paragraph{AI tools used in this research}
+An AI coding agent (Claude Code), instructed by the authors, wrote the harness that runs the
+experiments, the analysis and simulation scripts, the trace detector of Section~\ref{sec:mechanism},
+and the scripts that generate every number, table and figure; it launched the runs and analyses,
+drafted the preregistrations and helped draft the text. The scripts are tested, each registration
+was committed before its data, and an author reviewed the registrations, the code and the generated
+numbers; the blind trace labels of Section~\ref{sec:mechanism} are an author's. The agents, models
+and learners under study are objects of the experiments, not tools of the research. The authors are
+responsible for the content.
 
 \begin{table*}[t]\centering\footnotesize\setlength{\tabcolsep}{4pt}
 \caption{Experiment inventory. ``Same job'': both arms of a task ran in one job at the same time;
@@ -311,6 +322,10 @@ we measured and the one we infer.
 \end{tikzpicture}
 \caption{The mechanism on Jinja. Solid: measured in logs or runs; dashed: inferred, because the
 learning call that first wrote the instruction was overwritten. Seed 41, Jinja test split.}
+\Description{Flow diagram: the task history holds the Bug Patch and Remove F2P Tests commits; an
+agent without a skill reads the commit and solves a task; the skill writer is shown that trace;
+an inferred link leads to the skill instruction to run git log and look for Bug Patch; the shipped
+skill's resolved count and the lower count with one commit follow.}
 \label{fig:mech}
 \end{figure}
 
@@ -463,6 +478,8 @@ one-sided Fisher $p=1/6$.
 rows differ only in the history (J1/J2, S1/S2, B1/B2): in each pair the gain with one commit is
 smaller, and its interval lies right of the dashed line of no gain. Arms in one job (S1, S2, A, R) or in
 different runs (J, B).}
+\Description{Dot plot of eight paired gains with 95 percent intervals. Each one-commit gain is
+smaller than its shipped pair, and all intervals lie right of zero.}
 \label{fig:effects}
 \end{figure}
 
@@ -505,6 +522,8 @@ and \ncfLFNone{} without it.
 \caption{Chronology of the Jinja experiments. The confirmatory test C was committed before any
 result of the second seed was opened; its pool is the 34 test tasks without a description (seed 51)
 followed by 36 new tasks. Times are UTC commit and publication times.}
+\Description{Timeline from 6 to 12 November: the first-seed experiments, the relearning run, the
+registration of the confirmatory test, the second-seed runs and the run of 36 new tasks.}
 \label{fig:timeline}
 \end{figure}
 
@@ -800,18 +819,14 @@ history steps do not depend on them, mark where it stops. Evaluating a learned s
 controls in which the claimed cause is absent, and a statement of what the certification covers.
 
 \section*{Data Availability}
-An anonymized replication package accompanies the submission. It holds the code and configuration
+For review, an anonymized replication package is available through a figshare private link that
+does not identify the authors (\anonpackage{}); on acceptance it will be published there with a
+DOI, under CC-BY~4.0 for data and documentation and the MIT licence for code. It holds the code and configuration
 of every run; for each run file, the model string the runner recorded, the seed, and hashes of the
 task list and of every skill text; the raw runs and the saved traces; the preregistrations with the
 commit time of every registration; and the scripts that generate every number in this paper. Not
 redistributed: the SWE-smith task rows, a third-party dataset (the runs name every task, and
 the package says how to obtain the rows), and third-party texts without a licence, cited by URL.
-
-\section*{Use of AI Tools}
-AI coding assistants were used to write the experiment and analysis code, to run the analyses and to
-draft text. Every number in the paper is generated by a script from the raw results. An author
-labelled the traces of Section~\ref{sec:mechanism} and reviewed the preregistrations, the code and
-the generated numbers; the authors are responsible for the content.
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{refs}

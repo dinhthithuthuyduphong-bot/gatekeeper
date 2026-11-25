@@ -167,6 +167,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Biến môi trường qua ranh giới người dùng (L70)**
 - [ ] Lệnh chạy dưới người dùng khác (`sudo`, môi trường sạch) nhận từng biến cần thiết một cách tường minh, và có một bước kiểm 0 USD dưới đúng người dùng đó xác nhận khóa nạp được trước lần gọi có phí đầu tiên. Đọc mọi cảnh báo trong log của lượt chạy thử.
 
+**Cảnh báo của mẫu và nguồn thứ cấp (L83)**
+- [ ] Log LaTeX không còn cảnh báo "mandatory" của acmart (`ease_pdf_check.py`, E-F9). Khi một bản gốc bị chặn, đã tìm một nguồn chính thức trích nguyên văn nó, và ghi rõ là nguồn thứ cấp (A158, A159).
+
 **Quy tắc của hội nghị (L82)**
 - [ ] Mỗi lần sửa `paper/`: đối chiếu với `docs/ease_writing_rules.md` §9, chạy preflight [ease] và `python scripts/ease_pdf_check.py paper/main.pdf`. Tóm tắt và kết luận không mạnh hơn thân bài (E-G14); phân tích post hoc ghi là thăm dò (E-R1) (A156, A157).
 

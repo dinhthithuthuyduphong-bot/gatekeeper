@@ -8,6 +8,9 @@ appendices, etc. Up to two additional pages containing ONLY references are permi
 Counted conservatively: the page on which the REFERENCES heading starts counts as main text, and
 every later page as a reference page.
 E-A1: the PDF's Author metadata must be empty (double-anonymous review).
+E-F9: the LaTeX log next to the PDF holds no acmart warning that calls an element "mandatory"
+(the template's own requirements: ACM reference format, CCS concepts, keywords).
+E-A4: the placeholder for the anonymous package link (ANON-LINK-PENDING) is gone.
 Needs pdftotext and pdfinfo (poppler).
 """
 
@@ -50,10 +53,20 @@ def evaluate(pages: list[str], author: str) -> list[str]:
         bad.append(f"E-F2: main text runs to page {main} (limit {MAIN_MAX})")
     if refs > REF_MAX:
         bad.append(f"E-F2: {refs} pages after the main text (limit {REF_MAX}, references only)")
+    if any("ANONLINKPENDING" in re.sub(r"[\s\-]", "", t) for t in pages):
+        bad.append("E-A4: the anonymous package link is still the placeholder ANON-LINK-PENDING")
     if author.strip():
         bad.append(f"E-A1: PDF Author metadata is not empty: {author!r}")
     print(f"pages {len(pages)}; main text to page {main}; reference-only pages {refs}")
     return bad
+
+
+def mandatory_warnings(log_text: str) -> list[str]:
+    """acmart's warnings of the form 'X is/are mandatory' (E-F9)."""
+    return [
+        " ".join(m.split())
+        for m in re.findall(r"Class acmart Warning: ([^\n]*mandatory[^\n]*)", log_text)
+    ]
 
 
 def pdf_author(pdf: Path) -> str:
@@ -65,6 +78,11 @@ def pdf_author(pdf: Path) -> str:
 def main() -> int:
     pdf = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("paper/main.pdf")
     bad = evaluate(page_texts(pdf), pdf_author(pdf))
+    log = pdf.with_suffix(".log")
+    if log.exists():
+        bad += [f"E-F9: {w}" for w in mandatory_warnings(log.read_text(errors="replace"))]
+    else:
+        bad.append(f"E-F9: no LaTeX log at {log}")
     for b in bad:
         print("FAIL:", b)
     print("ease pdf:", "PASS" if not bad else "FAIL")
