@@ -1321,3 +1321,38 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Kiểm:** biên dịch 0 tràn ngang, 9 trang, 41 tài liệu tham khảo, `make_bib.py` 0 VERIFY; preflight.
 - **Kết luận R-97:** đạt.
 
+## R-98. Quy tắc viết bài cho EASE 2027 từ nguồn đã tải, và sửa bài theo quy tắc (25/11/2026; 0 USD)
+- **Yêu cầu (@thuthuy):** "tìm tất cả thông báo liên quan tới EASE và đọc sau đó tạo thành 1 rule chuẩn mực để follow viết report"; "viết rule xong thì sửa bài theo rule".
+- **Nguồn đã tải (R1):** workflow `sources`, các commit 79da304, 4ed96d1 và 52bc5d8.
+  - Các trang EASE 2027: CFP Research Papers, trang chủ, track RNR. URL lấy từ chính các liên kết trong trang (`fetch_sources.py` nay ghi các liên kết khớp `link_keywords`), không đoán.
+  - Chính sách Open Science của SIGSOFT.
+  - Các chuẩn General, Benchmarking, Meta-Science, Simulation, cùng các phụ lục Open Science, Information Visualization, IRR, Registered Reports. Mỗi chuẩn được xét theo mục "Application" của chính nó.
+  - Trang chính sách ACM về tác giả và AI vẫn trả về 403.
+- **Sản phẩm:**
+  - `docs/ease_writing_rules.md`: 69 quy tắc (đếm các mã E- ở §1–§8), mỗi quy tắc có câu nguyên văn và khóa nguồn, cùng bảng tình trạng §9.
+  - Preflight [ease]: dòng `\documentclass` và `\acmConference` khớp CFP; Data Availability đặt sau Conclusion và trước tài liệu tham khảo; không có `\author`, `\affiliation`, `\email` hay `acks`; không viết "the author" ở số ít; không có cụm ngôi thứ nhất nói về công trình cũ; không có tên chủ repo. Chú thích LaTeX được bỏ qua, `\%` được giữ.
+  - `scripts/ease_pdf_check.py`: đếm phần chính và số trang chỉ có tài liệu tham khảo. Trang bắt đầu REFERENCES được tính là phần chính, tức đếm theo hướng chặt. Kiểm thêm metadata Author.
+  - `tests/test_ease_rules.py`: 6 test.
+- **Sửa bài (A156, A157):**
+  - Tóm tắt, phần mở đầu và kết luận: phần gain còn lại là gain khi không có hai commit, được các phép kiểm đã đăng ký nhận và được phép end-of-pool nhận khi đọc lại post hoc; đó không phải gain đã chứng minh đến từ skill. Lượt học lặp lại ghi "an observation, not a rate" và "agrees with it". Kết luận ghi "gskill's learner".
+  - Gọi tên phương pháp theo Empirical Standards. Không thêm trích dẫn cho từng chuẩn: bản gốc không ghi năm, và nhiều mục không năm cùng nhãn làm hỏng kiểu ACM.
+  - Lý do chọn repo, trích câu "we learn repository-specific skills for jinja and bleve" (`gskill`) và docstring của `train_optimize_anything.py`, nơi Pygments là ví dụ. Bài trích khóa `gskill_train_config`; đoạn trích chứa câu này nằm trong snapshot `gskill_seed_candidate` của cùng file. Preflight [bib duplicates] chặn việc trích cả hai khóa.
+  - Giả định của sign test.
+  - NumPy 2.4.6 với seed cố định, qua macro `\nsimNumpy` lấy từ `results/method_check.json`.
+  - Chú thích bảng inventory: phân tích post hoc là thăm dò.
+  - Chú thích hình paired gains: nêu thông điệp. Kiểm số: cận dưới của các nhánh một commit là 0,13, 0,09 và 0,09, đều lớn hơn 0.
+  - Data Availability: chuỗi model, seed, hash, trace, và phần không phân phối lại kèm lý do. Đã kiểm từng mục với `build_replication_package.py` và `package_manifest.py`.
+  - Use of AI Tools: "an author", việc gán nhãn, trách nhiệm của tác giả.
+- **Tái lập mô phỏng:** `verify_methods.py` chạy lại với cùng seed cho `results/method_check.json` giống hệt bản cũ, chỉ thêm trường `environment`. `make_numbers.py` chỉ thêm đúng một macro.
+- **Kiểm:**
+  - Biên dịch: 0 tràn ngang, 9 trang (phần chính tới trang 8, 1 trang tài liệu tham khảo), 41 tài liệu tham khảo, `make_bib.py` 0 VERIFY.
+  - `ease_pdf_check.py` đạt.
+  - `check_anonymity.py` trên `paper/` chỉ báo URL tài khoản của các công trình bên thứ ba trong tài liệu tham khảo, không có danh tính của ta.
+  - Preflight đạt.
+- **Còn chờ @thuthuy:**
+  - Kho lưu trữ và giấy phép của gói (E-A4, E-O3, E-O4; Q6).
+  - Bản chép chính sách ACM về AI (E-AI1).
+  - Tên bài (Q3).
+  - CCS Concepts: cần cây phân loại ACM.
+- **Kết luận R-98:** đạt.
+

@@ -158,3 +158,4 @@ Mọi con số khác bên dưới đều được **suy ra từ α**, **suy ra t
 | **Bài, số của §38 và A′: macro `wr*`; mức Holm 0,00625 = 0,025/4** | Suy ra | `results/a38_analysis.json`, `results/a38p_analysis.json`, `results/a38p_results_20261117.jsonl` (chép từ `kaggle/results/`); 11/18 đếm bằng máy như ghi chú 38-11 |
 | **Bài, số của W7 (§45): macro `ws*`** | Suy ra; phần nội dung là hậu kiểm | `results/w7_analysis.json` (phép thử đăng ký), `results/w7_content_posthoc.json` (hậu kiểm, ghi chú 45-10) |
 | **§49 X3′: 104 trace, seed hoán vị 4901** | Định nghĩa; vận hành | 104 = toàn bộ tầng có skill, môi trường gốc, task không mô tả của ba nhóm trong bài (không lấy mẫu, `docs/plan_vs_review.md` §7.3); 4901 chỉ đặt thứ tự hiển thị, không ảnh hưởng phép đếm |
+| **Bài, phiên bản NumPy của mô phỏng (`\nsimNumpy`)** | Vận hành | `results/method_check.json`, trường `environment`, do `scripts/verify_methods.py` ghi; chạy lại 25/11 với cùng seed cho kết quả giống hệt (R-98) |
