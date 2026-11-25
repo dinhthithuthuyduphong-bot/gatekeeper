@@ -224,15 +224,27 @@ FIRST_PERSON_PRIOR = re.compile(
 )
 
 
-def repo_owner() -> str | None:
+def _remote_parts() -> tuple[str, str] | None:
     r = subprocess.run(
         ["git", "remote", "get-url", "origin"], capture_output=True, text=True, check=False
     )
-    m = re.search(r"github\.com[/:]([^/]+)/", r.stdout) or re.search(r"/git/([^/]+)/", r.stdout)
-    return m.group(1) if m else None
+    m = re.search(r"(?:github\.com[/:]|/git/)([^/]+)/([^/\s]+?)(?:\.git)?\s*$", r.stdout)
+    return (m.group(1), m.group(2)) if m else None
 
 
-def check_ease(tex: Path = Path("paper/main.tex"), owner: str | None = None) -> list[str]:
+def repo_owner() -> str | None:
+    parts = _remote_parts()
+    return parts[0] if parts else None
+
+
+def repo_name() -> str | None:
+    parts = _remote_parts()
+    return parts[1] if parts else None
+
+
+def check_ease(
+    tex: Path = Path("paper/main.tex"), owner: str | None = None, repo: str | None = None
+) -> list[str]:
     """E-F4, E-F5, E-O2, E-A1..E-A3 of docs/ease_writing_rules.md."""
     if not tex.exists():
         return []
@@ -263,6 +275,10 @@ def check_ease(tex: Path = Path("paper/main.tex"), owner: str | None = None) -> 
     owner = owner if owner is not None else repo_owner()
     if owner and owner.lower() in body.lower():
         bad.append("E-A3: the repository owner's account name appears in the paper")
+    # A160: a method named like the authors' repositories (one of them public) is a search key
+    repo = repo if repo is not None else repo_name()
+    if repo and re.search(rf"\b{re.escape(repo)}\b", body, re.I):
+        bad.append(f"E-A3: the repository name '{repo}' appears in the paper (a search key)")
     return bad
 
 

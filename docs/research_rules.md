@@ -167,6 +167,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Biến môi trường qua ranh giới người dùng (L70)**
 - [ ] Lệnh chạy dưới người dùng khác (`sudo`, môi trường sạch) nhận từng biến cần thiết một cách tường minh, và có một bước kiểm 0 USD dưới đúng người dùng đó xác nhận khóa nạp được trước lần gọi có phí đầu tiên. Đọc mọi cảnh báo trong log của lượt chạy thử.
 
+**Tên riêng là khóa tìm kiếm (L84)**
+- [ ] Bài và gói tái lập không chứa tên dự án hay tên repo của tác giả; đã đọc lại trang 1 (năm, venue, bản quyền) sau mỗi thay đổi ở phần đầu `.tex` (A160).
+
 **Cảnh báo của mẫu và nguồn thứ cấp (L83)**
 - [ ] Log LaTeX không còn cảnh báo "mandatory" của acmart (`ease_pdf_check.py`, E-F9). Khi một bản gốc bị chặn, đã tìm một nguồn chính thức trích nguyên văn nó, và ghi rõ là nguồn thứ cấp (A158, A159).
 

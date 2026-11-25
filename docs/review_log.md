@@ -1387,3 +1387,36 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Còn lại cho @thuthuy:** tải `replication_package.zip` lên figshare theo `docs/figshare_upload.md`, rồi gửi link riêng tư để thay macro `\anonpackage`.
 - **Kết luận R-99:** đạt.
 
+## R-100. Phản biện ba bản review AI ngày 25/11 (bản "R1 +1, R2 0, R3 −1"; bản "+1.33"; bản "3.55/5") và sửa các điểm đúng (0 USD)
+- **Cách kiểm:** mỗi khẳng định được đối chiếu với PDF (`pdftotext`, `pdfinfo`), mã nguồn `.tex`, danh sách repo của tài khoản (`list_repos`) và các nguồn đã tải (`docs/ease_writing_rules.md`).
+- **Điểm sai, không sửa:**
+  - "Table 2 đảo cột None/Skill ở 7/10 hàng; thiếu tiêu đề cột E": PDF in J1 None 15, Skill 53, và tiêu đề có 𝐸. Đây là lỗi trích chữ của bên review (lặp lại khẳng định đã bác ở R-97).
+  - "Rungit", "𝔹[Z_i|C]", "mất τ": PDF in "Run git log -n 5", "E[𝑍𝑖 | 𝐶]", "Kendall's 𝜏".
+  - "Chính sách ACM cập nhật 14/05/2026", "tỉ lệ nhận khoảng 27%", "mời viết cho số đặc biệt EMSE", "thang EasyChair −3..+3": không có trong CFP hay các nguồn đã tải. Không dùng.
+  - "Rút gọn mục 3, chuyển Proposition sang gói": giữ nguyên. Mục 3 là đóng góp 4 (chứng nhận này bao phủ những gì), và bài đã viết "We claim no new method".
+  - "Novelty hẹp vì Kozyrev et al. đã xóa .git": Related Work đã nêu khác biệt (họ dựng sẵn môi trường không có `.git`; ta đo phần gain do lịch sử đóng góp, và learner tự viết chỉ dẫn).
+  - "Nhiều tài liệu là blog hay GitHub issue": các báo cáo rò rỉ lịch sử git được công bố dưới dạng issue. Đây là giới hạn vốn có của nguồn, không phải lỗi trích dẫn.
+- **Điểm đúng, đã sửa:**
+  1. **Năm 2026 trên khối ACM Reference và ô bản quyền:** thêm `\acmYear{2027}`, `\copyrightyear{2027}` (A160).
+  2. **Tên "Gatekeeper" làm lộ tác giả:** `list_repos` cho thấy repo `-gatekeeper-p6` để công khai. Bài nay gọi là "the registered e-process". Preflight [ease] chặn tên repo trong bài. Gói tái lập đổi tên sang `evalgate` trong 157 file và cả file `.gz`; dựng lại: 0 chỗ còn tên cũ, `numbers.tex` giống hệt, test đạt (A160).
+  3. **Bốn RQ tường minh** ở phần mở đầu, mỗi RQ trỏ tới mục trả lời nó (E-G1).
+  4. **Tóm tắt từ 335 xuống 256 từ**, đưa kết quả cùng job và đã đăng ký lên trước:
+     - C cho 36 so với 0; C10 cần mã trước khi có lỗi;
+     - con số trên 100 task ghi "arms in different runs";
+     - phần gain còn lại: "passes the registered tests and, read post hoc, an end-of-pool test".
+  5. **Họ phép kiểm:** một đoạn ở mục 3 nêu C10 là một phép kiểm (ngưỡng 40), V1–V3 là một họ ba phép (120), 12 quyết định là một họ (480), và không có hiệu chỉnh xuyên thí nghiệm.
+  6. **Phát hiện về scorer L** (no-op qua 206/216) đưa vào danh sách đóng góp.
+  7. **Một người gán nhãn:** ghi ngay cạnh con số "relied on the diff".
+  8. **Bảng 2:** chú thích rằng ở hàng P cột "None" là nhánh placebo; thêm khoảng cách sau chữ mũ a, b.
+  9. **Bảng 5:** điền hai ô "Intended use" còn trống.
+- **Thuộc quyền @thuthuy:**
+  - Để repo `-gatekeeper-p6` ở chế độ private trong lúc review (tài khoản).
+  - Tải gói lên figshare (Q6).
+  - Người gán nhãn thứ hai cho Q4 (0 USD, cần một người).
+  - Thí nghiệm mới (agent nền mạnh hơn, thêm lượt học): có phí, không khuyên làm trước khi nộp.
+- **Kiểm:**
+  - Biên dịch: 0 tràn ngang, không còn cảnh báo acmart; phần chính tới trang 9; PDF không còn chữ "Gatekeeper"; năm in là 2027.
+  - `ease_pdf_check.py` chỉ còn E-A4 (link figshare).
+  - Preflight đạt.
+- **Kết luận R-100:** đạt.
+

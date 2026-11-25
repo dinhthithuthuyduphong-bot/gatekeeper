@@ -1,7 +1,9 @@
-% Gatekeeper -- EASE 2027 research paper (anonymous, ACM sigconf; 10 pages including appendices,
+% EASE 2027 research paper (anonymous, ACM sigconf; 10 pages including appendices,
 % up to 2 pages of references). Numbers in the text: paper/numbers.tex (scripts/make_numbers.py);
 % bibliography: paper/refs.bib (scripts/make_bib.py). None is edited by hand.
 \documentclass[sigconf,review,anonymous]{acmart}
+\acmYear{2027}
+\copyrightyear{2027}
 \acmConference[EASE 2027]{The 31st International Conference on Evaluation and Assessment in Software Engineering}{15--18 June, 2027}{Hanoi, Vietnam}
 \usepackage{booktabs}
 \usepackage{tikz}
@@ -32,25 +34,19 @@
 Skills for coding agents are increasingly learned by optimising a text against a benchmark and
 judged by one number, the gain in resolved tasks. We study one such gain under controls. A
 published pipeline learned a skill for the Jinja repository that raises the resolved tasks from
-\njinjaNone{} to \njinjaSkill{} of 100. The learner had written into the skill, unprompted, an
-instruction to look for a suspicious recent commit, and every SWE-smith task keeps two commits that
-the benchmark's construction added: one injects the bug, the next deletes the tests that reproduce
-it. Removing these two commits lowers the gain from \njinjaGain{} to \njinjaLFGain{} (difference
-\nleak{} [\nleakLo{}, \nleakHi{}]); deleting the one instruction leaves a gain of \nabGain{};
-of two learning runs per environment, both wrote the instruction with the two commits and neither
-without them (an observation, not a rate). A second agent seed gives a similar difference (\nsdLeak{} [\nsdLeakLo{},
-\nsdLeakHi{}], not certified on 100 tasks), a preregistered test on \ncfN{} tasks without an issue description confirms the dependence there
-(\ncfNewFor{} of the \ncfNew{} never used before favour the environment with the commits, none the
-other), and a registered intervention on the history shows that the gain needs the pre-bug code in
-the history; the commit's name alone carries none. A skill learned for a Go repository and an open-weight agent of
-another vendor repeat the pattern. An agent of a third vendor that reads the commits without any skill gains
-nothing from the instruction, and a second skill learner writes history steps with or without the
-commits.
-The gain that remains without the two commits passes the registered tests and, read again post hoc,
-an end-of-pool test whose guarantee we state and prove for the design we ran: the mean effect over a
-fixed pool of tasks, within one run. It is the gain left without these two channels, not a gain
-shown to come from the skill alone. A learned skill must be certified per scope, under controls in which the claimed
-cause is absent.
+\njinjaNone{} to \njinjaSkill{} of 100. Unprompted, its learner wrote an instruction to look for a
+suspicious recent commit, and every SWE-smith task keeps two commits added by the benchmark's
+construction: one injects the bug, the next deletes the tests that reproduce it. In a preregistered
+test on \ncfN{} tasks without an issue description, with both environments in one job, the skill's
+gain is larger with the commits on \ncfFor{} tasks and smaller on \ncfAgainst{}. A registered
+intervention on the history shows that this needs the pre-bug code; the commit's name alone carries
+none. On all 100 tasks, removing the commits lowers the gain from \njinjaGain{} to \njinjaLFGain{}
+(arms in different runs). Both learning runs with the commits wrote the instruction, neither of two
+without them (an observation, not a rate). A Go skill and an open-weight agent of another vendor
+repeat the pattern; an agent that reads the commits on its own gains nothing from the instruction.
+The gain that remains without the commits passes the registered tests and, read post hoc, an
+end-of-pool test for its pool and run whose guarantee we state and prove; it is the gain left without these two channels, not a gain shown to come from the
+skill alone. Learned skills need controls in which the claimed cause is absent.
 \end{abstract}
 \ccsdesc{Software and its engineering~Software verification and validation}
 \ccsdesc{Computing methodologies~Artificial intelligence}
@@ -84,7 +80,15 @@ measure how much of a certified gain the advice accounts for.
 We treat the evaluation of a skill as a controlled experiment, in the order
 \emph{gain $\rightarrow$ mechanism $\rightarrow$ intervention $\rightarrow$ residual $\rightarrow$
 scope}. Each control asks whether the measurement could produce the observed result when the
-claimed cause is absent. The contributions are:
+claimed cause is absent. We ask four questions.
+\textbf{RQ1}: how much of the gain depends on the two construction commits
+(Sections~\ref{sec:gain}, \ref{sec:interventions}--\ref{sec:residual})?
+\textbf{RQ2}: by what mechanism (Section~\ref{sec:mechanism})?
+\textbf{RQ3}: how far does the finding extend to other repositories, agents, skill writers and
+learners (Section~\ref{sec:scope})?
+\textbf{RQ4}: what does a certification of such a gain cover, and do the scorer and decision rules
+used for skills pass controls with a known answer (Sections~\ref{sec:certified},
+\ref{sec:measurement})? The contributions are:
 \begin{itemize}
 \item A traced mechanism: the learner introduced the instruction during optimisation (no prompt asks
       for it), the agent follows it on the tasks without an issue description, and every such task
@@ -101,8 +105,8 @@ claimed cause is absent. The contributions are:
       holds for the mean effect over a fixed pool within one run, with heterogeneous tasks, and does
       not extend to other runs or other tasks (Section~\ref{sec:certified}).
 \item Measurement controls with a known answer (A/A runs, no-op and gold patches, an irrelevant
-      skill) applied to a learning pipeline's scorer and to common decision rules
-      (Section~\ref{sec:measurement}).
+      skill) applied to common decision rules and to the learning pipeline's scorer, which accepts a
+      no-op patch on \nfzeroLNoop{} of \nfzeroN{} tasks (Section~\ref{sec:measurement}).
 \end{itemize}
 In the terms of the ACM SIGSOFT Empirical Standards, this is a benchmarking study with registered
 interventions; the checks of the test are quantitative simulations, and the advice on evaluating
@@ -238,8 +242,8 @@ against \neopSignPowMid{} for 0.2).
 
 \paragraph{The registered tests and their role}
 Every comparison was registered with an exact one-sided sign test on the discordant pairs (Holm's
-procedure~\cite{holm} at family level 0.025 where registered) and with Gatekeeper, a betting
-e-process~\cite{waudby_smith_ramdas} run over the tasks in gskill's split order ($\theta=0$,
+procedure~\cite{holm} at family level 0.025 where registered) and with a betting
+e-process~\cite{waudby_smith_ramdas} (the \emph{registered e-process}) run over the tasks in gskill's split order ($\theta=0$,
 $c=0.5$, threshold 40), which allows stopping at any task. We keep both as registered. The sign test assumes, like
 Assumption~\ref{ass:indep}, independent tasks and, under its null, that each discordant pair favours
 either arm with probability $1/2$; Section~\ref{sec:gain} reports the ordering diagnostics. The
@@ -248,6 +252,10 @@ we report its first crossing as the point at which a run could have stopped. All
 every comparison, so stopping points and savings are retrospective. For the twelve decisions of
 Table~\ref{tab:decisions} the end-of-pool test is a post hoc reanalysis; it was registered as the
 primary test, before the runs, for the fixed-pool experiments C10 and V1--V3 (Section~\ref{sec:scope}).
+Each registered experiment controls its own error at $\alpha=0.025$: C10 is one test (threshold 40),
+V1--V3 one family of three (threshold $3/\alpha=120$); the twelve decisions of
+Table~\ref{tab:decisions} are also read as one family (480). No correction spans experiments, and
+each conclusion names the test it rests on.
 
 \section{Results}
 \subsection{The gain and its certification}\label{sec:gain}
@@ -285,8 +293,8 @@ S2 & seed 51, one commit & 1 job & \nsdLFNone & \nsdLFSkill & \nsdLFGain{} [\nsd
 S3 & contrast, seed 51, 100 tasks & 1 job & \multicolumn{3}{c}{difference \nsdLeak{} [\nsdLeakLo, \nsdLeakHi]} & \neopK & no & no & --\\
 C & contrast, 70 tasks w/o descr. & 1 job & \multicolumn{3}{c}{\ncfFor{} for, \ncfAgainst{} against, \ncfTies{} ties} & \neopL & yes & yes & \ncfCross\\
 \bottomrule\end{tabular}\\[2pt]
-\raggedright\footnotesize $^{a}$\neopSameG{} of 100 tasks; the others ran later the same day.
-$^{b}$\neopSameH{} of 100 tasks; \npygLate{} tasks of the skill arm ran later the same day.
+\raggedright\footnotesize For P the ``None'' column is the placebo arm. $^{a}$\,\neopSameG{} of 100 tasks; the others ran later the same day.
+$^{b}$\,\neopSameH{} of 100 tasks; \npygLate{} tasks of the skill arm ran later the same day.
 \end{table*}
 
 \subsection{The mechanism}\label{sec:mechanism}
@@ -347,7 +355,7 @@ author labelled all \nxhN{} of these runs (skill, shipped environment, no descri
 audit, the cohort and the outcome (registered); for the message, the diff and the deleted tests the
 labels agree with the audit on all \nxhAgreeMin{}. One rater sufficed for these three nominal labels,
 which ask whether a given text appears in a tool output, where there is no reason to expect two
-raters to differ~\cite{sigsoft_irr_supplement}. The labeller judged that the agent relied on the
+raters to differ~\cite{sigsoft_irr_supplement}. The labeller (one rater; a judgment, see Section~\ref{sec:threats}) judged that the agent relied on the
 diff, by reverting it or by copying its lines into the patch, in \nxhUse{} of the \nxhDiff{} runs
 that displayed it (\nxhUseRes{} of the \nxhResWithDiff{} resolved), could not tell in
 \nxhUnclear{}, and saw no use in \nxhNoUse{}.
@@ -661,12 +669,12 @@ A/A streams that a rule admits (post hoc). --: not computed for this rule.}\labe
 \begin{tabular}{@{}llllrr@{}}\toprule
 Rule & Intended use & Level & Looks & A/A & Orders\\\midrule
 Plug-in, mean favours skill & quick check & none & 1 & \npluginOnce & --\\
-Plug-in, monitored & & none & every \naaLook & \npluginMonitored & --\\
+Plug-in, monitored & quick check & none & every \naaLook & \npluginMonitored & --\\
 Mantel--Haenszel gate$^{d}$ & interval & 2.5\% & 1 & \nbxOnce & --\\
-Mantel--Haenszel, monitored & & 2.5\% & every 10 & \nbxMonitored & \nrulesMHAAMax\%\\
+Mantel--Haenszel, monitored & interval & 2.5\% & every 10 & \nbxMonitored & \nrulesMHAAMax\%\\
 GEPA acceptance & search & none & 1 (3 tasks) & \ngepaNoop$^{e}$ & \nrulesGepaAAMax\%\\
 Exact sign test, monitored & fixed-$n$ test & 2.5\% & every 10 & -- & \nrulesSignAAMax\%\\
-Gatekeeper e-process & sequential & 2.5\% & every task & \ngkAdmitAA & \nrulesGkAAMax\%\\
+Registered e-process & sequential & 2.5\% & every task & \ngkAdmitAA & \nrulesGkAAMax\%\\
 End-of-pool test & fixed pool & 2.5\% & 1 (end) & -- & --\\\bottomrule
 \end{tabular}\\[2pt]
 \raggedright\footnotesize $^{d}$built by us from XRepoSkill's statistic, which XRepoSkill does not
@@ -714,7 +722,7 @@ manipulation check (the agent must call the memory tools) failed on our harness 
 
 \section{Discussion}\label{sec:discussion}
 \paragraph{A statistical gate certifies a gain, not its source}
-A gate such as PACE~\cite{pace_paired_anytime_gate} or Gatekeeper answers whether a change raises
+A gate such as PACE~\cite{pace_paired_anytime_gate} or our registered e-process answers whether a change raises
 the score on the evaluation tasks. It cannot answer whether the rise comes from a capability or from
 information the evaluation environment should not provide: in the learning environment the
 leak-seeking instruction does raise the resolved count, so a valid gate inside the loop would accept

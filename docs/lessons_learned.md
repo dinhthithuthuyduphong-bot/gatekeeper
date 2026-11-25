@@ -687,3 +687,12 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - `ease_pdf_check.py` đọc log và báo lỗi với mọi cảnh báo "mandatory" (E-F9). Không tắt phần tử mặc định của mẫu.
   - Khi bản gốc bị chặn, tìm một nguồn chính thức khác trích nguyên văn nó (trang của một hội nghị cùng nhà xuất bản), ghi rõ là nguồn thứ cấp và ngày, rồi chọn cách viết đúng với mọi phiên bản đã thấy.
 
+## L84. Mọi tên trong bài là một khóa tìm kiếm; mọi lần sửa mẫu phải đọc lại trang 1 (A160)
+- **Nguyên nhân gốc:**
+  - Tôi kiểm ẩn danh bằng tên người và địa chỉ, không kiểm các tên riêng khác của dự án. Tên phương pháp trùng tên repo của tác giả, trong đó một repo công khai.
+  - Sau khi đổi các tùy chọn của mẫu, tôi chỉ đếm cảnh báo mà không đọc phần mở đầu đã dựng.
+- **Phòng ngừa:**
+  - Preflight [ease] chặn tên repo trong bài. Gói tái lập đổi tên dự án sang tên trung tính, và `check_anonymity.py` quét cả tên đó.
+  - Trước khi nộp, tìm mỗi tên riêng của bài trên GitHub. Repo nào của tác giả trùng tên thì báo @thuthuy (chuyển sang private là quyền của @thuthuy).
+  - Sau mỗi thay đổi ở phần đầu file `.tex`, đọc trang 1 trên PDF: năm, tên hội nghị, bản quyền.
+

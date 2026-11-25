@@ -27,12 +27,12 @@ def write(tmp_path, text):
 
 
 def test_good_source_passes(tmp_path):
-    assert preflight.check_ease(write(tmp_path, GOOD), owner="someowner") == []
+    assert preflight.check_ease(write(tmp_path, GOOD), owner="someowner", repo="somerepo") == []
 
 
 def test_wrong_class_and_conference(tmp_path):
     t = GOOD.replace("review,anonymous", "review").replace("15--18", "16--18")
-    bad = preflight.check_ease(write(tmp_path, t), owner="x")
+    bad = preflight.check_ease(write(tmp_path, t), owner="x", repo="somerepo")
     assert any(b.startswith("E-F4") for b in bad) and any(b.startswith("E-F5") for b in bad)
 
 
@@ -40,17 +40,17 @@ def test_data_availability_must_follow_conclusion(tmp_path):
     t = GOOD.replace(r"\section{Conclusion}", "").replace(
         r"\begin{document}", r"\begin{document}" + "\n" + r"\section{Conclusion}"
     )
-    assert preflight.check_ease(write(tmp_path, t), owner="x") == []
+    assert preflight.check_ease(write(tmp_path, t), owner="x", repo="somerepo") == []
     t2 = GOOD.replace(r"\section*{Data Availability}", "").replace(
         r"\begin{document}", r"\begin{document}" + "\n" + r"\section*{Data Availability}"
     )
-    bad = preflight.check_ease(write(tmp_path, t2), owner="x")
+    bad = preflight.check_ease(write(tmp_path, t2), owner="x", repo="somerepo")
     assert any(b.startswith("E-O2") for b in bad)
 
 
 def test_anonymity(tmp_path):
     t = GOOD.replace("Done.", r"\author{X} As in our previous work, the author ran someowner/repo.")
-    bad = preflight.check_ease(write(tmp_path, t), owner="someowner")
+    bad = preflight.check_ease(write(tmp_path, t), owner="someowner", repo="somerepo")
     codes = {b.split(":")[0] for b in bad}
     assert codes == {"E-A1", "E-A2", "E-A3"}
     assert sum(b.startswith("E-A1") for b in bad) == 2
@@ -58,7 +58,7 @@ def test_anonymity(tmp_path):
 
 def test_comment_is_ignored_but_escaped_percent_kept(tmp_path):
     # 'the author' sits after an unescaped %, so it is a comment; '5\%' must not start a comment
-    assert preflight.check_ease(write(tmp_path, GOOD), owner="x") == []
+    assert preflight.check_ease(write(tmp_path, GOOD), owner="x", repo="somerepo") == []
 
 
 def test_pdf_pages():
@@ -83,3 +83,9 @@ def test_mandatory_warnings():
 def test_placeholder_link_fails():
     pages = ["see (ANON-\nLINK-PENDING)", "REFERENCES"]
     assert any(b.startswith("E-A4") for b in ease_pdf_check.evaluate(pages, ""))
+
+
+def test_repository_name_is_a_search_key(tmp_path):
+    t = GOOD.replace("Done.", "We call the test Gatekeeper.")
+    bad = preflight.check_ease(write(tmp_path, t), owner="x", repo="gatekeeper")
+    assert any("repository name" in b for b in bad)
