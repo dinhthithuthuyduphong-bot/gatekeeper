@@ -32,3 +32,22 @@ def test_block_outage_sets_exactly_a_stretch():
 def test_z_shape_guard():
     a = np.zeros((3, 4), dtype=bool)
     assert ds.z_from(a, a).shape == (3, 4)
+
+
+def test_vectorised_eprocess_matches_registered_class():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+    from gatekeeper.eprocess import BettingEProcess
+
+    rng = np.random.default_rng(3)
+    z = rng.choice([-1.0, 0.0, 1.0], size=(300, 60), p=[0.35, 0.5, 0.15])
+    got = ds.eprocess_crossed(z, 0.0, 0.5, 0.025)
+    want = []
+    for row in z:
+        ep = BettingEProcess(theta=0.0, alpha=0.025, c=0.5)
+        hit = False
+        for v in row:
+            ep.update(float(v))
+            hit = hit or ep.crossed
+        want.append(hit)
+    assert got.tolist() == want
+    assert 0 < got.sum() < len(got)
