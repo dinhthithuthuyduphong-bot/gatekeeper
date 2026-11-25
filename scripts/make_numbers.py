@@ -1466,6 +1466,27 @@ def main() -> int:
     if (N["wrRenN"], N["wrRenNamed"]) != (18, 11) or ap_["reject_H"]:
         print("MISMATCH s38 A'")
         return 1
+    # section 49 (X3', notes 49-1 to 49-3): blind human labels of the 104-trace stratum
+    x3 = load(Path("results/x3_analysis.json"))
+    N["xhN"] = x3["n"]
+    N["xhAgreeMin"] = min(x3["tables"][q]["agree"] for q in ("q1", "q2", "q3"))
+    N["xhDiff"] = (
+        x3["tables"]["q2"]["human_yes_detector_yes"] + x3["tables"]["q2"]["human_yes_detector_no"]
+    )
+    q4 = x3["q4"]
+    N["xhUse"] = sum(q4["by_resolved"]["yes"].values())
+    N["xhUseRes"] = q4["by_resolved"]["yes"].get("True", 0)
+    N["xhUnclear"] = sum(q4["by_resolved"]["unclear"].values())
+    N["xhNoUse"] = sum(q4["by_resolved"]["no"].values())
+    N["xhUseRevert"] = q4["by_exact_revert"]["yes"].get("True", 0)
+    N["xhResWithDiff"] = x3["paper_counts"]["resolved_with_q2"]["human"]
+    for k, v in {"xhN": 104, "xhDiff": 96, "xhResWithDiff": 52}.items():
+        if N[k] != v:
+            print("MISMATCH s49", k, N[k], v)
+            return 1
+    if N["xhUse"] + N["xhUnclear"] + N["xhNoUse"] != N["xhDiff"]:
+        print("MISMATCH s49: Q4 counts do not add up to the traces with Q2")
+        return 1
     # section 45 (W7-b, notes 45-9, 45-10): a second learner, XRepoSkill
     w7 = load(Path("results/w7_analysis.json"))
     for p, key in (("A", "A"), ("B", "B")):

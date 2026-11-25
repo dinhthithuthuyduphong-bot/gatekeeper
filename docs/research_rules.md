@@ -167,6 +167,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Biến môi trường qua ranh giới người dùng (L70)**
 - [ ] Lệnh chạy dưới người dùng khác (`sudo`, môi trường sạch) nhận từng biến cần thiết một cách tường minh, và có một bước kiểm 0 USD dưới đúng người dùng đó xác nhận khóa nạp được trước lần gọi có phí đầu tiên. Đọc mọi cảnh báo trong log của lượt chạy thử.
 
+**Dữ liệu giả theo dạng file thật (L80)**
+- [ ] Test của một hàm đọc file kết quả có sẵn dùng dữ liệu giả dựng từ dạng thật của file đó, và script được chạy thử một lần trên file thật trước khi commit (A151).
+
 **Diễn giải con số theo câu của nguồn (L79)**
 - [ ] Mỗi con số trong báo cáo hay bài đi kèm câu mô tả gốc của nó (bài, bản đăng ký, file kết quả); không suy nghĩa từ tên biến hay macro. Câu "đã kiểm bằng nhãn" phải nêu nguồn nhãn (A148).
 

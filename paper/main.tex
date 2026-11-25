@@ -167,6 +167,7 @@ L2 & a second learner (XRepoSkill) & both histories & 31 and 12 issues & -- & re
 G & second agent model & none (descriptive) & Jinja, 34 without description & same job & registered, descr.\\
 X & reuse on another repository & Jinja skill on Pygments & Pygments test, 100 & same job (\neopSameH/100) & registered\\
 H & what the agent saw & trace audit & every saved trace & -- & post hoc\\
+X3 & does the audit match a human & blind labels & Jinja, 104 runs with the skill & -- & registered\\
 \bottomrule\end{tabular}
 \end{table*}
 
@@ -314,7 +315,13 @@ patch (\nrvUnseen{} of \nrvUnseenN{} on the new tasks): the agent mostly uses th
 the bug, not to copy it. These are indicators of use, not proof of it; the interventions below
 measure the effect. A cheaper flag, the message ``Bug Patch'' in any observation, agrees with this
 audit on \nmonConfAgree{} of \nmonConfN{} saved traces: it is raised on all \nmonConfTP{} runs that
-displayed the diff (\nmonConfFN{} missed) and on \nmonConfFP{} runs that saw only the message.
+displayed the diff (\nmonConfFN{} missed) and on \nmonConfFP{} runs that saw only the message. An
+author labelled all \nxhN{} of these runs (skill, shipped environment, no description) blind to the
+audit, the cohort and the outcome (registered); for the message, the diff and the deleted tests the
+labels agree with the audit on all \nxhAgreeMin{}. The labeller judged that the agent relied on the
+diff, by reverting it or by copying its lines into the patch, in \nxhUse{} of the \nxhDiff{} runs
+that displayed it (\nxhUseRes{} of the \nxhResWithDiff{} resolved), could not tell in
+\nxhUnclear{}, and saw no use in \nxhNoUse{}.
 
 \paragraph{Where it pays off}
 On the \njinjaNoPSTasks{} Jinja test tasks without a description, the skill resolves
@@ -703,7 +710,9 @@ with an independent semantic check. The skill experiments use SWE-smith tasks: r
 benchmarks built this way. The A/A streams and the rerun-noise level use human-written issues from
 SWE-bench~\cite{swebench_iclr} and SWE-bench-Live~\cite{swebench_live}. Base rates without a skill
 are low (\njinjaNone{}, \nbleveNone{}, \npygNone{} of 100), so the tests have little power to detect
-harm. We could not verify the model's training cutoff and make no claim that tasks are unseen.
+harm. The trace labels come from one labeller, an author, who saw the benchmark's bug patch as
+a reference; no second labeller measured agreement. We could not verify the model's training
+cutoff and make no claim that tasks are unseen.
 
 \paragraph{Interventions}
 The single-commit control removes both construction commits at once. C10 separates the message of
