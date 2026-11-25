@@ -648,7 +648,9 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
 ## L79. Diễn giải một con số bằng đúng câu của nguồn, không bằng tên biến (A148)
 - **Nguyên nhân gốc:** tôi đọc tên macro `\nmonConfTP`, `\nmonConfFP` ("confusion") trong `paper/numbers.tex` và suy ra đó là kết quả kiểm bộ theo dõi bằng nhãn, mà không đọc câu dùng các số đó trong `paper/main.tex`.
 - **Lần lặp lại (A149, cùng ngày):** gọi H là chỉ báo chính của W7, trong khi §45 đăng ký G. Tôi lấy chỉ báo từ trí nhớ của bản tóm tắt phiên, không mở lại bản đăng ký.
+- **Lần lặp lại thứ hai (A150):** khi viết hướng dẫn gán nhãn, tôi thêm một trường hợp ("sửa một phần" → "Không xác định") không có trong định nghĩa đã đăng ký.
 - **Phòng ngừa:**
+  - Hướng dẫn cho người gán nhãn chép nguyên văn định nghĩa đã đăng ký; mọi ví dụ hay ca biên thêm vào phải được ghi trước thành ghi chú thực thi.
   - Trước khi viết kịch bản hay đọc kết quả một phép thử, mở lại mục đăng ký và chép nguyên văn dòng định nghĩa đại lượng chính.
   - Mỗi con số đưa vào báo cáo hay bài phải lấy kèm câu mô tả gốc (bài, bản đăng ký hoặc file kết quả), không suy từ tên biến.
   - Câu về "kiểm định", "nhãn", "xác nhận" phải chỉ ra được ai hay cái gì làm nhãn tham chiếu.
