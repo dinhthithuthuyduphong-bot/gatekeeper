@@ -1536,3 +1536,35 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Preflight đạt.
 - **Kết luận R-105:** đạt.
 
+## R-106. Phản biện bản review "cơ hội tại EASE 2027" (file .md) và bản Gemini lượt 2; sửa theo hướng tốt nhất; kế hoạch dự phòng (26/11/2026; 0 USD)
+- **Quyết định của @thuthuy:** "Sửa theo hướng tốt nhất, tôi vẫn sẽ nộp vào EASE, các hướng khác thì tạo kế hoạch .md tính sau nếu hướng ưu tiên rớt".
+- **Kiểm nguồn (commit nguồn trước khi dùng):**
+  - Năm preprint mà review nêu đều có thật, đã tải qua workflow `sources`. Mỗi câu trích được đọc cùng đoạn bao quanh (L85).
+  - Con số "33/38" mà review gán cho DeepSWE không có trong bản gốc, nên không dùng.
+  - Trong CFP research track: special issue EMSE có; rebuttal và shepherding không được nhắc tới.
+  - Ở RENE: chủ đề "contamination or leakage" và các mốc ngày đều có trong CFP.
+- **Ý sai, không dùng:**
+  - "Đã báo upstream SWE-smith #252": repo không có dấu vết nào.
+  - "Up to 4×" (CAIS): trang ACM bị chặn, chưa kiểm được.
+  - "ACM cập nhật chính sách tháng 6/2026": chưa kiểm được.
+  - Xác suất nhận bài, base rate, phân tích từng thành viên PC: là suy luận.
+  - Bản Gemini lượt 2 chấm trên PDF cũ: các ý trong đó đã được xử lý ở R-101 và R-105, hoặc đã bác.
+- **Đã sửa trong bài:**
+  1. **Related Work** trích và phân biệt với bốn bài:
+     - BiPA: nhiễu chọn lọc, khác với gain thật nhưng đến từ rò rỉ; một phép replay kiểu A/A sẽ vẫn cho gain này qua.
+     - Dissecting: chỉ dẫn do người viết.
+     - Qwen3-Coder-Next: khai thác nằm trong trọng số RL.
+     - DeepSWE: agent tìm ra rò rỉ trong một lần đánh giá.
+
+     Thêm Agent Skill Evolution làm bằng chứng phụ rằng một rule thêm vào có tác dụng.
+  2. **Phần mở đầu:** số gskill công bố (55→82, 24→93, gpt-5-mini), kèm câu "we do not test those numbers".
+  3. **"Answer to RQ1–RQ4"** ở cuối các mục trả lời từng RQ. Mọi số trong các câu này là macro.
+  4. **Khai báo AI:** một script sinh mọi con số từ dữ liệu thô, và chạy lại trong gói thì cho kết quả giống hệt (đã kiểm F4). Không viết rằng CI dựng lại số, vì workflow Paper chỉ dựng bảng và biên dịch.
+  5. **Bib:** năm mục mới, tác giả và tiêu đề kiểm trên snapshot qua `bib_overrides` (0 VERIFY).
+- **Kế hoạch dự phòng:** `docs/plan_fallback_venues.md`. Ghi rõ mục nào đã kiểm, mục nào chưa; RENE và Short Papers không dùng làm dự phòng được vì hạn trước 12/03.
+- **Kiểm:**
+  - Biên dịch: 0 tràn ngang; phần chính tới trang 9.
+  - `ease_pdf_check.py` chỉ còn E-A4.
+  - Preflight đạt.
+- **Kết luận R-106:** đạt.
+
