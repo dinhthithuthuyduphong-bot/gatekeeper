@@ -81,5 +81,5 @@
    "ithout handling notes, replace references, or stashes, which may preserve objects created after the base commit. Consequently, future fixes may remain recoverable from .git/objects after all visible references have been deleted. These objects may expose the gold patch or critical solution clues. We therefore adopt a more comprehensive isolation procedure. Repository reconstruction. We preserve a buildable base state while removing all future commit objects that could expose the target solution. Specifically, we recursively remove nested Git histories and reconstruct each repository as a fresh single-commit repository. We avoid cleaning the entire repository because doing so may remove prepared dependencies or environment files required for execution. Instead, files tracked by the original Git repository are recorded before reconstruction and restored in batches. This procedure ensures that the repository remains executable while deleting historical commits. Test artifact concealment. We remove hidden evaluation files from the agent workspace. The anti-hacking process explicitly deletes tracked tests and performs cleanup within test directories to remove ignored test suites, fixtures, and golden"
   ]
  },
- "fetched_utc": "2026-11-25T10:56:33+00:00"
+ "fetched_utc": "2026-11-25T11:01:34+00:00"
 }
