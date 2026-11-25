@@ -234,7 +234,8 @@ Table~\ref{tab:decisions} lists the twelve registered decisions. At the per-deci
 the end-of-pool test reproduces every registered decision: \neopHeldForty{} of the \neopRegN{}
 comparisons registered as admissions are certified, and the Pygments reuse test and the contrast on
 all 100 tasks of the second seed are not. Read as one family of twelve (threshold 480, union bound,
-no independence needed), \neopHeldFam{} of the \neopRegN{} hold. The headline comparison J1 ran its
+no independence needed), \neopHeldFam{} of the \neopRegN{} hold; R and S2, admitted by their
+registered tests, fall below 480. The headline comparison J1 ran its
 arms in two runs; its replicate S1 ran both arms in one job and gives \nsdSkill{} against
 \nsdNone{} ($E=\neopI$). No ordering diagnostic signalled dependence (Kendall's $\tau$ between
 position and $Z_i$: smallest permutation $p=\neopTauMinP$); \neopRateCrash{} runs crashed on a
@@ -355,7 +356,9 @@ Replacing the history by one commit that holds the buggy tree~\cite{debuggym_swe
 removes both leak channels and nothing else: there is no project history to remove. On Jinja it
 changes the no-skill arm from \njinjaNone{} to \njinjaLFNone{} and the skill arm from \njinjaSkill{}
 to \njinjaLFSkill{}; the difference of the two gains, estimated jointly over the same tasks, is
-\nleak{} [\nleakLo{}, \nleakHi{}], about \nleakSharePct\% of the gain as shipped. On Bleve the skill
+\nleak{} [\nleakLo{}, \nleakHi{}], a point estimate of \nleakSharePct\% of the gain as shipped. The
+two arms of each environment ran in different runs, and on 100 tasks this difference is not
+certified (contrast S3, Section~\ref{sec:replication}); the registered test of the dependence is C. On Bleve the skill
 arm falls from \nbleveSkill{} to \nbleveLFSkill{} and the difference is \nbleveLeak{}
 [\nbleveLeakLo{}, \nbleveLeakHi{}]; on its \nbleveNoPSN{} tasks without a description the skill
 resolves \nbleveNoPS{} with the commits and \nbleveNoPSLF{} without. In J1, J2, B1 and B2 the arms
@@ -421,7 +424,8 @@ contains no such line and raises \nxoLFNone{} to \nxoLFSkill{} (gain \nxoLFGain{
 environment, it resolves \nxoLFOnShip{} of these \nxoLFOnShipN{} tasks: the commits are there, and
 nothing in the skill sends the agent to them. With two learning runs per environment, the
 instruction was written in two of two with the commits and in none of two without them; this
-describes the runs, it does not estimate a rate.
+describes the runs, it does not estimate a rate: even this split of two runs against two gives
+one-sided Fisher $p=1/6$.
 
 \begin{figure}[t]\centering
 \begin{tikzpicture}
@@ -621,7 +625,7 @@ of looks; these are not comparisons of learning algorithms.
 \begin{table}[t]\centering\footnotesize\setlength{\tabcolsep}{2.5pt}
 \caption{Decision rules. A/A: false admissions on \naaStreams{} resampled A/A streams of
 \naaTrials{} trials. Orders: largest share of \npermN{} random orders of the \nrulesNull{} collected
-A/A streams that a rule admits (post hoc).}\label{tab:rules}
+A/A streams that a rule admits (post hoc). --: not computed for this rule.}\label{tab:rules}
 \begin{tabular}{@{}llllrr@{}}\toprule
 Rule & Intended use & Level & Looks & A/A & Orders\\\midrule
 Plug-in, mean favours skill & quick check & none & 1 & \npluginOnce & --\\
@@ -688,11 +692,9 @@ separates the two. Applied to the learning environment, the single-commit contro
 instruction before it was written.
 
 \paragraph{The cost of re-certification}
-A change of scope means a new certification. With our agent a paired task cost on average
-\ntokTrialIn{} thousand input and \ntokTrialOut{} thousand output tokens; the registered e-process
-would have stopped after \nadmitMinTrials{} to \nadmitMaxTrials{} paired tasks, that is
-\ntokAdmitLo{} to \ntokAdmitHi{} million input tokens per scope. These are retrospective: every
-comparison ran all its tasks.
+A change of scope means a new certification: with our agent, \ntokAdmitLo{} to \ntokAdmitHi{}
+million input tokens per scope had the registered e-process stopped at its first crossing
+(retrospective, since every comparison ran all its tasks).
 
 \paragraph{A control for benchmarks built this way}
 For SWE-smith-style tasks we suggest reporting every skill gain also in a single-commit environment:
@@ -774,9 +776,9 @@ claimed cause of a gain is absent, and state what such a certification covers.
 \section{Conclusion}
 A resolve-rate gain certifies a skill only in the scope where it was measured, and the evaluation
 environment is part of that scope. On SWE-smith a published learner turned two construction commits
-into advice: on Jinja, \nleak{} of a \njinjaGain{} gain depends on them, a second seed and a
-preregistered test on tasks without a description confirm the difference, and a Go skill repeats
-the pattern. The rest of each gain persists without the commits and is certified for its pool and
+into advice: on Jinja, \nleak{} [\nleakLo{}, \nleakHi{}] of a \njinjaGain{} gain depends on them, a
+preregistered test on tasks without a description confirms the dependence, a second seed gives a
+similar difference, and a Go skill repeats the pattern. The rest of each gain persists without the commits and is certified for its pool and
 run. A repeated learning run, an intervention on the history and an agent of another vendor
 confirm the dependence; an agent that reads the commits with no skill, and a second learner whose
 history steps do not depend on them, mark where it stops. Evaluating a learned skill therefore needs
