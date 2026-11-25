@@ -54,9 +54,11 @@ def links(raw: bytes, base: str, keywords: list[str]) -> list[dict]:
 
     html = raw.decode("utf-8", errors="replace")
     out, seen = [], set()
-    for m in re.finditer(r'(?is)<a\s[^>]*href\s*=\s*["\']([^"\']+)["\'][^>]*>(.*?)</a>', html):
-        href = urljoin(base, unescape(m.group(1)).strip())
-        text = re.sub(r"\s+", " ", unescape(re.sub(r"(?s)<[^>]+>", " ", m.group(2)))).strip()
+    pat = r"""(?is)<a\s[^>]*?href\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))[^>]*>(.*?)</a>"""
+    for m in re.finditer(pat, html):
+        raw_href = m.group(1) or m.group(2) or m.group(3) or ""
+        href = urljoin(base, unescape(raw_href).strip())
+        text = re.sub(r"\s+", " ", unescape(re.sub(r"(?s)<[^>]+>", " ", m.group(4)))).strip()
         hay = (text + " " + href).lower()
         if href.startswith("http") and any(k.lower() in hay for k in keywords) and href not in seen:
             seen.add(href)

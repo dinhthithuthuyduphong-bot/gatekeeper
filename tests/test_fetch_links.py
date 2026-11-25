@@ -8,7 +8,7 @@ HTML = b"""<html><body>
 <a href="/track/x/papers">Research Papers</a>
 <a class="k" href='https://www.acm.org/publications/policies/new-acm-policy-on-authorship'>ACM
  <b>Policy</b> on Authorship</a>
-<a href="https://example.org/open">SIGSOFT Open Science Policy</a>
+<a target=_blank href=https://example.org/open>SIGSOFT Open Science Policy</a>
 <a href="https://example.org/open">duplicate</a>
 <a href="mailto:x@y.z">policy mail</a>
 </body></html>"""
