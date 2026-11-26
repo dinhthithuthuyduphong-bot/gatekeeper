@@ -174,5 +174,5 @@
    "raise test success on AutoBench by 18.3 and 19.4 points, but only to the level of their runs from the hand-written seed, and gain nothing on τ 3-bench (Appendix C.5). Finding 2 (RQ1). Selection alone can produce the dev gains the optimizers report. Under DeepSeek, SkillOpt and GEPA reported dev gains of 3 to 17 points, and SkillAdam 20 to 40, summed over small dev batches (Section 4.1). Un- changed candidates reach each of the nine reported gains with probability 0.25 to 0.94 (Figure 3a), and test does not follow the gains (Figure 3b): along the path of skills each τ 3-bench run kept in turn, tested once on an updated DeepSeek release, the dev gain climbs 6.7 points after the first kept skill while the test difference stays within 2.7 points of its value there (Figure 9, Appendix C.3). Every DeepSeek SkillOpt and GEPA run measures its gain against the seed’s lowest-scoring dev run, one of two or three, its starting score, and keeps the best of 4 to 8 candidates on a dev set of at most 30 tasks. A gate that accepts any candidate that outscores its parent in one dev run accepts an unchanged can- didate 24 to 41% of the time, and replaying each optimizer’s acceptance rule when every candi"
   ]
  },
- "fetched_utc": "2026-11-26T00:15:09+00:00"
+ "fetched_utc": "2026-11-26T00:25:23+00:00"
 }
