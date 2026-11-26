@@ -1626,3 +1626,13 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Preflight đạt.
 - **Kết luận R-108:** đạt.
 
+## R-109. Link figshare vào bài (26/11/2026; 0 USD)
+- **@thuthuy tải gói lên figshare** và gửi link riêng tư. Gói được dựng lại ngay trước đó từ commit cc3e64c; quét danh tính 0 chỗ lộ, không còn chữ "gatekeeper".
+- **Trong bài:** macro `\anonpackage` nay là `https://figshare.com/s/70588a3513293ea61176`. Đã bỏ tham số `?file=…` để link trỏ tới cả item chứ không chỉ một file.
+- **Kiểm:**
+  - `ease_pdf_check.py` **PASS** toàn bộ: số trang, metadata Author rỗng, không còn cảnh báo "mandatory", không còn chỗ giữ chỗ.
+  - 0 tràn ngang. Preflight đạt.
+  - Việc mở link trong cửa sổ ẩn danh để thấy không lộ tên do @thuthuy kiểm, vì máy làm việc này không vào được figshare.
+- **Lưu ý:** gói trên figshare ứng với bản bài lúc cc3e64c. Nếu bài còn đổi số liệu hay mã trước khi nộp, phải dựng lại gói và thay file trên cùng item. Link riêng tư giữ nguyên khi thay file.
+- **Sự cố khi ghi sổ:** lần chạy đầu dừng ở bước sửa TODO (câu cần thay đã đổi từ R-106). Commit 3d… chỉ mang link và bảng quy tắc; TODO và mục này được bổ sung ở commit sau. Không ảnh hưởng gì tới bài.
+
