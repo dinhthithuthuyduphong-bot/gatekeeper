@@ -726,3 +726,10 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Một gợi ý sửa câu trích từ review chỉ được áp dụng sau khi đã đọc lại đúng đoạn và đúng hình của bản gốc.
   - Trước khi định nghĩa một ký hiệu, tìm nó trong `paper/main.tex` (L87).
 
+## L89. Trích bài báo gốc của mọi công cụ dùng trong thí nghiệm; so với ngưỡng phải nêu chiều và sai số (A165)
+- **Nguyên nhân gốc:**
+  - Khi viết bài, tôi trích những gì đã đọc để chứng minh từng chi tiết (issue, file mã ở commit cố định, blog) và không hỏi "công cụ này có bài báo gốc không". Vì vậy SWE-smith và GEPA, hai thành phần của mọi thí nghiệm, không có trích dẫn bài báo.
+  - Tôi viết "near α" cho một tỉ lệ mô phỏng nằm trên α mà không tính sai số Monte Carlo.
+- **Phòng ngừa:**
+  - Với mỗi benchmark, thuật toán, công cụ được nêu tên ở phần Setting: tìm bài báo gốc, đưa vào `configs/sources.json`, kiểm bản gốc, và trích ở lần nhắc đầu tiên.
+  - Mỗi lần so một tỉ lệ ước lượng với một ngưỡng: ghi giá trị, chiều (trên hay dưới), và sai số của ước lượng. Không dùng "near", "about" khi không kèm con số.
