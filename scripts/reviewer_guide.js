@@ -89,6 +89,7 @@ const children = [
     ["Expectation printed as 𝔹[Z_i | C]", "𝔼[Z_i | C] (blackboard E; some extractors map the glyph to B)."],
     ["“Kendall’s  between position and Z_i” (τ missing)", "“Kendall’s τ between position and Z_i”."],
     ["PACE first cited only in Section 5", "Cited in Section 3, at the end-of-pool statistic."],
+    ["“URL.” orphan on page 10 makes the paper too long", "Main text ends on page 10, within the 10-page limit; page 11 holds references only, as the call allows."],
   ], [5, 7]),
 
   h1("2. Notation (one meaning each)"),
@@ -99,7 +100,7 @@ const children = [
     ["D_i", "Contrast between environments: D_i = (Z_i shipped − Z_i one commit)/2 (S3, C, C10, V1–V3)."],
     ["C", "State of the run: everything the tasks of a run share (served model version, harness, provider state over time)."],
     ["T1, T2, T3", "T1: mean effect over the fixed pool within the run (certified). T2: its mean over runs. T3: effect on future tasks."],
-    ["E", "End-of-pool statistic Π(1 + λ(−θ − Z_i)), θ = 0, λ = c/(1+θ) = 0.5 with c = 0.5."],
+    ["E", "End-of-pool statistic Π(1 + λ(−θ − Z_i)), θ = 0, λ = 0.5 (half the maximal safe bet). With Z_i ∈ {−1, 0, 1}: E = 1.5^b · 0.5^c, b and c the tasks resolved only with / only without the skill."],
     ["Thresholds", "Certified: E ≥ 40 (α = 0.025, one-sided). Twelve decisions read as one family: E ≥ 480. V1–V3: one family of three, E ≥ 120. C10: one test, E ≥ 40."],
     ["Experiment IDs", "S1–S3 = second agent seed (not the scorer S); L2 = second learner XRepoSkill (not the scorer L); A = skill without its history line, C = confirmatory contrast (neither is the run state C); see Table 1."],
     ["C10 histories", "H_ship (shipped), H_neutral (same diff, neutral message), H_empty (empty “Bug Patch” commit), H_none (no bug commit)."],

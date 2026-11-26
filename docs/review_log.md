@@ -1597,3 +1597,32 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - `make_bib.py` 0 VERIFY. Preflight đạt.
 - **Kết luận R-107:** đạt.
 
+## R-108. Phản biện hai bản review AI 26/11 (bản "+1/+1/+1, ~50%" và bản "Clear Accept +3/+2/+1"); sửa các ý đúng (0 USD)
+- **Review 1, ý đúng và đã sửa (A164):**
+  - **#256:** thay khẳng định chưa đo bằng phép đo (`scripts/apply_check.py`, có test). 1.092/1.092 patch không rỗng áp sạch bằng lệnh đầu tiên, nên chuỗi dự phòng không chạy; 0/952 patch rỗng được chấm giải được. Phép đo này cũng thay cho việc "chấm lại bằng chuỗi lệnh 6cd91d8" mà review đề nghị: khi chuỗi dự phòng không bao giờ chạy thì chuỗi đã sửa cho cùng kết quả.
+  - **Dissecting:** bốn model Qwen (hình 57 của bản gốc).
+  - **72.1%:** tỉ lệ trajectory, SWE-bench Multilingual có mạng, bản v2.
+  - **Commit tổ tiên được coi là hợp lệ:** trích nguyên văn hai câu, "an ancestor of HEAD such as HEAD~1, this is ALLOWED" ([33]) và "honest work" ([22]). Commit mà skill đọc là cha của HEAD, nên các audit đó không bắt được nó. Luận điểm này tăng novelty.
+- **Review 1, ý sai:**
+  - "Thứ tự tác giả VALVE (Xiaomin Li đứng đầu)": PDF của VALVE ghi Yifan Wang đứng đầu, đúng như bib.
+  - "Bài chưa nói đã đếm tip của từng branch": bài viết "We read every task branch … all 1086 have exactly three commits"; script là `history_audit.py` trong gói. Nay `apply_check.py` còn kiểm lại tip của từng branch được chấm.
+- **Review 1, không làm được hoặc thuộc quyền @thuthuy:**
+  - Bản ACM CAIS'26 của gskill: trang ACM trả về 403, không đọc được bản gốc, theo R1 giữ bản blog.
+  - Responsible disclosure: việc ra bên ngoài; làm lúc này có nguy cơ lộ danh tính trong review ẩn danh.
+  - Rút gọn mục 3 và Bảng 1: đã phản biện ba lần.
+- **Review 2, ý đúng và đã sửa:**
+  - **Ký hiệu $c$ chồng nghĩa** (A164, do chính R-101 đưa vào). Tỉ lệ cược không còn dùng ký hiệu.
+  - **Ghi chú ở Bảng 1:** S1–S3, L2 không phải hai scorer S, L; mã C không phải trạng thái lượt chạy C.
+  - **p của sign test cho R và S2** ($2.4\times10^{-4}$, $4.6\times10^{-4}$, macro). Câu trong bài nay nói rõ cả hai được phép thử đã đăng ký nhận nhưng thấp hơn ngưỡng 480.
+- **Review 2, ý sai hoặc không xác nhận được:**
+  - **"Từ mồ côi 'URL.' làm bài thành 11 trang":** không vi phạm. Phần chính kết thúc ở trang 10, trong giới hạn 10 trang; trang 11 chỉ có tài liệu tham khảo, CFP cho phép tới 2 trang như vậy. Sau lượt sửa này phần chính dài hơn vài dòng nhưng vẫn trong trang 10.
+  - **"Bốn tài liệu đã có bản đăng":** Ahmed et al. (FSE Companion 2026) — trang arXiv không ghi venue. Wang et al. (ICSE 2026) và SWE-bench-Live (NeurIPS 2025) — đã kiểm ở R-107, không có. Waudby-Smith (JRSS B, DOI 10.1093/jrsssb/qkad009) — DOI trả về 403. Theo R1 giữ bản arXiv.
+  - "Chính sách ACM 14/05/2026", tỉ lệ nhận 21,1%: không có trong nguồn đã tải.
+  - Chấm điểm +3/+2/+1 hay xác suất: là phỏng đoán.
+- **Kiểm:**
+  - Biên dịch: 0 tràn ngang; phần chính tới trang 10; tài liệu tham khảo ở trang 10–11.
+  - `ease_pdf_check.py` chỉ còn E-A4.
+  - `make_numbers.py` chỉ thêm macro, không đổi số cũ.
+  - Preflight đạt.
+- **Kết luận R-108:** đạt.
+

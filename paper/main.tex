@@ -184,7 +184,12 @@ on the test split.
 \paragraph{Scorers}
 {\sloppy $S$ is the benchmark's notion of \emph{resolved}: every \texttt{FAIL\_TO\_PASS} and
 \texttt{PASS\_TO\_PASS} test passes, by SWE-smith's grading. $L$ is the scorer in gskill's public
-code (\texttt{verify\_with\_patch}), which the learning loop optimises. Every gain in this paper is a
+code (\texttt{verify\_with\_patch}), which the learning loop optimises. Two open issues of SWE-smith's
+grading do not touch our grades. Besides the branch structure above~\cite{swesmith_issue_252}, of the
+\napEmpty{} runs behind Table~\ref{tab:decisions} that submitted no patch, \napEmptyResolved{} are
+resolved; and a fallback for applying a patch can undo hunks
+and still report success~\cite{swesmith_issue_256}, and all \napApplies{} non-empty patches of those
+runs apply to the graded commit with the first command, so the fallback never ran. Every gain in this paper is a
 gain under $S$: the benchmark's tests, not an independent check of the patches' semantics.\par}
 
 \paragraph{Experiments}
@@ -207,7 +212,8 @@ responsible for the content.
 \caption{Experiment inventory. ``Same job'': both arms of a task ran in one job at the same time;
 otherwise the arms ran in different runs (same day or a later day). Registered: the analysis rule
 was committed before the data it applies to. Post hoc analyses are labelled in the text and are
-exploratory; the confirmatory decisions are the registered ones.}
+exploratory; the confirmatory decisions are the registered ones. IDs name experiments: S1--S3 and L2
+are not the scorers $S$ and $L$, and C is not the run state $C$.}
 \label{tab:inventory}
 \begin{tabular}{@{}lllllll@{}}\toprule
 ID & RQ & Question & Intervention & Tasks (cohort) & Arms & Analysis\\\midrule
@@ -266,7 +272,7 @@ $1+x\le e^x$, this is at most $\exp(-\lambda\sum_i(\theta+\mu_i))\le1$ under $H_
 inequality concludes.
 \end{proof}
 The null constrains only the sum: a few tasks helped strongly and many harmed mildly is a null pool,
-and the bound still holds. We use $\theta=0$ and $\lambda=c/(1+\theta)=0.5$ with $c=0.5$, the largest bet
+and the bound still holds. We use $\theta=0$ and $\lambda=0.5$, half of the maximal safe bet $1/(1+\theta)$ and the largest bet
 registered for our sequential test (below), so no parameter was chosen after the data; a skill is
 \emph{certified} in a scope when $E\ge1/\alpha=40$ ($\alpha=0.025$). With $\theta=0$ and
 $Z_i\in\{-1,0,1\}$, $E=(1+\lambda)^b(1-\lambda)^c$, with $b$ and $c$ the tasks resolved only with and
@@ -302,7 +308,7 @@ them to $\alpha$.
 Every comparison was registered with an exact one-sided sign test on the discordant pairs (Holm's
 procedure~\cite{holm} at family level 0.025 where registered) and with a betting
 e-process~\cite{waudby_smith_ramdas} (the \emph{registered e-process}) run over the tasks in gskill's split order ($\theta=0$,
-$c=0.5$, threshold 40), which allows stopping at any task. We keep both as registered. The sign test assumes, like
+bets capped at 0.5, threshold 40), which allows stopping at any task. We keep both as registered. The sign test assumes, like
 Assumption~\ref{ass:indep}, independent tasks and, under its null, that each discordant pair favours
 either arm with probability $1/2$; Section~\ref{sec:gain} reports the ordering diagnostics. The
 e-process is valid for the narrower null that no task's conditional expectation favours the skill;
@@ -322,7 +328,7 @@ the end-of-pool test reproduces every registered decision: \neopHeldForty{} of t
 comparisons with a registered positive decision (nine skill admissions and the contrast C) are certified, and the Pygments reuse test and the contrast on
 all 100 tasks of the second seed are not. Read as one family of twelve (threshold 480, union bound,
 no independence needed), \neopHeldFam{} of the \neopRegN{} hold; R and S2, admitted by their
-registered tests, fall below 480. The headline comparison J1 ran its
+registered tests (exact sign test $p=\neopSignPG$ and $\neopSignPJ$), fall below 480. The headline comparison J1 ran its
 arms in two runs; its replicate S1 ran both arms in one job and gives \nsdSkill{} against
 \nsdNone{} ($E=\neopI$). No ordering diagnostic signalled dependence (Kendall's $\tau$ between
 position and $Z_i$: smallest permutation $p=\neopTauMinP$); \neopRateCrash{} runs crashed on a
@@ -851,9 +857,7 @@ SWE-bench~\cite{swebench} and SWE-bench-Live~\cite{swe_bench_live}. Base rates w
 are low (\njinjaNone{}, \nbleveNone{}, \npygNone{} of 100), so the tests have little power to detect
 harm. The trace labels come from one labeller, an author, who saw the benchmark's bug patch as
 a reference; no second labeller measured agreement, which matters for the judgment of reliance on
-the diff, not for whether the diff was shown. SWE-smith's fallback for applying a patch can undo
-hunks and still report success~\cite{swesmith_issue_256}; this can only lower resolved counts, and we
-did not measure how often it occurred in our runs. We could not verify the model's training
+the diff, not for whether the diff was shown. We could not verify the model's training
 cutoff and make no claim that tasks are unseen.
 
 \paragraph{Interventions}
@@ -905,10 +909,11 @@ poolside_benchmark_hacking} and SWE-smith~\cite{marin_swesmith_git_leak,debuggym
 debuggym_swesmith_git_fix,rllm_hide_git_history}, with fixes that remove or hide the
 history~\cite{swebench_git_log_fix,debuggym_swesmith_git_fix,rllm_hide_git_history}. These works study
 an agent that finds a leak during one evaluation (an audit of SWE-Bench Pro in~\cite{deepswe_2607_07946};
-up to 72.1\% of tasks resolved with a successful exploit in~\cite{shortcutting_fix_2609_06780}), and
+on SWE-bench Multilingual with network access, up to 72.1\% of trajectories resolve the task through a
+detected shortcut, in the second version of~\cite{shortcutting_fix_2609_06780}), and
 hack-verifiable environments plant such opportunities by design~\cite{hack_verifiable_2026}. In an
-ablation on SWE-Bench Pro, two Qwen models told in their system prompt to ``inspect git history''
-show a leakage effect of up to +21.12\% against a sanitised container~\cite{dissecting_trajectories_2606_17454};
+ablation on SWE-Bench Pro, four Qwen models told in their system prompt to ``inspect git history''
+all score higher, with a leakage effect of up to +21.12\% against a sanitised container~\cite{dissecting_trajectories_2606_17454};
 there a person wrote the instruction. In reinforcement learning, an agent ``autonomously learns to
 exploit various git commands to retrieve ground-truth information''~\cite{qwen3_coder_next_2603_00729},
 and frontier models still try to mine the history in environments hardened against it, a behaviour
@@ -916,7 +921,11 @@ read as ``a learned shortcut''~\cite{coding_or_cheating_2611_10404}; there the e
 weights. VALVE, a validation-gated skill learner run on SWE-smith repositories, keeps skills whose
 procedure begins ``Run \texttt{git show <bad-commit>}'' and reports them as
 gains~\cite{valve_2609_32990}; it does not discuss the history, and we did not run it, but the
-observation is consistent with ours. We study a learner that writes the leak into a readable text reused on every later task. Run-to-run variance~\cite{randomness_agentic_evals_2026}, the
+observation is consistent with ours. Audits of such exploits allow what our skill does: one judge
+prompt rules that a commit that is ``an ancestor of HEAD such as HEAD\textasciitilde1, this is
+ALLOWED''~\cite{shortcutting_fix_2609_06780}, and another counts browsing the full history as
+``honest work''~\cite{coding_or_cheating_2611_10404}. The commit our skill reads is the parent of
+HEAD, so these audits would not flag it. We study a learner that writes the leak into a readable text reused on every later task. Run-to-run variance~\cite{randomness_agentic_evals_2026}, the
 harness~\cite{same_model_harness_2026} and tests that accept incorrect
 patches~\cite{patchdiff_2025,utboost_acl,test_overfitting_2025} also move resolve rates; we test the
 scorers we use with no-op and gold patches (Section~\ref{sec:measurement}).

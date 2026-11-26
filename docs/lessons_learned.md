@@ -716,3 +716,13 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Trước khi đặt một nhãn mới trong bài, tìm nhãn đó trong `paper/main.tex` (mã thí nghiệm, ký hiệu toán, tên nhánh). Nếu đã có thì dùng tên mô tả, không dùng chữ cái.
   - Câu tóm tắt một nguồn ghi đúng phạm vi của nguồn: bao nhiêu model, phần nào của bài gốc, phiên bản nào.
 
+## L88. Khẳng định về chiều của một sai số phải đo; sửa theo review phải đọc lại bản gốc (A164)
+- **Nguyên nhân gốc:**
+  - Tôi viết "this can only lower resolved counts" từ một lập luận cơ chế chưa kiểm, trong khi phép đo (áp từng patch lên commit được chấm) chỉ mất 13 giây.
+  - Ở R-107 tôi sửa câu Dissecting theo lời review ("two Qwen models") mà không đọc lại hình của bản gốc.
+  - Khi thêm "with $c=0.5$" để định nghĩa $c$ (R-101), tôi không tìm xem $c$ đã có nghĩa khác trong bài chưa.
+- **Phòng ngừa:**
+  - Mọi câu kiểu "chỉ có thể làm tăng/giảm" phải kèm phép đo hoặc một chứng minh. Nếu phép đo rẻ thì đo trước khi viết.
+  - Một gợi ý sửa câu trích từ review chỉ được áp dụng sau khi đã đọc lại đúng đoạn và đúng hình của bản gốc.
+  - Trước khi định nghĩa một ký hiệu, tìm nó trong `paper/main.tex` (L87).
+
