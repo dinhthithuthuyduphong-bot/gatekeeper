@@ -166,4 +166,4 @@ Mọi con số khác bên dưới đều được **suy ra từ α**, **suy ra t
 | **Bài, Bảng 2, cột b/c** | Suy ra | `results/s42_end_of_pool.json` (số task Z = −1 và Z = +1 của từng quyết định); đã kiểm b − c = Skill − None ở cả 10 hàng (R-107) |
 | **Bài, `\nap*`: 1.092 patch áp sạch, 0 cần dự phòng, 952 patch rỗng, 0 được giải** | Đo | `scripts/apply_check.py` → `results/apply_check.json`: `git apply --cached --check` trên commit HEAD~1 ("Bug Patch") của từng branch, mirror trong `scratchpad/s0/mirrors` (R-108) |
 | **Bài, `\neopSignPG`, `\neopSignPJ`: p của sign test một phía cho R và S2** | Suy ra | `binom.sf(b−1, b+c, 0,5)` với b/c từ `results/s42_end_of_pool.json` (20/3 và 23/5); đúng phép thử đã đăng ký |
-
+| **Bài, `\ndepEopStrongSe`, `\ndepEpStrongSe`: sai số Monte Carlo 0,0015** | Suy ra | √(p(1 − p)/12.000) với p = 0,0276 và 0,0291 từ `results/dependence_sensitivity.json` (sai số chuẩn của tỉ lệ nhị thức); `make_numbers.py`, hàm `_mc_se` (R-111) |

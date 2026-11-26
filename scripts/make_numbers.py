@@ -52,6 +52,7 @@ def dep_numbers(d: dict) -> dict:
     strong = [v for k, v in cells if k.startswith("a_within_arm_rho0.8")]
     assert len(strong) == 2 and len(mild) == len(cells) - 2, (len(strong), len(mild))
     ep_mild = [v["eprocess_cross"] for k, v in cells if not k.startswith("a_within_arm_rho0.8")]
+    reps = d["inputs"]["reps"]
     # four decimals: these rates are compared with alpha = 0.025, so two decimals would mislead
     return {
         "depEopMild": f"{max(mild):.4f}",
@@ -62,7 +63,15 @@ def dep_numbers(d: dict) -> dict:
         "depEpMild": f"{max(ep_mild):.4f}",
         "depEpStrong": f"{max(v['eprocess_cross'] for v in strong):.4f}",
         "depReps": d["inputs"]["reps"],
+        # R-111: Monte Carlo standard error of the largest rate, so "above alpha" is stated with
+        # its simulation error (binomial: sqrt(p(1-p)/reps))
+        "depEopStrongSe": f"{_mc_se(max(v['end_of_pool_reject'] for v in strong), reps):.4f}",
+        "depEpStrongSe": f"{_mc_se(max(v['eprocess_cross'] for v in strong), reps):.4f}",
     }
+
+
+def _mc_se(p: float, reps: int) -> float:
+    return (p * (1 - p) / reps) ** 0.5
 
 
 def s25_module(trial: Path):

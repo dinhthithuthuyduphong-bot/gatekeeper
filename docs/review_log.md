@@ -1661,3 +1661,35 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - preflight: PASS.
 - README Overleaf bỏ việc "thay ANON-LINK-PENDING", vì việc này đã xong.
 - **Kết luận R-110:** đạt.
+
+## R-111. Phản biện ba bản review AI 26/11 (bản .md "Review mô phỏng", bản 3.8/5, bản "Clear Accept") (26/11/2026; 0 USD)
+
+Kiểm từng ý trên PDF đã dựng và trên bản gốc (workflow `sources`, run 45845191273 và lượt ghim SSKB v2).
+
+**Ý đúng, đã sửa (A165, L89):**
+- Bài chưa trích **bài báo gốc của SWE-smith** (Yang và cộng sự, arXiv:2504.21798; trang arXiv không ghi hội nghị nên không ghi NeurIPS) và **của GEPA** (Agrawal và cộng sự; trang arXiv ghi "Accepted to ICLR 2026 (Oral)"). Đã thêm ở lần nhắc đầu tiên.
+- "reached 0.0276, near α" mơ hồ. Nay: "0.0276 (Monte Carlo standard error 0.0015), above α = 0.025 by less than two standard errors"; e-process 0,0291 kèm sai số 0,0015; câu kết "takes them past α".
+- Phiên bản SWE-Skills-Bench: trang arXiv cho biết v2 ngày 27/10/2026 (98 skill, 76,6% → 76,9%), khớp với số 98 trong bài. Snapshot và URL trích dẫn được ghim vào `2603.15401v2`; câu trích "every task once without the skill and once with it" có trong v2.
+
+**Ý sai hoặc không kiểm được, giữ nguyên:**
+- "Bài không trích marin #10212", "thiếu đối chiếu với debug-gym #397/#398, SWE-smith #252": cả bốn đã được trích ở §1 và Related Work, kèm câu phân biệt ("These works study…").
+- "Cần bảng claim → registered/post hoc → same-job": Bảng 1 đã có hai cột này; tóm tắt đã ghi "(arms in different runs)" cho 0,38 → 0,21, và C là phép thử xác nhận.
+- "Một rater chưa được biện minh": §4.2 đã biện minh theo IRR supplement cho ba nhãn danh định và ghi rõ phán đoán "reliance" là của một rater (Threats).
+- "Chưa tách kênh Remove F2P Tests": Threats đã ghi kênh này không được thay đổi. Một thí nghiệm mới là việc của @thuthuy (có phí).
+- "Hình 2 cần ghi link suy luận ngay trên hình": cạnh đã có nhãn "inferred" và nét đứt.
+- "E-valuator, CELEUS đã đăng ở ICML 2026": trang ICML ghi "Poster in Workshop" (Statistical Frameworks for Uncertainty in Agentic Systems; ICML 2026 Hypothesis Testing Workshop), không phải hội nghị chính. Giữ arXiv.
+- "Voyager đăng ở TMLR": trang arXiv không có journal reference. Không kiểm được, giữ arXiv.
+- "Waudby-Smith & Ramdas ở JRSS-B", "PatchDiff ở ICSE 2026", "gskill có bản ACM CAIS 2026": trang DOI trả 403 (`waudby_smith_ramdas_doi`, `patchdiff_acm`, `gskill_acm`). Giữ bản đã kiểm.
+- Trích dẫn [15] `HEAD~1 -- .`: PDF in đúng (sửa từ A162); lỗi là của công cụ trích chữ.
+- R và S2 với Holm: giá trị p đã có từ R-108.
+- Tỉ lệ chấp nhận, thang EasyChair, ngày chính sách ACM, lịch rời API của gpt-5.4-nano: review không dẫn bản gốc. Không đưa vào bài.
+- Figshare "không truy cập được": đó là công cụ tự động bị chặn; @thuthuy kiểm bằng cửa sổ ẩn danh.
+
+**Cần @thuthuy quyết (việc ra bên ngoài):** có báo lỗi bộ chấm `verify_with_patch` của gskill cho maintainer không, và có viết một câu về việc này trong bài không.
+
+**Kiểm:**
+- `make_numbers`: chỉ thêm 2 macro, mọi số cũ không đổi.
+- `make_bib`: 53 mục, 0 VERIFY.
+- PDF: 0 overfull; `ease_pdf_check`: PASS (11 trang, bài chính tới trang 10).
+- preflight: PASS.
+- **Kết luận R-111:** đạt.

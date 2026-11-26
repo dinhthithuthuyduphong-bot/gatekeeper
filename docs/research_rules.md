@@ -167,6 +167,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Biến môi trường qua ranh giới người dùng (L70)**
 - [ ] Lệnh chạy dưới người dùng khác (`sudo`, môi trường sạch) nhận từng biến cần thiết một cách tường minh, và có một bước kiểm 0 USD dưới đúng người dùng đó xác nhận khóa nạp được trước lần gọi có phí đầu tiên. Đọc mọi cảnh báo trong log của lượt chạy thử.
 
+**Bài báo gốc của công cụ; so với ngưỡng có chiều và sai số (L89)**
+- [ ] Mỗi benchmark, thuật toán, công cụ nêu tên ở phần Setting có trích bài báo gốc nếu bài đó tồn tại, đã kiểm trên bản gốc. Mỗi tỉ lệ ước lượng so với một ngưỡng được ghi kèm chiều và sai số, không dùng "near" hay "about" khi không có con số (A165).
+
 **Đo chiều của sai số; đọc lại bản gốc khi sửa theo review (L88)**
 - [ ] Không có câu nào khẳng định chiều của một sai số mà không kèm phép đo hay chứng minh. Mỗi sửa câu trích theo gợi ý của review đã được đối chiếu lại với đúng đoạn hoặc hình của bản gốc (A164).
 
