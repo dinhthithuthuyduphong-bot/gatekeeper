@@ -91,5 +91,5 @@
    " held-out set D of size n via accuracy ˆsD(c), an estimate of the agent’s true accuracy s(c). 3 Greedy acceptance is adaptive multiple testing. The near-universal rule is greedy: Agreedy : commit ⇐⇒ ˆsD(c′ t) > ˆsD(ct). (1) Because D is small and reused every round, ˆsD is a noisy estimate of s, and over T rounds the agent performs T comparisons against the same noise. Consider what happens when no real improvement is available (s(c′ t) ≤ s(ct) for every round): the candidate still wins the comparison with non-trivial probability simply because ˆsD fluctuates. Each such ac- cepted change is a false commit, and a harmful commit if true accuracy strictly decreases. Greedy therefore accumulates false commits at a rate set by the dev-set noise, independent of whether real improvements exist—the agent keeps modifying itself on noise. This is precisely the structure of adaptive multiple testing on a reused dataset: the agent is running T unregistered, uncorrected significance tests and keeping whatever happens to look good. Why the obvious fixes fall short. This is a textbook case of adaptive data analysis: reusing one validation set to steer a long, data-dependent sequence of choices invalidates it"
   ]
  },
- "fetched_utc": "2026-11-26T15:05:54+00:00"
+ "fetched_utc": "2026-11-26T15:10:09+00:00"
 }

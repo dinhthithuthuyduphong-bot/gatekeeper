@@ -1,13 +1,13 @@
 {
  "id": "sskb_paper",
- "claim": "SWE-Skills-Bench: where the 98 skills come from",
+ "claim": "SWE-Skills-Bench: where the 98 skills come from (pinned to version 2 of 27 Oct 2026, the version with 98 skills, sskb_abs; R-111)",
  "attempts": [
   {
-   "url": "https://arxiv.org/pdf/2603.15401",
+   "url": "https://arxiv.org/pdf/2603.15401v2",
    "ok": true
   }
  ],
- "url": "https://arxiv.org/pdf/2603.15401",
+ "url": "https://arxiv.org/pdf/2603.15401v2",
  "sha256": "61120258c599e3b70c5d0151ee63ad2f96f51757fc6bf38f7f4d560edb460f1c",
  "n_chars": 63592,
  "head": "SWE-SKILLS-BENCH: DO AGENT SKILLS ACTUALLY HELP IN REAL-WORLD SOFTWARE ENGINEERING? Tingxu Han ∗ † Nanjing University, Mohamed bin Zayed University of Artificial Intelligence txhan@smail.nju.edu.cn Yi Zhang ∗ South China University of Technology 202330580551@mail.scut.edu.cn Wei Song Griffith University w.song@griffith.edu.au Ye Shang Nanjing University yeshang@smail.nju.edu.cn Chunrong Fang ‡ Nanjing University fangchunrong@nju.edu.cn Zhenyu Chen Nanjing University zychen@nju.edu.cn Youcheng Sun Mohamed bin Zayed University of Artificial Intelligence youcheng.sun@mbzuai.ac.ae Lijie Hu ‡ Mohamed bin Zayed University of Artificial Intelligence lijie.hu@mbzuai.ac.ae ABSTRACT Agent skills, structured procedural knowledge packages injected at inference time, are increasingly used to augment LLM agents on software engineering tasks. How- ever, their real utility in end-to-end development settings remains unclear, and no standard procedure tests an individual skill before installation. We present SWE-Skills-Bench, a skill-centric, requirement-driven benchmark that measures how much individual agent skills improve performance on real-world software engineering (SWE) tasks. We start from 98 public SWE skills, each paired with a real GitHub repository pinned at a fixed commit. For each skill, we derive repository-specific requirements, create executable verifiers, and build a repro- ducible environment. Under each of four agent–model configurations, we run every task once without the ",
@@ -72,5 +72,5 @@
   ],
   "Bonferroni": []
  },
- "fetched_utc": "2026-11-26T15:04:21+00:00"
+ "fetched_utc": "2026-11-26T15:08:55+00:00"
 }
