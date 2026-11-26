@@ -1199,6 +1199,9 @@ def main() -> int:
         num = name.split()[0]
         N["eop" + keys[num]] = sci(d["E"])
         N["eopSame" + keys[num]] = d["run_structure"]["tasks_same_job"]
+        # R-107: discordant pairs b/c of a single comparison (E = 1.5^b 0.5^c), for Table 2
+        if set(d["values"]) <= {"-1.0", "0.0", "1.0"}:
+            N["eopBC" + keys[num]] = f"{d['values'].get('-1.0', 0)}/{d['values'].get('1.0', 0)}"
     regs = [d for n, d in e42.items() if n.split()[0] not in ("8", "11")]
     cov = [v for k, v in mc["type1"].items() if "NOT" not in k]
     sh = [v for k, v in mc["type1"].items() if "NOT" in k][0]

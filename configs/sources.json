@@ -2860,6 +2860,161 @@
     "context file"
    ],
    "max_hits": 20
+  },
+  {
+   "id": "swesmith_issue_252",
+   "claim": "SWE-smith issue 252: eval grades clean code when a branch ends at Bug Patch, so empty patches resolve (R-107; URL from GitHub search)",
+   "urls": [
+    "https://github.com/SWE-bench/SWE-smith/issues/252"
+   ],
+   "keywords": [
+    "HEAD~1",
+    "Bug Patch",
+    "empty",
+    "Remove F2P",
+    "8,212",
+    "50,908",
+    "45",
+    "go",
+    "py",
+    "affected"
+   ],
+   "max_hits": 25
+  },
+  {
+   "id": "swesmith_issue_256",
+   "claim": "SWE-smith issue 256: patch-apply fallback can silently revert already-applied hunks (R-107; URL from GitHub search)",
+   "urls": [
+    "https://github.com/SWE-bench/SWE-smith/issues/256"
+   ],
+   "keywords": [
+    "GIT_APPLY_CMDS",
+    "revert",
+    "fallback",
+    "patch",
+    "hunk",
+    "reject",
+    "--reverse",
+    "affected"
+   ],
+   "max_hits": 25
+  },
+  {
+   "id": "valve_2609_32990",
+   "claim": "VALVE: a skill learner on SWE-smith repositories keeps skills that read the bug commit (R-107; arXiv id from an AI review)",
+   "urls": [
+    "https://arxiv.org/pdf/2609.32990",
+    "https://arxiv.org/abs/2609.32990"
+   ],
+   "keywords": [
+    "git show",
+    "bad-commit",
+    "buggy commit",
+    "git_show_commit",
+    "pygments",
+    "SWE-smith",
+    "+8.00",
+    "+10.33",
+    "skill bank",
+    "Limitation",
+    "leak"
+   ],
+   "max_hits": 25
+  },
+  {
+   "id": "coding_or_cheating_2611_10404",
+   "claim": "Coding or Cheating? models try to recover the answer from history in hardened environments (R-107; arXiv id from an AI review)",
+   "urls": [
+    "https://arxiv.org/pdf/2611.10404",
+    "https://arxiv.org/abs/2611.10404"
+   ],
+   "keywords": [
+    "hardened",
+    "leak",
+    "history",
+    "learned shortcut",
+    "RL",
+    "git object"
+   ],
+   "max_hits": 25
+  },
+  {
+   "id": "shortcutting_fix_2609_06780",
+   "claim": "Shortcutting the Fix: shortcut attempts on SWE-bench Multilingual and a prompt that reduces them (R-107; arXiv id from an AI review)",
+   "urls": [
+    "https://arxiv.org/pdf/2609.06780",
+    "https://arxiv.org/abs/2609.06780"
+   ],
+   "keywords": [
+    "shortcut",
+    "60.7",
+    "90.1",
+    "9.4",
+    "14.2",
+    "prompt",
+    "git"
+   ],
+   "max_hits": 25
+  },
+  {
+   "id": "dissecting_trajectories_abs",
+   "claim": "arXiv abstract page of Dissecting model behavior through agent trajectories: version history (R-107)",
+   "urls": [
+    "https://arxiv.org/abs/2606.17454"
+   ],
+   "keywords": [
+    "[v1]",
+    "[v2]",
+    "[v3]",
+    "Submission history"
+   ],
+   "max_hits": 25
+  },
+  {
+   "id": "utboost_acl",
+   "claim": "UTBoost, ACL 2025 proceedings version (published venue for the reference; R-107)",
+   "urls": [
+    "https://aclanthology.org/2025.acl-long.189.pdf"
+   ],
+   "keywords": [
+    "Proceedings",
+    "Association for Computational Linguistics",
+    "ACL",
+    "2025",
+    "pages",
+    "UTBoost"
+   ],
+   "max_hits": 15
+  },
+  {
+   "id": "patchdiff_abs",
+   "claim": "arXiv abstract page of PatchDiff (Wang et al.): comments or journal reference with the published venue (R-107)",
+   "urls": [
+    "https://arxiv.org/abs/2503.15223"
+   ],
+   "keywords": [
+    "Comments",
+    "Journal reference",
+    "ICSE",
+    "Accepted",
+    "Conference"
+   ],
+   "max_hits": 15
+  },
+  {
+   "id": "swe_bench_live_abs",
+   "claim": "arXiv abstract page of SWE-bench-Live: comments or journal reference with the published venue (R-107)",
+   "urls": [
+    "https://arxiv.org/abs/2505.23419"
+   ],
+   "keywords": [
+    "Comments",
+    "Journal reference",
+    "NeurIPS",
+    "Datasets and Benchmarks",
+    "Accepted"
+   ],
+   "max_hits": 15
   }
  ]
 }

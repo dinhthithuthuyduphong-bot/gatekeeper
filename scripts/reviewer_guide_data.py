@@ -35,6 +35,14 @@ def macros() -> dict[str, str]:
 def plain(t: str, mac: dict[str, str]) -> str:
     """LaTeX cell -> readable text."""
     t = re.sub(r"\\([a-z][A-Za-z]+)(\{\})?", lambda m: mac.get(m.group(1), m.group(0)), t)
+    # section references print as numbers in the PDF (R-107)
+    secs = {
+        "sec:certified": "3",
+        "sec:gain": "4.1",
+        "sec:mechanism": "4.2",
+        "sec:measurement": "4.7",
+    }
+    t = re.sub(r"\\ref\{([^}]*)\}", lambda m: secs.get(m.group(1), "(see the paper)"), t)
     t = re.sub(r"\\ensuremath\{([^}]*)\}", r"\1", t)
     t = re.sub(r"\\times10\^\{(-?\d+)\}", r" × 10^\1", t)
     t = re.sub(r"\\multicolumn\{\d+\}\{\w\}\{(.*)\}", r"\1", t)

@@ -167,6 +167,9 @@ Mỗi mục lấy từ một lỗi đã xảy ra (số trong ngoặc là mã l�
 **Biến môi trường qua ranh giới người dùng (L70)**
 - [ ] Lệnh chạy dưới người dùng khác (`sudo`, môi trường sạch) nhận từng biến cần thiết một cách tường minh, và có một bước kiểm 0 USD dưới đúng người dùng đó xác nhận khóa nạp được trước lần gọi có phí đầu tiên. Đọc mọi cảnh báo trong log của lượt chạy thử.
 
+**Nhãn không chồng nghĩa (L87)**
+- [ ] Mỗi nhãn mới (nhánh, mã thí nghiệm, ký hiệu) đã được tìm trong `paper/main.tex` và không trùng một nghĩa khác. Câu tóm tắt nguồn ghi đúng phạm vi: số model, mục của bài gốc, phiên bản (A163).
+
 **Tài liệu tham khảo đã in (L86)**
 - [ ] Các mục tham khảo có mã lệnh đã được đọc trên PDF (`~`, `--`, backtick in đúng). Chú thích bảng về lượt chạy được kiểm theo từng hàng (A162).
 

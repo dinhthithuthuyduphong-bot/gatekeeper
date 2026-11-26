@@ -1568,3 +1568,32 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - Preflight đạt.
 - **Kết luận R-106:** đạt.
 
+## R-107. Sửa theo bản review VALVE (đã duyệt) và phản biện bản review "Clear Accept sau đối chiếu định dạng" (26/11/2026; 0 USD)
+- **Đã duyệt (@thuthuy: "Sửa theo hướng tốt nhất"):**
+  - VALVE ở Related Work và trong Answer to RQ3, viết ở mức "consistent with ours"; không dùng số gain của VALVE, không khẳng định VALVE khai thác rò rỉ.
+  - #252 ở mục Setting: mọi branch của ta kết thúc bằng Remove F2P Tests, nên không thuộc nhóm bị lỗi.
+  - #256 ở Threats: lỗi này chỉ có thể làm giảm số task giải được, và chưa được đo trên các lượt của ta. Log SWE-smith không có trong `raw-archive`.
+  - Trích "Coding or Cheating?" và "Shortcutting the Fix".
+  - Sửa độ chính xác của câu Dissecting (hai model Qwen, ablation trên SWE-Bench Pro) và DeepSWE (phần audit SWE-Bench Pro).
+- **Bản review "Clear Accept":**
+  - **Đúng, đã sửa:**
+    - Ký hiệu chồng nghĩa C, A, D (A163): bốn lịch sử của C10 đổi tên.
+    - Cột b/c ở Bảng 2: macro sinh từ `s42_end_of_pool.json`; b − c = Skill − None ở cả 10 hàng.
+    - Chú thích "--" của Bảng 5 trỏ tới mô phỏng ở mục 3.
+    - UTBoost trích bản ACL 2025, Long Papers, trang 3762–3774, xác nhận trên PDF của ACL Anthology (`utboost_acl`).
+  - **Không xác nhận được, giữ nguyên:**
+    - PatchDiff "ICSE 2026" và SWE-bench-Live "NeurIPS 2025 D&B": trang arXiv không ghi venue.
+    - Waudby-Smith "JRSS B": như R-105.
+  - **Sai hoặc đã sửa từ trước:**
+    - [13] ký tự `~`: đã sửa ở R-105; bên review dùng PDF cũ.
+    - URL của [2] bị cách: chỉ là xuống dòng.
+    - "Chính sách ACM 14/05/2026", tỉ lệ nhận 21–27%, xác suất 80–90%: không có trong nguồn đã tải.
+    - Mười lỗi trích chữ mà bản review tự "giải oan": khớp với file đọc kèm R-105.
+- **File Word đọc kèm:** thêm tên các lịch sử C10, cột b/c, và nghĩa của A và C.
+- **Kiểm:**
+  - Biên dịch: 0 tràn ngang. Có một tràn dọc 1,15pt khi dàn trang; không phải dòng chữ tràn lề, và CI chỉ kiểm tràn ngang.
+  - Phần chính tới trang 10 (giới hạn 10); tài liệu tham khảo ở trang 10–11.
+  - `ease_pdf_check.py` chỉ còn E-A4.
+  - `make_bib.py` 0 VERIFY. Preflight đạt.
+- **Kết luận R-107:** đạt.
+
