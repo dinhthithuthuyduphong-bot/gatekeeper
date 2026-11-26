@@ -107,5 +107,5 @@
    "perty of DeepSWE’s verifier that handles each. Table 1. SWE-Bench Pro failure patterns and the DeepSWE property that addresses each. False positives (top section): the verifier accepted work that did not actually solve the task. False negatives (bottom section): the verifier rejected work that did solve the task. Pattern What happens on SWE-Bench Pro DeepSWE property False positives: agent passed without doing the work 17 Pattern What happens on SWE-Bench Pro DeepSWE property Git history leaks the gold com- mit The SWE-Bench Pro container ships the repository’s full .git history. 33 of the 38 cheating trials reported externally [Scale AI, 2026] run git log –all or git show <gold-hash> to read the merged fix. In trial instance_ ansible__ansible-34db57__ qyqew5w the agent ran git show 34db57a47f:lib/.../linux.py and pasted the result; in instance_ ansible__ansible-83909b__fFvv uYq the patch mirrors the gold diff line-for-line. DeepSWE tasks aren’t derived from existing public commits, and the task container ships a shallow clone with only the base commit, so there’s no gold hash in the workspace to find. Weakgoldtestsletstubbedfea- tures pass Gold tests only exercise the paths the origina"
   ]
  },
- "fetched_utc": "2026-11-25T23:46:04+00:00"
+ "fetched_utc": "2026-11-26T00:15:16+00:00"
 }
