@@ -88,5 +88,5 @@
    "nd that context files dominate agent configuration in 2,853 repositories while Skills remain rare and mostly hold static instructions rather than executable scripts. Hereiz et al. [18] found that instruction files and scripts inside plugin Skills co-evolve, and prompts embedded in code change primarily through additions and modifications [32]. Earlier, infrastructure-as-code files were found to co-evolve with the source code they configure [20] and to exhibit configuration smells [31], and we ask the same question of Skills and harness configuration. On effect, Gloaguen et al. [15] found that context files do not generally raise task success but add over 20% inference cost, and McMillan [29] detected no effect of file structure on adherence. Ben Sghaier et al. [6] held the model fixed across 35 harness releases and found that tokens per task rose by over 70% with no significant gain in resolve rate. Most prior work compares a configuration file with its absence or treats the harness as one unit; we measure what one revision of a Skill changes in an agent’s effectiveness and cost. 2.3 Studies on Agentic Cost Kapoor et al. [22] argued that agent evaluations must be cost-controlled, and Erol et a"
   ]
  },
- "fetched_utc": "2026-11-26T00:25:33+00:00"
+ "fetched_utc": "2026-11-26T08:08:29+00:00"
 }

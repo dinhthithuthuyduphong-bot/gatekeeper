@@ -51,5 +51,5 @@
    " line.rsplit(suffix, 1)[0] 10 # process when test log in separate lines 11 if not re.fullmatch(pattern_test, test): 12 pt = -1 13 while previous_line[pt]: 14 if re.fullmatch(pattern_test, previous_line[pt]): 15 test = previous_line[pt] 16 break 17 pt -= 1 18 test_status_map[test] = TestStatus.PASSED.value 19 break 20 previous_line.append(line) Listing 7: Improved parser for Django. 4 Experiments In this section, we evaluate the performance of UTBoost and our improved parser on SWE-Bench. We propose the following three research questions (RQ) to guide our investigation. • RQ1: How effective is UTBoost in identifying insufficient test cases? • RQ2: How does the parser affect the evaluation of SWE-Bench? • RQ3: How do insufficient test cases and incorrect annotations affect SWE-Bench’s leaderboard? 4.1 Experiment Settings In our evaluation, we use the generated patches of the coding agents from the official SWE-Bench experiment repository.2 We extract the generated patches of the coding agents that pass the origi- nal SWE-Bench tests and evaluate them using our augmented test cases. Coding agents that do not provide generated patches are excluded from our analysis. We have released our code "
   ]
  },
- "fetched_utc": "2026-11-26T00:25:36+00:00"
+ "fetched_utc": "2026-11-26T08:08:32+00:00"
 }

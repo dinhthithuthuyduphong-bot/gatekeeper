@@ -106,5 +106,5 @@
    "for short; see Figure 3. If X1,...,Xn are independent, then at the expense of computation, the above CI can be eﬀectively derandomized to remove the eﬀect of the ordering of variables. One can randomly permute the data B times to obtain ( ~X1,b,..., ~Xn,b) and correspondingly compute ~M PrPl-EB n,b (m), one for each permutation b∈{1,...,B}. Averaging over these permutations, deﬁne ~M PrPl-EB n (m) := 1 B ∑B b=1 ~M PrPl-EB n,b (m). For each b, M PrPl-EB n,b (µ) has expectation at most one (by linearity of expectation). Thus, ~M PrPl-EB n (µ) is a e-value (i.e. it has expectation at most 1). By Markov’s inequality, ~C PrPl-EB n := {m ∈ [0, 1] : ~M PrPl-EB n (m) < 1/α} is a (1 −α)-CI for µ. This set is not available in closed-form and the intersection⋂ i≤n ~C PrPl-EB i no longer yield a valid CI. In our experience, this derandomization procedure neither helps nor hurts. In any case, both ⋂ i≤nCi and ~Cn will be signiﬁcantly improved in Section 4.4. In Section E.3, we show that in iid settings the width of [PrPl-EB-CI] scales with the true (unknown) standard deviation: √n ( log(2/α) + ∑n i=1 viψE(λi)∑n i=1 λi ) a.s. −−→σ √ 2 log(2/α). (17) Notice that (17) is the same asymptotic behavior tha"
   ]
  },
- "fetched_utc": "2026-11-26T00:21:53+00:00"
+ "fetched_utc": "2026-11-26T08:06:32+00:00"
 }

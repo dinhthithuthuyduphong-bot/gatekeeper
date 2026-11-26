@@ -8,8 +8,8 @@
   }
  ],
  "url": "https://github.com/SWE-bench/SWE-smith/issues/252",
- "sha256": "d528698b3e8daed5a9576f2e006cfb38a20b2903d66e2d3e8f52e25ddd54dfeb",
- "n_chars": 12110,
+ "sha256": "927d0691b0e3478062f262c9491c114c251c105a835ccb9667f0c07935568717",
+ "n_chars": 12108,
  "head": " Eval can grade clean code or stale C++ binaries instead of the patched bug commit, so empty patches resolve · Issue #252 · SWE-bench/SWE-smith · GitHub Skip to content Navigation Menu Sign in Products Platform GitHub Repository hosting, code review, and collaboration Copilot AI coding agent for tasks, projects, and automated work Build & Ship Actions CI/CD and automation Code Quality Quality analysis, fixes, and enforcement Codespaces Cloud development environments Secure Code Security Vulnerability detection and remediation Secret Protec",
  "excerpts": {
   "HEAD~1": [
@@ -88,5 +88,5 @@
    "15 ( 15 ) Discussions Actions Projects Security and quality Insights More items Eval can grade clean code or stale C++ binaries instead of the patched bug commit, so empty patches resolve #252 New issue Copy link New issue Copy link Open Open Eval can grade clean code or stale C++ binaries instead of the patched bug commit, so empty patches resolve #252 Copy link Description jimmy-holdout opened on Nov 2, 2026 Issue body actions Two separate gaps in swesmith.harness.eval mean the tests often do not run on the code that is being graded: the buggy commit with the submitted patch applied. On the affected rows an empty patch is graded resolved, and the gold patch or a correct fix can fail. Both reproduce on main ( 9b74ac0 ) with published rows and images. 1. Eval checks out HEAD~1 even when the branch has no \"Remove F2P Tests\" commit gather.py commits Bug Patch and adds Remove F2P Tests on top only if rp.get_test_files() returns F2P files ( gather.py#L531-L558 ). The base get_test_files returns ([], []) ( base.py#L560-L562 ), and the TypeScript, C, C++, C# and Ruby profiles don't override it. Some Rust, Java, JS and Go branches also end in Bug Patch (counts below). Eval always runs git checkou"
   ]
  },
- "fetched_utc": "2026-11-26T00:25:33+00:00"
+ "fetched_utc": "2026-11-26T08:08:30+00:00"
 }
