@@ -1634,5 +1634,5 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
   - 0 tràn ngang. Preflight đạt.
   - Việc mở link trong cửa sổ ẩn danh để thấy không lộ tên do @thuthuy kiểm, vì máy làm việc này không vào được figshare.
 - **Lưu ý:** gói trên figshare ứng với bản bài lúc cc3e64c. Nếu bài còn đổi số liệu hay mã trước khi nộp, phải dựng lại gói và thay file trên cùng item. Link riêng tư giữ nguyên khi thay file.
-- **Sự cố khi ghi sổ:** lần chạy đầu dừng ở bước sửa TODO (câu cần thay đã đổi từ R-106). Commit 3d… chỉ mang link và bảng quy tắc; TODO và mục này được bổ sung ở commit sau. Không ảnh hưởng gì tới bài.
+- **Sự cố khi ghi sổ:** lần chạy đầu dừng ở bước sửa TODO (câu cần thay đã đổi từ R-106). Commit 32a4b15 chỉ mang link và bảng quy tắc; TODO và mục này được bổ sung ở commit sau. Không ảnh hưởng gì tới bài.
 
