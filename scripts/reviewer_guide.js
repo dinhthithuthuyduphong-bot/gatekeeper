@@ -89,7 +89,7 @@ const children = [
     ["Expectation printed as 𝔹[Z_i | C]", "𝔼[Z_i | C] (blackboard E; some extractors map the glyph to B)."],
     ["“Kendall’s  between position and Z_i” (τ missing)", "“Kendall’s τ between position and Z_i”."],
     ["PACE first cited only in Section 5", "Cited in Section 3, at the end-of-pool statistic."],
-    ["“URL.” orphan on page 10 makes the paper too long", "Main text ends on page 10, within the 10-page limit; page 11 holds references only, as the call allows."],
+    ["“URL.” orphan on page 10 makes the paper too long", `Main text ends on page ${data.layout.main_to}, within the 10-page limit; the ${data.layout.ref_only_after} page(s) after it hold references only, as the call allows.`],
   ], [5, 7]),
 
   h1("2. Notation (one meaning each)"),
@@ -134,11 +134,11 @@ const children = [
   bullet("That a certification covers other runs or tasks: it covers T1 only."),
 
   h1("7. Venue facts, checked against the EASE 2027 call"),
-  bullet("Main text ≤ 10 pages including figures, tables and appendices, plus up to two pages containing only references. This PDF: main text ends on page 9, references on pages 9–10."),
+  bullet(`Main text ≤ 10 pages including figures, tables and appendices, plus up to two pages containing only references. This PDF (${data.layout.pages} pages): main text ends on page ${data.layout.main_to}, where the references begin; ${data.layout.ref_only_after} page(s) after it hold references only.`),
   bullet("Template \\documentclass[sigconf,review,anonymous]{acmart} and the call’s \\acmConference line; double-anonymous review; SIGSOFT Open Science Policy (Data Availability after the Conclusion)."),
   bullet("Dates (AoE): abstract 15 January 2027, paper 22 January 2027, notification 12 March 2027. The call names five criteria: Soundness, Significance, Novelty, Verifiability and Transparency, Presentation."),
   bullet("Not in the call (do not rely on it): an acceptance rate, a rebuttal phase or its absence, a numeric scoring scale."),
-  bullet("The anonymous replication-package link is still a placeholder in this draft and will be replaced before submission."),
+  bullet("The anonymous replication package is on figshare (private link in Data Availability); it will be published with a DOI on acceptance."),
 ];
 
 const doc = new Document({

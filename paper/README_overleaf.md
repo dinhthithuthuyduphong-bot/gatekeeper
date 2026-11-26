@@ -32,11 +32,11 @@ Sửa trong repo, không sửa trong Overleaf. Con số đến từ `results/` q
 ## Tài liệu kèm trong repo
 
 - `docs/ease_writing_rules.md`: quy tắc viết bài theo CFP của EASE 2027, Open Science Policy của SIGSOFT và Empirical Standards; mỗi quy tắc kèm câu trích nguyên văn.
-- `docs/review_log.md`: sổ review. Các mục R-97 tới R-108 ghi phản biện các bản đánh giá và những gì đã sửa.
+- `docs/review_log.md`: sổ review. Các mục R-97 tới R-110 ghi phản biện các bản đánh giá và những gì đã sửa.
 - `docs/preregistration_main.md`: bản đăng ký trước của các thí nghiệm, kèm mọi ghi chú thực thi và sai lệch.
 - `docs/plan_fallback_venues.md`: kế hoạch dự phòng nếu bài không được nhận ở EASE.
 
 ## Việc còn lại trước khi nộp (hạn tóm tắt 15/01/2027, hạn bài 22/01/2027, giờ AoE)
 
-- Thay chữ `ANON-LINK-PENDING` trong mục Data Availability bằng link riêng tư ẩn danh của figshare (`docs/figshare_upload.md`).
+- Link riêng tư ẩn danh của figshare đã nằm trong mục Data Availability (R-109). Khi bài được nhận: bấm Publish trên figshare để có DOI (`docs/figshare_upload.md`).
 - Để repo công khai `-gatekeeper-p6` ở chế độ private trong thời gian review.

@@ -16,8 +16,10 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent))
 TEX = Path("paper/main.tex")
 NUMS = Path("paper/numbers.tex")
 
@@ -104,13 +106,22 @@ def tables(src: str, mac: dict[str, str]) -> list[dict]:
     return out
 
 
+def layout(pdf: Path) -> dict:
+    """Page facts read from the built PDF (R-110: never typed into the guide by hand)."""
+    import ease_pdf_check as ep
+
+    pages = ep.page_texts(pdf)
+    ref = ep.ref_start(pages)
+    return {"pages": len(pages), "main_to": ref, "ref_only_after": len(pages) - ref}
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, required=True)
     a = ap.parse_args()
     mac = macros()
     src = TEX.read_text()
-    data = {"tables": tables(src, mac), "macros": mac}
+    data = {"tables": tables(src, mac), "macros": mac, "layout": layout(Path("paper/main.pdf"))}
     left = sorted(
         {
             r
