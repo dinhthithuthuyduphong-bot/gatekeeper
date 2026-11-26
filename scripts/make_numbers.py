@@ -31,6 +31,18 @@ def load(p: Path) -> dict:
     return json.loads(p.read_text())
 
 
+def ap_numbers(d: dict) -> dict:
+    """R-108: saved patches of the twelve decisions checked against the graded commit."""
+    tot = d["total"]
+    assert len(d["needs_fallback"]) == tot.get("needs_fallback", 0)
+    return {
+        "apApplies": tot.get("applies", 0),
+        "apFallback": tot.get("needs_fallback", 0),
+        "apEmpty": tot.get("empty", 0),
+        "apEmptyResolved": tot.get("empty_resolved", 0),
+    }
+
+
 def dep_numbers(d: dict) -> dict:
     """R-102: largest false-certification rates of the dependence sensitivity simulation.
     Mild = within-arm rho <= 0.5, shared rho <= 0.8, block outages L <= 20, independent;
@@ -1175,6 +1187,10 @@ def main() -> int:
     e42 = load(Path("results/s42_end_of_pool.json"))["decisions"]
     mc = load(Path("results/method_check.json"))["end_of_pool"]
 
+    def sci_small(x: float) -> str:
+        m, e = f"{x:.1e}".split("e")
+        return rf"\ensuremath{{{m}\times10^{{{int(e)}}}}}"
+
     def sci(x: float) -> str:
         if x < 1000:
             return f"{x:.0f}" if x >= 10 else f"{x:.1f}"
@@ -1202,6 +1218,11 @@ def main() -> int:
         # R-107: discordant pairs b/c of a single comparison (E = 1.5^b 0.5^c), for Table 2
         if set(d["values"]) <= {"-1.0", "0.0", "1.0"}:
             N["eopBC" + keys[num]] = f"{d['values'].get('-1.0', 0)}/{d['values'].get('1.0', 0)}"
+            # one-sided exact sign test on the same discordant pairs (the registered test)
+            from scipy.stats import binom
+
+            nb, nc = d["values"].get("-1.0", 0), d["values"].get("1.0", 0)
+            N["eopSignP" + keys[num]] = sci_small(float(binom.sf(nb - 1, nb + nc, 0.5)))
     regs = [d for n, d in e42.items() if n.split()[0] not in ("8", "11")]
     cov = [v for k, v in mc["type1"].items() if "NOT" not in k]
     sh = [v for k, v in mc["type1"].items() if "NOT" in k][0]
@@ -1227,6 +1248,8 @@ def main() -> int:
             "eopValidReps": int(round((1 / mc["type1_mcse"] ** 2) * 0.025 * 0.975)),
             # E-S3 (docs/ease_writing_rules.md): package version of the simulation run
             "simNumpy": load(Path("results/method_check.json"))["environment"]["numpy"],
+            # R-108: SWE-smith issues 252/256 on the saved patches behind Table 2
+            **ap_numbers(load(Path("results/apply_check.json"))),
             # R-102: sensitivity of the end-of-pool test to dependence between tasks
             **dep_numbers(load(Path("results/dependence_sensitivity.json"))),
         }
