@@ -710,3 +710,9 @@ Mỗi lỗi ở `docs/audit_pilot.md` (A1–A35) được nhóm theo **nguyên n
   - Sau mỗi lần sinh `refs.bib`, đọc các mục có mã lệnh trên PDF (`pdftotext`).
   - Chú thích của bảng được kiểm theo từng hàng: hàng nào lấy số từ lượt chạy khác thì phải có chú thích.
 
+## L87. Nhãn chữ cái của nhánh thí nghiệm cũng là ký hiệu (A163)
+- **Nguyên nhân gốc:** khi viết C10, tôi đặt tên các nhánh A–D giống như trong bản đăng ký, mà không đối chiếu với các mã thí nghiệm (A, C) và các ký hiệu (C, D_i) đã dùng trong bài. Danh sách ký hiệu ở `docs/glossary.md` §7 không có nhãn nhánh.
+- **Phòng ngừa:**
+  - Trước khi đặt một nhãn mới trong bài, tìm nhãn đó trong `paper/main.tex` (mã thí nghiệm, ký hiệu toán, tên nhánh). Nếu đã có thì dùng tên mô tả, không dùng chữ cái.
+  - Câu tóm tắt một nguồn ghi đúng phạm vi của nguồn: bao nhiêu model, phần nào của bài gốc, phiên bản nào.
+

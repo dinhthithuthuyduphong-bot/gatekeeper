@@ -12,6 +12,11 @@
 \pgfplotsset{compat=1.18}
 
 \newtheorem{assumption}{Assumption}
+% the four histories of C10 (named, not lettered: A, C and D already name an experiment, a test and D_i)
+\newcommand{\Hship}{\ensuremath{H_{\mathrm{ship}}}}
+\newcommand{\Hneu}{\ensuremath{H_{\mathrm{neutral}}}}
+\newcommand{\Hemp}{\ensuremath{H_{\mathrm{empty}}}}
+\newcommand{\Hnone}{\ensuremath{H_{\mathrm{none}}}}
 \newcommand{\STR}{\mathrm{STR}}
 % The one place where the agent's model is named in the text (exact version: replication package).
 \newcommand{\agentmodel}{Gemini~3.1 Flash-Lite}
@@ -60,7 +65,7 @@ cards~\cite{memgovern_repo}, or optimise them against a benchmark~\cite{gskill}.
 offered for a skill is often one number, the gain in resolve rate measured once: a benchmark of
 skills runs ``every task once without the skill and once with it''~\cite{sskb_paper}. That number
 can be wrong because of run-to-run noise~\cite{randomness_agentic_evals_2026} or scorers that
-accept incorrect patches~\cite{patchdiff_2025,utboost_2025}. This paper documents a third way,
+accept incorrect patches~\cite{patchdiff_2025,utboost_acl}. This paper documents a third way,
 harder to see because the number is \emph{correct}: the gain is real and passes a rigorous test,
 and part of it still does not belong to the skill.
 
@@ -156,7 +161,9 @@ repositories we use (Jinja and Pygments in Python, Bleve in Go; \nhiTasks{} task
 \emph{Bug Patch} (whose diff equals the benchmark's bug patch in all \nhiBugEq{}), and \emph{Remove
 F2P Tests} (which only deletes files, and the deleted files contain every \texttt{FAIL\_TO\_PASS}
 test of the task). The history thus holds two leak channels, the bug-injecting diff and the deleted
-tests, and no project history.
+tests, and no project history. Because every branch ends with \emph{Remove F2P Tests}, none of our
+tasks is among the rows whose branch ends with \emph{Bug Patch}, on which SWE-smith's evaluation
+grades the code before the bug and an empty patch resolves~\cite{swesmith_issue_252}.
 
 \paragraph{Learner, skill and agent}
 gskill~\cite{gskill} learns a block of text that its agent configuration inserts into the system
@@ -326,23 +333,23 @@ Assumption~\ref{ass:indep}.
 \caption{The twelve registered decisions (scorer $S$). Gain: difference in resolved tasks per task,
 with a task-level 95\% bootstrap interval. $E$: end-of-pool statistic ($\lambda=0.5$); certified
 when $E\ge40$; ``fam.'': also $\ge480$ (twelve decisions, union bound). Seq.: first task at which the
-registered e-process crossed 40, retrospective (all tasks were run). Contrasts S3 and C use
+registered e-process crossed 40, retrospective (all tasks were run). $b/c$: tasks resolved only with / only without the skill, so $E=1.5^b\,0.5^c$. Contrasts S3 and C use
 $D_i=(Z_i^{\text{shipped}}-Z_i^{\text{one commit}})/2$.}
 \label{tab:decisions}
-\begin{tabular}{@{}lllrrcrccr@{}}\toprule
-ID & Comparison & Arms & None & Skill & Gain [95\% CI] & $E$ & $\ge40$ & fam. & Seq.\\\midrule
-J1 & Jinja skill, as shipped & 2 runs & \njinjaNone & \njinjaSkill & \njinjaGain{} [\njinjaGainLo, \njinjaGainHi] & \neopA & yes & yes & \njinjaAdmit\\
-J2 & Jinja skill, one commit & 2 runs & \njinjaLFNone & \njinjaLFSkill & \njinjaLFGain{} [\njinjaLFGainLo, \njinjaLFGainHi] & \neopB & yes & yes & \njinjaLFAdmit\\
-B1 & Bleve skill, as shipped & 2 days & \nbleveNone & \nbleveSkill & \nbleveGain{} [\nbleveGainLo, \nbleveGainHi] & \neopC & yes & yes & \nbleveAdmit\\
-B2 & Bleve skill, one commit & 2 days & \nbleveLFNone & \nbleveLFSkill & \nbleveLFGain{} [\nbleveLFGainLo, \nbleveLFGainHi] & \neopD & yes & yes & \nbleveLFAdmit\\
-P & Jinja skill vs.\ placebo & 2 days & \nplcS & \njinjaSkill & \nconGain{} [\nconGainLo, \nconGainHi] & \neopE & yes & yes & \nconAdmit\\
-A & without history line & 1 job & \nabNone & \nabSkill & \nabGain{} [\nabGainLo, \nabGainHi] & \neopF & yes & yes & \nabAdmit\\
-R & relearned, one commit & 1 job$^{a}$ & \ncleanNone & \ncleanSkill & \ncleanGain{} [\ncleanGainLo, \ncleanGainHi] & \neopG & yes & no & \ncleanAdmit\\
-X & reuse on Pygments & 1 job$^{b}$ & \npygNone & \npygSkill & \npygGain{} [\npygGainLo, \npygGainHi] & \neopH & no & no & --\\
-S1 & seed 51, as shipped & 1 job & \nsdNone & \nsdSkill & \nsdGain{} [\nsdGainLo, \nsdGainHi] & \neopI & yes & yes & \nsdAdmit\\
-S2 & seed 51, one commit & 1 job & \nsdLFNone & \nsdLFSkill & \nsdLFGain{} [\nsdLFGainLo, \nsdLFGainHi] & \neopJ & yes & no & \nsdLFAdmit\\
-S3 & contrast, seed 51, 100 tasks & 1 job & \multicolumn{3}{c}{difference \nsdLeak{} [\nsdLeakLo, \nsdLeakHi]} & \neopK & no & no & --\\
-C & contrast, 70 tasks w/o descr. & 1 job & \multicolumn{3}{c}{\ncfFor{} for, \ncfAgainst{} against, \ncfTies{} ties} & \neopL & yes & yes & \ncfCross\\
+\begin{tabular}{@{}lllrrcrrccr@{}}\toprule
+ID & Comparison & Arms & None & Skill & Gain [95\% CI] & $b/c$ & $E$ & $\ge40$ & fam. & Seq.\\\midrule
+J1 & Jinja skill, as shipped & 2 runs & \njinjaNone & \njinjaSkill & \njinjaGain{} [\njinjaGainLo, \njinjaGainHi] & \neopBCA & \neopA & yes & yes & \njinjaAdmit\\
+J2 & Jinja skill, one commit & 2 runs & \njinjaLFNone & \njinjaLFSkill & \njinjaLFGain{} [\njinjaLFGainLo, \njinjaLFGainHi] & \neopBCB & \neopB & yes & yes & \njinjaLFAdmit\\
+B1 & Bleve skill, as shipped & 2 days & \nbleveNone & \nbleveSkill & \nbleveGain{} [\nbleveGainLo, \nbleveGainHi] & \neopBCC & \neopC & yes & yes & \nbleveAdmit\\
+B2 & Bleve skill, one commit & 2 days & \nbleveLFNone & \nbleveLFSkill & \nbleveLFGain{} [\nbleveLFGainLo, \nbleveLFGainHi] & \neopBCD & \neopD & yes & yes & \nbleveLFAdmit\\
+P & Jinja skill vs.\ placebo & 2 days & \nplcS & \njinjaSkill & \nconGain{} [\nconGainLo, \nconGainHi] & \neopBCE & \neopE & yes & yes & \nconAdmit\\
+A & without history line & 1 job & \nabNone & \nabSkill & \nabGain{} [\nabGainLo, \nabGainHi] & \neopBCF & \neopF & yes & yes & \nabAdmit\\
+R & relearned, one commit & 1 job$^{a}$ & \ncleanNone & \ncleanSkill & \ncleanGain{} [\ncleanGainLo, \ncleanGainHi] & \neopBCG & \neopG & yes & no & \ncleanAdmit\\
+X & reuse on Pygments & 1 job$^{b}$ & \npygNone & \npygSkill & \npygGain{} [\npygGainLo, \npygGainHi] & \neopBCH & \neopH & no & no & --\\
+S1 & seed 51, as shipped & 1 job & \nsdNone & \nsdSkill & \nsdGain{} [\nsdGainLo, \nsdGainHi] & \neopBCI & \neopI & yes & yes & \nsdAdmit\\
+S2 & seed 51, one commit & 1 job & \nsdLFNone & \nsdLFSkill & \nsdLFGain{} [\nsdLFGainLo, \nsdLFGainHi] & \neopBCJ & \neopJ & yes & no & \nsdLFAdmit\\
+S3 & contrast, seed 51, 100 tasks & 1 job & \multicolumn{3}{c}{difference \nsdLeak{} [\nsdLeakLo, \nsdLeakHi]} & -- & \neopK & no & no & --\\
+C & contrast, 70 tasks w/o descr. & 1 job & \multicolumn{3}{c}{\ncfFor{} for, \ncfAgainst{} against, \ncfTies{} ties} & -- & \neopL & yes & yes & \ncfCross\\
 \bottomrule\end{tabular}\\[2pt]
 \raggedright\footnotesize For P the ``None'' column is the placebo arm. $^{a}$\,\neopSameG{} of 100 tasks; the others ran later the same day.
 $^{b}$\,\neopSameH{} of 100 tasks; \npygLate{} tasks of the skill arm ran later the same day.
@@ -458,29 +465,29 @@ of a comparison ran in different runs; the same contrast with all four arms in o
 \paragraph{Separating the message from the diff}
 The single-commit control removes the message ``Bug Patch'', its diff and a commit at once. A
 registered experiment (C10) rebuilt four histories for the \nctenTasks{} Jinja tasks without a
-description, all with the same working tree and the same ``Remove F2P Tests'' commit: A, the shipped
-history (rebuilt to the same hashes); B, the same diff under a neutral message from the upstream
-history; C, an empty commit named ``Bug Patch'' on the buggy tree, so the pre-bug code is absent; D,
+description, all with the same working tree and the same ``Remove F2P Tests'' commit: \Hship{}, the shipped
+history (rebuilt to the same hashes); \Hneu{}, the same diff under a neutral message from the upstream
+history; \Hemp{}, an empty commit named ``Bug Patch'' on the buggy tree, so the pre-bug code is absent; \Hnone{},
 no bug commit. Every rebuilt commit keeps the original author, committer, dates and message unless
 the variant changes the message. The eight arms (four histories, with and without the skill) run in
 one job. The
-registered test compares A with C, which have the same commits and messages and differ only in
+registered test compares \Hship{} with \Hemp{}, which have the same commits and messages and differ only in
 whether the pre-bug code is in the history. In a first run six arms stopped at their spending cap
 (our caps left no margin above the cost estimate), so we registered a second run with a new seed,
 caps simulated against the stopping rule, and the same test on the fixed pool; every arm ran all
-\nctrACN{} tasks. There the skill resolves \nctrASkill{} of \nctrASkillN{} tasks in A and
-\nctrBSkill{}, \nctrCSkill{} and \nctrDSkill{} in B, C and D; without it, at most \nctrNoneMax{} per
-history. The difference of gains favours A on \nctrACNeg{} tasks (\nctrACFull{} of them with
-$D_i=-1$, the rest $-1/2$) and C on \nctrACPos{}, mean
+\nctrACN{} tasks. There the skill resolves \nctrASkill{} of \nctrASkillN{} tasks in \Hship{} and
+\nctrBSkill{}, \nctrCSkill{} and \nctrDSkill{} in \Hneu{}, \Hemp{} and \Hnone{}; without it, at most \nctrNoneMax{} per
+history. The difference of gains favours \Hship{} on \nctrACNeg{} tasks (\nctrACFull{} of them with
+$D_i=-1$, the rest $-1/2$) and \Hemp{} on \nctrACPos{}, mean
 $D=\nctrACMean{}$ [\nctrACLo{}, \nctrACHi{}], $E=\nctrACE{}\geq 40$: certified. The first run agrees
 (\nctenACNeg{} against \nctenACPos{} over its first \nctenACN{} tasks, $E=\nctenACE{}$, valid only
 under a narrower per-task null because its pool was cut by spend). Neither part carries a gain alone
-(descriptive): the diff under a neutral message (B$-$D, $D=\nctrBDMean{}$ [\nctrBDLo{},
-\nctrBDHi{}]) and the message without the diff (C$-$D, $D=\nctrCDMean{}$ [\nctrCDLo{},
+(descriptive): the diff under a neutral message (\Hneu{}$-$\Hnone{}, $D=\nctrBDMean{}$ [\nctrBDLo{},
+\nctrBDHi{}]) and the message without the diff (\Hemp{}$-$\Hnone{}, $D=\nctrCDMean{}$ [\nctrCDLo{},
 \nctrCDHi{}]); the interaction is \nctrIxMean{} [\nctrIxLo{}, \nctrIxHi{}]. The message leads the
-agent to the diff: with the skill it displays the diff in \nctrADiff{} of \nctrASkillN{} runs in A,
+agent to the diff: with the skill it displays the diff in \nctrADiff{} of \nctrASkillN{} runs in \Hship{},
 and the deleted tests in \nctrATests{}.
-When no message points to the diff (B) or no diff exists (C, D), it restores and runs the deleted
+When no message points to the diff (\Hneu{}) or no diff exists (\Hemp{}, \Hnone{}), it restores and runs the deleted
 tests in some runs (\nctrBTests{}, \nctrCTests{} and \nctrDTests{}) and still rarely resolves the
 task. The deletion commit is identical in the four histories, so it cannot by itself produce a
 difference between them; whether removing it would change the contrast was not tested.
@@ -711,7 +718,8 @@ to find.
 
 \noindent\textbf{Answer to RQ3.} The pattern repeats on Bleve and with an open-weight agent of
 another vendor. It stops where an agent reads the commits on its own, where the skill is reused on
-another repository, and for the other skill writers and the second learner we tested.
+another repository, and for the other skill writers and the second learner we tested. A third
+learner, not run by us, kept skills that read the bug-injecting commit~\cite{valve_2609_32990}.
 
 \subsection{Measurement controls}\label{sec:measurement}
 \paragraph{The scorer of a learning pipeline}
@@ -730,7 +738,7 @@ of looks; these are not comparisons of learning algorithms.
 \begin{table}[t]\centering\footnotesize\setlength{\tabcolsep}{2.5pt}
 \caption{Decision rules. A/A: false admissions on \naaStreams{} resampled A/A streams of
 \naaTrials{} trials. Orders: largest share of \npermN{} random orders of the \nrulesNull{} collected
-A/A streams that a rule admits (post hoc). --: not computed for this rule.}\label{tab:rules}
+A/A streams that a rule admits (post hoc). --: not computed for this rule (the end-of-pool test's error on null pools is simulated in Section~\ref{sec:certified}).}\label{tab:rules}
 \begin{tabular}{@{}llllrr@{}}\toprule
 Rule & Intended use & Level & Looks & A/A & Orders\\\midrule
 Plug-in, mean favours skill & quick check & none & 1 & \npluginOnce & --\\
@@ -843,7 +851,9 @@ SWE-bench~\cite{swebench} and SWE-bench-Live~\cite{swe_bench_live}. Base rates w
 are low (\njinjaNone{}, \nbleveNone{}, \npygNone{} of 100), so the tests have little power to detect
 harm. The trace labels come from one labeller, an author, who saw the benchmark's bug patch as
 a reference; no second labeller measured agreement, which matters for the judgment of reliance on
-the diff, not for whether the diff was shown. We could not verify the model's training
+the diff, not for whether the diff was shown. SWE-smith's fallback for applying a patch can undo
+hunks and still report success~\cite{swesmith_issue_256}; this can only lower resolved counts, and we
+did not measure how often it occurred in our runs. We could not verify the model's training
 cutoff and make no claim that tasks are unseen.
 
 \paragraph{Interventions}
@@ -894,15 +904,21 @@ SWE-Bench Pro~\cite{swebench_pro_verified}, other benchmarks~\cite{cursor_reward
 poolside_benchmark_hacking} and SWE-smith~\cite{marin_swesmith_git_leak,debuggym_swesmith_git_leak,
 debuggym_swesmith_git_fix,rllm_hide_git_history}, with fixes that remove or hide the
 history~\cite{swebench_git_log_fix,debuggym_swesmith_git_fix,rllm_hide_git_history}. These works study
-an agent that finds a leak during one evaluation~\cite{deepswe_2607_07946}, and hack-verifiable
-environments plant such opportunities by design~\cite{hack_verifiable_2026}. Told in its system
-prompt to ``inspect git history'', agents on SWE-Bench Pro show a leakage effect of up to +21.12\%
-against a sanitised container~\cite{dissecting_trajectories_2606_17454}; there a person wrote the instruction. In
-reinforcement learning, an agent ``autonomously learns to exploit various git commands to retrieve
-ground-truth information''~\cite{qwen3_coder_next_2603_00729}; there the exploit lives in the
-weights. We study a learner that writes the leak into a readable text reused on every later task. Run-to-run variance~\cite{randomness_agentic_evals_2026}, the
+an agent that finds a leak during one evaluation (an audit of SWE-Bench Pro in~\cite{deepswe_2607_07946};
+up to 72.1\% of tasks resolved with a successful exploit in~\cite{shortcutting_fix_2609_06780}), and
+hack-verifiable environments plant such opportunities by design~\cite{hack_verifiable_2026}. In an
+ablation on SWE-Bench Pro, two Qwen models told in their system prompt to ``inspect git history''
+show a leakage effect of up to +21.12\% against a sanitised container~\cite{dissecting_trajectories_2606_17454};
+there a person wrote the instruction. In reinforcement learning, an agent ``autonomously learns to
+exploit various git commands to retrieve ground-truth information''~\cite{qwen3_coder_next_2603_00729},
+and frontier models still try to mine the history in environments hardened against it, a behaviour
+read as ``a learned shortcut''~\cite{coding_or_cheating_2611_10404}; there the exploit lives in the
+weights. VALVE, a validation-gated skill learner run on SWE-smith repositories, keeps skills whose
+procedure begins ``Run \texttt{git show <bad-commit>}'' and reports them as
+gains~\cite{valve_2609_32990}; it does not discuss the history, and we did not run it, but the
+observation is consistent with ours. We study a learner that writes the leak into a readable text reused on every later task. Run-to-run variance~\cite{randomness_agentic_evals_2026}, the
 harness~\cite{same_model_harness_2026} and tests that accept incorrect
-patches~\cite{patchdiff_2025,utboost_2025,test_overfitting_2025} also move resolve rates; we test the
+patches~\cite{patchdiff_2025,utboost_acl,test_overfitting_2025} also move resolve rates; we test the
 scorers we use with no-op and gold patches (Section~\ref{sec:measurement}).
 
 \paragraph{Statistical gates}
