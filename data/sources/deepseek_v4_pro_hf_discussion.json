@@ -8,8 +8,8 @@
   }
  ],
  "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/discussions/129",
- "sha256": "a57951be2bf570757f4b44ba80aa5b35abde780d66d577cdf44a8c53b3b75ff7",
- "n_chars": 90992,
+ "sha256": "8383af93ae5b74d321d38db0d788b32e27bff04efcb11844141287922b2e4165",
+ "n_chars": 90943,
  "head": " deepseek-ai/DeepSeek-V4-Pro · Technical Report Summary Hugging Face Search models, datasets, users... Ctrl K Models Datasets Spaces Buckets Docs Enterprise Pricing More Website Tasks HuggingChat Collections Languages Organizations Community Blog Posts Daily Papers Hardware Learn Discord Forum GitHub Solutions Team & Enterprise Hugging Face PRO Enterprise Support Inference Providers Inference Endpoints Storage Buckets Log In Sign Up \",\"lstrip\":false,\"normalized\":true,\"rstrip\":false,\"single_word\":false},\"eos_token\":{\"__type\":\"AddedToken\",\"content\":\"<｜end▁of▁sentence｜>\",\"lstrip\":false,\"normalized\":tr",
  "excerpts": {
   "1.6": [
@@ -25,7 +25,7 @@
    "882a8 8 0 1 1-11.314-11.315l67.882-67.881a8.003 8.003 0 0 1 11.314 0zm-28.287 84.86l-28.284 28.284a40 40 0 0 1-56.567-56.567l28.284-28.284a8 8 0 0 0-11.315-11.315l-28.284 28.284a56 56 0 0 0 79.196 79.197l28.285-28.285a8 8 0 1 0-11.315-11.314zM212.852 43.14a56.002 56.002 0 0 0-79.196 0l-28.284 28.284a8 8 0 1 0 11.314 11.314l28.284-28.284a40 40 0 0 1 56.568 56.567l-28.285 28.285a8 8 0 0 0 11.315 11.314l28.284-28.284a56.065 56.065 0 0 0 0-79.196z\\\" fill=\\\"currentColor\\\"></path></svg></span>\\n\\t</a>\\n\\t<span>\\n\\t\\t3. Muon optimizer at 1.6T scale\\n\\t</span>\\n</h3>\\n<p>First deployment of Muon on a trillion-plus MoE, paired with a custom hybrid ZeRO strategy. Reported faster convergence and better stability than AdamW-class baselines at this size.</p>\\n<h3 class=\\\"relative group flex items-baseline\\\">\\n\\t<a id=\\\"4-fp4-quantization-aware-training\\\" class=\\\"block pr-1.5 text-lg md:absolute md:p-1.5 md:opacity-0 md:group-hover:opacity-100 md:right-full\\\" href=\\\"#4-fp4-quantization-aware-training\\\" rel=\\\"nofollow\\\">\\n\\t\\t<span class=\\\"header-link\\\"><svg class=\\\"text-gray-500 hover:text-black dark:hover:text-gray-200 w-4\\\" xmlns=\\\"http://www.w3.org/2000/svg\\\" xmlns:xlink=\\\"http://www.w3.org/1999/xlin"
   ],
   "parameters": [
-   "{\"paperTitle\":\"DeepSeek-V4: Towards Highly Efficient Million-Token Context Intelligence\"}},{\"id\":\"license:mit\",\"label\":\"mit\",\"type\":\"license\"},{\"id\":\"deploy:sagemaker\",\"label\":\"sagemaker\",\"type\":\"deploy\"},{\"type\":\"region\",\"label\":\"🇺🇸 Region: US\",\"id\":\"region:us\"}],\"transformersInfo\":{\"auto_model\":\"AutoModelForCausalLM\",\"pipeline_tag\":\"text-generation\",\"processor\":\"AutoTokenizer\"},\"widgetData\":[{\"text\":\"Hi, what can you help me with?\"},{\"text\":\"What is 84 * 3 / 2?\"},{\"text\":\"Tell me an interesting fact about the universe!\"},{\"text\":\"Explain quantum computing in simple terms.\"}],\"safetensors\":{\"parameters\":{\"BF16\":2816899328,\"I64\":2327040,\"F32\":87776414,\"F8_E4M3\":23169335296,\"I8\":1572763336704},\"total\":1598839674782,\"sharded\":true,\"totalFileSize\":864732335428},\"hasBlockedOids\":false,\"region\":\"us\",\"isQuantized\":false,\"licenseFilePath\":\"LICENSE\"},\"discussionsStats\":{\"total\":217,\"hasOpen\":true},\"query\":{},\"inferenceContextData\":{\"billableEntities\":[],\"entityName2Providers\":{},\"defaultProviders\":[{\"isOriginalProvider\":false,\"name\":\"openrouter\",\"enabled\":true,\"position\":1,\"isReleased\":false,\"accuratePricing\":true}],\"openRouterRouting\":true,\"openRouterProviders\":[{\"name\":\"deepinfra\",\"toolCalling\":tr"
+   "{\"paperTitle\":\"DeepSeek-V4: Towards Highly Efficient Million-Token Context Intelligence\"}},{\"id\":\"license:mit\",\"label\":\"mit\",\"type\":\"license\"},{\"id\":\"deploy:sagemaker\",\"label\":\"sagemaker\",\"type\":\"deploy\"},{\"type\":\"region\",\"label\":\"🇺🇸 Region: US\",\"id\":\"region:us\"}],\"transformersInfo\":{\"auto_model\":\"AutoModelForCausalLM\",\"pipeline_tag\":\"text-generation\",\"processor\":\"AutoTokenizer\"},\"widgetData\":[{\"text\":\"Hi, what can you help me with?\"},{\"text\":\"What is 84 * 3 / 2?\"},{\"text\":\"Tell me an interesting fact about the universe!\"},{\"text\":\"Explain quantum computing in simple terms.\"}],\"safetensors\":{\"parameters\":{\"BF16\":2816899328,\"I64\":2327040,\"F32\":87776414,\"F8_E4M3\":23169335296,\"I8\":1572763336704},\"total\":1598839674782,\"sharded\":true,\"totalFileSize\":864732335428},\"hasBlockedOids\":false,\"region\":\"us\",\"isQuantized\":false,\"licenseFilePath\":\"LICENSE\"},\"discussionsStats\":{\"total\":217,\"hasOpen\":true},\"query\":{},\"inferenceContextData\":{\"billableEntities\":[],\"entityName2Providers\":{},\"defaultProviders\":[{\"isOriginalProvider\":false,\"name\":\"openrouter\",\"enabled\":true,\"position\":1,\"accuratePricing\":true}],\"openRouterRouting\":true,\"openRouterProviders\":[{\"name\":\"deepinfra\",\"toolCalling\":true,\"pricing\":{\"inpu"
   ],
   "MIT": [],
   "activated": [],
@@ -36,5 +36,5 @@
   ],
   "deprecat": []
  },
- "fetched_utc": "2026-11-26T08:08:09+00:00"
+ "fetched_utc": "2026-11-26T14:30:42+00:00"
 }

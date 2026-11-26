@@ -96,5 +96,5 @@
    "uture commits and dev-branches are pruned before the agent starts. The containers expose the fix to any agent that inspects git history in the course of ordinary exploration, so removing them lowers measured pass@1 most for the models whose exploration includes git history: Opus 4.6 by 6.87 points (57.45% → 50.58%, 4.67% of instances including a git show of the gold-patch commit), GPT-5.4 by 3.32 points (5.33% of instances with git show), and Sonnet 4.6 by 3.66 points. Other models are flat or move within trajectory noise, confirming the leakage channel exists but is exercised unevenly. In an ablation where the model is explicitly instructed to “inspect git history” in its system prompt, leakage effect is significantly larger: it raises Qwen3.6 27B by +17.13% (compared to sanitized) and Qwen3-Coder Next to a +21.12% (compared to sanitized). We, therefore, treat Sanitized as the cleaner estimate of model ability and recommend that SWE-Bench- Pro comparisons either use Sanitized scores or explicitly report leakage exposure. The sanitization protocol and full per-model Base-Sanitized table are in Appendix F. A few residual evaluation artifacts cap the achievable ceiling. On SWE-Bench-Verified"
   ]
  },
- "fetched_utc": "2026-11-26T08:08:28+00:00"
+ "fetched_utc": "2026-11-26T14:31:06+00:00"
 }

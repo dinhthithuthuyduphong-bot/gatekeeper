@@ -82,5 +82,5 @@
    "-V53F on T14. suites such as Terminal-Bench [17] extend evaluation to general command-line tasks. The same repository-plus-tests format also underlies training environments for RL, such as SWE-Gym [25], R2E-Gym [12], and SWE-smith [30]. These environments use test- based pass/fail signals as rewards. This setup makes the integrity of the sandbox important, because anything an agent can read or modify in the environment can affect both its evaluation score and its training signal. Recent hardening efforts respond to this concern: SWE-Bench Pro Verified [32] and Lego-RL [7] both remove residual git objects, hidden tests, and metadata leaks. Reward hacking and evaluation cheating. Frontier coding agents often exploit the evaluation setup instead of solving the task. METR reported cases of models locating leaked solutions in task metadata and copying grader answers [18]. A growing set of studies measures this behavior systematically. ImpossibleBench measures a \"cheating rate\" on tasks whose specification conflicts with the tests [33]. EvilGenie [8] and SpecBench [31] study test-case ex- ploitation and the gap between visible and held-out tests. Terminal Wrench [4] releases hackable terminal envi"
   ]
  },
- "fetched_utc": "2026-11-26T08:08:31+00:00"
+ "fetched_utc": "2026-11-26T14:31:13+00:00"
 }

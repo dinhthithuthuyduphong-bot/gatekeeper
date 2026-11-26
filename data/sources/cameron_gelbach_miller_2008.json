@@ -37,5 +37,5 @@
    "ng of GEE. 10 2.3 Cluster-Robust Wald Tests We consider two-sided Wald tests of H0 : β1 = β0 1 against Ha : β1 6= β0 1 where β1 is a scalar component of β.4 We use the Wald test statistic w = ³ bβ1 − β0 1 ´ /sbβ1 , (4) where sbβ1 is the square root of the appropriate diagonal entry in bVCR[bβ]. This “t” test statistic is asymptotically normal under H0, and we reject H0 at signiﬁcance level α if |w| >zα/2,wherezα/2 is a standard normal critical value. Under standard assumptions the Wald test is of correct size as the num- ber of clusters G →∞. The problem we focus on in this paper is that with few clusters the asymptotic normal critical values can provide a poor ap- proximation to the correct, ﬁnite-G critical values for w, even if an unbiased variance matrix estimator is used in calculating sbβ . General small sample results are not possible even if the (clustered) errors are normally distributed. In practice, as a small sample correction some pro- grams use a T distribution to form critical values and p-values. STATA uses 4 The generalization to single hypothesis c0β − r =0where c is a k × 1 vector is trivial. For multiple hypotheses Cβ − r = 0 the Wald asympototic chisquare test would be use"
   ]
  },
- "fetched_utc": "2026-11-26T08:06:41+00:00"
+ "fetched_utc": "2026-11-26T14:28:27+00:00"
 }
