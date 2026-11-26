@@ -13,11 +13,17 @@ Ký hiệu người làm: 🤖 = làm được ngay trong repo + GitHub Actions 
 
 ---
 
-## ★ Tình hình hiện tại (cập nhật 22/11/2026)
+## ★ Tình hình hiện tại (cập nhật 26/11/2026)
 
 > **Mục này là điểm vào cho mọi phiên mới.** Hook khởi động phiên in ngày cập nhật của mục này. Mỗi khi một việc dưới đây đổi trạng thái, sửa mục này trong cùng commit, và chép sang nhánh kia (`main` ↔ `claude/gatekeeper-13-research-nxytoh`). Chi tiết từng việc nằm ở file được dẫn; mục này chỉ tóm tắt.
 
 **Đích:** EASE 2027 (tóm tắt 15/01/2027, bài 22/01/2027). **Quy tắc viết bài:** `docs/ease_writing_rules.md` (R-98, 25/11); R-99 (25/11) đã chọn tên bài, figshare + CC-BY 4.0/MIT, khai báo AI trong phương pháp, CCS. **Track:** research track EASE 2027 (@thuthuy 26/11); dự phòng nếu bị từ chối: `docs/plan_fallback_venues.md`. **Gói tái lập:** figshare, link riêng tư đã vào bài (26/11, R-109); `ease_pdf_check.py` PASS. **Trước khi nộp, việc của @thuthuy:** để repo công khai `-gatekeeper-p6` ở chế độ private trong lúc review (R-100, A160); đăng ký tóm tắt trước 15/01/2027 và nộp bài trước 22/01/2027 (AoE). Đóng băng thí nghiệm xác nhận: 01/12/2026 (đề xuất, Q2 chờ @thuthuy). Danh sách sửa bài: `docs/todo_ease_revision.md`.
+
+### Trạng thái 26/11/2026: bản gửi thầy review đã chốt
+
+- **Bản gửi thầy:** commit `86b3ed6` (R-111; @thuthuy 26/11: "Ok tôi sẽ chốt bản này gửi thầy review"). Gói Overleaf có README dẫn tới commit này. Từ nay sửa bài chỉ theo góp ý của thầy, ghi R-xxx như mọi lượt.
+- **Chờ @thuthuy quyết:** có báo lỗi bộ chấm `verify_with_patch` của gskill cho maintainer không, và có ghi một câu về việc này trong bài không (R-111). Hạn: trước 15/01/2027.
+- **Trước khi nộp:** dựng lại gói figshare một lần cuối từ bản đã chốt (gói hiện tại ứng với `cc3e64c`; từ đó `make_numbers.py` có thêm 2 macro, R-111), tải lên figshare, rồi kiểm link bằng cửa sổ ẩn danh. Mời thầy làm collaborator của repo private.
 
 ### Trạng thái 22/11/2026: mọi thí nghiệm có phí đã xong
 
