@@ -195,7 +195,7 @@ Ký hiệu: **đạt**; **sửa R-98** (sửa trong lượt này); **chờ** (th
 | E-F9 | sửa R-99 | Bỏ `printacmref=false`, `\setcopyright{none}` và lệnh ẩn ô bản quyền. Thêm CCS và `\Description` cho ba hình. Log không còn cảnh báo "mandatory" |
 | E-F4, E-F5 | đạt | preflight [ease] |
 | E-A1–E-A3 | sửa R-98 | Sửa "reviewed by the author" (lộ số tác giả) thành "an author". preflight [ease] kiểm tên chủ repo, `\author`, `acks` và cụm ngôi thứ nhất |
-| E-A4, E-O3, E-O4 | sửa R-99; **còn bước tải lên** | Chọn (R-99) figshare với link riêng tư ẩn danh. Theo `disclose_data_dbr_howto`, Zenodo buộc công bố công khai ngay ("the file will be publicly accessible and indexed in Zenodo"), còn figshare cho link riêng tư trong lúc review và công bố khi bài được nhận. Giấy phép: CC-BY 4.0 cho dữ liệu và tài liệu, MIT cho mã (file `LICENSE`, `LICENSE-DATA.md` trong gói). Còn lại: @thuthuy tải gói lên figshare bằng tài khoản của mình (việc ra bên ngoài), rồi thay macro `\anonpackage`. `ease_pdf_check.py` báo lỗi khi macro còn là ANON-LINK-PENDING |
+| E-A4, E-O3, E-O4 | đạt (26/11) | figshare, link riêng tư ẩn danh `https://figshare.com/s/70588a3513293ea61176` (@thuthuy tải lên 26/11; gói dựng từ commit cc3e64c, quét danh tính 0 chỗ lộ). Khi bài được nhận: Publish item đó để có DOI và sửa Data Availability của bản camera-ready |
 | E-O2 | đạt | preflight [ease] |
 | E-O5, E-O8 | sửa R-98 | Data Availability nêu lý do không phân phối lại: các văn bản bên thứ ba không có giấy phép, và khóa truy cập |
 | E-O7 | sửa R-98 | Data Availability liệt kê phiên bản model và công cụ, prompt, seed trong gói |
