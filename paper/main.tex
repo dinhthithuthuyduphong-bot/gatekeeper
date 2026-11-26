@@ -294,13 +294,14 @@ against \neopSignPowMid{} for 0.2).
 
 \paragraph{Sensitivity to dependence between tasks}
 A second simulation, fixed before it ran, links the tasks of a run in their order through a latent
-correlation that leaves each task's base rate unchanged (\ndepReps{} replicates per case). With a
-correlation up to 0.5 within each arm, a correlation up to 0.8 shared by both arms, or an outage that
+Gaussian AR(1) series of coefficient $\phi$, used as a copula so that each task's base rate is
+unchanged (\ndepReps{} replicates per case; script and every case in the package). With
+$\phi$ up to 0.5 within each arm, $\phi$ up to 0.8 shared by both arms, or an outage that
 fails up to 20 consecutive tasks of one arm, the end-of-pool test certified a null pool at most at
-rate \ndepEopMild{}. At a correlation of 0.8 within each arm it reached \ndepEopStrong{}, near
+rate \ndepEopMild{}. At $\phi=0.8$ within each arm it reached \ndepEopStrong{}, near
 $\alpha$, while the registered sign test reached \ndepSignStrong{} (and \ndepSignBlock{} under the
 longest outage). The registered e-process, run on the same draws, behaves like the end-of-pool test
-(at most \ndepEpMild{}; \ndepEpStrong{} at a correlation of 0.8 within each arm). Both are thus more
+(at most \ndepEpMild{}; \ndepEpStrong{} at $\phi=0.8$ within each arm). Both are thus more
 robust than the sign test to this kind of violation, and only a strong link inside one arm brings
 them to $\alpha$.
 
@@ -853,7 +854,7 @@ Gains are under the benchmark's tests ($S$), which we checked with no-op and gol
 with an independent semantic check. The skill experiments use SWE-smith tasks: real repositories
 (three) with injected bugs and a history built by the benchmark, so the leak result concerns
 benchmarks built this way. The A/A streams and the rerun-noise level use human-written issues from
-SWE-bench~\cite{swebench} and SWE-bench-Live~\cite{swe_bench_live}. Base rates without a skill
+SWE-bench~\cite{swebench} and SWE-bench-Live~\cite{swe_bench_live_neurips}. Base rates without a skill
 are low (\njinjaNone{}, \nbleveNone{}, \npygNone{} of 100), so the tests have little power to detect
 harm. The trace labels come from one labeller, an author, who saw the benchmark's bug patch as
 a reference; no second labeller measured agreement, which matters for the judgment of reliance on
@@ -927,7 +928,7 @@ ALLOWED''~\cite{shortcutting_fix_2609_06780}, and another counts browsing the fu
 ``honest work''~\cite{coding_or_cheating_2611_10404}. The commit our skill reads is the parent of
 HEAD, so these audits would not flag it. We study a learner that writes the leak into a readable text reused on every later task. Run-to-run variance~\cite{randomness_agentic_evals_2026}, the
 harness~\cite{same_model_harness_2026} and tests that accept incorrect
-patches~\cite{patchdiff_2025,utboost_acl,test_overfitting_2025} also move resolve rates; we test the
+patches~\cite{patchdiff_2025,utboost_acl,test_overfitting_v3} also move resolve rates; we test the
 scorers we use with no-op and gold patches (Section~\ref{sec:measurement}).
 
 \paragraph{Statistical gates}

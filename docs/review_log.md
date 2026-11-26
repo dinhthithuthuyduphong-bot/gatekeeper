@@ -1636,3 +1636,28 @@ Phạm vi: `scripts/run_pilot.py`, `run_batched_pilot.py`, `validate_pool.py`, `
 - **Lưu ý:** gói trên figshare ứng với bản bài lúc cc3e64c. Nếu bài còn đổi số liệu hay mã trước khi nộp, phải dựng lại gói và thay file trên cùng item. Link riêng tư giữ nguyên khi thay file.
 - **Sự cố khi ghi sổ:** lần chạy đầu dừng ở bước sửa TODO (câu cần thay đã đổi từ R-106). Commit 32a4b15 chỉ mang link và bảng quy tắc; TODO và mục này được bổ sung ở commit sau. Không ảnh hưởng gì tới bài.
 
+## R-110. Phản biện bản review AI thứ bảy và cập nhật trích dẫn (26/11/2026; 0 USD)
+
+Đọc từng ý trên PDF đã dựng và trên bản gốc trong `sources-snapshots`.
+
+**Ý đúng, đã sửa:**
+- File Word hướng dẫn reviewer ghi số trang không khớp nhau giữa hai mục. Nay số trang đọc từ PDF (`reviewer_guide_data.py`, hàm `layout`, dùng `ease_pdf_check.page_texts` và `ref_start`), không gõ tay: 11 trang, bài chính tới trang 10, 1 trang chỉ có tài liệu tham khảo.
+- Phần độ nhạy chưa gọi tên dạng phụ thuộc. Nay ghi "latent Gaussian AR(1) series of coefficient $\phi$, used as a copula" ($\phi$, vì $\rho$ đã dùng ở §4.6).
+- Hai tài liệu đã có bản công bố, kiểm trên bản gốc:
+  - SWE-bench-Live: NeurIPS 2025, Datasets and Benchmarks Track, DOI 10.52202/085713-4923 (`swe_bench_live_neurips`).
+  - Ahmed và cộng sự: FSE Companion '26, DOI 10.1145/3803437.3805574 (`test_overfitting_v3`).
+  - Trích dẫn trong bài chuyển sang hai khóa mới. `make_bib`: 51 mục, 0 VERIFY.
+
+**Ý sai hoặc không kiểm được, giữ nguyên:**
+- "Run git show" và `HEAD~1` hiển thị đúng trong PDF; lỗi là do trích chữ.
+- Holm cho R và S2 đã có trong bài (giá trị p ở Bảng 2).
+- Bản công bố của PatchDiff (ICSE 2026) và Waudby-Smith & Ramdas (JRSS B): trang DOI trả 403 (`patchdiff_acm`, `waudby_smith_ramdas_doi`), nên không kiểm được. Giữ bản arXiv theo R1.
+- Ngày của chính sách ACM, việc có rebuttal, hạng CORE và thang điểm: review không nêu nguồn. CFP không nhắc tới rebuttal.
+- Review cho rằng link gói vẫn là chữ giữ chỗ. Link figshare thật đã có từ R-109.
+
+**Kiểm:**
+- PDF: 0 overfull. Số underfull tăng từ 25 lên 30, đều do dòng `howpublished` dài trong tài liệu tham khảo, không phải bài chính.
+- `ease_pdf_check`: PASS.
+- preflight: PASS.
+- README Overleaf bỏ việc "thay ANON-LINK-PENDING", vì việc này đã xong.
+- **Kết luận R-110:** đạt.
